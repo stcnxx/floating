@@ -24,14 +24,23 @@ body{margin:0;background:var(--sky-deep);background-image:radial-gradient(120% 7
 .hud{top:8px;right:8px;padding:7px 11px 7px}
 .hgrid{display:grid;grid-template-columns:auto auto;column-gap:14px;row-gap:3px;align-items:center}
 .hdate{font-size:12px;font-weight:600;color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums}
+.hdate .hred{color:#ff9a9a}.hdate .hblue{color:#9ac4ff}.hdate .hhol{margin-left:5px;color:#ff9a9a;font-weight:700;font-size:11px}.hdate .hann{display:block;font-size:10px;font-weight:500;color:var(--muted);opacity:.9;max-width:150px;overflow:hidden;text-overflow:ellipsis;line-height:1.3}
+.hmoon{display:inline-flex;align-items:center;margin:0 3px 0 1px}.hmoon svg{display:block}
 .hgrid .clock{grid-row:2;align-self:center}
-.hgrid .place{margin-top:0;text-align:right;justify-self:end}
+.hgrid .place{margin-top:1px;font-size:12px;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .wxk{display:flex;gap:5px;align-items:center;justify-content:flex-end;font-size:13px;font-weight:600}
 .wxk svg{width:24px;height:24px;flex:none}
 .hgrid .wx{grid-column:2;margin-top:0}
-.hgrid .hdate{grid-row:2;grid-column:1}.hgrid .place{grid-row:2;grid-column:2}.hgrid .clock{grid-row:3!important;grid-column:1}.hgrid .wxk{grid-row:3;grid-column:2}.hgrid .wx{grid-row:4;grid-column:2}
-.hname{grid-row:1;grid-column:1/3;font-size:13px;font-weight:700;color:var(--lantern,#ffd36b);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hud{transition:left .35s ease,right .35s ease}
+.hgrid .hname{grid-row:1;grid-column:1}.hgrid .hdate{grid-row:2;grid-column:1}.hgrid .clock{grid-row:3!important;grid-column:1}.hgrid .place{grid-row:4;grid-column:1;justify-self:start;text-align:left}.hgrid .wxk{grid-row:1;grid-column:2}.hgrid .wx{grid-row:2;grid-column:2}.hgrid .hdi{grid-row:3;grid-column:2}.hgrid .hmoonr{grid-row:4;grid-column:2}
+.hdi,.hmoonr{justify-self:end;font-size:12px;font-weight:600;white-space:nowrap}.hmoonr{font-size:11px;font-weight:500}.hdi small{font-size:10px;color:var(--muted);font-weight:500}.hdi b{font-size:10px;font-weight:500;color:var(--muted);margin-left:3px}.hmoonr{display:flex;align-items:center;gap:2px;color:var(--muted)}
+.hname{grid-row:1;grid-column:1;font-size:13px;font-weight:700;color:var(--lantern,#ffd36b);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hud{transition:left .35s ease,right .35s ease;transform:scale(.7);transform-origin:top right}.hud.left{transform-origin:top left}.hud.bottom{transform-origin:bottom right}.hud.bottom.left{transform-origin:bottom left}
+#hud .hright{grid-row:1/4;grid-column:2;align-self:start;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+#hud .hright .wxk svg{width:20px;height:20px}#hud .hright .wxk{line-height:1.1}#hud .hright .wx{margin-top:0;gap:8px}#hud .hright .wl{line-height:1}#hud .hright .hmoon svg{width:15px;height:15px}
+#hud .hgrid .place{grid-row:4;grid-column:1/3;max-width:none;margin-top:3px}
+#hud{color:#fff}#hud .hname{font-size:15px;font-weight:800;color:#ffd36b}#hud .hdate,#hud .hdate .hann,#hud .hdate .hred,#hud .hdate .hblue{color:#fff}#hud .hdate .hhol{color:#ff9a9a}#hud .hdate .hann{opacity:.9}
+#hud .place{color:#8fd8ff;display:flex;align-items:center;gap:3px}#hud .place svg{flex:none}#hud .place span{overflow:hidden;text-overflow:ellipsis}
+#hud .wl small,#hud .hdi small,#hud .hmoonr small{color:#ffd36b;opacity:1}#hud .hmoonr small{font-size:10px;margin-right:3px}#hud .hdi b,#hud .hmoonr,#hud .wxk,#hud .wx{color:#fff}
 .hud.left{right:auto;left:8px}
 .hud.bottom{top:auto;bottom:8px}
 .hud.vert .hgrid{grid-template-columns:auto;row-gap:2px}
@@ -56,6 +65,7 @@ body{margin:0;background:var(--sky-deep);background-image:radial-gradient(120% 7
 .dexh{display:flex;align-items:baseline;justify-content:space-between;margin:14px 0 6px}.dexh h3{margin:0;font-size:14px}.dexh small{color:var(--muted,#c9c3e0);font-size:11px}
 .dexg{display:grid;grid-template-columns:repeat(auto-fill,minmax(68px,1fr));gap:6px}.dexi{display:flex;flex-direction:column;align-items:center;background:rgba(255,255,255,.06);border-radius:10px;padding:4px 2px 5px;font-size:10px;line-height:1.25;text-align:center;word-break:break-all}.dexi canvas{width:56px;height:56px}
 .dexs{display:flex;flex-wrap:wrap;gap:4px}.dexs span{font-size:11px;background:rgba(255,255,255,.08);border-radius:8px;padding:3px 7px}
+#diaryBody .dday h3{margin:12px 0 4px;font-size:14px;color:#ffd36b}.dday h3 small{margin-left:6px;font-size:10px;color:#fff;background:rgba(255,255,255,.15);border-radius:8px;padding:1px 6px}.dday ul{margin:0;padding-left:16px;font-size:13px;line-height:1.55}.dday li span{display:inline-block;min-width:3.2em;color:var(--muted,#c9c3e0);font-variant-numeric:tabular-nums;font-size:11px}
 .dexnone{font-size:12px;color:var(--muted,#c9c3e0);margin:2px 0 4px}
 .msg{font-weight:500;position:relative;background:var(--panel);border:2px solid #3b4790;border-radius:14px;padding:18px 16px 14px;min-height:104px;font-family:var(--f-pixel);font-size:16px;line-height:1.65;box-sizing:border-box}
 .msg .who{position:absolute;top:-13px;left:14px;background:var(--lantern);color:#2a200b;font-size:13px;padding:2px 12px;border-radius:999px}
@@ -172,9 +182,13 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <div class="glass hud" id="hud">
       <div class="hgrid">
         <div class="hname" id="hName"></div>
-        <div class="hdate" id="hDate">----/--/--</div><div class="place" id="hPlace">場所をしらべ中…</div>
-        <div class="clock" id="hClock">--:--</div><div class="wxk"><span id="hIcon"></span><span id="hWx">--</span></div>
+        <div class="hdate" id="hDate">----/--/--</div>
+        <div class="clock" id="hClock">--:--</div>
+        <div class="place" id="hPlace">場所をしらべ中…</div>
+        <div class="hright"><div class="wxk"><span id="hIcon"></span><span id="hWx">--</span></div>
         <div class="wx"><span class="wl"><small>気温</small><span id="hTemp">--℃</span></span><span class="wl"><small>湿度</small><span id="hHum">--%</span></span></div>
+        <div class="hdi"><small>不快指数</small> <span id="hDI">--</span></div>
+        <div class="hmoonr"><span id="hMoon" class="hmoon"></span><span id="hMoonT">月齢--</span></div></div>
       </div>
     </div>
     <div class="glass room" id="room">リビング</div>
@@ -193,10 +207,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
 <div class="overlay" id="sheet" hidden>
   <div class="card" role="dialog" aria-labelledby="sheetTitle">
     <h2 id="sheetTitle">メニュー</h2>
-    <div class="tabs" role="tablist" id="tabs"><button role="tab" data-t="st" aria-selected="true">キャラクター情報</button><button role="tab" data-t="home">住居</button><button role="tab" data-t="dex">図鑑</button><button role="tab" data-t="nm">名前と姿</button><button role="tab" data-t="mate">同居人</button><button role="tab" data-t="loc">位置情報</button><button role="tab" data-t="tv">番組</button><button role="tab" data-t="try">ためす</button><button role="tab" data-t="data">セーブ・ロード</button></div>
+    <div class="tabs" role="tablist" id="tabs"><button role="tab" data-t="st" aria-selected="true">キャラクター情報</button><button role="tab" data-t="home">住居</button><button role="tab" data-t="dex">図鑑</button><button role="tab" data-t="diary">日記</button><button role="tab" data-t="nm">名前と姿</button><button role="tab" data-t="mate">同居人</button><button role="tab" data-t="loc">位置情報</button><button role="tab" data-t="tv">チャネル</button><button role="tab" data-t="try">ためす</button><button role="tab" data-t="data">セーブ・ロード</button></div>
     <section class="tp" data-p="st"><div id="schedMain"></div><div id="sheetBody"></div></section>
     <section class="tp" data-p="home" hidden><div id="homeBody"></div></section>
     <section class="tp" data-p="dex" hidden><div id="dexBody"></div></section>
+    <section class="tp" data-p="diary" hidden><div id="diaryBody"></div></section>
     <section class="tp" data-p="nm" hidden>
     <div class="field"><label for="rnName">なまえ</label><input type="text" id="rnName" maxlength="10" autocomplete="off"><button id="rnNew">おまかせ</button></div>
     <div class="hpick"><canvas id="rnPrev" width="180" height="96"></canvas><div class="col"><button id="rnLook" type="button">見た目を変える</button></div></div>
@@ -276,12 +291,12 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版91（2026/10/21）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版99（2026/10/22）</p>
 <h3>キャラクター</h3><dl><dt>タップ</dt><dd>なでる（なかよし度が上がって、楽しさが回復します）</dd><dt>ダブルタップ</dt><dd>「メニュー」を開く</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁のすぐ手前の床へ動かすと、床に立てかけた姿に。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>リサイクルに出す（確認あり）。最初からある生活必需品と、同居人の家具は出せません</dd><dt>庭のもの</dt><dd>庭でも同じように移動・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
 <h3>寝ているとき</h3><dl><dt>昼寝中にダブルタップ</dt><dd>起きてそこへ向かいます</dd><dt>夜中にダブルタップ</dt><dd>寝ぼけて行くけど、すぐベッドに戻ります</dd></dl>
-<h3>メニュー</h3><dl><dt>キャラクター情報</dt><dd>今の気分・欲しいもの・お酒の好み</dd><dt>住居</dt><dd>家具の一覧</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>名前と姿</dt><dd>名前と見た目の変更</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・名前の表示</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>番組</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>ためす</dt><dd>天気や時刻を変えてようすを見る</dd><dt>セーブ・ロード</dt><dd>データの保存・読み込み・別の端末への引っ越し</dd></dl>
+<h3>メニュー</h3><dl><dt>キャラクター情報</dt><dd>今の気分・欲しいもの・お酒の好み</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>名前と姿</dt><dd>名前と見た目の変更</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・名前の表示</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>ためす</dt><dd>天気や時刻を変えてようすを見る</dd><dt>セーブ・ロード</dt><dd>データの保存・読み込み・別の端末への引っ越し</dd></dl>
 <h3>そのほか</h3><dl><dt>配達</dt><dd>欲しいものはドローンで届き、受け取ると中身を教えてくれます</dd><dt>お客さん</dt><dd>となりの浮遊島からドローンで遊びに来ます</dd><dt>留守のあいだ</dt><dd>アプリを閉じていた間の出来事を、次に開いたときに教えてくれます</dd><dt>キーボード</dt><dd>Enter でメニュー、スペースでなでる</dd></dl>
 <div class="row2" style="margin-top:14px"><button id="helpX" class="primary" type="button">とじる</button></div></div></div>
 <div class="overlay center" id="recy" hidden><div class="card" role="dialog" aria-labelledby="recyT" style="max-width:320px"><h2 style="font-size:18px">リサイクルに出す</h2><p id="recyT" class="note" style="text-align:left"></p><div class="row2"><button id="recyNo" type="button">やめる</button><button id="recyOk" class="primary" type="button">リサイクルに出す</button></div></div></div>
@@ -643,9 +658,9 @@ function dayKey(d){return d.getFullYear()*400+d.getMonth()*32+d.getDate();}
 // sleep schedule (user-set per character; sd 0 = main, 1 = roommate). bed is in hours, values < 12 mean after midnight
 function schedOf(sd){const d={bed:23,wake:6},a=(S&&S.sched&&S.sched[sd])||d;return{bed:a.bed<12?a.bed+24:a.bed,wake:a.wake};}
 function bedHour(dk,sd){const b=schedOf(sd).bed,r=hash(dk,sd*31+7,41),r2=hash(dk,sd*17+3,43);return r<.15?b+1+r2*1.5:b-.25+r2*.6;}
-function wakeHour(dk,sd){const w=schedOf(sd).wake,r=hash(dk,sd*29+11,47),r2=hash(dk,sd*13+5,49);return r<.22?w+1.5+r2*1.5:w+r2*.5;}
+function wakeHour(dk,sd){const w=schedOf(sd).wake,r=hash(dk,sd*29+11,47),r2=hash(dk,sd*13+5,49);if(sd===0&&S&&has('aclock'))return w;return r<.1?w+.75+r2:w+r2*.08;}
 function sleepInfo(sd){const d=now(),h=hourNow(),ev=new Date(d.getTime()-(h<12?86400e3:0)),mo=new Date(ev.getTime()+86400e3);const bed=bedHour(dayKey(ev),sd),wake=wakeHour(dayKey(mo),sd),t=h<12?h+24:h;
-  const sc=schedOf(sd);return{asleep:t>=bed&&t<24+wake,bed,wake,late:bed>=sc.bed+.9,over:wake>=sc.wake+1.4};}
+  const sc=schedOf(sd);return{asleep:t>=bed&&t<24+wake,bed,wake,late:bed>=sc.bed+.9,over:wake>=sc.wake+.7};}
 const sleepTime=sd=>sleepInfo(sd||0).asleep;
 function simWeather(){const d=now();const seed=hash(d.getFullYear()*400+d.getMonth()*31+d.getDate(),Math.floor(d.getHours()/6),7);const ks=['clear','clear','cloudy','cloudy','rain','clear','cloudy'];let k=ks[Math.floor(seed*ks.length)];const mt=[6,7,10,15,19,22,26,27,24,18,13,8][d.getMonth()];const t=mt+3.5*Math.sin((hourNow()-9)/24*Math.PI*2);if(k==='rain'&&t<2)k='snow';return{kind:k,temp:Math.round(t*10)/10,hum:k==='rain'?88:58};}
 function codeKind(c){if(c==null)return null;if(c<=1)return'clear';if(c<=3)return'cloudy';if(c===45||c===48)return'fog';if((c>=51&&c<=67)||(c>=80&&c<=82))return'rain';if((c>=71&&c<=77)||c===85||c===86)return'snow';if(c>=95)return'thunder';return'cloudy';}
@@ -1184,6 +1199,9 @@ function talkLine(){
     thunder:['かみなり…ちょっとこわい','ゴロゴロいってる。家にいよう','ピカッて光った！','停電しないといいな','雷の音、大きい…','おへそ隠さなきゃ','嵐が過ぎるのを待とう','窓から離れておこう'],
     fog:['霧で島のはしっこが見えないや','ふわふわ、まっしろ','霧の中みたい','どこまでが空かわからない','霧の朝ってふしぎ','視界が真っ白','しっとりした空気']}[k]);});
   add(3,()=>pick(IDLE_MUSE));
+  {const dd=now(),hol=holidayOf(dd),an=annivOf(dd),ma=moonAge(dd);if(hol)add(1.4,()=>pick([`今日は${hol}だね`,`${hol}だから、のんびりしよう`,`今日は${hol}。祝日っていいね`]));
+    if(an)add(1.4,()=>pick([`今日は「${an}」なんだって`,`そういえば今日は${an}らしいよ`,`${an}かあ。なんだか楽しい`]));
+    if(daylight()<.3&&(ma>13.5&&ma<16.2))add(1,()=>pick(['今夜は満月だ。島が明るい','まんまるの月、きれいだね']));else if(daylight()<.3&&ma>1.5&&ma<5.5)add(.6,()=>'細い三日月が出てる');}
   add(1.4,()=>weatherLine()||(t>=25?`${t}℃、あったかいね`:`${t}℃だね`));
   add(.3,()=>t>=30?`${t}℃もある…溶けちゃう`:t>=25?`${t}℃、あったかいね`:t<=3?`${t}℃…さむすぎる！`:t<=12?`${t}℃、ひんやりするね`:`${t}℃で過ごしやすいね`);
   add(.2,()=>hu>=80?`湿度${hu}%、ちょっとジメジメ…`:hu<=35?`湿度${hu}%。乾燥してるから、水をのもう`:`湿度は${hu}%。ちょうどいいかな`);
@@ -1581,6 +1599,17 @@ function mailSteps(){let it=null;const m=OUT.mailbox;
     SAY(()=>it.l?`「${it.l.b}」`:pick(['新聞、あとでゆっくり読もう','ほかの記事も見てみよう'])),
     SAY(()=>it.l?pick(it.l.r):''),
     FN(()=>{if(it&&it.l&&it.l.mate&&M&&!M.sleeping&&M.scene===C.scene)setTimeout(()=>msay(pick(['あ、わたしあて？ありがとう！','手紙？だれからだろう'])),2500);})];}
+/* ----- 日記 (last 7 days: meals & parcels) ----- */
+const dKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+function diaryAdd(text,ts){if(!S||!text)return;const d=ts?new Date(ts):now();const k=dKey(d);S.diary=S.diary||{};const a=S.diary[k]=S.diary[k]||[];const tm=`${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  if(a.some(e=>e.s===text&&Math.abs(e.m-(d.getHours()*60+d.getMinutes()))<20))return;a.push({t:tm,m:d.getHours()*60+d.getMinutes(),s:text});a.sort((x,y)=>x.m-y.m);
+  const keys=Object.keys(S.diary).sort();while(keys.length>7)delete S.diary[keys.shift()];if(!$('sheet').hidden)renderDiary(false);}
+let diaryShown='';
+function renderDiary(scroll){const el=$('diaryBody');if(!el||!S)return;const D=S.diary||{},keys=Object.keys(D).sort(),sig=JSON.stringify(D);if(!scroll&&sig===diaryShown)return;diaryShown=sig;
+  if(!keys.length){el.innerHTML='<p class="dexnone">まだ何も書いていません。ごはんを食べたり荷物を受け取ったりすると、ここに書きこまれます。</p>';return;}
+  el.innerHTML=keys.map(k=>{const[y,m,d]=k.split('-').map(Number),dt=new Date(y,m-1,d),wd='日月火水木金土'[dt.getDay()],today=k===dKey(now());
+    return`<div class="dday"><h3>${m}月${d}日（${wd}）${today?'<small>きょう</small>':''}</h3><ul>${(D[k]||[]).map(e=>`<li><span>${e.t}</span>${esc(e.s)}</li>`).join('')||'<li>（記録なし）</li>'}</ul></div>`;}).join('');
+  if(scroll){const cd=document.querySelector('#sheet .card');if(cd)setTimeout(()=>{cd.scrollTop=cd.scrollHeight;},30);}}
 /* food / drink log for the 図鑑 */
 function logEat(n){if(!S||!n)return;S.ate=S.ate||{};S.ate[n]=(S.ate[n]||0)+1;}
 function logDrink(n){if(!S||!n)return;S.drank=S.drank||{};S.drank[n]=(S.drank[n]||0)+1;}
@@ -1598,11 +1627,11 @@ const A={
     else{want('bed');let sp=null;s.push({t:'go',sc:'in',dyn:()=>(sp=randomTile('in','bed'))},{t:'snap',dyn:()=>sp?{px:(sp.x+.5)*T,py:sp.y*T+12,pose:'lie',d:'down',over:true,floor:true}:null},SAY('床で寝るの、かたいな…ベッドがほしい'));}
     const end=performance.now()+50000;
     s.push(FN(()=>{C.sleeping=true;if(!msgBusy())say(night?(hourNow()<5?pick(['今日は夜ふかししちゃった…おやすみ','ついつい夜ふかし…もう寝よう']):'おやすみなさい…'):'ちょっとだけお昼寝…');}));
-    s.push({t:'until',cond:()=>night?(!sleepTime(0)&&S.needs.energy>=50):performance.now()>end,tick:dt=>{S.needs.energy=clamp(S.needs.energy+dt*(night?.3:.7),0,100);}});
-    s.push(FN(()=>{C.sleeping=false;say(night?(hourNow()>=7.5?pick(['しまった、寝坊しちゃった！','わっ、もうこんな時間！？','ふあ…ちょっと寝すぎたかも']):has('aclock')?'ジリリリ…！おはよう！':pick(['ふわぁ…おはよう！','よく寝た〜！'])):'ふあ、すっきり！');}));
+    s.push({t:'until',cond:()=>night?!sleepTime(0):performance.now()>end,tick:dt=>{S.needs.energy=clamp(S.needs.energy+dt*(night?.3:.7),0,100);}});
+    s.push(FN(()=>{C.sleeping=false;say(night?(sleepInfo(0).over?pick(['しまった、寝坊しちゃった！','わっ、もうこんな時間！？','ふあ…ちょっと寝すぎたかも']):has('aclock')?'ジリリリ…！おはよう！':pick(['ふわぁ…おはよう！','よく寝た〜！'])):'ふあ、すっきり！');}));
     if(has('wardrobe'))s.push(...goF('wardrobe'),W8(1.2),FN(wearDay));else s.push(FN(wearDay));
     return s;},
-  eat(){const s=[],slot=mealSlot(),plan=logPlan(mealPlan(slot)),m=plan.main,SJ={b:'朝ごはん',l:'お昼',d:'晩ごはん',night:'夜食'}[slot];S.mealDone=S.mealDone||{};S.mealDone[slot]=now().toDateString();
+  eat(){const s=[],slot=mealSlot(),plan=logPlan(mealPlan(slot)),m=plan.main,SJ={b:'朝ごはん',l:'お昼',d:'晩ごはん',night:'夜食'}[slot];diaryAdd(`${SJ}：${plan.list}`);S.mealDone=S.mealDone||{};S.mealDone[slot]=now().toDateString();
     if(!has('fridge')){want('fridge');
       const tr=OUT.trees.find(t=>t.fruit),u=tr&&adjOut(tr.x,tr.y);
       if(!badOut()&&u)return[{t:'go',sc:'out',x:u.x,y:u.y},{t:'face',d:u.d},SAY('冷蔵庫がないから、木の実をとろう'),W8(2),FN(()=>C.holding='apple'),W8(4,need('hunger',12)),FN(()=>{C.holding=null;}),SAY('もぐもぐ…あまずっぱい')];
@@ -1741,7 +1770,7 @@ const A={
     let sipT=0;const sip=dt=>{need('fun',3)(dt);sipT+=dt;const inH=(sipT%5)<1.7;if(C.tableSet&&C.tableSet.drink){C.tableSet.inHand=inH;C.holding=inH?'glass':null;}if(inH)C.drinkLv=Math.max(.15,(C.drinkLv||1)-dt*.08);};
     s.push(...mateJoinSteps(where,()=>{M.drink=d;M.drinkLv=1;M.holding='glass';}));
     const RT=rateDrink(d);s.push(...talkMate(()=>M&&M.busy&&M.drink?pick(DRINKTALK)(d):null),SAY(()=>pick(['かんぱーい！','いただきます','ひと口目、しみる〜'])),W8(5,sip),SAY(RT.l[0]),W8(5,sip),SAY(RT.l[1]),W8(5,sip),SAY(()=>pick(d.say)),W8(5,sip),SAY(RT.l[2]),W8(4,sip),SAY(()=>pick([`${sn}が合う〜`,`${sn}をつまんで…最高`])),W8(5,sip),SAY(RT.l[3]),W8(3,sip),FN(()=>{S.notes=S.notes||{};const o=S.notes[d.n]||{s:0,n:0};o.s=Math.max(o.s,RT.score);o.n++;o.last=RT.score;S.notes[d.n]=o;S.drinkAt=Date.now();}),
-      FN(()=>{S.drinkN=(S.drinkN||0)+1;S.tipsyUntil=Date.now()+20*60e3;emote('♪',2);}),SAY(()=>pick(['ふふ、ほろ酔い','いい気分〜','ごちそうさまでした'])),W8(1.2),
+      FN(()=>{diaryAdd(`お酒：${d.n}`);S.drinkN=(S.drinkN||0)+1;S.tipsyUntil=Date.now()+20*60e3;emote('♪',2);}),SAY(()=>pick(['ふふ、ほろ酔い','いい気分〜','ごちそうさまでした'])),W8(1.2),
       FN(()=>{unsnap();C.tableSet=null;C.drinkLv=0;C.holding='glass';if(M&&M.busy)mRelease();}),SAY(()=>pick(['グラスとびんを片付けよう','おさけを棚にもどして…'])));
     if(hasKSink())s.push(...goSink(),SAY('グラスを洗っておこう'),W8(2.4,wTick('ksink')));
     s.push(FN(()=>{C.holding=null;C.drinkNow=null;}),SAY(()=>pick(['お水も飲んでおこう','飲みすぎ注意、ほどほどにね','また明日もがんばろう'])));return s;},
@@ -1773,7 +1802,7 @@ const A={
   chat(){if(!mateFree())return null;let tg=null;return[FN(()=>{mEngage();M.goal=null;M.moving=false;}),FN(()=>{if(!M)return;const sc=M.scene;for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const x=M.tx+dx,y=M.ty+dy;if(sc==='in'?walkIn(x,y):walkOut(x,y)){tg={x,y,sc};C.steps.splice(1,0,{t:'go',sc,x,y});return;}}}),
     FN(()=>{if(!M)return;const dx=M.tx-C.tx,dy=M.ty-C.ty;C.dir=Math.abs(dx)>=Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up');M.dir=C.dir==='right'?'left':C.dir==='left'?'right':C.dir==='up'?'down':'up';}),
     ...talkMate(()=>chatLines()),FN(()=>{mRelease();S.chatAt=Date.now();emote('♪',1.5);})];},
-  oyatsu(){const tt=teaTime(),d=tt.drink,sw=tt.sweet,today=now().toDateString();logDrink(d);logEat(sw);S.oyatsuDay=today;S.oyatsuAt=Date.now();const isC=/コーヒー|カフェ|エスプレッソ|アメリカン|ブラック|カプチーノ|ウインナー/.test(d),hot=!/ジュース|アイス|麦茶|水出し/.test(d);
+  oyatsu(){const tt=teaTime(),d=tt.drink,sw=tt.sweet,today=now().toDateString();logDrink(d);logEat(sw);diaryAdd(`おやつ：${sw}と${d}`);S.oyatsuDay=today;S.oyatsuAt=Date.now();const isC=/コーヒー|カフェ|エスプレッソ|アメリカン|ブラック|カプチーノ|ウインナー/.test(d),hot=!/ジュース|アイス|麦茶|水出し/.test(d);
     const s=[SAY(pick(['おやつにしよう！','ちょっとひと休み、ティータイム','甘いもの食べたくなっちゃった','休憩、休憩〜']))];
     if(has('fridge'))s.push(...goF('fridge'),SAY(`${sw}があったはず…あった！`),W8(1.2));
     if(hot&&has('stove'))s.push(...goF('stove'),FN(()=>{C.cooking=true;}),SAY(isC?`${d}を淹れよう。いい香り…`:/茶/.test(d)?`お湯をわかして${d}を…`:`${d}を淹れて…`),W8(3),FN(()=>{C.cooking=false;}));else s.push(SAY(`${d}を用意して…`),W8(1));
@@ -2351,8 +2380,13 @@ function lying(c,sp,of,o){
 function bathing(c,sp,o){
   c.save();c.translate(0,11);(HEADS[o.sp]||HEADS.cloud)(c,{level:o.level,look:o.look});c.restore();
   fillE(c,'#f3f1ea',0,-23.5,4,1.6);
-  fillE(c,'rgba(150,205,235,.9)',0,-4.5,15,5);
-  const t=performance.now()/600;c.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<5;i++){ell(c,-12+i*6,-6.5+Math.sin(t+i)*.8,1.8,1.6);c.fill();}}
+  // water surface: slow, gentle sway with a soft ripple ring around the shoulders
+  const t=performance.now()/1000,sw=Math.sin(t*.9)*.7,sw2=Math.sin(t*.9+1.6)*.35;
+  const skin=o.sp==='human'&&o.look?SKINS[o.look.skin]||'#f3c8a4':(sp&&(sp.hand||sp.fur))||'#f3c8a4';
+  fillE(c,skin,0,-5.2,5.6,2);
+  fillE(c,'rgba(150,205,235,.88)',sw,-4.2+sw2,15,4.8);
+  c.strokeStyle='rgba(255,255,255,.55)';c.lineWidth=.55;const rr=(t*.35)%1;c.globalAlpha=1-rr;c.beginPath();c.ellipse(sw*.5,-5.2,6.5+rr*6,2.2+rr*1.8,0,0,TAU);c.stroke();c.globalAlpha=1;
+  c.strokeStyle='rgba(255,255,255,.4)';c.beginPath();c.moveTo(-11+sw,-3.6+sw2);c.quadraticCurveTo(-5,-2.6-sw2,0,-3.4+sw2);c.quadraticCurveTo(5,-4.2-sw2,11+sw,-3.4+sw2);c.stroke();}
 
 /* ========== drawing: world ========== */
 const STARS=Array.from({length:70},(_,i)=>({x:hash(i,1,3)*W,y:hash(i,2,3)*H,r:hash(i,3,3)*1.2+.3,p:hash(i,4,3)*6}));
@@ -2565,6 +2599,11 @@ function dBath(X,Y,Wd,Dp,L,t){prism(X+2,Y+6,Wd-4,Dp-8,16,'#e8eef1',{top:'#ffffff
   g.fillStyle='rgba(255,255,255,.35)';g.fillRect(ix+4,iy+4,iw-12,1.4);g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=.7;
   for(let i=0;i<3;i++){const yy=iy+10+i*7+Math.sin(t*1.5+i);g.beginPath();g.moveTo(ix+6,yy);g.lineTo(ix+iw-8,yy);g.stroke();}
   fillR(g,'#b9c0c6',X+Wd-14,Y-16,4,7,1);fillR(g,'#d8dde1',X+Wd-17,Y-17,9,2.4,1);
+  // wall shower: slide bar, head and hose
+  {const sx=X+11,top=Y-30;fillR(g,'#c9d0d5',sx-.8,top,1.6,18,.8);fillR(g,'#9aa3a9',sx-1.6,top+2,3.2,1.6,.6);fillR(g,'#9aa3a9',sx-1.6,top+14,3.2,1.6,.6);
+   g.save();g.translate(sx+1.6,top+1);g.rotate(.5);fillR(g,'#b9c0c6',-1,0,2,5,1);fillE(g,'#e6eaee',0,6.5,4.2,2.6);fillE(g,'#c9d0d5',0,7.3,3,1.1);g.restore();
+   g.strokeStyle='#a9b1b7';g.lineWidth=1.1;g.beginPath();g.moveTo(sx-.4,top+3);g.bezierCurveTo(sx-9,top+10,sx-6,Y-6,X+Wd-15,Y-12);g.stroke();
+   if(C.act==='bath'&&C.pose!=='bath'&&C.scene==='in'){g.strokeStyle='rgba(200,230,255,.7)';g.lineWidth=.5;for(let i=0;i<7;i++){const ph=(t*2.2+i/7)%1;g.beginPath();const x0=sx+4+i*.6,y0=top+9;g.moveTo(x0+ph*6,y0+ph*16);g.lineTo(x0+ph*6+.5,y0+ph*16+2.5);g.stroke();}}}
   if(!(C.pose==='bath'&&C.snapK==='bath')){const by=iy+ih-8+Math.sin(t*2)*.8;fillE(g,'#f6d14a',ix+9,by,3.4,2.4);fillE(g,'#f6d14a',ix+11,by-2.6,1.8,1.8);fillR(g,'#ee8a2e',ix+12.4,by-2.8,1.6,.8);}}
 function dStove(X,Y,Wd,Dp,L,t){
   fillR(g,'#c9ced3',X+Wd-46,Y-22,40,7,2);g.fillStyle='rgba(0,0,0,.15)';g.fillRect(X+Wd-44,Y-16,36,1.2);
@@ -3784,6 +3823,36 @@ function drawEmote(cx,top){
   if(C.emote==='heart')heart(cx,y-4.5,4,'#ef6f8f');else{g.fillStyle='#3a3350';g.fillText(C.emote,cx,y);}
 }
 /* ========== HUD ========== */
+/* ===== calendar: Japanese public holidays (computed) + "today is ..." list + moon age ===== */
+const ANNIV=('0101初日の出|0102書き初め|0103ひとみの日|0104石の日|0105囲碁の日|0106色の日|0107七草|0108勝負事の日|0109とんちの日|0110 110番の日|0111鏡開き|0112スキー記念日|0113咸臨丸出航記念日|0114愛と希望と勇気の日|0115いちごの日|0116囲炉裏の日|0117防災とボランティアの日|0118都バスの日|0119のど自慢の日|0120二十日正月|0121ライバルが手を結ぶ日|0122カレーの日|0123電子メールの日|0124ゴールドラッシュデー|0125日本最低気温の日|0126文化財防火デー|0127国旗制定記念日|0128衣類乾燥機の日|0129タウン情報の日|0130 3分間電話の日|0131愛妻の日|'+
+'0201テレビ放送記念日|0202頭痛の日|0203節分のころ|0204西の日|0205プロ野球の日|0206海苔の日|0207北方領土の日|0208郵便マークの日|0209ふくの日|0210ニットの日|0211万歳三唱の日|0212ペニシリン記念日|0213苗字制定記念日|0214バレンタインデー|0215涅槃会|0216天気図記念日|0217天使の日|0218エアメールの日|0219プロレスの日|0220歌舞伎の日|0221漱石の日|0222猫の日|0223富士山の日|0224月光仮面登場の日|0225夕刊紙の日|0226包むの日|0227新撰組の日|0228ビスケットの日|0229うるう日|'+
+'0301ビキニデー|0302ミニの日|0303ひな祭り|0304バウムクーヘンの日|0305珊瑚の日|0306弟の日|0307消防記念日|0308ミツバチの日|0309ありがとうの日|0310砂糖の日|0311パンダ発見の日|0312サイフの日|0313サンドイッチデー|0314ホワイトデー|0315靴の記念日|0316国立公園指定記念日|0317漫画週刊誌の日|0318精霊の日|0319ミュージックの日|0320電卓の日|0321ランドセルの日|0322放送記念日|0323世界気象デー|0324マネキン記念日|0325電気記念日|0326カチューシャの歌の日|0327さくらの日|0328三ツ矢サイダーの日|0329マリモの日|0330マフィアの日|0331エッフェル塔の日|'+
+'0401エイプリルフール|0402国際子どもの本の日|0403シーサーの日|0404あんぱんの日|0405ヘアカットの日|0406白の日|0407世界保健デー|0408花祭り|0409大仏の日|0410駅弁の日|0411メートル法公布記念日|0412世界宇宙飛行の日|0413決闘の日|0414オレンジデー|0415遺言の日|0416ボーイズビーアンビシャスデー|0417恐竜の日|0418発明の日|0419地図の日|0420郵政記念日|0421民放の日|0422アースデー|0423サン・ジョルディの日|0424植物学の日|0425世界ペンギンの日|0426よい風呂の日|0427哲学の日|0428象の日|0429羊肉の日|0430図書館記念日|'+
+'0501メーデー|0502緑茶の日|0503ゴミの日|0504ラムネの日|0505端午の節句|0506ゴムの日|0507粉の日|0508世界赤十字デー|0509アイスクリームの日|0510コットンの日|0511長良川鵜飼開き|0512看護の日|0513カクテルの日|0514温度計の日|0515沖縄本土復帰記念日|0516旅の日|0517世界電気通信記念日|0518国際親善デー|0519ボクシング記念日|0520ローマ字の日|0521小学校開校の日|0522ガールスカウトの日|0523キスの日|0524ゴルフ場記念日|0525広辞苑記念日|0526ル・マンの日|0527百人一首の日|0528ゴルフ記念日|0529こんにゃくの日|0530ごみゼロの日|0531世界禁煙デー|'+
+'0601写真の日|0602横浜開港記念日|0603測量の日|0604虫の日|0605世界環境デー|0606楽器の日|0607計量記念日|0608大鳴門橋開通記念日|0609ロックの日|0610時の記念日|0611傘の日|0612恋人の日|0613はやぶさの日|0614日記の日|0615暑中見舞いの日|0616和菓子の日|0617砂漠化と干ばつと闘う日|0618海外移住の日|0619朗読の日|0620ペパーミントデー|0621冷蔵庫の日|0622ボウリングの日|0623オリンピックデー|0624 UFOの日|0625住宅デー|0626露天風呂の日|0627ちらし寿司の日|0628貿易記念日|0629ビートルズ記念日|0630夏越の祓|'+
+'0701国民安全の日|0702うどんの日|0703波の日|0704梨の日|0705穴子の日|0706サラダ記念日|0707七夕|0708質屋の日|0709ジェットコースターの日|0710納豆の日|0711真珠記念日|0712ラジオ本放送の日|0713オカルト記念日|0714パリ祭|0715ファミコンの日|0716虹の日|0717漫画の日|0718光化学スモッグの日|0719女性大臣の日|0720ハンバーガーの日|0721日本三景の日|0722ナッツの日|0723ふみの日|0724劇画の日|0725かき氷の日|0726幽霊の日|0727スイカの日|0728菜っ葉の日|0729白だしの日|0730梅干の日|0731パラグライダー記念日|'+
+'0801水の日|0802学制発布記念日|0803はちみつの日|0804箸の日|0805タクシーの日|0806広島平和記念日|0807鼻の日|0808そろばんの日|0809長崎原爆の日|0810道の日|0811山に親しむ日|0812君が代記念日|0813左利きの日|0814専売特許の日|0815終戦の日|0816五山送り火|0817パイナップルの日|0818米の日|0819俳句の日|0820交通信号設置記念日|0821献血の日|0822チンチン電車の日|0823白虎隊の日|0824ポンペイ最後の日|0825即席ラーメン記念日|0826人権宣言記念日|0827宮沢賢治の誕生日|0828民放テレビスタートの日|0829焼肉の日|0830冒険家の日|0831野菜の日|'+
+'0901防災の日|0902宝くじの日|0903ホームラン記念日|0904くしの日|0905石炭の日|0906黒の日|0907クリーナーの日|0908国際識字デー|0909重陽の節句|0910牛タンの日|0911公衆電話の日|0912宇宙の日|0913世界の法の日|0914コスモスの日|0915老人の日|0916マッチの日|0917モノレール開業記念日|0918かいわれ大根の日|0919苗字の日|0920空の日|0921ファッションショーの日|0922カーフリーデー|0923不動産の日|0924清掃の日|0925藤ノ木古墳記念日|0926ワープロの日|0927世界観光の日|0928プライバシーデー|0929招き猫の日|0930くるみの日|'+
+'1001コーヒーの日|1002豆腐の日|1003登山の日|1004イワシの日|1005時刻表記念日|1006国際協力の日|1007ミステリー記念日|1008木の日|1009道具の日|1010目の愛護デー|1011ウインクの日|1012豆乳の日|1013さつまいもの日|1014鉄道の日|1015きのこの日|1016世界食料デー|1017貯蓄の日|1018統計の日|1019海外旅行の日|1020新聞広告の日|1021あかりの日|1022平安遷都の日|1023電信電話記念日|1024国連デー|1025民間航空記念日|1026原子力の日|1027読書の日|1028速記記念日|1029てぶくろの日|1030たまごかけごはんの日|1031ハロウィン|'+
+'1101紅茶の日|1102キッチン・バスの日|1103まんがの日|1104ユネスコ憲章記念日|1105津波防災の日|1106アパート記念日|1107鍋の日|1108いい歯の日|1109 119番の日|1110トイレの日|1111鮭の日|1112洋服記念日|1113うるしの日|1114いい石の日|1115七五三|1116幼稚園記念日|1117将棋の日|1118土木の日|1119農協記念日|1120ピザの日|1121インターネット記念日|1122いい夫婦の日|1123いいふみの日|1124オペラ記念日|1125ハイビジョンの日|1126いい風呂の日|1127ノーベル賞制定記念日|1128税関記念日|1129いい肉の日|1130鏡の日|'+
+'1201映画の日|1202日本人宇宙飛行記念日|1203カレンダーの日|1204血清療法の日|1205アルバムの日|1206音の日|1207クリスマスツリーの日|1208事始め|1209障害者の日|1210世界人権デー|1211胃腸の日|1212漢字の日|1213正月事始め|1214忠臣蔵の日|1215年賀はがき受付開始|1216電話創業の日|1217飛行機の日|1218東京駅完成記念日|1219日本人初飛行の日|1220霧笛記念日|1221回文の日|1222冬至のころ・ゆず湯|1223テレホンカードの日|1224クリスマス・イブ|1225クリスマス|1226プロ野球誕生の日|1227浅草仲見世記念日|1228身体検査の日|1229シャンソンの日|1230地下鉄記念日|1231大晦日').split('|').reduce((o,s)=>{o[s.slice(0,4)]=s.slice(4).trim();return o;},{});
+const _holC={};
+function holidaysOf(y){if(_holC[y])return _holC[y];const H={},k=(m,d)=>`${m}/${d}`,set=(m,d,n)=>{H[k(m,d)]=n;};
+  const nthMon=(m,n)=>{const f=new Date(y,m-1,1).getDay();return 1+((8-f)%7)+(n-1)*7;};
+  set(1,1,'元日');set(1,nthMon(1,2),'成人の日');set(2,11,'建国記念の日');set(2,23,'天皇誕生日');
+  set(3,Math.floor(20.8431+.242194*(y-1980)-Math.floor((y-1980)/4)),'春分の日');set(4,29,'昭和の日');set(5,3,'憲法記念日');set(5,4,'みどりの日');set(5,5,'こどもの日');
+  set(7,nthMon(7,3),'海の日');set(8,11,'山の日');set(9,nthMon(9,3),'敬老の日');set(9,Math.floor(23.2488+.242194*(y-1980)-Math.floor((y-1980)/4)),'秋分の日');
+  set(10,nthMon(10,2),'スポーツの日');set(11,3,'文化の日');set(11,23,'勤労感謝の日');
+  const base=Object.keys(H).map(s=>{const[m,d]=s.split('/').map(Number);return new Date(y,m-1,d);});
+  for(const d of base)if(d.getDay()===0){const t=new Date(d);do t.setDate(t.getDate()+1);while(H[k(t.getMonth()+1,t.getDate())]);if(t.getFullYear()===y)H[k(t.getMonth()+1,t.getDate())]='振替休日';}
+  for(let m=1;m<=12;m++)for(let d=2;d<=30;d++){const t=new Date(y,m-1,d);if(t.getMonth()!==m-1||H[k(m,d)]||t.getDay()===0)continue;const a=new Date(y,m-1,d-1),b=new Date(y,m-1,d+1);if(H[k(a.getMonth()+1,a.getDate())]&&H[k(b.getMonth()+1,b.getDate())])H[k(m,d)]='国民の休日';}
+  return(_holC[y]=H);}
+function holidayOf(d){return holidaysOf(d.getFullYear())[`${d.getMonth()+1}/${d.getDate()}`]||null;}
+function annivOf(d){return ANNIV[pad(d.getMonth()+1)+pad(d.getDate())]||null;}
+function moonAge(d){const jd=d.getTime()/86400000+2440587.5,L=29.530588853;return(((jd-2451550.1)%L)+L)%L;}
+function moonName(a){return a<1.5||a>28?'新月':a<5.5?'三日月':a<9?'上弦の月':a<13.5?'十三夜ごろ':a<16.2?'満月':a<20.5?'十六夜すぎ':a<24?'下弦の月':'有明の月';}
+function moonSVG(a){const p=a/29.530588853,r=7,c=Math.cos(2*Math.PI*p),rx=Math.max(.01,Math.abs(c)*r),wax=p<.5,o=wax?1:0,ts=wax?(c>0?0:1):(c>0?1:0);
+  return`<svg viewBox="-9 -9 18 18" width="18" height="18" aria-hidden="true"><circle r="7.2" fill="#3c4260" stroke="rgba(255,255,255,.35)" stroke-width=".6"/><path d="M0 ${-r}A${r} ${r} 0 0 ${o} 0 ${r}A${rx.toFixed(2)} ${r} 0 0 ${ts} 0 ${-r}Z" fill="#f6e9b0"/></svg>`;}
 const ICON={
   sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#ffd166"/><g stroke="#ffd166" stroke-width="2" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></g></svg>',
   moon:'<svg viewBox="0 0 24 24"><path d="M15.5 3.5a8.5 8.5 0 1 0 5 13.6A7 7 0 0 1 15.5 3.5z" fill="#f6e7b4"/></svg>',
@@ -3796,11 +3865,13 @@ const ICON={
 function updateHUD(){
   if(!S)return;
   const d=now(),k=wKind(),night=daylight()<.3;
-  $('hDate').textContent=`${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}(${'日月火水木金土'[d.getDay()]})`;$('hClock').innerHTML=pad(d.getHours())+':'+pad(d.getMinutes())+(ENV.ov.shift?`<small>${ENV.ov.shift>0?'+':''}${ENV.ov.shift}h</small>`:'');
-  $('hPlace').textContent=ENV.placeShort||ENV.place||'—';$('hPlace').title=ENV.place||'';
+  {const hol=holidayOf(d),an=annivOf(d),red=hol||d.getDay()===0;const key=d.toDateString()+'|'+hol+'|'+an;if($('hDate')._k!==key){$('hDate')._k=key;
+    $('hDate').innerHTML=`<span${red?' class="hred"':d.getDay()===6?' class="hblue"':''}>${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}(${'日月火水木金土'[d.getDay()]})</span>${hol?`<b class="hhol">${hol}</b>`:''}${an?`<small class="hann">${esc(an)}</small>`:''}`;}}
+  {const ma=moonAge(d),mk=Math.round(ma*4);if($('hMoon')._k!==mk){$('hMoon')._k=mk;$('hMoon').innerHTML=moonSVG(ma);$('hMoon').title=`月齢${ma.toFixed(1)}（${moonName(ma)}）`;$('hMoon').setAttribute('aria-label',$('hMoon').title);$('hMoonT').innerHTML=`<small>月齢</small>${ma.toFixed(1)} ${moonName(ma)}`;}}$('hClock').innerHTML=pad(d.getHours())+':'+pad(d.getMinutes())+(ENV.ov.shift?`<small>${ENV.ov.shift>0?'+':''}${ENV.ov.shift}h</small>`:'');
+  {const pt=ENV.placeShort||ENV.place||'—';if($('hPlace')._k!==pt){$('hPlace')._k=pt;$('hPlace').innerHTML=`<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M12 2.2a7 7 0 0 0-7 7c0 5.2 7 12.6 7 12.6s7-7.4 7-12.6a7 7 0 0 0-7-7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="9.2" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>${esc(pt)}</span>`;}$('hPlace').title=ENV.place||'';}
   $('hIcon').innerHTML=k==='clear'?(night?ICON.moon:ICON.sun):k==='cloudy'?ICON.cloud:ICON[k];
   $('hIcon').setAttribute('aria-label',WJP[k]);$('hIcon').title=WJP[k];$('hWx').textContent=WJP[k];
-  const t=tempNow(),hu=humNow();$('hTemp').textContent=(t==null?'--':Math.round(t*10)/10)+'℃';$('hHum').textContent=(hu==null?'--':Math.round(hu))+'%';
+  const t=tempNow(),hu=humNow();{const el=$('hDI');if(el){if(t==null||hu==null)el.textContent='--';else{const di=DI(t,hu),lab=di<55?'寒い':di<60?'肌寒い':di<65?'快適':di<70?'快い':di<75?'暑くない':di<80?'やや暑い':di<85?'暑い':'とても暑い';el.innerHTML=`${di}<b>${lab}</b>`;}}}$('hTemp').textContent=(t==null?'--':Math.round(t*10)/10)+'℃';$('hHum').textContent=(hu==null?'--':Math.round(hu))+'%';
   const days=Math.floor((Date.now()-S.born)/86400e3)+1;
   if($('hName').textContent!==S.name)$('hName').textContent=S.name;}
 function updateRoom(){const r=C.scene==='out'?'浮遊島':(ROOM_NAME[roomAt(C.tx,C.ty)]||'ろうか');const el=$('room');if(el.textContent!==r)el.textContent=r;}
@@ -3839,7 +3910,7 @@ function actJP(){if(C.sleeping)return'ねている';return{sleep:'ねる準備',
   heater:'ストーブのスイッチ',fan:'扇風機のスイッチ',diary:'日記',music:'レコード',piano:'ピアノ',fish:'魚にえさ',exercise:'エアロバイク',kotatsu:'こたつ',relax:'ひと休み',play:'おもちゃで遊ぶ',admire:'飾りをながめる',remodel:'模様替え',harvest:'畑の収穫',scope:'望遠鏡',yardsetup:'庭に置く準備',yardplay:'庭で遊ぶ',yardmove:'庭の模様替え',yardseason:'季節の飾りつけ',yardclear:'季節の片付け',newbed:'花壇づくり',tapwalk:'おでかけ中',drink:'お酒タイム',game:'テレビゲーム',radio:'ラジオ',hobby:'趣味の時間',store:'片付け',unstore:'しまったものを出す',visit:'お客さん'}[C.act]||'ぼんやり';}
 let sheetSnap=null;
 function openSheet(){if(!S)return;$('schedMain').innerHTML=schedHTML(0);sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;const tb=document.querySelector('#tabs button[data-t=st]');tb&&tb.focus();}
-function selTab(t){if(t==='dex')setTimeout(renderDex,0);document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('#sheet .tp').forEach(sct=>sct.hidden=sct.dataset.p!==t);try{localStorage.setItem('fuyuchi-tab',t);}catch(e){}}
+function selTab(t){if(t==='dex')setTimeout(renderDex,0);if(t==='diary')setTimeout(()=>renderDiary(true),0);document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('#sheet .tp').forEach(sct=>sct.hidden=sct.dataset.p!==t);try{localStorage.setItem('fuyuchi-tab',t);}catch(e){}}
 document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>selTab(b.dataset.t));
 function exportText(){save();return'FUYUCHI1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
 function parseSave(txt){txt=(txt||'').trim();let o=null;try{if(txt.startsWith('FUYUCHI1:'))o=JSON.parse(decodeURIComponent(escape(atob(txt.slice(9)))));else o=JSON.parse(txt);}catch(e){return null;}
@@ -4064,7 +4135,7 @@ function sendDrone(kind){const dd=kind==='in'?S.delivery:S.yardDel;if(!dd)return
 function drawGroundBox(p){const x=(p.x+.5)*T,y=(p.y+1)*T-4;prism(x-8,y-8,16,9,10,'#d9b37c',{front:'#c49a62',r:1});g.fillStyle='#b98a52';g.fillRect(x-1.4,y-18,2.8,9);fillR(g,'rgba(255,255,255,.55)',x-6,y-3,5,1.6,.4);}
 // shared steps: go meet the drone (stage air) or pick up the box from the ground (stage yard)
 function boxName(c){if(!c||!c.k)return'荷物';const f=FT[c.k]||OFT[c.k];return f?f.n:'荷物';}
-const gotLine=n=>{n=n||"荷物";return pick([`${n}が届いた！`,`届いたのは${n}だ！やったー`,`中身は${n}！待ってたんだ`,`わあ、${n}！さっそく置いてみよう`]);};
+const gotLine=n=>{n=n||"荷物";diaryAdd(`荷物を受け取った：${n}`);return pick([`${n}が届いた！`,`届いたのは${n}だ！やったー`,`中身は${n}！待ってたんだ`,`わあ、${n}！さっそく置いてみよう`]);};
 function receiveSteps(get,label){const dr=get().drop||dropSpot(0),s=[];const st=get().stage;
   if(st==='air'){s.push(SAY(pick(['ドローンだ！庭まで受け取りに行こう','荷物が届く！迎えに行こう',`${label}が届いたみたい。受け取りに行こう`])),{t:'go',sc:'out',x:dr.x,y:dr.y},{t:'face',d:'down'},
     FN(()=>emote('!',1.5)),{t:'until',cond:()=>!get()||get().stage!=='air'},
@@ -4159,7 +4230,7 @@ function drinkTogetherSteps(m,P){let ds=null,d=null,RT=null,sn='ナッツ',src=h
     ...talkStep(()=>{if(!V||!d)return[];const vn=V.name;return[['me','かんぱーい！'],['v','かんぱーい！'],['me',RT.l[0]],['v',pick([`${d.n}、おいしいね！`,'これ、すごく飲みやすい！','いい香り〜。センスいいね'])],
       ...P.inn().filter(l=>!/お茶|ありがとう！いただきます|ふう、おいしい/.test(l[1])).slice(0,4),['me',RT.l[1]],['v',pick([`${sn}もお酒に合うね`,'ほろ酔いになってきた〜','こういう時間、いいよね'])],['me',RT.l[2]],
       ['v',pick(['もう一杯だけ、いっちゃう？','ふふ、顔赤くなってない？','また一緒に飲もうね'])],['me',pick([`${vn}と飲むと、いつもよりおいしいな`,'ふふ、いい気分〜',(hourNow()>=17||hourNow()<5?'今日はいい夜だね':'昼のお酒、最高だね')])]];}),
-    FN(()=>{if(d){S.notes=S.notes||{};const o=S.notes[d.n]||{s:0,n:0};o.s=Math.max(o.s,RT.score);o.n++;o.last=RT.score;S.notes[d.n]=o;S.drinkAt=Date.now();S.drinkN=(S.drinkN||0)+1;S.tipsyUntil=Date.now()+20*60e3;}
+    FN(()=>{if(d){diaryAdd(`${V?V.name+'と':''}お酒：${d.n}`);S.notes=S.notes||{};const o=S.notes[d.n]||{s:0,n:0};o.s=Math.max(o.s,RT.score);o.n++;o.last=RT.score;S.notes[d.n]=o;S.drinkAt=Date.now();S.drinkN=(S.drinkN||0)+1;S.tipsyUntil=Date.now()+20*60e3;}
       unsnap();C.tableSet=null;C.holding=null;C.drinkNow=null;C.drinkLv=0;if(!V)return;V.sit=null;V.drink=null;say(pick(['外まで送るね','グラスはあとで洗おう。お見送りするね']));vGo('out',m.x+2,m.y);}),
     {t:'go',sc:'out',dyn:()=>({x:m.x,y:m.y,d:'right'})},waitV(),FN(()=>{if(V){V.goal=null;V.dir='left';}})];}
 function talkStep(getL){let cv2=null;return[FN(()=>{cv2={L:getL()||[],i:0,t:0};}),
@@ -4239,8 +4310,8 @@ const TAGS=[['white','白文字'],['black','黒文字'],['none','表示しない
 function drawNameTag(c,x,y,name,st){if(!name||st==='none')return;c.save();c.font='600 5.6px "Zen Maru Gothic","M PLUS Rounded 1c",sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineJoin='round';c.lineWidth=1.6;
   if(st==='black'){c.strokeStyle='rgba(255,255,255,.9)';c.strokeText(name,x,y);c.fillStyle='#1e1830';}else{c.strokeStyle='rgba(30,20,50,.85)';c.strokeText(name,x,y);c.fillStyle='#fff';}c.fillText(name,x,y);c.restore();}
 function drawMainTag(){if(!S.mate)return;const st=TAGS.some(t=>t[0]===S.mate.tag)?S.mate.tag:'white';if(st==='none')return;const p=charPos(),lie=C.pose==='lie',sitp=C.pose==='sit',bath=C.pose==='bath';
-  const hat=S.outfit&&((S.outfit.hat&&S.outfit.hat.k!=='none')||S.outfit.costume),adj=S.species==='human'?(lie?3:sitp?(hat?-2:2):hat?3:10):0;
-  g.save();if(C.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:bath?30:sitp?45:51)+adj,S.name,st);g.restore();}
+  const hat=S.outfit&&((S.outfit.hat&&S.outfit.hat.k!=='none')||S.outfit.costume),adj=S.species==='human'&&!bath?(lie?3:sitp?(hat?-2:2):hat?3:10):0;
+  g.save();if(C.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:bath?32:sitp?45:51)+adj,S.name,st);g.restore();}
 function drawMateTag(){if(!M||!S.mate||M.scene!==C.scene)return;const p=mPos(),lie=M.sit&&M.sit.pose==='lie',sitp=M.sit&&!lie;
   if(M.sleeping){const t=performance.now()/1000+.37,top=p.by-(lie?14:40);g.save();g.font='bold 11px "M PLUS Rounded 1c",sans-serif';g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<3;i++){const ph=(t*.6+i/3)%1;g.globalAlpha=1-ph;g.fillText('z',p.cx+17+ph*9,top-ph*14);}g.restore();}
   const st=TAGS.some(t=>t[0]===S.mate.tag)?S.mate.tag:'white';if(st==='none')return;
@@ -4260,7 +4331,7 @@ function mateYield(k,sp){if(!M||M.busy||!M.sit||M.sleeping||M.scene!==C.scene)re
 const sofaB=()=>{const L=S.layout.sofa;if(!L||!has('sofa'))return null;const tile=[{x:L.x+3,y:L.y+1},{x:L.x+2,y:L.y+1}].find(q=>walkIn(q.x,q.y));return tile?{tile,sit:{px:(L.x+2.85)*T,py:L.y*T+25,pose:'sit',d:'up'}}:null;};
 function mSeatTile(){const ks=['sofa','armchair','cushion','beanbag','rocking','kotatsu','lowtable'].filter(k=>has(k)&&(C.snapK!==k||k==='sofa'));for(const k of shuffle(ks)){if(k==='sofa'){const sb=sofaB();if(sb)return{k,u:sb.tile};continue;}const u=U(k);if(!u)continue;if(C.scene==='in'&&Math.abs(C.tx-u.x)+Math.abs(C.ty-u.y)<=1)continue;if(C.snap&&Math.hypot((u.x+.5)*T-C.snap.px,u.y*T+19-C.snap.py)<16)continue;return{k,u};}return null;}
 function chooseMateAct(){const h=hourNow(),s=[];
-  if(sleepTime(1)&&has('bed2')){const u=U('bed2');if(u){const L=S.layout.bed2;return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.sit={px:(L.x+1)*T,py:L.y*T+7,pose:'lie',d:'down',over:true,bed:true};M.sleeping=true;if(Math.random()<.5)msay(pick(['おやすみ〜','ふあ…もう寝るね','明日もいい日になりますように']));}},{t:'until',cond:()=>!sleepTime(1)},{t:'fn',f:()=>{M.sleeping=false;M.sit=null;const u=U('bed2');if(u)mPlace('in',u.x,u.y);msay(hourNow()>=7.5?pick(['寝坊しちゃった〜！','もうこんな時間！？']):pick(['おはよう〜','よく寝た！','ふあ〜、朝だ']));}},
+  if(sleepTime(1)&&has('bed2')){const u=U('bed2');if(u){const L=S.layout.bed2;return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.sit={px:(L.x+1)*T,py:L.y*T+7,pose:'lie',d:'down',over:true,bed:true};M.sleeping=true;if(Math.random()<.5)msay(pick(['おやすみ〜','ふあ…もう寝るね','明日もいい日になりますように']));}},{t:'until',cond:()=>!sleepTime(1)},{t:'fn',f:()=>{M.sleeping=false;M.sit=null;const u=U('bed2');if(u)mPlace('in',u.x,u.y);msay(sleepInfo(1).over?pick(['寝坊しちゃった〜！','もうこんな時間！？']):pick(['おはよう〜','よく寝た！','ふあ〜、朝だ']));}},
     {t:'go',sc:'in',dyn:()=>U('wardrobe2')},{t:'wait',s:1.2},{t:'fn',f:()=>{puffAt(mPos());M.outfit=mateOutfit();}},{t:'say',text:()=>pick(['着がえ完了！','今日はこの服にしよう'])}];}}
   if(sleepTime(1)&&!has('bed2')){const r=randomTile('in',pick(['liv','bed']));if(r)return[{t:'go',sc:'in',x:r.x,y:r.y},{t:'fn',f:()=>{M.sit={px:(r.x+.5)*T,py:r.y*T+12,pose:'lie',d:'down',over:true,floor:true};M.sleeping=true;msay('ベッドがないから、お布団しいて寝るね');}},{t:'until',cond:()=>!sleepTime(1)},{t:'fn',f:()=>{M.sleeping=false;M.sit=null;msay('おはよう〜');}}];}
   const tO=S.mate.out||'mid',tN=S.mate.near||'mid';
@@ -4471,6 +4542,7 @@ const EXTRA_DAILY=[(me,mn)=>[['m','今日、何か予定ある？'],['me',pick([
 /* --- away digest --- */
 function hmTs(ts){const d=new Date(ts);return pad(d.getHours())+':'+pad(d.getMinutes());}
 function sleepAt(ts,sd){const d=new Date(ts),h=d.getHours()+d.getMinutes()/60,ev=new Date(ts-(h<12?86400e3:0)),mo=new Date(ev.getTime()+86400e3);const bed=bedHour(dayKey(ev),sd),wake=wakeHour(dayKey(mo),sd),t=h<12?h+24:h;return{asleep:t>=bed&&t<24+wake,over:wake>=7.5,late:bed>=24};}
+const dl=(ts,lab,plan)=>{diaryAdd(`${lab}：${plan.list}`,ts);return plan;};
 function awayEvents(t0,t1){const ev=[],done={},seenTx=new Set(),add=(ts,tx,imp)=>{const key=new Date(ts).toDateString()+tx;if((imp||1)<2&&seenTx.has(key))return;seenTx.add(key);ev.push({ts,tx,imp:imp||1});};const mn=S.mate?S.mate.name:null;let wasA=sleepAt(t0,0).asleep,mwas=S.mate?sleepAt(t0,1).asleep:false,visited=false;
   const progAt=ts=>{const c=(ENV.tv||[]).filter(p=>p.start<=ts&&ts<p.end);return c.length?pick(c):null;};
   for(let ts=t0+15*60e3;ts<t1;ts+=15*60e3){const d=new Date(ts),h=d.getHours()+d.getMinutes()/60,dk=d.toDateString(),sl=sleepAt(ts,0);
@@ -4478,10 +4550,10 @@ function awayEvents(t0,t1){const ev=[],done={},seenTx=new Set(),add=(ts,tx,imp)=
     if(S.mate){const ms=sleepAt(ts,1).asleep;if(ms!==mwas){if(!ms&&h>=7.5)add(ts,`${mn}が寝坊した`,2);mwas=ms;}}
     if(sl.asleep)continue;
     const once=(k,lo,hi,f)=>{if(h>=lo&&h<hi&&!done[dk+k]){done[dk+k]=1;f();}};
-    once('b',6.5,9.5,()=>add(ts,`朝ごはんに${logPlan(mealPlan('b')).list}を食べた${mn&&Math.random()<.6?`（${mn}も一緒）`:''}`,2));
-    once('l',11.5,13.5,()=>add(ts,`お昼は${logPlan(mealPlan('l')).list}`,2));
-    once('d',18,20.5,()=>add(ts,`夕ごはんに${logPlan(mealPlan('d')).list}を作った${mn?`。${mn}と一緒に食べた`:''}`,2));
-    once('oy',14.5,16.5,()=>{if(Math.random()<.6){const tt=teaTime();logDrink(tt.drink);logEat(tt.sweet);add(ts,`おやつに${tt.sweet}と${tt.drink}`,1);}});
+    once('b',6.5,9.5,()=>add(ts,`朝ごはんに${dl(ts,'朝ごはん',logPlan(mealPlan('b'))).list}を食べた${mn&&Math.random()<.6?`（${mn}も一緒）`:''}`,2));
+    once('l',11.5,13.5,()=>add(ts,`お昼は${dl(ts,'お昼',logPlan(mealPlan('l'))).list}`,2));
+    once('d',18,20.5,()=>add(ts,`夕ごはんに${dl(ts,'晩ごはん',logPlan(mealPlan('d'))).list}を作った${mn?`。${mn}と一緒に食べた`:''}`,2));
+    once('oy',14.5,16.5,()=>{if(Math.random()<.6){const tt=teaTime();logDrink(tt.drink);logEat(tt.sweet);diaryAdd(`おやつ：${tt.sweet}と${tt.drink}`,ts);add(ts,`おやつに${tt.sweet}と${tt.drink}`,1);}});
     once('bt',19.5,22.5,()=>add(ts,'お風呂に入った',1));
     if(h>=20&&h<23)once('dr',20,23,()=>{if(Math.random()<.45){const dd=pick(DRINKS.filter(x=>drinkPref(x)!=='no'));const sc=rateDrink(dd).score;S.notes=S.notes||{};const o=S.notes[dd.n]||{s:0,n:0};o.s=Math.max(o.s,sc);o.n++;o.last=sc;S.notes[dd.n]=o;add(ts,`${dd.n}を飲んだ（${sc}点）${mn?`。${mn}と乾杯`:''}`,2);}});
     if(!visited&&h>=10&&sunOpen(h,.5)&&Math.random()<.012){visited=true;const fr=Object.values(S.friends||{});add(ts,fr.length?`友達の${pick(fr).name}が遊びに来た`:'となりの浮遊島から友達が遊びに来た',3);}
@@ -4502,7 +4574,7 @@ function handleAway(away){const t1=Date.now(),t0=t1-Math.min(away,3*86400)*1000;
   // put everyone where they should be now
   abort();
   if(sleepTime(0)&&has('bed')){wearPajama(false);const u=U('bed');if(u){C.tx=u.x;C.ty=u.y;C.px=u.x*T;C.py=u.y*T;C.path=[];}const sp=snapOf('bed');if(sp){C.snap={px:sp.px,py:sp.py,over:!!sp.over};C.pose='lie';C.snapK='bed';C.dir='down';}C.sleeping=true;C.act='sleep';
-    C.steps=[{t:'until',cond:()=>!sleepTime(0)},FN(()=>{unsnap();C.sleeping=false;say(hourNow()>=7.5?'寝坊しちゃった！':'ふわぁ…おはよう！');}),FN(()=>wearDay())];}
+    C.steps=[{t:'until',cond:()=>!sleepTime(0)},FN(()=>{unsnap();C.sleeping=false;say(sleepInfo(0).over?'寝坊しちゃった！':'ふわぁ…おはよう！');}),FN(()=>wearDay())];}
   else if(S.outfit.top.k==='pajama')wearDay(false);
   if(S.mate&&M){M.steps=[];M.busy=false;M.sit=null;M.goal=null;if(sleepTime(1)&&has('bed2')){const L=S.layout.bed2,u=U('bed2');if(u)mPlace('in',u.x,u.y);M.sit={px:(L.x+1)*T,py:L.y*T+7,pose:'lie',d:'down',over:true,bed:true};M.sleeping=true;M.steps=[{t:'until',cond:()=>!sleepTime(1)},{t:'fn',f:()=>{M.sleeping=false;M.sit=null;msay('おはよう〜');}}];}else{M.sleeping=false;const r=randomTile('in','liv');if(r)mPlace('in',r.x,r.y);}}
   const first=ev.filter(e=>e.imp>=2).slice(-1)[0];
@@ -4717,7 +4789,7 @@ function update(dt){
   needsTick(dt);droneTick(dt);visitTick(dt);mateTick(dt);rvTick(dt);lbTick(dt);if(M&&M.drink&&M.sit)M.drinkLv=Math.max(.12,(M.drinkLv||1)-dt*.012);yardTick(dt);shopTick(dt);partTick(dt);msgTick(dt);talkTick(dt);
   const k=wKind();if(k==='snow')snowCover=Math.min(.7,snowCover+dt/90);else snowCover=Math.max(0,snowCover-dt/240);
   if(k==='thunder'){nextFlash-=dt;if(nextFlash<=0){flashT=.18;nextFlash=rnd(6,16);}}if(flashT>0)flashT-=dt;
-  hudT-=dt;if(hudT<=0){hudT=1;updateHUD();updateRoom();wxWatch();if(!$('sheet').hidden){const ae=document.activeElement;if(!(ae&&/^(SELECT|INPUT|TEXTAREA)$/.test(ae.tagName)&&$('sheet').contains(ae)))renderSheet();}}
+  hudT-=dt;if(hudT<=0){hudT=1;updateHUD();updateRoom();wxWatch();if(!$('sheet').hidden){const ae=document.activeElement;if(!(ae&&/^(SELECT|INPUT|TEXTAREA)$/.test(ae.tagName)&&$('sheet').contains(ae)))renderSheet();renderDiary(false);}}
   saveT+=dt;if(saveT>10){saveT=0;save();}
 }
 function loop(ts){const dt=Math.min(.1,(ts-last)/1000);last=ts;if(S){update(dt);render();}bubbleTick();vBubbleTick();mBubbleTick();convoTick(dt);hudDim();tipTick();devTick();if(S&&(++hudFrame%6===0))hudAvoid();requestAnimationFrame(loop);}
@@ -4772,7 +4844,7 @@ function tapGo(e){const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(!tg)return;
   if(C.sleeping){const night=sleepTime(0)&&!C.napping;const pl0=tapPlan(tg);if(!pl0||!pl0.s||!pl0.s.length){say(pick(['むにゃ…（ねてる）','Zzz…あとでね…']));return;}
     abort();C.sleeping=false;C.napping=false;unsnap();
     if(!night){C.act=pl0.n;C.steps=[SAY(pick(['ふぁっ！？…あ、起きた起きた','むにゃ…もうちょっと寝てたかったのに…','はっ！寝てた…なになに？','うう…お昼寝のいいところだったのに','ん〜…わかった、行くよぉ'])),W8(1.2),...pl0.s];C.idleT=rnd(2,4);return;}
-    C.act=pl0.n;C.steps=[SAY(pick(['むにゃ…こんな夜中に…？','ねむい…ちょっとだけね…','ふあぁ…なんでこんな時間に…','んん…寝ぼけてるかも…']),),W8(1.4),...pl0.s.filter(x=>x.t==='go'||x.t==='face').slice(0,2),W8(1.5),SAY(pick(['…やっぱり眠い。ベッドに戻るね','もう無理…おやすみ…','夜中に起こさないでよ〜…むにゃ'])),...goF('bed'),snapF('bed'),FN(()=>{C.sleeping=true;}),{t:'until',cond:()=>!sleepTime(0)},FN(()=>{C.sleeping=false;unsnap();say(hourNow()>=7.5?'寝坊しちゃった！夜中に起きたせいかな':'ふわぁ…おはよう。夜中に起きた気がする…');}),FN(()=>wearDay())];C.idleT=rnd(2,4);return;}
+    C.act=pl0.n;C.steps=[SAY(pick(['むにゃ…こんな夜中に…？','ねむい…ちょっとだけね…','ふあぁ…なんでこんな時間に…','んん…寝ぼけてるかも…']),),W8(1.4),...pl0.s.filter(x=>x.t==='go'||x.t==='face').slice(0,2),W8(1.5),SAY(pick(['…やっぱり眠い。ベッドに戻るね','もう無理…おやすみ…','夜中に起こさないでよ〜…むにゃ'])),...goF('bed'),snapF('bed'),FN(()=>{C.sleeping=true;}),{t:'until',cond:()=>!sleepTime(0)},FN(()=>{C.sleeping=false;unsnap();say(sleepInfo(0).over?'寝坊しちゃった！夜中に起きたせいかな':'ふわぁ…おはよう。夜中に起きた気がする…');}),FN(()=>wearDay())];C.idleT=rnd(2,4);return;}
   if(['setup','yardsetup','visit','bath','toilet'].includes(C.act)&&C.steps.length){say(pick(['ちょっと待ってね、いま手がはなせないの','これが終わったらね']));return;}
   const pl=tapPlan(tg);if(!pl||!pl.s||!pl.s.length)return;abort();C.act=pl.n;C.steps=pl.s;C.idleT=rnd(2,4);
   if(Math.random()<.3&&tg.t!=='floor'&&!msgBusy())say(pick(['はーい','そっちに行くね','なになに？']));}
