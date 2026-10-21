@@ -194,7 +194,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
   <div class="card" role="dialog" aria-labelledby="sheetTitle">
     <h2 id="sheetTitle">メニュー</h2>
     <div class="tabs" role="tablist" id="tabs"><button role="tab" data-t="st" aria-selected="true">キャラクター情報</button><button role="tab" data-t="home">住居</button><button role="tab" data-t="dex">図鑑</button><button role="tab" data-t="nm">名前と姿</button><button role="tab" data-t="mate">同居人</button><button role="tab" data-t="loc">位置情報</button><button role="tab" data-t="tv">番組</button><button role="tab" data-t="try">ためす</button><button role="tab" data-t="data">セーブ・ロード</button></div>
-    <section class="tp" data-p="st"><div id="sheetBody"></div></section>
+    <section class="tp" data-p="st"><div id="schedMain"></div><div id="sheetBody"></div></section>
     <section class="tp" data-p="home" hidden><div id="homeBody"></div></section>
     <section class="tp" data-p="dex" hidden><div id="dexBody"></div></section>
     <section class="tp" data-p="nm" hidden>
@@ -209,8 +209,9 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
       <div class="row2"><button id="mtAdd" class="primary" type="button">同居人を迎える</button></div></div>
       <div id="mateHas" hidden><div class="mtCard"><canvas id="mtPrev" width="80" height="80"></canvas><p id="mtInfo"></p></div>
       <div class="field"><label for="mtRename">名前</label><input type="text" id="mtRename" maxlength="10" autocomplete="off"><button id="mtRenameB" type="button" hidden>変更</button></div>
+      <div id="mtSched"></div>
       <h3>暮らし方の傾向</h3><div class="prefs" id="mtTend"></div>
-      <h3>名前の表示</h3><div class="tagGrid" id="mtTags"></div>
+      <h3>名前の表示（ふたりとも）</h3><div class="tagGrid" id="mtTags"></div>
       <div class="row2"><button id="mtLook2" type="button">見た目を変える</button><button id="mtBye" class="danger" type="button">お別れする</button></div></div>
     </section>
     <section class="tp" data-p="loc" hidden>
@@ -639,10 +640,12 @@ function duskness(){const h=hourNow(),sr=ENV.sunrise??6,ss=ENV.sunset??17.5;cons
 const sunOpen=(h,margin)=>{h=h==null?hourNow():h;const sr=ENV.sunrise??6,ss=ENV.sunset??17.5;return h>=sr&&h<ss-(margin||0);};
 const isNight=()=>{const h=hourNow();return h>=22.5||h<6.5;};
 function dayKey(d){return d.getFullYear()*400+d.getMonth()*32+d.getDate();}
-function bedHour(dk,sd){const r=hash(dk,sd*31+7,41),r2=hash(dk,sd*17+3,43);return r<.15?24+r2*2:22.75+r2*.6;}
-function wakeHour(dk,sd){const r=hash(dk,sd*29+11,47),r2=hash(dk,sd*13+5,49);return r<.22?7.5+r2*2:6+r2*.5;}
+// sleep schedule (user-set per character; sd 0 = main, 1 = roommate). bed is in hours, values < 12 mean after midnight
+function schedOf(sd){const d={bed:23,wake:6},a=(S&&S.sched&&S.sched[sd])||d;return{bed:a.bed<12?a.bed+24:a.bed,wake:a.wake};}
+function bedHour(dk,sd){const b=schedOf(sd).bed,r=hash(dk,sd*31+7,41),r2=hash(dk,sd*17+3,43);return r<.15?b+1+r2*1.5:b-.25+r2*.6;}
+function wakeHour(dk,sd){const w=schedOf(sd).wake,r=hash(dk,sd*29+11,47),r2=hash(dk,sd*13+5,49);return r<.22?w+1.5+r2*1.5:w+r2*.5;}
 function sleepInfo(sd){const d=now(),h=hourNow(),ev=new Date(d.getTime()-(h<12?86400e3:0)),mo=new Date(ev.getTime()+86400e3);const bed=bedHour(dayKey(ev),sd),wake=wakeHour(dayKey(mo),sd),t=h<12?h+24:h;
-  return{asleep:t>=bed&&t<24+wake,bed,wake,late:bed>=24,over:wake>=7.5};}
+  const sc=schedOf(sd);return{asleep:t>=bed&&t<24+wake,bed,wake,late:bed>=sc.bed+.9,over:wake>=sc.wake+1.4};}
 const sleepTime=sd=>sleepInfo(sd||0).asleep;
 function simWeather(){const d=now();const seed=hash(d.getFullYear()*400+d.getMonth()*31+d.getDate(),Math.floor(d.getHours()/6),7);const ks=['clear','clear','cloudy','cloudy','rain','clear','cloudy'];let k=ks[Math.floor(seed*ks.length)];const mt=[6,7,10,15,19,22,26,27,24,18,13,8][d.getMonth()];const t=mt+3.5*Math.sin((hourNow()-9)/24*Math.PI*2);if(k==='rain'&&t<2)k='snow';return{kind:k,temp:Math.round(t*10)/10,hum:k==='rain'?88:58};}
 function codeKind(c){if(c==null)return null;if(c<=1)return'clear';if(c<=3)return'cloudy';if(c===45||c===48)return'fog';if((c>=51&&c<=67)||(c>=80&&c<=82))return'rain';if((c>=71&&c<=77)||c===85||c===86)return'snow';if(c>=95)return'thunder';return'cloudy';}
@@ -1174,16 +1177,16 @@ function talkLine(){
     if(h>=19&&h<22.5)return pick([`夜の${pl}は灯りがきれいだろうな`,`${tm}。今日もおつかれさま`,'夜はのんびりするのがいちばん','今日の夜空はどうかな','お風呂、何時に入ろう','夜のテレビ、何かあるかな','夜は静かでいいね','明日の準備でもしようかな']);
     if(h>=22.5||h<5)return pick([`もう${tm}…夜ふかしはほどほどにね`,'しーん…みんな寝てるかな','夜空の星、きれい','そろそろ寝る支度しよう','夜中のおなかすき、危険…','月が明るいね']);
     return pick([`いまは${tm}だよ`,'のんびりした時間だなあ']);});
-  add(2,()=>{const nt=daylight()<.3;return pick({clear:nt?['星がよく見える夜だね','雲がない夜は、月が近く感じる','流れ星、見えないかな','夜空が深い青','月の光で庭が明るい','星座、いくつわかるかな','満天の星だ！','夜の空気、すんでるね','星を数えてたら眠くなりそう','今夜は月がきれい']:['いい天気！ここは太陽が近いからまぶしいや','晴れてると、浮遊島の影が下の雲に映るんだ','洗濯物がよく乾きそう','青空が広い！','日向ぼっこしたくなる','雲ひとつない青空','お日さまがぽかぽか','空がどこまでも続いてる','晴れの日は気分も晴れる','日差しが部屋の奥まで届いてる'],
+  add(.9,()=>{const nt=daylight()<.3;return pick({clear:nt?['星がよく見える夜だね','雲がない夜は、月が近く感じる','流れ星、見えないかな','夜空が深い青','月の光で庭が明るい','星座、いくつわかるかな','満天の星だ！','夜の空気、すんでるね','星を数えてたら眠くなりそう','今夜は月がきれい']:['いい天気！ここは太陽が近いからまぶしいや','晴れてると、浮遊島の影が下の雲に映るんだ','洗濯物がよく乾きそう','青空が広い！','日向ぼっこしたくなる','雲ひとつない青空','お日さまがぽかぽか','空がどこまでも続いてる','晴れの日は気分も晴れる','日差しが部屋の奥まで届いてる'],
     cloudy:['くもってるね。上も下も雲だらけ','空が真っ白','雲の色がグレーだね','くもりの日は落ちつく','雨、降るかな？','どんよりしてるね','雲の流れがはやい','くもりでも明るいね','太陽、どこに隠れてるのかな','くもりの日は読書日和'],
     rain:['雨だ…今日は家でのんびりしよう','屋根に当たる雨の音、けっこう好き','雨の日はおうち時間','しとしと降ってるね','傘、どこだっけ','雨のにおいがする','雨の日は紅茶がおいしい','庭の花、水を喜んでるかな','雨粒が窓をつたってる','雨だと眠くなるね'],
     snow:['雪だ！浮遊島が真っ白になっちゃう','雪の日は音が静かだね','雪だるま作りたい','手がかじかむ','雪景色、きれい','ホットココア飲みたい','雪がしんしん降ってる','足あとをつけたくなる','こたつから出られない','雪の結晶、見てみたい'],
     thunder:['かみなり…ちょっとこわい','ゴロゴロいってる。家にいよう','ピカッて光った！','停電しないといいな','雷の音、大きい…','おへそ隠さなきゃ','嵐が過ぎるのを待とう','窓から離れておこう'],
     fog:['霧で島のはしっこが見えないや','ふわふわ、まっしろ','霧の中みたい','どこまでが空かわからない','霧の朝ってふしぎ','視界が真っ白','しっとりした空気']}[k]);});
   add(3,()=>pick(IDLE_MUSE));
-  add(3.4,()=>weatherLine()||(t>=25?`${t}℃、あったかいね`:`${t}℃だね`));
-  add(.7,()=>t>=30?`${t}℃もある…溶けちゃう`:t>=25?`${t}℃、あったかいね`:t<=3?`${t}℃…さむすぎる！`:t<=12?`${t}℃、ひんやりするね`:`${t}℃で過ごしやすいね`);
-  add(.4,()=>hu>=80?`湿度${hu}%、ちょっとジメジメ…`:hu<=35?`湿度${hu}%。乾燥してるから、水をのもう`:`湿度は${hu}%。ちょうどいいかな`);
+  add(1.4,()=>weatherLine()||(t>=25?`${t}℃、あったかいね`:`${t}℃だね`));
+  add(.3,()=>t>=30?`${t}℃もある…溶けちゃう`:t>=25?`${t}℃、あったかいね`:t<=3?`${t}℃…さむすぎる！`:t<=12?`${t}℃、ひんやりするね`:`${t}℃で過ごしやすいね`);
+  add(.2,()=>hu>=80?`湿度${hu}%、ちょっとジメジメ…`:hu<=35?`湿度${hu}%。乾燥してるから、水をのもう`:`湿度は${hu}%。ちょうどいいかな`);
   add(1.6,()=>{const L=[`この島の真下は${pl}なんだって`,`${pl}の${sea}って、どんな感じかな`,`${pl}のみんな、元気かな`];
     if(ENV.parts&&ENV.parts.length>2)L.push(`${ENV.city}の${ENV.area}あたり、今日はどんな様子かな`,`下の${ENV.area}、いいにおいがしてきそう`);
     if(ENV.elev!=null)L.push(`下の地面は標高${Math.round(ENV.elev)}mらしいよ。ここはもっと上だけどね`);
@@ -1191,7 +1194,7 @@ function talkLine(){
     if(ENV.sunrise!=null)L.push(`今朝の${pl}の日の出は${fmtH(ENV.sunrise)}だったよ`);return pick(L);});
   add(1.2,()=>pick({spring:[`${sea}だね。お花がいっぱい咲くといいな`,'春の風はあまいにおいがする','桜、どこかで咲いてるかな','春は新しいことを始めたくなる','たけのこご飯が食べたい','ぽかぽか陽気','花粉、だいじょうぶかな','つくし、生えてないかな','春の雲はやわらかい','新生活の季節だね'],summer:['夏はアイスがおいしい季節','セミの声、ここまでは届かないんだよね','かき氷食べたい','花火大会、どこかでやってるかな','麦茶がおいしい','日焼け止め塗らなきゃ','夏の雲はもくもく','すいか割りしたい','風鈴の音、いいね','夏休みの気分'],
     autumn:[`${pl}もそろそろ紅葉かな`,'食欲の秋！','秋の空って高いね。ここも高いけど','読書の秋だね','栗ご飯食べたい','秋の夜長、何しよう','さんまの季節だ','落ち葉がきれい','芸術の秋、絵でも描こうかな','空気が澄んできた'],winter:['冬はこたつがほしくなる','空気が澄んで遠くまで見える','みかん食べたい','鍋の季節だね','手がつめたい','あったかい飲み物がおいしい','冬の星座はきれい','マフラー出さなきゃ','雪、降るかな','乾燥注意！']}[season()]));
-  if(ENV.news.length)add(5,()=>newsLine(pickNews()));
+  if(ENV.news.length)add(12,()=>newsLine(pickNews()));
   if(S.tvPlan&&S.tvPlan.start>now().getTime())add(1.5,()=>pick([`${hm(S.tvPlan.start)}から『${short(S.tvPlan.title,22)}』があるんだ。楽しみ`,`『${short(S.tvPlan.title,22)}』まであと${Math.max(1,Math.round((S.tvPlan.start-now().getTime())/60e3))}分！`]));
   const wish=S.wish.find(w=>!has(w));
   if(wish)add(1.2,()=>{const f=FT[wish];return pick([`${f.n}、もうすぐ届くかな`,`${f.n}を調達中。楽しみ！`]);});
@@ -3737,7 +3740,7 @@ function render0(){
   }
   items.sort((a,b)=>a.k-b.k).forEach(i=>i.f());
   if(C.scene==='out')for(const d of DRONES)drawDrone(d,t);
-  drawDrag();drawParticles();drawMateTag();g.restore();
+  drawDrag();drawParticles();drawMateTag();drawMainTag();g.restore();
   if(C.scene==='out'){weatherOut(t);lightingOut(t);}
   else{g.save();g.beginPath();g.rect(0,0,W,H);g.rect((0-cam.x)*Z+W/2,(T-8-cam.y)*Z+H/2,IN.w*T*Z,(21*T+22)*Z);g.clip('evenodd');weatherOut(t);lightingOut(t);g.restore();lightingIn(t);}
   worldBegin();if(C.scene==='out')glowOut();else glowIn(t);
@@ -3825,11 +3828,17 @@ function renderSheet(){
   row('天気',ENV.wSrc==='live'?`${WJP[codeKind(ENV.code)]} ${ENV.temp}℃ ${ENV.hum}%（Open-Meteo）`:ENV.wSrc==='wait'?'取得中…':'取得できないため季節から推定');
   h+='</dl>';if(S.awayLog&&S.awayLog.lines&&S.awayLog.lines.length){h+=`<h3>留守中の日記（${hm(S.awayLog.at)}に確認）</h3><ul class="awayList">`+S.awayLog.lines.map(l=>`<li>${esc(l)}</li>`).join('')+'</ul>';}h+=prefHTML();$('sheetBody').innerHTML=h;
   $('locStatus').textContent=ENV.locNote||(ENV.locSrc==='ip'?'回線の情報から推定しています。正確にしたいときは「現在地を使う」か地名で指定してください':'');}
+function schedHTML(sd){const sc=(S.sched&&S.sched[sd])||{bed:23,wake:6},fmt=v=>{const h=Math.floor(v)%24,m=Math.round((v%1)*60);return`${h}:${String(m).padStart(2,'0')}`;};
+  const opt=(arr,cur)=>arr.map(v=>`<option value="${v}"${Math.abs(v-cur)<.01?' selected':''}>${fmt(v)}</option>`).join('');
+  const beds=[];for(let v=20;v<=27;v+=.5)beds.push(v>=24?v-24:v);const wakes=[];for(let v=4;v<=11;v+=.5)wakes.push(v);
+  return`<h3>${sd?'同居人の':''}寝る時間・起きる時間</h3><div class="prefs"><span>就寝</span><select data-sched="${sd}" data-sf="bed">${opt(beds,sc.bed)}</select><span>起床</span><select data-sched="${sd}" data-sf="wake">${opt(wakes,sc.wake)}</select></div><p class="hint">たまに夜ふかしや寝坊をすることもあります。</p>`;}
+document.addEventListener('change',e=>{const t=e.target;if(!t||!t.dataset||t.dataset.sched==null||!S)return;const sd=+t.dataset.sched;S.sched=S.sched||[{bed:23,wake:6},{bed:23,wake:6}];S.sched[sd]=S.sched[sd]||{bed:23,wake:6};S.sched[sd][t.dataset.sf]=parseFloat(t.value);save();
+  const who=sd?(S.mate?S.mate.name:'同居人'):null,txt=t.dataset.sf==='bed'?`${t.selectedOptions[0].textContent}に寝る`:`${t.selectedOptions[0].textContent}に起きる`;if(sd&&M&&!M.sleeping)msay(`わかった、${txt}ようにするね`);else if(!sd&&!C.sleeping)say(`これからは${txt}ことにするね`);});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 function actJP(){if(C.sleeping)return'ねている';return{sleep:'ねる準備',eat:'ごはん',toilet:'トイレ',bath:'お風呂',tv:'テレビ',read:'読書',clean:'そうじ',walk:'さんぽ',bench:'ベンチでひとやすみ',garden:'花壇の水やり',pick:'木の実とり',change:'着がえ',wander:'うろうろ',setup:'家具のセット',mail:'郵便受けを見る',lamp:'ランプのスイッチ',water:'植物に水やり',yoga:'ストレッチ',tea:'お茶',laundry:'洗濯',nap:'ソファで昼寝',face:'洗顔',guide:'番組表チェック',tvshow:'お目当ての番組',oyatsu:'おやつタイム',chat:'同居人とおしゃべり',newscheck:'ニュースチェック',
   heater:'ストーブのスイッチ',fan:'扇風機のスイッチ',diary:'日記',music:'レコード',piano:'ピアノ',fish:'魚にえさ',exercise:'エアロバイク',kotatsu:'こたつ',relax:'ひと休み',play:'おもちゃで遊ぶ',admire:'飾りをながめる',remodel:'模様替え',harvest:'畑の収穫',scope:'望遠鏡',yardsetup:'庭に置く準備',yardplay:'庭で遊ぶ',yardmove:'庭の模様替え',yardseason:'季節の飾りつけ',yardclear:'季節の片付け',newbed:'花壇づくり',tapwalk:'おでかけ中',drink:'お酒タイム',game:'テレビゲーム',radio:'ラジオ',hobby:'趣味の時間',store:'片付け',unstore:'しまったものを出す',visit:'お客さん'}[C.act]||'ぼんやり';}
 let sheetSnap=null;
-function openSheet(){if(!S)return;sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;const tb=document.querySelector('#tabs button[data-t=st]');tb&&tb.focus();}
+function openSheet(){if(!S)return;$('schedMain').innerHTML=schedHTML(0);sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;const tb=document.querySelector('#tabs button[data-t=st]');tb&&tb.focus();}
 function selTab(t){if(t==='dex')setTimeout(renderDex,0);document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('#sheet .tp').forEach(sct=>sct.hidden=sct.dataset.p!==t);try{localStorage.setItem('fuyuchi-tab',t);}catch(e){}}
 document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>selTab(b.dataset.t));
 function exportText(){save();return'FUYUCHI1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
@@ -4229,10 +4238,13 @@ function mateKey(){const p=mPos();if(M.sit&&M.sit.pose==='lie'&&M.sit.bed&&S.lay
 const TAGS=[['white','白文字'],['black','黒文字'],['none','表示しない']];
 function drawNameTag(c,x,y,name,st){if(!name||st==='none')return;c.save();c.font='600 5.6px "Zen Maru Gothic","M PLUS Rounded 1c",sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineJoin='round';c.lineWidth=1.6;
   if(st==='black'){c.strokeStyle='rgba(255,255,255,.9)';c.strokeText(name,x,y);c.fillStyle='#1e1830';}else{c.strokeStyle='rgba(30,20,50,.85)';c.strokeText(name,x,y);c.fillStyle='#fff';}c.fillText(name,x,y);c.restore();}
+function drawMainTag(){if(!S.mate)return;const st=TAGS.some(t=>t[0]===S.mate.tag)?S.mate.tag:'white';if(st==='none')return;const p=charPos(),lie=C.pose==='lie',sitp=C.pose==='sit',bath=C.pose==='bath';
+  const hat=S.outfit&&((S.outfit.hat&&S.outfit.hat.k!=='none')||S.outfit.costume),adj=S.species==='human'?(lie?3:hat?3:10):0;
+  g.save();if(C.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:bath?30:sitp?45:51)+adj,S.name,st);g.restore();}
 function drawMateTag(){if(!M||!S.mate||M.scene!==C.scene)return;const p=mPos(),lie=M.sit&&M.sit.pose==='lie',sitp=M.sit&&!lie;
   if(M.sleeping){const t=performance.now()/1000+.37,top=p.by-(lie?14:40);g.save();g.font='bold 11px "M PLUS Rounded 1c",sans-serif';g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<3;i++){const ph=(t*.6+i/3)%1;g.globalAlpha=1-ph;g.fillText('z',p.cx+17+ph*9,top-ph*14);}g.restore();}
   const st=TAGS.some(t=>t[0]===S.mate.tag)?S.mate.tag:'white';if(st==='none')return;
-  g.save();if(M.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:sitp?45:51)-(M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0),S.mate.name,st);g.restore();}
+  g.save();if(M.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:sitp?45:51)+(S.mate.sp==='human'?(lie?3:(M.outfit&&((M.outfit.hat&&M.outfit.hat.k!=='none')||M.outfit.costume)?3:10)):0)-(M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0),S.mate.name,st);g.restore();}
 function mBubbleTick(){const bb=$('bubble3');if(!bb)return;if(!S||!M||!mTyping.full||M.scene!==C.scene){bb.hidden=true;return;}
   const tn=performance.now(),until=mTyping.at+mTyping.full.length/28*1000+5200;if(tn>until){bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
   bb.hidden=false;bb.classList.remove('fade');const p=mPos();posBubble(bb,p.cx,p.by,M.sit?(M.sit.pose==='lie'?16:41):45);avoidBubble(bb,[$('convo'),$('bubble'),$('bubble2')]);}
@@ -4705,7 +4717,7 @@ function update(dt){
   needsTick(dt);droneTick(dt);visitTick(dt);mateTick(dt);rvTick(dt);lbTick(dt);if(M&&M.drink&&M.sit)M.drinkLv=Math.max(.12,(M.drinkLv||1)-dt*.012);yardTick(dt);shopTick(dt);partTick(dt);msgTick(dt);talkTick(dt);
   const k=wKind();if(k==='snow')snowCover=Math.min(.7,snowCover+dt/90);else snowCover=Math.max(0,snowCover-dt/240);
   if(k==='thunder'){nextFlash-=dt;if(nextFlash<=0){flashT=.18;nextFlash=rnd(6,16);}}if(flashT>0)flashT-=dt;
-  hudT-=dt;if(hudT<=0){hudT=1;updateHUD();updateRoom();wxWatch();if(!$('sheet').hidden)renderSheet();}
+  hudT-=dt;if(hudT<=0){hudT=1;updateHUD();updateRoom();wxWatch();if(!$('sheet').hidden){const ae=document.activeElement;if(!(ae&&/^(SELECT|INPUT|TEXTAREA)$/.test(ae.tagName)&&$('sheet').contains(ae)))renderSheet();}}
   saveT+=dt;if(saveT>10){saveT=0;save();}
 }
 function loop(ts){const dt=Math.min(.1,(ts-last)/1000);last=ts;if(S){update(dt);render();}bubbleTick();vBubbleTick();mBubbleTick();convoTick(dt);hudDim();tipTick();devTick();if(S&&(++hudFrame%6===0))hudAvoid();requestAnimationFrame(loop);}
@@ -4915,7 +4927,7 @@ function renderMate(){const has1=!!S.mate;$('mateNone').hidden=has1;$('mateHas')
     {const td=$('mtTend');const rows=[['out','外出',[['out','アウトドア'],['mid','ふつう'],['in','インドア']]],['near','メインキャラと',[['far','別行動'],['mid','ふつう'],['near','そばにいる']]]];td.innerHTML='';
       for(const[key,lab,opts]of rows){const sp=document.createElement('span');sp.textContent=lab;const seg=document.createElement('div');seg.className='seg';const cur2=S.mate[key]||'mid';
         for(const[v,n]of opts){const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-pressed',v===cur2);b.style.fontSize='11px';b.onclick=()=>{S.mate[key]=v;save();[...seg.children].forEach(x=>x.setAttribute('aria-pressed',x===b));if(M){M.steps=[];M.idle=.5;}};seg.append(b);}td.append(sp,seg);}}
-    mtThumb($('mtPrev'),S.mate.sp,S.mate.look);$('mtInfo').innerHTML=`<b>${esc(S.mate.name)}</b>${S.mate.sp==='human'?'':'（'+SPEC[S.mate.sp].n+'）'}<br>${M&&M.sleeping?'いまは寝ています':'いっしょに暮らしています'}`;$('mtRename').value=S.mate.name;return;}
+    $('mtSched').innerHTML=schedHTML(1);mtThumb($('mtPrev'),S.mate.sp,S.mate.look);$('mtInfo').innerHTML=`<b>${esc(S.mate.name)}</b>${S.mate.sp==='human'?'':'（'+SPEC[S.mate.sp].n+'）'}<br>${M&&M.sleeping?'いまは寝ています':'いっしょに暮らしています'}`;$('mtRename').value=S.mate.name;return;}
   mtSel='human';if(!mtLk)mtLk=firstLook('m');if(!$('mtName').value)$('mtName').value=mtAuto=humanName(mtLk.g);humPrev($('mtPrevN'),'human',mtLk);$('mtGm').setAttribute('aria-pressed',mtLk.g==='m');$('mtGf').setAttribute('aria-pressed',mtLk.g==='f');}
 let mtAuto='';function mtRename2(){const cur=$('mtName').value.trim();if(!cur||cur===mtAuto)$('mtName').value=mtAuto=humanName(mtLk.g);}
 $('mtGm').onclick=()=>{if(mtLk.g!=='m'){mtLk.g='m';mtRename2();renderMate();}};
