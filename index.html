@@ -276,7 +276,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版91（2026/10/21）</p>
 <h3>キャラクター</h3><dl><dt>タップ</dt><dd>なでる（なかよし度が上がって、楽しさが回復します）</dd><dt>ダブルタップ</dt><dd>「メニュー」を開く</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁のすぐ手前の床へ動かすと、床に立てかけた姿に。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>リサイクルに出す（確認あり）。最初からある生活必需品と、同居人の家具は出せません</dd><dt>庭のもの</dt><dd>庭でも同じように移動・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -4239,12 +4239,12 @@ const TAGS=[['white','白文字'],['black','黒文字'],['none','表示しない
 function drawNameTag(c,x,y,name,st){if(!name||st==='none')return;c.save();c.font='600 5.6px "Zen Maru Gothic","M PLUS Rounded 1c",sans-serif';c.textAlign='center';c.textBaseline='middle';c.lineJoin='round';c.lineWidth=1.6;
   if(st==='black'){c.strokeStyle='rgba(255,255,255,.9)';c.strokeText(name,x,y);c.fillStyle='#1e1830';}else{c.strokeStyle='rgba(30,20,50,.85)';c.strokeText(name,x,y);c.fillStyle='#fff';}c.fillText(name,x,y);c.restore();}
 function drawMainTag(){if(!S.mate)return;const st=TAGS.some(t=>t[0]===S.mate.tag)?S.mate.tag:'white';if(st==='none')return;const p=charPos(),lie=C.pose==='lie',sitp=C.pose==='sit',bath=C.pose==='bath';
-  const hat=S.outfit&&((S.outfit.hat&&S.outfit.hat.k!=='none')||S.outfit.costume),adj=S.species==='human'?(lie?3:hat?3:10):0;
+  const hat=S.outfit&&((S.outfit.hat&&S.outfit.hat.k!=='none')||S.outfit.costume),adj=S.species==='human'?(lie?3:sitp?(hat?-2:2):hat?3:10):0;
   g.save();if(C.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:bath?30:sitp?45:51)+adj,S.name,st);g.restore();}
 function drawMateTag(){if(!M||!S.mate||M.scene!==C.scene)return;const p=mPos(),lie=M.sit&&M.sit.pose==='lie',sitp=M.sit&&!lie;
   if(M.sleeping){const t=performance.now()/1000+.37,top=p.by-(lie?14:40);g.save();g.font='bold 11px "M PLUS Rounded 1c",sans-serif';g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<3;i++){const ph=(t*.6+i/3)%1;g.globalAlpha=1-ph;g.fillText('z',p.cx+17+ph*9,top-ph*14);}g.restore();}
   const st=TAGS.some(t=>t[0]===S.mate.tag)?S.mate.tag:'white';if(st==='none')return;
-  g.save();if(M.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:sitp?45:51)+(S.mate.sp==='human'?(lie?3:(M.outfit&&((M.outfit.hat&&M.outfit.hat.k!=='none')||M.outfit.costume)?3:10)):0)-(M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0),S.mate.name,st);g.restore();}
+  g.save();if(M.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:sitp?45:51)+(S.mate.sp==='human'?(lie?3:(M.outfit&&((M.outfit.hat&&M.outfit.hat.k!=='none')||M.outfit.costume)?(sitp?-2:3):(sitp?2:10))):0)-(M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0),S.mate.name,st);g.restore();}
 function mBubbleTick(){const bb=$('bubble3');if(!bb)return;if(!S||!M||!mTyping.full||M.scene!==C.scene){bb.hidden=true;return;}
   const tn=performance.now(),until=mTyping.at+mTyping.full.length/28*1000+5200;if(tn>until){bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
   bb.hidden=false;bb.classList.remove('fade');const p=mPos();posBubble(bb,p.cx,p.by,M.sit?(M.sit.pose==='lie'?16:41):45);avoidBubble(bb,[$('convo'),$('bubble'),$('bubble2')]);}
