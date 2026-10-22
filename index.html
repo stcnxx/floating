@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版144（2026/10/22 #53）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版150（2026/10/22 #59）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版144（2026/10/22 #53）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版150（2026/10/22 #59）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -666,7 +666,7 @@ const FT={
   sofa:F('ソファ',4,1,'free',['liv'],{snap:L=>({px:(L.x+1.15)*T,py:L.y*T+25,pose:'sit',d:'up'}),draw:dSofa,parts:pSofa}),
   lowtable:F('ローテーブル',2,1,'free',['liv'],{slots:[[13,3],[35,3]],draw:dLowtable}),
   wardrobe:F('洋服ダンス',2,1,'back',['bed'],{tall:1,use:'front',draw:dWardrobe}),
-  wardrobe2:F('同居人の洋服ダンス',2,1,'back',['bed','liv'],{tall:1,use:'front',draw:(X,Y,Wd,Dp,L,t)=>dWardrobe(X,Y,Wd,Dp,L,t)}),
+  wardrobe2:F('同居人の洋服ダンス',2,1,'back',['bed','liv'],{tall:1,use:'front',draw:(X,Y,Wd,Dp,L,t)=>dWardrobe(X,Y,Wd,Dp,L,t,'#d8b98c')}),
   bookshelf:F('本棚',2,1,'back',['liv','bed'],{tall:1,use:'front',slots:[[12,-27],[36,-27]],draw:dBookshelf}),
   lamp:F('フロアランプ',1,1,'free',['liv','bed'],{draw:dLamp}),
   rug:F('ラグ',4,3,'floor',['liv'],{draw:dRug}),
@@ -1503,8 +1503,8 @@ function placeFor(k,opt){
     let ok=true;
     for(let yy=y;yy<y+h&&ok;yy++)for(let xx=x;xx<x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||DOORCELL.has(kk)||((f.k!=='floor'||f.keepClear)&&occ.has(kk))||(f.k!=='floor'&&(kk===cTile||clear.has(kk)))){ok=false;break;}}
     if(!ok)continue;
-    if(f.k==='back'){for(let xx=x;xx<x+w;xx++)if(!isWall(xx,y-1)||(usedW&&usedW.has(xx+','+(y-1)))){ok=false;break;}if(!ok)continue;}
-    if(frontW){for(let yy=y;yy<y+h&&ok;yy++)for(let xx=x;xx<x+w;xx++)if(frontW.has(xx+','+yy)){ok=false;break;}if(!ok)continue;}
+    if(f.k==='back'&&!opt.free){for(let xx=x;xx<x+w;xx++)if(!isWall(xx,y-1)||(usedW&&usedW.has(xx+','+(y-1)))){ok=false;break;}if(!ok)continue;}
+    if(frontW&&!opt.free){for(let yy=y;yy<y+h&&ok;yy++)for(let xx=x;xx<x+w;xx++)if(frontW.has(xx+','+yy)){ok=false;break;}if(!ok)continue;}
     if(!not.wall&&!not.on&&not.x===x&&not.y===y)continue;
     if(f.k==='floor'){if(f.w>2&&has('rug')&&k!=='rug')continue;consider({x,y,v},prefScore(k,x,y,w,h));continue;}
     const occ2=new Set(occ);for(let yy=y;yy<y+h;yy++)for(let xx=x;xx<x+w;xx++)occ2.add(xx+','+yy);
@@ -2678,13 +2678,14 @@ function lying(c,sp,of,o){
   // body under the blanket: torso mound + legs + feet
   const mx=0,my=6+bh*.4,rx=(o.floor?8:11)+br*.35,ry=bh*.36+br*.25;
   fillE(c,'rgba(0,0,0,.1)',mx+1.6,my+1.4,rx+.6,ry+.4);
-  {const gr=c.createRadialGradient(mx-rx*.35,my-ry*.45,1,mx,my,rx*1.25);gr.addColorStop(0,shade(blanket,.38));gr.addColorStop(.55,shade(blanket,.12));gr.addColorStop(1,shade(blanket,-.08));c.fillStyle=gr;ell(c,mx,my,rx,ry);c.fill();}
-  const ly=my+ry*.75,lh=bh*.32;
-  for(const sx of[-1,1]){const lx=mx+sx*rx*.36;const gl=c.createLinearGradient(lx-4,0,lx+4,0);gl.addColorStop(0,shade(blanket,.14));gl.addColorStop(1,shade(blanket,-.03));c.fillStyle=gl;ell(c,lx,ly+lh*.4,rx*.36,lh*.6);c.fill();}
-  for(const sx of[-1,1]){fillE(c,shade(blanket,.18),mx+sx*rx*.4,6+bh-4.4,rx*.22,2.2);fillE(c,'rgba(255,255,255,.18)',mx+sx*rx*.42-.6,6+bh-5.2,rx*.12,1);}
+  const ly=my+ry*.75,lh=bh*.32,yb=Math.min(6+bh-3,ly+lh*.95);
+  {const gr=c.createRadialGradient(mx-rx*.35,my-ry*.45,1,mx,my+ry*.3,rx*1.6);gr.addColorStop(0,shade(blanket,.34));gr.addColorStop(.5,shade(blanket,.1));gr.addColorStop(1,shade(blanket,-.04));c.fillStyle=gr;
+    c.beginPath();c.moveTo(mx,my-ry);c.bezierCurveTo(mx+rx*.75,my-ry,mx+rx,my-ry*.45,mx+rx,my);c.bezierCurveTo(mx+rx,my+ry*.8,mx+rx*.62,yb-lh*.5,mx+rx*.5,yb-2);c.quadraticCurveTo(mx+rx*.42,yb,mx,yb);
+    c.quadraticCurveTo(mx-rx*.42,yb,mx-rx*.5,yb-2);c.bezierCurveTo(mx-rx*.62,yb-lh*.5,mx-rx,my+ry*.8,mx-rx,my);c.bezierCurveTo(mx-rx,my-ry*.45,mx-rx*.75,my-ry,mx,my-ry);c.fill();}
+  fillE(c,'rgba(255,255,255,.07)',mx-rx*.3,my-ry*.3,rx*.45,ry*.4);
   // wrinkles
   c.strokeStyle=shade(blanket,-.2);c.globalAlpha=.45;c.lineWidth=.6;c.beginPath();c.moveTo(-bw/2+2,my+2);c.quadraticCurveTo(mx-rx-2,my+4,mx-rx+1,my+ry*.6);c.moveTo(bw/2-2,my-1);c.quadraticCurveTo(mx+rx+2,my+3,mx+rx-1,my+ry*.7);
-  c.moveTo(mx-1,ly+lh*.2);c.lineTo(mx,ly+lh*.9);c.stroke();c.globalAlpha=1;
+  c.stroke();c.globalAlpha=1;
   // folded top edge (sheet turned over)
   fillR(c,shade(blanket,.42),-bw/2,6,bw,5.4,2);fillR(c,'#f6f3ec',-bw/2,5.4,bw,2,1);fillR(c,'rgba(0,0,0,.08)',-bw/2,11.2,bw,1,.5);
   if(!o.floor){c.fillStyle='rgba(255,255,255,.14)';for(let y=16;y<6+bh-6;y+=7)for(let x=-bw/2+3;x<bw/2-2;x+=7)c.fillRect(x+((y/7|0)%2)*3,y,1.4,1.4);}}
@@ -3771,9 +3772,22 @@ function pSofa(L){const X=L.x*T,Y=L.y*T,Wd=4*T,col=VAR.sofa[(L.v||0)%4];
     g.fillStyle='rgba(255,255,255,.12)';g.fillRect(X+6,Y+6.5,Wd-12,.8);fillR(g,'rgba(30,20,10,.25)',X+4,Y+24.5,Wd-8,1.6,.8);}}];}
 function dLowtable(X,Y,Wd){g.fillStyle=WOOD.dk;g.fillRect(X+10,Y+12,3,8);g.fillRect(X+Wd-13,Y+12,3,8);
   prism(X+6,Y+7,Wd-12,13,8,'#a97c55',{top:'#cfa87c',r:3});grain(X+6,Y-1,Wd-12,13,.07);if(C.holding==='tea'&&C.act==='tea'){fillR(g,'#f3f1ea',X+Wd/2-3,Y+1,6,5,1.5);fillR(g,'#7aa860',X+Wd/2-2.4,Y+1.6,4.8,1.6);}}
-function dWardrobe(X,Y,Wd){prism(X+1,Y+4,Wd-2,17,28,'#a98060',{top:'#bb946f',r:2});grain(X+1,Y-7,Wd-2,28,.05);
-  g.fillStyle='rgba(0,0,0,.2)';g.fillRect(X+Wd/2-.4,Y-7,.8,26);g.fillRect(X+2,Y+13,Wd-4,.8);
-  fillR(g,'#e8c46a',X+Wd/2-3,Y+1,1.4,6,.7);fillR(g,'#e8c46a',X+Wd/2+1.6,Y+1,1.4,6,.7);knob(X+Wd/2,Y+17);}
+function dWardrobe(X,Y,Wd,Dp,L,t,wc){wc=wc||'#a98060';const H=42,x0=X+1,w=Wd-2,top=Y+21-H,dk=shade(wc,-.28),lt=shade(wc,.14);
+  prism(x0,Y+18,w,3,H,wc,{top:shade(wc,.1),front:wc,r:1.2});
+  // crown moulding & plinth
+  fillR(g,lt,x0-.6,top-.2,w+1.2,2.2,.8);fillR(g,dk,x0-.6,top+1.8,w+1.2,.7);fillR(g,dk,x0+.6,Y+19,w-1.2,2,.5);
+  // upper: double doors (観音開き)
+  const dy=top+3.2,dh=Y+3.6-dy,dw=(w-3.6)/2;for(const k of[0,1]){const dx=x0+1.2+k*(dw+1.2);
+    fillR(g,shade(wc,-.08),dx,dy,dw,dh,.8);fillR(g,shade(wc,.05),dx+1.4,dy+1.6,dw-2.8,dh-3.2,.6);grain(dx+1.4,dy+1.6,dw-2.8,dh-3.2,.07);
+    fillR(g,'rgba(255,255,255,.12)',dx+1.4,dy+1.6,dw-2.8,.6,.3);fillR(g,'rgba(0,0,0,.14)',dx+1.4,dy+dh-2.2,dw-2.8,.6,.3);
+    fillR(g,'#c9a84a',k?dx+.2:dx+dw-1,dy+2,.8,1.6,.3);fillR(g,'#c9a84a',k?dx+.2:dx+dw-1,dy+dh-3.6,.8,1.6,.3);}
+  fillR(g,dk,X+Wd/2-.4,dy,.8,dh);
+  fillR(g,'#e8c46a',X+Wd/2-2.6,dy+dh*.42,1.2,5.4,.6);fillR(g,'#e8c46a',X+Wd/2+1.4,dy+dh*.42,1.2,5.4,.6);fillR(g,'#fff4c8',X+Wd/2-2.5,dy+dh*.42,.4,5,.2);fillR(g,'#fff4c8',X+Wd/2+1.5,dy+dh*.42,.4,5,.2);
+  // lower: two drawers
+  fillR(g,dk,x0+.6,Y+3.9,w-1.2,.8);for(const k of[0,1]){const yy=Y+5+k*7.1;fillR(g,shade(wc,-.06),x0+1.2,yy,w-2.4,6.3,.7);fillR(g,shade(wc,.06),x0+1.8,yy+.6,w-3.6,5.1,.5);grain(x0+1.8,yy+.4,w-3.6,5.4,.06);
+    fillR(g,'rgba(0,0,0,.16)',x0+1.2,yy+6,w-2.4,.5);fillR(g,'#c9a84a',X+Wd/2-5,yy+2.4,10,1.3,.6);fillR(g,'#fff4c8',X+Wd/2-5,yy+2.4,10,.4,.2);fillR(g,'rgba(0,0,0,.25)',X+Wd/2-4,yy+3.7,8,.4);}
+  // side shading
+  fillR(g,'rgba(0,0,0,.08)',x0+w-2,top+2,2,Y+19-top-2);}
 function dBookshelf(X,Y,Wd){prism(X+1,Y+4,Wd-2,17,40,WOOD.dk,{top:WOOD.md,r:2});
   const cs=['#d9483b','#3f6fd1','#f2c230','#4f9d58','#8a5cc2','#ee8a2e','#efe6d4','#2f7a8a'];
   for(let row=0;row<4;row++){const ry=Y-17+row*9;fillR(g,'#3e2a1c',X+4,ry,Wd-8,8,1);let bx=X+5,i=0;
@@ -4067,7 +4081,8 @@ function buildHouse(){
       if(!wN&&!roomAt(x,y-1)){c.fillStyle=beamD;c.fillRect(X,Y,T+.6,3);}
       // crossbeam every few cells along long runs
       if(wN&&wS&&!wW&&!wE&&y%4===0){c.fillStyle=beam;c.fillRect(X,Y+10,T+.6,3);c.fillStyle='rgba(255,220,170,.2)';c.fillRect(X,Y+10,T+.6,.6);}
-      if(wW&&wE&&x%5===0){c.fillStyle=beam;c.fillRect(X+10,Y,3,T+.6);}
+      if(y===21&&wW&&wE&&isWall(x,y-1)){c.fillStyle=beam;c.fillRect(X,Y,3,T+.6);c.fillRect(X+T-3,Y,3,T+.6);c.fillStyle='rgba(255,220,170,.22)';c.fillRect(X+2.3,Y,.7,T+.6);c.fillRect(X+T-3,Y,.7,T+.6);}
+      else if(wW&&wE&&x%5===0){c.fillStyle=beam;c.fillRect(X+10,Y,3,T+.6);}
       const sg=c.createLinearGradient(X,Y,X+T,Y+T);sg.addColorStop(0,'rgba(255,255,255,.06)');sg.addColorStop(1,'rgba(60,40,20,.08)');c.fillStyle=sg;c.fillRect(X,Y,T+.6,T+.6);}}
   // door frames
   for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(!(isWall(x-1,y)&&isWall(x+1,y)))continue;const X=x*T,Y=y*T;c.fillStyle='#6b4a33';c.fillRect(X-1,Y+4,3,20);c.fillRect(X+T-2,Y+4,3,20);c.fillRect(X-1,Y+3,T+2,2.4);
@@ -4082,7 +4097,7 @@ function buildHouse(){
   for(let x=0;x<=HW-1;x++){const X=x*T,Y=22*T;
     for(let k=0;k<4;k++){const yy=Y+k*3.5;c.fillStyle=shade('#e9dfc9',(hash(x,k,31)-.5)*.06-k*.015);c.fillRect(X,yy,T+.6,3.6);c.fillStyle='rgba(110,80,50,.28)';c.fillRect(X,yy+3,T+.6,.7);c.fillStyle='rgba(255,255,255,.35)';c.fillRect(X,yy,T+.6,.5);}
     c.fillStyle='rgba(0,0,0,.18)';c.fillRect(X,Y,T+.6,2);
-    if(x===0||x===HW-1||x%5===0){c.fillStyle='#8a6447';c.fillRect(X+(x===HW-1?T-3:0),Y,3,14);}
+    c.fillStyle='#8a6447';if(x===0)c.fillRect(X,Y,3,14);else if(x===HW-1)c.fillRect(X+T-3,Y,3,14);else if(isWall(x,20)){c.fillRect(X,Y,3,14);c.fillRect(X+T-3,Y,3,14);}else if(x%5===0&&x!==IN_ENTRY.x)c.fillRect(X+10,Y,3,14);
     for(let k=0;k<3;k++){const sx=X+k*8+(x%2)*4;c.fillStyle=shade('#a9a294',(hash(x,k,33)-.5)*.2);rr(c,sx,Y+14,7.4,4,1.2);c.fill();}
     c.fillStyle='rgba(0,0,0,.2)';c.fillRect(X,Y+17.4,T+.6,.6);}
   // outer door face
@@ -6355,7 +6370,7 @@ function tipFor(e){const w=tapWorld(e),tx=Math.floor(w.x/T),ty=Math.floor(w.y/T)
   if(C.scene==='in')for(const b of LB){if(Math.hypot(w.x-(b.px+T/2),w.y-(b.py+T-9))<9)return{n:`ラブロボ（${lbColOf(b.k)[0]}）`,x:b.px+T/2,y:b.py+T-24};}
   if(C.scene==='in'&&has('robovac')&&RV.ph!=='dock'&&Math.hypot(w.x-(RV.x+T/2),w.y-(RV.y+T-6))<10)return{n:'ロボット掃除機（おそうじ中）',x:RV.x+T/2,y:RV.y+T-14};
   const tg=tapTarget(w.x,w.y);if(!tg)return null;const at=(x,y)=>({x,y});
-  if(tg.t==='f'){const L=S.layout[tg.k];if(!L)return null;const c=posCenter(tg.k,L);let n=FT[tg.k].n;if(tg.k==='robovac')n+=RV.ph==='dock'?'（充電中）':'の充電台';if(tg.k==='lbot1'||tg.k==='lbot2')n=`ラブロボの充電ベッド（${lbColOf(tg.k)[0]}）`;if(tg.k==='tv'&&C.tvNow)n+=`（${C.tvNow.ch}）`;return{n,...at(c.x,c.y-(FT[tg.k].tall?30:16))};}
+  if(tg.t==='f'){const L=S.layout[tg.k];if(!L)return null;const c=posCenter(tg.k,L);let n=FT[tg.k].n;if(tg.k==='robovac')n+=RV.ph==='dock'?'（充電中）':'の充電台';if(tg.k==='lbot1'||tg.k==='lbot2')n=`ラブロボの充電ベッド（${lbColOf(tg.k)[0]}）`;if(tg.k==='tv'&&C.tvNow)n+=`（${C.tvNow.ch}）`;if(tg.k==='wardrobe')n=`${S.name}の洋服ダンス`;if(tg.k==='bed')n=`${S.name}のベッド`;if(tg.k==='bed2')n=`${S.mate?S.mate.name:'同居人'}のベッド`;if(tg.k==='wardrobe2')n=`${S.mate?S.mate.name:'同居人'}の洋服ダンス`;return{n,...at(c.x,c.y-(FT[tg.k].tall?30:16))};}
   if(tg.t==='yard'){const p=S.yard[tg.k],f=OFT[tg.k];return{n:f.n,x:(p.x+f.w/2)*T,y:p.y*T-4};}
   const N={door:'玄関ドア',house:'おうち',pond:'池',tree:'木',bed:'花壇'}[tg.t];if(N)return{n:tg.t==='tree'&&tg.tr?(tg.tr.kind||'木'):N,x:(tx+.5)*T,y:ty*T-4};
   if(tg.t==='act'){const n={harvest:'家庭菜園',bench:'ベンチ',mail:'郵便受け',scope:'望遠鏡',pick:'実のなる木'}[tg.a];if(n)return{n,x:(tx+.5)*T,y:ty*T-4};}
@@ -6465,7 +6480,9 @@ function nearWalk(x,y){if(walkIn(x,y))return{x,y};for(let r=1;r<8;r++)for(let dy
 /* someone sitting/lying on furniture that was just moved: get up (or move along with it while sleeping / hosting a guest) */
 function seatFix(k,o,n){const f=FT[k];if(!f||o.wall||o.on)return;const x0=(o.x-1)*T,x1=(o.x+f.w+1)*T,y0=(o.y-1)*T,y1=(o.y+f.h+1.5)*T,inR=(px,py)=>px>=x0&&px<=x1&&py>=y0&&py<=y1;
   const dx=(n.x-o.x)*T,dy=(n.y-o.y)*T,tdx=n.x-o.x,tdy=n.y-o.y,keep=C.sleeping||C.act==='visit';
-  if(C.scene==='in'&&C.snap&&(C.snapK===k||inR(C.snap.px,C.snap.py))){
+  const tvF=k==='tv'&&C.scene==='in'&&!C.sleeping&&['tv','tvshow','game'].includes(C.act)&&C.steps&&C.steps.length;
+  if(tvF){unsnap();C.path=[];while(C.steps.length&&(C.steps[0].t==='go'||C.steps[0].t==='snap'))C.steps.shift();if(!walkIn(C.tx,C.ty)){const q=nearWalk(C.tx,C.ty);if(q)place(q.x,q.y);}C.steps.unshift(SAY(pick(['あ、テレビが動いた！','テレビの前に移動しよう','よいしょ、見える場所に…'])),...tvSeat());}
+  else if(C.scene==='in'&&C.snap&&(C.snapK===k||inR(C.snap.px,C.snap.py))){
     if(keep){C.snap.px+=dx;C.snap.py+=dy;const q=nearWalk(C.tx+tdx,C.ty+tdy);if(q)place(q.x,q.y);
       if(V&&V.scene==='in'&&V.sit&&inR(V.sit.px,V.sit.py)){V.sit.px+=dx;V.sit.py+=dy;const q2=nearWalk(V.tx+tdx,V.ty+tdy);if(q2){V.tx=q2.x;V.ty=q2.y;V.px=q2.x*T;V.py=q2.y*T;V.path=[];}}}
     else{abort();if(M&&M.busy)mRelease();}}
@@ -6537,7 +6554,8 @@ $('mtRand').onclick=()=>{mtLk=randomLook();mtRename2();renderMate();};
 $('mtNew').onclick=()=>{$('mtName').value=mtAuto=humanName(mtLk?mtLk.g:'m');};
 $('mtLookB').onclick=()=>openLook(mtLk||randomLook(),lk=>{const gc=mtLk&&lk.g!==mtLk.g;mtLk=lk;if(gc)mtRename2();renderMate();});
 $('mtLook2').onclick=()=>openLook(S.mate.look||randomLook(),lk=>{S.mate.look=lk;S.mate.sp='human';if(M)M.outfit=mateOutfit();save();renderMate();});
-function placeWardrobe2(){if(has('wardrobe2'))return true;let p=placeFor('wardrobe2');if(!p){const cand=shuffle(storable().filter(k=>{const L=S.layout[k];return L&&!L.wall&&!L.on&&['bed','liv'].includes(roomAt(L.x,L.y));}));for(const k of cand.slice(0,4)){const keep=S.layout[k];delete S.layout[k];refreshOcc();p=placeFor('wardrobe2');if(p){S.owned=S.owned.filter(x=>x!==k);S.stored=S.stored||[];S.stored.push({k,at:Date.now()});break;}S.layout[k]=keep;refreshOcc();}}
+function placeWardrobe2(){if(has('wardrobe2'))return true;let p=placeFor('wardrobe2')||placeFor('wardrobe2',{free:1});if(!p){const cand=shuffle(storable().filter(k=>{const L=S.layout[k];return L&&!L.wall&&!L.on&&['bed','liv'].includes(roomAt(L.x,L.y));}));for(const k of cand.slice(0,4)){const keep=S.layout[k];delete S.layout[k];refreshOcc();p=placeFor('wardrobe2');if(p){S.owned=S.owned.filter(x=>x!==k);S.stored=S.stored||[];S.stored.push({k,at:Date.now()});break;}S.layout[k]=keep;refreshOcc();}}
+  if(!p)p=placeFor('wardrobe2',{free:1});
   if(!p)return false;S.layout.wardrobe2={...p,v:(((S.layout.wardrobe&&S.layout.wardrobe.v)||0)+1)%4};if(!S.owned.includes('wardrobe2'))S.owned.push('wardrobe2');refreshOcc();sparkleAt(posCenter('wardrobe2',S.layout.wardrobe2));return true;}
 function placeBed2(){if(has('bed2'))return true;let p=placeFor('bed2');
   if(!p){const cand=shuffle(storable().filter(k=>{const L=S.layout[k];return L&&!L.wall&&!L.on&&['bed','liv'].includes(roomAt(L.x,L.y));})).sort((a,b)=>(roomAt(S.layout[b].x,S.layout[b].y)==='bed')-(roomAt(S.layout[a].x,S.layout[a].y)==='bed'));const removed=[];
