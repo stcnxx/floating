@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版142（2026/10/22 #51）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版144（2026/10/22 #53）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版142（2026/10/22 #51）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版144（2026/10/22 #53）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2068,7 +2068,7 @@ const A={
     const set=()=>({k:where,drink:d,snack:1,sc:scol,inHand:0});
     if(where==='bar')s.push(...goF('bar'),snapF('bar'),FN(()=>{C.tableSet=set();C.holding=null;}));else if(where==='table')s.push(...goF('table'),snapF('table'),FN(()=>{C.tableSet=set();C.holding=null;}));else if(where!=='floor')s.push(...goF(where),snapF(where));else s.push(...sitFloor('liv'),SAY(pick(['床に座って、ゆるっと一杯','座布団がほしいけど…まあいいか'])));
     let sipT=0;const sip=dt=>{need('fun',3)(dt);sipT+=dt;const inH=(sipT%5)<1.7;if(C.tableSet&&C.tableSet.drink){C.tableSet.inHand=inH;C.holding=inH?'glass':null;}if(inH)C.drinkLv=Math.max(.15,(C.drinkLv||1)-dt*.08);};
-    s.push(...mateJoinSteps(where,()=>{M.drink=d;M.drinkLv=1;M.holding='glass';}));
+    s.push(...mateJoinSteps(where,ms=>{M.drink=d;M.drinkLv=1;M.holding='glass';if(C.tableSet&&C.tableSet.k===where&&(where==='bar'||where==='table')){if(where==='bar')C.tableSet.mx=ms.tile.x;else C.tableSet.mt=ms.tile;C.tableSet.md=1;M.holding=null;}}));
     const RT=rateDrink(d);s.push(...talkMate(()=>M&&M.busy&&M.drink?pick(DRINKTALK)(d):null),SAY(()=>pick(['かんぱーい！','いただきます','ひと口目、しみる〜'])),W8(5,sip),SAY(RT.l[0]),W8(5,sip),SAY(RT.l[1]),W8(5,sip),SAY(()=>pick(d.say)),W8(5,sip),SAY(RT.l[2]),W8(4,sip),SAY(()=>pick([`${sn}が合う〜`,`${sn}をつまんで…最高`])),W8(5,sip),SAY(RT.l[3]),W8(3,sip),FN(()=>{S.notes=S.notes||{};const o=S.notes[d.n]||{s:0,n:0};o.s=Math.max(o.s,RT.score);o.n++;o.last=RT.score;S.notes[d.n]=o;S.drinkAt=Date.now();}),
       FN(()=>{diaryAdd(`お酒：${d.n}`);S.drinkN=(S.drinkN||0)+1;S.tipsyUntil=Date.now()+20*60e3;emote('♪',2);}),SAY(()=>pick(['ふふ、ほろ酔い','いい気分〜','ごちそうさまでした'])),W8(1.2),
       FN(()=>{unsnap();C.tableSet=null;C.drinkLv=0;C.holding='glass';if(M&&M.busy)mRelease();}),SAY(()=>pick(['グラスとびんを片付けよう','おさけを棚にもどして…'])));
@@ -3690,7 +3690,8 @@ function drawSet(x,y,set){if(set.foods){drawFoods(x,y,set.foods,set.phase==='eat
     if(d.ice&&!d.tok)drawGlass(g,x+12.5,y+2,{gl:'rocks',col:'rgba(0,0,0,0)'});}}
 function dBar(X,Y,Wd,Dp,L,t){prism(X+1,Y+8,Wd-2,13,19,'#4a2e22',{top:'#8a5a3a',front:'#5a3a2a',r:2});fillR(g,'#a8744a',X+1,Y-12,Wd-2,2.2,1);
   g.fillStyle='rgba(255,220,170,.12)';for(let i=1;i<6;i++)g.fillRect(X+1+i*(Wd-2)/6,Y-8,.7,16);fillR(g,'#d4a72c',X+2,Y+3,Wd-4,1,.5);
-  const s=C.tableSet;if(s&&s.k==='bar')drawSet(s.pair?X+Wd/2:X+12,Y-6,s);else{drawGlass(g,X+Wd-10,Y-5,{gl:'rocks',col:'rgba(0,0,0,0)'});}}
+  const s=C.tableSet;if(s&&s.k==='bar'){const lx=L&&L.x!=null?L.x:Math.round(X/T),cx=clamp((C.tx|0)-lx,0,1);drawSet(s.pair?X+Wd/2:X+12+cx*T,Y-6,s);
+    if(!s.pair&&s.mx!=null&&M&&M.drink&&M.busy){const mx=X+(s.mx-lx)*T+(s.mx-lx?16:8);if(M.holding==='glass')fillE(g,'#f3f1ea',mx,Y-4.6,1.4,.9);else drawGlass(g,mx,Y-4.4,M.drink,M.drinkLv);}}else{drawGlass(g,X+Wd-10,Y-5,{gl:'rocks',col:'rgba(0,0,0,0)'});}}
 function stoolAt(x,y){fillE(g,'rgba(0,0,0,.14)',x,y+14,5,1.6);g.fillStyle='#3d3d48';g.fillRect(x-.6,y+4,1.2,10);g.fillRect(x-3,y+11,6,.8);fillE(g,'#7a2a2a',x,y+3.4,4.4,2);fillE(g,'#9a3a3a',x,y+2.8,4.2,1.8);}
 function pBar(L){if(!barWall(L))return[];const ry=L.y+1,y=ry*T;const out=[];for(let i=0;i<2;i++){const x=(L.x+.5+i)*T;if(walkIn(L.x+i,ry))out.push({k:y+10,f:()=>stoolAt(x,y+2)});}return out;}
 function dLiquor(X,Y,Wd,Dp,L,t){// tall, heavy glass-front liquor cabinet reaching the top of the wall
@@ -3754,7 +3755,8 @@ function drawCloth(x,y,w,h){const c=clothOf(),[n,kind,pat,base,acc]=c;let cx=x-1
 function dTable(X,Y,Wd,Dp,L){const H=14;g.fillStyle=WOOD.dk;for(const[lx,ly]of[[X+5,Y+8],[X+Wd-8,Y+8],[X+5,Y+Dp-6],[X+Wd-8,Y+Dp-6]])g.fillRect(lx,ly-H+4,3,H);
   shadowR(X+4,Y+Dp-5,Wd-6,6);fillR(g,WOOD.dk,X+3,Y+Dp-6-H,Wd-6,4,2);fillR(g,'#c49a6c',X+3,Y+3-H,Wd-6,Dp-9,4);grain(X+3,Y+3-H,Wd-6,Dp-9,.06);
   fillR(g,'rgba(255,255,255,.15)',X+5,Y+4-H,Wd-10,1.6,1);drawCloth(X+3,Y+3-H,Wd-6,Dp-9);
-  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L);if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}}
+  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L);if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
+    else if(ts.md&&ts.mt&&ts.drink&&!ts.pair&&M&&M.drink&&M.busy){const right=ts.mt.x<L.x;let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:right?'right':'left'});const gx=p2.x+(X+Wd/2-p2.x)*.35+(right?-4:4),gy=p2.y+(Y+9-p2.y)*.45+1.6;if(M.holding==='glass')fillE(g,'#f3f1ea',gx,gy-.4,1.4,.9);else drawGlass(g,gx,gy,M.drink,M.drinkLv);}}
   const vx=C.tableSet&&C.tableSet.k==='table'?X+Wd/2+(Wd/2-6):X+Wd/2,vy=C.tableSet&&C.tableSet.k==='table'?Y-6:Y+3;fillR(g,'#9fd0ee',vx-1.5,vy,3,6,1);fillE(g,'#ef8fb0',vx,vy-2,2.6,2.2);fillE(g,'#f2c230',vx+2,vy-.5,1.6,1.4);}
 function pTable(L){const out=[];const col=WOOD.md;for(let r=0;r<2;r++){const y=L.y+r;
   if(walkIn(L.x-1,y))out.push({k:y*T+6,f:()=>chair((L.x-1)*T+6,y*T+3,col,'right')});
@@ -6284,7 +6286,7 @@ function update(dt){
   if(fadeT>0)fadeT-=dt;
   if(!PAUSED){moveTick(dt);if(fadeT<=.2)runner(dt);}
   if(!dragPan(dt)){const p=charPos(),tx=p.cx,ty=p.by-18;if(!cam.init){cam.x=tx;cam.y=ty;cam.init=true;}const k=1-Math.exp(-dt*5);cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;}
-  if(!PAUSED){needsTick(dt);droneTick(dt);visitTick(dt);mateTick(dt);rvTick(dt);lbTick(dt);if(M&&M.drink&&M.sit)M.drinkLv=Math.max(.12,(M.drinkLv||1)-dt*.012);yardTick(dt);shopTick(dt);msgTick(dt);talkTick(dt);}partTick(dt);
+  if(!PAUSED){needsTick(dt);droneTick(dt);visitTick(dt);mateTick(dt);rvTick(dt);lbTick(dt);if(M&&M.drink&&M.sit)M.drinkLv=Math.max(.12,(M.drinkLv||1)-dt*.012);if(M&&M.drink&&M.sit&&C.tableSet&&C.tableSet.md){M._sp=(M._sp||0)+dt;M.holding=(M._sp%6.5)>4.8?'glass':null;}yardTick(dt);shopTick(dt);msgTick(dt);talkTick(dt);}partTick(dt);
   const k=wKind();if(k==='snow')snowCover=Math.min(.7,snowCover+dt/90);else snowCover=Math.max(0,snowCover-dt/240);
   if(k==='thunder'){nextFlash-=dt;if(nextFlash<=0){flashT=.18;nextFlash=rnd(6,16);}}if(flashT>0)flashT-=dt;
   hudT-=dt;if(hudT<=0){hudT=1;updateHUD();updateRoom();wxWatch();if(!$('sheet').hidden){const ae=document.activeElement;if(!(ae&&/^(SELECT|INPUT|TEXTAREA)$/.test(ae.tagName)&&$('sheet').contains(ae)))renderSheet();renderDiary(false);}}
