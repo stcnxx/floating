@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版139（2026/10/22 #48）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版142（2026/10/22 #51）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版139（2026/10/22 #48）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版142（2026/10/22 #51）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1397,7 +1397,8 @@ function talkLine(){
     if(ENV.sunrise!=null)L.push(`今朝の${pl}の日の出は${fmtH(ENV.sunrise)}だったよ`);return pick(L);});
   add(1.2,()=>pick({spring:[`${sea}だね。お花がいっぱい咲くといいな`,'春の風はあまいにおいがする','桜、どこかで咲いてるかな','春は新しいことを始めたくなる','たけのこご飯が食べたい','ぽかぽか陽気','花粉、だいじょうぶかな','つくし、生えてないかな','春の雲はやわらかい','新生活の季節だね'],summer:['夏はアイスがおいしい季節','セミの声、ここまでは届かないんだよね','かき氷食べたい','花火大会、どこかでやってるかな','麦茶がおいしい','日焼け止め塗らなきゃ','夏の雲はもくもく','すいか割りしたい','風鈴の音、いいね','夏休みの気分'],
     autumn:[`${pl}もそろそろ紅葉かな`,'食欲の秋！','秋の空って高いね。ここも高いけど','読書の秋だね','栗ご飯食べたい','秋の夜長、何しよう','さんまの季節だ','落ち葉がきれい','芸術の秋、絵でも描こうかな','空気が澄んできた'],winter:['冬はこたつがほしくなる','空気が澄んで遠くまで見える','みかん食べたい','鍋の季節だね','手がつめたい','あったかい飲み物がおいしい','冬の星座はきれい','マフラー出さなきゃ','雪、降るかな','乾燥注意！']}[season()]));
-  if(ENV.news.length)add(30,()=>newsLine(pickNews()));
+  if(ENV.news.length)add(.57,()=>newsLine(pickNews())); // ≈5% of idle remarks
+  if(S.tday&&S.tday.d===now().toDateString()&&S.tday.ev.length)add(1.25,()=>reflectLine()||pick(IDLE_MUSE)); // ≈10%: looking back on today
   if(S.tvPlan&&S.tvPlan.start>now().getTime())add(1.5,()=>pick([`${hm(S.tvPlan.start)}から『${short(S.tvPlan.title,22)}』があるんだ。楽しみ`,`『${short(S.tvPlan.title,22)}』まであと${Math.max(1,Math.round((S.tvPlan.start-now().getTime())/60e3))}分！`]));
   const wish=S.wish.find(w=>!has(w));
   if(wish)add(1.2,()=>{const f=FT[wish];return pick([`${f.n}、もうすぐ届くかな`,`${f.n}を調達中。楽しみ！`]);});
@@ -1874,7 +1875,27 @@ function readSay(p){const it=p.it,f=v=>typeof v==='function'?v(it):v;
   if(it.mag)return{start:f(pick(MZSTART)),mid:pick(MAGMID[it.k]||MAGMID.zc),mid2:pick((MAGMID[it.k]||MAGMID.zc)),end:f(pick(MZEND))};
   const st=p.cont?(it.manga?(Math.random()<.6?`${it.a}の『${it.t}』、続きを読もう`:`『${it.t}』の続きを読もう`):`${it.a}の『${it.t}』、続きから`):f(pick(it.manga?MGSTART:BKSTART));
   const L=BKMID[it.k]||BKMID.jm,r={start:st,mid:pick(L),end:f(pick(it.manga?MGEND:BKEND))};r.mid2=pick(L.filter(x=>x!==r.mid))||r.mid;return r;}
-function diaryAdd(text,ts){if(!S||!text)return;const d=ts?new Date(ts):now();const k=dKey(d);S.diary=S.diary||{};const a=S.diary[k]=S.diary[k]||[];const tm=`${pad(d.getHours())}:${pad(d.getMinutes())}`;
+/* today's events, for looking back in idle remarks */
+function todayLog(type,data,ts){if(!S)return;const d=ts?new Date(ts):now(),key=d.toDateString();if(key!==now().toDateString())return;if(!S.tday||S.tday.d!==key)S.tday={d:key,ev:[]};S.tday.ev.push({type,...data,at:d.getTime()});if(S.tday.ev.length>40)S.tday.ev.shift();}
+function todayFromDiary(text,ts){let m;
+  if((m=/^(朝ごはん|お昼|晩ごはん|夜食)：(.+)/.exec(text)))todayLog('meal',{slot:m[1],dish:m[2].split(/[、・,]/)[0].trim()},ts);
+  else if((m=/^(?:(.+)と)?お酒：(.+)/.exec(text)))todayLog('drink',{n:m[2],who:m[1]||''},ts);
+  else if((m=/^おやつ：(.+)と(.+)/.exec(text)))todayLog('snack',{n:m[1],dr:m[2]},ts);
+  else if((m=/^荷物を受け取った：(.+)/.exec(text)))todayLog('deliv',{n:m[1]},ts);
+  else if((m=/^(.+)さんから、おみやげに(.+)をいただいた/.exec(text)))todayLog('visit',{who:m[1],gift:m[2]},ts);
+  else if((m=/『(.+?)』.*を読んだ/.exec(text)))todayLog('read',{n:m[1]},ts);}
+const REFLECT={
+ meal:e=>pick([`今日の${e.slot}の${e.dish}、おいしかったな`,`${e.slot}の${e.dish}、ちょっと味が濃かったかも`,`今日は${e.slot}に${e.dish}を食べたんだった`,`${e.dish}、また作ろうっと`,`${e.slot}の${e.dish}、我ながら上出来だった`,`${e.dish}、作りすぎちゃったなあ…`]),
+ drink:e=>pick([`今日飲んだ${e.n}、いい味だった`,`${e.n}、ちょっと飲みすぎたかも…`,e.who?`${e.who}と飲んだ${e.n}、楽しかったなあ`:`${e.n}、また飲みたいな`,`${e.n}の香り、まだ覚えてる`]),
+ snack:e=>pick([`おやつの${e.n}、おいしかった`,`${e.n}と${e.dr}、いい組み合わせだった`,`今日は${e.n}を食べちゃった。カロリーは気にしない`]),
+ deliv:e=>pick([`今日届いた${e.n}、うれしかったな`,`${e.n}、さっそく使ってみたい`,`${e.n}が届いて、部屋がにぎやかになった`,`${e.n}、思ってたより大きかった…`]),
+ visit:e=>pick([`今日来た${e.who}さん、楽しかったな`,`${e.who}さんにもらった${e.gift}、また食べたい`,`${e.who}さん、手土産のセンスがいいなあ`,`${e.who}さんの話、ちょっと長かったなあ…`,`${e.who}さん、ドローンを花壇の近くに停めるのはやめてほしい…`,`${e.who}さんの噂話、ほんとかなあ`,`${e.who}さん、いつも元気だなあ。見習いたい`,`${e.who}さん、お茶のおかわり三回もしてた（笑）`,`${e.who}さんの愚痴、聞いてたらこっちまで疲れちゃった`,`${e.who}さん、また来てくれるといいな`]),
+ read:e=>pick([`今日読んだ『${short(e.n,16)}』、続きが気になる`,`『${short(e.n,16)}』、いい場面があったな`,`『${short(e.n,16)}』、ちょっと途中で寝ちゃった`]),
+ move:e=>pick([`${e.n}の場所を変えたら、部屋の雰囲気が変わった`,`${e.n}、やっぱり前の場所のほうがよかったかな…`,`模様替え、なかなかいい感じ`,`${e.n}を動かしたら、ほこりがすごかった`]),
+ store:e=>pick([`${e.n}をしまったら、部屋が広くなった`,`${e.n}、しまったけど、ちょっとさみしいな`]),
+ recy:e=>pick([`${e.n}、リサイクルに出しちゃった。ありがとうね`,`${e.n}、手放してすっきりした`])};
+function reflectLine(){const ev=S.tday&&S.tday.d===now().toDateString()?S.tday.ev:[];if(!ev.length)return null;const e=pick(ev),f=REFLECT[e.type];return f?f(e):null;}
+function diaryAdd(text,ts){if(!S||!text)return;try{todayFromDiary(text,ts);}catch(_){}const d=ts?new Date(ts):now();const k=dKey(d);S.diary=S.diary||{};const a=S.diary[k]=S.diary[k]||[];const tm=`${pad(d.getHours())}:${pad(d.getMinutes())}`;
   if(a.some(e=>e.s===text&&Math.abs(e.m-(d.getHours()*60+d.getMinutes()))<20))return;a.push({t:tm,m:d.getHours()*60+d.getMinutes(),s:text});a.sort((x,y)=>x.m-y.m);
   const keys=Object.keys(S.diary).sort();while(keys.length>7)delete S.diary[keys.shift()];if(!$('sheet').hidden)renderDiary(false);}
 let diaryShown='';
@@ -3154,18 +3175,39 @@ function dBath(X,Y,Wd,Dp,L,t){prism(X+2,Y+6,Wd-4,Dp-8,16,'#e8eef1',{top:'#ffffff
    g.strokeStyle='#a9b1b7';g.lineWidth=1.1;g.beginPath();g.moveTo(sx-.4,top+3);g.bezierCurveTo(sx-9,top+10,sx-6,Y-6,X+Wd-15,Y-12);g.stroke();
    if(C.act==='bath'&&C.pose!=='bath'&&C.scene==='in'){g.strokeStyle='rgba(200,230,255,.7)';g.lineWidth=.5;for(let i=0;i<7;i++){const ph=(t*2.2+i/7)%1;g.beginPath();const x0=sx+4+i*.6,y0=top+9;g.moveTo(x0+ph*6,y0+ph*16);g.lineTo(x0+ph*6+.5,y0+ph*16+2.5);g.stroke();}}}
   if(!(C.pose==='bath'&&C.snapK==='bath')){const by=iy+ih-8+Math.sin(t*2)*.8;fillE(g,'#f6d14a',ix+9,by,3.4,2.4);fillE(g,'#f6d14a',ix+11,by-2.6,1.8,1.8);fillR(g,'#ee8a2e',ix+12.4,by-2.8,1.6,.8);}}
-function dStove(X,Y,Wd,Dp,L,t){
-  fillR(g,'#c9ced3',X+Wd-46,Y-22,40,7,2);g.fillStyle='rgba(0,0,0,.15)';g.fillRect(X+Wd-44,Y-16,36,1.2);
-  prism(X+1,Y+5,Wd-2,16,15,'#ece6da',{front:'#d9cdb6'});fillR(g,'#f6f3ec',X+1,Y-11,Wd-2,1.4,.6);
-  // sink (left)
-  fillR(g,'#b9c3c9',X+4,Y-8,18,10,2);fillR(g,'#9fb1bd',X+5,Y-7,16,8,2);fillR(g,'#a9b0b8',X+12,Y-13,2,6,1);fillR(g,'#a9b0b8',X+12,Y-13,5,1.6,.8);if(wActive('ksink'))waterStream(X+16.3,Y-11.6,Y-3.5);
-  // worktop
-  fillR(g,'#e8e2d4',X+26,Y-8,18,11,1.5);fillR(g,'#c8a070',X+29,Y-6,10,6,1);g.fillStyle='rgba(255,255,255,.3)';g.fillRect(X+30,Y-5.4,8,.8);
-  // 3 burners (right)
-  const bx0=X+48;fillR(g,'#3a3a44',bx0,Y-9,Wd-52,13,2);for(const[bx,by,r]of[[bx0+9,Y-4.5,4.4],[bx0+(Wd-52)-9,Y-4.5,4.4],[bx0+(Wd-52)/2,Y+.5,3.4]]){g.strokeStyle='#8a8f99';g.lineWidth=1.1;ell(g,bx,by,r,r*.62);g.stroke();if(C.cooking)fillE(g,'rgba(90,150,255,.85)',bx,by,r*.6,r*.4);}
-  fillR(g,'#3d3d48',bx0+2,Y+10,Wd-56,8,1.5);fillR(g,`rgba(255,190,90,${C.cooking?.45:.12})`,bx0+4,Y+12,Wd-60,4,1);for(let i=0;i<3;i++)knob(bx0+8+i*((Wd-62)/2),Y+7.5,'#6b6f78');
-  g.fillStyle='rgba(0,0,0,.14)';g.fillRect(X+12,Y+8,.8,11);g.fillRect(X+24,Y+8,.8,11);knob(X+10,Y+13,'#8a6447');knob(X+15,Y+13,'#8a6447');knob(X+30,Y+13,'#8a6447');knob(X+38,Y+13,'#8a6447');
-  if(C.cooking){prism(bx0+3,Y-6,12,6,7,'#9aa0aa',{front:'#7d828c',r:3,ns:1});fillE(g,'#e8a23a',bx0+9,Y-13,4.5,2);}}
+function dStove(X,Y,Wd,Dp,L,t){const LG2=(x0,y0,x1,y1,st)=>{const q=g.createLinearGradient(x0,y0,x1,y1);st.forEach(([o,c])=>q.addColorStop(o,c));return q;},bx0=X+Wd-47,bw=44;
+  // range hood (stainless) above the hob
+  g.fillStyle=LG2(bx0,0,bx0+bw,0,[[0,'#d8dde2'],[.5,'#f4f6f8'],[1,'#b8bec6']]);g.beginPath();g.moveTo(bx0+6,Y-30);g.lineTo(bx0+bw-6,Y-30);g.lineTo(bx0+bw,Y-20);g.lineTo(bx0,Y-20);g.closePath();g.fill();
+  fillR(g,'#9aa1aa',bx0,Y-20,bw,2.4,.8);fillR(g,'rgba(255,240,200,.9)',bx0+10,Y-18,bw-20,.8,.4);g.fillStyle='rgba(255,240,200,.12)';g.beginPath();g.moveTo(bx0+8,Y-17.6);g.lineTo(bx0+bw-8,Y-17.6);g.lineTo(bx0+bw-2,Y-9);g.lineTo(bx0+2,Y-9);g.closePath();g.fill();
+  g.fillStyle='rgba(255,255,255,.5)';g.fillRect(bx0+12,Y-29,1.2,8);
+  // cabinet body
+  prism(X+1,Y+5,Wd-2,16,15,'#f2efe8',{front:'#e8e2d6',top:'#dcdcd8'});
+  // stone worktop
+  g.fillStyle=LG2(0,Y-10,0,Y+6,[[0,'#f1f1ee'],[1,'#d6d6d2']]);rr(g,X+1,Y-10,Wd-2,16,2);g.fill();for(let i=0;i<40;i++){const px=X+3+hash(i,1,6)*(Wd-6),py=Y-9+hash(i,2,6)*14;fillE(g,'rgba(120,120,120,.18)',px,py,.35,.25);}
+  fillR(g,'#fbfbf9',X+1,Y+4.6,Wd-2,1.6,.6);fillR(g,'rgba(255,255,255,.7)',X+3,Y-9.4,Wd-6,.6,.3);
+  // doors & drawers with bar handles
+  const front=Y+6.4,fh=13.6;for(let i=0;i<4;i++){const dx=X+2+i*(Wd-4)/4,dw=(Wd-4)/4-1;fillR(g,LG2(0,front,0,front+fh,[[0,'#fbf9f4'],[1,'#e2dbcd']]),dx,front,dw,fh,1);fillR(g,'rgba(0,0,0,.08)',dx,front+fh-1,dw,1);
+    if(i<2){fillR(g,'#b8bec6',dx+dw/2-4,front+2.2,8,1.1,.5);fillR(g,'#fff',dx+dw/2-4,front+2.2,8,.4,.2);}else{fillR(g,'rgba(0,0,0,.08)',dx,front+4.4,dw,.5);fillR(g,'#b8bec6',dx+dw/2-4,front+1.6,8,1,.5);fillR(g,'#b8bec6',dx+dw/2-4,front+7,8,1,.5);}}
+  fillR(g,'#3a3530',X+3,Y+20,Wd-6,1.4,.5);
+  // stainless sink + gooseneck faucet
+  const sx=X+5,sy=Y-8;fillR(g,'#aeb6bd',sx,sy,20,11,2.4);fillR(g,LG2(0,sy,0,sy+11,[[0,'#7f8a93'],[1,'#c8d0d6']]),sx+1.2,sy+1.2,17.6,8.6,2);fillE(g,'#5a646c',sx+13,sy+6.4,1.2,.7);fillR(g,'rgba(255,255,255,.35)',sx+1.6,sy+1.4,16.8,.6,.3);
+  g.strokeStyle='#c9cfd5';g.lineWidth=1.2;g.lineCap='round';g.beginPath();g.moveTo(sx+10,sy-.5);g.lineTo(sx+10,sy-7);g.quadraticCurveTo(sx+10,sy-10,sx+13,sy-10);g.quadraticCurveTo(sx+15.5,sy-10,sx+15.5,sy-6.5);g.stroke();g.strokeStyle='rgba(255,255,255,.8)';g.lineWidth=.4;g.beginPath();g.moveTo(sx+9.7,sy-1);g.lineTo(sx+9.7,sy-7);g.stroke();
+  fillR(g,'#9aa1aa',sx+8.4,sy-1.4,3.2,1.2,.5);fillR(g,'#c9cfd5',sx+6.6,sy-2.6,2.4,.8,.4);if(wActive('ksink'))waterStream(sx+15.5,sy-6.4,sy+6);
+  // prep area: cutting board, tomato, greens, knife, spice jars
+  const px=X+29;fillR(g,'#c89a64',px,Y-7.6,13,7.4,1.2);fillR(g,'#d9ae7a',px,Y-7.6,13,1,.6);fillE(g,'#e04a3a',px+4,Y-4,1.9,1.6);fillE(g,'#f8a090',px+3.4,Y-4.6,.6,.4);fillR(g,'#3f8a3a',px+3.6,Y-6,.8,.8);
+  for(let i=0;i<3;i++)fillE(g,i%2?'#6fbe4a':'#4f9d3a',px+8.6+i*1.2,Y-4.2+i*.4,1.4,.8,.5);g.save();g.translate(px+9,Y-1.6);g.rotate(-.25);fillR(g,'#d8dde2',-4,-.5,6,1,.5);fillR(g,'#3a2a20',2,-.6,3,1.2,.5);g.restore();
+  [['#d9483b',0],['#f2c230',2.4],['#4f9d58',4.8]].forEach(([c2,dx2])=>{const jx=X+43.6+(dx2?0:0)+dx2*0,jy=Y-9.6+dx2;fillE(g,'rgba(0,0,0,.15)',jx+1.1,jy+3,1.3,.4);fillR(g,'rgba(230,240,245,.95)',jx,jy,2.2,2.8,.6);fillR(g,c2,jx+.2,jy+1.2,1.8,1.4,.4);fillR(g,'#3a3530',jx,jy-.4,2.2,.8,.3);});
+  // black glass hob with gas burners
+  g.fillStyle=LG2(bx0,Y-9,bx0+bw,Y+5,[[0,'#2a2c34'],[.5,'#1b1d24'],[1,'#30333c']]);rr(g,bx0,Y-9,bw,13.6,2);g.fill();g.fillStyle='rgba(255,255,255,.08)';g.beginPath();g.moveTo(bx0+2,Y-9);g.lineTo(bx0+14,Y-9);g.lineTo(bx0+4,Y+4.6);g.lineTo(bx0,Y+4.6);g.closePath();g.fill();
+  for(const[bx,by,rad]of[[bx0+9,Y-4.4,4.2],[bx0+bw-9,Y-4.4,4.2],[bx0+bw/2,Y+.4,3.2]]){fillE(g,'#3d4048',bx,by,rad,rad*.6);g.strokeStyle='#8a8f99';g.lineWidth=.6;ell(g,bx,by,rad*.75,rad*.45);g.stroke();fillE(g,'#55585f',bx,by,rad*.38,rad*.24);
+    g.strokeStyle='#1a1a1f';g.lineWidth=.7;for(let k=0;k<4;k++){const a=k*Math.PI/2+Math.PI/4;g.beginPath();g.moveTo(bx+Math.cos(a)*rad*.3,by+Math.sin(a)*rad*.18);g.lineTo(bx+Math.cos(a)*rad*1.05,by+Math.sin(a)*rad*.65);g.stroke();}
+    if(C.cooking){for(let k=0;k<10;k++){const a=k/10*TAU,fl=.6+.4*Math.sin(t*20+k);fillE(g,`rgba(90,150,255,${.55+.3*fl})`,bx+Math.cos(a)*rad*.7,by+Math.sin(a)*rad*.42-fl*.4,.5,.9*fl);}}}
+  // control panel & grill window
+  fillR(g,'#2a2c34',bx0+1,Y+7,bw-2,3.4,.8);for(let i=0;i<3;i++){const kx=bx0+8+i*(bw-16)/2;fillE(g,'#c9cfd5',kx,Y+8.7,1.3,1.1);fillR(g,'#3a3d46',kx-.2,Y+7.8,.4,1,.2);}
+  fillR(g,'#1f2128',bx0+3,Y+11.4,bw-6,7.4,1.2);fillR(g,`rgba(255,170,80,${C.cooking?.5:.1})`,bx0+5,Y+12.6,bw-10,5,1);fillR(g,'#b8bec6',bx0+bw/2-8,Y+10.6,16,.9,.4);fillR(g,'rgba(255,255,255,.12)',bx0+5,Y+12.6,bw-10,1,.5);
+  // pot while cooking
+  if(C.cooking){const qx=bx0+9;fillE(g,'rgba(0,0,0,.25)',qx,Y-3.4,6,1.8);g.fillStyle=LG2(qx-6,0,qx+6,0,[[0,'#8d939c'],[.5,'#dfe3e8'],[1,'#7a8089']]);g.fillRect(qx-5.6,Y-12,11.2,8);fillE(g,'#c9cfd5',qx,Y-12,5.6,1.6);fillE(g,'#e8a23a',qx,Y-12,4.6,1.2);fillR(g,'#3a3d46',qx-8,Y-10.4,2.6,1,.4);fillR(g,'#3a3d46',qx+5.4,Y-10.4,2.6,1,.4);
+    for(let k=0;k<3;k++){const ph=(t*.7+k/3)%1;fillE(g,`rgba(255,255,255,${.6*(1-ph)})`,qx-2+k*2+Math.sin(t*2+k),Y-14-ph*9,1+ph*1.6,.8+ph*1.2);}}}
 function dSink(X,Y){fillR(g,'#9aa6ad',X+1.5,Y-27,21,22,3.5);fillR(g,'#e6f2f8',X+3,Y-25.5,18,19,2.5);const mg=g.createLinearGradient(X+3,Y-25,X+21,Y-7);mg.addColorStop(0,'rgba(255,255,255,.55)');mg.addColorStop(.5,'rgba(200,225,240,.2)');mg.addColorStop(1,'rgba(255,255,255,.45)');g.fillStyle=mg;g.fillRect(X+3,Y-25.5,18,19);fillR(g,'rgba(255,255,255,.75)',X+5,Y-23,2.6,12,1);fillR(g,'rgba(255,255,255,.5)',X+8.6,Y-23,1.2,7,.6);
   prism(X+3,Y+8,18,13,15,'#d6c09a',{top:'#f6f5f1'});fillE(g,'#dbe9f1',X+12,Y-1,6,3.4);fillE(g,'#c3d6e2',X+12,Y-.6,4,2.2);fillR(g,'#a9b0b8',X+11,Y-6.5,2,4,1);
   g.fillStyle='rgba(0,0,0,.14)';g.fillRect(X+12,Y+8,.8,11);knob(X+10,Y+13,'#a98060');knob(X+14,Y+13,'#a98060');fillR(g,'#9fd0ee',X+17,Y-6,3,4,1);fillR(g,'#ef8fb0',X+18,Y-9,.9,4);if(wActive('sink'))waterStream(X+12,Y-2.6,Y-.6);}
@@ -6332,7 +6374,7 @@ function validIn(k,p){const f=FT[k];const occ=occSet(new Set([k]));
   const ct=C.scene==='in'?C.tx+','+C.ty:'',vt=V&&V.scene==='in'?V.tx+','+V.ty:'',usedW=wallUsed();
   for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||DOORCELL.has(kk))return false;if(f.k!=='floor'&&(occ.has(kk)||kk===ct||kk===vt))return false;}
   if(f.k==='floor')return true;
-  if(f.k==='back')for(let xx=p.x;xx<p.x+w;xx++)if(!isWall(xx,p.y-1))return false;
+  // furniture that prefers the wall can still be moved anywhere by hand
   if(f.tall){for(let xx=p.x;xx<p.x+w;xx++)if(usedW.has(xx+','+(p.y-1)))return false;const fw=wallFront();for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)if(fw.has(xx+','+yy))return false;}
   const occ2=new Set(occ);for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)occ2.add(xx+','+yy);
   if(!allReachable(occ2)||!useTileFor(k,p,occ2)||!allUsable(occ2,k))return false;
@@ -6396,9 +6438,9 @@ let recyK=null;
 function recycleAsk(k,sc){const n=(sc==='in'?FT:OFT)[k].n;
   if(sc==='in'&&ESSENTIAL.has(k)){say((k==='bed2'||k==='wardrobe2')?`${n}は${S.mate?S.mate.name:'同居人'}の生活必需品だから、リサイクルには出せないよ`:pick([`${n}は生活必需品だから、リサイクルには出せないよ`,`${n}がないと暮らせないよ…リサイクルはやめておこう`]));emote('?',1.2);return;}
   recyK={k,sc};const inn=sc==='in';$('recySt').hidden=false;$('recyT').textContent=inn?`「${n}」をどうしますか？　しまうと「住居」タブの「しまってあるもの」に入り、気が向いたらまた出してくることがあります。リサイクルに出すと、部屋からなくなります。`:`「${n}」をどうしますか？　しまうと「住居」タブの「しまってあるもの」に入り、気が向いたらまた庭に出してくることがあります。リサイクルに出すと、庭からなくなります。`;$('recy').hidden=false;}
-function ystoreDo(k){const f=OFT[k],p=S.yard[k];if(!f||!p)return;if(C.scene==='out'&&C.yardK===k)abort();delete S.yard[k];refreshOut();sparkOut((p.x+f.w/2)*T,p.y*T+8);S.ystored=S.ystored||[];S.ystored.push({k,at:Date.now(),user:1});save();
+function ystoreDo(k){const f=OFT[k],p=S.yard[k];if(!f||!p)return;todayLog('store',{n:f.n});if(C.scene==='out'&&C.yardK===k)abort();delete S.yard[k];refreshOut();sparkOut((p.x+f.w/2)*T,p.y*T+8);S.ystored=S.ystored||[];S.ystored.push({k,at:Date.now(),user:1});save();
   say(pick([`${f.n}、しまっておくね`,`${f.n}は物置へ。またね`,`庭がすっきりした！`]));}
-function storeDo(k){const n=FT[k].n,L=S.layout[k];if(!L)return;const c=posCenter(k,L);if(C.snapK===k||!C.sleeping)abort();if(M&&!M.sleeping&&M.seatK===k){M.steps=[];M.sit=null;M.seatK=null;M.busy=false;M.idle=1;}
+function storeDo(k){todayLog('store',{n:FT[k].n});const n=FT[k].n,L=S.layout[k];if(!L)return;const c=posCenter(k,L);if(C.snapK===k||!C.sleeping)abort();if(M&&!M.sleeping&&M.seatK===k){M.steps=[];M.sit=null;M.seatK=null;M.busy=false;M.idle=1;}
   S.stored=S.stored||[];for(const o of S.owned){const OL=S.layout[o];if(OL&&OL.on===k){delete S.layout[o];S.owned=S.owned.filter(x=>x!==o);S.stored.push({k:o,at:Date.now(),user:1});}}
   delete S.layout[k];S.owned=S.owned.filter(x=>x!==k);S.stored.push({k,at:Date.now(),user:1});S.unstoreQ=(S.unstoreQ||[]).filter(x=>x!==k);if(S.userPlaced)delete S.userPlaced[k];refreshOcc();puffAt(c);save();
   say(pick([`${n}、しまっておくね`,`${n}は押し入れへ。またね`,`${n}、ちょっとお休み。部屋がすっきり！`]));}
@@ -6407,14 +6449,14 @@ function recycleDo(k,sc){const n=(sc==='in'?FT:OFT)[k].n;
     for(const o of S.owned){const OL=S.layout[o];if(OL&&OL.on===k){delete S.layout[o];S.owned=S.owned.filter(x=>x!==o);S.stored=S.stored||[];S.stored.push({k:o,at:Date.now()});}}
     delete S.layout[k];S.owned=S.owned.filter(x=>x!==k);if(S.userPlaced)delete S.userPlaced[k];refreshOcc();puffAt(c);}
   else{const p=S.yard[k];if(!p)return;delete S.yard[k];refreshOut();sparkOut((p.x+OFT[k].w/2)*T,p.y*T+8);}
-  S.wish=(S.wish||[]).filter(x=>x!==k);S.recycled=(S.recycled||[]);S.recycled.push({k,at:Date.now()});if(S.recycled.length>40)S.recycled.shift();save();
+  S.wish=(S.wish||[]).filter(x=>x!==k);S.recycled=(S.recycled||[]);S.recycled.push({k,at:Date.now()});todayLog('recy',{n});if(S.recycled.length>40)S.recycled.shift();save();
   say(pick([`${n}、リサイクルに出したよ。今までありがとう`,`${n}とはお別れ。次の誰かの役に立ってね`,`${n}をリサイクルへ。部屋がすっきりした！`]));}
 function dragEnd(cancel){const d=DRAG;DRAG=null;dragEndAt=performance.now();if(!d)return;
   const same=d.cur.x===d.orig.x&&d.cur.y===d.orig.y&&d.cur.side===d.orig.side;
   if(!cancel&&same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;if(d.sc==='in'&&d.k==='boombox'){musTap();return;}recycleAsk(d.k,d.sc);return;}
   if(cancel||!d.ok||same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;if(!same&&!cancel)say(pick(['そこには置けないみたい','うーん、そこはむずかしいかも','通れなくなっちゃうから、そこはダメかな']));return;}
   if(d.sc==='in'){refreshOcc();sparkleAt(posCenter(d.k,d.cur));}else{refreshOut();sparkOut((d.cur.x+OFT[d.k].w/2)*T,d.cur.y*T+8);}
-  S.userPlaced=S.userPlaced||{};S.userPlaced[d.k]=Date.now();
+  S.userPlaced=S.userPlaced||{};S.userPlaced[d.k]=Date.now();todayLog('move',{n:(d.sc==='in'?FT:OFT)[d.k].n});
   if(d.sc==='in')seatFix(d.k,d.orig,d.cur);else if(C.snap&&C.snapK===d.k)abort();else if(C.path&&C.path.length)C.path=[];
   const n=(d.sc==='in'?FT:OFT)[d.k].n;if(!msgBusy())say(pick([`${n}、そこに置くんだね`,`お、${n}の場所が変わった！`,'いい感じの配置かも！','模様替え、手伝ってくれてありがとう']));save();}
 function nearWalk(x,y){if(walkIn(x,y))return{x,y};for(let r=1;r<8;r++)for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue;if(walkIn(x+dx,y+dy))return{x:x+dx,y:y+dy};}return null;}
