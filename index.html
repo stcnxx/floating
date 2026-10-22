@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版166（2026/10/23 #16）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版167（2026/10/23 #17）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版166（2026/10/23 #16）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版167（2026/10/23 #17）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -10177,16 +10177,7 @@ buildHouse=function(){
   for(const[x,y]of WINDOWS)if(y!==1)IN_winOverlay(c,x,y);
   // entrance door (inside view)
   const ex=IN_ENTRY.x*T,ey=21*T;
-  c.fillStyle='#3e2818';c.fillRect(ex+1,ey,T-2,T+.6);
-  IN_woodV(c,ex+1,ey,2.2,T+.6,'#6b4a33');IN_woodV(c,ex+T-3.2,ey,2.2,T+.6,'#6b4a33');
-  c.fillStyle=IN_lg(c,ex+3,ey,ex+T-3,ey+T,[[0,'#a06c42'],[.5,'#8a5a36'],[1,'#6c4428']]);c.fillRect(ex+3.2,ey+1.6,T-6.4,T-1.4);
-  c.strokeStyle='rgba(60,30,10,.18)';c.lineWidth=.3;c.beginPath();for(let i=0;i<5;i++){const gx=ex+5+i*3.4;c.moveTo(gx,ey+2);c.bezierCurveTo(gx+.6,ey+8,gx-.6,ey+16,gx+.3,ey+T);}c.stroke();
-  // arched glass
-  c.fillStyle='#4e3420';rr(c,ex+5.4,ey+3.2,T-10.8,7.6,3.6);c.fill();
-  c.fillStyle=IN_lg(c,0,ey+4,0,ey+10,[[0,'#d8eef8'],[1,'#9ccbe4']]);rr(c,ex+6.2,ey+4,T-12.4,6,3);c.fill();
-  c.fillStyle='rgba(255,255,255,.6)';c.fillRect(ex+7.6,ey+5,2.6,.8);c.fillStyle='#6e4428';c.fillRect(ex+T/2-.4,ey+4,.8,6);
-  for(const py of[ey+12.2,ey+17.4]){c.fillStyle='rgba(40,20,5,.22)';c.fillRect(ex+5,py,T-10,4);c.fillStyle=IN_lg(c,0,py+.6,0,py+4,[[0,'#94603a'],[1,'#a4704a']]);c.fillRect(ex+5.6,py+.6,T-11.2,3.2);c.fillStyle='rgba(255,220,170,.35)';c.fillRect(ex+5,py+3.6,T-10,.45);}
-  fillE(c,'#e8c46a',ex+T-6,ey+14.6,1.2,1.2);fillE(c,'rgba(255,255,255,.7)',ex+T-6.4,ey+14.2,.4,.4);
+  /* the entrance door is drawn as one piece after the siding (see 'outer door face') */
   // exterior south face: lap siding, corner posts, stone foundation
   for(let x=0;x<=HW-1;x++){const X=x*T,Y=22*T;
     for(let k=0;k<4;k++){const yy=Y+k*3.5,base=shade('#ebe1cb',(hash(x,k,31)-.5)*.05-k*.015);
@@ -10202,10 +10193,18 @@ buildHouse=function(){
       c.fillStyle='rgba(255,255,255,.3)';c.fillRect(sx+1,Y+14.5,4.6,.45);}
     c.fillStyle='rgba(0,0,0,.25)';c.fillRect(X,Y+17.4,T+.6,.6);}
   // outer door face
-  {const dx=ex+3,dy=22*T,dw=T-6;c.fillStyle='#4e3420';c.fillRect(dx-1.5,dy,dw+3,14);
-   c.fillStyle=IN_lg(c,dx,0,dx+dw,0,[[0,'#9a6942'],[.5,'#8a5a36'],[1,'#6c4428']]);c.fillRect(dx,dy,dw,14);
-   for(const[py,ph]of[[dy+2,4],[dy+8,4.4]]){c.fillStyle='rgba(40,20,5,.24)';c.fillRect(dx+2,py,dw-4,ph);c.fillStyle='rgba(255,220,170,.3)';c.fillRect(dx+2,py+ph-.5,dw-4,.5);}
-   /* the door's lower half: no second knob (the knob is on the upper half) */
+  {const dx=ex+3,dy=22*T,dw=T-6,top=21*T+1,bot=dy+14,H0=bot-top;
+   c.fillStyle='#3e2818';c.fillRect(ex+1,top-1,T-2,H0+1);
+   IN_woodV(c,ex+1,top-1,2.2,H0+1,'#6b4a33');IN_woodV(c,ex+T-3.2,top-1,2.2,H0+1,'#6b4a33');
+   c.fillStyle=IN_lg(c,dx,0,dx+dw,0,[[0,'#a06c42'],[.5,'#8a5a36'],[1,'#6c4428']]);c.fillRect(dx+.2,top+.6,dw-.4,H0-.6);
+   c.strokeStyle='rgba(60,30,10,.18)';c.lineWidth=.3;c.beginPath();for(let i=0;i<5;i++){const gx=dx+2+i*3.4;c.moveTo(gx,top+1);c.bezierCurveTo(gx+.6,top+H0*.35,gx-.6,top+H0*.7,gx+.3,bot);}c.stroke();
+   c.fillStyle='#4e3420';rr(c,dx+2.4,top+2.4,dw-4.8,7.4,3.6);c.fill();
+   c.fillStyle=IN_lg(c,0,top+3,0,top+9,[[0,'#d8eef8'],[1,'#9ccbe4']]);rr(c,dx+3.2,top+3.2,dw-6.4,5.8,2.9);c.fill();
+   c.fillStyle='rgba(255,255,255,.6)';c.fillRect(dx+4.4,top+4.2,2.6,.8);c.fillStyle='#6e4428';c.fillRect(dx+dw/2-.4,top+3.2,.8,5.8);
+   const ph=(H0-14)/3-1.2;for(let k=0;k<3;k++){const py=top+11.6+k*(ph+1.6);c.fillStyle='rgba(40,20,5,.24)';c.fillRect(dx+2,py,dw-4,ph);
+     c.fillStyle=IN_lg(c,0,py+.6,0,py+ph,[[0,'#94603a'],[1,'#a4704a']]);c.fillRect(dx+2.6,py+.6,dw-5.2,ph-1.2);c.fillStyle='rgba(255,220,170,.32)';c.fillRect(dx+2,py+ph-.45,dw-4,.45);}
+   const ky=top+H0*.52;fillE(c,'#e8c46a',dx+dw-2.4,ky,1.25,1.25);fillE(c,'rgba(255,255,255,.7)',dx+dw-2.8,ky-.4,.4,.4);c.fillStyle='rgba(0,0,0,.35)';c.fillRect(dx+dw-2.9,ky+2,1,1.8);
+   c.fillStyle='rgba(0,0,0,.18)';c.fillRect(dx,bot-1,dw,1);
    c.fillStyle=IN_lg(c,0,dy+14,0,dy+18,[[0,'#ddd6c6'],[1,'#a9a292']]);c.fillRect(ex-2,dy+14,T+4,4);c.fillStyle='rgba(255,255,255,.45)';c.fillRect(ex-2,dy+14,T+4,.7);
    fillE(c,'#ffe08a',ex-1,dy+3,1.4,1.4);c.fillStyle='#3d2a20';c.fillRect(ex-2.2,dy+1,2.4,1);}
   // genkan: stone tiles + mat
