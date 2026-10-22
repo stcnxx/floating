@@ -34,10 +34,13 @@ body{margin:0;background:var(--sky-deep);background-image:radial-gradient(120% 7
 .hgrid .hname{grid-row:1;grid-column:1}.hgrid .hdate{grid-row:2;grid-column:1}.hgrid .clock{grid-row:3!important;grid-column:1}.hgrid .place{grid-row:4;grid-column:1;justify-self:start;text-align:left}.hgrid .wxk{grid-row:1;grid-column:2}.hgrid .wx{grid-row:2;grid-column:2}.hgrid .hdi{grid-row:3;grid-column:2}.hgrid .hmoonr{grid-row:4;grid-column:2}
 .hdi,.hmoonr{justify-self:end;font-size:12px;font-weight:600;white-space:nowrap}.hmoonr{font-size:11px;font-weight:500}.hdi small{font-size:10px;color:var(--muted);font-weight:500}.hdi b{font-size:10px;font-weight:500;color:var(--muted);margin-left:3px}.hmoonr{display:flex;align-items:center;gap:2px;color:var(--muted)}
 .hname{grid-row:1;grid-column:1;font-size:13px;font-weight:700;color:var(--lantern,#ffd36b);line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.hud{transition:left .35s ease,right .35s ease;transform:scale(.84);transform-origin:top right}.hud.left{transform-origin:top left}.hud.bottom{transform-origin:bottom right}.hud.bottom.left{transform-origin:bottom left}
-#hud .hright{grid-row:1/4;grid-column:2;align-self:start;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
+.hud{transition:left .35s ease,right .35s ease;transform:scale(var(--hs,.84));transform-origin:top right}.hud.left{transform-origin:top left}.hud.bottom{transform-origin:bottom right}.hud.bottom.left{transform-origin:bottom left}
+#hud .hgrid.c3{grid-template-columns:auto auto auto}.hright2{grid-column:3!important}.hudprevw{margin:8px 0 4px;padding:8px;border-radius:12px;background:linear-gradient(135deg,#c9a27a,#a97c55)}.hudprevw>small{display:block;font-size:10px;color:rgba(255,255,255,.85);margin-bottom:4px}#hudPrev{position:relative;display:flex;justify-content:flex-end;align-items:flex-start;overflow:hidden}.hud.hudclone{width:max-content;max-width:none;flex:none;white-space:nowrap;position:relative!important;top:auto!important;right:auto!important;left:auto!important;bottom:auto!important;transform-origin:top right;transition:none;opacity:1!important;display:block}
+.hudopts{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin:8px 0}.hopt{display:flex;align-items:center;gap:6px;font-size:13px}.hopt input{width:18px;height:18px}
+.hwind,.hsun{font-size:11px;font-weight:500;color:var(--muted);white-space:nowrap;justify-self:end}.hwind b,.hsun b{color:#fff;font-weight:600}.hroku{display:inline-block;margin-left:4px;font-size:10px;padding:0 4px;border-radius:4px;background:rgba(255,255,255,.14);color:#fff;font-weight:600}
+.hright{grid-row:1/4;grid-column:2;align-self:start;display:flex;flex-direction:column;align-items:flex-end;gap:2px}
 #hud .hright .wxk svg{width:20px;height:20px}#hud .hright .wxk{line-height:1.1}#hud .hright .wx{margin-top:0;gap:8px}#hud .hright .wl{line-height:1}#hud .hright .hmoon svg{width:15px;height:15px}
-#hud .hgrid .place{grid-row:4;grid-column:1/3;max-width:none;margin-top:3px}
+#hud .hgrid .place{grid-row:4;grid-column:1/-1;max-width:none;margin-top:3px}
 #hud{color:#fff}#hud .hname{font-size:15px;font-weight:800;color:#ffd36b}#hud .hdate,#hud .hdate .hann,#hud .hdate .hred,#hud .hdate .hblue{color:#fff}#hud .hdate .hhol{color:#ff9a9a}#hud .hdate .hann{opacity:.9}
 #hud .place{color:#8fd8ff;display:flex;align-items:center;gap:3px}#hud .place svg{flex:none}#hud .place span{overflow:hidden;text-overflow:ellipsis}
 #hud .wl small,#hud .hdi small,#hud .hmoonr small{color:#ffd36b;opacity:1}#hud .hmoonr small{font-size:10px;margin-right:3px}#hud .hdi b,#hud .hmoonr,#hud .wxk,#hud .wx{color:#fff}
@@ -199,7 +202,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
         <div class="hright"><div class="wxk"><span id="hIcon"></span><span id="hWx">--</span></div>
         <div class="wx"><span class="wl"><small>気温</small><span id="hTemp">--℃</span></span><span class="wl"><small>湿度</small><span id="hHum">--%</span></span></div>
         <div class="hdi"><small>不快指数</small> <span id="hDI">--</span></div>
-        <div class="hmoonr"><span id="hMoon" class="hmoon"></span><span id="hMoonT">月齢--</span></div></div>
+        <div class="hmoonr"><span id="hMoon" class="hmoon"></span><span id="hMoonT">月齢--</span></div><div class="hwind" id="hWind" hidden></div><div class="hsun" id="hSun" hidden></div></div><div class="hright hright2" id="hRight2" hidden></div>
       </div>
     </div>
     <div class="glass room" id="room">リビング</div>
@@ -219,7 +222,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
 <div class="overlay" id="sheet" hidden>
   <div class="card" role="dialog" aria-labelledby="sheetTitle">
     <h2 id="sheetTitle">メニュー</h2>
-    <div class="tabs" role="tablist" id="tabs"><button role="tab" data-t="st" aria-selected="true">主人公</button><button role="tab" data-t="mate">同居人</button><button role="tab" data-t="home">住居</button><button role="tab" data-t="diary">日記</button><button role="tab" data-t="dex">図鑑</button><button role="tab" data-t="loc">位置情報</button><button role="tab" data-t="tv">チャネル</button><button role="tab" data-t="bgm">BGM</button><button role="tab" data-t="data">セーブ・ロード</button><button role="tab" data-t="try">手動設定</button></div>
+    <div class="tabs" role="tablist" id="tabs"><button role="tab" data-t="st" aria-selected="true">主人公</button><button role="tab" data-t="mate">同居人</button><button role="tab" data-t="home">住居</button><button role="tab" data-t="diary">日記</button><button role="tab" data-t="dex">図鑑</button><button role="tab" data-t="loc">位置情報</button><button role="tab" data-t="tv">チャネル</button><button role="tab" data-t="bgm">BGM</button><button role="tab" data-t="hudset">情報ウインドウ</button><button role="tab" data-t="data">セーブ・ロード</button><button role="tab" data-t="try">手動設定</button></div>
     <section class="tp" data-p="st">
     <div class="field"><label for="rnName">なまえ</label><input type="text" id="rnName" maxlength="10" autocomplete="off"><button id="rnNew">おまかせ</button></div>
     <div class="hpick"><canvas id="rnPrev" width="180" height="96"></canvas><div class="col"><button id="rnLook" type="button">見た目を変える</button></div></div>
@@ -255,6 +258,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
       <div class="row2"><button id="epgSave" class="primary" type="button" hidden>保存して読み込む</button><button id="epgDef" type="button">最初の設定に戻す</button></div><p class="hint">追加・変更・削除は下の「決定」で保存され、番組表とニュースを読み込み直します。各行の「確認」で、そのURLから実際に取得できるかを試せます。</p>
       <p class="hint" id="epgMsg"></p>
     </section>
+    <section class="tp" data-p="hudset" hidden><div id="hudSetBody"></div></section>
     <section class="tp" data-p="try" hidden>
     <p class="hint">ふだんは実際の日付・時刻・天気で動きます。「手動」にすると、自分で決めた日付・時刻・天気でようすを見られます。</p>
     <div class="prefs ovrows">
@@ -304,20 +308,20 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版129（2026/10/22 #38）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版137（2026/10/22 #46）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版129（2026/10/22 #38）</p>
-<h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl>
-<h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）で自分の曲を選んで流す。流れている間に長押しすると、曲を変えるか演奏をやめるか選べます（やめると保存した曲は消えます）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく</dd></dl>
-<h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁のすぐ手前の床へ動かすと、床に立てかけた姿に。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>リサイクルに出す（確認あり）。最初からある生活必需品と、同居人の家具は出せません</dd><dt>庭のもの</dt><dd>庭でも同じように移動・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版137（2026/10/22 #46）</p>
+<h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
+<h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
+<h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
 <h3>寝ているとき</h3><dl><dt>昼寝中にダブルタップ</dt><dd>起きてそこへ向かいます</dd><dt>夜中にダブルタップ</dt><dd>寝ぼけて行くけど、すぐベッドに戻ります</dd></dl>
 <h3>メニュー</h3><dl><dt>主人公</dt><dd>名前と見た目、名前の表示のしかた、寝る・起きる時間、今の気分・お酒の好み</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・寝る時間</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>BGM</dt><dd>ラジカセの曲を選ぶ・止める・次の曲・削除</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>手動設定</dt><dd>日付・時刻・天気を、自動か手動か選ぶ</dd><dt>セーブ・ロード</dt><dd>データの保存・読み込み・別の端末への引っ越し</dd></dl>
-<h3>そのほか</h3><dl><dt>配達</dt><dd>欲しいものはドローンで届き、受け取ると中身を教えてくれます</dd><dt>お客さん</dt><dd>となりの浮遊島からドローンで遊びに来ます</dd><dt>留守のあいだ</dt><dd>アプリを閉じていた間の出来事を、次に開いたときに教えてくれます</dd><dt>キーボード</dt><dd>Enter でメニュー、スペースでなでる</dd></dl>
+<h3>そのほか</h3><dl><dt>配達</dt><dd>欲しいものはドローンで届き、受け取ると中身を教えてくれます</dd><dt>お客さん</dt><dd>となりの浮遊島からドローンで遊びに来ます</dd><dt>留守のあいだ</dt><dd>アプリを閉じていた間の出来事を、次に開いたときに教えてくれます</dd><dt>キーボード</dt><dd>Enter でメニュー</dd></dl>
 <div class="row2" style="margin-top:14px"><button id="helpX" class="primary" type="button">とじる</button></div></div></div>
 <input type="file" id="musIn" accept="audio/*" multiple hidden><input type="file" id="musIn1" accept="audio/*" hidden>
-<div class="overlay center" id="musDlg" hidden><div class="card" role="dialog" aria-labelledby="musH" style="max-width:320px"><h2 id="musH" style="font-size:18px">ラジカセ</h2><p id="musT" class="note" style="text-align:left"></p><div class="row2"><button id="musChg" class="primary" type="button">曲を変える</button><button id="musOff" type="button">演奏をやめる</button></div><div class="row2" style="margin-top:8px"><button id="musX" type="button">キャンセル</button></div></div></div>
+<div class="overlay center" id="musDlg" hidden><div class="card" role="dialog" aria-labelledby="musH" style="max-width:320px"><h2 id="musH" style="font-size:18px">ラジカセ</h2><p id="musT" class="note" style="text-align:left"></p><div class="row2"><button id="musChg" class="primary" type="button">曲をえらぶ</button><button id="musOff" type="button">演奏を止める</button></div><div class="row2" style="margin-top:8px"><button id="musX" type="button">キャンセル</button></div></div></div>
 <div class="overlay center" id="recy" hidden><div class="card" role="dialog" aria-labelledby="recyT" style="max-width:320px"><h2 style="font-size:18px" id="recyH">どうする？</h2><p id="recyT" class="note" style="text-align:left"></p><div class="row2"><button id="recySt" class="primary" type="button">しまう</button><button id="recyOk" type="button">リサイクルに出す</button></div><div class="row2" style="margin-top:8px"><button id="recyNo" type="button">やめる</button></div></div></div>
 <div class="overlay center" id="setup" hidden>
   <div class="card" role="dialog" aria-labelledby="setupTitle">
@@ -914,10 +918,10 @@ async function fetchWeather(){
   if(ENV.lat==null)return;
   const base=`https://api.open-meteo.com/v1/forecast?latitude=${ENV.lat.toFixed(3)}&longitude=${ENV.lon.toFixed(3)}`;
   const hm=s=>{const m=/T(\d+):(\d+)/.exec(s||'');return m?(+m[1]+ +m[2]/60):null;};
-  try{const j=await fetchJSON(base+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_speed_10m,wind_gusts_10m,cloud_cover,pressure_msl,uv_index&hourly=precipitation_probability,weather_code&daily=sunrise,sunset,temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,uv_index_max&wind_speed_unit=ms&timezone=auto&past_days=1&forecast_days=2');
+  try{const j=await fetchJSON(base+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover,pressure_msl,uv_index&hourly=precipitation_probability,weather_code&daily=sunrise,sunset,temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,uv_index_max&wind_speed_unit=ms&timezone=auto&past_days=1&forecast_days=2');
     const c=j.current,d=j.daily;ENV.temp=c.temperature_2m;ENV.hum=c.relative_humidity_2m;ENV.code=c.weather_code;ENV.elev=j.elevation;
     const ti=(d.time||[]).length>=3?1:0;ENV.sunrise=hm(d.sunrise[ti]);ENV.sunset=hm(d.sunset[ti]);
-    const w={app:c.apparent_temperature,wind:c.wind_speed_10m,gust:c.wind_gusts_10m,cloud:c.cloud_cover,pres:c.pressure_msl,uv:c.uv_index!=null?c.uv_index:d.uv_index_max&&d.uv_index_max[ti],
+    const w={app:c.apparent_temperature,wind:c.wind_speed_10m,wdir:c.wind_direction_10m,gust:c.wind_gusts_10m,cloud:c.cloud_cover,pres:c.pressure_msl,uv:c.uv_index!=null?c.uv_index:d.uv_index_max&&d.uv_index_max[ti],
       tmax:d.temperature_2m_max[ti],tmin:d.temperature_2m_min[ti],ymax:ti?d.temperature_2m_max[0]:null,ymin:ti?d.temperature_2m_min[0]:null,pop:d.precipitation_probability_max?d.precipitation_probability_max[ti]:null,
       tmrMax:d.temperature_2m_max[ti+1],tmrMin:d.temperature_2m_min[ti+1],tmrKind:codeKind(d.weather_code&&d.weather_code[ti+1]),rainIn:null,rainStop:null};
     const H=j.hourly;if(H&&H.time){const cur=(c.time||'').slice(0,13),i0=H.time.findIndex(s=>s.slice(0,13)>=cur);
@@ -2330,10 +2334,10 @@ const FACES={m:[['round','thin','smile',''],['dot','thick','smile',''],['big','t
    ['glasses','thin','smile',''],['sleepy','thin','small','blush'],['lash','thin','open','lips'],['round','thin','cat','mole'],['narrow','thin','smile','lips'],['big','worried','pout','blush'],['tsuri','angry','flat',''],['lash','thin','grin','freckles'],['sqglasses','thin','small','lips'],['round','none','smile','blush']]};
 // hair descriptors: cap (full/short/buzz/bald), bang, side (lock length), back (length behind), vol, ex (extras)
 const HSTY={m:[['ショート','full','side',1,2,0,''],['さわやか短髪','short','swept',0,0,0,''],['坊主','buzz','none',0,0,0,''],['センターパート','full','center',3,3,0,''],['ツンツン','full','spiky',1,1,.6,'spikes'],['ツーブロック','short','side',0,0,.3,'block'],['マッシュ','full','straight',4,3,.8,''],
-   ['くせ毛','full','curly',2,2,.8,'curls'],['アフロ','full','curly',2,3,2.6,'afro'],['ウルフ','full','spiky',6,7,.6,''],['お団子（マンバン）','full','swept',0,2,0,'manbun'],['オールバック','full','none',0,3,0,'slick'],['マッシュボブ','full','straight',6,5,1,''],
+   ['くせ毛','full','curly',2,2,.8,'curls'],['ウェーブパーマ','full','curly',3,3,1,'curls'],['ウルフ','full','spiky',6,7,.6,''],['お団子（マンバン）','full','swept',0,2,0,'manbun'],['オールバック','full','none',0,3,0,'slick'],['マッシュボブ','full','straight',6,5,1,''],
    ['ソフトモヒカン','buzz','none',0,0,0,'mohawk'],['無造作ヘア','full','spiky',2,2,.6,'ahoge'],['ロン毛','full','center',12,14,.6,''],['ひとつ結び','full','side',2,4,0,'lowpony'],['ドレッド','full','none',8,10,.8,'dreads'],['スキンヘッド','bald','none',0,0,0,''],['七三分け','full','side',2,2,.2,'part']],
  f:[['ボブ','full','straight',7,6,.8,''],['ロングストレート','full','straight',12,16,.5,''],['ポニーテール','full','side',2,3,.4,'pony'],['ツインテール','full','straight',2,2,.3,'twin'],['お団子','full','swept',1,1,.2,'bun'],['サイドポニー','full','side',2,2,.3,'sidepony'],
-   ['ベリーショート','short','side',1,1,.2,''],['ゆるふわロング','full','curly',12,15,1,'curls'],['みつあみ','full','center',3,3,.3,'braid2'],['姫カット','full','hime',10,14,.4,''],['くせっ毛ボブ','full','curly',6,5,1,'curls'],['ハーフアップ','full','side',9,12,.5,'halfup'],
+   ['ベリーショート','short','side',1,1,.2,''],['ソバージュ','full','curly',12,16,1.3,'sauvage'],['みつあみ','full','center',3,3,.3,'braid2'],['姫カット','full','hime',10,14,.4,''],['くせっ毛ボブ','full','curly',6,5,1,'curls'],['ハーフアップ','full','side',9,12,.5,'halfup'],
    ['おさげ','full','straight',3,3,.3,'lowtwin'],['サイドみつあみ','full','side',3,4,.4,'braid1'],['ウェーブロング','full','center',12,16,1.2,'curls'],['ウルフカット','full','spiky',7,8,.7,''],['ショートボブ','full','straight',4,3,.6,''],['ダブルお団子','full','straight',2,2,.3,'buns'],
    ['高めポニー','full','straight',2,2,.3,'hipony'],['ミディアムレイヤー','full','side',8,9,.8,'']]};
 const HCY=-24.5,HR=8.6;
@@ -2345,21 +2349,30 @@ function hairDesc(L){const a=HSTY[L.g==='f'?'f':'m'][L.hair%20];return{n:a[0],ca
 function hLock(c,x0,y0,x1,y1,w,bend,col){const mx=(x0+x1)/2,my=(y0+y1)/2,dx=x1-x0,dy=y1-y0,L=Math.hypot(dx,dy)||1,nx=-dy/L,ny=dx/L,bx=mx+nx*bend,by=my+ny*bend;
   c.fillStyle=col;c.beginPath();c.moveTo(x0+nx*w/2,y0+ny*w/2);c.quadraticCurveTo(bx+nx*w*.35,by+ny*w*.35,x1,y1);c.quadraticCurveTo(bx-nx*w*.35,by-ny*w*.35,x0-nx*w/2,y0-ny*w/2);c.closePath();c.fill();}
 function hPal(L){const col=HAIRS[L.hc%HAIRS.length];return{col,dk:shade(col,-.28),dd:shade(col,-.42),lt:shade(col,.3),hl:shade(col,.55)};}
+function hCurl(c,x,y,r,P,k){const a0=((k||0)%3)*.9,R2=r*.62;c.save();c.translate(x,y);c.lineCap='round';
+  c.beginPath();c.arc(0,0,R2,a0+.5,a0+.5+Math.PI*1.65);c.strokeStyle=P.dk;c.lineWidth=r*.95;c.stroke();
+  c.beginPath();c.arc(0,0,R2,a0+.55,a0+.45+Math.PI*1.65);c.strokeStyle=P.col;c.lineWidth=r*.62;c.stroke();
+  c.beginPath();c.arc(0,0,R2,a0+Math.PI*1.05,a0+Math.PI*1.55);c.strokeStyle=P.lt;c.lineWidth=r*.22;c.stroke();c.restore();}
 function hBall(c,x,y,r,P){E(c,P.dk,x+.3,y+.4,r,r);const gr=c.createRadialGradient(x-r*.4,y-r*.4,.2,x,y,r);gr.addColorStop(0,P.lt);gr.addColorStop(.6,P.col);gr.addColorStop(1,P.dk);c.fillStyle=gr;c.beginPath();c.arc(x,y,r,0,TAU);c.fill();
   c.strokeStyle=P.dk;c.lineWidth=.35;c.beginPath();c.arc(x+.2,y+.2,r*.55,-.5,3.2);c.stroke();}
 function hTie(c,x,y,col){E(c,col||'#e8486a',x,y,1.1,.9);E(c,'rgba(255,255,255,.5)',x-.3,y-.3,.35,.3);}
 function hTail(c,x0,y0,x1,y1,w,P,t,sw){const s=Math.sin(t*1.6)*(sw||.6);hLock(c,x0+.3,y0+.3,x1+s+.4,y1+.5,w+.8,1.4,P.dd);hLock(c,x0,y0,x1+s,y1,w,1.4,P.dk);hLock(c,x0,y0,x1+s*.8-w*.15,y1-1,w*.78,1.1,P.col);hLock(c,x0+.2,y0+.4,x1+s*.6-w*.25,y1-3,w*.32,.8,P.lt);}
 function hCapPath(c,r,side,hl){c.beginPath();c.moveTo(-r*.97,HCY+side);c.ellipse(0,HCY-.6,r,r+.5,0,Math.PI*1.02,Math.PI*1.98,false);c.lineTo(r*.97,HCY+side);c.quadraticCurveTo(r*.4,HCY-hl,0,HCY-hl-.6);c.quadraticCurveTo(-r*.4,HCY-hl,-r*.97,HCY+side);c.closePath();}
-function hairShapeBack(c,r,len,w2,P,curly,col){c.fillStyle=col||P.dk;c.beginPath();c.moveTo(-r*.95,HCY-2);c.ellipse(0,HCY-.6,r,r+.5,0,Math.PI,TAU,false);c.lineTo(r*.95,HCY-2);
+function hairShapeBack(c,r,len,w2,P,curly,col){if(curly===2){hairShapeSv(c,r,len,w2,P,col);return;}c.fillStyle=col||P.dk;c.beginPath();c.moveTo(-r*.95,HCY-2);c.ellipse(0,HCY-.6,r,r+.5,0,Math.PI,TAU,false);c.lineTo(r*.95,HCY-2);
   const bot=HCY+len,n=5;c.quadraticCurveTo(r+w2,HCY+len*.55,r*.9+w2*.6,bot);for(let i=n;i>=0;i--){const x=(-r*.9-w2*.6)+(i/n)*(2*r*.9+w2*1.2);c.lineTo(x+(curly?Math.sin(i*2.1)*1.2:0),bot-(i%2?2.2:0));}
   c.quadraticCurveTo(-r-w2,HCY+len*.55,-r*.95,HCY-2);c.closePath();c.fill();}
+function hairShapeSv(c,r,len,w2,P,col){const bot=HCY+len,wv=(t)=>Math.sin(t*Math.PI*5)*1.6;c.fillStyle=col||P.dk;c.beginPath();c.moveTo(-r*.95,HCY-2);c.ellipse(0,HCY-.6,r,r+.5,0,Math.PI,TAU,false);
+  for(let i=0;i<=16;i++){const t=i/16,w=r+w2*Math.min(1,t*1.6);c.lineTo(w+wv(t),HCY-2+t*(bot-HCY+2));}
+  for(let i=8;i>=-8;i--){c.lineTo(i/8*(r+w2)+Math.sin(i*1.9)*1,bot-(i%2?2.4:0)+Math.cos(i*1.3)*.6);}
+  for(let i=16;i>=0;i--){const t=i/16,w=r+w2*Math.min(1,t*1.6);c.lineTo(-w-wv(t+.1),HCY-2+t*(bot-HCY+2));}c.closePath();c.fill();
+  c.strokeStyle=P.lt;c.globalAlpha=.55;c.lineWidth=.45;c.lineCap='round';for(let k=-3;k<=3;k++){if(k===0)continue;c.beginPath();const x0=k*(r+w2)/4;for(let i=0;i<=14;i++){const t=i/14,y=HCY+2+t*(len-4);const x=x0*(.75+t*.35)+Math.sin(t*Math.PI*5+k)*1.3;i?c.lineTo(x,y):c.moveTo(x,y);}c.stroke();}c.globalAlpha=1;}
 function humanHairBack(c,L,d){const H=hairDesc(L),P=hPal(L),r=HR+.9+H.vol,t=performance.now()/1000,ex=H.ex;if(H.cap==='bald'||H.cap==='buzz')return;
   if(ex==='afro'){for(let i=0;i<14;i++){const a=i/14*TAU;E(c,P.dk,Math.cos(a)*(r+1)+(d==='right'?-1.5:0),HCY-1.5+Math.sin(a)*(r+.4),3.2,3.2);}E(c,P.dk,d==='right'?-1.5:0,HCY-1.5,r+1.5,r+1);}
-  if(d==='down'){if(H.back>3)hairShapeBack(c,r,H.back+2,1.2+H.vol*.6,P,ex==='curls');
+  if(d==='down'){if(H.back>3)hairShapeBack(c,r,H.back+2,1.2+H.vol*.6,P,(ex==='curls'?1:ex==='sauvage'?2:0));
     if(ex==='twin'||ex==='lowtwin'){const lo=ex==='lowtwin',y0=lo?HCY+3:HCY-3.5,len=lo?11:13;for(const s of[-1,1])hTail(c,s*(r-.6),y0,s*(r+3.6),y0+len,lo?3.4:4.4,P,t+s,.5);}
     if(ex==='hipony')hTail(c,0,HCY-r-1,r*.75+2,HCY+5,4,P,t,.4);
     if(ex==='pony')hTail(c,1,HCY-4,r+2.6,HCY+9,3.6,P,t,.5);}
-  else if(d==='right'){if(H.back>3){c.save();c.translate(-2.2,0);hairShapeBack(c,r*.9,H.back+1.5,.8,P,ex==='curls');c.restore();}
+  else if(d==='right'){if(H.back>3){c.save();c.translate(-2.2,0);hairShapeBack(c,r*.9,H.back+1.5,.8,P,(ex==='curls'?1:ex==='sauvage'?2:0));c.restore();}
     if(ex==='pony'||ex==='hipony'||ex==='lowpony'){const y0=ex==='hipony'?HCY-r+.5:ex==='lowpony'?HCY+3.5:HCY-3;hTail(c,-r+.6,y0,-r-3.4,y0+(ex==='lowpony'?9:12),3.8,P,t,.7);hTie(c,-r+.6,y0);}
     if(ex==='twin'||ex==='lowtwin'){const lo=ex==='lowtwin',y0=lo?HCY+3:HCY-3.5;hTail(c,-r*.4,y0,-r-2,y0+(lo?11:13),lo?3.4:4.2,P,t,.5);hTie(c,-r*.4,y0,'#ef6f8f');}}}
 function humanHairFront(c,L,d,t){const H=hairDesc(L),P=hPal(L),ex=H.ex,vol=H.vol,r=HR+(H.cap==='short'?.45:.9)+vol;
@@ -2371,7 +2384,7 @@ function humanHairFront(c,L,d,t){const H=hairDesc(L),P=hPal(L),ex=H.ex,vol=H.vol
   const ring=(cx,cy,rr)=>{c.strokeStyle=P.hl;c.globalAlpha=.55;c.lineWidth=.9;for(const[a0,a1]of[[1.2,1.34],[1.4,1.58],[1.64,1.78]]){c.beginPath();c.ellipse(cx,cy,rr,rr*.9,0,Math.PI*a0,Math.PI*a1);c.stroke();}c.globalAlpha=1;};
   const shadeCap=(path)=>{c.save();path();c.clip();const gr=c.createLinearGradient(-r,HCY-r,r*.6,HCY+3);gr.addColorStop(0,'rgba(255,255,255,.2)');gr.addColorStop(.5,'rgba(255,255,255,0)');gr.addColorStop(1,'rgba(0,0,0,.22)');c.fillStyle=gr;c.fillRect(-r-6,HCY-r-6,2*r+12,2*r+12);c.restore();};
   if(d==='up'){c.fillStyle=P.dk;c.beginPath();c.ellipse(0,HCY-.2,r+.3,r+.8,0,0,TAU);c.fill();c.fillStyle=P.col;c.beginPath();c.ellipse(0,HCY-.6,r,r+.5,0,0,TAU);c.fill();
-    if(H.back>3)hairShapeBack(c,r,H.back+1,1.2+vol*.6,P,ex==='curls',P.col);
+    if(H.back>3)hairShapeBack(c,r,H.back+1,1.2+vol*.6,P,(ex==='curls'?1:ex==='sauvage'?2:0),P.col);
     shadeCap(()=>{c.beginPath();c.ellipse(0,HCY-.6,r,r+.5,0,0,TAU);});
     for(let i=-3;i<=3;i++)hLock(c,i*1.9,HCY-r+1.2,i*1.1,HCY+Math.max(5,H.back*.9),.9,i*.4,'rgba(0,0,0,.16)');
     ring(0,HCY-1,r*.8);}
@@ -2396,7 +2409,7 @@ function humanHairFront(c,L,d,t){const H=hairDesc(L),P=hPal(L),ex=H.ex,vol=H.vol
     else if(b==='side'){for(let i=0;i<6;i++){const tx=r*.7-i*2.7,ty=HCY-5.4+i*.75;hLock(c,r*.45-i*.6,fy-.6,tx,ty,3.6,-1.2,i%2?P.dk:P.col);}}
     else if(b==='center'){for(const s of[-1,1])for(let i=0;i<3;i++)hLock(c,s*.6,fy-.8,s*(3+i*2.2),HCY-3.6+i*.9,3.4,s*-.9,i%2?P.dk:P.col);}
     else if(b==='spiky'){for(let i=0;i<6;i++){const x=-r*.8+i*(r*1.6/5);hLock(c,x*.7,fy,x+(i%2?.8:-.8),HCY-(i%2?3.6:2.4),3,(i-2.5)*.3,i%2?P.dk:P.col);}}
-    else if(b==='curly'){for(let i=0;i<6;i++){const x=-r*.8+i*(r*1.6/5);hBall(c,x,HCY-5+(i%2?.6:0),2,P);}}
+    else if(b==='curly'){for(let i=0;i<6;i++){const x=-r*.8+i*(r*1.6/5);hCurl(c,x,HCY-4.6+(i%2?.6:0),1.8,P,i);}}
     else{c.strokeStyle=P.lt;c.globalAlpha=.6;c.lineWidth=.5;for(let i=-2;i<=2;i++){c.beginPath();c.moveTo(i*2.2,HCY-hl+.4);c.quadraticCurveTo(i*2.6,HCY-r+1,i*1.4,HCY-r);c.stroke();}c.globalAlpha=1;
       if(b==='swept')hLock(c,-1,HCY-hl,-3.4,HCY-3.6,1.6,-.6,P.col);}
     if(H.side>0&&b!=='hime'){const len=Math.min(H.side,14);for(const s of[-1,1]){hLock(c,s*r*.9,HCY-4.4,s*(r*.82+len*.12),HCY-1+len,3.6,s*(len>6?-1.4:-.6),P.col);hLock(c,s*r*.82,HCY-3.6,s*(r*.72+len*.1),HCY-2+len,1.2,s*-.6,P.dk);}}
@@ -2408,7 +2421,7 @@ function humanHairFront(c,L,d,t){const H=hairDesc(L),P=hPal(L),ex=H.ex,vol=H.vol
   if(ex==='spikes'&&d!=='up')for(let i=-2;i<=2;i++)hLock(c,i*2.6+(d==='right'?-1.5:0),HCY-r+2,i*3.8+(d==='right'?-2.4:0),HCY-r-3.6+Math.abs(i)*.8,3,i*.3,i%2?P.dk:P.col);
   if(ex==='ahoge')hLock(c,.4,HCY-r+.6,2.8,HCY-r-4.6,1.4,-1.6,P.col);
   if(ex==='afro'&&d!=='up'){for(let i=0;i<7;i++){const a=Math.PI*1.08+i/6*Math.PI*.84;hBall(c,Math.cos(a)*(r+.4)+(d==='right'?-1.5:0),HCY-1+Math.sin(a)*(r+.2),2.6,P);}}
-  if(ex==='curls'&&d!=='up')for(let i=0;i<5;i++){const a=Math.PI*1.12+i/4*Math.PI*.76;hBall(c,Math.cos(a)*(r-.2)+(d==='right'?-1:0),HCY-.8+Math.sin(a)*(r-.2),1.7,P);}
+  if((ex==='curls'||ex==='sauvage')&&d!=='up')for(let i=0;i<5;i++){const a=Math.PI*1.12+i/4*Math.PI*.76;hCurl(c,Math.cos(a)*(r-.2)+(d==='right'?-1:0),HCY-.8+Math.sin(a)*(r-.2),1.6,P,i);}
   if(ex==='manbun'||ex==='halfup')hBall(c,d==='right'?-r*.6:0,HCY-r-.6,2.5,P);
   if(ex==='bun')hBall(c,d==='right'?-2:0,HCY-r-2,3.6,P);
   if(ex==='buns')for(const s of(d==='right'?[-1]:[-1,1]))hBall(c,s*r*.62,HCY-r*.72,3,P);
@@ -2420,7 +2433,7 @@ function humanHairFront(c,L,d,t){const H=hairDesc(L),P=hPal(L),ex=H.ex,vol=H.vol
   if((ex==='braid2'||ex==='braid1')&&d!=='up'){for(const s of(ex==='braid1'?[d==='right'?-1:1]:d==='right'?[-1]:[-1,1])){const bx=d==='right'?-r*.5:s*(r*.82);
       for(let i=0;i<6;i++){const y=HCY+1.4+i*2.1;E(c,P.dk,bx+.3,y+.3,1.8,1.25,(i%2?.5:-.5));E(c,i%2?P.col:P.lt,bx,y,1.7,1.15,(i%2?.5:-.5));}hTie(c,bx,HCY+14,'#f2c230');hLock(c,bx,HCY+14.2,bx+s*.6,HCY+16.4,1.6,0,P.col);}}
   if(ex==='braid2'&&d==='up')for(const s of[-1,1]){const bx=s*r*.7;for(let i=0;i<6;i++)E(c,i%2?P.col:P.lt,bx,HCY+1.4+i*2.1,1.7,1.15,(i%2?.5:-.5));}
-  if(ex==='dreads'){const xs=d==='up'?[-6,-3.6,-1.2,1.2,3.6,6]:d==='right'?[-6.4,-4.4,-2.4]:[-7.6,-6,6,7.6];for(const x of xs){const len=8+Math.abs(x)*.5;for(let i=0;i<len/1.6;i++){E(c,P.dk,x+.2,HCY-1+i*1.6+.2,1,1);E(c,i%2?P.col:P.lt,x,HCY-1+i*1.6,.95,.95);}}}
+  if(ex==='dreads'){const xs=d==='up'?[-7.2,-6,-4.8,-3.6,-2.4,-1.2,0,1.2,2.4,3.6,4.8,6,7.2]:d==='right'?[-7.4,-6.5,-5.6,-4.7,-3.8,-2.9,-2]:[-8.4,-7.6,-6.8,-6,6,6.8,7.6,8.4];for(const x of xs){const len=8+Math.abs(x)*.55;for(let i=0;i<len/1.05;i++){const yy=HCY-1+i*1.05,xx=x+Math.sin(i*.9+x)*.15;E(c,P.dk,xx+.15,yy+.15,.62,.62);E(c,i%2?P.col:P.lt,xx,yy,.56,.56);}}}
   if(ex==='slick'&&d!=='up'){c.strokeStyle=P.hl;c.globalAlpha=.6;c.lineWidth=.5;for(let i=-2;i<=2;i++){c.beginPath();c.moveTo(i*2.2+(d==='right'?2:0),HCY-6.4);c.quadraticCurveTo(i*2.6,HCY-r,i*1.4-(d==='right'?3:0),HCY-r-.2);c.stroke();}c.globalAlpha=1;}}
 function humanFace(c,L,d,o){const F=FACES[L.g==='f'?'f':'m'][L.face%20],[eye,brow,mouth,ex]=F,ink='#2a2026',sk=SKINS[L.skin%SKINS.length];
   const sleep=o.sleep,T0=performance.now()/1000,blink=!sleep&&liveDraw&&(T0%4.2)<.12;
@@ -4546,7 +4559,7 @@ function musAudio(){if(!MUS.audio&&typeof Audio!=='undefined'){const a=new Audio
 async function musLoad(i,startAt){const m=S&&S.music;if(!m||!m.ids.length)return;m.idx=((i%m.ids.length)+m.ids.length)%m.ids.length;const rec=await idbGet(m.ids[m.idx]).catch(()=>null);if(!rec){musStop(true);return;}
   const a=musAudio();if(!a)return;if(MUS.url)URL.revokeObjectURL(MUS.url);MUS.url=URL.createObjectURL(rec.blob);a.src=MUS.url;MUS.title=songTitle(rec.name);
   await new Promise(r=>{a.onloadedmetadata=()=>r();setTimeout(r,1500);});if(startAt)try{a.currentTime=Math.min(startAt,(a.duration||startAt+1)-.5);}catch(_){}musPlay();}
-function musEQ(){const a=MUS.audio;if(!a)return;try{if(!MUS.actx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;MUS.actx=new AC();const src=MUS.actx.createMediaElementSource(a);MUS.an=MUS.actx.createAnalyser();MUS.an.fftSize=64;MUS.an.smoothingTimeConstant=.7;src.connect(MUS.an);MUS.an.connect(MUS.actx.destination);MUS.fd=new Uint8Array(MUS.an.frequencyBinCount);}
+function musEQ(){const a=MUS.audio;if(!a)return;try{const ctx=musCtx();if(!ctx)return;if(!MUS.msrc){MUS.msrc=ctx.createMediaElementSource(a);MUS.msrc.connect(MUS.an);}
   if(MUS.actx.state==='suspended')MUS.actx.resume();}catch(e){}}
 function musTickEQ(){if(!MUS.playing){MUS.lvl=0;return;}const B=MUS.bars=MUS.bars||new Array(10).fill(0);
   if(MUS.an){MUS.an.getByteFrequencyData(MUS.fd);const n=MUS.fd.length;let tot=0;for(let i=0;i<10;i++){const span=n*.7,a0=Math.floor(Math.pow(i/10,1.7)*span),a1=Math.max(a0+1,Math.floor(Math.pow((i+1)/10,1.7)*span));let m=0;for(let k=a0;k<a1;k++)m=Math.max(m,MUS.fd[k]);const v=Math.min(1,m/255*(1+i*.12));B[i]=Math.max(v,B[i]*.85);tot+=v;}MUS.lvl=tot/10;}
@@ -4588,9 +4601,10 @@ document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest
   if(a==='mode'){if(S.music){S.music.mode=b.dataset.m;save();say({one:'今の曲をくり返し流すね',all:'前から順番に流すね',shuffle:'ランダムに流すね'}[b.dataset.m]);}}else if(a==='add'){musTarget={op:'add'};$('musIn').click();}else if(a==='rep'){musTarget={op:'rep',i:+b.dataset.i};$('musIn1').click();}else if(a==='del'){musDelete(+b.dataset.i);}
   else if(a==='pick'){musTarget=null;$('musIn').click();}else if(a==='toggle'){if(MUS.playing){musPause();if(S.music)S.music.on=false;save();}else musResume2();}else if(a==='next')musNext(true);else if(a==='play')musLoad(+b.dataset.i,0);else if(a==='stop')musStop(false);
   setTimeout(renderBGM,350);});
+function musCtx(){if(!MUS.actx){const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;MUS.actx=new AC();MUS.an=MUS.actx.createAnalyser();MUS.an.fftSize=64;MUS.an.smoothingTimeConstant=.7;MUS.an.connect(MUS.actx.destination);MUS.fd=new Uint8Array(MUS.an.frequencyBinCount);}
+  if(MUS.actx.state==='suspended')MUS.actx.resume().catch(()=>{});return MUS.actx;}
 function musResume2(){if(!S.music)return;S.music.on=true;musResume();}
-function musTap(){if(!S)return;if(S.music){$('musT').textContent=MUS.title?`いま流れているのは「${MUS.title}」（${S.music.idx+1}/${S.music.ids.length}曲目）`:'ラジカセに曲が入っています';$('musDlg').hidden=false;}
-  else $('musIn').click();}
+function musTap(){if(!S)return;openSheet();selTab('bgm');}
 function musResume(){if(!S||!S.music||!S.music.on)return;if(MUS.audio&&MUS.audio.src){musPlay();}else musLoad(S.music.idx||0,S.music.pos||0);}
 function drawMusicTag(){if(!MUS.playing||!MUS.title||C.scene!=='in'||!has('boombox'))return;const L=S.layout.boombox;if(!L)return;const x=L.x*T+T,y=L.y*T-20;
   g.save();g.font='600 4.6px "Zen Maru Gothic",sans-serif';g.textBaseline='middle';const tx='♪ '+MUS.title,full=g.measureText(tx).width,maxW=44,bw=Math.min(full,maxW)+5;
@@ -4608,6 +4622,48 @@ const ICON={
   thunder:'<svg viewBox="0 0 24 24"><path d="M7 13h10.5a4 4 0 0 0 .4-8 5.5 5.5 0 0 0-10.6 1.4A3.3 3.3 0 0 0 7 13z" fill="#9aa6b8"/><path d="M13 13l-3 5h3l-2 5 5-7h-3l2-3z" fill="#ffd166"/></svg>',
   fog:'<svg viewBox="0 0 24 24"><g stroke="#dbe3ef" stroke-width="2" stroke-linecap="round"><path d="M4 8h16M2 12h14M6 16h16M4 20h12"/></g></svg>',
 };
+/* ===== 六曜 (from the traditional lunisolar calendar: new moons + solar terms, JST) ===== */
+const RAD=Math.PI/180;
+function jdOf(d){return d.getTime()/86400000+2440587.5;}
+function sunLon(jd){const T=(jd-2451545)/36525,M=(357.52911+35999.05029*T)*RAD,L0=280.46646+36000.76983*T,C=(1.914602-.004817*T)*Math.sin(M)+.019993*Math.sin(2*M)+.000289*Math.sin(3*M),om=(125.04-1934.136*T)*RAD;return(((L0+C-.00569-.00478*Math.sin(om))%360)+360)%360;}
+function newMoonJD(k){const T=k/1236.85,E=1-.002516*T,M=(2.5534+29.1053567*k)*RAD,Mp=(201.5643+385.81693528*k+.0107582*T*T)*RAD,F=(160.7108+390.67050284*k)*RAD,Om=(124.7746-1.56375588*k)*RAD;
+  let jd=2451550.09766+29.530588861*k+.00015437*T*T;
+  jd+=-.4072*Math.sin(Mp)+.17241*E*Math.sin(M)+.01608*Math.sin(2*Mp)+.01039*Math.sin(2*F)+.00739*E*Math.sin(Mp-M)-.00514*E*Math.sin(Mp+M)+.00208*E*E*Math.sin(2*M)-.00111*Math.sin(Mp-2*F)-.00057*Math.sin(Mp+2*F)+.00056*E*Math.sin(2*Mp+M)-.00042*Math.sin(3*Mp)+.00042*E*Math.sin(M+2*F)+.00038*E*Math.sin(M-2*F)-.00024*E*Math.sin(2*Mp-M)-.00017*Math.sin(Om)-.00007*Math.sin(Mp+2*M);
+  return jd-69/86400;}
+const jstDay=jd=>Math.floor(jd+.5+9/24); // integer day number in JST
+function nmDayK(k){return jstDay(newMoonJD(k));}
+function chuMonth(d0,d1){// lunar month number from the 中気 (multiple of 30°) inside [d0,d1)
+  for(let dn=d0;dn<d1;dn++){const a=sunLon(dn-.5-9/24),b=sunLon(dn+.5-9/24);const ka=Math.floor(a/30),kb=Math.floor(b/30);if(ka!==kb){return(((kb+2)%12)+12)%12||12;}}return 0;}
+const _lunC={};
+function lunarOf(d){const key=d.toDateString();if(_lunC[key])return _lunC[key];const dn=jstDay(jdOf(new Date(d.getFullYear(),d.getMonth(),d.getDate(),12)));
+  let k=Math.floor((jdOf(d)-2451550.09766)/29.530588861)+1;while(nmDayK(k)>dn)k--;while(nmDayK(k+1)<=dn)k++;
+  let m=chuMonth(nmDayK(k),nmDayK(k+1)),kk=k,leap=false;if(!m){leap=true;for(let i=1;i<3&&!m;i++){kk=k-i;m=chuMonth(nmDayK(kk),nmDayK(kk+1));}}
+  const r={m:m||1,d:dn-nmDayK(k)+1,leap};_lunC[key]=r;return r;}
+const ROKU=['大安','赤口','先勝','友引','先負','仏滅'];
+function rokuyoOf(d){const l=lunarOf(d);return ROKU[(l.m+l.d)%6];}
+/* ===== info-window options ===== */
+const HUDOPT_DEF={rokuyo:false,anniv:true,wx:true,wind:false,temp:true,hum:true,di:true,moon:true,sun:false};
+const HUDOPT_N=[['rokuyo','六曜'],['anniv','今日は何の日'],['wx','天気'],['wind','風'],['temp','温度'],['hum','湿度'],['di','不快指数'],['moon','月齢'],['sun','日の出・日の入り時刻']];
+const hudOpt=()=>({...HUDOPT_DEF,...(S&&S.hudOpt||{})});
+const WDIR=['北','北北東','北東','東北東','東','東南東','南東','南南東','南','南南西','南西','西南西','西','西北西','北西','北北西'];
+function hudLayout(){const o=hudOpt(),hr=document.querySelector('#hud .hright'),h2=$('hRight2'),grid=document.querySelector('#hud .hgrid');if(!hr||!h2)return;
+  const it=[['wx','.wxk'],['wind','#hWind'],['th','.wx'],['di','.hdi'],['moon','.hmoonr'],['sun','#hSun']].map(([k,sel])=>[k,document.querySelector('#hud '+sel)]).filter(([,e])=>e);
+  const on=k=>k==='th'?(o.temp||o.hum):o[k];const vis=it.filter(([k])=>on(k));
+  for(const[k,e]of it){e.hidden=!on(k);}const ws=document.querySelectorAll('#hud .wx .wl');if(ws[0])ws[0].hidden=!o.temp;if(ws[1])ws[1].hidden=!o.hum;
+  const three=vis.length>4,cut=three?Math.ceil(vis.length/2):vis.length;vis.forEach(([,e],i)=>{const tgt=i<cut?hr:h2;if(e.parentNode!==tgt)tgt.append(e);e.style.order=i;});
+  h2.hidden=!three;grid.classList.toggle('c3',three);hr.hidden=!vis.length;
+  {const hud=$('hud'),par=hud.offsetParent||document.body,avail=par.clientWidth-16,w=hud.offsetWidth;const sc=Math.min(.84,w>0?avail/w:.84);const v=sc.toFixed(3);if(hud.style.getPropertyValue('--hs')!==v)hud.style.setProperty('--hs',v);}const an=document.querySelector('#hDate .hann');if(an)an.hidden=!o.anniv;}
+function hudExtra(){const o=hudOpt(),d=now();
+  {const rk=o.rokuyo?rokuyoOf(d):'';let el=document.querySelector('#hDate .hroku');if(rk){if(!el){el=document.createElement('b');el.className='hroku';const sp=$('hDate').firstElementChild;if(sp)sp.after(el);else $('hDate').append(el);}if(el.textContent!==rk)el.textContent=rk;}else if(el)el.remove();}
+  if(o.wind){const w=wxData()||{},el=$('hWind');const sp=w.wind!=null?Math.round(w.wind*10)/10:null;const dir=w.wdir!=null?WDIR[Math.round(w.wdir/22.5)%16]:'';el.innerHTML=`<small>風</small> <b>${dir}${dir?' ':''}${sp==null?'--':sp}m/s</b>`;}
+  if(o.sun){const el=$('hSun');el.innerHTML=`<small>日の出</small> <b>${ENV.sunrise!=null?fmtH(ENV.sunrise):'--'}</b> <small>日の入り</small> <b>${ENV.sunset!=null?fmtH(ENV.sunset):'--'}</b>`;}
+  hudLayout();}
+function renderHudSet(){const el=$('hudSetBody');if(!el||!S)return;const o=hudOpt();
+  let h='<p class="note">右上の情報ウインドウに表示する項目を選べます。名前・日付・時刻・場所はいつも表示します。項目が多いときはウインドウが3列になります。</p><div class="hudprevw"><small>表示イメージ</small><div id="hudPrev"></div></div><div class="hudopts">';
+  for(const[k,n]of HUDOPT_N)h+=`<label class="hopt"><input type="checkbox" data-ho="${k}"${o[k]?' checked':''}> ${n}</label>`;
+  h+=`</div><button type="button" id="hudReset">標準の表示に戻す</button>`;el.innerHTML=h;hudPreview();}
+function hudPreview(){const box=$('hudPrev');if(!box||box.offsetParent===null)return;const src=$('hud');const cl=src.cloneNode(true);cl.querySelectorAll('[id]').forEach(e=>e.removeAttribute('id'));cl.className='glass hud hudclone';cl.style.removeProperty('--hs');box.innerHTML='';box.style.height='';box.append(cl);
+  const w=cl.offsetWidth,avail=box.clientWidth-4;cl.style.transform=`scale(${Math.min(1,avail/Math.max(1,w)).toFixed(3)})`;box.style.height=Math.ceil(cl.offsetHeight*Math.min(1,avail/Math.max(1,w)))+6+'px';}
 function updateHUD(){
   if(!S)return;
   const d=now(),k=wKind(),night=daylight()<.3;
@@ -4619,7 +4675,7 @@ function updateHUD(){
   $('hIcon').setAttribute('aria-label',WJP[k]);$('hIcon').title=WJP[k];$('hWx').textContent=WJP[k];
   const t=tempNow(),hu=humNow();{const el=$('hDI');if(el){if(t==null||hu==null)el.textContent='--';else{const di=DI(t,hu),lab=di<55?'寒い':di<60?'肌寒い':di<65?'快適':di<70?'快い':di<75?'暑くない':di<80?'やや暑い':di<85?'暑い':'とても暑い';el.innerHTML=`${di}<b>${lab}</b>`;}}}$('hTemp').textContent=(t==null?'--':Math.round(t*10)/10)+'℃';$('hHum').textContent=(hu==null?'--':Math.round(hu))+'%';
   const days=Math.floor((Date.now()-S.born)/86400e3)+1;
-  if($('hName').textContent!==S.name)$('hName').textContent=S.name;}
+  if($('hName').textContent!==S.name)$('hName').textContent=S.name;try{hudExtra();}catch(_){}}
 function updateRoom(){const r=C.scene==='out'?'浮遊島':(ROOM_NAME[roomAt(C.tx,C.ty)]||'ろうか');const el=$('room');if(el.textContent!==r)el.textContent=r;}
 
 /* ========== sheet ========== */
@@ -4653,7 +4709,7 @@ function actJP(){if(C.sleeping)return'ねている';return{sleep:'ねる準備',
   heater:'ストーブのスイッチ',fan:'扇風機のスイッチ',diary:'日記',music:'レコード',piano:'ピアノ',fish:'魚にえさ',exercise:'エアロバイク',kotatsu:'こたつ',relax:'ひと休み',play:'おもちゃで遊ぶ',admire:'飾りをながめる',cloth:'テーブルクロスの交換',remodel:'模様替え',harvest:'畑の収穫',scope:'望遠鏡',yardsetup:'庭に置く準備',yardplay:'庭で遊ぶ',yardmove:'庭の模様替え',yardseason:'季節の飾りつけ',yardclear:'季節の片付け',newbed:'花壇づくり',tapwalk:'おでかけ中',drink:'お酒タイム',game:'テレビゲーム',radio:'ラジオ',hobby:'趣味の時間',store:'片付け',unstore:'しまったものを出す',visit:'お客さん'}[C.act]||'ぼんやり';}
 let sheetSnap=null;
 function openSheet(){if(!S)return;$('prefBox').innerHTML=prefHTML();setTimeout(renderOv,0);$('schedMain').innerHTML=schedHTML(0);sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur();}catch(_){}const cd0=document.querySelector('#sheet .card');if(cd0)cd0.scrollTop=0;}
-function selTab(t){if(t==='bgm')setTimeout(renderBGM,0);if(t==='dex')setTimeout(renderDex,0);if(t==='diary')setTimeout(()=>renderDiary(true),0);document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('#sheet .tp').forEach(sct=>sct.hidden=sct.dataset.p!==t);try{localStorage.setItem('fuyuchi-tab',t);}catch(e){}}
+function selTab(t){if(t==='hudset')setTimeout(renderHudSet,0);if(t==='bgm')setTimeout(renderBGM,0);if(t==='dex')setTimeout(renderDex,0);if(t==='diary')setTimeout(()=>renderDiary(true),0);document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('#sheet .tp').forEach(sct=>sct.hidden=sct.dataset.p!==t);try{localStorage.setItem('fuyuchi-tab',t);}catch(e){}}
 document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>selTab(b.dataset.t));
 function exportText(){save();return'FUYUCHI1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
 function parseSave(txt){txt=(txt||'').trim();let o=null;try{if(txt.startsWith('FUYUCHI1:'))o=JSON.parse(decodeURIComponent(escape(atob(txt.slice(9)))));else o=JSON.parse(txt);}catch(e){return null;}
@@ -4874,7 +4930,7 @@ function drawDrone(d,t){const gx=(d.x+.5)*T,gy=(d.y+1)*T-3,x=gx+d.dx,y=gy-d.alt,
   if(big){const col=d.col||'#8fc8f2';if(d.alt<10){fillR(g,'#4d505a',x-13,y+1,2,Math.min(4,d.alt+1),.4);fillR(g,'#4d505a',x+11,y+1,2,Math.min(4,d.alt+1),.4);}
     fillR(g,shade(col,-.25),x-15,y-1,30,5,2.4);fillR(g,col,x-15,y-3,30,4,2);fillR(g,'rgba(255,255,255,.4)',x-13,y-2.6,26,.8);fillE(g,Math.sin(t*6)>0?'#ff6b6b':'#7a2a20',x+13,y+1,.9,.9);fillE(g,'#6bff9a',x-13,y+1,.9,.9);}
   else{fillR(g,'#e6e9ee',x-6,y-4,12,6,2.4);fillR(g,'#c9ced3',x-6,y,12,2,1);fillE(g,'#3d3d48',x,y-1,2,1.4);fillE(g,Math.sin(t*6)>0?'#3fd0e0':'#2a7a88',x+4.6,y-1.6,.7,.7);}
-  if(V&&V.ride===d)drawChar(g,x,y-2,{level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.dir,moving:false,frame:0,pose:'stand',scale:1,seed:V.seed});}
+  if(V&&V.ride===d)drawChar(g,x,y-2,{level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.dir,moving:false,frame:0,pose:'stand',scale:1,seed:V.seed,holding:V.gift&&!V.giftGiven?'gift':null,gift:V.gift});}
 const charAt=(x,y)=>C.scene==='out'&&C.tx===x&&C.ty===y&&!C.path.length;
 function sendDrone(kind){const dd=kind==='in'?S.delivery:S.yardDel;if(!dd)return;const cur=()=>kind==='in'?S.delivery:S.yardDel;
   launchDrone({x:dd.drop.x,y:dd.drop.y,cargo:1,hover:46,land:34,wait:()=>charAt(dd.drop.x,dd.drop.y),
@@ -4956,7 +5012,7 @@ function visitTick(dt){if(!V)return;vTypeTick(dt);vMoveTick(dt);
 function vPos(){if(!V)return null;if(V.sit)return{cx:V.sit.px,by:V.sit.py};return{cx:V.px+T/2,by:V.py+T-2};}
 function drawVisitor(){if(!V||V.ride)return;const p=vPos();let hop=V.bob>0?Math.abs(Math.sin(V.bob*12))*2:0,hx=0;
   if(V.hop){const h=V.hop,k=Math.min(1,h.t/h.dur);hx=h.f.dx+(h.to.dx-h.f.dx)*k;hop=h.f.alt+(h.to.alt-h.f.alt)*k+Math.sin(Math.PI*k)*12;}
-  drawChar(g,p.cx+hx,p.by-hop,{level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.sit?V.sit.d:V.dir,moving:V.moving&&!V.sit,ph:V.ph,frame:0,pose:V.sit?'sit':'stand',holding:V.sit&&V.tea?'tea':V.sit&&V.drink?'glass':null,drink:V.drink,drinkLv:V.drinkLv,scale:1,seed:V.seed});}
+  drawChar(g,p.cx+hx,p.by-hop,{level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.sit?V.sit.d:V.dir,moving:V.moving&&!V.sit,ph:V.ph,frame:0,pose:V.sit?'sit':'stand',holding:V.gift&&!V.giftGiven?'gift':V.sit&&V.tea?'tea':V.sit&&V.drink?'glass':null,gift:V.gift,drink:V.drink,drinkLv:V.drinkLv,scale:1,seed:V.seed});}
 function pickSeats(){const ok=(x,y)=>walkIn(x,y)&&!!bfs('in',IN_ENTRY.x,IN_ENTRY.y,x,y);
   const lt=has('lowtable')&&S.layout.lowtable;if(lt&&ok(lt.x,lt.y+1)&&ok(lt.x+1,lt.y+1))return{a:{x:lt.x,y:lt.y+1,d:'up'},b:{x:lt.x+1,y:lt.y+1,d:'up'}};
   const tb=has('table')&&S.layout.table;if(tb&&ok(tb.x-1,tb.y)&&ok(tb.x+2,tb.y))return{a:{x:tb.x-1,y:tb.y,d:'right'},b:{x:tb.x+2,y:tb.y,d:'left'},chair:1};
@@ -4989,6 +5045,411 @@ function drinkTogetherSteps(m,P){let ds=null,d=null,RT=null,sn='ナッツ',src=h
 function talkStep(getL){let cv2=null;return[FN(()=>{cv2={L:getL()||[],i:0,t:0};}),
   {t:'until',tick:dt=>{if(!cv2||!V)return;cv2.t-=dt;if(cv2.t>0)return;const ln=cv2.L[cv2.i++];if(!ln)return;
     if(ln[0]==='v'){vsay(ln[1]);V.bob=.5;}else say(ln[1]);cv2.t=ln[1].length/28+2.1;},cond:()=>!V||!cv2||(cv2.i>=cv2.L.length&&cv2.t<=0)}];}
+/* ===== guest small talk (200): gossip, grumbles, worries, fun / annoying / scary stories, idle chat ===== */
+const VTALK_SRC=`
+v:ねえ聞いて、北の島の人、最近ドローンを三台も買ったらしいよ|p:三台も！？なにに使うんだろう|v:一台は洗濯物を干す専用なんだって|p:それはちょっとうらやましい
+v:となりの島で、毎朝ラジオ体操の音が聞こえるんだって|p:健康的だね|v:でも音量がすごくて、雲がふるえるらしい|p:それは大変だ（笑）
+v:西の島の人、ついに結婚したらしいよ|p:えっ、おめでとう！|v:プロポーズは虹の上だったんだって|p:ロマンチックすぎる…
+v:うわさなんだけど、南の島にパン屋さんができるらしいよ|p:ほんと！？行ってみたい|v:クロワッサンがおいしいって評判|p:ドローンで買いに行こう
+v:ここだけの話、雲の上に秘密のカフェがあるって知ってる？|p:え、知らない！|v:晴れた日だけ開くんだって|p:幻のカフェだね
+v:東の島の猫、空を散歩してるらしいよ|p:猫が？どうやって？|v:ふわふわの雲に乗ってるんだって|p:ほんとだったら見てみたい
+v:配達ドローン、最近新型になったらしいよ|p:どう変わったの？|v:荷物を置くときに「どうぞ」って言うんだって|p:礼儀正しい！
+v:北の島の人がね、庭で野菜を育てすぎて困ってるんだって|p:おすそわけ、もらえないかな|v:きっと喜んでくれるよ|p:今度聞いてみよう
+v:うわさだけど、来月、空の上で花火大会があるかも|p:えっ、見たい！|v:島どうしで協力するんだって|p:楽しみが増えた
+v:あの島の人、料理教室を始めたらしいよ|p:どんな料理？|v:雲みたいにふわふわのオムレツだって|p:習いに行きたい！
+v:知ってる？となりの島のおじいさん、昔パイロットだったんだって|p:かっこいい！|v:今は紙飛行機の名人らしいよ|p:それもかっこいい
+v:最近、島どうしで文通がはやってるらしいよ|p:手紙っていいよね|v:ドローンが毎日運んでるんだって|p:わたしも書いてみようかな
+v:南の島の人、ハンモックで寝すぎて腰を痛めたらしいよ|p:気持ちはわかる…|v:三日連続だって|p:それはやりすぎだね
+v:うわさで聞いたんだけど、空の上にも図書館ができるかもって|p:それはうれしい！|v:本は全部ドローンで配達なんだって|p:夢みたい
+v:あの島の人、最近ずっと鼻歌を歌ってるんだって|p:いいことあったのかな|v:恋をしてるってうわさだよ|p:きゃー、気になる
+v:西の島の庭、すごいバラ園になってるらしいよ|p:見てみたいなあ|v:今度いっしょに見学に行こうよ|p:行く行く！
+v:ドローン便の運転手さん、実はすごく歌がうまいらしいよ|p:え、運転手さんいるの？|v:遠隔でね。休憩中に歌ってるんだって|p:聞いてみたい
+v:となりの島で、カメが逃げ出して大騒ぎだったんだって|p:えっ、見つかった？|v:三日後に縁側で寝てたって|p:よかった〜
+v:北の島の人、毎朝五時に起きてるらしいよ|p:早起きだなあ|v:朝日を見ながらヨガするんだって|p:まねできないかも
+v:最近、あの島の子がピアノを始めたんだって|p:いいね、上手なの？|v:まだ「ねこふんじゃった」だけ|p:かわいい
+v:うわさなんだけど、雲の形のクッキーが流行ってるらしいよ|p:かわいい！食べたい|v:作り方、今度教えるね|p:やった！
+v:東の島の人、引っ越しを考えてるらしいよ|p:えー、さみしくなるね|v:もっと空の高いところに行きたいんだって|p:冒険家だなあ
+v:となりの島の夫婦、毎晩星を数えてるんだって|p:ロマンチックだね|v:でもいつも途中で寝ちゃうらしい|p:あはは
+v:最近、空でUFOを見たって人がいるらしいよ|p:ほんとに！？|v:たぶん新しいドローンだと思うけど|p:夢がこわれた（笑）
+v:あの島のお店、ポイントカードを始めたんだって|p:たまると何がもらえるの？|v:雲の綿あめだって|p:ためたい！
+v:南の島で、虹がずっと消えない日があったらしいよ|p:それはすごい|v:みんなで写真を撮りまくったって|p:見たかったなあ
+v:聞いた？西の島の人、宝くじが当たったらしいよ|p:えーっ！いくら？|v:三千円だって|p:ちょっとうれしいやつだ
+v:北の島の犬、ドローンを追いかけるのが趣味なんだって|p:危なくない？|v:いつも途中で疲れて寝ちゃうらしい|p:かわいいね
+v:うわさだけど、あの島の人、実は有名な作家らしいよ|p:えっ、だれ？|v:それがペンネームしか知らないの|p:気になる〜
+v:となりの島でね、ケーキ作り大会があったんだって|p:楽しそう！|v:優勝は三段のパンケーキタワー|p:おいしそう…
+v:ちょっと聞いてよ、最近ドローンの充電がすぐ切れるの|p:え、困るね|v:途中で雲に引っかかったこともあって|p:それはこわい
+v:もう、洗濯物を干したらすぐ雨が降るんだよ|p:あるある…|v:天気予報、晴れって言ってたのに|p:空の上でも当たらないんだね
+v:最近、家の片付けが全然終わらなくて|p:わかる、物って増えるよね|v:捨てられないんだよね|p:思い出があるとね
+v:ねえ、朝起きられなくて困ってるんだ|p:寝る時間、遅くない？|v:つい夜ふかししちゃう|p:わたしもだよ…
+v:となりの人の音楽がちょっとうるさくてさ|p:それはつらいね|v:でもいい曲だから怒れないの|p:複雑だね（笑）
+v:ドローンの順番待ちが長くて、もう大変だったよ|p:おつかれさま|v:三十分も空中で待ったの|p:それは疲れる…
+v:最近、体重が増えちゃって|p:秋は食べ物がおいしいからね|v:そうなの、全部おいしいのが悪い|p:食欲の秋だもんね
+v:植木に水をあげすぎて、枯らしちゃった…|p:ああ、それは悲しい|v:愛がおもすぎたのかも|p:また育てようよ
+v:今日、楽しみにしてたプリンが冷蔵庫からなくなってたの|p:えっ、だれが！？|v:たぶん自分で寝ぼけて食べた|p:犯人は自分だった
+v:最近、肩こりがひどくて|p:スマホの見すぎかな？|v:たぶんそう…|p:ストレッチしよう、いっしょに
+v:配達で頼んだ服、サイズが合わなかったの|p:返品できる？|v:できるけど面倒で…|p:わかる〜
+v:ちょっと愚痴っていい？最近なにをやってもうまくいかなくて|p:そういう時期もあるよ|v:そうかな|p:大丈夫、ここでゆっくりしていって
+v:また鍵をなくしちゃった|p:えっ、どこで？|v:たぶん雲の中…|p:それは見つからないかも
+v:最近、料理が全部しょっぱくなるの|p:味見しすぎて舌が慣れたのかも|v:なるほど…|p:お水飲んでから味見してみて
+v:ねえ、寝ぐせが全然直らないの|p:かわいいからいいよ|v:ほんと？|p:ほんとほんと
+v:お気に入りのマグカップ、割っちゃって…|p:ああ、悲しいね|v:ずっと使ってたのに|p:新しい相棒、いっしょに探そう
+v:最近忙しすぎて、全然休めてないんだ|p:今日はゆっくりしてね|v:ありがとう、ここ落ちつく|p:お茶おかわりあるよ
+v:もう、ドローンのナビがへんな道ばっかり案内するの|p:空にも道があるんだ？|v:雲の迂回ルートがあるの|p:知らなかった
+v:靴下がいつも片方なくなるんだよね|p:どこに消えるんだろうね|v:洗濯機の中に異世界があるのかも|p:ありそう
+v:スマホの電池、すぐなくなるの|p:アプリ開きっぱなしかも|v:それだ…|p:こまめに閉じよう
+v:ゲームで負けてばっかりでさ|p:なんのゲーム？|v:落ちものパズル。連鎖が組めない|p:今度コツ教えるよ
+v:最近、夜中にお腹が空いて困る|p:夜ごはん、早すぎない？|v:六時に食べてる|p:それは空くね（笑）
+v:庭の雑草、抜いても抜いても生えてくるの|p:雑草って強いよね|v:もう友達になるしかない|p:前向きだ
+v:ちょっと悩んでることがあって…新しいこと、始めるか迷ってるの|p:どんなこと？|v:絵を描くこと。でも下手で|p:楽しければいいんだよ
+v:最近、自分に自信がなくてさ|p:えー、{v}のいいところ、いっぱい知ってるよ|v:たとえば？|p:いつも笑顔で、来てくれるとうれしいところ
+v:友達とちょっとケンカしちゃって|p:そうなんだ…|v:どうやって謝ればいいかな|p:素直に「ごめんね」でいいと思うよ
+v:引っ越すか迷ってるんだよね|p:いまの島、好き？|v:好き。でも新しい景色も見たい|p:どっちを選んでも応援するよ
+v:最近よく眠れないんだ|p:寝る前にあったかい飲み物はどう？|v:ホットミルクとか？|p:そうそう、ほっとするよ
+v:将来なにをしたいか、わからなくなっちゃって|p:今楽しいことは何？|v:お菓子作りかな|p:それを続けてみたら？
+v:人前で話すのが苦手でさ|p:わかる、緊張するよね|v:どうしたらいいかな|p:話す相手を一人だけ見るといいらしいよ
+v:お金の使い方で悩んでて|p:使いすぎちゃう？|v:かわいい雑貨を見るとつい…|p:一週間待ってもほしかったら買う、とか
+v:最近、なんでも後回しにしちゃうの|p:わかる…|v:どうしたらいい？|p:五分だけやる、って決めると始めやすいよ
+v:ペットを飼うか迷ってるの|p:何を飼いたいの？|v:ハムスター|p:かわいいよね、責任もあるけど
+v:髪を切るか迷ってて|p:どれくらい？|v:ばっさりショートに|p:似合いそう！
+v:苦手な人がいてね…|p:そういう人もいるよね|v:どう接したらいいかな|p:無理に仲よくしなくてもいいと思うよ
+v:最近、楽しいことが見つからないの|p:そういうときもあるよ|v:そうかな|p:今日ここに来たのは楽しい？|v:…うん、楽しい！
+v:料理がうまくなりたいんだけど|p:何を作るの？|v:カレーしか作れない|p:カレーが作れたら上出来だよ
+v:運動しなきゃと思うんだけど続かなくて|p:散歩から始めたら？|v:島一周とか？|p:そうそう、景色もいいし
+v:ダイエット中なのに、お菓子がやめられないの|p:今日はお休みの日にしよう|v:いいの？|p:手土産のお菓子、いっしょに食べよう
+v:何を着ていいかわからなくて|p:{v}はなんでも似合うよ|v:ほんと？|p:ほんと。今日の服もいいよ
+v:最近ドローンに乗るのがこわくて|p:なにかあったの？|v:突風でちょっと揺れたの|p:それはこわかったね。帰りは気をつけて
+v:手紙の返事、何を書けばいいか迷ってて|p:最近あったことを書けばいいよ|v:今日のことでもいい？|p:もちろん！
+v:誕生日プレゼント、何をあげたらいいかな|p:だれに？|v:となりの島の友達|p:好きなものを思い出してみて
+v:部屋の模様替えをしたいんだけど、センスがなくて|p:{me}の部屋、参考にしていいよ|v:ほんと？見ていい？|p:どうぞどうぞ
+v:最近、物忘れがひどくて|p:メモするといいよ|v:メモをどこに置いたか忘れる|p:それは重症だ（笑）
+v:新しい趣味を探してるんだ|p:編み物とかどう？|v:冬に向けていいかも|p:マフラー編めたら最高だね
+v:人に頼るのが苦手でさ|p:わかる、遠慮しちゃうよね|v:そう|p:わたしには頼っていいよ
+v:最近、空を見上げることが減ったなって|p:たまには見上げよう|v:今日はいっしょに見よう|p:いいね
+v:そろそろ大人っぽい服が似合うようになりたいの|p:落ちついた色を選ぶといいかも|v:ベージュとか？|p:そうそう
+v:夢があるんだけど、笑われそうで言えないの|p:笑わないよ|v:…空の上にお花屋さんを開きたいの|p:すてきな夢！
+v:聞いて！この前、虹のふもとまで飛んでいったんだよ|p:えっ、たどり着けた？|v:近づいたら消えちゃった|p:虹ってそういうものなんだね
+v:昨日ね、流れ星を三つも見たの！|p:すごい！お願いごとした？|v:三つともお願いし忘れた|p:もったいない！
+v:この前、雲のかたちがうさぎそっくりだったの|p:写真撮った？|v:撮ったら、もうカメになってた|p:変身はやい（笑）
+v:昨日のごはん、大成功だったんだ|p:何作ったの？|v:オムライス。卵がふわっふわ|p:食べたい！
+v:ドローンでね、渡り鳥と並んで飛んだんだよ|p:すてき！|v:先頭の鳥がこっちを見てうなずいたの|p:仲間だと思われたんだね
+v:この前、となりの島でお祭りがあってね|p:楽しそう！|v:わたあめが雲みたいに大きかった|p:空の上らしいね
+v:久しぶりに昔の友達から手紙が来たの|p:うれしいね|v:十年ぶりくらい|p:縁ってつながってるんだね
+v:この前、初めてパンを焼いたんだ|p:どうだった？|v:石みたいにかたかった|p:次はきっとふわふわだよ
+v:昨日、朝日がすっごくきれいだったんだよ|p:何時に起きたの？|v:五時！がんばった|p:えらい！
+v:庭でお茶会したんだ|p:いいなあ|v:小鳥も来てくれたの|p:メルヘンだ
+v:聞いて、宝物を見つけたの|p:え、なに？|v:子どもの頃の日記！|p:読み返すと楽しいよね
+v:最近、ラジオでリクエストが読まれたの！|p:すごい！|v:名前を呼ばれてどきどきした|p:わたしも聴きたかった
+v:この前ね、空飛ぶクジラみたいな雲を見たの|p:大きかった？|v:島三つ分くらい|p:壮大だね
+v:昨日は一日中ゴロゴロしてたの|p:最高の休日だね|v:ちょっと罪悪感あるけどね|p:たまには必要だよ
+v:新しいレシピでケーキを焼いたら、大成功！|p:すごい！|v:今度持ってくるね|p:楽しみにしてる！
+v:この前、ボードゲーム大会で優勝したの|p:すごい！何のゲーム？|v:すごろく。運だけだけど|p:運も実力だよ
+v:昨日、星空観察会に行ってきたんだ|p:いいなあ|v:土星の輪っかが見えたよ|p:本物！？見たい！
+v:最近、毎日ちょっとずつ日記をつけてるの|p:えらいね|v:読み返すと、けっこうおもしろいの|p:わたしもつけてるよ
+v:この前、迷子の子犬を助けたの|p:えらい！|v:飼い主さん、泣いて喜んでた|p:いいことしたね
+v:編み物でね、初めてマフラーが完成したの|p:すごい！|v:ちょっと長すぎたけど|p:二人で巻けるね
+v:久しぶりに大笑いしたの|p:何があったの？|v:友達がドローンからおりるとき、着地でぽよんって跳ねて|p:想像したら笑っちゃう
+v:昨日、温泉に行ってきたの|p:いいなあ！|v:空が見える露天風呂でね|p:最高だね
+v:この前、映画を見て大泣きしちゃった|p:どんな映画？|v:犬と飼い主の話|p:それは泣くよ
+v:新しい靴を買ったの！|p:見せて見せて|v:これ！雲の上でも歩きやすいの|p:かわいい！
+v:ちょっと聞いてよ、もうムカついちゃって！|p:どうしたの？|v:ドローンで割り込みされたの|p:それはムカつくね
+v:最近、カラスに洗濯物を持っていかれるの|p:えっ、なんで？|v:靴下ばっかり。巣にするのかな|p:きらきらした物が好きらしいよ
+v:もう！せっかく作ったケーキ、ドローンの揺れでつぶれちゃった|p:ああ…|v:見た目は残念だけど、味はいいの|p:味が大事だよ
+v:聞いて、配達の荷物、となりの島に届いてたの|p:えー！|v:中身はわたしの下着…|p:それは恥ずかしい！
+v:ムカつく話していい？予約してたお店、勝手にお休みだったの|p:えっ、ひどい|v:看板に「気まぐれ休業」って|p:気まぐれすぎる
+v:ゲームのデータが消えちゃったの！|p:ええっ！|v:百時間遊んだのに|p:それは立ち直れない…
+v:電話がずっとつながらなくてさ|p:電波悪いの？|v:雲が厚いとダメみたい|p:空の上あるあるだね
+v:最後のひとつのおまんじゅう、食べられた！|p:だれに？|v:同居人のハト|p:ハトかあ…
+v:せっかく早起きしたのに、目覚ましが鳴ってなかったの|p:え、じゃあ自分で起きたんだ|v:そう、遅刻した夢で飛び起きた|p:ある意味えらい
+v:雨の予報じゃなかったのに、どしゃ降りでさ|p:びしょぬれ？|v:新しい服がびしょびしょ|p:それはムカつくね
+v:お気に入りのペン、だれかに持っていかれたの|p:貸したの？|v:貸して、返ってこない|p:あるある…
+v:しゃっくりが一時間止まらなかったの|p:それはつらい|v:最後はびっくりさせてもらって止まった|p:荒療治だ
+v:ドローンの中に虫が入ってきてさ|p:えー！|v:ずっといっしょに飛んでた|p:乗客だね（笑）
+v:頼んだラーメンが伸びてたの|p:配達だと仕方ないかも|v:麺がスープを全部吸ってた|p:それはもうラーメンじゃない
+v:昨日、つまずいて派手に転んだの|p:大丈夫？|v:けがはないけど、見られてた|p:恥ずかしいやつだ
+v:目の前で信号…じゃなくて、ドローンの通行止めにひっかかったの|p:空にも信号あるんだ|v:あるの。しかも長いの|p:イライラするね
+v:ちょっと怖い話していい？|p:う、うん|v:夜中に窓をたたく音がして|p:…それで？|v:見たら、風で飛んできた洗濯ばさみだった|p:よかった〜
+v:この前、雲の中で道に迷っちゃって|p:こわい！|v:真っ白で上も下もわからなくて|p:無事でよかった
+v:夜、ドローンで帰るとき、うしろから光がついてきたの|p:えっ…|v:振り向いたら、月だった|p:月か〜！
+v:家に帰ったら、知らない傘が玄関にあったの|p:え、こわい|v:よく見たら、自分が買ったのを忘れてた|p:ホラーかと思った
+v:真夜中に、だれもいない部屋から笑い声が聞こえたの|p:ひえっ|v:テレビの消し忘れだった|p:心臓に悪い〜
+v:かみなりがすぐそばに落ちてね|p:こわっ！|v:島がちょっと揺れた気がした|p:大丈夫だった？|v:うん、でもしばらく震えてた
+v:昨日、鏡に映った自分が、ちょっと遅れて動いた気がして|p:やめて〜|v:たぶん寝不足|p:今日は早く寝てね
+v:ドローンが急に止まって、空中で五分くらい浮いてたの|p:こわすぎる|v:再起動したら動いたけど|p:点検した方がいいよ
+v:夜中にね、庭にだれかいると思ったら、かかしだった|p:あるある（笑）|v:自分で置いたのに忘れてた|p:かかし、仕事してるね
+v:台風の日、島ごと流されるかと思った|p:こわかったね|v:柱にしがみついてた|p:無事でよかった
+v:誰もいないのに、ドアのチャイムが鳴ったの|p:え…|v:鳥がボタンをつついてた|p:鳥ってすごい
+v:停電の夜、真っ暗でこわかった|p:ろうそく持ってる？|v:持ってたけど、マッチがなかった|p:今度いっしょに備えよう
+v:ねえ、空の上って夜に変な音しない？|p:ひゅーって風の音かな|v:それが「おーい」って聞こえて|p:それは…気のせいだよ、きっと
+v:この前、真っ暗な雲の下を飛んだんだけど|p:うん|v:下に光る目がいっぱい見えて|p:え…|v:街の灯りだった
+v:夜中に急に電話が鳴って出たら、無言だったの|p:こわい…|v:次の日、まちがい電話だったってわかった|p:よかった
+v:ねえ、どうでもいい話していい？|p:もちろん|v:目玉焼きには、しょうゆ派？ソース派？|p:しょうゆ派！|v:わたしは塩こしょう派
+v:もし空を飛べる動物になるなら、何がいい？|p:うーん、ふくろうかな|v:わたしはペンギン|p:ペンギンは飛べないよ（笑）
+v:最近気づいたんだけど、雲って全部ちがう形なんだね|p:当たり前だけど、すごいことだね|v:でしょ？|p:今日の雲も一期一会だ
+v:今朝の夢でね、パンケーキの島に住んでたの|p:いいなあ|v:床がふわふわで歩けなかった|p:夢あるある
+v:犬派？猫派？|p:どっちも好き！|v:ずるい答え〜|p:えへへ
+v:最近、しりとりにハマってるの|p:じゃあやろう。りんご|v:ゴリラ|p:ラッパ|v:パン…あ、負けた
+v:ねえ、カレーって二日目がおいしいよね|p:わかる！|v:なんでなんだろう|p:寝かせると味がなじむらしいよ
+v:「ふわふわ」って言葉、好きなんだよね|p:かわいい響きだよね|v:「もちもち」もいい|p:食べたくなってきた
+v:もし宝くじが当たったら何する？|p:大きな庭をつくる！|v:わたしはドローンを金色にする|p:目立つね（笑）
+v:最近、雲を数えるのが趣味なの|p:何個まで数えた？|v:三十くらいで寝ちゃう|p:羊みたいだね
+v:ねえ、靴下って左右ちがう柄でもいいと思う？|p:おしゃれならいいと思う|v:今日、実はちがうの|p:ほんとだ！かわいい
+v:麦茶って、夏の飲み物ってイメージない？|p:あるある|v:でも冬も飲むよね|p:一年中おいしいよ
+v:最近、口ぐせが「まあいっか」になってきた|p:平和でいいと思う|v:まあいっか|p:（笑）
+v:ドローンの名前、つけてる？|p:つけてない！つけたほうがいい？|v:わたしは「ポチ」って呼んでる|p:犬みたい（笑）
+v:おにぎりの具、何が一番好き？|p:鮭かな|v:わたしは梅！|p:どっちもおいしいね
+v:最近ね、早口言葉の練習してるの|p:言ってみて|v:となりの島の客はよく柿食う客だ|p:上手！
+v:ねえ、空の色って毎日ちがうよね|p:今日はどんな色？|v:今日はちょっと水色多め|p:いい色だね
+v:最近、ひとりで笑っちゃうことがあって|p:なんで？|v:昔の失敗を思い出すと笑えるの|p:いい思い出になったんだね
+v:{me}の好きな季節っていつ？|p:秋かな、食べ物がおいしいから|v:わかる〜、わたしも秋|p:いっしょだね
+v:うわさなんだけど、空飛ぶ郵便屋さんが近々来るらしいよ|p:ドローンじゃなくて？|v:気球に乗ってるんだって|p:のんびりしてそう
+v:となりの島の人、毎晩バイオリンを練習してるんだって|p:上手なの？|v:最近やっと「きらきら星」が弾けたって|p:応援したくなるね
+v:西の島で、ドローンレースが開かれるらしいよ|p:見てみたい！|v:優勝賞品は一年分のお米だって|p:それはほしい
+v:南の島のパン屋さん、メロンパンが空の形なんだって|p:空の形って？|v:雲の模様がついてるの|p:かわいい！
+v:北の島の人がね、庭に温泉を掘り当てたらしいよ|p:えっ、空の上で？|v:実はただの給湯器だった|p:なーんだ（笑）
+v:最近、空の上でマラソンが流行ってるらしいよ|p:島から島へ？|v:ドローンで移動するから、ほぼ歩いてない|p:それはマラソンなのかな
+v:あの島の人、最近ずっとサングラスしてるんだって|p:おしゃれ？|v:日差しが強すぎるかららしい|p:空の上は近いもんね
+v:東の島でね、迷子のペンギンが保護されたらしいよ|p:ペンギン！？|v:どこから来たのか誰も知らないの|p:ミステリーだ
+v:となりの島の料理上手さん、レシピ本を出すらしいよ|p:買いたい！|v:タイトルは『雲の上のごはん』|p:おいしそうなタイトル
+v:最近、星座占いがよく当たるって評判の人がいるらしいよ|p:占ってほしいな|v:今度紹介するね|p:わくわく
+v:もう、ドローンの予約がいっぱいで取れないの|p:人気なんだね|v:週末は特に|p:平日に来ればすいてるかもね
+v:お風呂のお湯、ぬるすぎて風邪ひきそうになったの|p:追いだきしなかったの？|v:ボタンを押し忘れて|p:あるある
+v:最近、近所の鳥が朝四時に鳴くの|p:早すぎる…|v:目覚ましより正確|p:ある意味便利だね
+v:買ったばかりの傘、一回で壊れちゃった|p:風が強かったの？|v:空の上はいつも強いの|p:丈夫なのを探そう
+v:最近、寝言がうるさいって言われるの|p:なんて言ってるんだろう|v:「もう食べられない」らしい|p:幸せそうな夢だね
+v:スマホの画面、割っちゃったの|p:ああ…|v:落としたら雲を抜けて下まで…|p:それは取りに行けない！
+v:お隣さんの家、模様替えしたら素敵すぎて、うちが地味に見えて|p:うちもそう思う時ある|v:でしょ？|p:でも自分の家がいちばん落ちつくよ
+v:最近、やる気が出なくてさ|p:秋のせいかもね|v:そうかも|p:今日はやる気出さなくていい日にしよう
+v:習い事を始めようか迷ってるの|p:何を？|v:お茶とお花|p:和の心だね、すてき
+v:一人暮らしって、さみしくなる時ない？|p:あるある|v:そういう時、どうしてる？|p:ラジカセで音楽かけてるよ
+v:最近ちょっと疲れてて…|p:無理しすぎてない？|v:ちょっとしてるかも|p:今日はたくさん休んでいってね
+v:誰かに褒められたいなあって思う日があるの|p:{v}、今日もすてきだよ|v:えへへ、ありがとう|p:ほんとのことだもん
+v:料理の写真を撮るのが楽しくなっちゃって|p:見せて！|v:これ、昨日のハンバーグ|p:おいしそう！
+v:この前、ドローンで夕日を追いかけたんだ|p:追いつけた？|v:ずっと夕焼けの中を飛べたよ|p:ロマンチック！
+v:昨日、部屋の大掃除をしたの|p:えらい！|v:なくしたと思ってたイヤリングが出てきた|p:ラッキー！
+v:新しい紅茶を見つけたの|p:どんな味？|v:りんごの香りがするの|p:飲んでみたい！
+v:この前の満月、すっごく大きかったね|p:見た見た！|v:手が届きそうだった|p:空の上だから近いのかもね
+v:最近、サボテンに花が咲いたの|p:えーすごい！|v:十年育ててて初めて|p:お祝いしなきゃ
+v:昨日ね、知らない人に道をきかれたの|p:空の上で？|v:そう、ドローン同士で|p:空の道案内だ
+v:うれしいことがあって、ついスキップしちゃった|p:何があったの？|v:今日ここに来られること！|p:うれしいなあ
+v:ちょっとムカついた話、聞いて|p:どうぞどうぞ|v:お店でおつり、まちがえられたの|p:少なかった？|v:多かった。返したけど|p:えらい！
+v:配達のドローン、毎回玄関じゃなくて屋根に置くの|p:取りにくいね|v:はしご出すの大変なの|p:今度設定変えよう
+v:電子レンジで卵を温めたら爆発しちゃった|p:それはダメなやつ！|v:掃除が大変だった|p:けがはなかった？
+v:楽しみにしてたテレビ、録画できてなかったの|p:ああ、ショック|v:予約の曜日をまちがえた|p:あるある…
+v:風が強くて、帽子が飛んでいっちゃった|p:どこまで？|v:たぶん隣の県まで|p:さよなら帽子…
+v:夜中にトイレに行ったら、廊下に白い影が|p:ひっ|v:カーテンだった|p:カーテン、こわい説ある
+v:ドローンで帰る途中、雷雲に近づいちゃって|p:こわい！|v:髪の毛が全部逆立った|p:無事でよかった…
+v:冷蔵庫を開けたら、見覚えのないケーキが|p:だれの？|v:自分で買って忘れてた|p:いいサプライズだね
+v:目玉焼き、黄身が二つだったの！|p:双子だ！ラッキー|v:いいことあるかな|p:もうあったんじゃない？
+v:最近、鼻歌が止まらないの|p:何の曲？|v:わからない。たぶん自作|p:作曲家だ
+v:好きな雲の形ってある？|p:ひつじ雲かな|v:わたしはいわし雲|p:どっちも秋っぽいね
+v:今日のおやつ、何だと思う？|p:うーん、プリン？|v:正解！手土産とは別に持ってきたの|p:最高！
+v:最近、植物に話しかけてるの|p:元気になるっていうよね|v:ちょっと元気になった気がする|p:わたしもやってみよう
+v:もし一日だけ透明になれたら何する？|p:こっそりおやつを食べる|v:それ、透明じゃなくてもできるよ|p:たしかに（笑）
+v:最近ね、「ありがとう」を一日十回言うようにしてるの|p:いいね|v:今日はもう三回言ったよ|p:じゃあ、来てくれてありがとう！
+v:空の上の生活、慣れた？|p:うん、すっかり|v:最初は高くてこわかったよね|p:今は下を見るのが楽しい
+`;
+const VTALK=VTALK_SRC.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+function vtalkLines(src,names){return src.split('|').map(x=>{const sp=x.slice(0,1),tx=x.slice(2).replace(/\{me\}/g,names.me).replace(/\{v\}/g,names.v).replace(/\{m\}/g,names.m||'');return[sp==='p'?'me':sp,tx];});}
+/* ===== more housemate conversations (m: housemate, p: player character) ===== */
+const MTALK_SRC=`
+m:ねえ{me}、子どもの頃の夢って何だった？|p:パン屋さんになりたかった|m:かわいい！わたしは宇宙飛行士|p:今、空の上にいるから半分かなってるね
+m:今日、洗濯物たたんでおいたよ|p:ありがとう！助かる|m:靴下、ちゃんとペアにしといた|p:天才だ
+m:明日の朝ごはん、パンとごはんどっちがいい？|p:パンかな|m:じゃあフレンチトーストにしよう|p:やったー！
+m:ねえ、もし一週間お休みがあったら何する？|p:温泉めぐり！|m:いいね、わたしは一日中寝てたい|p:それも最高だね
+m:最近、{me}の笑い方、うつってきた気がする|p:え、どんな？|m:「えへへ」ってやつ|p:えへへ…あ、ほんとだ
+m:冷蔵庫のプリン、食べちゃった。ごめん|p:えー！あれ楽しみにしてたのに|m:明日二つ買ってくるから|p:じゃあ許す
+m:ねえ、好きな色って何？|p:空色かな|m:いいね。わたしは夕焼けのオレンジ|p:どっちも空の色だ
+m:今日、庭でてんとう虫見つけたよ|p:いいことありそう|m:お願いごとしといた|p:何をお願いしたの？|m:ないしょ
+m:もし犬を飼うなら、名前どうする？|p:ふわりとか|m:かわいい！わたしはおもち|p:どっちもおいしそう（笑）
+m:ねえ、{me}って寝言言うの知ってた？|p:え、なんて？|m:「もうひと口だけ…」って|p:食いしん坊がばれた
+m:今日は夕飯、わたしが作るね|p:ほんと？うれしい|m:何がいい？|p:{m}の得意料理がいい
+m:最近、早起きしてるんだ|p:えらいね|m:朝の空、すっごくきれいだよ|p:明日いっしょに見よう
+m:ねえ、一緒に住んでて、困ってることない？|p:ないよ。むしろ楽しい|m:よかった。何かあったら言ってね|p:{m}もね
+m:今日ね、知らない鳥が窓に来てたの|p:どんな鳥？|m:青くて小さい鳥|p:幸せの青い鳥かも
+m:この部屋、もう少しお花を増やしたいな|p:いいね、どこに置く？|m:窓ぎわかな|p:明るくなりそう
+m:最近、料理の腕が上がった気がする|p:たしかに、昨日のスープおいしかった|m:えへへ、隠し味入れたの|p:何？|m:ないしょ
+m:ねえ、今度の休み、どこか行こうよ|p:どこ行きたい？|m:海が見えるところ|p:空の上からも見えるけどね
+m:{me}の好きな食べ物ベスト3教えて|p:オムライス、カレー、プリン|m:子どもっぽい！|p:{m}は？|m:…オムライス、カレー、プリン
+m:最近、夜空ばっかり見ちゃうんだ|p:星、きれいだもんね|m:流れ星、まだ見たことないの|p:今夜いっしょに探そう
+m:ねえ、もしタイムマシンがあったらどこ行く？|p:恐竜の時代！|m:こわくない？|p:ちょっとだけ見て帰る
+m:今日、ちょっと失敗しちゃって|p:どうしたの？|m:ごはんを焦がしちゃった|p:おこげ、好きだよ
+m:この前の雨の日、楽しかったね|p:家でずっとボードゲームしてた日？|m:そうそう|p:またやろう
+m:ねえ、わたしのいいところ三つ言って|p:やさしい、料理上手、笑顔がいい|m:えへへ、照れる|p:ほんとのことだよ
+m:最近ね、編み物始めたんだ|p:何作ってるの？|m:{me}のマフラー|p:え、うれしい！
+m:明日の天気、晴れだって|p:洗濯日和だね|m:シーツも洗っちゃおう|p:いい匂いになるね
+m:ねえ、ケンカしたことないよね、わたしたち|p:そうだね|m:これからもしないでいようね|p:もちろん
+m:さっき、{me}が鼻歌うたってたの聞いちゃった|p:えっ、恥ずかしい|m:上手だったよ|p:もう一回は歌わないよ（笑）
+m:ねえ、今日のごはん、何点だった？|p:100点！|m:ほんと？|p:おかわりしたでしょ？
+m:最近、ちょっと太ったかも|p:気のせいだよ|m:ほんと？|p:…いっしょに散歩しようか
+m:このクッション、ふかふかで最高|p:ずっと座ってるもんね|m:もう立てない|p:人をダメにするやつだ
+m:ねえ、{me}って怒ることある？|p:あるよ、たまに|m:想像できない|p:プリン食べられたときとか
+m:今日、窓から虹が見えたよ|p:えー、見たかった|m:写真撮っといた|p:ありがとう！見せて
+m:ねえ、引っ越してきた日のこと覚えてる？|p:覚えてるよ、緊張してたね|m:今はすっかり我が家|p:うれしいな
+m:最近、星座の名前をおぼえてるんだ|p:いくつ覚えた？|m:オリオン座だけ|p:いちばん有名なやつだ
+m:この前、{me}が寝てる間に部屋の掃除しといた|p:気づかなかった！ありがとう|m:ほこり、すごかったよ|p:ごめんなさい…
+m:ねえ、お互いの呼び方、変えてみる？|p:どんなふうに？|m:「相棒」とか|p:かっこいい！
+m:最近、夢にこの島が出てくるの|p:どんな夢？|m:島がもっと大きくなってた|p:正夢になるといいね
+m:明日、早起きしてパン焼こうか|p:いいね！何パン？|m:クロワッサンに挑戦|p:むずかしそう、でも楽しみ
+m:ねえ、最近ありがとうって言えてなかったから…いつもありがとう|p:えっ、急にどうしたの|m:言いたくなったの|p:こちらこそ、ありがとう
+m:今日、なんかいいことありそうな気がする|p:根拠は？|m:朝の目玉焼きがきれいに焼けた|p:それは期待できる
+m:ねえ、{me}は猫と犬、どっちに似てると思う？|p:うーん、犬かな|m:わかる、しっぽ振ってる感じ|p:えっ、どこが？
+m:最近、ベランダで家庭菜園したいなって|p:何を育てる？|m:ミニトマト|p:サラダが楽しみだね
+m:ねえ、どっちが先に寝るか競争しよう|p:それ、どうやって勝ち負け決めるの？|m:…たしかに|p:おやすみ競争は引き分けで
+m:今日のおやつ、半分こしよ|p:やった、ありがとう|m:大きいほうあげる|p:やさしい！
+m:最近、朝のコーヒーが楽しみで起きてる|p:わかる、いい香りだよね|m:明日は{me}の分もいれるね|p:うれしい
+m:ねえ、空の上って音が少なくて落ちつくね|p:そうだね、風の音くらい|m:この静けさ、好き|p:わたしも
+m:今日、鏡の前で笑顔の練習したの|p:なんで？|m:{me}みたいに笑いたくて|p:そのままで十分すてきだよ
+m:ねえ、もし魔法が使えたら何する？|p:おやつを無限に出す|m:わたしは洗い物を一瞬で終わらせる|p:それ、すごく便利
+m:最近、ラジオの深夜番組にハマってるの|p:眠くならない？|m:それが聞きながら寝落ちするのがいいの|p:わかる気がする
+m:ねえ、今度、手紙書いてもいい？|p:同じ家にいるのに？|m:だからいいんじゃない|p:じゃあ返事書くね
+m:今日、{me}の好きなお茶、買ってきたよ|p:わあ、覚えててくれたの？|m:当たり前でしょ|p:うれしい
+m:最近、腹筋始めたんだ|p:何回やってる？|m:三回|p:始めたことがえらい
+m:ねえ、この前のテレビの話の続き、気になるね|p:来週が待ちきれないね|m:予想しよう|p:犯人はあの人だと思う
+m:今夜は鍋にしない？|p:いいね！何鍋？|m:寄せ鍋|p:しめは雑炊で
+m:最近、窓から見える雲に名前つけてるの|p:どんな名前？|m:あれは「もくもくさん」|p:かわいい
+m:ねえ、{me}って子どもの頃どんな子だった？|p:おとなしかったかな|m:意外！|p:今はよくしゃべるもんね
+m:今日、お庭の花が一輪咲いたよ|p:見に行こう！|m:小さくてかわいいの|p:写真撮ろう
+m:ねえ、わたしたちってどんなコンビだと思う？|p:のんびりコンビ|m:ぴったりだね|p:平和がいちばん
+m:最近、苦手な野菜を食べられるようになったの|p:何？|m:ピーマン|p:大人になったね
+m:今日、ドローンの配達の人に「いつも仲いいですね」って言われた|p:えへへ|m:見られてたね|p:ちょっと照れる
+m:ねえ、大掃除の分担決めない？|p:わたし、窓ふきやる|m:じゃあわたしは床|p:終わったらケーキね
+m:この前の映画、もう一回見たいな|p:じゃあ今夜見る？|m:ポップコーンも作ろう|p:映画館みたいにしよう
+m:最近、{me}の料理の味つけ、わたし好みになってきた|p:合わせてるからね|m:えっ、ほんと？|p:ないしょだったのに
+m:ねえ、もし一日入れかわったらどうする？|p:{m}の服を着てみたい|m:わたしは{me}みたいに早寝してみたい|p:早寝、いいよ
+m:今日は何もしない日にしよう|p:賛成！|m:お昼寝もしよう|p:最高の一日になりそう
+m:最近、笑いのツボが似てきたよね|p:わかる、同じところで笑う|m:ずっと一緒にいるからかな|p:きっとそうだね
+m:ねえ、好きな季節の匂いってある？|p:雨上がりの匂い|m:わかる！わたしは金木犀|p:秋っぽいね
+m:今日、お手紙が届いてたよ|p:だれから？|m:となりの島のお客さんから|p:お返事書かなきゃ
+m:ねえ、この家に足りないものって何だと思う？|p:うーん、ハンモック|m:いいね！窓ぎわに置こう|p:お昼寝が捗りそう
+m:最近、よく眠れてる？|p:うん、ぐっすり|m:よかった。疲れてるように見えたから|p:心配してくれてありがとう
+m:今度、二人で料理大会しない？|p:お題は？|m:冷蔵庫の残りもの|p:むずかしいけど楽しそう
+m:ねえ、もし空から落ちたらどうする？|p:こわいこと言わないで！|m:ふわふわの雲に着地する|p:それなら安心かな
+m:今日の空、絵の具で描いたみたいだね|p:ほんとだ、きれい|m:写真じゃ伝わらないね|p:目に焼きつけとこう
+m:最近、家事の手際がよくなったね|p:{m}に教わったからね|m:師匠と呼んでいいよ|p:師匠！
+m:ねえ、誕生日、何がほしい？|p:まだ先だよ|m:今から考えとくの|p:じゃあ、一緒にケーキ作りたい
+m:今日、ちょっと落ち込んでて…|p:どうしたの？|m:なんとなく、かな|p:そういう日もあるよ。あったかいもの飲もう
+m:ねえ、{me}の口ぐせ、知ってる？|p:え、なに？|m:「まあいっか」|p:…まあいっか
+m:最近、ふたりで暮らしてよかったなって思う|p:急にどうしたの|m:ごはんがおいしいから|p:それはわたしもそう思う
+m:今日、庭の土をいじってたら、ミミズがいた|p:土がいい証拠だね|m:そうなの？|p:野菜がよく育つよ
+m:ねえ、星に願いごとするなら何にする？|p:ずっとこの暮らしが続きますように|m:同じこと考えてた|p:じゃあ、叶うね
+m:最近、昔の写真見返してたの|p:どんなの？|m:{me}が来たばっかりの頃の|p:恥ずかしいから見ないで
+m:ねえ、今日はわたしがマッサージしてあげる|p:えっ、いいの？|m:肩、こってるでしょ|p:ばれてた…ありがとう
+m:最近、植物に名前つけたの|p:なんて？|m:「みどりちゃん」|p:そのまんまだ（笑）
+m:ねえ、もし宝くじが当たったら半分あげるね|p:え、やさしい|m:当たったらね|p:当たるといいね
+m:今日は風が強いね|p:島が揺れてる気がする|m:洗濯物、しまっておいた|p:さすが！
+m:この前、{me}が作ってくれたお弁当、おいしかった|p:ほんと？|m:卵焼きがあまくて好き|p:また作るね
+m:ねえ、なぞなぞ出していい？パンはパンでも食べられないパンは？|p:フライパン！|m:正解、さすが|p:定番だもん
+m:最近、雨の音を聞きながら寝るのが好き|p:落ちつくよね|m:今夜、降らないかな|p:降るといいね
+m:ねえ、そろそろ衣替えしない？|p:そうだね、寒くなってきた|m:セーター出しとくね|p:ありがとう
+m:今日、窓ふきしたらすごく景色がきれいになった|p:ほんとだ！|m:世界が明るくなった|p:窓ってだいじだね
+m:ねえ、最近うれしかったことは？|p:{m}と晩ごはん食べたこと|m:毎日じゃん|p:毎日うれしいの
+m:今度、星空の下でお茶会しない？|p:いいね！何持っていく？|m:ホットココア|p:ブランケットも！
+m:ねえ、苦手なものってある？|p:虫かな|m:わたしもー。でもてんとう虫は好き|p:かわいいからね
+m:最近、{me}の寝顔を見ると安心する|p:えっ、見てるの？|m:たまにね|p:恥ずかしい…
+m:ねえ、今日は何の日か知ってる？|p:えっと…|m:{me}と出会って何日目かの記念日|p:何日目？|m:数えてない（笑）
+m:最近、ゆっくりお風呂に入るのが楽しみ|p:入浴剤、何使ってる？|m:ゆずの香り|p:いいね、わたしも使いたい
+m:ねえ、もし島にお店を開くなら何屋さん？|p:カフェ！|m:わたしはパン屋|p:いっしょにやろう
+m:今日、空を見てたらドローンが三台並んで飛んでた|p:珍しいね|m:編隊飛行みたいだった|p:かっこいい
+m:ねえ、{me}って几帳面だよね|p:そうかな？|m:靴がいつもそろってる|p:それくらいは…
+m:最近、二人で同じ番組見て笑うのが好き|p:わかる|m:一人で見るより楽しいね|p:今夜も見よう
+m:ねえ、寒くなったら、こたつ出そうね|p:出したら最後、動けなくなるよ|m:それが冬の醍醐味でしょ|p:たしかに
+m:今日、カレンダーにお出かけの予定書いといた|p:どこ行くんだっけ？|m:それはお楽しみ|p:気になる！
+m:ねえ、好きな言葉ってある？|p:「おかえり」かな|m:いいね。言われるとほっとする|p:じゃあ今日から毎日言うね
+m:最近、星の動きで時間がわかるようになったの|p:すごい！|m:だいたいだけどね|p:天文学者だ
+m:ねえ、たまには役割交換しない？|p:何の？|m:料理当番と掃除当番|p:いいよ、がんばる
+m:今日、{me}がいなくて、ちょっとさみしかった|p:え、ずっといたよ？|m:お風呂が長かったから|p:ごめん、のぼせかけてた
+m:ねえ、この島にもっと住人が増えたらどうする？|p:にぎやかになるね|m:でも今の静かさも好き|p:わたしも
+m:最近、「いただきます」をちゃんと言うようになった|p:いいことだね|m:{me}のまね|p:えへへ
+m:ねえ、今年中にやりたいこと、ある？|p:新しい料理を十個覚える|m:じゃあわたしは十個食べる係|p:それ、ずるい
+m:今日、雲がすごく低くて、手が届きそうだった|p:さわってみた？|m:ひんやりしてた|p:ほんとにさわったの！？
+m:ねえ、お気に入りの場所ってある？|p:窓ぎわのソファ|m:わたしもそこ。取り合いだね|p:半分こしよう
+m:最近、ありがとうノートつけてるの|p:どんなノート？|m:うれしかったことを書くの|p:何書いた？|m:{me}がお茶いれてくれた
+m:ねえ、もし明日世界が終わるなら何食べる？|p:{m}のオムライス|m:えっ、うれしい|p:本気だよ
+m:今日の夕焼け、ピンク色だったね|p:見た見た！|m:明日も晴れるかな|p:きっと晴れるよ
+m:ねえ、最近ちょっと寒くない？|p:そうだね、毛布出そうか|m:ふかふかのやつね|p:お日さまに干しておくね
+m:最近、{me}に教わった料理、友達にも作ってあげたよ|p:どうだった？|m:大好評|p:うれしいなあ
+m:ねえ、わたしたちの島に名前をつけるなら？|p:「のんびり島」|m:いいね、ぴったり|p:看板作ろうか
+m:今日は珍しく、何も予定がないね|p:ぼーっとしよう|m:ぼーっとするの、得意|p:わたしも
+m:ねえ、この前の手土産のお菓子、まだ残ってる？|p:二つだけ|m:半分こしよ|p:お茶いれるね
+m:最近、お互いの好み、だいぶわかってきたね|p:コーヒーは砂糖ひとつ|m:正解！{me}は紅茶にミルク|p:正解！
+m:ねえ、もし雲に乗れたらどこ行く？|p:世界一周|m:わたしは月まで|p:雲じゃ届かないかも（笑）
+m:今日、ドローンで届いた本、いっしょに読もう|p:何の本？|m:世界の絶景の写真集|p:行ってみたくなるね
+m:ねえ、たまには夜ふかししない？|p:いいね、何する？|m:おしゃべり|p:いつもと同じだ（笑）
+m:最近、毎日が楽しいの|p:よかった|m:{me}のおかげだよ|p:こちらこそ、{m}のおかげ
+m:今日は月がきれいですね|p:…それ、どういう意味？|m:そのままの意味だよ|p:ほんとにきれいだね
+m:ねえ、朝の空気って好き？|p:ひんやりしてて好き|m:深呼吸すると気持ちいいよね|p:明日いっしょに深呼吸しよう
+m:最近、ふと思うんだけど、ここに来てよかった|p:わたしも、{m}が来てくれてよかった|m:えへへ|p:これからもよろしくね
+m:今日のお昼、何食べたい？|p:麺類かな|m:じゃあ焼きそば|p:目玉焼きのせて！
+m:ねえ、ふたりでバンド組むなら何担当？|p:わたしはタンバリン|m:じゃあわたしはカスタネット|p:打楽器しかいない（笑）
+m:最近、洗濯物を干すのが楽しい|p:空の上は乾くの早いもんね|m:風がいい仕事してくれる|p:風に感謝だね
+m:ねえ、今日も一日おつかれさま|p:{m}もおつかれさま|m:明日もがんばろうね|p:ほどほどにね
+m:ねえ、この前のお客さん、楽しい人だったね|p:また来てくれるといいね|m:手土産もおいしかった|p:そこ？（笑）
+m:今日の{me}、なんか機嫌いいね|p:わかる？|m:鼻歌でわかる|p:いい天気だからかな
+m:ねえ、冷蔵庫の中、そろそろ整理しない？|p:そうだね、謎のビンがある|m:あれ、いつのジャム？|p:…考えないでおこう
+m:最近、寝る前にストレッチしてるんだ|p:体、やわらかくなった？|m:前屈で床に手がつくようになった|p:すごい！
+m:ねえ、もし空の上に遊園地ができたら何に乗りたい？|p:観覧車！|m:もう空の上なのに？|p:それでも乗りたい
+m:今日、配達の箱を開けるのが楽しみ|p:何が届くの？|m:新しいマグカップ|p:おそろい？|m:もちろん
+m:最近、窓の外を見てると時間を忘れる|p:雲ってずっと見てられるよね|m:今、三十分たってた|p:時間泥棒だ
+m:ねえ、今日のごはん、いつもよりおいしくない？|p:何か変えた？|m:だしをちゃんと取ったの|p:違いがわかる！
+m:最近、ふたりの会話、日記に書いてるの|p:え、何書いてるの？|m:{me}のおもしろ発言集|p:恥ずかしい！
+m:ねえ、どっちがじゃんけん強いか決めよう|p:いいよ、最初はグー|m:じゃんけんぽん！|p:あいこだ
+m:今日は寒いから、ホットミルク作るね|p:はちみつ入れて！|m:了解|p:{m}、最高
+m:ねえ、わたしの料理で一番好きなのは？|p:肉じゃが|m:意外！|p:やさしい味がするの
+m:最近、ラジカセで流す曲、{me}のセンスいいよね|p:ほんと？|m:作業がはかどる|p:もっと増やすね
+m:ねえ、この家で一番落ちつく場所はどこ？|p:{m}のとなり|m:…照れること言うね|p:ほんとのことだよ
+m:今日、庭の木に鳥が巣を作ってた|p:ほんと？見たい！|m:そっとしておこうね|p:うん、こっそり見守ろう
+m:最近、{me}の書く字がきれいになった|p:日記のおかげかな|m:わたしも書こうかな|p:いっしょに書こう
+m:ねえ、明日は何時に起きる？|p:七時かな|m:じゃあ六時半に起こすね|p:なんで早いの！？
+m:今日のテレビ、おもしろかったね|p:最後、笑いすぎた|m:涙出てたよ|p:{m}もでしょ
+m:ねえ、空の上でも季節ってちゃんと感じるね|p:風の匂いが変わるよね|m:今は秋の匂い|p:落ち葉の匂い？
+m:最近、二人で食べるごはんの量が増えた気がする|p:おいしいからね|m:幸せ太り？|p:気にしない気にしない
+m:ねえ、困ったときの合言葉、決めない？|p:どんな？|m:「プリン」|p:プリンって言われたら駆けつけるね
+m:今日、窓から見えた島、新しくできたのかな|p:どこ？|m:ずっと東のほう|p:今度ドローンで見に行こう
+m:最近ね、{me}の好きなもの、メモしてるの|p:え、なんで？|m:プレゼント選びのため|p:ばれちゃってるよ（笑）
+m:ねえ、お風呂、先に入っていいよ|p:{m}から入って|m:じゃあじゃんけんで|p:また？
+m:今日は掃除がはかどったね|p:二人でやると早いね|m:ごほうびにアイス食べよう|p:賛成！
+m:最近、洗い物の泡、いい匂いのにしたの|p:気づいた！レモンの香り|m:さすが|p:洗い物が楽しくなった
+m:ねえ、もし島から出ていくことになったらどうする？|p:{m}も一緒に連れていく|m:即答だ|p:当たり前でしょ
+m:今日、ドローンの音がするたびにお客さんかと思っちゃう|p:わかる、そわそわするよね|m:誰か来ないかな|p:来たら盛大にもてなそう
+m:最近、{me}のつくるお味噌汁、しみるわ〜|p:おばあちゃんか（笑）|m:ほんとにおいしいの|p:ありがとう
+m:ねえ、今年の冬、雪降るかな|p:空の上は寒いから降るかも|m:雪だるま作りたい|p:雪合戦もね
+m:今日、ふたりの写真撮ろうよ|p:いいね、どこで？|m:庭のベンチ|p:自撮り棒持っていく
+m:最近、{me}が寝たあとに少しだけ夜空見てるの|p:誘ってよ|m:じゃあ今夜いっしょに|p:約束ね
+m:ねえ、あしたの天気、雨かも|p:じゃあ家でのんびりしよう|m:パズルやろうか|p:千ピースのやつ？
+m:今日のおやつ、手作りしてみた|p:何作ったの？|m:クッキー。ちょっと焦げたけど|p:香ばしくていいよ
+m:最近、植物の水やり当番、わたしばっかりじゃない？|p:ごめん！明日からやる|m:よろしい|p:カレンダーに書いとく
+m:ねえ、{me}の夢って何？|p:この島を花でいっぱいにすること|m:すてき|p:手伝ってね
+m:今日、何もない日なのに、なんか幸せ|p:そういうのがいちばんいいよね|m:うん|p:何もない日、ばんざい
+m:最近、早寝早起きが続いてる|p:えらいね、何日目？|m:三日目|p:新記録だね
+m:ねえ、今度ピクニックしよう|p:どこで？|m:庭でいいじゃない|p:近いけど楽しそう
+m:今日、{me}が料理してるの見てたら、手際がよくてびっくりした|p:慣れてきたかな|m:プロみたい|p:褒めすぎだよ
+m:最近、カーテンの色を変えたいの|p:何色に？|m:やさしい黄色|p:部屋が明るくなりそう
+m:ねえ、ふたりで日記を交換しない？|p:交換日記？なつかしい|m:一日おきに書くの|p:やってみよう
+m:今日、月がすごく大きく見えたね|p:スーパームーンかな？|m:わからないけど、きれいだった|p:また明日も見よう
+m:最近、家の中でスキップしちゃう|p:なんで？|m:楽しいから|p:わかる、わたしもたまにする
+m:ねえ、もし空飛ぶ車があったらどこ行く？|p:もう空の上だよ|m:たしかに|p:じゃあ、もっと上へ
+m:今日、お昼寝しすぎちゃった|p:三時間くらい寝てたよ|m:夜、眠れるかな|p:たぶん大丈夫
+m:最近、{me}のまねして紅茶飲むようになった|p:どう？|m:ミルク入れるとおいしい|p:でしょ？
+m:ねえ、ここに来る前、どんな暮らしだった？|p:ふつうに街で暮らしてた|m:空の上とどっちがいい？|p:今がいちばん
+m:今日、洗濯物がすぐ乾いたよ|p:風が強かったもんね|m:ふかふかだよ|p:たたむの手伝う
+m:最近、ふたりの好きな曲が増えてきたね|p:ラジカセのおかげ|m:プレイリスト作ろう|p:名前は「のんびり島」
+m:ねえ、さっきの夕焼け見た？|p:見た見た、真っ赤だった|m:なんか泣きそうになった|p:きれいすぎたね
+m:今日、ちょっとだけ{me}に怒ってた|p:えっ、何で？|m:最後のチョコ食べたでしょ|p:…ごめんなさい
+m:最近、静かな夜が好きになった|p:前は苦手だったの？|m:さみしかったから|p:今はひとりじゃないもんね
+m:ねえ、今日はわたしがお茶いれるね|p:ありがとう|m:どのお茶がいい？|p:{m}のおすすめで
+m:最近、庭で見る虫の種類が増えた|p:自然が豊かになってきたね|m:ちょうちょも来るよ|p:花のおかげだね
+m:ねえ、もしロボットを一台もらえるなら何してほしい？|p:皿洗い|m:わたしは肩もみ|p:ラブロボ、できるかな
+m:今日、ふと{me}の顔見て笑っちゃった|p:なんで！？|m:ほっぺにごはんつぶ|p:早く言ってよ！
+m:最近、朝ごはんが楽しみで起きられる|p:何が楽しみ？|m:{me}の焼くトースト|p:バターたっぷりね
+m:ねえ、星を見ながら寝られたらいいのにね|p:天窓つけたいね|m:配達で頼めるかな|p:大工さんが必要かも
+m:今日はなんだか、時間がゆっくりだね|p:空の上はいつもゆっくりだよ|m:それがいいんだよね|p:うん
+m:最近、{me}とのおしゃべりが一日の楽しみ|p:わたしもだよ|m:今日は何話す？|p:何でもいいよ
+m:ねえ、また来年も一緒にお花見しようね|p:もちろん|m:約束だよ|p:指切りしよう
+m:今日は寒いね、くっついて座ろう|p:あったかい|m:こたつより早いね|p:人間こたつだ
+m:最近、ことばにしなくても通じ合える気がする|p:たとえば？|m:今、お茶飲みたいでしょ|p:…正解
+m:ねえ、おやすみの前に一言|p:なに？|m:今日もありがとう|p:こちらこそ、おやすみ
+`;
+const MTALK=MTALK_SRC.trim().split('\n').map(l=>l.trim()).filter(Boolean);
 function convoParts(){const v=V,me=S.name,t=tempNow(),k=wKind(),pl=ENV.area||ENV.city||ENV.place||'このへん';
   const vt=()=>'';
   const greet=v.again?[['v',vt()+pick([`${me}、また遊びに来ちゃった！`,`やっほー${me}！ドローンに乗って来たよ`])],['me',pick([`${v.name}！いらっしゃい`,`わあ、${v.name}だ！元気だった？`])]]
@@ -4996,7 +5457,6 @@ function convoParts(){const v=V,me=S.name,t=tempNow(),k=wKind(),pl=ENV.area||ENV
   const T2=[];
   T2.push(()=>[['v',{clear:`今日は${pl}の上、よく晴れてるね`,cloudy:'くもり空も、ふわふわしてていいよね',fog:'霧の中を飛ぶの、ちょっとドキドキしたよ',snow:'雪の中を飛んできたよ、さむい〜',rain:'雨がやんでよかった',thunder:'かみなりが鳴らないうちに来れてよかった'}[k]||'いい空だね'],
     ['me',t==null?'ほんとだね':t>=27?`${Math.round(t)}℃もあって暑いけどね`:t<=10?`${Math.round(t)}℃でひんやりするけどね`:`${Math.round(t)}℃くらいで気持ちいいよね`]]);
-  if(ENV.news.length){const n=pick(ENV.news.slice(0,12));T2.push(()=>[['v',`ねえ、『${short(n.title,26)}』ってニュース見た？`],['me',pick(['見た見た！','え、知らなかった！','うん、テレビでもやってたよ','そうそう、それ！'])+'　'+react(n.title)]]);}
   T2.push(()=>[['v',`その${descTop(S.outfit)}、似合ってるね`],['me',`ありがとう！${v.name}の${v.col}の服もかわいいよ`]]);
   T2.push(()=>[['v',vt()+`最近ね、${HOBBY[v.sp]}にハマってるんだ`],['me',pick(['へえ、楽しそう！こんど見せて','いいなあ、やってみたい',`${v.name}らしいね`])]]);
   if(S.tvPlan&&S.tvPlan.start>now().getTime())T2.push(()=>[['me',`このあと『${short(S.tvPlan.title,20)}』を見るんだ`],['v','いいね！わたしも帰ったら見ようかな']]);
@@ -5009,8 +5469,42 @@ function convoParts(){const v=V,me=S.name,t=tempNow(),k=wKind(),pl=ENV.area||ENV
   inside.push(()=>[['me',pick(['お茶どうぞ','あったかいお茶、いれたよ'])],['v',pick(['ありがとう！いただきます','ふう、おいしい'])]]);
   inside.push(()=>[['v',`${me}の部屋、落ちつくなあ`],['me','ゆっくりしていってね']]);
   const sh=a=>a.sort(()=>Math.random()-.5);
-  return{greet,out:()=>sh(T2.slice()).slice(0,2).flatMap(f=>f()),inn:()=>sh(inside.slice()).slice(0,2).concat(sh(T2.slice()).slice(0,1)).flatMap(f=>f()),
+  const VT=()=>vtalkLines(pick(VTALK),{me,v:v.name});
+  const NEWS=()=>{if(!ENV.news.length)return null;const it=pickNews();if(!it)return null;const t2=short(it.title,30);return pick([
+    ()=>[['v',`そういえば、『${t2}』ってニュース見た？`],['me',pick(['見た見た！','え、知らなかった','さっきテレビでやってたよ'])+'　'+react(it.title)],['v',reactInfo(newsInfo(it.title),it.title)]],
+    ()=>[['v',`となりの島でも話題なんだけど、『${t2}』だって`],['me',react(it.title)],['v',pick(['だよね〜','ほんとそれ','気になるよね','続報も見なきゃ'])]],
+    ()=>[['me',`ねえ、『${t2}』ってニュース、知ってる？`],['v',reactInfo(newsInfo(it.title),it.title)],['me',pick(['だよね','わたしもそう思った','世の中いろいろだね'])]]])();};
+  return{greet,out:()=>{const L=sh(T2.slice()).slice(0,1).flatMap(f=>f()).concat(VT());const nw=Math.random()<.5&&NEWS();return nw?L.concat(nw):L;},
+    inn:()=>{const L=sh(inside.slice()).slice(0,1).flatMap(f=>f()).concat(VT());const nw=Math.random()<.6&&NEWS();if(nw)L.push(...nw);if(Math.random()<.5)L.push(...VT());else L.push(...sh(T2.slice())[0]());return L;},
     bye:[['v',pick(['そろそろ帰るね。楽しかった！','あ、迎えのドローンを呼ばなきゃ。またね！','おしゃべりできてうれしかった！また来るね'])],['me',pick(['またね！気をつけて帰ってね','またいつでも来てね！','バイバーイ！'])]]};}
+/* ===== guests' souvenirs: regional specialities & well-known sweets (boxed) ===== */
+// p: where/maker label, n: product, k: w=和菓子 y=洋菓子 s=せんべい・おかき c=チョコ, col: wrapping colour
+const GIFTS=('北海道銘菓|白い恋人|y|#3a6ab8;北海道 六花亭|マルセイバターサンド|y|#c8443a;北海道 ロイズ|生チョコレート|c|#5a3a2a;北海道 カルビー|じゃがポックル|s|#d9483b;北海道銘菓|わかさいも|w|#8a5a36;北海道 ルタオ|ドゥーブルフロマージュ|y|#6aa0d8;'+
+'青森 ラグノオ|気になるリンゴ|y|#d9483b;岩手銘菓|かもめの玉子|w|#f2c230;仙台銘菓|萩の月|y|#8a5cc2;仙台名物|ずんだ餅|w|#6fae4f;秋田名物|金萬|w|#c9a24f;山形名物|のし梅|w|#4f9d58;福島銘菓|ままどおる|y|#d9a860;福島 柏屋|薄皮饅頭|w|#8a3a2a;'+
+'水戸銘菓|水戸の梅|w|#c8304a;那須銘菓|御用邸チーズケーキ|y|#2a3a6b;群馬銘菓|旅がらす|w|#2c2c33;草加名物|草加せんべい|s|#a8743a;埼玉銘菓|十万石まんじゅう|w|#f3f1ea;千葉銘菓|ぴーなっつ最中|w|#c9884f;'+
+'東京銘菓|ひよこ|w|#f2c230;東京土産|東京ばな奈|y|#f6d84a;浅草名物|雷おこし|s|#d9483b;浅草名物|人形焼|w|#c9884f;鎌倉 豊島屋|鳩サブレー|y|#f2c230;横浜銘菓|ありあけハーバー|y|#2a5a9a;'+
+'新潟名物|笹団子|w|#3f8a3f;富山銘菓|月世界|w|#3a4a8a;金沢銘菓|きんつば（中田屋）|w|#6b2a2a;福井名物|羽二重餅|w|#f3f1ea;山梨銘菓|桔梗信玄餅|w|#d9483b;小布施名物|栗かの子|w|#8a5a36;中津川名物|栗きんとん|w|#c9a24f;'+
+'浜松銘菓|うなぎパイ|y|#c8442a;静岡名物|安倍川もち|w|#5a7a3a;名古屋名物|青柳ういろう|w|#3a7a5a;名古屋 坂角総本舗|ゆかり|s|#2a3a6b;伊勢名物|赤福餅|w|#d9483b;亀山銘菓|関の戸|w|#8a3a5a;滋賀 クラブハリエ|バームクーヘン|y|#c9a24f;'+
+'京都名物|聖護院八ッ橋|w|#8a5cc2;京都 満月|阿闍梨餅|w|#c8442a;京都 マールブランシュ|茶の菓|y|#3f7a3a;大阪名物|りくろーおじさんのチーズケーキ|y|#f2c230;大阪名物|粟おこし|s|#c9a24f;神戸 風月堂|ゴーフル|y|#2a5a9a;神戸名物|瓦せんべい|s|#8a6a4a;'+
+'奈良銘菓|みむろ最中|w|#6b2a4a;和歌山名物|那智黒|w|#2c2c33;鳥取銘菓|ふろしきまんじゅう|w|#c8442a;松江銘菓|若草|w|#6fae4f;岡山名物|きびだんご|w|#e8b84a;広島名物|もみじ饅頭|w|#d9583a;山口名物|外郎|w|#5a3a2a;'+
+'徳島銘菓|小男鹿|w|#3a5a3a;讃岐名菓|かまど|w|#8a5a36;高松名物|宗家くつわ堂の瓦せんべい|s|#8a5a36;松山銘菓|一六タルト|w|#d9a860;松山名物|坊っちゃん団子|w|#4f9d58;高知名物|ミレービスケット|y|#f2c230;'+
+'博多名物|博多通りもん|w|#c8442a;博多銘菓|鶴乃子|w|#f3f1ea;福岡名物|めんべい|s|#d9483b;佐賀銘菓|小城羊羹|w|#5a2a2a;長崎名物|福砂屋のカステラ|y|#f2c230;熊本銘菓|誉の陣太鼓|w|#6b2a2a;大分銘菓|ざびえる|y|#2a2a5a;'+
+'宮崎名物|チーズ饅頭|y|#f2d48a;鹿児島名物|かるかん|w|#f3f1ea;沖縄名物|ちんすこう|y|#e88a3a;沖縄 御菓子御殿|紅いもタルト|y|#8a3aa8;'+
+'ヨックモック|シガール|y|#2a4a8a;モロゾフ|カスタードプリン|y|#c8a050;とらや|羊羹「夜の梅」|w|#2c2c33;資生堂パーラー|チーズケーキ|y|#b8302a;銀座ウエスト|ドライケーキ|y|#2a5a3a;ユーハイム|バウムクーヘン|y|#c8302a;'+
+'泉屋|クッキーズ|y|#2a4a8a;鎌倉五郎本店|半月|y|#c9a24f;叶 匠壽庵|あも|w|#5a2a2a;小倉山荘|をぐら山春秋|s|#6b2a2a;両口屋是清|千なり|w|#2a3a5a;文明堂|カステラ|y|#c8302a;舟和|芋ようかん|w|#f2c230;'+
+'千疋屋総本店|フルーツゼリー|y|#4f9d58;ゴディバ|チョコレート|c|#c9a24f;赤坂柿山|おかき|s|#8a5a36;新宿中村屋|月餅|w|#2a3a6b;シュガーバターの木|シュガーバターサンドの木|y|#f3eadc;ねんりん家|バームクーヘン|y|#6b4a33;'+
+'アンリ・シャルパンティエ|フィナンシェ|y|#f3f1ea;治一郎|バウムクーヘン|y|#c9a24f;鶴屋吉信|京観世|w|#3a4a6a;ガトーフェスタ ハラダ|グーテ・デ・ロワ|y|#f3f1ea;新宿高野|フルーツゼリー|y|#3f8a3f;ステラおばさんのクッキー|クッキー缶|y|#d9a860;'+
+'ピエール・エルメ|マカロン|y|#f2a0c0;ラデュレ|マカロン|y|#a8d8c8;ジャン＝ポール・エヴァン|ショコラ|c|#5a3a2a;榮太樓總本鋪|名代金鍔|w|#2a2a5a;空也|もなか|w|#f3f1ea;うさぎや|どらやき|w|#c9884f;亀十|どら焼き|w|#8a5a36;'+
+'鈴懸|鈴乃最中|w|#6b2a2a;メリーチョコレート|ファンシーチョコレート|c|#d9483b;ゴンチャロフ|チョコレート|c|#2a3a6b;東京ミルクチーズ工場|ソルト＆カマンベールクッキー|y|#f3f1ea;銀座あけぼの|味の民藝|s|#8a3a2a;'+
+'たねや|ふくみ天平|w|#5a3a2a;HARBS|ケーキ|y|#f3f1ea;アンテノール|フィナンシェ|y|#2a3a5a;ベルン|ミルフィユ|y|#c8302a;ルピシア|紅茶とクッキー|y|#3a6a8a;銀座 菊廼舎|冨貴寄|w|#c8443a;'+
+'デメル|ザッハトルテ|c|#e8c0c8;ユーハイム|フランクフルタークランツ|y|#c8302a').split(';').map(s=>{const[p,n,k,col]=s.split('|');return{p,n,k,col};});
+const giftName=g=>/名物|銘菓|名菓|土産|^[^ ]+名物/.test(g.p)?`${g.p} ${g.n}`:`${g.p}の${g.n}`;
+function giftBox(c,x,y,gf,s){s=s||1;const col=(gf&&gf.col)||'#c8443a';fillR(c,'rgba(0,0,0,.2)',x-4*s,y+2.6*s,8.4*s,1.2*s,.6);
+  fillR(c,shade(col,-.25),x-4*s,y-1*s,8*s,4*s,.6);fillR(c,col,x-4*s,y-3*s,8*s,3*s,.6);fillR(c,shade(col,.25),x-4*s,y-3*s,8*s,.8*s,.4);
+  fillR(c,'#f6f2e6',x-1.2*s,y-3*s,2.4*s,7*s,.3);fillR(c,'#c8302a',x-.3*s,y-3*s,.6*s,7*s);fe(x,y-3.2*s,1*s,.6*s,'#c8302a');}
+const _held0=held;held=function(c,h,d,o){if(h==='gift'){const x=d==='right'?6:0;giftBox(c,x,-7,o.gift||C.gift,1);return;}return _held0(c,h,d,o);};
+const GIFT_REACT={w:['お茶に合いそう！','和菓子、大好き','上品な甘さなんだよね'],y:['紅茶と一緒にいただこう','洋菓子、うれしい！','いい香りがする'],s:['パリッとしておいしいやつだ','お茶うけにぴったり','止まらなくなるやつ！'],c:['チョコ、うれしい！','とろける〜','大事に食べよう']};
+
 A.visit=function(){let m=null,P=null,seats=null;
   const waitV=()=>{let tk=0;return{t:'until',tick:dt=>{tk+=dt;},cond:()=>!V||vArrived()||tk>25};};
   const insideSteps=()=>[SAY(pick(['よかったら中でお茶しよう！','うちに寄っていって！'])),FN(()=>{if(V){setTimeout(()=>{if(V){vsay(pick(['おじゃましまーす！','わーい、おじゃまします']));V.bob=.5;}},2400);}}),{t:'wait',s:4.2},
@@ -5018,15 +5512,19 @@ A.visit=function(){let m=null,P=null,seats=null;
     FN(()=>{if(!V)return;if(!vArrived()){V.scene='in';vPlace(seats.b.x,seats.b.y);}V.goal=null;const b=seats.b,a=seats.a,ch=seats.chair;
       V.sit={px:(b.x+.5)*T+(ch?(b.d==='left'?-3:3):0),py:b.y*T+(ch?12:19),d:b.d};V.tea=1;
       C.snap={px:(a.x+.5)*T+(ch?(a.d==='right'?3:-3):0),py:a.y*T+(ch?12:19),over:false};C.pose='sit';C.dir=a.d;C.holding='tea';}),
+    SAY(()=>V&&V.gift?pick([`いただいた${V.gift.n}、さっそくあけちゃおう`,`${V.gift.n}、お茶うけにしよう！`]):'ゆっくりしていってね'),
     ...talkStep(()=>V?P.inn():[]),
     FN(()=>{unsnap();C.holding=null;if(!V)return;V.sit=null;V.tea=0;say(pick(['外まで送るね','お見送りするね']));vGo('out',m.x+2,m.y);}),
     {t:'go',sc:'out',dyn:()=>({x:m.x,y:m.y,d:'right'})},waitV(),FN(()=>{if(V){V.goal=null;V.dir='left';}})];
   return[SAY(()=>pick(['あれ？ドローンの音…だれか来たみたい','あ、お客さんの気配！','人を乗せたドローンが飛んでくる！'])),
-    FN(()=>{m=meetSpot();if(!m)return;spawnVisitor(m);S.visitAt=Date.now();P=convoParts();}),
+    FN(()=>{m=meetSpot();if(!m)return;spawnVisitor(m);S.visitAt=Date.now();P=convoParts();S.giftSeen=S.giftSeen||[];let gf=pick(GIFTS);for(let i=0;i<8&&S.giftSeen.includes(gf.n);i++)gf=pick(GIFTS);V.gift=gf;S.giftSeen.push(gf.n);if(S.giftSeen.length>60)S.giftSeen.shift();}),
     SAY(()=>pick(['お出迎えに行かなきゃ！','庭まで迎えに行こう'])),
     {t:'go',sc:'out',dyn:()=>m?{x:m.x,y:m.y,d:'right'}:null},FN(()=>emote('!',2)),
     {t:'until',cond:()=>!V||V.phase==='ready'},{t:'wait',s:.6},
     ...talkStep(()=>P?P.greet:[]),
+    FN(()=>{if(V&&V.gift)vsay(pick([`これ、おみやげ！${giftName(V.gift)}だよ`,`つまらないものですが…${giftName(V.gift)}です`,`${giftName(V.gift)}、買ってきたよ。いっしょに食べよう`]));}),{t:'wait',s:2.8},
+    FN(()=>{if(!V||!V.gift)return;V.giftGiven=1;C.gift=V.gift;C.holding='gift';emote('♪',1.6);const gf=V.gift;diaryAdd(`${V.name}さんから、おみやげに${giftName(gf)}をいただいた`);S.giftLog=S.giftLog||{};S.giftLog[giftName(gf)]=(S.giftLog[giftName(gf)]||0)+1;}),
+    SAY(()=>V&&V.gift?pick([`わあ、${V.gift.n}！ありがとう。${pick(GIFT_REACT[V.gift.k]||GIFT_REACT.w)}`,`${giftName(V.gift)}！うれしい、ありがとう！`,`箱がすてき！${pick(GIFT_REACT[V.gift.k]||GIFT_REACT.w)}`]):'ようこそ！'),{t:'wait',s:1.6},FN(()=>{if(C.holding==='gift')C.holding=null;}),
     FN(()=>{if(!V)return;seats=pickSeats();const inside=!!seats&&Math.random()<.75;C.steps.splice(1,0,...(inside?(canDrinkTogether()?drinkTogetherSteps(m,P):insideSteps()):talkStep(()=>V?P.out():[])));}),
     ...talkStep(()=>V&&P?P.bye:[]),
     FN(()=>{if(!V)return;const key=V.sp+':'+V.name;S.friends=S.friends||{};const f=S.friends[key]||{sp:V.sp,name:V.name,col:V.col,bcol:V.bcol,pat:V.pat,look:V.look,n:0};f.n++;S.friends[key]=f;
@@ -5065,7 +5563,7 @@ function drawNameTag(c,x,y,name,st){if(!name||st==='none')return;c.save();c.font
 function drawMainTag(){const st=tagStyle();if(st==='none')return;const p=charPos(),lie=C.pose==='lie',sitp=C.pose==='sit',bath=C.pose==='bath';
   const hat=S.outfit&&((S.outfit.hat&&S.outfit.hat.k!=='none')||S.outfit.costume),adj=S.species==='human'&&!bath?(lie?3:sitp?(hat?-2:2):hat?3:10):0;
   g.save();if(C.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:bath?32:sitp?45:51)+adj,S.name,st);g.restore();}
-function drawVisitorTag(){if(!V||V.ride||V.scene!==C.scene)return;const st=tagStyle();if(st==='none')return;const p=vPos();if(!p)return;const sitp=!!V.sit,hat=V.outfit&&V.outfit.hat&&V.outfit.hat.k!=='none',adj=V.sp==='human'?(sitp?(hat?-2:2):hat?3:10):0;
+function drawVisitorTag(){if(!V)return;const st=tagStyle();if(st==='none')return;if(V.ride){const d=V.ride;if((d.sc||'out')!==C.scene)return;drawNameTag(g,(d.x+.5)*T+d.dx,(d.y+1)*T-5-d.alt-48,V.name,st);return;}if(V.scene!==C.scene)return;const p=vPos();if(!p)return;const sitp=!!V.sit,hat=V.outfit&&V.outfit.hat&&V.outfit.hat.k!=='none',adj=V.sp==='human'?(sitp?(hat?-2:2):hat?3:10):0;
   drawNameTag(g,p.cx,p.by-(sitp?45:51)+adj-(V.bob>0?Math.abs(Math.sin(V.bob*12))*2:0),V.name,st);}
 function drawMateTag(){if(!M||!S.mate||M.scene!==C.scene)return;const p=mPos(),lie=M.sit&&M.sit.pose==='lie',sitp=M.sit&&!lie;
   if(M.sleeping){const t=performance.now()/1000+.37,top=p.by-(lie?14:40);g.save();g.font='bold 11px "M PLUS Rounded 1c",sans-serif';g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<3;i++){const ph=(t*.6+i/3)%1;g.globalAlpha=1-ph;g.fillText('z',p.cx+17+ph*9,top-ph*14);}g.restore();}
@@ -5424,7 +5922,7 @@ function triviaTalk(){const t=pick(TRIVIA);return[['m',pick(['ねえ、知って
 function kowaiTalk(){const k=pick(KOWAI),L=k.map(x=>['m',x]);if(!/こわい/.test(k[0]))L.unshift(['m',pick(['ねえ、ちょっとこわい話があるんだけど…','…こわい話、聞きたい？','ふと思い出したんだけどね、','これ、ほんとにあった話なんだって'])]);L.splice(Math.min(2,L.length-1),0,['me',pick(['…うん','それで？','え、なに…？','ごくり'])]);L.push(['me',pick(KOWAI_ME)]);L.push(['m',pick(['ふふ、こわかった？','…なんてね','気のせいだと思う。たぶん','今夜はトイレ、ついてきてね','ちょっと盛りすぎたかも'])]);return L;}
 const _chatLines0=chatLines;
 chatLines=function(){const h=hourNow(),night=h>=19||h<4,r=Math.random();
-  if(r<.12)return triviaTalk();if(r<(night?.24:.17))return kowaiTalk();return _chatLines0();};
+  if(r<.12)return triviaTalk();if(r<(night?.24:.17))return kowaiTalk();if(Math.random()<.5)return vtalkLines(pick(MTALK),{me:S.name,m:mName(),v:''});return _chatLines0();};
 
 NEWS_INTRO.push(t=>`さっき流れてきたんだけど、『${t}』`,t=>`ちょっと話題。『${t}』`,t=>`今朝の見出しは『${t}』`,t=>`へえ〜、『${t}』`,t=>`スマホに通知が来た。『${t}』`,t=>`ねえねえ、『${t}』だって`,t=>`ニュース見た？『${t}』`,t=>`本日の一件。『${t}』`,t=>`えっ、『${t}』？`,t=>`気になる見出し発見。『${t}』`);
 MSELF.push('今日の夜ごはん、何かな','洗濯物、乾いたかな','あとで散歩しよっと','ちょっと眠くなってきた','この前の映画、面白かったな','部屋の模様替え、してもいいかな','そろそろ衣替えかな','お茶いれようかな','窓から見える雲、ふわふわ','この島、ほんと静か','ふあ〜、伸びをしよう','観葉植物、元気かな','今日もいい日になりそう','なんか歌いたい気分','明日の予定、なにかあったっけ','ちょっと日記でも書こうかな','いい匂いのするハンドクリーム、どこだっけ','靴下、片方どこ行った？','そういえば、あのドラマ続き見なきゃ','空の上の暮らしって、ぜいたくだな','おやつ、まだあったよね','ちょっと掃除しようかな','この家、居心地いいなあ','ん〜、肩こった','あとで本屋さんの通販見よう','ちょっとだけ昼寝したい');
@@ -5812,7 +6310,7 @@ cv.addEventListener('pointerup',e=>{if(!S)return;if(charLP){clearTimeout(charLP.
   if(t-tapT<380){clearTimeout(tapTimer);tapTimer=null;tapT=0;openSheet();return;}
   tapT=t;clearTimeout(tapTimer);tapTimer=setTimeout(()=>{tapTimer=null;},390);});
 cv.addEventListener('dblclick',e=>e.preventDefault());
-addEventListener('pointerdown',()=>{if(MUS.pend&&S&&S.music&&S.music.on){MUS.pend=false;musPlay();}},true);
+addEventListener('pointerdown',()=>{if(MUS.actx&&MUS.actx.state==='suspended')MUS.actx.resume().catch(()=>{});if(MUS.pend&&S&&S.music&&S.music.on){MUS.pend=false;musPlay();}},true);
 /* ===== furniture drag (long-press) ===== */
 let DRAG=null,dragPend=null,dragEndAt=0;
 function validIn(k,p){const f=FT[k];const occ=occSet(new Set([k]));
@@ -6000,9 +6498,10 @@ $('mtBye').onclick=()=>{if(!S.mate)return;if(!mtByeArm){mtByeArm=true;$('mtBye')
 $('awayOk').onclick=()=>{$('awayCard').hidden=true;};
 $('musIn').onchange=e=>{const f=e.target.files;if(f&&f.length){if(musTarget&&musTarget.op==='add')musAddFiles(f);else musPick(f);}musTarget=null;e.target.value='';};
 $('musIn1').onchange=e=>{const f=e.target.files;if(f&&f.length&&musTarget&&musTarget.op==='rep')musReplace(musTarget.i,f[0]);musTarget=null;e.target.value='';};
-$('musChg').onclick=()=>{$('musDlg').hidden=true;musTarget=null;$('musIn').click();};$('musOff').onclick=()=>{$('musDlg').hidden=true;musStop(false);};$('musX').onclick=()=>{$('musDlg').hidden=true;};$('musDlg').addEventListener('click',e=>{if(e.target.id==='musDlg')$('musDlg').hidden=true;});
+$('musChg').onclick=()=>{$('musDlg').hidden=true;openSheet();selTab('bgm');};$('musOff').onclick=()=>{$('musDlg').hidden=true;{musPause();if(S.music)S.music.on=false;save();}say(pick(['音楽、止めたよ','ラジカセ、ひと休み']));};$('musX').onclick=()=>{$('musDlg').hidden=true;};$('musDlg').addEventListener('click',e=>{if(e.target.id==='musDlg')$('musDlg').hidden=true;});
 $('pauseB').onclick=e=>{e.stopPropagation();setPause(!PAUSED);};$('helpB').onclick=()=>{$('help').hidden=false;const cd=document.querySelector('#help .card');if(cd)cd.scrollTop=0;};$('helpX').onclick=()=>{$('help').hidden=true;};$('help').addEventListener('click',e=>{if(e.target.id==='help')$('help').hidden=true;});
 $('homeBody').addEventListener('click',e=>{const yb=e.target.closest&&e.target.closest('[data-ysk]');if(yb&&S){const k=yb.getAttribute('data-ysk');S.yunstoreQ=S.yunstoreQ||[];if(!S.yunstoreQ.includes(k)){S.yunstoreQ.push(k);save();say(`${OFT[k].n}、庭に出してくるね`);}yb.textContent=OFT[k].n+'（出す予定）';return;}const b=e.target.closest&&e.target.closest('[data-sk]');if(!b||!S)return;const k=b.getAttribute('data-sk');if(!isStored(k))return;S.unstoreQ=S.unstoreQ||[];if(!S.unstoreQ.includes(k)){S.unstoreQ.push(k);save();say(pick([`${FT[k].n}、出してくるね`,`わかった、${FT[k].n}を出そう`]));}b.textContent=FT[k].n+'（出す予定）';});
+$('hudSetBody').addEventListener('change',e=>{const k=e.target&&e.target.getAttribute('data-ho');if(!k||!S)return;S.hudOpt={...hudOpt(),[k]:e.target.checked};save();updateHUD();hudPreview();});$('hudSetBody').addEventListener('click',e=>{if(e.target&&e.target.id==='hudReset'&&S){S.hudOpt={...HUDOPT_DEF};save();updateHUD();renderHudSet();}});setInterval(()=>{if(S&&!$('sheet').hidden)try{hudPreview();}catch(_){}},1000);
 $('recyNo').onclick=()=>{$('recy').hidden=true;recyK=null;};$('recySt').onclick=()=>{$('recy').hidden=true;const r=recyK;recyK=null;if(r){if(r.sc==='in')storeDo(r.k);else ystoreDo(r.k);}};$('recyOk').onclick=()=>{$('recy').hidden=true;const r=recyK;recyK=null;if(r)recycleDo(r.k,r.sc);};$('recy').addEventListener('click',e=>{if(e.target.id==='recy')$('recyNo').onclick();});
 $('rnNew').onclick=()=>{$('rnName').value=S.species==='human'?humanName((S.look||{}).g):newName(S.species);};
 $('rnSave').onclick=()=>{const nm=$('rnName').value.trim()||S.name,sp=rnSel||S.species,chName=nm!==S.name,chSp=sp!==S.species;if(!chName&&!chSp){$('sheet').hidden=true;return;}
@@ -6065,7 +6564,7 @@ function contGame(s){S=s;M=null;setTimeout(()=>placeCheck(),6000);if(!SPEC[S.spe
     else if(!L.on){const w=L.ped?1:f.w,h=L.ped?1:f.h;for(let y=L.y;y<L.y+h&&ok;y++)for(let x=L.x;x<L.x+w;x++){const r=roomAt(x,y);if(!r||DOORCELL.has(x+','+y)||!f.rooms.includes(r)){ok=false;break;}}}
     if(!ok)delete S.layout[k];}
   for(const k in S.layout){const L=S.layout[k];if(L&&L.on&&!S.layout[L.on])delete S.layout[k];}
-  refreshOcc();placeAllMissing();if(!S.shelfGiven){S.shelfGiven=1;if(!S.owned.includes('bookshelf')&&!(S.stored||[]).some(e=>e.k==='bookshelf')){const p=placeFor('bookshelf');if(p){S.layout.bookshelf=p;S.owned.push('bookshelf');refreshOcc();}}}if(!S.boomboxGiven){S.boomboxGiven=1;if(!S.owned.includes('boombox')){const p=placeFor('boombox');if(p){S.layout.boombox=p;S.owned.push('boombox');refreshOcc();}}}if(S.music&&S.music.on)setTimeout(musResume,800);void placeAllMissing();refreshOcc();
+  refreshOcc();placeAllMissing();if(!S.shelfGiven){S.shelfGiven=1;if(!S.owned.includes('bookshelf')&&!(S.stored||[]).some(e=>e.k==='bookshelf')){const p=placeFor('bookshelf');if(p){S.layout.bookshelf=p;S.owned.push('bookshelf');refreshOcc();}}}if(!S.boomboxGiven){S.boomboxGiven=1;if(!S.owned.includes('boombox')){const p=placeFor('boombox');if(p){S.layout.boombox=p;S.owned.push('boombox');refreshOcc();}}}if(S.music&&S.music.on)setTimeout(musResume,800);if(S.syn)delete S.syn;void placeAllMissing();refreshOcc();
   if(S.mate){try{if(!has('bed2'))placeBed2();if(!has('wardrobe2'))placeWardrobe2();spawnMate(false);}catch(e){}}
   S.ystored=(S.ystored||[]).filter(e=>e&&OFT[e.k]&&!(S.yard||{})[e.k]);S.yard=S.yard||{};for(const k in S.yard){if(!OFT[k])delete S.yard[k];else delete S.yard[k].carry;}S.xbeds=S.xbeds||[];if(S.yardDel&&!OFT[S.yardDel.k])S.yardDel=null;refreshOut();
   const away=clamp((Date.now()-(S.lastSeen||Date.now()))/1000,0,3*86400);
