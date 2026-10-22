@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版167（2026/10/23 #17）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版170（2026/10/23 #20）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版167（2026/10/23 #17）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版170（2026/10/23 #20）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1555,7 +1555,7 @@ function transfer(){
   else{C.scene='in';place(IN_ENTRY.x,IN_ENTRY.y);C.dir='up';gearFor('in');}
   fadeT=.45;cam.init=false;updateRoom();}
 function unsnap(){C.snap=null;C.pose='stand';C.snapK=null;}
-function abort(){C.taiso=null;C.bathFill=false;C.bathShower=false;C.bathDrain=false;C.bathToys=null;if(M&&M.taiso){M.taiso=null;}C.steps=[];C.path=[];unsnap();C.holding=null;C.cooking=false;C.idleT=1;C.tvNow=null;C.radioNow=null;C.gameNow=null;C.tableSet=null;C.drinkNow=null;if(S&&S.layout){let ch=0;for(const k in S.layout)if(S.layout[k].carry){delete S.layout[k].carry;ch=1;}if(ch)refreshOcc();}
+function abort(){if(M&&M.busy&&!C._sw&&!M.sleeping){M.drink=null;mRelease();}C.taiso=null;C.bathFill=false;C.bathShower=false;C.bathDrain=false;C.bathToys=null;if(M&&M.taiso){M.taiso=null;}C.steps=[];C.path=[];unsnap();C.holding=null;C.cooking=false;C.idleT=1;C.tvNow=null;C.radioNow=null;C.gameNow=null;C.tableSet=null;C.drinkNow=null;if(S&&S.layout){let ch=0;for(const k in S.layout)if(S.layout[k].carry){delete S.layout[k].carry;ch=1;}if(ch)refreshOcc();}
   if(S){let ch=false;for(const k of S.owned){const L=S.layout[k];if(L&&L.carry){delete L.carry;ch=true;}}if(ch)refreshOcc();}}
 function startSetup(){abort();C.sleeping=false;C.act='setup';C.steps=A.setup();}
 
@@ -1787,7 +1787,7 @@ const LETTERS=[
  {w:1,f:()=>({k:'新しいお酒のチラシ',b:'雲海仕込みの新作クラフトビール、発売！',r:['雲海仕込み…飲んでみたい','今夜の一杯が楽しみ']})},
  {w:1,f:()=>({k:'迷い猫のチラシ',b:'さがしています。白い猫、しっぽの先だけ茶色。名前はミルク。',r:['見かけたら知らせよう','早く見つかるといいね']})},
  {w:1,f:()=>({k:'タイムカプセルからの手紙',b:'未来のわたしへ。空に住む夢、かなっていますか？',r:['かなってるよ…！','昔の自分、ありがとう']})},
- {w:2,c:()=>!!(S.mate),f:()=>({k:`${S.mate.name}あての手紙`,b:'（同居人あての手紙だ）',r:[`${S.mate.name}に渡しておこう`,'あとで読んでもらおう'],mate:1})},
+ {w:2,c:()=>!!(S.mate),f:()=>({k:`${S.mate.name}あての手紙`,b:`（${S.mate.name}あての手紙だ）`,r:[`${S.mate.name}に渡しておこう`,'あとで読んでもらおう'],mate:1})},
  {w:3,c:()=>{const b=new Date(S.born||Date.now()),d=now();return b.getMonth()===d.getMonth()&&b.getDate()===d.getDate()&&d.getFullYear()>b.getFullYear();},f:()=>({k:'お祝いのカード',b:'浮遊島ぐらし、記念日おめでとう！これからもすてきな毎日を。',r:['今日で島に来てちょうど一年！','そうか、もう一年なんだ']})},
 ];
 function pickLetter(){const c=LETTERS.filter(L=>!L.c||L.c());let tot=c.reduce((a,L)=>a+L.w,0),r=Math.random()*tot;for(const L of c){r-=L.w;if(r<=0)return L.f();}return c[0].f();}
@@ -4820,7 +4820,7 @@ function schedHTML(sd){const sc=(S.sched&&S.sched[sd])||{bed:23,wake:6},fmt=v=>{
 document.addEventListener('change',e=>{const t=e.target;if(!t||!t.dataset||t.dataset.sched==null||!S)return;const sd=+t.dataset.sched;S.sched=S.sched||[{bed:23,wake:6},{bed:23,wake:6}];S.sched[sd]=S.sched[sd]||{bed:23,wake:6};S.sched[sd][t.dataset.sf]=parseFloat(t.value);save();
   const who=sd?(S.mate?S.mate.name:'同居人'):null,txt=t.dataset.sf==='bed'?`${t.selectedOptions[0].textContent}に寝る`:`${t.selectedOptions[0].textContent}に起きる`;if(sd&&M&&!M.sleeping)msay(`わかった、${txt}ようにするね`);else if(!sd&&!C.sleeping)say(`これからは${txt}ことにするね`);});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function actJP(){if(C.sleeping)return'ねている';return{sleep:'ねる準備',eat:'ごはん',toilet:'トイレ',bath:'お風呂',tv:'テレビ',read:'読書',clean:'そうじ',walk:'さんぽ',bench:'ベンチでひとやすみ',yunstore:'庭のものを出す',garden:'花壇の水やり',pick:'木の実とり',change:'着がえ',wander:'うろうろ',setup:'家具のセット',mail:'郵便受けを見る',lamp:'ランプのスイッチ',water:'植物に水やり',yoga:'ストレッチ',tea:'お茶',laundry:'洗濯',nap:'ソファで昼寝',face:'洗顔',guide:'番組表チェック',tvshow:'お目当ての番組',oyatsu:'おやつタイム',chat:'同居人とおしゃべり',newscheck:'ニュースチェック',
+function actJP(){if(C.sleeping)return'ねている';return{sleep:'ねる準備',eat:'ごはん',toilet:'トイレ',bath:'お風呂',tv:'テレビ',read:'読書',clean:'そうじ',walk:'さんぽ',bench:'ベンチでひとやすみ',yunstore:'庭のものを出す',garden:'花壇の水やり',pick:'木の実とり',change:'着がえ',wander:'うろうろ',setup:'家具のセット',mail:'郵便受けを見る',lamp:'ランプのスイッチ',water:'植物に水やり',yoga:'ストレッチ',tea:'お茶',laundry:'洗濯',nap:'ソファで昼寝',face:'洗顔',guide:'番組表チェック',tvshow:'お目当ての番組',oyatsu:'おやつタイム',chat:`${(S.mate&&S.mate.name)||'同居人'}とおしゃべり`,newscheck:'ニュースチェック',
   heater:'ストーブのスイッチ',fan:'扇風機のスイッチ',diary:'日記',music:'レコード',piano:'ピアノ',fish:'魚にえさ',exercise:'エアロバイク',kotatsu:'こたつ',relax:'ひと休み',play:'おもちゃで遊ぶ',admire:'飾りをながめる',cloth:'テーブルクロスの交換',remodel:'模様替え',harvest:'畑の収穫',scope:'望遠鏡',yardsetup:'庭に置く準備',yardplay:'庭で遊ぶ',yardmove:'庭の模様替え',yardseason:'季節の飾りつけ',yardclear:'季節の片付け',newbed:'花壇づくり',tapwalk:'おでかけ中',drink:'お酒タイム',game:'テレビゲーム',radio:'ラジオ',hobby:'趣味の時間',store:'片付け',unstore:'しまったものを出す',visit:'お客さん'}[C.act]||'ぼんやり';}
 let sheetSnap=null;
 function openSheet(){if(!S)return;$('prefBox').innerHTML=prefHTML();setTimeout(renderOv,0);$('schedMain').innerHTML=schedHTML(0);sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur();}catch(_){}const cd0=document.querySelector('#sheet .card');if(cd0)cd0.scrollTop=0;}
@@ -5265,7 +5265,7 @@ function sendDrone(kind){const dd=kind==='in'?S.delivery:S.yardDel;if(!dd)return
   launchDrone({x:dd.drop.x,y:dd.drop.y,cargo:1,hover:46,land:34,wait:()=>charAt(dd.drop.x,dd.drop.y),
     onRelease:(d,met)=>{const c=cur();if(!c||c.stage!=='air')return;if(met&&charAt(dd.drop.x,dd.drop.y)){c.stage='carry';C.holding='box';C.dir='down';emote('!',1.2);}else{c.stage='yard';puffAt({x:(dd.drop.x+.5)*T,y:(dd.drop.y+1)*T-6},'out');}save();}});
   const busy=C.sleeping||['bath','toilet','visit','setup','yardsetup','sleep'].includes(C.act)||fadeT>0||C.pose==='lie';
-  if(!busy){abort();C.act=kind==='in'?'setup':'yardsetup';C.steps=kind==='in'?A.setup():A.yardsetup();}
+  if(!busy)switchTo(kind==='in'?'setup':'yardsetup',kind==='in'?A.setup():A.yardsetup());
   else if(!C.sleeping)queueSay(pick(['ブーン…ドローンの音！荷物が届いたみたい','配達ドローンが来た！あとで取りに行こう']));}
 function drawGroundBox(p){const x=(p.x+.5)*T,y=(p.y+1)*T-4;prism(x-8,y-8,16,9,10,'#d9b37c',{front:'#c49a62',r:1});g.fillStyle='#b98a52';g.fillRect(x-1.4,y-18,2.8,9);fillR(g,'rgba(255,255,255,.55)',x-6,y-3,5,1.6,.4);}
 // shared steps: go meet the drone (stage air) or pick up the box from the ground (stage yard)
@@ -5487,7 +5487,7 @@ v:聞いて、配達の荷物、となりの島に届いてたの|p:えー！|v:
 v:ムカつく話していい？予約してたお店、勝手にお休みだったの|p:えっ、ひどい|v:看板に「気まぐれ休業」って|p:気まぐれすぎる
 v:ゲームのデータが消えちゃったの！|p:ええっ！|v:百時間遊んだのに|p:それは立ち直れない…
 v:電話がずっとつながらなくてさ|p:電波悪いの？|v:雲が厚いとダメみたい|p:空の上あるあるだね
-v:最後のひとつのおまんじゅう、食べられた！|p:だれに？|v:同居人のハト|p:ハトかあ…
+v:最後のひとつのおまんじゅう、食べられた！|p:だれに？|v:うちに住みついてるハト|p:ハトかあ…
 v:せっかく早起きしたのに、目覚ましが鳴ってなかったの|p:え、じゃあ自分で起きたんだ|v:そう、遅刻した夢で飛び起きた|p:ある意味えらい
 v:雨の予報じゃなかったのに、どしゃ降りでさ|p:びしょぬれ？|v:新しい服がびしょびしょ|p:それはムカつくね
 v:お気に入りのペン、だれかに持っていかれたの|p:貸したの？|v:貸して、返ってこない|p:あるある…
@@ -5578,7 +5578,7 @@ v:最近ね、「ありがとう」を一日十回言うようにしてるの|p:
 v:空の上の生活、慣れた？|p:うん、すっかり|v:最初は高くてこわかったよね|p:今は下を見るのが楽しい
 `;
 const VTALK=VTALK_SRC.trim().split('\n').map(l=>l.trim()).filter(Boolean);
-function vtalkLines(src,names){return src.split('|').map(x=>{const sp=x.slice(0,1),tx=x.slice(2).replace(/\{me\}/g,names.me).replace(/\{v\}/g,names.v).replace(/\{m\}/g,names.m||'');return[sp==='p'?'me':sp,tx];});}
+function vtalkLines(src,names){return src.split('|').map(x=>{const sp=x.slice(0,1),tx=x.slice(2).replace(/\{me\}/g,names.me).replace(/\{v\}/g,names.v).replace(/\{m\}/g,names.m||'').replace(/\{f\}/g,names.f||frName()||'となりの島の人');return[sp==='p'?'me':sp,tx];});}
 /* ===== more housemate conversations (m: housemate, p: player character) ===== */
 const MTALK_SRC=`
 m:ねえ{me}、子どもの頃の夢って何だった？|p:パン屋さんになりたかった|m:かわいい！わたしは宇宙飛行士|p:今、空の上にいるから半分かなってるね
@@ -5648,7 +5648,7 @@ m:ねえ、もし一日入れかわったらどうする？|p:{m}の服を着て
 m:今日は何もしない日にしよう|p:賛成！|m:お昼寝もしよう|p:最高の一日になりそう
 m:最近、笑いのツボが似てきたよね|p:わかる、同じところで笑う|m:ずっと一緒にいるからかな|p:きっとそうだね
 m:ねえ、好きな季節の匂いってある？|p:雨上がりの匂い|m:わかる！わたしは金木犀|p:秋っぽいね
-m:今日、お手紙が届いてたよ|p:だれから？|m:となりの島のお客さんから|p:お返事書かなきゃ
+m:今日、お手紙が届いてたよ|p:だれから？|m:となりの島の{f}から|p:お返事書かなきゃ
 m:ねえ、この家に足りないものって何だと思う？|p:うーん、ハンモック|m:いいね！窓ぎわに置こう|p:お昼寝が捗りそう
 m:最近、よく眠れてる？|p:うん、ぐっすり|m:よかった。疲れてるように見えたから|p:心配してくれてありがとう
 m:今度、二人で料理大会しない？|p:お題は？|m:冷蔵庫の残りもの|p:むずかしいけど楽しそう
@@ -5712,7 +5712,7 @@ m:今日のお昼、何食べたい？|p:麺類かな|m:じゃあ焼きそば|p:
 m:ねえ、ふたりでバンド組むなら何担当？|p:わたしはタンバリン|m:じゃあわたしはカスタネット|p:打楽器しかいない（笑）
 m:最近、洗濯物を干すのが楽しい|p:空の上は乾くの早いもんね|m:風がいい仕事してくれる|p:風に感謝だね
 m:ねえ、今日も一日おつかれさま|p:{m}もおつかれさま|m:明日もがんばろうね|p:ほどほどにね
-m:ねえ、この前のお客さん、楽しい人だったね|p:また来てくれるといいね|m:手土産もおいしかった|p:そこ？（笑）
+m:ねえ、この前来た{f}、楽しい人だったね|p:{f}、また来てくれるといいね|m:手土産もおいしかった|p:そこ？（笑）
 m:今日の{me}、なんか機嫌いいね|p:わかる？|m:鼻歌でわかる|p:いい天気だからかな
 m:ねえ、冷蔵庫の中、そろそろ整理しない？|p:そうだね、謎のビンがある|m:あれ、いつのジャム？|p:…考えないでおこう
 m:最近、寝る前にストレッチしてるんだ|p:体、やわらかくなった？|m:前屈で床に手がつくようになった|p:すごい！
@@ -7073,9 +7073,7 @@ FT.bar.draw=function(X,Y,Wd,Dp,L,t){g.save();const wn='#4a2c1c';
   if(daylight()<.6){const k=1-daylight();g.save();g.globalCompositeOperation='lighter';g.fillStyle=A_lg(0,Y+2.6,0,Y+9,[[0,`rgba(255,180,90,${.35*k})`],[1,'rgba(255,180,90,0)']]);g.fillRect(X+1.4,Y+2.6,Wd-2.8,6.4);g.restore();fillR(g,`rgba(255,220,150,${.8*k})`,X+2,Y+2.4,Wd-4,.35);}
   const s=C.tableSet;if(s&&s.k==='bar'){const lx=L&&L.x!=null?L.x:Math.round(X/T),cx=clamp((C.tx|0)-lx,0,1);drawSet(s.pair?X+Wd/2:X+12+cx*T,Y-6,s);
     if(!s.pair&&s.mx!=null&&M&&M.drink&&M.busy){const mx=X+(s.mx-lx)*T+(s.mx-lx?16:8);if(M.holding==='glass')fillE(g,'#f3f1ea',mx,Y-4.6,1.4,.9);else drawGlass(g,mx,Y-4.4,M.drink,M.drinkLv);}}
-  else{fillE(g,'rgba(0,0,0,.25)',X+Wd-9.6,Y-4.6,2.8,1);fillE(g,'#d8cfc0',X+Wd-10,Y-5,2.7,.95);fillE(g,'#c4b8a4',X+Wd-10,Y-5,2,.6);drawGlass(g,X+Wd-10,Y-5,{gl:'rocks',col:'rgba(0,0,0,0)'});
-    // little bowl of nuts
-    fillE(g,'rgba(0,0,0,.25)',X+10.6,Y-4.6,3,1.1);fillE(g,A_lg(0,Y-6,0,Y-4,[[0,'#f2f2f2'],[1,'#b8b8b8']]),X+10,Y-5.2,2.8,1.2);for(const[nx,ny]of[[-1,-.3],[0,-.6],[1,-.2],[-.3,.1],[.6,.2]])fillE(g,'#c98a4a',X+10+nx,Y-5.6+ny,.6,.4);}
+  /* nothing is left on the counter when nobody is drinking */
   g.restore();};
 dBar=FT.bar.draw;
 FT.bar.parts=function(L){if(!barWall(L))return[];const ry=L.y+1,y=ry*T;const out=[];for(let i=0;i<2;i++){const x=(L.x+.5+i)*T;if(walkIn(L.x+i,ry))out.push({k:y+10,f:()=>{g.save();A_barStool(x,y+2);g.restore();}});}return out;};
@@ -10338,6 +10336,49 @@ setTimeout(warnPoll,9000);setInterval(warnPoll,10*60e3);setTimeout(tcPoll,14000)
     try{const L=await tcFetch();rows.push(`台風：取得できました。${L.length?esc(L.map(c=>(c.no?`台風第${c.no}号`:'台風')+(c.km!=null?`（約${c.km}km）`:'')).join('、')):'いま発生中の台風はありません'}`);}catch(e){rows.push('台風：取得できませんでした');}
     m.innerHTML=rows.join('<br>');b.disabled=false;};})();
 
+/* ===== body joints: tapered limbs that tuck into the torso (A) + light elbow/knee bend while walking (B) ===== */
+function BX_patch(fn,startMark,endMark,repl){const s=fn.toString();const i=s.indexOf(startMark);if(i<0)throw new Error('mark '+startMark);const j=s.indexOf(endMark,i)+endMark.length;return eval('('+s.slice(0,i)+repl+s.slice(j)+')');}
+const BX_light=h=>{h=String(h||'');if(h[0]!=='#'||h.length<7)return false;const n=parseInt(h.slice(1),16);return((n>>16)&255)*.3+((n>>8)&255)*.59+(n&255)*.11>215;};
+try{torso=BX_patch(torso,"const arm=(x,y,ang,far)=>{","c.restore();};",`const arm=(x,y,ang,far)=>{c.save();const ins=side?0:(x<0?.7:-.7);c.translate(x+1.6+ins,y+.6);const walk=o.ph!=null&&!o.holding;c.rotate((ang||0)*(walk?.85:1));
+  const fc=far?shade(sp.fur,-.15):sp.fur,scl=far?shade(slc,-.15):slc,UP=3.7,LO=3.5;const sg=(side||x<0)?-1:1,bend=walk?sg*(.1+Math.abs(ang||0)*.3):0;
+  const lim=(w0,w1,len)=>{c.beginPath();c.moveTo(-w0,0);c.quadraticCurveTo(-w0-.12,len*.55,-w1,len);c.arc(0,len,w1,Math.PI,0,true);c.quadraticCurveTo(w0+.12,len*.55,w0,0);c.arc(0,0,w0,0,Math.PI,true);c.closePath();};
+  const bw0=k==='blouse'?2.3:1.95,bw1=k==='blouse'?2.05:1.6,slUp=Math.min(sleeve,UP),slLo=Math.max(0,sleeve-UP),lightS=BX_light(scl);
+  c.fillStyle=fc;lim(1.6,1.38,UP);c.fill();if(slUp){c.fillStyle=scl;lim(bw0,slLo>0?bw1:bw1*.96,slUp);c.fill();if(!lightS){c.fillStyle='rgba(0,0,0,.06)';lim(bw0*.45,bw1*.4,slUp);c.save();c.translate(bw0*.45,0);c.fill();c.restore();}}
+  c.translate(0,UP);c.rotate(bend);c.fillStyle=fc;lim(1.38,1.1,LO);c.fill();
+  if(slLo){c.fillStyle=scl;lim(bw1,bw1*.92,Math.min(slLo,LO));c.fill();}
+  if(sleeve>0&&sleeve<UP+LO-.2&&!lightS){const cy=sleeve<=UP?sleeve-UP:sleeve-UP;if(sleeve>UP)fillR(c,'rgba(0,0,0,.08)',-bw1,Math.min(slLo,LO)-.5,bw1*2,.5,.25);}
+  if(k==='jersey'&&sleeve)fillR(c,'rgba(255,255,255,.75)',.6,-UP,.6,sleeve-.4);if((k==='sweatshirt'||k==='jersey'||k==='down')&&slLo)fillR(c,shade(scl,-.2),-bw1,Math.min(slLo,LO)-1.3,bw1*2,1.2,.5);
+  const hc=far?shade(hand,-.15):hand;fillE(c,hc,0,LO+.35,1.62,1.82);fillE(c,shade(hc,-.1),.55,LO+.95,.85,.7);fillE(c,'rgba(255,255,255,.35)',-.5,LO-.1,.55,.45);c.restore();};`);}catch(e){console.warn('arm patch',e);}
+try{legs=BX_patch(legs,"const leg=(x,lift,ang,far)=>{c.save();c.translate(x+2,-7);if(ang)c.rotate(ang);const Lh=6-lift;","if(ang){c.save();c.translate(0,Lh+1);c.rotate(-ang*.6);shoe(c,-2,0,of.shoes,sp);c.restore();}else shoe(c,-2,Lh+1,of.shoes,sp);",
+ `const leg=(x,lift,ang,far)=>{c.save();c.translate(x+2+(x<0?.35:x>0?-.35:0),-7.4);const lc=far?shade(legC,-.14):legC,kb=lift>.05?lift*.3:0;if(ang)c.rotate(ang);
+    const TH=3.5,SH=3.3-lift*.4;const seg=(w0,w1,len)=>{c.beginPath();c.moveTo(-w0,0);c.quadraticCurveTo(-w0-.1,len*.6,-w1,len);c.lineTo(w1,len);c.quadraticCurveTo(w0+.1,len*.6,w0,0);c.closePath();};
+    c.fillStyle=lc;seg(2.15,1.95,TH+.6);c.fill();if(bk==='shorts'){c.fillStyle=far?shade(pc,-.14):pc;seg(2.55,2.4,3.4);c.fill();}
+    if(of.bottom.p==='camo'&&legC===pc){for(let i=0;i<2;i++)E(c,i%2?shade(pc,-.35):'#3d3a2a',-1+hash(i,x|0,3)*2,1+i*1.6,1,.7);}
+    if(of.bottom.p==='check'&&legC===pc){c.fillStyle='rgba(0,0,0,.18)';c.fillRect(-.6,0,.7,TH);}
+    c.translate(0,TH);const kr=d==='right'?kb*1.8:0;c.rotate(kr);c.fillStyle=lc;seg(1.95,1.7,SH+1);c.fill();if(lift>.6)fillE(c,'rgba(0,0,0,.08)',0,0,1.9,.45);
+    c.fillStyle='rgba(0,0,0,.07)';c.fillRect(.7,-TH,1.2,TH+SH+.6);
+    if(of.bottom.p==='camo'&&legC===pc){for(let i=2;i<4;i++)E(c,i%2?shade(pc,-.35):'#3d3a2a',-1+hash(i,x|0,3)*2,(i-2)*1.4,1,.7);}
+    if(bk==='pjpants'){c.fillStyle='rgba(255,255,255,.45)';for(let yy=-TH+1;yy<SH+1;yy+=2.5)c.fillRect(-1.9,yy,3.8,.8);}
+    if(bk==='jeans'){fillR(c,'rgba(255,230,180,.5)',.9,-TH,.4,TH+SH+1);fillR(c,shade(pc,.25),-1.7,SH-.2,3.4,1,.4);}
+    if(bk==='cargo')fillR(c,shade(pc,-.18),-2.1,-TH+1.6,2,2.2,.4);
+    if(bk==='jogger')fillR(c,shade(pc,-.25),-1.7,SH-.4,3.4,1.4,.6);
+    if(bk==='overalls')fillR(c,shade(pc,.2),-1.7,SH-.1,3.4,.9,.4);
+    c.save();c.translate(0,SH+.8);c.rotate(-(ang||0)*.6-kr*.8);shoe(c,-2,0,of.shoes,sp);c.restore();`);}catch(e){console.warn('leg patch',e);}
+{const L0=legs;legs=function(c,sp,of,d,st,sit,o){const r=L0.apply(this,arguments);if(!sit&&of&&of.bottom&&!/skirt|culottes/.test(of.bottom.k)){const pc=COL(of.bottom.c);if(d!=='right'){fillR(c,pc,-5.6,-8.8,11.2,3.2,1.4);fillE(c,shade(pc,-.18),0,-5.8,.6,1);}else fillR(c,pc,-3,-8.8,6.4,3.2,1.4);}return r;};}
+
+
+/* ===== finish/clean up the current errand before switching to another (drone, tap, …) ===== */
+function cleanupSteps(){const s=[];const ts=C.tableSet,food=ts&&(ts.foods||ts.food||ts.drink),drink=C.drinkNow,bath=(C.bathW||0)>.02||C.bathFill,hold=C.holding&&C.holding!=='box';
+  if(!(food||drink||bath||hold||(M&&M.busy)))return s;
+  s.push(FN(()=>{unsnap();C.cooking=false;C.tvNow=null;C.gameNow=null;C.radioNow=null;}));
+  if(bath){s.push(FN(()=>{C.bathFill=false;C.bathShower=false;C.bathToys=null;C.bathDrain=true;}),SAY(pick(['あっ、ちょっと待って。お湯を抜いて…','栓を抜いておかなきゃ'])),W8(2.2,dt=>{C.bathW=Math.max(0,(C.bathW||0)-dt/1.8);}),FN(()=>{C.bathDrain=false;C.bathW=0;}));}
+  if(food||drink){s.push(SAY(pick(['あ、ちょっと片付けてから行くね','急いで片付けよう…','お皿とグラス、さげておこう'])),FN(()=>{if(C.tableSet)C.tableSet.phase='eaten';C.holding=food||drink?'tray':C.holding;C.trayC=['#f3f1ea','glass'];}),W8(1.2),FN(()=>{C.tableSet=null;C.drinkNow=null;C.drinkLv=0;}),W8(.5),FN(()=>{C.holding=null;}));}
+  else if(hold)s.push(FN(()=>{C.holding=null;}),W8(.3));
+  s.push(FN(()=>{if(M&&M.busy){M.taiso=null;mRelease();}}));return s;}
+function switchTo(act,steps){const keep={tableSet:C.tableSet,drinkNow:C.drinkNow,drinkLv:C.drinkLv,holding:C.holding,trayC:C.trayC,bathW:C.bathW,bathToys:C.bathToys,bathFill:C.bathFill,snap:C.snap,snapK:C.snapK,pose:C.pose};
+  const pre=cleanupSteps();C._sw=true;try{abort();}finally{C._sw=false;}if(pre.length){C.tableSet=keep.tableSet;C.drinkNow=keep.drinkNow;C.drinkLv=keep.drinkLv;C.holding=keep.holding;C.trayC=keep.trayC;C.bathW=keep.bathW;C.bathToys=keep.bathToys;C.snap=keep.snap;C.snapK=keep.snapK;C.pose=keep.pose||'stand';}
+  C.act=act;C.steps=[...pre,...steps];C.idleT=rnd(1,3);}
+
 /* ===== sprite cache: detailed items are rendered once into an offscreen bitmap and blitted every frame.
    Each item's cache key holds exactly the game state its drawing code reads (found from its source);
    items that animate in that state are drawn live. Re-baking is spread over frames (budget) so nothing stutters. */
@@ -10457,7 +10498,7 @@ function tapGo(e){if(PAUSED)return;const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(
     if(!night){C.act=pl0.n;C.steps=[SAY(pick(['ふぁっ！？…あ、起きた起きた','むにゃ…もうちょっと寝てたかったのに…','はっ！寝てた…なになに？','うう…お昼寝のいいところだったのに','ん〜…わかった、行くよぉ'])),W8(1.2),...pl0.s];C.idleT=rnd(2,4);return;}
     C.act=pl0.n;C.steps=[SAY(pick(['むにゃ…こんな夜中に…？','ねむい…ちょっとだけね…','ふあぁ…なんでこんな時間に…','んん…寝ぼけてるかも…']),),W8(1.4),...pl0.s.filter(x=>x.t==='go'||x.t==='face').slice(0,2),W8(1.5),SAY(pick(['…やっぱり眠い。ベッドに戻るね','もう無理…おやすみ…','夜中に起こさないでよ〜…むにゃ'])),...goF('bed'),snapF('bed'),FN(()=>{C.sleeping=true;}),{t:'until',cond:()=>!sleepTime(0)},FN(()=>{C.sleeping=false;unsnap();say(sleepInfo(0).over?'寝坊しちゃった！夜中に起きたせいかな':'ふわぁ…おはよう。夜中に起きた気がする…');}),FN(()=>wearDay())];C.idleT=rnd(2,4);return;}
   if(['setup','yardsetup','visit','bath','toilet'].includes(C.act)&&C.steps.length){say(pick(['ちょっと待ってね、いま手がはなせないの','これが終わったらね']));return;}
-  const pl=tapPlan(tg);if(!pl||!pl.s||!pl.s.length)return;abort();C.act=pl.n;C.steps=pl.s;C.idleT=rnd(2,4);
+  const pl=tapPlan(tg);if(!pl||!pl.s||!pl.s.length)return;switchTo(pl.n,pl.s);C.idleT=rnd(2,4);
   if(Math.random()<.3&&tg.t!=='floor'&&!msgBusy())say(pick(['はーい','そっちに行くね','なになに？']));}
 let placeTap={t:0,x:0,y:0},tipObj=null;
 function tipFor(e){const w=tapWorld(e),tx=Math.floor(w.x/T),ty=Math.floor(w.y/T);
