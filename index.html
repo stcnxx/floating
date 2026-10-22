@@ -60,6 +60,7 @@ body{margin:0;background:var(--sky-deep);background-image:radial-gradient(120% 7
 .badge b{font-weight:400;color:var(--lantern)}
 .badge span{display:block;font-size:11px;color:var(--muted)}
 .room{left:8px;bottom:8px;padding:3px 10px;font-size:12px;letter-spacing:.12em}
+.pauseb{left:50%;bottom:8px;transform:translateX(-50%);height:30px;padding:0 14px;border-radius:15px;display:flex;align-items:center;gap:6px;font-size:12px;color:#fff;cursor:pointer;z-index:4;letter-spacing:.08em}.pauseb .pi{font-size:11px;letter-spacing:-1px}.pauseb[aria-pressed=true]{background:rgba(255,196,80,.82);color:#2a2340;text-shadow:none;border-color:#ffd36b;animation:pzb 1.6s ease-in-out infinite}@keyframes pzb{50%{box-shadow:0 0 0 4px rgba(255,211,107,.25)}}
 .helpb{left:8px;bottom:38px;width:30px;height:30px;padding:0;border-radius:50%;font-size:15px;font-weight:700;color:#fff;cursor:pointer;z-index:4}
 #help .card h3{margin:14px 0 6px;font-size:14px;color:var(--lantern)}#help .card dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:5px 10px;font-size:13px;line-height:1.5}#help .card dt{font-weight:700;white-space:nowrap}#help .card dd{margin:0;color:var(--muted,#c9c3e0)}
 .dexh{display:flex;align-items:baseline;justify-content:space-between;margin:14px 0 6px}.dexh h3{margin:0;font-size:14px}.dexh small{color:var(--muted,#c9c3e0);font-size:11px}
@@ -73,7 +74,8 @@ body{margin:0;background:var(--sky-deep);background-image:radial-gradient(120% 7
 .pslider{background:linear-gradient(#fff,#fff) 50% 50%/2px 10px no-repeat,linear-gradient(#fff,#fff) 0 50%/2px 10px no-repeat,linear-gradient(#fff,#fff) 100% 50%/2px 10px no-repeat}
 .pslider::-webkit-slider-thumb{-webkit-appearance:none;width:14px;height:14px;border-radius:50%;background:#ffd36b;border:2px solid #fff;margin-top:-6px;box-shadow:0 1px 3px rgba(0,0,0,.4)}
 .pslider::-moz-range-track{height:2px;background:#fff}.pslider::-moz-range-thumb{width:12px;height:12px;border-radius:50%;background:#ffd36b;border:2px solid #fff}
-.bgmlist{list-style:none;padding:0;margin:6px 0;display:flex;flex-direction:column;gap:4px}.bgmlist li button{width:100%;text-align:left;font-size:13px;padding:7px 10px;border-radius:10px}.bgmlist li button[aria-pressed=true]{background:#ffd36b;color:#2a2340;font-weight:700}
+.bgmlist{list-style:none;padding:0;margin:6px 0;display:flex;flex-direction:column;gap:4px}.bgmlist li{display:flex;gap:4px;align-items:stretch}.bgmlist li>button{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis}.bgmops{display:flex;gap:3px}.bgmops button{font-size:11px;padding:4px 6px;border-radius:8px;white-space:nowrap}.bgmmode button{font-size:11px}.bgmmode button[aria-pressed=true]{background:#ffd36b;color:#2a2340;font-weight:700}
+.bgmlist li button{text-align:left;font-size:13px;padding:7px 10px;border-radius:10px}.bgmlist li button[aria-pressed=true]{background:#ffd36b;color:#2a2340;font-weight:700}
 .dexnone{font-size:12px;color:var(--muted,#c9c3e0);margin:2px 0 4px}
 .msg{font-weight:500;position:relative;background:var(--panel);border:2px solid #3b4790;border-radius:14px;padding:18px 16px 14px;min-height:104px;font-family:var(--f-pixel);font-size:16px;line-height:1.65;box-sizing:border-box}
 .msg .who{position:absolute;top:-13px;left:14px;background:var(--lantern);color:#2a200b;font-size:13px;padding:2px 12px;border-radius:999px}
@@ -201,6 +203,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     </div>
     <div class="glass room" id="room">リビング</div>
     <button class="glass helpb" id="helpB" type="button" aria-label="ヘルプ">？</button>
+    <button class="glass pauseb" id="pauseB" type="button" aria-label="一時停止" aria-pressed="false"><span class="pi">❚❚</span><span class="pl">一時停止</span></button>
     <div class="bubble" id="bubble" hidden aria-live="polite"><div class="btext" id="text"></div><a id="newsLink" href="#" target="_blank" rel="noopener" hidden>記事を開く ↗</a><i class="tail"></i></div>
     <div class="quake" id="quake" hidden></div>
     <div class="tip" id="tip" hidden></div>
@@ -300,11 +303,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版108（2026/10/22 12:30）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版111（2026/10/22 12:48）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版108（2026/10/22 12:30）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版111（2026/10/22 12:48）</p>
 <h3>キャラクター</h3><dl><dt>タップ</dt><dd>なでる（なかよし度が上がって、楽しさが回復します）</dd><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）で自分の曲を選んで流す。流れている間に長押しすると、曲を変えるか演奏をやめるか選べます（やめると保存した曲は消えます）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁のすぐ手前の床へ動かすと、床に立てかけた姿に。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>リサイクルに出す（確認あり）。最初からある生活必需品と、同居人の家具は出せません</dd><dt>庭のもの</dt><dd>庭でも同じように移動・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -312,7 +315,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
 <h3>メニュー</h3><dl><dt>主人公</dt><dd>名前と見た目、名前の表示のしかた、寝る・起きる時間、今の気分・お酒の好み</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・寝る時間</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>BGM</dt><dd>ラジカセの曲を選ぶ・止める・次の曲・削除</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>手動設定</dt><dd>日付・時刻・天気を、自動か手動か選ぶ</dd><dt>セーブ・ロード</dt><dd>データの保存・読み込み・別の端末への引っ越し</dd></dl>
 <h3>そのほか</h3><dl><dt>配達</dt><dd>欲しいものはドローンで届き、受け取ると中身を教えてくれます</dd><dt>お客さん</dt><dd>となりの浮遊島からドローンで遊びに来ます</dd><dt>留守のあいだ</dt><dd>アプリを閉じていた間の出来事を、次に開いたときに教えてくれます</dd><dt>キーボード</dt><dd>Enter でメニュー、スペースでなでる</dd></dl>
 <div class="row2" style="margin-top:14px"><button id="helpX" class="primary" type="button">とじる</button></div></div></div>
-<input type="file" id="musIn" accept="audio/*" multiple hidden>
+<input type="file" id="musIn" accept="audio/*" multiple hidden><input type="file" id="musIn1" accept="audio/*" hidden>
 <div class="overlay center" id="musDlg" hidden><div class="card" role="dialog" aria-labelledby="musH" style="max-width:320px"><h2 id="musH" style="font-size:18px">ラジカセ</h2><p id="musT" class="note" style="text-align:left"></p><div class="row2"><button id="musChg" class="primary" type="button">曲を変える</button><button id="musOff" type="button">演奏をやめる</button></div><div class="row2" style="margin-top:8px"><button id="musX" type="button">キャンセル</button></div></div></div>
 <div class="overlay center" id="recy" hidden><div class="card" role="dialog" aria-labelledby="recyT" style="max-width:320px"><h2 style="font-size:18px">リサイクルに出す</h2><p id="recyT" class="note" style="text-align:left"></p><div class="row2"><button id="recyNo" type="button">やめる</button><button id="recyOk" class="primary" type="button">リサイクルに出す</button></div></div></div>
 <div class="overlay center" id="setup" hidden>
@@ -3961,7 +3964,7 @@ async function idbPut(rec){const db=await idb();return new Promise((ok,ng)=>{con
 async function idbGet(id){const db=await idb();return new Promise((ok,ng)=>{const r=db.transaction('songs').objectStore('songs').get(id);r.onsuccess=()=>ok(r.result);r.onerror=()=>ng(r.error);});}
 async function idbClear(){const db=await idb();return new Promise(ok=>{const tx=db.transaction('songs','readwrite');tx.objectStore('songs').clear();tx.oncomplete=()=>ok();tx.onerror=()=>ok();});}
 const songTitle=n=>String(n||'').replace(/\.[a-z0-9]{2,4}$/i,'').replace(/^\d{1,3}[\s._-]+/,'').trim()||'ないしょの曲';
-function musAudio(){if(!MUS.audio&&typeof Audio!=='undefined'){const a=new Audio();a.preload='auto';a.addEventListener('ended',()=>musNext());a.addEventListener('timeupdate',()=>{if(S&&S.music)S.music.pos=a.currentTime;});MUS.audio=a;}return MUS.audio;}
+function musAudio(){if(!MUS.audio&&typeof Audio!=='undefined'){const a=new Audio();a.preload='auto';a.addEventListener('ended',()=>musNext(false));a.addEventListener('timeupdate',()=>{if(S&&S.music)S.music.pos=a.currentTime;});MUS.audio=a;}return MUS.audio;}
 async function musLoad(i,startAt){const m=S&&S.music;if(!m||!m.ids.length)return;m.idx=((i%m.ids.length)+m.ids.length)%m.ids.length;const rec=await idbGet(m.ids[m.idx]).catch(()=>null);if(!rec){musStop(true);return;}
   const a=musAudio();if(!a)return;if(MUS.url)URL.revokeObjectURL(MUS.url);MUS.url=URL.createObjectURL(rec.blob);a.src=MUS.url;MUS.title=songTitle(rec.name);
   await new Promise(r=>{a.onloadedmetadata=()=>r();setTimeout(r,1500);});if(startAt)try{a.currentTime=Math.min(startAt,(a.duration||startAt+1)-.5);}catch(_){}musPlay();}
@@ -3972,7 +3975,21 @@ function musTickEQ(){if(!MUS.playing){MUS.lvl=0;return;}const B=MUS.bars=MUS.bar
   else{const t=performance.now()/1000;for(let i=0;i<10;i++){const v=.35+.35*Math.sin(t*(3+i*.7)+i*1.3)+.25*Math.sin(t*7.3+i);B[i]=Math.max(0,Math.min(1,v));}MUS.lvl=.5;}}
 function musPlay(){const a=MUS.audio;if(!a||!S||!S.music)return;musEQ();S.music.on=true;const p=a.play();MUS.playing=true;if(p&&p.catch)p.catch(()=>{MUS.playing=false;MUS.pend=true;});}
 function musPause(){const a=MUS.audio;if(a&&!a.paused){a.pause();if(S&&S.music)S.music.pos=a.currentTime;}MUS.playing=false;}
-function musNext(){if(!S||!S.music)return;S.music.pos=0;musLoad(S.music.idx+1,0);}
+function musNext(force){if(!S||!S.music)return;const m=S.music,n=m.ids.length;m.pos=0;const mode=m.mode||'all';
+  if(mode==='one'&&!force){musLoad(m.idx,0);return;}
+  if(mode==='shuffle'&&n>1){let j=m.idx;while(j===m.idx)j=Math.floor(Math.random()*n);musLoad(j,0);return;}
+  musLoad(m.idx+1,0);}
+async function idbDel(id){const db=await idb();return new Promise(ok=>{const tx=db.transaction('songs','readwrite');tx.objectStore('songs').delete(id);tx.oncomplete=()=>ok();tx.onerror=()=>ok();});}
+const isAudio=f=>/^audio\//.test(f.type)||/\.(mp3|m4a|aac|wav|ogg|flac|opus)$/i.test(f.name);
+let musTarget=null; // {op:'add'} or {op:'rep',i}
+async function musAddFiles(files){const m=S.music;if(!m){musPick(files);return;}const fl=[...files].filter(isAudio);if(!fl.length){say('音楽のファイルじゃないみたい…');return;}
+  m.names=m.names||m.ids.map((_,i)=>`曲${i+1}`);for(const f of fl){const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);try{await idbPut({id,name:f.name,type:f.type,blob:f});m.ids.push(id);m.names.push(f.name);}catch(e){}}
+  save();say(`${fl.length}曲、プレイリストに足したよ`);renderBGM();}
+async function musReplace(i,file){const m=S.music;if(!m||!file||!isAudio(file))return;const id=Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+  try{await idbPut({id,name:file.name,type:file.type,blob:file});}catch(e){say('うまく保存できなかった…');return;}await idbDel(m.ids[i]).catch(()=>{});
+  m.names=m.names||m.ids.map((_,k)=>`曲${k+1}`);m.ids[i]=id;m.names[i]=file.name;save();if(i===m.idx)await musLoad(i,0);say(`${i+1}曲目を「${songTitle(file.name)}」に入れかえたよ`);renderBGM();}
+async function musDelete(i){const m=S.music;if(!m)return;const id=m.ids[i];m.ids.splice(i,1);if(m.names)m.names.splice(i,1);await idbDel(id).catch(()=>{});
+  if(!m.ids.length){musStop(false);return;}if(i===m.idx){m.idx=Math.min(i,m.ids.length-1);await musLoad(m.idx,0);}else if(i<m.idx)m.idx--;save();renderBGM();}
 async function musStop(silent){musPause();if(MUS.audio){MUS.audio.removeAttribute('src');try{MUS.audio.load();}catch(_){}}if(MUS.url){URL.revokeObjectURL(MUS.url);MUS.url=null;}MUS.title='';S.music=null;save();await idbClear().catch(()=>{});
   if(!silent)say(pick(['音楽、止めたよ。静かになったね','ラジカセ、おやすみ','また聴きたくなったら選んでね']));}
 async function musPick(files){const fl=[...files].filter(f=>/^audio\//.test(f.type)||/\.(mp3|m4a|aac|wav|ogg|flac|opus)$/i.test(f.name));if(!fl.length){say('音楽のファイルじゃないみたい…');return;}
@@ -3983,13 +4000,15 @@ async function musPick(files){const fl=[...files].filter(f=>/^audio\//.test(f.ty
   say(pick([`ラジカセで「${MUS.title}」をかけるね♪`,`${ids.length>1?ids.length+'曲セットした！':''}「${MUS.title}」からいこう`,'いい音！']));}
 function renderBGM(){const el=$('bgmBody');if(!el||!S)return;const m=S.music;
   if(!m){el.innerHTML='<p class="hint">ラジカセで流す曲を、スマホの中から選べます。選んだ曲はブラウザの中に保存され、次に開いたときも続きから流れます。</p><div class="row2"><button class="primary" type="button" data-bgm="pick">曲を選ぶ</button></div>';return;}
-  const names=m.names||m.ids.map((_,i)=>`曲${i+1}`);
-  el.innerHTML=`<h3>${MUS.playing?'♪ 再生中':'⏸ 停止中'}</h3><p class="note" style="text-align:left">${esc(MUS.title||names[m.idx]||'')}</p>
+  const names=m.names||m.ids.map((_,i)=>`曲${i+1}`),mode=m.mode||'all';
+  el.innerHTML=`<h3>${MUS.playing?'♪ 再生中':'⏸ 停止中'}</h3><p class="note" style="text-align:left">${esc(MUS.title||songTitle(names[m.idx])||'')}</p>
    <div class="row2"><button type="button" class="primary" data-bgm="toggle">${MUS.playing?'一時停止':'再生'}</button><button type="button" data-bgm="next">次の曲</button></div>
-   <h3>プレイリスト（${names.length}曲）</h3><ul class="bgmlist">${names.map((n,i)=>`<li><button type="button" data-bgm="play" data-i="${i}" aria-pressed="${i===m.idx}">${i+1}. ${esc(songTitle(n))}</button></li>`).join('')}</ul>
-   <div class="row2"><button type="button" data-bgm="pick">曲を選び直す</button><button type="button" class="danger" data-bgm="stop">演奏をやめて削除</button></div><p class="hint">「演奏をやめて削除」を選ぶと、保存した曲はブラウザから消えて容量が空きます。</p>`;}
+   <h3>流し方</h3><div class="seg bgmmode">${[['one','今の曲をリピート'],['all','前から順番に'],['shuffle','ランダム']].map(([k,n])=>`<button type="button" data-bgm="mode" data-m="${k}" aria-pressed="${mode===k}">${n}</button>`).join('')}</div>
+   <h3>プレイリスト（${names.length}曲）</h3><ul class="bgmlist">${names.map((n,i)=>`<li><button type="button" data-bgm="play" data-i="${i}" aria-pressed="${i===m.idx}">${i+1}. ${esc(songTitle(n))}</button><span class="bgmops"><button type="button" data-bgm="rep" data-i="${i}">入れかえ</button><button type="button" class="danger" data-bgm="del" data-i="${i}">削除</button></span></li>`).join('')}</ul>
+   <div class="row2"><button type="button" data-bgm="add">曲を追加</button><button type="button" class="danger" data-bgm="stop">全部やめて削除</button></div><p class="hint">「全部やめて削除」を選ぶと、保存した曲はすべてブラウザから消えて容量が空きます。</p>`;}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-bgm]');if(!b||!S)return;const a=b.dataset.bgm;
-  if(a==='pick')$('musIn').click();else if(a==='toggle'){if(MUS.playing){musPause();if(S.music)S.music.on=false;save();}else musResume2();}else if(a==='next')musNext();else if(a==='play')musLoad(+b.dataset.i,0);else if(a==='stop')musStop(false);
+  if(a==='mode'){if(S.music){S.music.mode=b.dataset.m;save();say({one:'今の曲をくり返し流すね',all:'前から順番に流すね',shuffle:'ランダムに流すね'}[b.dataset.m]);}}else if(a==='add'){musTarget={op:'add'};$('musIn').click();}else if(a==='rep'){musTarget={op:'rep',i:+b.dataset.i};$('musIn1').click();}else if(a==='del'){musDelete(+b.dataset.i);}
+  else if(a==='pick'){musTarget=null;$('musIn').click();}else if(a==='toggle'){if(MUS.playing){musPause();if(S.music)S.music.on=false;save();}else musResume2();}else if(a==='next')musNext(true);else if(a==='play')musLoad(+b.dataset.i,0);else if(a==='stop')musStop(false);
   setTimeout(renderBGM,350);});
 function musResume2(){if(!S.music)return;S.music.on=true;musResume();}
 function musTap(){if(!S)return;if(S.music){$('musT').textContent=MUS.title?`いま流れているのは「${MUS.title}」（${S.music.idx+1}/${S.music.ids.length}曲目）`:'ラジカセに曲が入っています';$('musDlg').hidden=false;}
@@ -4935,17 +4954,19 @@ function drawLBot(b){const[cn,col]=lbColOf(b.k),x=b.px+T/2,y=b.py+T-3,d=b.dir,t=
 function dLBNest(X,Y,Wd,Dp,L){const k=S.layout.lbot2===L?'lbot2':'lbot1',col=lbColOf(k)[1];fillE(g,'rgba(0,0,0,.12)',X+12.5,Y+18,10,3);fillE(g,shade(col,-.25),X+12,Y+15,10,4.4);fillE(g,shade(col,.15),X+12,Y+14,8.4,3.4);fillE(g,'#e8f4ff',X+12,Y+14,3,1.2);fillE(g,'#7fd0ff',X+18,Y+13,.6,.6);}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
+let PAUSED=false;
+function setPause(on){PAUSED=!!on;const b=$("pauseB");if(b){b.setAttribute("aria-pressed",PAUSED?"true":"false");b.setAttribute("aria-label",PAUSED?"再開":"一時停止");b.innerHTML=PAUSED?'<span class="pi">▶</span><span class="pl">再開</span>':'<span class="pi">❚❚</span><span class="pl">一時停止</span>';}}
 function update(dt){
   if(fadeT>0)fadeT-=dt;
-  moveTick(dt);if(fadeT<=.2)runner(dt);
+  if(!PAUSED){moveTick(dt);if(fadeT<=.2)runner(dt);}
   if(!dragPan(dt)){const p=charPos(),tx=p.cx,ty=p.by-18;if(!cam.init){cam.x=tx;cam.y=ty;cam.init=true;}const k=1-Math.exp(-dt*5);cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;}
-  needsTick(dt);droneTick(dt);visitTick(dt);mateTick(dt);rvTick(dt);lbTick(dt);if(M&&M.drink&&M.sit)M.drinkLv=Math.max(.12,(M.drinkLv||1)-dt*.012);yardTick(dt);shopTick(dt);partTick(dt);msgTick(dt);talkTick(dt);
+  if(!PAUSED){needsTick(dt);droneTick(dt);visitTick(dt);mateTick(dt);rvTick(dt);lbTick(dt);if(M&&M.drink&&M.sit)M.drinkLv=Math.max(.12,(M.drinkLv||1)-dt*.012);yardTick(dt);shopTick(dt);msgTick(dt);talkTick(dt);}partTick(dt);
   const k=wKind();if(k==='snow')snowCover=Math.min(.7,snowCover+dt/90);else snowCover=Math.max(0,snowCover-dt/240);
   if(k==='thunder'){nextFlash-=dt;if(nextFlash<=0){flashT=.18;nextFlash=rnd(6,16);}}if(flashT>0)flashT-=dt;
   hudT-=dt;if(hudT<=0){hudT=1;updateHUD();updateRoom();wxWatch();if(!$('sheet').hidden){const ae=document.activeElement;if(!(ae&&/^(SELECT|INPUT|TEXTAREA)$/.test(ae.tagName)&&$('sheet').contains(ae)))renderSheet();renderDiary(false);}}
   saveT+=dt;if(saveT>10){saveT=0;save();}
 }
-function loop(ts){const dt=Math.min(.1,(ts-last)/1000);last=ts;const menuOpen=!$('sheet').hidden||!$('help').hidden||!$('lookEd').hidden;if(S){update(dt);if(!menuOpen)render();else{loop.fr=(loop.fr||0)+1;if(loop.fr%20===0)render();}}bubbleTick();vBubbleTick();mBubbleTick();convoTick(dt);hudDim();tipTick();devTick();if(S&&(++hudFrame%6===0))hudAvoid();requestAnimationFrame(loop);}
+function loop(ts){const dt=Math.min(.1,(ts-last)/1000);last=ts;const menuOpen=!$('sheet').hidden||!$('help').hidden||!$('lookEd').hidden;if(S&&!menuOpen){update(dt);render();}/* the game world pauses while the menu/help is open */bubbleTick();vBubbleTick();mBubbleTick();convoTick(dt);hudDim();tipTick();devTick();if(S&&(++hudFrame%6===0))hudAvoid();requestAnimationFrame(loop);}
 let hudFrame=0;
 /* ========== interventions ========== */
 function pet(){if(!S)return;S.needs.fun=clamp(S.needs.fun+8,0,100);S.affinity+=1;hearts();emote('heart',1.8);if(!C.sleeping)say(pick(['えへへ','くすぐったいよ〜','もっとなでて！',tic()+'うれしい！']));else say(pick(['むにゃ…','ん…？ zzz…']));}
@@ -4992,7 +5013,7 @@ function tapPlan(tg){const idle=Math.random()<.22&&!(tg.t==='f'&&['tv','radio','
       const on=S.owned.filter(o=>S.layout[o]&&S.layout[o].on===k);if(on.length){const st=A.admire(pick(on));if(st)return{n:'admire',s:st};}}
     return{n:'tapwalk',s:[...goF(k),SAY(LOOK(f.n))]};}
   return null;}
-function tapGo(e){const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(!tg)return;
+function tapGo(e){if(PAUSED)return;const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(!tg)return;
   particles.push({sc:C.scene,x:w.x,y:w.y,vx:0,vy:0,life:.6,max:.6,type:'ring'});
   if(C.sleeping){const night=sleepTime(0)&&!C.napping;const pl0=tapPlan(tg);if(!pl0||!pl0.s||!pl0.s.length){say(pick(['むにゃ…（ねてる）','Zzz…あとでね…']));return;}
     abort();C.sleeping=false;C.napping=false;unsnap();
@@ -5180,9 +5201,10 @@ $('mtRenameB').onclick=()=>{const nm=$('mtRename').value.trim();if(!nm||!S.mate)
 $('mtBye').onclick=()=>{if(!S.mate)return;if(!mtByeArm){mtByeArm=true;$('mtBye').textContent='本当にお別れする？（もう一度押す）';return;}
   const nm=S.mate.name;S.mate=null;M=null;S.owned=S.owned.filter(k=>k!=='bed2'&&k!=='wardrobe2');delete S.layout.bed2;delete S.layout.wardrobe2;refreshOcc();save();sheetClosed();queueSay(`${nm}、元気でね…さみしくなるな`);};
 $('awayOk').onclick=()=>{$('awayCard').hidden=true;};
-$('musIn').onchange=e=>{const f=e.target.files;if(f&&f.length)musPick(f);e.target.value='';};
-$('musChg').onclick=()=>{$('musDlg').hidden=true;$('musIn').click();};$('musOff').onclick=()=>{$('musDlg').hidden=true;musStop(false);};$('musX').onclick=()=>{$('musDlg').hidden=true;};$('musDlg').addEventListener('click',e=>{if(e.target.id==='musDlg')$('musDlg').hidden=true;});
-$('helpB').onclick=()=>{$('help').hidden=false;const cd=document.querySelector('#help .card');if(cd)cd.scrollTop=0;};$('helpX').onclick=()=>{$('help').hidden=true;};$('help').addEventListener('click',e=>{if(e.target.id==='help')$('help').hidden=true;});
+$('musIn').onchange=e=>{const f=e.target.files;if(f&&f.length){if(musTarget&&musTarget.op==='add')musAddFiles(f);else musPick(f);}musTarget=null;e.target.value='';};
+$('musIn1').onchange=e=>{const f=e.target.files;if(f&&f.length&&musTarget&&musTarget.op==='rep')musReplace(musTarget.i,f[0]);musTarget=null;e.target.value='';};
+$('musChg').onclick=()=>{$('musDlg').hidden=true;musTarget=null;$('musIn').click();};$('musOff').onclick=()=>{$('musDlg').hidden=true;musStop(false);};$('musX').onclick=()=>{$('musDlg').hidden=true;};$('musDlg').addEventListener('click',e=>{if(e.target.id==='musDlg')$('musDlg').hidden=true;});
+$('pauseB').onclick=e=>{e.stopPropagation();setPause(!PAUSED);};$('helpB').onclick=()=>{$('help').hidden=false;const cd=document.querySelector('#help .card');if(cd)cd.scrollTop=0;};$('helpX').onclick=()=>{$('help').hidden=true;};$('help').addEventListener('click',e=>{if(e.target.id==='help')$('help').hidden=true;});
 $('recyNo').onclick=()=>{$('recy').hidden=true;recyK=null;};$('recyOk').onclick=()=>{$('recy').hidden=true;const r=recyK;recyK=null;if(r)recycleDo(r.k,r.sc);};$('recy').addEventListener('click',e=>{if(e.target.id==='recy')$('recyNo').onclick();});
 $('rnNew').onclick=()=>{$('rnName').value=S.species==='human'?humanName((S.look||{}).g):newName(S.species);};
 $('rnSave').onclick=()=>{const nm=$('rnName').value.trim()||S.name,sp=rnSel||S.species,chName=nm!==S.name,chSp=sp!==S.species;if(!chName&&!chSp){$('sheet').hidden=true;return;}
