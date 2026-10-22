@@ -288,12 +288,13 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版102（2026/10/22）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版100（2026/10/22）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版102（2026/10/22）</p>
 <h3>キャラクター</h3><dl><dt>タップ</dt><dd>なでる（なかよし度が上がって、楽しさが回復します）</dd><dt>ダブルタップ</dt><dd>「メニュー」を開く</dd></dl>
-<h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>ダブルタップで自分の曲を選んで流す。流れている間にダブルタップすると、曲を変えるか演奏をやめるか選べます（やめると保存した曲は消えます）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく</dd></dl>
+<h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）で自分の曲を選んで流す。流れている間に長押しすると、曲を変えるか演奏をやめるか選べます（やめると保存した曲は消えます）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁のすぐ手前の床へ動かすと、床に立てかけた姿に。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>リサイクルに出す（確認あり）。最初からある生活必需品と、同居人の家具は出せません</dd><dt>庭のもの</dt><dd>庭でも同じように移動・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
 <h3>寝ているとき</h3><dl><dt>昼寝中にダブルタップ</dt><dd>起きてそこへ向かいます</dd><dt>夜中にダブルタップ</dt><dd>寝ぼけて行くけど、すぐベッドに戻ります</dd></dl>
 <h3>メニュー</h3><dl><dt>キャラクター情報</dt><dd>今の気分・欲しいもの・お酒の好み</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>名前と姿</dt><dd>名前と見た目の変更</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・名前の表示</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>ためす</dt><dd>天気や時刻を変えてようすを見る</dd><dt>セーブ・ロード</dt><dd>データの保存・読み込み・別の端末への引っ越し</dd></dl>
@@ -3907,8 +3908,12 @@ function musTap(){if(!S)return;if(S.music){$('musT').textContent=MUS.title?`い�
   else $('musIn').click();}
 function musResume(){if(!S||!S.music||!S.music.on)return;if(MUS.audio&&MUS.audio.src){musPlay();}else musLoad(S.music.idx||0,S.music.pos||0);}
 function drawMusicTag(){if(!MUS.playing||!MUS.title||C.scene!=='in'||!has('boombox'))return;const L=S.layout.boombox;if(!L)return;const x=L.x*T+T,y=L.y*T-20;
-  g.save();g.font='600 4.6px "Zen Maru Gothic",sans-serif';g.textAlign='center';g.textBaseline='middle';const tx='♪ '+short(MUS.title,18),tw=g.measureText(tx).width+5;
-  g.fillStyle='rgba(20,20,28,.78)';rr(g,x-tw/2,y-3.4,tw,6.8,3.4);g.fill();g.beginPath();g.moveTo(x-1.2,y+3.4);g.lineTo(x+1.2,y+3.4);g.lineTo(x,y+5.2);g.closePath();g.fill();g.fillStyle='#fff';g.fillText(tx,x,y+.2);g.restore();}
+  g.save();g.font='600 4.6px "Zen Maru Gothic",sans-serif';g.textBaseline='middle';const tx='♪ '+MUS.title,full=g.measureText(tx).width,maxW=44,bw=Math.min(full,maxW)+5;
+  g.fillStyle='rgba(20,20,28,.78)';rr(g,x-bw/2,y-3.4,bw,6.8,3.4);g.fill();g.beginPath();g.moveTo(x-1.2,y+3.4);g.lineTo(x+1.2,y+3.4);g.lineTo(x,y+5.2);g.closePath();g.fill();g.fillStyle='#fff';
+  if(full<=maxW){g.textAlign='center';g.fillText(tx,x,y+.2);}
+  else{const gap=14,cyc=full+gap,sp=7,tt=performance.now()/1000,hold=1.2,per=cyc/sp+hold,ph=tt%per,off=ph<hold?0:(ph-hold)*sp;   // pause at the start, then glide left
+    g.beginPath();g.rect(x-maxW/2,y-3.4,maxW,6.8);g.clip();g.textAlign='left';const x0=x-maxW/2-off;g.fillText(tx,x0,y+.2);g.fillText(tx,x0+cyc,y+.2);}
+  g.restore();}
 const ICON={
   sun:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="5" fill="#ffd166"/><g stroke="#ffd166" stroke-width="2" stroke-linecap="round"><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></g></svg>',
   moon:'<svg viewBox="0 0 24 24"><path d="M15.5 3.5a8.5 8.5 0 1 0 5 13.6A7 7 0 0 1 15.5 3.5z" fill="#f6e7b4"/></svg>',
@@ -4895,7 +4900,7 @@ function tapPlan(tg){const idle=Math.random()<.22&&!(tg.t==='f'&&['tv','radio','
       const on=S.owned.filter(o=>S.layout[o]&&S.layout[o].on===k);if(on.length){const st=A.admire(pick(on));if(st)return{n:'admire',s:st};}}
     return{n:'tapwalk',s:[...goF(k),SAY(LOOK(f.n))]};}
   return null;}
-function tapGo(e){const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(!tg)return;if(tg.t==='f'&&tg.k==='boombox'&&!C.sleeping){musTap();}
+function tapGo(e){const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(!tg)return;
   particles.push({sc:C.scene,x:w.x,y:w.y,vx:0,vy:0,life:.6,max:.6,type:'ring'});
   if(C.sleeping){const night=sleepTime(0)&&!C.napping;const pl0=tapPlan(tg);if(!pl0||!pl0.s||!pl0.s.length){say(pick(['むにゃ…（ねてる）','Zzz…あとでね…']));return;}
     abort();C.sleeping=false;C.napping=false;unsnap();
@@ -5000,7 +5005,7 @@ function recycleDo(k,sc){const n=(sc==='in'?FT:OFT)[k].n;
   say(pick([`${n}、リサイクルに出したよ。今までありがとう`,`${n}とはお別れ。次の誰かの役に立ってね`,`${n}をリサイクルへ。部屋がすっきりした！`]));}
 function dragEnd(cancel){const d=DRAG;DRAG=null;dragEndAt=performance.now();if(!d)return;
   const same=d.cur.x===d.orig.x&&d.cur.y===d.orig.y&&d.cur.side===d.orig.side;
-  if(!cancel&&same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;recycleAsk(d.k,d.sc);return;}
+  if(!cancel&&same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;if(d.sc==='in'&&d.k==='boombox'){musTap();return;}recycleAsk(d.k,d.sc);return;}
   if(cancel||!d.ok||same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;if(!same&&!cancel)say(pick(['そこには置けないみたい','うーん、そこはむずかしいかも','通れなくなっちゃうから、そこはダメかな']));return;}
   if(d.sc==='in'){refreshOcc();sparkleAt(posCenter(d.k,d.cur));}else{refreshOut();sparkOut((d.cur.x+OFT[d.k].w/2)*T,d.cur.y*T+8);}
   S.userPlaced=S.userPlaced||{};S.userPlaced[d.k]=Date.now();
