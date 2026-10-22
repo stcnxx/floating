@@ -303,11 +303,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版119（2026/10/22 #28）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版121（2026/10/22 #30）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版119（2026/10/22 #28）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版121（2026/10/22 #30）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）で自分の曲を選んで流す。流れている間に長押しすると、曲を変えるか演奏をやめるか選べます（やめると保存した曲は消えます）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁のすぐ手前の床へ動かすと、床に立てかけた姿に。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>リサイクルに出す（確認あり）。最初からある生活必需品と、同居人の家具は出せません</dd><dt>庭のもの</dt><dd>庭でも同じように移動・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1424,6 +1424,12 @@ function useTileFor(k,p,occ){
     for(const[x,y]of[[p.x,p.y+1],[p.x-1,p.y+1],[p.x+1,p.y+1],[p.x,p.y+2]])if(ok(x,y))return{x,y,d:'up'};return null;}
   if(f.k==='floor'){const cs=[];for(let y=p.y;y<p.y+f.h;y++)for(let x=p.x;x<p.x+f.w;x++)if(ok(x,y))cs.push({x,y,d:'down',s:Math.abs(x-(p.x+(f.w-1)/2))+Math.abs(y-(p.y+(f.h-1)/2))});cs.sort((a,b)=>a.s-b.s);return cs[0]||null;}
   const w=p.ped?1:f.w,h=p.ped?1:f.h,c=[];
+  // seats you sit on facing away from the viewer (sofa): get on/off from the front (north) or the ends, never through the backrest
+  if(!p.ped&&typeof f.snap==='function'&&f.use!=='front'){let sp=null;try{sp=f.snap(p);}catch(_){}if(sp&&sp.d==='up'&&sp.py<=(p.y+h)*T+2){
+    for(let x=p.x;x<p.x+w;x++)c.push({x,y:p.y-1,d:'down',s:Math.abs(x+.5-sp.px/T)});
+    for(let y=p.y;y<p.y+h;y++)c.push({x:p.x-1,y,d:'right',s:3+Math.abs(p.x-sp.px/T)*.2},{x:p.x+w,y,d:'left',s:3+Math.abs(p.x+w-sp.px/T)*.2});
+    for(let x=p.x;x<p.x+w;x++)c.push({x,y:p.y+h,d:'up',s:20+Math.abs(x+.5-sp.px/T)});
+    c.sort((a,b)=>a.s-b.s);for(const q of c)if(ok(q.x,q.y))return q;return null;}}
   for(let x=p.x;x<p.x+w;x++)c.push({x,y:p.y+h,d:'up',s:Math.abs(x-(p.x+(w-1)/2))});
   if(f.use!=='front'||p.ped){for(let y=p.y;y<p.y+h;y++){const s=2+Math.abs(y-(p.y+(h-1)/2))-(f.use==='side'?3:0);c.push({x:p.x-1,y,d:'right',s},{x:p.x+w,y,d:'left',s});}
     for(let x=p.x;x<p.x+w;x++)c.push({x,y:p.y-1,d:'down',s:5});}
@@ -1767,6 +1773,87 @@ function mailSteps(){let it=null;const m=OUT.mailbox;
     FN(()=>{if(it&&it.l&&it.l.mate&&M&&!M.sleeping&&M.scene===C.scene)setTimeout(()=>msay(pick(['あ、わたしあて？ありがとう！','手紙？だれからだろう'])),2500);})];}
 /* ----- 日記 (last 7 days: meals & parcels) ----- */
 const dKey=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+/* ===== library: books (with authors), manga, magazines ===== */
+const BOOKS=(
+'こころ|夏目漱石|jl;吾輩は猫である|夏目漱石|jl;坊っちゃん|夏目漱石|jl;羅生門|芥川龍之介|jl;蜘蛛の糸|芥川龍之介|jl;人間失格|太宰治|jl;走れメロス|太宰治|jl;斜陽|太宰治|jl;銀河鉄道の夜|宮沢賢治|jl;注文の多い料理店|宮沢賢治|jl;'+
+'雪国|川端康成|jl;伊豆の踊子|川端康成|jl;金閣寺|三島由紀夫|jl;潮騒|三島由紀夫|jl;山月記|中島敦|jl;舞姫|森鷗外|jl;高瀬舟|森鷗外|jl;檸檬|梶井基次郎|jl;細雪|谷崎潤一郎|jl;破戒|島崎藤村|jl;'+
+'たけくらべ|樋口一葉|jl;砂の女|安部公房|jl;沈黙|遠藤周作|jl;二十四の瞳|壺井栄|jl;銀の匙|中勘助|jl;'+
+'ノルウェイの森|村上春樹|jm;海辺のカフカ|村上春樹|jm;1Q84|村上春樹|jm;キッチン|吉本ばなな|jm;博士の愛した数式|小川洋子|jm;火花|又吉直樹|jm;コンビニ人間|村田沙耶香|jm;蜜蜂と遠雷|恩田陸|jm;夜のピクニック|恩田陸|jm;羊と鋼の森|宮下奈都|jm;'+
+'舟を編む|三浦しをん|jm;君の膵臓をたべたい|住野よる|jm;西の魔女が死んだ|梨木香歩|jm;重力ピエロ|伊坂幸太郎|jm;ゴールデンスランバー|伊坂幸太郎|jm;八日目の蝉|角田光代|jm;阪急電車|有川浩|jm;図書館戦争|有川浩|jm;夜は短し歩けよ乙女|森見登美彦|jm;ペンギン・ハイウェイ|森見登美彦|jm;'+
+'かもめ食堂|群ようこ|jm;かがみの孤城|辻村深月|jm;楽園のカンヴァス|原田マハ|jm;本日は、お日柄もよく|原田マハ|jm;流浪の月|凪良ゆう|jm;52ヘルツのクジラたち|町田そのこ|jm;推し、燃ゆ|宇佐見りん|jm;成瀬は天下を取りにいく|宮島未奈|jm;そして、バトンは渡された|瀬尾まいこ|jm;一瞬の風になれ|佐藤多佳子|jm;'+
+'下町ロケット|池井戸潤|jm;陸王|池井戸潤|jm;オレたちバブル入行組|池井戸潤|jm;星の子|今村夏子|jm;'+
+'容疑者Xの献身|東野圭吾|my;白夜行|東野圭吾|my;ナミヤ雑貨店の奇蹟|東野圭吾|jm;模倣犯|宮部みゆき|my;火車|宮部みゆき|my;告白|湊かなえ|my;ビブリア古書堂の事件手帖|三上延|my;謎解きはディナーのあとで|東川篤哉|my;氷菓|米澤穂信|my;十角館の殺人|綾辻行人|my;'+
+'点と線|松本清張|my;砂の器|松本清張|my;犬神家の一族|横溝正史|my;八つ墓村|横溝正史|my;怪人二十面相|江戸川乱歩|my;シャーロック・ホームズの冒険|コナン・ドイル|my;そして誰もいなくなった|アガサ・クリスティー|my;オリエント急行の殺人|アガサ・クリスティー|my;'+
+'時をかける少女|筒井康隆|sf;旅のラゴス|筒井康隆|sf;日本沈没|小松左京|sf;新世界より|貴志祐介|sf;夏への扉|ロバート・A・ハインライン|sf;星を継ぐもの|J・P・ホーガン|sf;アルジャーノンに花束を|ダニエル・キイス|sf;華氏451度|レイ・ブラッドベリ|sf;火星年代記|レイ・ブラッドベリ|sf;1984年|ジョージ・オーウェル|sf;'+
+'すばらしい新世界|オルダス・ハクスリー|sf;海底二万里|ジュール・ヴェルヌ|sf;八十日間世界一周|ジュール・ヴェルヌ|ad;十五少年漂流記|ジュール・ヴェルヌ|ad;'+
+'精霊の守り人|上橋菜穂子|fa;鹿の王|上橋菜穂子|fa;月の影 影の海|小野不由美|fa;ハリー・ポッターと賢者の石|J・K・ローリング|fa;指輪物語|J・R・R・トールキン|fa;ナルニア国物語|C・S・ルイス|fa;ゲド戦記|アーシュラ・K・ル＝グウィン|fa;はてしない物語|ミヒャエル・エンデ|fa;モモ|ミヒャエル・エンデ|fa;'+
+'竜馬がゆく|司馬遼太郎|hi;燃えよ剣|司馬遼太郎|hi;坂の上の雲|司馬遼太郎|hi;宮本武蔵|吉川英治|hi;三国志|吉川英治|hi;鬼平犯科帳|池波正太郎|hi;剣客商売|池波正太郎|hi;天地明察|冲方丁|hi;のぼうの城|和田竜|hi;村上海賊の娘|和田竜|hi;'+
+'星の王子さま|サン＝テグジュペリ|ch;不思議の国のアリス|ルイス・キャロル|ch;赤毛のアン|L・M・モンゴメリ|ch;若草物語|ルイーザ・メイ・オルコット|ch;秘密の花園|フランシス・ホジソン・バーネット|ch;クマのプーさん|A・A・ミルン|ch;長くつ下のピッピ|アストリッド・リンドグレーン|ch;ムーミン谷の彗星|トーベ・ヤンソン|ch;ぐりとぐら|中川李枝子|ch;100万回生きたねこ|佐野洋子|ch;'+
+'はらぺこあおむし|エリック・カール|ch;窓ぎわのトットちゃん|黒柳徹子|ch;'+
+'罪と罰|ドストエフスキー|wl;カラマーゾフの兄弟|ドストエフスキー|wl;戦争と平和|トルストイ|wl;アンナ・カレーニナ|トルストイ|wl;老人と海|ヘミングウェイ|wl;グレート・ギャツビー|スコット・フィッツジェラルド|wl;ライ麦畑でつかまえて|J・D・サリンジャー|wl;高慢と偏見|ジェイン・オースティン|wl;嵐が丘|エミリー・ブロンテ|wl;ジェーン・エア|シャーロット・ブロンテ|wl;'+
+'変身|フランツ・カフカ|wl;異邦人|アルベール・カミュ|wl;ペスト|アルベール・カミュ|wl;車輪の下|ヘルマン・ヘッセ|wl;月と六ペンス|サマセット・モーム|wl;白鯨|ハーマン・メルヴィル|wl;レ・ミゼラブル|ヴィクトル・ユゴー|wl;モンテ・クリスト伯|アレクサンドル・デュマ|wl;百年の孤独|ガブリエル・ガルシア＝マルケス|wl;日の名残り|カズオ・イシグロ|wl;'+
+'わたしを離さないで|カズオ・イシグロ|wl;風と共に去りぬ|マーガレット・ミッチェル|wl;フランケンシュタイン|メアリー・シェリー|wl;ロビンソン・クルーソー|ダニエル・デフォー|ad;ガリヴァー旅行記|ジョナサン・スウィフト|ad;トム・ソーヤーの冒険|マーク・トウェイン|ad;宝島|ロバート・L・スティーヴンソン|ad;三銃士|アレクサンドル・デュマ|ad;'+
+'枕草子|清少納言|cl;徒然草|兼好法師|cl;方丈記|鴨長明|cl;源氏物語|紫式部|cl;おくのほそ道|松尾芭蕉|cl;'+
+'夜と霧|ヴィクトール・E・フランクル|nf;沈黙の春|レイチェル・カーソン|nf;センス・オブ・ワンダー|レイチェル・カーソン|nf;サピエンス全史|ユヴァル・ノア・ハラリ|nf;種の起源|チャールズ・ダーウィン|nf;ファーブル昆虫記|ジャン＝アンリ・ファーブル|nf;君たちはどう生きるか|吉野源三郎|nf;アンネの日記|アンネ・フランク|nf;武士道|新渡戸稲造|nf;茶の本|岡倉天心|nf;学問のすゝめ|福沢諭吉|nf'
+).split(';').map(s=>{const[t,a,k]=s.split('|');return{t,a,k};});
+const MANGA=(
+'ONE PIECE|尾田栄一郎|ma;ドラゴンボール|鳥山明|ma;NARUTO|岸本斉史|ma;鬼滅の刃|吾峠呼世晴|ma;呪術廻戦|芥見下々|ma;進撃の巨人|諫山創|ma;鋼の錬金術師|荒川弘|ma;ジョジョの奇妙な冒険|荒木飛呂彦|ma;HUNTER×HUNTER|冨樫義博|ma;幽☆遊☆白書|冨樫義博|ma;'+
+'BLEACH|久保帯人|ma;銀魂|空知英秋|mg;僕のヒーローアカデミア|堀越耕平|ma;チェンソーマン|藤本タツキ|ma;SPY×FAMILY|遠藤達哉|ma;葬送のフリーレン|山田鐘人・アベツカサ|ma;ゴールデンカムイ|野田サトル|ma;約束のネバーランド|白井カイウ・出水ぽすか|ma;DEATH NOTE|大場つぐみ・小畑健|mm;名探偵コナン|青山剛昌|mm;'+
+'SLAM DUNK|井上雄彦|ms;ハイキュー!!|古舘春一|ms;黒子のバスケ|藤巻忠俊|ms;タッチ|あだち充|ms;キャプテン翼|高橋陽一|ms;MAJOR|満田拓也|ms;あしたのジョー|高森朝雄・ちばてつや|ms;ブルーロック|金城宗幸・ノ村優介|ms;ちはやふる|末次由紀|ms;ヒカルの碁|ほったゆみ・小畑健|ms;'+
+'ベルサイユのばら|池田理代子|mj;ガラスの仮面|美内すずえ|mj;NANA|矢沢あい|mj;ハチミツとクローバー|羽海野チカ|mj;のだめカンタービレ|二ノ宮知子|mj;フルーツバスケット|高屋奈月|mj;君に届け|椎名軽穂|mj;美少女戦士セーラームーン|武内直子|mj;カードキャプターさくら|CLAMP|mj;'+
+'ドラえもん|藤子・F・不二雄|mc;鉄腕アトム|手塚治虫|mc;ブラック・ジャック|手塚治虫|mc;火の鳥|手塚治虫|mc;ゲゲゲの鬼太郎|水木しげる|mc;サザエさん|長谷川町子|mc;ちびまる子ちゃん|さくらももこ|mc;こちら葛飾区亀有公園前派出所|秋本治|mc;'+
+'よつばと!|あずまきよひこ|md;3月のライオン|羽海野チカ|md;聖☆おにいさん|中村光|md;宇宙兄弟|小山宙哉|md;銀の匙 Silver Spoon|荒川弘|md;夏目友人帳|緑川ゆき|md;蟲師|漆原友紀|md;動物のお医者さん|佐々木倫子|md;ゆるキャン△|あfろ|md;バクマン。|大場つぐみ・小畑健|md;'+
+'孤独のグルメ|久住昌之・谷口ジロー|mf;深夜食堂|安倍夜郎|mf;きのう何食べた？|よしながふみ|mf;美味しんぼ|雁屋哲・花咲アキラ|mf;ダンジョン飯|九井諒子|mf;'+
+'寄生獣|岩明均|mm;AKIRA|大友克洋|mm;風の谷のナウシカ|宮崎駿|mm;ルックバック|藤本タツキ|md;バガボンド|井上雄彦|mm;東京卍リベンジャーズ|和久井健|ma'
+).split(';').map(s=>{const[t,a,k]=s.split('|');return{t,a,k,manga:1};});
+const MAGS=(
+'週刊少年ジャンプ|mz;週刊少年マガジン|mz;週刊少年サンデー|mz;りぼん|mz;なかよし|mz;別冊マーガレット|mz;週刊ヤングジャンプ|mz;モーニング|mz;ビッグコミック|mz;月刊コロコロコミック|mz;'+
+'Newton|zs;ナショナル ジオグラフィック|zs;dancyu|zf;オレンジページ|zf;レタスクラブ|zf;暮しの手帖|zl;ESSE|zl;家庭画報|zl;Casa BRUTUS|zl;BRUTUS|zc;POPEYE|zc;'+
+'an・an|zw;non-no|zw;VOGUE JAPAN|zw;Hanako|zt;るるぶ|zt;BE-PAL|zo;Sports Graphic Number|zp;AERA|zn;週刊文春|zn'
+).split(';').map(s=>{const[t,k]=s.split('|');return{t,k,mag:1};});
+const BKMID={
+ jl:['言葉の選び方が美しいなあ','昔の日本語って、リズムがいい','時代は違うのに、気持ちはわかる','一文一文、かみしめちゃう','名作って言われる理由がわかる気がする','情景が目に浮かぶ'],
+ jm:['登場人物がみんな生きてるみたい','このシーン、すごく好き','気づいたら引きこまれてた','ちょっと泣きそう…','会話がいいんだよね','この先どうなるんだろう'],
+ my:['犯人、あの人じゃないかな…','伏線っぽいところ、メモしたい','ページをめくる手が止まらない','ぞくっとした…','推理、当たってるかな','まさかの展開！'],
+ sf:['こんな未来、ありえるのかな','発想がすごい','空の上の島も、SFっぽいよね','科学の話、わくわくする','世界の設定が細かい','考えさせられる…'],
+ fa:['この世界に住んでみたい','地図を見ながら読んでる','魔法の場面、わくわくする','旅の描写がいいなあ','主人公、がんばれ','壮大だね…'],
+ hi:['歴史の人物が生き生きしてる','この時代に生まれてたら…','合戦の場面、迫力ある','かっこいい生き方だ','史実と比べてみたい','志って大事だね'],
+ ch:['子どものころを思い出す','やさしい気持ちになる','絵が浮かんでくる','何回読んでもいいね','大人になって読むと、また違う','ほっこりする'],
+ wl:['翻訳でも伝わる名文だ','時代を超えて読まれる理由がわかる','人間って昔から変わらないね','重いけど、読みごたえがある','この人物の気持ち、複雑だなあ','ゆっくり読もう'],
+ ad:['冒険って、わくわくする','島で暮らす話は人ごとじゃない','次はどこへ行くんだろう','危機一髪！','旅に出たくなる'],
+ cl:['千年前の人も同じこと思ってたんだ','季節の感じ方がすてき','古文、意外と読める','声に出して読みたくなる','昔の人の感性、すごい'],
+ nf:['知らないことばっかり','メモしながら読もう','考え方が変わりそう','この一節、心に残る','ゆっくり考えたい','勉強になる…'],
+ ma:['熱い展開！','この見開き、迫力ある','このキャラ、かっこよすぎる','バトルの描き込みがすごい','次の巻も読まなきゃ','仲間っていいなあ'],
+ ms:['試合のシーン、手に汗にぎる','努力って報われてほしい','このライバル関係、好き','スポーツしたくなる','チームっていいね'],
+ mj:['キュンとする…','この二人、どうなるの〜','絵がきらきらしてる','セリフが心にささる','友だちっていいね'],
+ mc:['何回読んでも面白い','昔からある漫画って安心する','ふふっ、笑っちゃう','アイデアが天才的','世代をこえて読めるね'],
+ md:['ゆったりしてて、いやされる','日常の話っていいなあ','ちょっと泣けた','このコマ、好き','明日もがんばろうって思える'],
+ mf:['おなかすいてきた…','このごはん、作ってみたい','食べる描写がおいしそう','今夜のメニューの参考にしよう'],
+ mm:['ぞくぞくする展開','頭脳戦がすごい','考えさせられる話だ','画力がすごすぎる','ページをめくる手が止まらない'],
+ mg:['あはははは！','ずるい、笑っちゃう','ツッコミが最高','ギャグかと思ったら泣ける回だった']};
+const MAGMID={
+ mz:['今週の新連載、面白そう','あの連載、いいところで終わった！','巻頭カラー、きれい','読者コーナーも楽しい','次号が待ちきれない'],
+ zs:['宇宙の特集だ','写真がきれい','図解がわかりやすい','地球ってすごいね','科学ってロマン'],
+ zf:['このレシピ、作ってみよう','お店の特集、行ってみたい','おなかすいてきた','簡単な一品、メモしよう'],
+ zl:['収納のアイデア、参考になる','暮らしの工夫ってすてき','この部屋、まねしたい','インテリアの特集、いいね'],
+ zc:['特集が面白い','写真がおしゃれ','こういうお店、行ってみたい','知らない世界がいっぱい'],
+ zw:['この服、かわいい','秋のコーデ、参考になる','この色、似合うかな','着回し特集、いいね'],
+ zt:['ここ、行ってみたい！','旅行の計画立てたくなる','温泉の特集だ','地図を見るのが楽しい'],
+ zo:['キャンプしたくなる','庭でもできそう','道具がかっこいい','外ごはん、いいね'],
+ zp:['写真の迫力がすごい','選手のインタビュー、熱い','スポーツっていいね'],
+ zn:['ニュースの裏側、くわしい','いろんな話題があるね','読みごたえがある','世の中の動き、勉強になる']};
+const BKSTART=[b=>`${b.a}の『${b.t}』を読もう`,b=>`今日は『${b.t}』。${b.a}だよ`,b=>`${b.a}、好きなんだ。『${b.t}』にしよう`,b=>`本棚から『${b.t}』を出してきた`,b=>`ひさしぶりに${b.a}の『${b.t}』`,b=>`『${b.t}』（${b.a}）、読み返そうかな`];
+const MGSTART=[b=>`『${b.t}』、続きを読もう`,b=>`漫画タイム！『${b.t}』`,b=>`${b.a}の『${b.t}』、何巻まで読んだっけ`,b=>`『${b.t}』、一気読みしちゃおう`,b=>`やっぱり『${b.t}』は面白い`];
+const MZSTART=[m=>`『${m.t}』の最新号、読もう`,m=>`雑誌でも読もうかな。『${m.t}』`,m=>`『${m.t}』、ぱらぱら…`,m=>`今月の『${m.t}』、届いてたんだ`];
+const BKEND=[b=>`『${b.t}』、いい本だなあ`,b=>`${b.a}って、やっぱりすごい`,b=>'ふう、きりのいいところまで読めた',b=>'しおりをはさんでおこう',b=>`${b.a}の他の本も読みたくなった`,b=>'余韻にひたっちゃう…',b=>'また続きを読もう'];
+const MGEND=[b=>`『${b.t}』、やめられない…`,b=>'次の巻、どこだっけ',b=>'あ〜面白かった！',b=>`${b.a}、天才だなあ`,b=>'もう一回読み返したい'];
+const MZEND=[m=>'いい特集だった','気になるページ、折っておこう',m=>`『${m.t}』、次の号も楽しみ`,'雑誌ってついつい全部読んじゃう'];
+function pickRead(){const r=Math.random();if(S&&S.reading&&S.reading.left>0&&Math.random()<.45){const c=S.reading;const it=c.mag?MAGS.find(x=>x.t===c.t):(BOOKS.find(x=>x.t===c.t)||MANGA.find(x=>x.t===c.t));if(it){c.left--;return{it,cont:1};}}
+  const it=r<.55?pick(BOOKS):r<.82?pick(MANGA):pick(MAGS);if(S)S.reading={t:it.t,mag:!!it.mag,left:it.mag?0:Math.floor(rnd(1,4))};return{it,cont:0};}
+function readSay(p){const it=p.it,f=v=>typeof v==='function'?v(it):v;
+  if(it.mag)return{start:f(pick(MZSTART)),mid:pick(MAGMID[it.k]||MAGMID.zc),mid2:pick((MAGMID[it.k]||MAGMID.zc)),end:f(pick(MZEND))};
+  const st=p.cont?(it.manga?`『${it.t}』の続きを読もう`:`${it.a}の『${it.t}』、続きから`):f(pick(it.manga?MGSTART:BKSTART));
+  const L=BKMID[it.k]||BKMID.jm,r={start:st,mid:pick(L),end:f(pick(it.manga?MGEND:BKEND))};r.mid2=pick(L.filter(x=>x!==r.mid))||r.mid;return r;}
 function diaryAdd(text,ts){if(!S||!text)return;const d=ts?new Date(ts):now();const k=dKey(d);S.diary=S.diary||{};const a=S.diary[k]=S.diary[k]||[];const tm=`${pad(d.getHours())}:${pad(d.getMinutes())}`;
   if(a.some(e=>e.s===text&&Math.abs(e.m-(d.getHours()*60+d.getMinutes()))<20))return;a.push({t:tm,m:d.getHours()*60+d.getMinutes(),s:text});a.sort((x,y)=>x.m-y.m);
   const keys=Object.keys(S.diary).sort();while(keys.length>7)delete S.diary[keys.shift()];if(!$('sheet').hidden)renderDiary(false);}
@@ -1842,7 +1929,8 @@ const A={
   read(){if(!has('bookshelf')){want('bookshelf');return null;}
     const s=[...goF('bookshelf'),W8(1),FN(()=>C.holding='book')];
     if(has('armchair'))s.push(...goF('armchair'),snapF('armchair'));else if(has('sofa'))s.push(...goF('sofa'),snapF('sofa'));
-    s.push(SAY(pick(['この本、続きが気になってたんだ','空の上の島の物語…なんだか他人事じゃない','料理の本。今度これ作ってみよう'])),W8(10,need('fun',3)),FN(()=>C.holding=null));return s;},
+    let rd=null;s.splice(2,0,FN(()=>{rd=readSay(pickRead());C.reading=rd.it;}));
+    s.push(SAY(()=>rd.start),W8(5,need('fun',3)),SAY(()=>rd.mid),W8(5,need('fun',3)),SAY(()=>rd.mid2),W8(4,need('fun',3)),SAY(()=>rd.end),FN(()=>{const it=C.reading;if(it&&Math.random()<.5)diaryAdd(it.mag?`雑誌『${it.t}』を読んだ`:it.manga?`漫画『${it.t}』（${it.a}）を読んだ`:`『${it.t}』（${it.a}）を読んだ`);C.reading=null;C.holding=null;}));return s;},
   clean(){if(!has('vacuum')){want('vacuum');return null;}
     const s=[...goF('vacuum'),FN(()=>C.holding='vacuum'),SAY('お掃除タイム！')];
     for(let i=0;i<5;i++){let r=null;s.push({t:'go',sc:'in',dyn:()=>(r=randomTile('in'))},W8(.6));}
@@ -4715,7 +4803,7 @@ function mRelease(){if(!M)return;M.busy=false;M.sit=null;M.seatK=null;M.holding=
 const MSELF=['今日はなにしようかな','ふあ〜、のんびり','この部屋、日当たりいいね','ちょっとストレッチ','あとで洗濯しなきゃ','おなかすいたかも','なんか甘いもの食べたいな','窓の外、きれいだな','ふんふーん♪','そういえば、あれどこに置いたっけ','いい匂いがする','さて、と','空の上の暮らし、慣れてきたな'];
 function mateYield(k,sp){if(!M||M.busy||!M.sit||M.sleeping||M.scene!==C.scene)return;const mp=mPos();const dd=Math.hypot(mp.cx-sp.px,mp.by-sp.py);if(!(k==='sofa'?dd<14:((k&&M.seatK===k)||dd<14)))return;
   M.sit=null;M.seatK=null;const st=mSeatTile();M.steps=[{t:'say',text:pick(['あ、どうぞどうぞ','席、ゆずるね','じゃあ、わたしはあっちに座ろう','おっと、ここ使う？'])}];if(st){const s2=sitAtTile(st.u,FT[st.k]&&FT[st.k].sitChair);M.steps.push({t:'go',sc:'in',x:st.u.x,y:st.u.y},{t:'fn',f:()=>{M.sit={...s2,pose:'sit'};M.seatK=st.k;}},{t:'wait',s:rnd(15,30)},{t:'fn',f:()=>{M.sit=null;M.seatK=null;}});}else{const r=randomTile('in','liv');if(r)M.steps.push({t:'go',sc:'in',x:r.x,y:r.y});}}
-const sofaB=()=>{const L=S.layout.sofa;if(!L||!has('sofa'))return null;const tile=[{x:L.x+3,y:L.y+1},{x:L.x+2,y:L.y+1}].find(q=>walkIn(q.x,q.y));return tile?{tile,sit:{px:(L.x+2.85)*T,py:L.y*T+25,pose:'sit',d:'up'}}:null;};
+const sofaB=()=>{const L=S.layout.sofa;if(!L||!has('sofa'))return null;const tile=[{x:L.x+3,y:L.y-1},{x:L.x+2,y:L.y-1},{x:L.x+4,y:L.y},{x:L.x+3,y:L.y+1},{x:L.x+2,y:L.y+1}].find(q=>walkIn(q.x,q.y));return tile?{tile,sit:{px:(L.x+2.85)*T,py:L.y*T+25,pose:'sit',d:'up'}}:null;};
 function mSeatTile(){const ks=['sofa','armchair','cushion','beanbag','rocking','kotatsu','lowtable'].filter(k=>has(k)&&(C.snapK!==k||k==='sofa'));for(const k of shuffle(ks)){if(k==='sofa'){const sb=sofaB();if(sb)return{k,u:sb.tile};continue;}const u=U(k);if(!u)continue;if(C.scene==='in'&&Math.abs(C.tx-u.x)+Math.abs(C.ty-u.y)<=1)continue;if(C.snap&&Math.hypot((u.x+.5)*T-C.snap.px,u.y*T+19-C.snap.py)<16)continue;return{k,u};}return null;}
 function chooseMateAct(){const h=hourNow(),s=[];
   if(sleepTime(1)&&has('bed2')){const u=U('bed2');if(u){const L=S.layout.bed2;return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.sit={px:(L.x+1)*T,py:L.y*T+7,pose:'lie',d:'down',over:true,bed:true};M.sleeping=true;if(Math.random()<.5)msay(pick(['おやすみ〜','ふあ…もう寝るね','明日もいい日になりますように']));}},{t:'until',cond:()=>!sleepTime(1)},{t:'fn',f:()=>{M.sleeping=false;M.sit=null;const u=U('bed2');if(u)mPlace('in',u.x,u.y);msay(sleepInfo(1).over?pick(['寝坊しちゃった〜！','もうこんな時間！？']):pick(['おはよう〜','よく寝た！','ふあ〜、朝だ']));}},
@@ -4728,7 +4816,7 @@ function chooseMateAct(){const h=hourNow(),s=[];
     const t3=randomTile('in',pick(rooms));if(t3)return[{t:'go',sc:'in',x:t3.x,y:t3.y},{t:'wait',s:rnd(10,20)},{t:'say',text:()=>pick(MSELF)}];}
   let r=Math.random();const outW=tO==='out'?.45:tO==='in'?.04:.2;if(r<outW&&daylight()>.25&&!badOut())r=.5;else if(r>=.42&&r<.62)r=tO==='out'?.5:.3;
   if(r<.32){const st=mSeatTile();if(st){const sb=st.k==='sofa'?sofaB():null;if(sb){st.u=sb.tile;}const sit=sb?sb.sit:sitAtTile(st.u,FT[st.k]&&FT[st.k].sitChair);return[{t:'go',sc:'in',x:st.u.x,y:st.u.y},{t:'fn',f:()=>{if(C.snapK===st.k){M.sit=null;return;}M.sit={...sit,pose:'sit'};M.seatK=st.k;}},{t:'say',text:()=>pick(['ちょっとひと休み','ふう、くつろぐ〜','ここ、落ちつくんだよね',...MSELF])},{t:'wait',s:rnd(18,40)},{t:'fn',f:()=>{M.sit=null;M.seatK=null;}}];}}
-  if(r<.42&&has('bookshelf')){const u=U('bookshelf');if(u)return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.holding='book';}},{t:'say',text:'この本、続き読もうっと'},{t:'wait',s:rnd(14,26)},{t:'fn',f:()=>{M.holding=null;}}];}
+  if(r<.42&&has('bookshelf')){const u=U('bookshelf');if(u)return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.holding='book';M._rd=pick([...BOOKS,...MANGA,...MAGS]);}},{t:'say',text:()=>{const it=M._rd;return it.mag?`『${it.t}』、読もうっと`:it.manga?`『${it.t}』の続き、読もうっと`:`${it.a}の『${it.t}』、続き読もうっと`;}},{t:'wait',s:rnd(8,14)},{t:'say',text:()=>{const it=M._rd;return pick(it.mag?(MAGMID[it.k]||MAGMID.zc):(BKMID[it.k]||BKMID.jm));}},{t:'wait',s:rnd(6,12)},{t:'fn',f:()=>{M.holding=null;}}];}
   if(r<.62&&daylight()>.25&&!badOut()){const pts=[];for(let i=0;i<3;i++){const t2=randomTile('out');if(t2)pts.push(t2);}const bn=OUT.bench,sv=[{t:'say',text:pick(['ちょっと庭に出てくるね','外の空気吸ってこよう','お散歩してくるね','庭の様子、見てくる'])}];
     for(const q of pts)sv.push({t:'go',sc:'out',x:q.x,y:q.y},{t:'wait',s:rnd(4,9)},{t:'say',text:()=>pick(['いい風〜','花が咲いてる','空が近いなあ','雲が足もとを流れてく','鳥の声がする','ここからの景色、好き',season()==='autumn'?'葉っぱの色がきれい':season()==='winter'?'空気が冷たくて気持ちいい':season()==='summer'?'日差しが強いね':'あったかいね'])});
     if(Math.random()<.5)sv.push({t:'go',sc:'out',x:bn.x,y:bn.y-1},{t:'fn',f:()=>{M.sit={px:(bn.x+.5)*T,py:bn.y*T+14,pose:'sit',d:'down',over:true};}},{t:'say',text:'ベンチでひと休み'},{t:'wait',s:rnd(12,24)},{t:'fn',f:()=>{M.sit=null;}});
@@ -5114,6 +5202,7 @@ const EXTRA_DAILY=[(me,mn)=>[['m','今日、何か予定ある？'],['me',pick([
  (me,mn)=>[['m','今度、二人で何か作らない？'],['me','いいね、何作る？'],['m',pick(['花壇','ケーキ','鳥の巣箱','アルバム'])],['me','楽しそう！']],
  (me,mn)=>[['m','季節の変わり目って、体調くずしやすいよね'],['me','ちゃんと寝ようね'],['m','お互いにね']],
  (me,mn)=>[['me','いつもありがとうね'],['m','どうしたの急に'],['me','なんとなく言いたくなって'],['m','…こちらこそ、ありがとう']]];
+EXTRA_DAILY.push((me,mn)=>{const b=pick([...BOOKS,...MANGA]);return[['m',b.manga?`最近、${b.a}の『${b.t}』にはまってるんだ`:`最近、${b.a}の『${b.t}』を読んでるの`],['me',pick(['あ、それ気になってた！','いいよね、それ','どんな感じ？','読み終わったら貸して！'])],['m',pick(BKMID[b.k]||BKMID.jm)],['me',pick(['今度読んでみる','わたしも読み返そうかな','本の話できるの、うれしい'])]];});
 /* --- away digest --- */
 function hmTs(ts){const d=new Date(ts);return pad(d.getHours())+':'+pad(d.getMinutes());}
 function sleepAt(ts,sd){const d=new Date(ts),h=d.getHours()+d.getMinutes()/60,ev=new Date(ts-(h<12?86400e3:0)),mo=new Date(ev.getTime()+86400e3);const bed=bedHour(dayKey(ev),sd),wake=wakeHour(dayKey(mo),sd),t=h<12?h+24:h;return{asleep:t>=bed&&t<24+wake,over:wake>=7.5,late:bed>=24};}
