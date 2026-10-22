@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版162（2026/10/23 #12）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版163（2026/10/23 #13）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版162（2026/10/23 #12）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版163（2026/10/23 #13）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -8393,8 +8393,7 @@ FT.duck.draw=function(bx,by,L,t){g.save();const b=Math.sin(t*2)*.4,ti=Math.sin(t
   C1_hl(.6,-6.8,.6,.35,.7,-.4);C1_hl(-2.2,-2.9,.7,.3,.45,-.3);
   g.restore();
   // water ripple
-  C1_st('rgba(255,255,255,.5)',.2);g.beginPath();g.ellipse(bx,by-.1,4.2+Math.sin(t*2)*.3,.6,0,0,Math.PI);g.stroke();
-  g.restore();};
+  C1_st('rgba(255,255,255,.5)',.2);g.beginPath();g.ellipse(bx,by-.1,4.2+Math.sin(t*2)*.3,.6,0,0,Math.PI);g.stroke();};
 
 /* ハーブの鉢 herb pot (basil) */
 FT.herb.draw=function(bx,by,L,t){g.save();C1_sh(bx,by,3.6);
@@ -9585,6 +9584,57 @@ OFT.hose.draw=function(X,Y,L,t){g.save();
   fillR(g,SZ.lg(0,Y+2.6,0,Y+5,[[0,'#ffffff'],[1,'#bab5a8']]),X+4.4,Y+2.8,15.2,2.2,1.1);fillR(g,'#2c2c33',X+9,Y+2.6,6,2.6,1.2);fillR(g,'rgba(255,255,255,.25)',X+9.6,Y+2.9,4.8,.5,.25);
   for(const bx of[X+6.5,X+17.5])fillE(g,'#d8dce2',bx,cy,.5,.5);
   g.restore();};
+
+/* ===== sprite cache: detailed items are rendered once into an offscreen bitmap and blitted every frame.
+   Each item's cache key holds exactly the game state its drawing code reads (found from its source);
+   items that animate in that state are drawn live. Re-baking is spread over frames (budget) so nothing stutters. */
+const SPRC={on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new Set(),scr:null,budget:0,stats:{hit:0,bake:0,live:0}};
+(function(){
+  const seen=new Set();
+  function srcDeps(fn,depth){const s=Function.prototype.toString.call(fn);if(depth<=0)return s;let out=s;const names=new Set(s.match(/\b[A-Za-z_$][\w$]*(?=\s*\()/g)||[]);
+    for(const n of names){if(n.length<2||seen.has(n))continue;seen.add(n);let v;try{v=(0,eval)(n);}catch(e){continue;}if(typeof v!=='function')continue;const vs=Function.prototype.toString.call(v);if(/\[native code\]/.test(vs))continue;out+='\n'+srcDeps(v,depth-1);}return out;}
+  function depsOf(fn){seen.clear();const src=srcDeps(fn,3),objs={C:new Set(),S:new Set(),M:new Set(),V:new Set(),RV:new Set(),ENV:new Set(),GS:new Set(),MUS:new Set()};
+    const re=/\b(C|S|M|V|RV|ENV|GS|MUS)\.([A-Za-z_$][\w$]*)/g;let m;while((m=re.exec(src)))objs[m[1]].add(m[2]);
+    const wk=new Set();const re2=/wActive\(\s*'(\w+)'\s*\)/g;while((m=re2.exec(src)))wk.add(m[1]);if(/wActive\(\s*[^'\s]/.test(src))['sink','ksink','handwash','bath'].forEach(k=>wk.add(k));
+    const usesM=/\bM\b/.test(src),usesV=/\bV\b/.test(src),clock=/\bnow\(\)|hourNow\(|todayStr|Date\(\)/.test(src),lb=/\bLB\b|lbColOf/.test(src);
+    const parts=[];for(const o in objs){for(const p of objs[o])parts.push([o,p]);}
+    return{parts,wk:[...wk],usesM,usesV,clock,lb};}
+  const val=v=>v==null?'':typeof v==='number'?Math.round(v*20)/20:typeof v==='object'?JSON.stringify(v):String(v);
+  function dynSig(d){const out=[];for(const[o,p]of d.parts){const ob=o==='C'?C:o==='S'?S:o==='M'?M:o==='V'?V:o==='RV'?(typeof RV!=='undefined'?RV:null):o==='ENV'?ENV:o==='GS'?(typeof GS!=='undefined'?GS:null):(typeof MUS!=='undefined'?MUS:null);
+      out.push(ob?val(ob[p]):'');}
+    if(d.usesM)out.push(M?1:0);if(d.usesV)out.push(V?1:0);for(const k of d.wk)out.push(wActive(k)?1:0);
+    if(d.clock){const n=now();out.push(n.getDate()+'/'+n.getHours()+':'+n.getMinutes());}if(d.lb)out.push(typeof LB!=='undefined'?LB.length:0);
+    return out.join('|');}
+  function sig(){return Math.round(daylight()*10)+'|'+season()+'|'+(typeof snowCover!=='undefined'?Math.round(snowCover*4):0)+'|'+wKind();}
+  function scaleOf(){const m=g.getTransform();return Math.min(6,Math.max(1,Math.round(Math.hypot(m.a,m.b)*2)/2));}
+  function scratch(w,h){const c0=SPRC.scr;if(!c0||c0.width<w||c0.height<h){const c=document.createElement('canvas');c.width=Math.max(w,c0?c0.width:0);c.height=Math.max(h,c0?c0.height:0);SPRC.scr=c;}return SPRC.scr;}
+  function bake(orig,args,box,s,trim){const W0=Math.ceil(box.w*s),H0=Math.ceil(box.h*s),cv=scratch(W0,H0),c=cv.getContext('2d',{willReadFrequently:true});c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,W0,H0);c.setTransform(s,0,0,s,-box.x*s,-box.y*s);
+    let ok=withG(c,()=>orig.apply(null,args));c.setTransform(1,0,0,1,0,0);if(!ok)return null;
+    const d=c.getImageData(0,0,W0,H0).data;if(!trim){let h=0;for(let i=3;i<d.length;i+=53)h=(h*31+d[i]*3+d[i-1]+d[i-2]*7)|0;return{hash:h};}
+    let x0=W0,y0=H0,x1=-1,y1=-1;for(let y=0;y<H0;y++){const r=y*W0*4;for(let x=0;x<W0;x++){if(d[r+x*4+3]>2){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}}}
+    if(x1<0)return{cv:null};x0=Math.max(0,x0-1);y0=Math.max(0,y0-1);x1=Math.min(W0-1,x1+1);y1=Math.min(H0-1,y1+1);const w=x1-x0+1,h=y1-y0+1;
+    const out=document.createElement('canvas');out.width=w;out.height=h;out.getContext('2d').drawImage(cv,x0,y0,w,h,0,0,w,h);return{cv:out,x:box.x+x0/s,y:box.y+y0/s,w:w/s,h:h/s};}
+  function wrap(tbl,k,kind){const f=tbl[k];if(!f||typeof f.draw!=='function'||f.draw.__spr)return;const orig=f.draw,id=kind+':'+k;let dep;try{dep=depsOf(orig);}catch(e){return;}
+    const nf=function(...a){if(!SPRC.on||SPRC.live.has(id)){SPRC.stats.live++;return orig.apply(this,a);}
+      const L=a[kind==='f'?4:2],t=a[kind==='f'?5:3]||0,ax=a[0],ay=a[1];let box,call;
+      if(kind==='f'){const Wd=a[2]||24,Dp=a[3]||24;box={x:-30,y:-100,w:Wd+60,h:Dp+130};call=[0,0,a[2],a[3],L,t];}
+      else if(kind==='y'){box={x:-34,y:-72,w:(f.w||1)*24+68,h:(f.h||1)*24+100};call=[0,0,L,t];}
+      else if(kind==='top'){box={x:-18,y:-32,w:36,h:40};call=[0,0,L,t];}
+      else{box={x:-16,y:-16,w:56,h:62};call=[0,0,L,t];}
+      const ds=dynSig(dep),s=scaleOf(),slot=id+'#'+((L&&L.v)||0)+'#'+((L&&L.side)||''),key=sig()+'|'+s+'|'+ds;let e=SPRC.map.get(slot);
+      if(!e||e.key!==key){const pk=id+'|'+((L&&L.v)||0)+'|'+ds+'|'+sig();
+        if(SPRC.lk.has(pk)||SPRC.budget<=0){SPRC.stats.live++;return orig.apply(this,a);}
+        SPRC.budget--;
+        if(!SPRC.probe.has(pk)){const h1=bake(orig,call,box,1,false),c2=call.slice();c2[c2.length-1]=t+0.731;const h2=bake(orig,c2,box,1,false);if(SPRC.probe.size>4000)SPRC.probe.clear();SPRC.probe.add(pk);
+          if(!h1||!h2||h1.hash!==h2.hash){if(!dep.parts.length&&!dep.wk.length&&!dep.clock)SPRC.live.add(id);else{if(SPRC.lk.size>4000)SPRC.lk.clear();SPRC.lk.add(pk);}SPRC.stats.live++;return orig.apply(this,a);}}
+        const b=bake(orig,call,box,s,true);if(!b){SPRC.live.add(id);return orig.apply(this,a);}e={key,...b};SPRC.map.set(slot,e);SPRC.stats.bake++;}
+      else SPRC.stats.hit++;
+      if(e.cv)g.drawImage(e.cv,ax+e.x,ay+e.y,e.w,e.h);};
+    nf.__spr=1;nf.__orig=orig;f.draw=nf;}
+  for(const k in FT){const f=FT[k];if(f.art)continue;wrap(FT,k,f.k==='top'?'top':f.k==='wall'?'w':'f');}
+  for(const k in OFT){if(OFT[k].art)continue;wrap(OFT,k,'y');}
+  const r0=render;render=function(){SPRC.budget=3;return r0.apply(this,arguments);};
+})();
 
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
