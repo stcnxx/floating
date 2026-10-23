@@ -310,11 +310,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版192（2026/10/23 #42）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版193（2026/10/23 #43）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版192（2026/10/23 #42）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版193（2026/10/23 #43）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2200,7 +2200,7 @@ function chooseActivity(){
     if(tmp>=26&&!S.fanOn)add('fan',has('fan')?40:5);if(tmp<23&&S.fanOn)add('fan',50);
     if(h<11&&S.faceDay!==today)add('face',has('sink')?40:12);
     if(S.plantDay!==today)add('water',has('plant')?14:3);
-    add('yoga',has('rug')?7:2);add('tea',has('lowtable')?(h>=14&&h<17?16:7):2);
+    add('yoga',has('rug')?7:2);add('tea',has('lowtable')?(h>=14&&h<17?16:7):2);if(mateHere()&&has('table')&&h>=13.5&&h<17&&Date.now()-(S.atAt||0)>2*864e5)add('afternoon',11);
     if(S.laundryDay!==today&&light>.4)add('laundry',has('washer')?12:3);
     if(n.energy<55)add('nap',has('sofa')?32:5);
     if(h>=13&&h<15.5&&S.napDay!==today&&hash(now().getDate(),now().getMonth(),79)<.45)add('nap',14);
@@ -3925,7 +3925,7 @@ function drawCloth(x,y,w,h){const c=clothOf(),[n,kind,pat,base,acc]=c;let cx=x-1
 function dTable(X,Y,Wd,Dp,L){const H=14;g.fillStyle=WOOD.dk;for(const[lx,ly]of[[X+5,Y+8],[X+Wd-8,Y+8],[X+5,Y+Dp-6],[X+Wd-8,Y+Dp-6]])g.fillRect(lx,ly-H+4,3,H);
   shadowR(X+4,Y+Dp-5,Wd-6,6);fillR(g,WOOD.dk,X+3,Y+Dp-6-H,Wd-6,4,2);fillR(g,'#c49a6c',X+3,Y+3-H,Wd-6,Dp-9,4);grain(X+3,Y+3-H,Wd-6,Dp-9,.06);
   fillR(g,'rgba(255,255,255,.15)',X+5,Y+4-H,Wd-10,1.6,1);drawCloth(X+3,Y+3-H,Wd-6,Dp-9);
-  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L,myTableSeat(L));if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
+  if(C.tableSet&&C.tableSet.at){AT2_onTable(X,Y,Wd,Dp,C.tableSet);}else if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L,myTableSeat(L));if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
     else if(ts.md&&ts.mt&&ts.drink&&!ts.pair&&M&&M.drink&&M.busy){const right=ts.mt.x<L.x;let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:right?'right':'left'});const gx=p2.x+(X+Wd/2-p2.x)*.35+(right?-4:4),gy=p2.y+(Y+9-p2.y)*.45+1.6;if(M.holding==='glass')fillE(g,'#f3f1ea',gx,gy-.4,1.4,.9);else drawGlass(g,gx,gy,M.drink,M.drinkLv);}}
   const vx=C.tableSet&&C.tableSet.k==='table'?X+Wd/2+(Wd/2-6):X+Wd/2,vy=C.tableSet&&C.tableSet.k==='table'?Y-6:Y+3;fillR(g,'#9fd0ee',vx-1.5,vy,3,6,1);fillE(g,'#ef8fb0',vx,vy-2,2.6,2.2);fillE(g,'#f2c230',vx+2,vy-.5,1.6,1.4);}
 function pTable(L){const out=[];const col=WOOD.md;for(let r=0;r<2;r++){const y=L.y+r;
@@ -4926,7 +4926,7 @@ function schedHTML(sd){const sc=(S.sched&&S.sched[sd])||{bed:23,wake:6},fmt=v=>{
 document.addEventListener('change',e=>{const t=e.target;if(!t||!t.dataset||t.dataset.sched==null||!S)return;const sd=+t.dataset.sched;S.sched=S.sched||[{bed:23,wake:6},{bed:23,wake:6}];S.sched[sd]=S.sched[sd]||{bed:23,wake:6};S.sched[sd][t.dataset.sf]=parseFloat(t.value);save();
   const who=sd?(S.mate?S.mate.name:'同居人'):null,txt=t.dataset.sf==='bed'?`${t.selectedOptions[0].textContent}に寝る`:`${t.selectedOptions[0].textContent}に起きる`;if(sd&&M&&!M.sleeping)msay(`わかった、${txt}ようにするね`);else if(!sd&&!C.sleeping)say(`これからは${txt}ことにするね`);});
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-function actJP(){if(C.sleeping)return'ねている';return{sleep:'ねる準備',eat:'ごはん',toilet:'トイレ',bath:'お風呂',tv:'テレビ',read:'読書',clean:'そうじ',walk:'さんぽ',bench:'ベンチでひとやすみ',yunstore:'庭のものを出す',garden:'花壇の水やり',pick:'木の実とり',change:'着がえ',wander:'うろうろ',setup:'家具のセット',mail:'郵便受けを見る',lamp:'ランプのスイッチ',water:'植物に水やり',yoga:'ストレッチ',tea:'お茶',laundry:'洗濯',nap:'ソファで昼寝',face:'洗顔',guide:'番組表チェック',tvshow:'お目当ての番組',oyatsu:'おやつタイム',chat:`${(S.mate&&S.mate.name)||'同居人'}とおしゃべり`,newscheck:'ニュースチェック',
+function actJP(){if(C.sleeping)return'ねている';return{afternoon:'アフタヌーンティー',sleep:'ねる準備',eat:'ごはん',toilet:'トイレ',bath:'お風呂',tv:'テレビ',read:'読書',clean:'そうじ',walk:'さんぽ',bench:'ベンチでひとやすみ',yunstore:'庭のものを出す',garden:'花壇の水やり',pick:'木の実とり',change:'着がえ',wander:'うろうろ',setup:'家具のセット',mail:'郵便受けを見る',lamp:'ランプのスイッチ',water:'植物に水やり',yoga:'ストレッチ',tea:'お茶',laundry:'洗濯',nap:'ソファで昼寝',face:'洗顔',guide:'番組表チェック',tvshow:'お目当ての番組',oyatsu:'おやつタイム',chat:`${(S.mate&&S.mate.name)||'同居人'}とおしゃべり`,newscheck:'ニュースチェック',
   heater:'ストーブのスイッチ',fan:'扇風機のスイッチ',diary:'日記',music:'レコード',piano:'ピアノ',fish:'魚にえさ',exercise:'エアロバイク',kotatsu:'こたつ',relax:'ひと休み',play:'おもちゃで遊ぶ',admire:'飾りをながめる',cloth:'テーブルクロスの交換',remodel:'模様替え',harvest:'畑の収穫',scope:'望遠鏡',yardsetup:'庭に置く準備',yardplay:'庭で遊ぶ',yardmove:'庭の模様替え',yardseason:'季節の飾りつけ',yardclear:'季節の片付け',newbed:'花壇づくり',tapwalk:'おでかけ中',drink:'お酒タイム',game:'テレビゲーム',radio:'ラジオ',hobby:'趣味の時間',store:'片付け',unstore:'しまったものを出す',visit:'お客さん'}[C.act]||'ぼんやり';}
 let sheetSnap=null;
 function openSheet(){if(!S)return;$('prefBox').innerHTML=prefHTML()+talkHTML();setTimeout(renderOv,0);$('schedMain').innerHTML=schedHTML(0);sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur();}catch(_){}const cd0=document.querySelector('#sheet .card');if(cd0)cd0.scrollTop=0;}
@@ -5479,7 +5479,7 @@ function drinkTogetherSteps(m,P){let ds=null,d=null,RT=null,sn='ナッツ',src=h
     {t:'go',sc:'out',dyn:()=>({x:m.x,y:m.y,d:'right'})},waitV(),FN(()=>{if(V){V.goal=null;V.dir='left';}})];}
 function talkStep(getL){let cv2=null;return[FN(()=>{cv2={L:getL()||[],i:0,t:0};}),
   {t:'until',tick:dt=>{if(!cv2||!V)return;cv2.t-=dt;if(cv2.t>0)return;const ln=cv2.L[cv2.i++];if(!ln)return;
-    if(ln[0]==='v'){vsay(ln[1]);V.bob=.5;}else say(ln[1]);cv2.t=ln[1].length/28+2.1;},cond:()=>!V||!cv2||(cv2.i>=cv2.L.length&&cv2.t<=0)}];}
+    if(ln[0]==='v'){vsay(ln[1]);V.bob=.5;}else if(ln[0]==='m'&&M){msay(ln[1]);M.bob=.5;}else say(ln[1]);cv2.t=ln[1].length/28+2.1;},cond:()=>!V||!cv2||(cv2.i>=cv2.L.length&&cv2.t<=0)}];}
 /* ===== guest small talk (200): gossip, grumbles, worries, fun / annoying / scary stories, idle chat ===== */
 const VTALK_SRC=`
 v:ねえ聞いて、北の島の人、最近ドローンを三台も買ったらしいよ|p:三台も！？なにに使うんだろう|v:一台は洗濯物を干す専用なんだって|p:それはちょっとうらやましい
@@ -5984,9 +5984,24 @@ A.visit=function(){let m=null,P=null,seats=null;
       V.sit={px:(b.x+.5)*T+(ch?(b.d==='left'?-3:3):0),py:b.y*T+(ch?12:19),d:b.d};V.tea=1;
       C.snap={px:(a.x+.5)*T+(ch?(a.d==='right'?3:-3):0),py:a.y*T+(ch?12:19),over:false};C.pose='sit';C.dir=a.d;C.holding='tea';}),
     SAY(()=>V&&V.gift?pick([`いただいた${V.gift.n}、さっそくあけちゃおう`,`${V.gift.n}、お茶うけにしよう！`]):'ゆっくりしていってね'),
-    ...talkStep(()=>V?P.inn():[]),
-    FN(()=>{unsnap();C.holding=null;if(!V)return;V.sit=null;V.tea=0;say(pick(['外まで送るね','お見送りするね']));vGo('out',m.x+2,m.y);}),
+    ...mateJoinSteps(seats&&seats.chair?'table':'lowtable',()=>{if(M)M.holding='tea';if(V)V._mj=1;},.55),
+    ...talkStep(()=>V?(V._mj?AT2_fill(pick(AT2_VM),['v'],{me:S.name,m:mName(),v:V.name}):[]).concat(P.inn()):[]),
+    FN(()=>{unsnap();C.holding=null;if(V&&V._mj){V._mj=0;mRelease();}if(!V)return;V.sit=null;V.tea=0;say(pick(['外まで送るね','お見送りするね']));vGo('out',m.x+2,m.y);}),
     {t:'go',sc:'out',dyn:()=>({x:m.x,y:m.y,d:'right'})},waitV(),FN(()=>{if(V){V.goal=null;V.dir='left';}})];
+  const atSteps=()=>{const key=AT2_pick(),st=AT2_SETS[key],tot=AT2_count(key),nm=st.n.replace(/（.*?）/,'');S.atAt=Date.now();
+    const s=[SAY(`中でお茶にしよう！今日は${nm}のアフタヌーンティーだよ`),FN(()=>{if(V){setTimeout(()=>{if(V){vsay(pick(['えっ、アフタヌーンティー！？うれしい！','わーい、おじゃまします！','すごい、本格的！']));V.bob=.5;}},2400);}}),{t:'wait',s:4.2},FN(()=>{if(V)vGo('in',seats.b.x,seats.b.y);})];
+    if(has('stove'))s.push(...goF('stove'),FN(()=>{C.cooking=true;C.cookware=[{k:'kettle',b:0}];}),SAY('紅茶のお湯をわかして…'),W8(2.5),FN(()=>{C.cooking=false;}));
+    s.push({t:'go',sc:'in',dyn:()=>seats.a},waitV(),
+      FN(()=>{if(!V)return;if(!vArrived()){V.scene='in';vPlace(seats.b.x,seats.b.y);}V.goal=null;const b=seats.b,a=seats.a,ch=seats.chair;
+        V.sit={px:(b.x+.5)*T+(ch?(b.d==='left'?-3:3):0),py:b.y*T+(ch?12:19),d:b.d};V.tea=0;
+        C.snap={px:(a.x+.5)*T+(ch?(a.d==='right'?3:-3):0),py:a.y*T+(ch?12:19),over:false};C.pose='sit';C.dir=a.d;C.holding=null;
+        C.tableSet={k:'table',at:key,eat:0,tot,n3:false};diaryAdd(`${V.name}さんとアフタヌーンティー（${nm}）`);}),
+      ...mateJoinSteps('table',()=>{if(M)M.holding=null;if(V)V._mj=1;if(C.tableSet)C.tableSet.n3=true;},.85));
+    const chs=AT2_chunks(key,roles=>{const a=V?P.inn():[];const b=V&&V._mj?AT2_fill(pick(AT2_VM),roles,{me:S.name,m:mName(),v:V.name}):[];return b.concat(a.slice(0,6));});
+    chs.forEach((f,i)=>{s.push(...talkStep(()=>V?f(V._mj?['v','m']:['v']):[]),W8(1.2),FN(()=>{const ts=C.tableSet;if(ts&&ts.at)ts.eat=Math.min(ts.tot,Math.round(ts.tot*(i+1)/chs.length));}));});
+    s.push(FN(()=>{C.tableSet=null;unsnap();C.holding=null;if(V&&V._mj){V._mj=0;mRelease();}if(!V)return;V.sit=null;V.tea=0;S.needs.fun=clamp(S.needs.fun+15,0,100);say(pick(['外まで送るね','お見送りするね']));vGo('out',m.x+2,m.y);}),
+      {t:'go',sc:'out',dyn:()=>({x:m.x,y:m.y,d:'right'})},waitV(),FN(()=>{if(V){V.goal=null;V.dir='left';}}));
+    return s;};
   return[SAY(()=>pick(['あれ？ドローンの音…だれか来たみたい','あ、お客さんの気配！','人を乗せたドローンが飛んでくる！'])),
     FN(()=>{m=meetSpot();if(!m)return;spawnVisitor(m);S.visitAt=Date.now();P=convoParts();S.giftSeen=S.giftSeen||[];let gf=pick(GIFTS);for(let i=0;i<8&&S.giftSeen.includes(gf.n);i++)gf=pick(GIFTS);V.gift=gf;S.giftSeen.push(gf.n);if(S.giftSeen.length>60)S.giftSeen.shift();}),
     SAY(()=>pick(['お出迎えに行かなきゃ！','庭まで迎えに行こう'])),
@@ -5996,7 +6011,7 @@ A.visit=function(){let m=null,P=null,seats=null;
     FN(()=>{if(V&&V.gift)vsay(pick([`これ、おみやげ！${giftName(V.gift)}だよ`,`つまらないものですが…${giftName(V.gift)}です`,`${giftName(V.gift)}、買ってきたよ。いっしょに食べよう`]));}),{t:'wait',s:2.8},
     FN(()=>{if(!V||!V.gift)return;V.giftGiven=1;C.gift=V.gift;C.holding='gift';emote('♪',1.6);const gf=V.gift;diaryAdd(`${V.name}さんから、おみやげに${giftName(gf)}をいただいた`);S.giftLog=S.giftLog||{};S.giftLog[giftName(gf)]=(S.giftLog[giftName(gf)]||0)+1;}),
     SAY(()=>V&&V.gift?pick([`わあ、${V.gift.n}！ありがとう。${pick(GIFT_REACT[V.gift.k]||GIFT_REACT.w)}`,`${giftName(V.gift)}！うれしい、ありがとう！`,`箱がすてき！${pick(GIFT_REACT[V.gift.k]||GIFT_REACT.w)}`]):'ようこそ！'),{t:'wait',s:1.6},FN(()=>{if(C.holding==='gift')C.holding=null;}),
-    FN(()=>{if(!V)return;seats=pickSeats();const inside=!!seats&&Math.random()<.75;C.steps.splice(1,0,...(inside?(canDrinkTogether()?drinkTogetherSteps(m,P):insideSteps()):talkStep(()=>V?P.out():[])));}),
+    FN(()=>{if(!V)return;seats=pickSeats();const inside=!!seats&&Math.random()<.75;C.steps.splice(1,0,...(inside?(AT2_visitOK(seats)?(seats=AT2_tableSeats(),atSteps()):canDrinkTogether()?drinkTogetherSteps(m,P):insideSteps()):talkStep(()=>V?P.out():[])));}),
     ...talkStep(()=>V&&P?P.bye:[]),
     FN(()=>{if(!V)return;const key=V.sp+':'+V.name;S.friends=S.friends||{};const f=S.friends[key]||{sp:V.sp,name:V.name,col:V.col,bcol:V.bcol,pat:V.pat,look:V.look,n:0};f.n++;S.friends[key]=f;
       vDepart();S.needs.fun=clamp(S.needs.fun+25,0,100);hearts();emote('heart',2);save();}),
@@ -6116,10 +6131,10 @@ function talkMate(getL){let cv2=null;return[FN(()=>{cv2={L:(M&&!M.sleeping?getL(
 function seatBeside(){const cand=[[1,0],[-1,0],[0,1],[0,-1]];for(const[dx,dy]of cand){const x=C.tx+dx,y=C.ty+dy;if(walkIn(x,y)&&roomAt(x,y))return{x,y,d:dx>0?'left':dx<0?'right':dy>0?'up':'down'};}return null;}
 function mateSeatFor(where){const L=S.layout[where];
   if(where==='sofa'){const sb=sofaB();if(sb)return sb;}
-  if(where==='table'&&L){const qs=[{x:L.x-1,y:L.y,d:'right'},{x:L.x+2,y:L.y,d:'left'},{x:L.x-1,y:L.y+1,d:'right'},{x:L.x+2,y:L.y+1,d:'left'}];const cy=C.ty,cx=C.tx;qs.sort((a,b)=>((a.y===cy&&a.x!==cx)?0:1)-((b.y===cy&&b.x!==cx)?0:1));for(const q of qs)if(walkIn(q.x,q.y)&&!(q.x===C.tx&&q.y===C.ty)){const sp=sitAtTile(q,true);return{tile:q,sit:{...sp,pose:'sit'}};}}
+  if(where==='table'&&L){const qs=[{x:L.x-1,y:L.y,d:'right'},{x:L.x+2,y:L.y,d:'left'},{x:L.x-1,y:L.y+1,d:'right'},{x:L.x+2,y:L.y+1,d:'left'}];const cy=C.ty,cx=C.tx;qs.sort((a,b)=>((a.y===cy&&a.x!==cx)?0:1)-((b.y===cy&&b.x!==cx)?0:1));for(const q of qs)if(walkIn(q.x,q.y)&&!(q.x===C.tx&&q.y===C.ty)&&!(V&&V.scene==='in'&&((q.x===V.tx&&q.y===V.ty)||(V.goal&&q.x===V.goal.x&&q.y===V.goal.y)))){const sp=sitAtTile(q,true);return{tile:q,sit:{...sp,pose:'sit'}};}}
   if(where==='bar'&&L){const bw=barWall(L),ry=bw?L.y+1:L.y-1;for(const x of[L.x,L.x+1])if(walkIn(x,ry)&&!(x===C.tx&&ry===C.ty))return{tile:{x,y:ry},sit:bw?{px:(x+.5)*T,py:ry*T+12,pose:'sit',d:'up'}:{px:(x+.5)*T,py:ry*T+17,pose:'stand',d:'down'}};}
   const b=seatBeside();if(b)return{tile:b,sit:{px:(b.x+.5)*T,py:b.y*T+19,pose:'sit',d:b.d,floor:true}};return null;}
-function mateJoinSteps(where,onSit){let ms=null;return[FN(()=>{if(!mateHere()||!S.mate)return;ms=mateSeatFor(where);if(!ms)return;mEngage();mGo('in',ms.tile.x,ms.tile.y);}),
+function mateJoinSteps(where,onSit,chance){let ms=null;return[FN(()=>{if(!mateHere()||!S.mate||(chance!=null&&Math.random()>chance))return;ms=mateSeatFor(where);if(!ms)return;mEngage();mGo('in',ms.tile.x,ms.tile.y);}),
   {t:'until',cond:()=>!ms||!M||mArrived(),tick:()=>{}},FN(()=>{if(!ms||!M)return;if(!mArrived()){mPlace('in',ms.tile.x,ms.tile.y);}M.goal=null;M.moving=false;M.sit=ms.sit;if(onSit)onSit(ms);})];}
 /* --- dialogue banks --- */
 const CONSULT=[
@@ -6925,7 +6940,7 @@ FT.table.draw=function(X,Y,Wd,Dp,L){g.save();const H=14,tp='#c49468',dk='#6e4a2c
   g.fillStyle='rgba(0,0,0,.08)';g.fillRect(X+Wd/2-.25,Y+3.5-H,.5,Dp-10);
   A_outline(X+2.6,Y+3-H,Wd-5.2,Dp-5,3,.4);
   drawCloth(X+3,Y+3-H,Wd-6,Dp-9);
-  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L,myTableSeat(L));if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
+  if(C.tableSet&&C.tableSet.at){AT2_onTable(X,Y,Wd,Dp,C.tableSet);}else if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L,myTableSeat(L));if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
     else if(ts.md&&ts.mt&&ts.drink&&!ts.pair&&M&&M.drink&&M.busy){const right=ts.mt.x<L.x;let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:right?'right':'left'});const gx=p2.x+(X+Wd/2-p2.x)*.35+(right?-4:4),gy=p2.y+(Y+9-p2.y)*.45+1.6;if(M.holding==='glass')fillE(g,'#f3f1ea',gx,gy-.4,1.4,.9);else drawGlass(g,gx,gy,M.drink,M.drinkLv);}}
   const vx=C.tableSet&&C.tableSet.k==='table'?X+Wd/2+(Wd/2-6):X+Wd/2,vy=C.tableSet&&C.tableSet.k==='table'?Y-6:Y+3;A_vase(vx,vy);
   g.restore();};
@@ -11009,6 +11024,201 @@ function CK_draw(o,bx,by,side,t){const LG=(x0,y0,x1,y1,st)=>{const q=g.createLin
 function CK_hob(bx0,bw,Y,t){const ws=C.cookware&&C.cookware.length?C.cookware:[{k:'pot',c:'#e8a23a',b:0}];const P=[[bx0+9,Y-4.4,-1],[bx0+bw-9,Y-4.4,1],[bx0+bw/2,Y+.4,1]];
   for(const b of[0,1,2]){const o=ws.find(w=>w.b===b||(w.b==null&&b===0));if(o)CK_draw(o,P[b][0],P[b][1],P[b][2],t);}}
 function CK_lit(i){if(!C.cooking)return false;const ws=C.cookware&&C.cookware.length?C.cookware:[{b:0}];return ws.some(w=>(w.b==null?0:w.b)===i);}
+
+/* ===== afternoon tea v2: seasonal 3-tier sets with different stand shapes and full trays ===== */
+const AT2_E=(c,col,x,y,rx,ry,r)=>GD_E(c,col,x,y,rx,ry,r);
+const AT2_LG=(c,x0,y0,x1,y1,st)=>GD_lg(c,x0,y0,x1,y1,st);
+/* ---------- foods (base at x,y; ~2.4 wide) ---------- */
+const AT2_F={
+ sand(c,x,y,a){const fill=a||'#7cbf5a';c.fillStyle='#f4ead0';c.beginPath();c.moveTo(x-1.5,y);c.lineTo(x+1.5,y);c.lineTo(x+.1,y-2.3);c.closePath();c.fill();c.fillStyle=fill;c.fillRect(x-1.25,y-.9,2.5,.5);c.fillStyle='#fff8e8';c.fillRect(x-1,y-1.45,2,.25);c.strokeStyle='rgba(160,110,60,.55)';c.lineWidth=.12;c.beginPath();c.moveTo(x-1.5,y);c.lineTo(x+.1,y-2.3);c.lineTo(x+1.5,y);c.stroke();},
+ canape(c,x,y,a){AT2_E(c,'#d8a860',x,y-.3,1.2,.45);AT2_E(c,'#f6efe0',x,y-.6,1,.35);AT2_E(c,a||'#f08060',x,y-.85,.7,.3);AT2_E(c,'#4f9d48',x+.3,y-1.05,.25,.12);},
+ quiche(c,x,y,a){c.fillStyle='#d89a50';c.beginPath();c.moveTo(x-1.4,y);c.lineTo(x+1.4,y);c.lineTo(x+.9,y-1.3);c.lineTo(x-.9,y-1.3);c.closePath();c.fill();c.fillStyle='#f6d86a';c.fillRect(x-.85,y-1.3,1.7,.5);AT2_E(c,a||'#4f9d48',x-.3,y-1.15,.22,.18);AT2_E(c,'#e0503a',x+.35,y-1.1,.2,.16);},
+ roll(c,x,y,a){AT2_E(c,'#f4ead0',x,y-.8,1,.85);AT2_E(c,a||'#f29aa0',x,y-.8,.6,.5);c.strokeStyle='#fff8e8';c.lineWidth=.15;c.beginPath();c.arc(x,y-.8,.3,0,4);c.stroke();},
+ burger(c,x,y){AT2_E(c,'#c8843a',x,y-.25,1.1,.4);fillR(c,'#5a3018',x-1.1,y-.9,2.2,.45,.2);fillR(c,'#7cbf5a',x-1.2,y-1.1,2.4,.25,.1);AT2_E(c,'#e0903a',x,y-1.5,1.05,.6);AT2_E(c,'#fff4d0',x-.3,y-1.7,.12,.08);AT2_E(c,'#fff4d0',x+.3,y-1.6,.12,.08);},
+ scone(c,x,y){AT2_E(c,'#b8783a',x,y-.2,1.5,.9);c.fillStyle=AT2_LG(c,0,y-2.2,0,y,[[0,'#ecba6c'],[1,'#c88a46']]);c.beginPath();c.ellipse(x,y-1.1,1.4,1,0,0,TAU);c.fill();AT2_E(c,'rgba(255,240,200,.55)',x-.4,y-1.6,.55,.25);fillR(c,'#a86a30',x-1.3,y-1,2.6,.18);},
+ cream(c,x,y){AT2_E(c,'#e8e0c8',x,y,1,.4);AT2_E(c,'#fbf6e6',x,y-.45,.85,.45);AT2_E(c,'#fffdf6',x-.15,y-.85,.45,.28);},
+ jam(c,x,y,a){AT2_E(c,'#f4f0e8',x,y,1,.42);AT2_E(c,'#ddd6c8',x,y+.05,1,.3);AT2_E(c,a||'#d0203a',x,y-.25,.75,.32);AT2_E(c,'rgba(255,255,255,.65)',x-.3,y-.35,.2,.08);},
+ muffin(c,x,y,a){c.fillStyle='#e8e2d6';c.beginPath();c.moveTo(x-1,y);c.lineTo(x-1.2,y-1.3);c.lineTo(x+1.2,y-1.3);c.lineTo(x+1,y);c.fill();c.strokeStyle='rgba(0,0,0,.12)';c.lineWidth=.1;for(let i=-.8;i<1;i+=.4){c.beginPath();c.moveTo(x+i,y);c.lineTo(x+i*1.15,y-1.3);c.stroke();}AT2_E(c,'#c8843a',x,y-1.6,1.35,.85);for(let i=0;i<3;i++)AT2_E(c,a||'#5a2a6a',x-.6+i*.6,y-1.7+(i%2)*.3,.18,.18);},
+ macaron(c,x,y,a){const col=a||'#f49ab4';AT2_E(c,shade(col,-.15),x,y-.45,1.1,.5);fillR(c,'#fbf4e6',x-.95,y-1.15,1.9,.42,.2);AT2_E(c,col,x,y-1.5,1.1,.55);AT2_E(c,'rgba(255,255,255,.5)',x-.35,y-1.7,.38,.16);},
+ tart(c,x,y,a){AT2_E(c,'#c88a46',x,y-.3,1.35,.55);AT2_E(c,'#f6e6b8',x,y-.6,1.1,.42);const cols=Array.isArray(a)?a:[a||'#e0303a'];[[-.45,-.9],[.45,-.85],[0,-1.2],[0,-.7]].forEach(([dx,dy],i)=>AT2_E(c,cols[i%cols.length],x+dx,y+dy,.4,.38));AT2_E(c,'rgba(255,255,255,.6)',x-.55,y-1,.12,.1);},
+ eclair(c,x,y,a){fillR(c,'#c88a46',x-1.5,y-.95,3,.95,.48);fillR(c,a||'#5a3018',x-1.5,y-1.25,3,.55,.28);for(let i=0;i<3;i++)AT2_E(c,'#fff',x-.8+i*.8,y-1.1,.12,.08);},
+ cake(c,x,y,a){const[cr,tp]=Array.isArray(a)?a:[a||'#f29ab4',null];fillR(c,'#f6e2c0',x-1.2,y-2,2.4,2,.3);fillR(c,cr,x-1.2,y-1.25,2.4,.32);fillR(c,cr,x-1.2,y-.6,2.4,.25);fillR(c,shade(cr,.45),x-1.2,y-2.3,2.4,.45,.22);if(tp)AT2_E(c,tp,x,y-2.7,.45,.42);},
+ cup(c,x,y,a){const cols=a||['#f6f0e0','#f29ab4','#e0303a'];c.fillStyle='rgba(220,235,245,.6)';c.beginPath();c.moveTo(x-.95,y-2.4);c.lineTo(x-.75,y);c.lineTo(x+.75,y);c.lineTo(x+.95,y-2.4);c.fill();fillR(c,cols[0],x-.75,y-.8,1.5,.75,.2);fillR(c,cols[1],x-.82,y-1.6,1.64,.8,.1);AT2_E(c,cols[2],x,y-2.3,.45,.4);AT2_E(c,'rgba(255,255,255,.6)',x-.6,y-1.6,.12,.5);},
+ jelly(c,x,y,a){const col=a||'#f4a070';c.fillStyle=col;c.globalAlpha=.75;c.beginPath();c.moveTo(x-.95,y-2);c.lineTo(x-.8,y);c.lineTo(x+.8,y);c.lineTo(x+.95,y-2);c.fill();c.globalAlpha=1;AT2_E(c,shade(col,-.2),x+.2,y-.9,.45,.4);AT2_E(c,'rgba(255,255,255,.7)',x-.6,y-1.4,.12,.45);AT2_E(c,'#fff',x,y-2.1,.35,.2);AT2_E(c,'#4f9d48',x+.35,y-2.2,.25,.12);},
+ cupcake(c,x,y,a){fillR(c,'#e0a050',x-.9,y-1.1,1.8,1.1,.2);c.fillStyle='rgba(0,0,0,.12)';for(let i=-.6;i<.9;i+=.4)c.fillRect(x+i,y-1.1,.12,1.1);for(let i=0;i<3;i++)AT2_E(c,shade(a||'#f49ab4',i*.08),x,y-1.4-i*.45,1.1-i*.3,.5);AT2_E(c,'#e0303a',x,y-2.6,.3,.3);for(const[dx,dy,cc]of[[-.5,-1.6,'#f6d860'],[.4,-1.8,'#6ab4f0'],[.1,-1.3,'#7cbf5a']])fillR(c,cc,x+dx,y+dy,.25,.1);},
+ puff(c,x,y,a){AT2_E(c,'#d8a050',x,y-.7,1.2,.75);AT2_E(c,'#fff8e8',x,y-1.05,.95,.3);AT2_E(c,'#e8b468',x,y-1.5,1.05,.55);AT2_E(c,'#fff',x,y-1.95,.6,.2);if(a)AT2_E(c,a,x,y-2.05,.28,.28);},
+ bonbon(c,x,y,a){AT2_E(c,'#5a3018',x,y-.6,.95,.7);AT2_E(c,a||'#f6d860',x,y-1,.5,.2);AT2_E(c,'rgba(255,255,255,.35)',x-.35,y-.85,.2,.12);},
+ cookie(c,x,y,a){AT2_E(c,'#d8a060',x,y-.35,1.1,.5);for(let i=0;i<3;i++)AT2_E(c,a||'#5a3018',x-.5+i*.5,y-.4+(i%2)*.15,.15,.1);},
+ madeleine(c,x,y){c.fillStyle='#e0a850';c.beginPath();c.ellipse(x,y-.5,1.2,.6,0,Math.PI,0);c.fill();c.strokeStyle='rgba(150,90,30,.5)';c.lineWidth=.1;for(let i=-2;i<=2;i++){c.beginPath();c.moveTo(x,y-.2);c.lineTo(x+i*.45,y-.95);c.stroke();}},
+ montblanc(c,x,y){AT2_E(c,'#c88a46',x,y-.3,1.2,.48);for(let i=0;i<4;i++)AT2_E(c,i%2?'#c8a06a':'#d8b07a',x,y-.85-i*.42,1.05-i*.2,.42);AT2_E(c,'#8a5a2a',x,y-2.6,.42,.36);},
+ pudding(c,x,y,a){c.fillStyle='#f6d070';c.beginPath();c.moveTo(x-1,y);c.lineTo(x-.7,y-1.5);c.lineTo(x+.7,y-1.5);c.lineTo(x+1,y);c.fill();AT2_E(c,'#8a4a1a',x,y-1.55,.72,.25);AT2_E(c,'#fff',x,y-1.9,.45,.25);AT2_E(c,a||'#e0303a',x,y-2.2,.25,.25);},
+ donut(c,x,y,a){AT2_E(c,'#d89a50',x,y-.5,1.15,.6);AT2_E(c,a||'#f49ab4',x,y-.7,1,.45);AT2_E(c,'#d89a50',x,y-.7,.3,.14);for(const[dx,cc]of[[-.6,'#fff'],[.5,'#6ab4f0'],[.1,'#f6d860']])fillR(c,cc,x+dx,y-.85,.2,.08);},
+ berry(c,x,y,a){const s=a||1;c.fillStyle='#e0303a';c.beginPath();c.moveTo(x-.55*s,y-.9*s);c.quadraticCurveTo(x-.6*s,y,x,y+.2*s);c.quadraticCurveTo(x+.6*s,y,x+.55*s,y-.9*s);c.closePath();c.fill();AT2_E(c,'#4f9d48',x,y-.95*s,.5*s,.2*s);c.fillStyle='rgba(255,240,180,.9)';c.fillRect(x-.2*s,y-.5*s,.12,.12);c.fillRect(x+.15*s,y-.3*s,.12,.12);},
+ grape(c,x,y,a){const col=a||'#5a2a6a';for(const[dx,dy]of[[-.4,-.4],[.4,-.4],[0,-.95],[-.2,0],[.3,.05]])AT2_E(c,col,x+dx,y+dy,.42,.42);AT2_E(c,'rgba(255,255,255,.45)',x-.5,y-.6,.12,.1);},
+ peach(c,x,y){c.fillStyle=GD_rg(c,x-.4,y-1.4,.1,x,y-.9,1.3,[[0,'#ffe0c8'],[.6,'#f8a8a0'],[1,'#e86a7a']]);c.beginPath();c.ellipse(x,y-.9,1.05,.95,0,0,TAU);c.fill();c.strokeStyle='rgba(200,80,90,.55)';c.lineWidth=.12;c.beginPath();c.moveTo(x+.1,y-1.8);c.quadraticCurveTo(x+.4,y-.9,x+.05,y-.1);c.stroke();AT2_E(c,'#5aa64f',x+.4,y-1.9,.45,.18,-.5);},
+ peachslice(c,x,y){c.fillStyle='#ffd0b0';c.beginPath();c.ellipse(x,y-.5,1,.45,0,Math.PI,0);c.fill();c.fillStyle='#f08080';c.fillRect(x-1,y-.55,2,.12);},
+ mango(c,x,y){for(const[dx,dy]of[[-.5,-.4],[.45,-.35],[0,-.95]])fillR(c,'#f6b830',x+dx-.4,y+dy-.4,.8,.8,.2);AT2_E(c,'rgba(255,255,255,.4)',x-.6,y-.6,.12,.1);},
+ lemon(c,x,y){AT2_E(c,'#f6e060',x,y-.6,1,.6);AT2_E(c,'#fff8c0',x,y-.6,.75,.42);c.strokeStyle='#f6e060';c.lineWidth=.1;for(let i=0;i<6;i++){c.beginPath();c.moveTo(x,y-.6);c.lineTo(x+Math.cos(i)*.75,y-.6+Math.sin(i)*.42);c.stroke();}},
+ melon(c,x,y){c.fillStyle='#a8d870';c.beginPath();c.moveTo(x-1.3,y);c.quadraticCurveTo(x,y-1.8,x+1.3,y);c.closePath();c.fill();c.fillStyle='#5a8a3a';c.fillRect(x-1.3,y-.2,2.6,.2);},
+ sakura(c,x,y){AT2_E(c,'#5a8a3a',x+.25,y-.35,1.15,.5,.3);AT2_E(c,'#f4b8c8',x,y-.85,.92,.58);AT2_E(c,'rgba(255,255,255,.5)',x-.3,y-1.05,.25,.12);},
+ dango(c,x,y){c.strokeStyle='#d8b880';c.lineWidth=.15;c.beginPath();c.moveTo(x-1.4,y-.1);c.lineTo(x+1.5,y-1.9);c.stroke();[['#f4b8c8',-.75,-.55],['#fbfaf2',0,-1],['#8ac860',.75,-1.45]].forEach(([cc,dx,dy])=>AT2_E(c,cc,x+dx,y+dy,.52,.5));},
+ nerikiri(c,x,y,a){AT2_E(c,a||'#f4a8c0',x,y-.75,1.05,.82);c.strokeStyle='rgba(255,255,255,.65)';c.lineWidth=.12;for(let i=0;i<5;i++){c.beginPath();c.moveTo(x,y-.75);c.lineTo(x+Math.cos(i*1.26)*.95,y-.75+Math.sin(i*1.26)*.75);c.stroke();}AT2_E(c,'#f6d860',x,y-.8,.18,.18);},
+ temari(c,x,y,a){AT2_E(c,'#fbfaf2',x,y-.55,.8,.7);AT2_E(c,a||'#f08060',x,y-1,.72,.38);AT2_E(c,'#4f9d48',x+.3,y-1.25,.18,.1);},
+ onigiri(c,x,y){c.fillStyle='#fbfaf2';c.beginPath();c.moveTo(x-1.25,y);c.quadraticCurveTo(x,y-2.5,x+1.25,y);c.closePath();c.fill();fillR(c,'#1f2a1f',x-.65,y-.72,1.3,.72,.2);},
+ matcharoll(c,x,y){fillR(c,'#6a9a32',x-1.2,y-1.8,2.4,1.8,.85);c.strokeStyle='#fbfaf2';c.lineWidth=.28;c.beginPath();c.moveTo(x-.85,y-.85);c.quadraticCurveTo(x,y-1.5,x+.85,y-.85);c.stroke();AT2_E(c,'#e0303a',x+.5,y-2,.25,.22);},
+ warabi(c,x,y){for(let i=0;i<3;i++)AT2_E(c,'rgba(220,200,150,.9)',x-.7+i*.7,y-.4-(i%2)*.3,.45,.38);AT2_E(c,'#a87838',x,y-.1,1.1,.2);},
+ kinton(c,x,y){AT2_E(c,'#f6c830',x,y-.6,1,.6);AT2_E(c,'#e8a020',x+.2,y-.9,.4,.3);},
+ kuromame(c,x,y){AT2_E(c,'#c8303a',x,y-.2,1.1,.4);for(let i=0;i<5;i++)AT2_E(c,'#1a1418',x-.6+i*.3,y-.45-(i%2)*.2,.22,.2);},
+ taiyaki(c,x,y){c.fillStyle='#d89040';c.beginPath();c.ellipse(x-.2,y-.6,1.1,.6,0,0,TAU);c.fill();c.beginPath();c.moveTo(x+.7,y-.6);c.lineTo(x+1.4,y-1.1);c.lineTo(x+1.4,y-.1);c.fill();AT2_E(c,'#5a3018',x-.8,y-.75,.12,.12);},
+ heartchoc(c,x,y,a){c.fillStyle=a||'#5a3018';c.beginPath();c.moveTo(x,y);c.bezierCurveTo(x-1.4,y-.8,x-.9,y-1.9,x,y-1.2);c.bezierCurveTo(x+.9,y-1.9,x+1.4,y-.8,x,y);c.fill();AT2_E(c,'rgba(255,255,255,.4)',x-.4,y-1.2,.22,.12);},
+ dipberry(c,x,y){AT2_F.berry(c,x,y);c.fillStyle='#5a3018';c.beginPath();c.moveTo(x-.55,y-.45);c.quadraticCurveTo(x-.6,y,x,y+.2);c.quadraticCurveTo(x+.6,y,x+.55,y-.45);c.closePath();c.fill();},
+ ghost(c,x,y){c.fillStyle='#fbfaf6';c.beginPath();c.moveTo(x-.9,y);c.quadraticCurveTo(x-1,y-2.2,x,y-2.3);c.quadraticCurveTo(x+1,y-2.2,x+.9,y);c.lineTo(x+.45,y-.3);c.lineTo(x,y);c.lineTo(x-.45,y-.3);c.closePath();c.fill();AT2_E(c,'#2a2028',x-.3,y-1.5,.13,.18);AT2_E(c,'#2a2028',x+.3,y-1.5,.13,.18);},
+ pumpkin(c,x,y){for(const dx of[-.55,0,.55])AT2_E(c,dx?'#e07a20':'#f08a28',x+dx,y-.75,.6,.72);fillR(c,'#4f7a2a',x-.1,y-1.75,.25,.4);AT2_E(c,'#2a1a10',x-.3,y-.85,.12,.12);AT2_E(c,'#2a1a10',x+.3,y-.85,.12,.12);},
+ spider(c,x,y){AT2_E(c,'#d8a060',x,y-.35,1.1,.5);AT2_E(c,'#1a1418',x,y-.55,.45,.35);c.strokeStyle='#1a1418';c.lineWidth=.12;for(const s of[-1,1])for(let i=0;i<3;i++){c.beginPath();c.moveTo(x,y-.55);c.lineTo(x+s*.9,y-.9+i*.3);c.stroke();}},
+ ginger(c,x,y){c.fillStyle='#b8743a';AT2_E(c,'#b8743a',x,y-1.9,.45,.42);c.fillRect(x-.35,y-1.5,.7,1);c.fillRect(x-.9,y-1.35,1.8,.32);c.fillRect(x-.45,y-.55,.32,.55);c.fillRect(x+.13,y-.55,.32,.55);fillR(c,'#fff',x-.3,y-1.9,.6,.08);AT2_E(c,'#e0303a',x,y-1.05,.1,.1);},
+ cane(c,x,y){c.lineCap='round';c.strokeStyle='#fff';c.lineWidth=.42;c.beginPath();c.moveTo(x+.4,y);c.lineTo(x+.4,y-1.6);c.arc(x,y-1.6,.4,0,Math.PI,true);c.stroke();c.strokeStyle='#e0303a';c.lineWidth=.42;c.setLineDash([.25,.3]);c.stroke();c.setLineDash([]);},
+ buche(c,x,y){fillR(c,'#6a3a1a',x-1.5,y-1.3,3,1.3,.6);AT2_E(c,'#8a5a2a',x+1.5,y-.65,.38,.62);AT2_E(c,'#f6e6c8',x+1.5,y-.65,.24,.42);c.strokeStyle='#4a2410';c.lineWidth=.12;for(let i=0;i<3;i++){c.beginPath();c.moveTo(x-1.3,y-1+i*.35);c.lineTo(x+1.2,y-1.05+i*.35);c.stroke();}AT2_E(c,'#4f9d48',x-.5,y-1.45,.35,.15);AT2_E(c,'#e0303a',x-.2,y-1.45,.15,.15);fillR(c,'#fff',x-1.5,y-1.4,3,.18,.1);},
+ santa(c,x,y){fillR(c,'#fbf6ec',x-1.2,y-1.7,2.4,1.7,.3);fillR(c,'#e0303a',x-1.2,y-1.1,2.4,.3);c.fillStyle='#e0303a';c.beginPath();c.moveTo(x-.6,y-1.7);c.lineTo(x+.6,y-1.7);c.lineTo(x,y-3);c.closePath();c.fill();AT2_E(c,'#fff',x,y-3,.22,.22);fillR(c,'#fff',x-.65,y-1.85,1.3,.25,.12);},
+ tree(c,x,y){for(let i=0;i<3;i++){c.fillStyle=i%2?'#3f8a45':'#4f9d48';c.beginPath();c.moveTo(x-1+i*.25,y-i*.7);c.lineTo(x+1-i*.25,y-i*.7);c.lineTo(x,y-1.1-i*.7);c.closePath();c.fill();}AT2_E(c,'#f6d860',x,y-2.6,.22,.22);AT2_E(c,'#e0303a',x-.4,y-.4,.12,.12);AT2_E(c,'#6ab4f0',x+.3,y-1,.12,.12);},
+ snow(c,x,y){AT2_E(c,'#fbfaf6',x,y-.55,.75,.6);AT2_E(c,'#fbfaf6',x,y-1.5,.5,.45);AT2_E(c,'#1a1418',x-.15,y-1.6,.07,.07);AT2_E(c,'#1a1418',x+.15,y-1.6,.07,.07);fillR(c,'#e0303a',x-.45,y-1.15,.9,.15,.07);},
+ tea_s(c,x,y){} };
+/* ---------- plates by shape ---------- */
+function AT2_PL(c,cx,y,rx,st){const ry=rx*.38,sh=st.shape,pc=st.plate,rim=st.rim;AT2_E(c,'rgba(0,0,0,.18)',cx,y+ry*.7,rx,ry*.8);
+  c.save();c.translate(cx,y);c.beginPath();
+  if(sh==='square'||sh==='lacquer'||sh==='wood'){const w=rx,h=ry*1.1;rr(c,-w,-h,w*2,h*2,sh==='square'?.6:.3);}
+  else if(sh==='heart'){c.moveTo(0,ry*1.05);c.bezierCurveTo(-rx*1.15,ry*.2,-rx*.75,-ry*1.25,0,-ry*.5);c.bezierCurveTo(rx*.75,-ry*1.25,rx*1.15,ry*.2,0,ry*1.05);}
+  else if(sh==='scallop'){for(let i=0;i<=24;i++){const a=i/24*TAU,r=1+.06*Math.cos(a*12);c.lineTo(Math.cos(a)*rx*r,Math.sin(a)*ry*r);}}
+  else if(sh==='leaf'){c.moveTo(-rx*1.05,0);c.quadraticCurveTo(-rx*.3,-ry*1.6,rx*1.05,-ry*.2);c.quadraticCurveTo(rx*.2,ry*1.5,-rx*1.05,0);}
+  else c.ellipse(0,0,rx,ry,0,0,TAU);
+  c.closePath();
+  // body thickness
+  c.save();c.translate(0,sh==='lacquer'||sh==='wood'?.9:.45);c.fillStyle=shade(pc,-.25);c.fill();c.restore();
+  c.fillStyle=AT2_LG(c,0,-ry,0,ry,[[0,shade(pc,.08)],[1,shade(pc,-.1)]]);c.fill();c.strokeStyle=rim;c.lineWidth=sh==='lacquer'?.5:.32;c.stroke();
+  if(sh==='glass'){c.fillStyle='rgba(255,255,255,.35)';c.beginPath();c.ellipse(-rx*.4,-ry*.3,rx*.35,ry*.18,0,0,TAU);c.fill();}
+  if(st.lace){c.strokeStyle='rgba(255,255,255,.85)';c.lineWidth=.15;c.setLineDash([.25,.25]);c.beginPath();c.ellipse(0,0,rx*.78,ry*.74,0,0,TAU);c.stroke();c.setLineDash([]);}
+  c.restore();}
+/* ---------- stands ---------- */
+function AT2_STAND(c,cx,by,st,menu){const m=st.metal,mg=(x0,x1)=>AT2_LG(c,x0,0,x1,0,[[0,m[0]],[.5,m[1]],[1,m[2]]]);const T3=[[by-2.2,6.6],[by-10,5.6],[by-17.6,4.6]];
+  const dish=(i,extra)=>{const[y,rx]=T3[i];AT2_PL(c,cx,y,rx,st);if(extra)extra(y,rx);AT2_FOODS(c,cx,y,rx,menu[i],st.shape);};
+  AT2_E(c,'rgba(0,0,0,.22)',cx,by+.5,7,1.7);
+  const f=st.frame;
+  if(f==='pole'||f==='twist'||f==='branch'){
+    c.fillStyle=mg(cx-3.2,cx+3.2);c.beginPath();c.ellipse(cx,by-.2,3,.9,0,0,TAU);c.fill();
+    const seg=(y0,y1)=>{if(f==='branch'){c.strokeStyle=m[1];c.lineWidth=.8;c.beginPath();c.moveTo(cx,y0);c.bezierCurveTo(cx-1.4,y0-(y0-y1)*.35,cx+1.4,y0-(y0-y1)*.65,cx,y1);c.stroke();AT2_E(c,'#5aa64f',cx+1,y0-(y0-y1)*.5,.7,.3,.5);}
+      else{c.fillStyle=mg(cx-.45,cx+.45);c.fillRect(cx-.4,y1,.8,y0-y1);if(f==='twist'){c.strokeStyle=m[0];c.lineWidth=.15;for(let yy=y1;yy<y0;yy+=.9){c.beginPath();c.moveTo(cx-.4,yy+.45);c.lineTo(cx+.4,yy);c.stroke();}}}};
+    dish(0,(y)=>seg(y,T3[1][0]));dish(1,(y)=>seg(y,T3[2][0]));
+    dish(2,(y)=>{seg(y,y-5.2);const top=y-6.6;if(st.top==='star'){c.fillStyle=m[1];c.beginPath();for(let i=0;i<10;i++){const r=i%2?.6:1.5,a=-Math.PI/2+i*Math.PI/5;c.lineTo(cx+Math.cos(a)*r,top+Math.sin(a)*r);}c.fill();}
+      else if(st.top==='bow'){AT2_E(c,'#e0303a',cx-.9,top,.9,.55,.3);AT2_E(c,'#e0303a',cx+.9,top,.9,.55,-.3);AT2_E(c,'#b81e2a',cx,top,.4,.4);}
+      else if(st.top==='finial'){AT2_E(c,m[1],cx,top+.6,.9,1.1);AT2_E(c,m[0],cx-.3,top+.2,.25,.4);}
+      else if(st.top==='heart'){AT2_F.heartchoc(c,cx,top+1.2,m[1]);}
+      else{c.strokeStyle=m[1];c.lineWidth=.55;c.beginPath();c.arc(cx,top,1.5,0,TAU);c.stroke();c.strokeStyle=m[0];c.lineWidth=.2;c.beginPath();c.arc(cx,top-.1,1.5,Math.PI*1.1,Math.PI*1.7);c.stroke();}});return;}
+  if(f==='cage'){// two arched wire sides meeting at the top with a curl
+    const bars=()=>{c.strokeStyle=m[1];c.lineWidth=.55;c.beginPath();c.moveTo(cx-6.4,by-1.4);c.bezierCurveTo(cx-7.4,by-14,cx-5,by-22,cx,by-24);c.bezierCurveTo(cx+5,by-22,cx+7.4,by-14,cx+6.4,by-1.4);c.stroke();c.strokeStyle=m[0];c.lineWidth=.18;c.beginPath();c.moveTo(cx-6.6,by-3);c.bezierCurveTo(cx-7.5,by-14,cx-5.2,by-21.6,cx-.4,by-23.6);c.stroke();
+      for(const s of[-1,1]){c.strokeStyle=m[1];c.lineWidth=.35;c.beginPath();c.arc(cx+s*1.2,by-25,.9,0,TAU);c.stroke();}};
+    c.fillStyle=mg(cx-7,cx+7);fillR(c,m[1],cx-7,by-1.6,14,1.1,.5);bars();
+    dish(0);dish(1);dish(2);c.strokeStyle=m[1];c.lineWidth=.3;for(const[y,rx]of T3){c.beginPath();c.moveTo(cx-rx-.6,y);c.lineTo(cx-rx,y);c.moveTo(cx+rx,y);c.lineTo(cx+rx+.6,y);c.stroke();}return;}
+  if(f==='side'){// two side posts with square trays (wood / lacquer / modern square)
+    const post=(s)=>{c.fillStyle=mg(cx+s*6.8-.5,cx+s*6.8+.5);c.fillRect(cx+s*6.8-.5,by-21.5,1,21.5);AT2_E(c,m[1],cx+s*6.8,by-21.8,.8,.5);};
+    post(-1);dish(0);dish(1);dish(2);post(1);
+    if(st.shape==='lacquer'){c.fillStyle=m[1];for(const s of[-1,1])fillR(c,m[1],cx+s*6.8-.9,by-1,1.8,1,.3);}
+    c.fillStyle=mg(cx-6,cx+6);fillR(c,m[1],cx-6.8,by-22,13.6,.8,.4);return;}
+  if(f==='tree'){// christmas tree: cone tiers draped with garland, star on top
+    fillR(c,'#6a4220',cx-.8,by-3,1.6,3,.3);
+    for(let i=0;i<3;i++){const[y,rx]=T3[i];c.fillStyle=AT2_LG(c,cx-rx,0,cx+rx,0,[[0,'#3f8a45'],[.5,'#2f7a3a'],[1,'#1f5a2a']]);c.beginPath();c.moveTo(cx-rx-.6,y+.6);c.lineTo(cx+rx+.6,y+.6);c.lineTo(cx,y-(i===2?9:7.2));c.closePath();c.fill();}
+    dish(0);dish(1);dish(2,(y)=>{});
+    c.strokeStyle='#f6d860';c.lineWidth=.3;for(const[y,rx]of T3){c.beginPath();c.ellipse(cx,y+.5,rx+.4,rx*.4,0,.1,Math.PI-.1);c.stroke();for(let k=0;k<5;k++)AT2_E(c,['#e0303a','#6ab4f0','#f6d860'][k%3],cx-rx+k*rx/2,y+.8+Math.sin(k)*.3,.28,.28);}
+    c.fillStyle='#f6d860';c.beginPath();for(let i=0;i<10;i++){const r=i%2?.7:1.7,a=-Math.PI/2+i*Math.PI/5;c.lineTo(cx+Math.cos(a)*r,by-26.4+Math.sin(a)*r);}c.fill();return;}
+  if(f==='glass'){// stacked cake stands with stems
+    for(let i=0;i<3;i++){const[y,rx]=T3[i];const yb=i?T3[i-1][0]:by;c.fillStyle='rgba(225,240,250,.55)';c.beginPath();c.moveTo(cx-1.2,yb-.2);c.quadraticCurveTo(cx-.4,(y+yb)/2,cx-.5,y);c.lineTo(cx+.5,y);c.quadraticCurveTo(cx+.4,(y+yb)/2,cx+1.2,yb-.2);c.fill();AT2_E(c,'rgba(255,255,255,.6)',cx-.3,(y+yb)/2,.12,1.2);dish(i);}return;}}
+const AT2_SLOT={1:[[0,0]],2:[[-.45,.05],[.45,.05]],3:[[-.55,-.1],[.55,-.1],[0,.5]],4:[[-.62,-.15],[0,-.35],[.62,-.15],[0,.5]],5:[[-.66,-.2],[0,-.42],[.66,-.2],[-.32,.45],[.32,.45]],6:[[-.7,-.15],[-.24,-.4],[.24,-.4],[.7,-.15],[-.34,.48],[.34,.48]],7:[[-.72,-.1],[-.3,-.42],[.3,-.42],[.72,-.1],[-.5,.45],[0,.55],[.5,.45]]};
+function AT2_FOODS(c,cx,y,rx,items,shape){const sl=AT2_SLOT[items.length]||AT2_SLOT[7];const ry=rx*.38;const L=items.map((it,i)=>[it,sl[i]]).sort((a,b)=>a[1][1]-b[1][1]);const k=rx>6?1.5:rx>5?1.42:1.32;for(const[[f,a],[px,py]]of L){c.save();c.translate(cx+px*rx*.8,y+.3+py*ry*1.05);c.scale(k,k);AT2_F[f](c,0,0,a);c.restore();}}
+function AT2_POT(c,x,y,st){const p=st.pot;AT2_E(c,'rgba(0,0,0,.2)',x,y+.3,3.2,.9);
+  if(p.k==='kyusu'){c.fillStyle=GD_rg(c,x-1,y-2.6,.2,x,y-1.6,3.4,[[0,shade(p.body,.3)],[1,shade(p.body,-.3)]]);c.beginPath();c.ellipse(x,y-1.7,2.8,1.9,0,0,TAU);c.fill();c.save();c.translate(x-2.6,y-2);c.rotate(-.4);fillR(c,shade(p.body,-.2),-2.6,-.5,2.6,1,.4);c.restore();fillR(c,p.body,x+2.2,y-2.4,1.6,.8,.4);AT2_E(c,shade(p.body,.15),x,y-3.5,1.3,.45);AT2_E(c,p.deco,x,y-3.8,.35,.3);return;}
+  c.fillStyle=AT2_LG(c,x-3,0,x+3,0,[[0,shade(p.body,.18)],[.5,p.body],[1,shade(p.body,-.25)]]);c.beginPath();c.ellipse(x,y-2,2.9,2.2,0,0,TAU);c.fill();
+  c.strokeStyle=p.body;c.lineWidth=.5;c.beginPath();c.arc(x-3.1,y-2,1.1,Math.PI*.5,Math.PI*1.5);c.stroke();
+  c.fillStyle=shade(p.body,-.05);c.beginPath();c.moveTo(x+2.2,y-1.4);c.quadraticCurveTo(x+3.6,y-2.2,x+4.2,y-3.8);c.lineTo(x+4.5,y-3.5);c.quadraticCurveTo(x+3.8,y-1.6,x+2.4,y-.8);c.fill();
+  AT2_E(c,p.rim,x,y-4.1,1.7,.5);AT2_E(c,p.rim,x,y-4.7,.45,.4);for(let i=0;i<3;i++)AT2_E(c,p.deco,x-1.4+i*1.4,y-2+(i%2)*.4,.45,.42);fillR(c,p.rim,x-2.8,y-.8,5.6,.3);AT2_E(c,'rgba(255,255,255,.6)',x-1.4,y-2.9,.5,.25,-.4);}
+function AT2_CUP(c,x,y,st){const cc=st.cup||'#fbfaf5',rim=st.pot.rim;AT2_E(c,'rgba(0,0,0,.15)',x,y+.3,2,.6);AT2_E(c,cc,x,y,2,.6);c.strokeStyle=rim;c.lineWidth=.12;c.beginPath();c.ellipse(x,y,2,.6,0,0,TAU);c.stroke();
+  c.fillStyle=cc;c.beginPath();c.moveTo(x-1.4,y-1.6);c.quadraticCurveTo(x-1.2,y-.2,x,y-.2);c.quadraticCurveTo(x+1.2,y-.2,x+1.4,y-1.6);c.closePath();c.fill();AT2_E(c,rim,x,y-1.6,1.4,.42);AT2_E(c,st.tea,x,y-1.55,1.2,.33);c.strokeStyle=cc;c.lineWidth=.35;c.beginPath();c.arc(x+1.6,y-1,.5,-Math.PI/2,Math.PI/2);c.stroke();}
+function AT2_SCENE(c,cx,by,key){const st=AT2_SETS[key];c.fillStyle=st.cloth;c.beginPath();c.ellipse(cx,by,15.5,4.8,0,0,TAU);c.fill();c.strokeStyle=shade(st.cloth,-.15);c.lineWidth=.25;c.setLineDash([.6,.5]);c.beginPath();c.ellipse(cx,by,14.6,4.4,0,0,TAU);c.stroke();c.setLineDash([]);
+  AT2_POT(c,cx-10,by-.4,st);AT2_CUP(c,cx+9.6,by+1.3,st);AT2_CUP(c,cx-4,by+2.6,st);if(st.deco)for(const[f,dx,dy,a]of st.deco)AT2_F[f](c,cx+dx,by+dy,a);AT2_STAND(c,cx,by,st,st.menu);}
+const AT2_SETS={
+ classic:{n:'クラシック（通年）',frame:'pole',shape:'scallop',top:'ring',metal:['#f6e2a0','#c9a043','#8a6a22'],plate:'#fbfaf5',rim:'#d4b25a',lace:1,cloth:'#f4efe6',pot:{body:'#fbfaf5',deco:'#5a7ac8',rim:'#d4b25a'},tea:'#b8682a',
+   menu:[[['sand','#7cbf5a'],['sand','#f6d860'],['canape','#f08060'],['sand','#f4a0a8'],['quiche'],['canape','#5a2a6a'],['roll','#f29aa0']],[['scone'],['cream'],['jam','#d0203a'],['scone'],['jam','#f6a830'],['muffin']],[['macaron','#a8d8c8'],['tart',['#e0303a','#5a2a6a','#f6d860']],['eclair'],['macaron','#f4b8c8'],['cake',['#f29ab4','#e0303a']]]]},
+ wa:{n:'和モダン・抹茶（通年）',frame:'side',shape:'lacquer',metal:['#5a5a5a','#2a2a2e','#121214'],plate:'#2a2226',rim:'#c9a043',cloth:'#e9e2d2',pot:{k:'kyusu',body:'#3a5a3a',deco:'#c9a043',rim:'#2a2a2e'},cup:'#f4efe4',tea:'#7aa83a',
+   menu:[[['temari','#f08060'],['onigiri'],['temari','#f6d860'],['temari','#f4b8c8'],['onigiri'],['temari','#7cbf5a']],[['matcharoll'],['warabi'],['dango'],['matcharoll'],['taiyaki']],[['nerikiri','#f4a8c0'],['nerikiri','#a8d07a'],['sakura'],['nerikiri','#f6d860']]]},
+ newyear:{n:'お正月（1月）',frame:'side',shape:'lacquer',metal:['#e05a4a','#b8202a','#6a1018'],plate:'#b8202a',rim:'#f6d860',cloth:'#fbf6ec',pot:{k:'kyusu',body:'#b8202a',deco:'#f6d860',rim:'#2a2a2e'},cup:'#fbf6ec',tea:'#7aa83a',deco:[['nerikiri',12.4,-2.6,'#f4f0f0']],
+   menu:[[['temari','#f08060'],['kuromame'],['onigiri'],['temari','#f4b8c8'],['kinton'],['onigiri']],[['kinton'],['nerikiri','#ffffff'],['dango'],['kuromame'],['nerikiri','#f4a8c0']],[['nerikiri','#f6d860'],['sakura'],['nerikiri','#ffffff']]]},
+ valentine:{n:'バレンタイン（2月）',frame:'pole',shape:'heart',top:'heart',metal:['#e8b098','#a8604a','#5a2a1a'],plate:'#fbeef0',rim:'#c85a6a',cloth:'#f8e0e4',pot:{body:'#5a3018',deco:'#f49ab4',rim:'#e8b098'},cup:'#fbeef0',tea:'#6a3a1a',
+   menu:[[['sand','#f4a0a8'],['canape','#e0303a'],['sand','#7cbf5a'],['roll','#5a3018'],['canape','#f6d860'],['sand','#f6d860']],[['muffin','#5a3018'],['heartchoc','#e0303a'],['dipberry'],['heartchoc'],['dipberry'],['scone']],[['macaron','#5a3018'],['heartchoc','#f49ab4'],['bonbon','#f49ab4'],['macaron','#f49ab4'],['bonbon']]]},
+ sakura:{n:'桜（3〜4月）',frame:'branch',shape:'scallop',top:'finial',metal:['#a07858','#6a4a30','#3a2618'],plate:'#fff0f4',rim:'#f4a8c0',lace:1,cloth:'#fde9ee',pot:{body:'#fff6f8',deco:'#f4a8c0',rim:'#e88aa8'},cup:'#fff6f8',tea:'#f4a8b8',
+   menu:[[['sand','#f4b8c8'],['canape','#f4b8c8'],['sand','#7cbf5a'],['temari','#f4b8c8'],['roll','#f4b8c8'],['canape','#7cbf5a']],[['sakura'],['dango'],['scone'],['cream'],['jam','#f49ab4'],['sakura']],[['macaron','#f4b8c8'],['nerikiri','#f4b8c8'],['cupcake','#f8c8d8'],['macaron','#fbfaf6'],['cake',['#f4b8c8','#f49ab4']]]]},
+ berry:{n:'いちごづくし（1〜5月）',frame:'cage',shape:'round',metal:['#fde0e8','#e9a0b4','#b8607a'],plate:'#fff4f6',rim:'#f29ab4',lace:1,cloth:'#fde9ee',pot:{body:'#ffffff',deco:'#ef6a8a',rim:'#f29ab4'},cup:'#fff4f6',tea:'#c85a4a',deco:[['berry',12.4,-1.6,1.3]],
+   menu:[[['sand','#f4a0a8'],['berry'],['sand','#fff0f0'],['canape','#e0303a'],['berry'],['roll','#f4a0a8'],['sand','#7cbf5a']],[['scone'],['jam','#e0303a'],['cake',['#e0303a','#e0303a']],['cream'],['berry'],['scone']],[['macaron','#f49ab4'],['tart','#e0303a'],['cup',['#fbfaf6','#f49ab4','#e0303a']],['puff','#e0303a'],['macaron','#ffd0dc']]]},
+ melon:{n:'初夏のメロン＆レモン（5〜6月）',frame:'glass',shape:'glass',metal:['#e8f4f8','#b8d0d8','#88a0a8'],plate:'#e4f2f8',rim:'#a8d0e0',cloth:'#eef8e8',pot:{body:'#f8fbf4',deco:'#a8d870',rim:'#c8e0a0'},cup:'#f8fbf4',tea:'#d8c040',
+   menu:[[['sand','#a8d870'],['canape','#f6e060'],['sand','#f6d860'],['quiche','#a8d870'],['melon'],['roll','#a8d870']],[['lemon'],['scone'],['jelly','#a8d870'],['cream'],['muffin','#f6e060'],['melon']],[['macaron','#a8d870'],['tart',['#a8d870','#f6e060']],['jelly','#f6e060'],['macaron','#f6e060']]]},
+ peach:{n:'夏の桃づくし（7〜8月）',frame:'twist',shape:'scallop',top:'finial',metal:['#fde4d8','#f0a890','#b86a58'],plate:'#fff6f0',rim:'#f4a090',lace:1,cloth:'#fdebe4',pot:{body:'#fff8f4',deco:'#f8a8a0',rim:'#f0a890'},cup:'#fff8f4',tea:'#f0b090',deco:[['peach',12.6,-1.4]],
+   menu:[[['sand','#ffd0b0'],['peachslice'],['canape','#ffb0a0'],['sand','#7cbf5a'],['roll','#ffc0b0'],['peachslice'],['quiche']],[['peach'],['scone'],['jelly','#ffb0a0'],['jam','#f08080'],['peach'],['cream']],[['tart',['#ffb8a0','#ffd0b8']],['macaron','#ffc0b0'],['cup',['#fbfaf6','#ffc0b0','#f08080']],['puff','#ffb0a0'],['macaron','#fbe8e0']]]},
+ mango:{n:'トロピカルマンゴー（7〜8月）',frame:'branch',shape:'leaf',top:'finial',metal:['#d8b880','#a07840','#5a4220'],plate:'#7cbf5a',rim:'#3f8a45',cloth:'#fff4d8',pot:{body:'#f6b830',deco:'#fbf6e0',rim:'#c88a20'},cup:'#fbf6e0',tea:'#f0a030',
+   menu:[[['sand','#f6b830'],['canape','#f6b830'],['burger'],['sand','#7cbf5a'],['canape','#e0303a'],['roll','#f6b830']],[['mango'],['scone'],['jelly','#f6b830'],['lemon'],['mango'],['cream']],[['tart',['#f6b830','#e0303a']],['macaron','#f6b830'],['cup',['#fbfaf6','#f6b830','#7cbf5a']],['macaron','#7cbf5a']]]},
+ muscat:{n:'シャインマスカット＆ぶどう（9月）',frame:'cage',shape:'scallop',metal:['#e8e8f0','#a8a8b8','#68687a'],plate:'#fbfaf8',rim:'#9ac860',lace:1,cloth:'#f0f4e8',pot:{body:'#fbfaf8',deco:'#9ac860',rim:'#a8a8b8'},cup:'#fbfaf8',tea:'#c8a040',deco:[['grape',12.4,-1.2,'#a8d870']],
+   menu:[[['sand','#a8d870'],['grape','#a8d870'],['canape','#5a2a6a'],['sand','#f6d860'],['quiche'],['grape']],[['scone'],['jam','#5a2a6a'],['grape','#a8d870'],['cream'],['jelly','#a8d870'],['muffin']],[['tart',['#a8d870','#5a2a6a']],['macaron','#a8d870'],['cup',['#fbfaf6','#a8d870','#5a2a6a']],['macaron','#b890c8']]]},
+ autumn:{n:'秋のマロン＆パンプキン（9〜11月）',frame:'pole',shape:'round',top:'ring',metal:['#f0d0a0','#b07840','#6a4220'],plate:'#fbf6ec',rim:'#b8743a',cloth:'#f2e6d2',pot:{body:'#e8823a',deco:'#fbf6ec',rim:'#8a4a20'},cup:'#fbf6ec',tea:'#a85a2a',
+   menu:[[['sand','#f6c830'],['grape'],['quiche','#e8823a'],['sand','#7cbf5a'],['canape','#e8823a'],['roll','#c88a46']],[['scone'],['jam','#5a2a6a'],['pudding','#e8823a'],['scone'],['cream'],['madeleine']],[['montblanc'],['macaron','#c8a06a'],['tart','#5a2a6a'],['montblanc'],['macaron','#e8823a']]]},
+ halloween:{n:'ハロウィン（10月）',frame:'cage',shape:'round',metal:['#8a6aa8','#4a2a6a','#1a0a2a'],plate:'#2a2030',rim:'#f08a28',cloth:'#3a2a4a',pot:{body:'#2a2030',deco:'#f08a28',rim:'#8a6aa8'},cup:'#f08a28',tea:'#5a2a1a',deco:[['pumpkin',12.6,-1.4]],
+   menu:[[['sand','#f08a28'],['spider'],['canape','#7a3aa8'],['sand','#7cbf5a'],['spider'],['roll','#f08a28']],[['pumpkin'],['ghost'],['muffin','#1a1418'],['cookie','#f08a28'],['ghost'],['scone']],[['macaron','#7a3aa8'],['ghost'],['cupcake','#f08a28'],['macaron','#f08a28'],['donut','#7a3aa8']]]},
+ xmas:{n:'クリスマス（12月）',frame:'tree',shape:'round',metal:['#f6e2a0','#c9a043','#8a6a22'],plate:'#fbfaf5',rim:'#c9a043',cloth:'#b8202a',pot:{body:'#fbfaf5',deco:'#2f7a3a',rim:'#c9302a'},cup:'#fbfaf5',tea:'#b8682a',deco:[['cane',12.4,-.2],['snow',-14.2,2.6]],
+   menu:[[['sand','#7cbf5a'],['canape','#e0303a'],['ginger'],['sand','#f4a0a8'],['quiche','#e0303a'],['roll','#7cbf5a']],[['scone'],['buche'],['cream'],['cane'],['jam','#d0203a'],['ginger']],[['santa'],['tree'],['macaron','#e0303a'],['snow'],['macaron','#7cbf5a']]]}};
+
+/* ===== afternoon tea in the game: seasons, table display, long conversations ===== */
+const AT2_INFO={
+ classic:{mo:null,bot:'サンドイッチ',talk:[[['p','スコーン、外はさくっと中はふんわり！'],['me','割るときは、ナイフじゃなくて手で横に割るんだよ'],['p','クロテッドクリームが先？ジャムが先？'],['me','クリームが先がデヴォン式、ジャムが先がコーンウォール式なんだって']],[['p','エクレアのチョコ、つやつや'],['me','マカロンのミントとピンク、色がかわいいね'],['p','紅茶のおかわり、いる？'],['me','次はミルクティーにしようかな']]]},
+ wa:{mo:null,bot:'手まり寿司',talk:[[['p','手まり寿司、ころころしてかわいい'],['me','ひと口サイズで食べやすいね'],['p','抹茶ロールのほろ苦さがちょうどいい'],['me','煎茶とも合うね']],[['p','練り切り、きれい…お花の形だ'],['me','職人さんがひとつずつ作ってるんだって'],['p','食べるのがもったいないね'],['me','黒文字で切って、少しずついただこう']]]},
+ newyear:{mo:[1],bot:'手まり寿司',talk:[[['p','お重みたいな朱塗りのスタンド、おめでたいね'],['me','栗きんとんは金運、黒豆はまめに暮らせますように、なんだって'],['p','今年もよろしくね'],['me','こちらこそ、よろしく！']],[['p','紅白の練り切り、華やか'],['me','お正月っぽいでしょ'],['p','お抹茶もいただこう'],['me','いい一年になりそう']]]},
+ valentine:{mo:[2],bot:'サンドイッチ',talk:[[['p','ハートのお皿だ！かわいい'],['me','バレンタイン限定のセットなんだ'],['p','いちごのチョコがけ、甘ずっぱい'],['me','いつもありがとうの気持ちだよ']],[['p','ボンボンショコラ、中にとろっとしたのが入ってる'],['me','ベリーのガナッシュだって'],['p','紅茶をストレートにすると、チョコの味が引き立つね'],['me','大人の組み合わせだね']]]},
+ sakura:{mo:[3,4],bot:'サンドイッチ',talk:[[['p','桜もちの葉っぱ、食べる派？'],['me','わたしは食べる派！塩気がいいんだよね'],['p','わたしははずす派かな'],['me','どっちもありだね']],[['p','三色団子の色って、意味があるんだっけ'],['me','ピンクは春、白は冬の名残、緑は夏の予感なんだって'],['p','季節が一本につまってるんだね'],['me','お花見気分！']]]},
+ berry:{mo:[1,2,3,4,5],bot:'いちごサンド',talk:[[['p','どこを見てもいちご！'],['me','いちごづくしにしてみた'],['p','ショートケーキのいちご、最後に食べる派？'],['me','わたしは最初に食べちゃう派！']],[['p','いちごのパフェ、層になってて楽しい'],['me','グラスの中もかわいいでしょ'],['p','このいちごジャム、自家製？'],['me','ふふ、ないしょ']]]},
+ melon:{mo:[5,6],bot:'サンドイッチ',talk:[[['p','ガラスのスタンド、涼しげだね'],['me','初夏っぽくしたくて'],['p','メロン、とろけるみたい'],['me','レモンのゼリーでさっぱりしよう']],[['p','レモンとメロン、色の組み合わせがさわやか'],['me','アイスティーにしてもよかったかも'],['p','次はそれにしよう'],['me','うん、夏はアイスティーで']]]},
+ peach:{mo:[7,8],bot:'サンドイッチ',talk:[[['p','桃のいい香り…'],['me','今がいちばんおいしい時期なんだって'],['p','桃のタルト、果汁があふれてきた'],['me','白桃と黄桃、両方のってるよ']],[['p','桃のパフェ、ゼリーがぷるぷる'],['me','冷やしておいたんだ'],['p','ピーチティーにしたら、もっと桃づくしだね'],['me','次はそうしよう！']]]},
+ mango:{mo:[7,8],bot:'サンドイッチ',talk:[[['p','葉っぱのお皿、南国みたい'],['me','トロピカルにしてみたよ'],['p','マンゴー、甘くて濃い！'],['me','完熟だからね']],[['p','ミニバーガーまである'],['me','しょっぱいものも食べたいでしょ'],['p','マンゴーのパフェ、夏休みの味がする'],['me','夏っていいね']]]},
+ muscat:{mo:[9],bot:'サンドイッチ',talk:[[['p','シャインマスカット、皮ごと食べられるんだよね'],['me','種もないし、ぱりっとしてるよ'],['p','ぶどうのタルト、紫と緑で宝石みたい'],['me','実りの秋だね']],[['p','巨峰のジャム、濃厚'],['me','スコーンに合うね'],['p','ダージリンの夏摘みは、マスカットみたいな香りがするんだって'],['me','今日の紅茶、まさにそれ！']]]},
+ autumn:{mo:[9,10,11],bot:'サンドイッチ',talk:[[['p','モンブラン、ぐるぐるでかわいい'],['me','栗のクリームたっぷりだよ'],['p','かぼちゃプリン、なめらか'],['me','秋はおいしいものが多くて困っちゃう']],[['p','マドレーヌ、焼きたてみたい'],['me','貝の形なんだよね'],['p','アッサムでミルクティーにしたい'],['me','秋はミルクティーの季節だね']]]},
+ halloween:{mo:[10],bot:'サンドイッチ',talk:[[['p','おばけのメレンゲ、目がかわいい！'],['me','トリック・オア・トリート！'],['p','お菓子あげるから、いたずらしないで〜'],['me','あはは、じゃあこのくものクッキーもらうね']],[['p','黒いお皿にオレンジ、ハロウィンっぽい'],['me','かぼちゃのお菓子、全部で何個あるかな'],['p','数えてたら食べちゃった'],['me','もう〜！']]]},
+ xmas:{mo:[12],bot:'サンドイッチ',talk:[[['p','ツリーのスタンドだ！てっぺんに星がついてる'],['me','クリスマスの特別版だよ'],['p','ジンジャーマン、かわいすぎる'],['me','頭から食べる派？足から食べる派？']],[['p','ブッシュ・ド・ノエル、本物の木みたい'],['me','切り株をイメージしてるんだって'],['p','サンタさんのケーキもある'],['me','メリークリスマス！']]]}};
+const AT2_GEN=[[['p','写真撮ってもいい？'],['me','どうぞどうぞ！'],['p','映える〜！']],[['me','紅茶、なにがいい？'],['p','ダージリンかな'],['me','いいね。香りが華やかだよね']],
+ [['p','アフタヌーンティーって、イギリスの貴族がはじめたんだっけ'],['me','夕食までのおなかすきを埋めるためだったらしいよ'],['p','その気持ち、わかる（笑）']],[['p','お砂糖、いくつ？'],['me','ひとつで'],['p','わたしはふたつ']],
+ [['p','こういう時間、ぜいたくだね'],['me','たまにはゆっくりしなきゃね'],['p','ほんとに']],[['me','おかわり、いれるね'],['p','ありがとう！'],['me','カップ、あったかいうちにどうぞ']],
+ [['p','ジャムとクリーム、たっぷりのせちゃおう'],['me','カロリーは…今日は気にしない！'],['p','賛成！']],[['p','お皿、だいぶ空いてきたね'],['me','上の段のスイーツ、どれから食べる？'],['p','迷う〜']],
+ [['p','このティーポット、かわいいね'],['me','セットに合わせて選んだんだ'],['p','こだわってる〜']],[['me','次の季節は、どのセットにしようか'],['p','季節が変わるのが楽しみになるね']]];
+const AT2_VM=[[['m','{v}、いらっしゃい！'],['v','{m}、おじゃましてます！'],['me','三人そろうと、にぎやかでいいね']],[['v','{m}と{me}、いつも仲よしだね'],['m','そうかな？'],['me','えへへ']],
+ [['m','{v}の島って、どんなところ？'],['v','うちの島は、いつも風が強いんだ'],['m','洗濯物、よく乾きそう'],['v','飛んでいかなければね（笑）']],[['v','この部屋、いつ来ても落ちつくなあ'],['m','{me}が家具にこだわってるからね'],['me','気に入ってもらえてうれしい']],
+ [['m','{v}、お茶のおかわりいる？'],['v','ありがとう、いただきます'],['me','お菓子もどうぞ']],[['v','今度はうちにも遊びに来てね'],['m','行きたい！'],['me','おみやげ持っていくね']],
+ [['v','{m}は、休みの日なにしてるの？'],['m','庭いじりか、本を読んでることが多いかな'],['me','最近は料理もがんばってるよね'],['m','ちょっとだけね']]];
+function AT2_count(k){return AT2_SETS[k].menu.reduce((a,t)=>a+t.length,0);}
+function AT2_pick(){const m=GD_month(),ks=Object.keys(AT2_SETS),w=ks.map(k=>{const mo=AT2_INFO[k].mo;return!mo?1:mo.includes(m)?3.2:0;});let tot=w.reduce((a,b)=>a+b,0),r=Math.random()*tot;for(let i=0;i<ks.length;i++){r-=w[i];if(r<=0)return ks[i];}return'classic';}
+function AT2_menuLeft(k,eat){const mn=AT2_SETS[k].menu.map(t=>t.slice());let n=eat||0;for(let t=0;t<3&&n>0;t++)while(n>0&&mn[t].length){mn[t].pop();n--;}return mn;}
+const AT2_fill=(L,roles,nm)=>{let i=0;return L.map(([sp,tx])=>{const who=sp==='p'?roles[i++%roles.length]:sp;return[who,tx.replace(/\{v\}/g,nm.v||'').replace(/\{m\}/g,nm.m||'').replace(/\{me\}/g,nm.me||'')];});};
+/* conversation in chunks (≈3× a normal chat); misc(roles) supplies the everyday small talk */
+function AT2_chunks(k,misc){const st=AT2_SETS[k],inf=AT2_INFO[k],G=shuffle(AT2_GEN.slice());const nm=()=>({me:S.name,m:mName(),v:V?V.name:''});
+  return[roles=>AT2_fill([['p',`わあ、${st.n.replace(/（.*?）/,'')}のアフタヌーンティーだ！`],['me',pick(['今日はちょっと奮発してみた','写真映えするでしょ？','季節に合わせて選んだんだ'])],['p',pick(['3段もある！どこから食べよう','かわいすぎて、食べるのがもったいない'])],['me','下の段から上に向かって食べるのが、正式なマナーなんだって'],['p',`じゃあ、まずは${inf.bot}からだね`]],roles,nm()),
+    roles=>AT2_fill(inf.talk[0],roles,nm()),roles=>misc(roles),roles=>AT2_fill(G[0],roles,nm()),
+    roles=>AT2_fill(inf.talk[1],roles,nm()),roles=>misc(roles),roles=>AT2_fill(G[1],roles,nm()),
+    roles=>AT2_fill([['p',pick(['おなかいっぱい！しあわせ〜','ぜんぶおいしかった！'])],['me','また季節が変わったら、ちがうセットでやろうね'],['p','うん、楽しみにしてる！']],roles,nm())];}
+/* table display: stand in the middle, teapot and a cup for everyone at the table */
+function AT2_onTable(X,Y,Wd,Dp,ts){const st=AT2_SETS[ts.at];if(!st)return;const cx=X+Wd/2,by=Y+Dp/2-3;g.save();g.translate(cx,by);g.scale(1.05,1.05);
+  AT2_POT(g,-12.5,-5.5,st);AT2_CUP(g,-14,3.5,st);AT2_CUP(g,14,3.5,st);if(ts.n3)AT2_CUP(g,14,-6,st);
+  AT2_STAND(g,0,0,st,AT2_menuLeft(ts.at,ts.eat||0));g.restore();}
+A.afternoon=function(){if(!has('table')||!mateHere())return null;const key=AT2_pick(),st=AT2_SETS[key],tot=AT2_count(key);S.atAt=Date.now();
+  const s=[SAY(pick([`今日は${mName()}と、${st.n.replace(/（.*?）/,'')}のアフタヌーンティーにしよう！`,`アフタヌーンティーの準備をしよう。今日は${st.n.replace(/（.*?）/,'')}！`]))];
+  if(has('stove'))s.push(...goF('stove'),FN(()=>{C.cooking=true;C.cookware=[{k:'kettle',b:0}];}),SAY('紅茶用のお湯をわかして…'),W8(2.5),FN(()=>{C.cooking=false;}));
+  s.push(...goF('table'),snapF('table'),FN(()=>{C.holding=null;C.tableSet={k:'table',at:key,eat:0,tot};diaryAdd(`${mName()}とアフタヌーンティー（${st.n.replace(/（.*?）/,'')}）`);}),...mateJoinSteps('table',()=>{if(M)M.holding=null;}));
+  const ch=AT2_chunks(key,()=>{const L=chatLines();return L||[];});
+  ch.forEach((f,i)=>{s.push(...talkMate(()=>M&&M.busy?f(['m']):null),W8(1.4,need('hunger',1.2)),FN(()=>{const ts=C.tableSet;if(ts&&ts.at)ts.eat=Math.min(ts.tot,Math.round(ts.tot*(i+1)/ch.length));}));});
+  s.push(SAY(pick(['ごちそうさまでした！','おなかいっぱい、しあわせ〜'])),FN(()=>{C.tableSet=null;unsnap();if(M&&M.busy)mRelease();S.needs.fun=clamp(S.needs.fun+22,0,100);S.needs.hunger=clamp(S.needs.hunger+20,0,100);emote('heart',2);save();}));
+  return s;};
+
+function AT2_tableSeats(){const ok=(x,y)=>walkIn(x,y)&&!!bfs('in',IN_ENTRY.x,IN_ENTRY.y,x,y),tb=has('table')&&S.layout.table;if(tb&&!tb.carry&&ok(tb.x-1,tb.y)&&ok(tb.x+2,tb.y))return{a:{x:tb.x-1,y:tb.y,d:'right'},b:{x:tb.x+2,y:tb.y,d:'left'},chair:1};return null;}
+function AT2_visitOK(seats){const h=hourNow();return!!(AT2_tableSeats()&&h>=13&&h<17.5&&Date.now()-(S.atAt||0)>6*3600e3&&Math.random()<.45);}
 
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
