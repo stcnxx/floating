@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版185（2026/10/23 #35）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版186（2026/10/23 #36）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版185（2026/10/23 #35）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版186（2026/10/23 #36）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2022,9 +2022,9 @@ const A={
     return s;},
   bench(){const b=OUT.bench;return[{t:'go',sc:'out',x:b.x,y:b.y-1},{t:'face',d:'down'},{t:'snap',px:(b.x+.5)*T,py:b.y*T+14,pose:'sit',d:'down',over:true},
     SAY(()=>daylight()<.3&&wKind()==='clear'?'ベンチで星を見よう':pick([`ここから${ENV.city||'下の街'}の方を見るのが好きなんだ`,'ベンチでひとやすみ'])),W8(9,need('fun',3))];},
-  garden(fb){const b=fb||pick(allBeds()),u={x:b.x,y:b.y+1};return[{t:'go',sc:'out',x:u.x,y:u.y},{t:'face',d:'up'},FN(()=>C.holding='can'),SAY('花壇に水やり'),
+  garden(fb){const b=fb||pick(allBeds()),u={x:b.x,y:b.y+1};return[{t:'go',sc:'out',x:u.x,y:u.y},{t:'face',d:'up'},FN(()=>C.holding='can'),SAY(()=>{const st=bedState(b),n=FLW[st.sp].n;return st.stage<.15?`${n}を植えたよ。水をたっぷりあげよう`:'花壇に水やり';}),
     W8(4.5,dt=>{if(Math.random()<dt*6)particles.push({sc:'out',x:(b.x+.5+Math.random())*T,y:b.y*T+10,vx:rnd(-10,10),vy:rnd(-30,-10),life:.6,max:.6,type:'drop'});}),
-    FN(()=>{C.holding=null;S.needs.fun=clamp(S.needs.fun+6,0,100);S.gardenN=(S.gardenN||0)+1;}),SAY(()=>pick(['お花が元気になった',`${{spring:'チューリップ',summer:'ひまわり',autumn:'コスモス',winter:'葉ボタン'}[season()]}、きれいに咲いてる`,'つぼみがふくらんできた']))];},
+    FN(()=>{C.holding=null;S.needs.fun=clamp(S.needs.fun+6,0,100);S.gardenN=(S.gardenN||0)+1;}),SAY(()=>gardenLine(b))];},
   harvest(){const v=OUT.veg,crop={spring:'いちご',summer:'トマト',autumn:'さつまいも',winter:'だいこん'}[season()];
     return[{t:'go',sc:'out',x:v.x+v.w,y:v.y},{t:'face',d:'left'},SAY(`畑の${crop}、育ってるかな`),W8(3.5,need('fun',1)),FN(()=>{C.holding='apple';S.needs.hunger=clamp(S.needs.hunger+6,0,100);}),SAY(`${crop}がとれた！`),W8(1),FN(()=>{C.holding=null;})];},
   pick(){const tr=pick(OUT.trees.filter(t=>t.fruit)),u=adjOut(tr.x,tr.y);if(!u)return null;
@@ -4480,15 +4480,8 @@ function buildIsle(){
   // pond rim
   const p=OUT.pond,pcx=(p.x+p.w/2)*T,pcy=(p.y+p.h/2)*T;
   for(let i=0;i<22;i++){const a=i/22*Math.PI*2,sx=pcx+Math.cos(a)*(p.w*T/2+3),sy=pcy+Math.sin(a)*(p.h*T/2+3);fillE(c,'rgba(0,0,0,.2)',sx+1,sy+1.5,4.6,3.4);fillE(c,i%2?'#a39d90':'#b8b2a4',sx,sy,4.5,3.4);fillE(c,'rgba(255,255,255,.3)',sx-1,sy-1,1.8,.9);}
-  // vegetable patch
-  const v=OUT.veg,vx=v.x*T+2,vy=v.y*T+2,vw=v.w*T-4,vh=v.h*T-4,s=season();
-  fillR(c,'#6e4a32',vx,vy,vw,vh,4);for(let i=0;i<4;i++){c.fillStyle='#8a5e3e';c.fillRect(vx+3,vy+4+i*11,vw-6,6);c.fillStyle='rgba(0,0,0,.15)';c.fillRect(vx+3,vy+9.4+i*11,vw-6,1);}
-  for(let i=0;i<4;i++)for(let j=0;j<8;j++){const cx=vx+8+j*11,cy=vy+6+i*11;if(cx>vx+vw-4)continue;
-    if(s==='spring'){fillE(c,'#4f9d58',cx,cy,3.4,2.4);fillE(c,'#d9483b',cx+1.6,cy+1.2,1.2,1.2);}
-    else if(s==='summer'){c.strokeStyle='#3f7a35';c.lineWidth=.8;c.beginPath();c.moveTo(cx,cy+3);c.lineTo(cx,cy-5);c.stroke();fillE(c,'#4f9d58',cx-1.8,cy-2,2,1.2);fillE(c,'#d9483b',cx+1.6,cy,1.5,1.5);fillE(c,'#ee8a2e',cx-1,cy+1.5,1.3,1.3);}
-    else if(s==='autumn'){fillE(c,'#5f9a40',cx,cy-1,3.6,2.4);fillE(c,'#c0587a',cx+1.5,cy+1.4,2,1.1);}
-    else{fillE(c,'#eef2ea',cx,cy+1.4,1.8,1.2);fillE(c,'#5f9a40',cx-1,cy-1.6,1.4,2.6,-.4);fillE(c,'#5f9a40',cx+1,cy-1.6,1.4,2.6,.4);}}
-  c.fillStyle='#8a6447';for(let i=0;i<=v.w*2;i++)c.fillRect(vx-2+i*(vw+2)/(v.w*2),vy-3,1.4,5);c.fillRect(vx-2,vy-2,vw+4,1);
+  // vegetable patch (ground part; the crops are drawn as their own sprites)
+  GD_vegBase(c);const s=season();
   // mushrooms
   for(const tr of OUT.trees){if(hash(tr.x,tr.y,5)<.5)continue;const mx=tr.x*T+22,my=tr.y*T+24;fillR(c,'#efe6d4',mx-.8,my-3,1.6,3);fillE(c,s==='autumn'?'#c8432e':'#d9a05a',mx,my-3.4,2.6,1.6);fillR(c,'#fff',mx-1.2,my-4,.8,.8);}
   c.restore();
@@ -4663,7 +4656,7 @@ function render0(){
     items.push({k:(OUT.house.y+OUT.house.h)*T,f:()=>drawHouse(houseLit())});
     items.push({k:OUT.bench.y*T+20,f:()=>drawProps('bench')},{k:OUT.mailbox.y*T+22,f:()=>drawProps('mailbox')},{k:OUT.scope.y*T+18,f:()=>drawProps('scope')});
     OUT.lanterns.forEach(l=>items.push({k:l.y*T+22,f:()=>drawProps('lantern',l)}));
-    allBeds().forEach(b=>items.push({k:b.y*T+21,f:()=>drawPlanter(b)}));
+    allBeds().forEach(b=>items.push({k:b.y*T+21,f:()=>drawPlanter(b)}));vegItems(items);
     for(const k of yardList()){const p=S.yard[k];if(p.carry)continue;const f=OFT[k];items.push({k:(p.y+f.h)*T-1,f:()=>f.draw(p.x*T,p.y*T,p,t)});}
     if(S.yardDel&&S.yardDel.p){const d=S.yardDel;if(!d.stage||d.stage==='unpack')items.push({k:(d.p.y+1)*T-1,f:()=>yBoxDraw({...d.p,w:OFT[d.k].w})});else if(d.stage==='yard'&&d.drop)items.push({k:(d.drop.y+1)*T-4,f:()=>drawGroundBox(d.drop)});}
     if(S.delivery&&S.delivery.stage==='yard'&&S.delivery.drop){const d=S.delivery;items.push({k:(d.drop.y+1)*T-4,f:()=>drawGroundBox(d.drop)});}
@@ -10655,6 +10648,175 @@ const SPRC={per:{},on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new S
   for(const k in OFT){if(OFT[k].art)continue;wrap(OFT,k,'y');}
   const r0=render;render=function(){SPRC.budget=3;return r0.apply(this,arguments);};
 })();
+
+/* ===== flower beds (seasonal flowers that sprout, bud and bloom) & kitchen garden (seasonal crops that grow and get harvested) ===== */
+const GD_SC=4,GD_DAY=864e5;
+function GD_cv(w,h){const cv=document.createElement('canvas');cv.width=Math.ceil(w*GD_SC);cv.height=Math.ceil(h*GD_SC);const c=cv.getContext('2d');c.scale(GD_SC,GD_SC);return[cv,c];}
+function GD_lg(c,x0,y0,x1,y1,st){const gr=c.createLinearGradient(x0,y0,x1,y1);for(const[o,col]of st)gr.addColorStop(o,col);return gr;}
+function GD_rg(c,x0,y0,r0,x1,y1,r1,st){const gr=c.createRadialGradient(x0,y0,r0,x1,y1,r1);for(const[o,col]of st)gr.addColorStop(o,col);return gr;}
+function GD_E(c,col,x,y,rx,ry,rot){c.fillStyle=col;c.beginPath();c.ellipse(x,y,Math.max(.05,rx),Math.max(.05,ry),rot||0,0,TAU);c.fill();}
+/* leaf: base at (x,y), pointing at angle a (0 = up), with a soft gradient and a midrib */
+function GD_leaf(c,x,y,len,wid,a,col,vein){c.save();c.translate(x,y);c.rotate(a);c.beginPath();c.moveTo(0,0);c.bezierCurveTo(-wid,-len*.25,-wid*.8,-len*.8,0,-len);c.bezierCurveTo(wid*.8,-len*.8,wid,-len*.25,0,0);
+  c.fillStyle=GD_lg(c,-wid,0,wid,-len,[[0,shade(col,.18)],[.55,col],[1,shade(col,-.22)]]);c.fill();
+  if(vein!==false){c.strokeStyle=shade(col,-.3);c.globalAlpha=.55;c.lineWidth=Math.max(.12,wid*.12);c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(wid*.08,-len*.5,0,-len*.92);c.stroke();c.globalAlpha=1;}c.restore();}
+function GD_stem(c,x0,y0,x1,y1,w,col,bend){c.strokeStyle=col;c.lineWidth=w;c.lineCap='round';c.beginPath();c.moveTo(x0,y0);c.quadraticCurveTo((x0+x1)/2+(bend||0),(y0+y1)/2,x1,y1);c.stroke();}
+function GD_petals(c,x,y,n,len,wid,col,rot,tilt){for(let i=0;i<n;i++){const a=rot+i*TAU/n;c.save();c.translate(x,y);c.scale(1,tilt||1);c.rotate(a);c.beginPath();c.moveTo(0,0);c.bezierCurveTo(-wid,-len*.3,-wid*.9,-len,0,-len);c.bezierCurveTo(wid*.9,-len,wid,-len*.3,0,0);
+  c.fillStyle=GD_lg(c,0,0,0,-len,[[0,shade(col,-.18)],[.6,col],[1,shade(col,.22)]]);c.fill();c.restore();}}
+function GD_seedling(c,x,y,s,col){const h=1.2+s*6;GD_stem(c,x,y,x,y-h,.45,shade(col,-.15));GD_leaf(c,x,y-h,1.6+s*3,1+s*1.4,-1.1,col,false);GD_leaf(c,x,y-h,1.6+s*3,1+s*1.4,1.1,col,false);}
+const GD_G='#5a9a46',GD_GD='#3f7a35',GD_GL='#7cbf5a';
+
+/* ---------- flowers ---------- */
+const FLW={
+  tulip:{n:'チューリップ',h:12,draw(c,x,y,s,r){const cols=['#e0453b','#f2c230','#ef7fa6','#ffffff','#e8742e'],col=cols[Math.floor(r(1)*5)];const h=(7+r(2)*4)*Math.min(1,.35+s);
+      GD_leaf(c,x-.4,y,h*.7,1.5,-.32,'#6fae58');GD_leaf(c,x+.4,y,h*.62,1.4,.36,'#5f9e4c');GD_stem(c,x,y,x+(r(3)-.5),y-h,.6,'#4f8d3f',.4);
+      const tx=x+(r(3)-.5),ty=y-h;if(s<.7){GD_E(c,s<.45?'#7cbf5a':shade(col,-.1),tx,ty-1.4,1.1,2);return;}
+      c.save();c.translate(tx,ty);c.beginPath();c.moveTo(-2.1,-3.6);c.quadraticCurveTo(-2.5,.4,0,.6);c.quadraticCurveTo(2.5,.4,2.1,-3.6);c.lineTo(1.1,-2.4);c.lineTo(0,-4.1);c.lineTo(-1.1,-2.4);c.closePath();
+      c.fillStyle=GD_lg(c,-2.5,0,2.5,-4,[[0,shade(col,.22)],[.5,col],[1,shade(col,-.25)]]);c.fill();c.fillStyle='rgba(255,255,255,.35)';c.beginPath();c.ellipse(-1,-1.8,.45,1.3,-.2,0,TAU);c.fill();
+      c.strokeStyle=shade(col,-.3);c.lineWidth=.2;c.beginPath();c.moveTo(0,-4);c.lineTo(0,.3);c.stroke();c.restore();}},
+  pansy:{n:'パンジー',h:6,draw(c,x,y,s,r){const sets=[['#6a4aa8','#f2d440'],['#f2d440','#8a3a9a'],['#ffffff','#6a4aa8'],['#e8742e','#5a2a1a'],['#9ab0f0','#3a3a8a']],[pc,fc]=sets[Math.floor(r(1)*5)];
+      for(let k=0;k<5;k++)GD_leaf(c,x+(k-2)*1.2,y,2.4+r(k+4)*1.4,1.3,(k-2)*.5,k%2?'#4f8d3f':'#5f9e4c');if(s<.4)return;
+      const n=s<.7?1:2;for(let q=0;q<n;q++){const fx=x+(q?1.8:-1.2)+(r(q+9)-.5),fy=y-3.4-q*.8;if(s<.7){GD_E(c,shade(pc,-.15),fx,fy,1,1.3);continue;}
+        GD_E(c,shade(pc,-.08),fx-1.1,fy-1.2,1.3,1.2,-.4);GD_E(c,shade(pc,-.08),fx+1.1,fy-1.2,1.3,1.2,.4);GD_E(c,pc,fx-1.3,fy+.2,1.2,1.1);GD_E(c,pc,fx+1.3,fy+.2,1.2,1.1);GD_E(c,pc,fx,fy+1,1.3,1.1);
+        GD_E(c,fc,fx,fy+.4,1.1,.9);c.strokeStyle=fc;c.lineWidth=.25;c.beginPath();for(const a of[-2.3,-1.6,-.9]){c.moveTo(fx,fy+.2);c.lineTo(fx+Math.cos(a)*1.9,fy+.2-Math.sin(a)*-1.4);}c.stroke();GD_E(c,'#f6e05a',fx,fy+.1,.35,.3);}}},
+  petunia:{n:'ペチュニア',h:6,draw(c,x,y,s,r){const col=['#c94f9a','#8a5cc2','#ffffff','#ef7fa6'][Math.floor(r(1)*4)];for(let k=0;k<6;k++)GD_E(c,k%2?'#5f9e4c':'#4f8d3f',x+(k-2.5)*1.3,y-1.2-r(k)*1.6,1.5,1);
+      if(s<.45)return;const n=s<.7?2:4;for(let q=0;q<n;q++){const fx=x+(q-1.5)*1.8+(r(q+5)-.5),fy=y-3-r(q+9)*2.4;if(s<.7){GD_E(c,shade(col,-.2),fx,fy,.6,1.3,.3);continue;}
+        for(let p=0;p<5;p++){const a=p*TAU/5+.3;GD_E(c,p%2?shade(col,.08):col,fx+Math.cos(a)*.9,fy+Math.sin(a)*.8,1.05,.95,a);}GD_E(c,shade(col,-.35),fx,fy,.55,.5);c.strokeStyle=shade(col,-.3);c.lineWidth=.15;c.beginPath();for(let p=0;p<5;p++){const a=p*TAU/5+.3;c.moveTo(fx,fy);c.lineTo(fx+Math.cos(a)*1.6,fy+Math.sin(a)*1.4);}c.stroke();GD_E(c,'#f6e8a0',fx,fy,.2,.2);}}},
+  marigold:{n:'マリーゴールド',h:7,draw(c,x,y,s,r){const col=r(1)<.5?'#f29a1e':'#f6ca2a';for(let k=0;k<5;k++){const a=(k-2)*.45;c.strokeStyle='#4f8d3f';c.lineWidth=.35;c.beginPath();c.moveTo(x,y);c.lineTo(x+Math.sin(a)*4,y-Math.cos(a)*4);c.stroke();for(let q=1;q<4;q++){GD_E(c,'#5f9e4c',x+Math.sin(a)*q*1.1-.5,y-Math.cos(a)*q*1.1,.55,.3,a+1);GD_E(c,'#5f9e4c',x+Math.sin(a)*q*1.1+.5,y-Math.cos(a)*q*1.1,.55,.3,a-1);}}
+      if(s<.45)return;const n=s<.7?1:3;for(let q=0;q<n;q++){const fx=x+(q-1)*2+(r(q+4)-.5),fy=y-5-r(q+7)*1.4-(q===1?.8:0);if(s<.7){GD_E(c,'#6fae58',fx,fy,.8,1);GD_E(c,col,fx,fy-.6,.6,.4);continue;}
+        GD_E(c,shade(col,-.3),fx,fy+.3,1.9,1.5);for(let p=0;p<10;p++){const a=p*TAU/10;GD_E(c,p%2?shade(col,-.12):col,fx+Math.cos(a)*1.15,fy+Math.sin(a)*.95,.75,.6,a);}for(let p=0;p<6;p++){const a=p*TAU/6+.3;GD_E(c,shade(col,.15),fx+Math.cos(a)*.55,fy-.2+Math.sin(a)*.45,.5,.42,a);}GD_E(c,shade(col,.3),fx-.2,fy-.4,.35,.3);}}},
+  hydrangea:{n:'アジサイ',h:11,draw(c,x,y,s,r){const col=['#6f8fe0','#9a7ad8','#e889b8','#7ab4e8'][Math.floor(r(1)*4)];for(let k=0;k<4;k++)GD_leaf(c,x+(k-1.5)*1.6,y-2,4,2.4,(k-1.5)*.7,k%2?'#3f7a35':'#4f8d3f');
+      if(s<.4)return;const R=s<.7?1.8:3.4,fx=x+(r(2)-.5),fy=y-6.4;GD_E(c,s<.7?'#a8d08a':shade(col,-.25),fx+.4,fy+.6,R,R*.9);if(s<.7)return;
+      for(let q=0;q<26;q++){const a=r(q+10)*TAU,d=Math.sqrt(r(q+40))*R*.92,px=fx+Math.cos(a)*d,py=fy+Math.sin(a)*d*.88,cc=q%3?col:shade(col,.2);for(let p=0;p<4;p++){const b=p*TAU/4+a;GD_E(c,cc,px+Math.cos(b)*.42,py+Math.sin(b)*.42,.45,.32,b);}GD_E(c,'rgba(255,255,255,.5)',px,py,.14,.14);}
+      GD_E(c,'rgba(255,255,255,.18)',fx-1.2,fy-1.3,1.4,1);}},
+  sunflower:{n:'ひまわり',h:22,draw(c,x,y,s,r){const h=(13+r(2)*6)*Math.min(1,.3+s*.9),tx=x+(r(3)-.5)*1.2,ty=y-h;GD_stem(c,x,y,tx,ty,.95,'#4f8a3a',.6);
+      for(let q=0;q<3;q++){const ly=y-h*(.25+q*.24);GD_leaf(c,x+(q%2?.4:-.4),ly,3.8,2.4,q%2?1.15:-1.15,q%2?'#4f9d48':'#5aa64f');}
+      if(s<.45){GD_E(c,'#6fae58',tx,ty,1.3,1.1);return;}if(s<.7){GD_E(c,'#5f9e4c',tx,ty,2,1.6);for(let p=0;p<8;p++){const a=p*TAU/8;GD_E(c,'#cfe08a',tx+Math.cos(a)*1.7,ty+Math.sin(a)*1.4,.6,.35,a);}return;}
+      c.save();c.translate(tx,ty);c.rotate((r(4)-.5)*.3);for(let p=0;p<18;p++){const a=p*TAU/18;c.save();c.rotate(a);c.beginPath();c.moveTo(-.55,-1.8);c.quadraticCurveTo(0,-4.6,.55,-1.8);c.closePath();c.fillStyle=p%2?'#f2b818':'#f6cd30';c.fill();c.restore();}
+      GD_E(c,GD_rg(c,-.4,-.4,.2,0,0,2.1,[[0,'#8a5a2a'],[.6,'#5a3618'],[1,'#3d2410']]),0,0,2.1,2);c.fillStyle='rgba(240,200,120,.5)';for(let q=0;q<10;q++){const a=q*2.4,d=.3+q*.17;c.fillRect(Math.cos(a)*d-.1,Math.sin(a)*d-.1,.22,.22);}c.restore();}},
+  cosmos:{n:'コスモス',h:14,draw(c,x,y,s,r){for(let q=0;q<3;q++){const a=(q-1)*.35+(r(q)-.5)*.2,h=(9+r(q+3)*5)*Math.min(1,.35+s),tx=x+Math.sin(a)*h*.5,ty=y-h;GD_stem(c,x+(q-1)*.6,y,tx,ty,.35,'#5f9a40',(q-1)*1.2);
+        for(let f=1;f<4;f++){const fy=y-h*f/4.2,fx=x+Math.sin(a)*h*f/8.4;c.strokeStyle='#6fae58';c.lineWidth=.2;c.beginPath();c.moveTo(fx,fy);c.lineTo(fx-1.4,fy-1);c.moveTo(fx,fy);c.lineTo(fx+1.4,fy-1.1);c.moveTo(fx-.7,fy-.5);c.lineTo(fx-.9,fy-1.4);c.moveTo(fx+.7,fy-.55);c.lineTo(fx+.9,fy-1.5);c.stroke();}
+        if(s<.45)continue;if(s<.7){GD_E(c,'#6a9a40',tx,ty,.7,.8);continue;}const col=['#ef8fb0','#ffffff','#c8437a','#f2b6cf'][Math.floor(r(q+7)*4)];c.save();c.translate(tx,ty);c.scale(1,.8);
+        for(let p=0;p<8;p++){const b=p*TAU/8+r(q+9);c.save();c.rotate(b);c.beginPath();c.moveTo(-.5,-.3);c.lineTo(-.75,-2.3);c.lineTo(-.25,-2.05);c.lineTo(0,-2.45);c.lineTo(.25,-2.05);c.lineTo(.75,-2.3);c.lineTo(.5,-.3);c.closePath();c.fillStyle=GD_lg(c,0,0,0,-2.4,[[0,shade(col,-.12)],[1,col]]);c.fill();c.restore();}
+        GD_E(c,'#f2c230',0,0,.62,.62);GD_E(c,'#c88a1a',.12,.12,.3,.3);c.restore();}}},
+  kiku:{n:'菊',h:8,draw(c,x,y,s,r){const col=['#f2c230','#ffffff','#b85ab0','#e8742e'][Math.floor(r(1)*4)];for(let k=0;k<7;k++)GD_leaf(c,x+(k-3)*.9,y,2.6+r(k)*1.6,1.4,(k-3)*.45,k%2?'#3f7a35':'#4f8d3f');
+      if(s<.45)return;const n=s<.7?2:3;for(let q=0;q<n;q++){const fx=x+(q-1)*2.2,fy=y-4.4-(q===1?1:0);if(s<.7){GD_E(c,'#6a9a40',fx,fy,.9,.9);GD_E(c,col,fx,fy-.5,.5,.3);continue;}
+        for(let ring=0;ring<3;ring++){const rr0=1.9-ring*.55,np=14-ring*3;for(let p=0;p<np;p++){const a=p*TAU/np+ring*.3;GD_E(c,ring===0?shade(col,-.15):ring===1?col:shade(col,.12),fx+Math.cos(a)*rr0*.62,fy+Math.sin(a)*rr0*.5,rr0*.45,.28,a);}}GD_E(c,shade(col,-.2),fx,fy,.4,.32);}}},
+  habotan:{n:'葉ボタン',h:5,draw(c,x,y,s,r){const ic=r(1)<.5?'#e88ab8':'#f4f0e6',sc=Math.min(1,.4+s*.7);c.save();c.translate(x,y-2.2);c.scale(sc,sc*.78);
+      for(let ring=0;ring<4;ring++){const R=3.6-ring*.85,n=7-ring,col=ring<2?(ring?'#6f9a7a':'#4f7a5a'):ring===2?shade(ic,-.15):ic;for(let p=0;p<n;p++){const a=p*TAU/n+ring*.4;c.save();c.rotate(a);c.beginPath();c.moveTo(0,0);
+        for(let w=0;w<=6;w++){const t=w/6,ang=-.55+t*1.1;c.lineTo(Math.sin(ang)*R*(1+.08*Math.sin(w*2.6)),-Math.cos(ang)*R*(1+.08*Math.sin(w*2.6)));}c.closePath();c.fillStyle=GD_lg(c,0,0,0,-R,[[0,shade(col,-.15)],[1,shade(col,.12)]]);c.fill();c.strokeStyle='rgba(255,255,255,.25)';c.lineWidth=.12;c.beginPath();c.moveTo(0,0);c.lineTo(0,-R*.9);c.stroke();c.restore();}}
+      GD_E(c,shade(ic,.1),0,0,.6,.6);c.restore();}}
+};
+const FLW_MONTH={1:['habotan','pansy'],2:['habotan','pansy'],3:['pansy','tulip'],4:['tulip','pansy'],5:['petunia','marigold'],6:['hydrangea','petunia'],7:['sunflower','marigold'],8:['sunflower','marigold'],9:['cosmos','marigold'],10:['cosmos','kiku'],11:['kiku','pansy'],12:['habotan','pansy']};
+function GD_month(){const m=now().getMonth()+1;return(ENV.lat==null||ENV.lat>=0)?m:((m+5)%12)+1;}
+function bedId(b){return b.x+','+b.y;}
+/* what grows in a bed now and how far along it is (0 sprout … 1 bloom). A new month's flower is planted fresh. */
+function bedState(b){S.bedPlant=S.bedPlant||{};const id=bedId(b),opts=FLW_MONTH[GD_month()],want=opts[((b.v||0)+b.x)%opts.length];let st=S.bedPlant[id];
+  if(!st){st=S.bedPlant[id]={sp:want,at:Date.now()-10*GD_DAY};}else if(st.sp!==want){st.sp=want;st.at=Date.now();}
+  return{sp:st.sp,stage:Math.min(1,(Date.now()-st.at)/(3*GD_DAY)),id};}
+const GD_cache=new Map();
+function GD_bedBox(w){const key='box|'+w;let e=GD_cache.get(key);if(e)return e;const[cv,c]=GD_cv(w+4,26);c.translate(2,8);
+  // raised cedar planter: front planks, corner posts, top rim, soil with clods and bark mulch
+  fillE(c,'rgba(20,35,10,.28)',w/2,16.4,w/2+1.5,2.4);
+  c.fillStyle=GD_lg(c,0,0,0,15,[[0,'#9a6a46'],[1,'#6e4a32']]);rr(c,0,0,w,15.6,2);c.fill();
+  for(let i=0;i<3;i++){const py=1+i*4.8;c.fillStyle=GD_lg(c,0,py,0,py+4.4,[[0,'#b07c52'],[.5,'#9a6a46'],[1,'#7e5538']]);c.fillRect(1.4,py,w-2.8,4.3);c.fillStyle='rgba(60,35,20,.35)';c.fillRect(1.4,py+4.3,w-2.8,.45);
+    c.strokeStyle='rgba(70,40,20,.25)';c.lineWidth=.2;c.beginPath();for(let k=0;k<3;k++){const gy=py+1+k*1.2;c.moveTo(2,gy);c.bezierCurveTo(w*.3,gy+.5,w*.6,gy-.5,w-2,gy+.2);}c.stroke();}
+  for(const px of[0,w-3]){c.fillStyle=GD_lg(c,px,0,px+3,0,[[0,'#8a5c3c'],[.5,'#a87650'],[1,'#6a4630']]);rr(c,px,-1,3,17,1);c.fill();CW_btn(c,px+1.5,1.6,.35,'#8d929a');CW_btn(c,px+1.5,13.6,.35,'#8d929a');}
+  c.fillStyle=GD_lg(c,0,-2.6,0,.6,[[0,'#c99a6c'],[1,'#8e6242']]);rr(c,-.6,-2.6,w+1.2,3,1.2);c.fill();fillR(c,'rgba(255,240,210,.35)',.6,-2.4,w-1.2,.5,.25);
+  c.fillStyle=GD_lg(c,0,-2.2,0,0,[[0,'#3d2a1c'],[1,'#5a3e2a']]);rr(c,1.2,-2.1,w-2.4,2.2,1);c.fill();
+  for(let i=0;i<w*1.6;i++){const sx=1.8+hash(i,w,61)*(w-3.6),sy=-1.8+hash(i,w,62)*1.8;GD_E(c,i%3?'#6b4a33':'#8a6a4a',sx,sy,.35+hash(i,3,63)*.3,.22,hash(i,4,64)*3);}
+  e={cv,w:w+4,h:26,dx:-2,dy:-8};GD_cache.set(key,e);if(GD_cache.size>300)GD_cache.clear();return e;}
+function GD_bedPlants(b,st,w){const sb=snowCover>.15?1:0,key='fl|'+st.sp+'|'+Math.floor(st.stage*6)+'|'+w+'|'+b.x+'|'+b.y+'|'+sb;let e=GD_cache.get(key);if(e)return e;const[cv,c]=GD_cv(w+8,34);c.translate(4,30);
+  const F=FLW[st.sp],N=Math.max(3,Math.round(w/(F.h>15?9:F.h>9?6.5:5))),s=st.stage<.15?0:st.stage;
+  for(let i=0;i<N;i++){const r=k=>hash(i*7+k,b.x*13+b.y,77),fx=3+((i+.5)/N)*(w-6)+(r(0)-.5)*1.6,fy=-1.6+(i%2)*1.2;
+    if(s<.15){GD_seedling(c,fx,fy,st.stage/.15,GD_GL);continue;}F.draw(c,fx,fy,s,r);}
+  if(sb){c.fillStyle='rgba(250,252,255,.85)';for(let i=0;i<N*3;i++)GD_E(c,'rgba(250,252,255,.8)',3+hash(i,b.x,88)*(w-6),-4-hash(i,b.y,89)*F.h*.8,1.1,.45);}
+  e={cv,w:w+8,h:34,dx:-4,dy:-30};GD_cache.set(key,e);return e;}
+drawPlanter=function(b){const x=b.x*T+1,y=b.y*T+4,w=b.w*T-2,t=performance.now()/1000,st=bedState(b);
+  const bx=GD_bedBox(w);g.drawImage(bx.cv,x+bx.dx,y+bx.dy,bx.w,bx.h);
+  const pl=GD_bedPlants(b,st,w);g.save();g.translate(x,y);g.transform(1,0,Math.sin(t*1.3+b.x)*.035,1,0,0);g.drawImage(pl.cv,pl.dx,pl.dy,pl.w,pl.h);g.restore();
+  if(snowCover>.15)fillR(g,`rgba(250,252,255,${Math.min(.85,snowCover+.2)})`,x,y-2.6,w,1.6,.8);};
+
+/* ---------- kitchen garden ---------- */
+const VEG={
+  ichigo:{n:'いちご',hc:'#e0453b',draw(c,x,y,s,r){GD_E(c,'rgba(230,210,150,.9)',x,y+.4,4.4,1.3);for(let k=0;k<5;k++){const a=(k-2)*.6;c.strokeStyle='#4f8d3f';c.lineWidth=.3;c.beginPath();c.moveTo(x,y);c.lineTo(x+Math.sin(a)*3*Math.min(1,s+.3),y-Math.cos(a)*3*Math.min(1,s+.3));c.stroke();
+        const lx=x+Math.sin(a)*3.2*Math.min(1,s+.3),ly=y-Math.cos(a)*3.2*Math.min(1,s+.3);for(let q=-1;q<=1;q++)GD_leaf(c,lx,ly,1.5,1,a+q*.7,'#4f9d48');}
+      if(s<.45)return;if(s<.8){GD_E(c,'#ffffff',x+2,y-1,.7,.7);GD_E(c,'#f2d440',x+2,y-1,.25,.25);GD_E(c,'#b8d890',x-2,y-.2,.6,.8);return;}
+      for(const[dx,dy,rp]of[[-2.4,-.2,1],[2.2,.1,s>=1?1:.5],[.4,.6,1]]){const col=s>=1&&rp>.6?'#e0453b':'#f0a080';c.beginPath();c.moveTo(x+dx-.9,y+dy-.8);c.quadraticCurveTo(x+dx-1,y+dy+.7,x+dx,y+dy+1.4);c.quadraticCurveTo(x+dx+1,y+dy+.7,x+dx+.9,y+dy-.8);c.closePath();c.fillStyle=GD_lg(c,x+dx-1,0,x+dx+1,0,[[0,shade(col,.2)],[1,shade(col,-.2)]]);c.fill();
+        c.fillStyle='rgba(255,240,180,.85)';for(let q=0;q<4;q++)c.fillRect(x+dx-.5+(q%2)*.7,y+dy-.3+(q>>1)*.7,.16,.16);GD_E(c,'#4f9d48',x+dx,y+dy-.9,.8,.3);}}},
+  soramame:{n:'そらまめ',hc:'#7cbf5a',draw(c,x,y,s,r){const h=3+s*7;for(const dx of[-.8,.8]){GD_stem(c,x+dx,y,x+dx*1.6,y-h,.55,'#5a9a46');for(let q=1;q<4;q++)GD_leaf(c,x+dx*(1+q*.2),y-h*q/4,2,1.1,dx<0?-.8:.8,'#6aa65a');}
+      if(s>=.6)for(const[dx,dy]of[[-1.6,-h*.45],[1.7,-h*.6],[-1.3,-h*.75]]){c.save();c.translate(x+dx,y+dy);c.rotate(dx<0?-.4:.4);GD_E(c,s>=1?'#6fbf4a':'#9ad070',0,-1.2,.75,1.9);GD_E(c,'rgba(255,255,255,.35)',-.25,-1.6,.18,.9);c.restore();}}},
+  lettuce:{n:'レタス',hc:'#9ad070',draw(c,x,y,s,r){const R=1.2+s*2.6;for(let ring=0;ring<3;ring++){const n=7-ring,rr0=R*(1-ring*.28);for(let p=0;p<n;p++){const a=p*TAU/n+ring*.5;GD_E(c,ring===0?'#5fa045':ring===1?'#8cc860':'#c6e690',x+Math.cos(a)*rr0*.5,y-R*.55+Math.sin(a)*rr0*.32,rr0*.55,rr0*.38,a);}}
+      c.strokeStyle='rgba(255,255,255,.3)';c.lineWidth=.15;c.beginPath();c.arc(x,y-R*.55,R*.35,Math.PI,TAU);c.stroke();}},
+  radish:{n:'はつかだいこん',hc:'#e04a6a',draw(c,x,y,s,r){if(s>=.5){GD_E(c,'#d8406a',x,y-.2,1.1*Math.min(1,s),1);GD_E(c,'rgba(255,255,255,.4)',x-.4,y-.5,.3,.25);}for(let k=0;k<4;k++)GD_leaf(c,x,y-.6,2.4+s*2,1.3,(k-1.5)*.55,k%2?'#5a9a46':'#6aa65a');}},
+  tomato:{n:'トマト',hc:'#e0453b',draw(c,x,y,s,r){const h=4+s*13;c.fillStyle='#b8925a';c.fillRect(x+1.6,y-h-1.5,.55,h+1.5);c.strokeStyle='rgba(240,230,200,.8)';c.lineWidth=.2;c.beginPath();for(let q=1;q<4;q++){c.moveTo(x+.4,y-h*q/4);c.lineTo(x+2.2,y-h*q/4-.4);}c.stroke();
+      GD_stem(c,x,y,x+.6,y-h,.55,'#4f8a3a',-.8);for(let q=1;q<6;q++){const ly=y-h*q/6;GD_leaf(c,x+.4,ly,2.6,1.5,q%2?1.1:-1.2,q%2?'#4f9d48':'#5aa64f');GD_leaf(c,x+.4,ly-.6,1.8,1,q%2?1.7:-1.7,'#4f8d3f',false);}
+      if(s<.5)return;for(const[dx,dy]of[[-1.4,-h*.35],[.4,-h*.48],[-1,-h*.62],[1.6,-h*.3]]){const ripe=s>=1,col=ripe?'#e0453b':s>.8?'#e8a050':'#8ac860';GD_E(c,GD_rg(c,x+dx-.4,y+dy-.4,.1,x+dx,y+dy,1.3,[[0,shade(col,.35)],[1,shade(col,-.12)]]),x+dx,y+dy,1.25,1.15);GD_E(c,'#3f7a35',x+dx,y+dy-1,.6,.25);GD_E(c,'rgba(255,255,255,.6)',x+dx-.45,y+dy-.4,.28,.2);}}},
+  kyuri:{n:'きゅうり',hc:'#4f8d3f',draw(c,x,y,s,r){const h=5+s*12;c.strokeStyle='#b8925a';c.lineWidth=.45;c.beginPath();c.moveTo(x-4.6,y);c.lineTo(x-4.6,y-17);c.moveTo(x+4.6,y);c.lineTo(x+4.6,y-17);c.stroke();c.strokeStyle='rgba(240,240,230,.75)';c.lineWidth=.15;c.beginPath();for(let q=0;q<5;q++){c.moveTo(x-4.6,y-3-q*3.2);c.lineTo(x+4.6,y-3-q*3.2);}for(let q=-2;q<=2;q++){c.moveTo(x+q*2.2,y);c.lineTo(x+q*2.2,y-17);}c.stroke();
+      GD_stem(c,x,y,x+.5,y-h,.45,'#4f8a3a',1.5);for(let q=1;q<5;q++){const ly=y-h*q/5;c.save();c.translate(x+(q%2?1.4:-1.4),ly);c.beginPath();for(let p=0;p<5;p++){const a=-Math.PI/2+(p-2)*.5;c.lineTo(Math.cos(a)*2.1,Math.sin(a)*1.9);}c.lineTo(0,.6);c.closePath();c.fillStyle=q%2?'#5aa64f':'#4f9d48';c.fill();c.restore();}
+      if(s>=.5){GD_E(c,'#f6d440',x-1.6,y-h*.7,.6,.6);}if(s>=.8)for(const dx of[-1.2,1.6]){const cy=y-h*.45+(dx>0?1:0);c.save();c.translate(x+dx,cy);c.rotate(dx*.08);fillR(c,GD_lg(c,-.6,0,.6,0,[[0,'#6aa84a'],[1,'#2f6a2a']]),-.55,-2,1.1,s>=1?4.6:3,.55);c.fillStyle='rgba(255,255,255,.55)';for(let q=0;q<4;q++)c.fillRect(-.3+(q%2)*.5,-1.4+q*.9,.12,.12);c.restore();}}},
+  nasu:{n:'なす',hc:'#4a2a6a',draw(c,x,y,s,r){const h=3+s*9;GD_stem(c,x,y,x,y-h,.6,'#4a3a5a');for(let q=1;q<5;q++)GD_leaf(c,x,y-h*q/5,3,2,q%2?1:-1,'#4f8d48');
+      if(s>=.5){GD_E(c,'#b088d8',x+1.6,y-h*.75,.6,.6);}if(s>=.8)for(const dx of[-1.6,1.4]){c.save();c.translate(x+dx,y-h*.45);c.rotate(dx*.12);GD_E(c,'#3a2a3a',0,-1.4,.9,.5);c.beginPath();c.ellipse(0,.4,.95,s>=1?2.2:1.5,0,0,TAU);c.fillStyle=GD_lg(c,-1,0,1,0,[[0,'#7a4aa8'],[.5,'#4a2a6a'],[1,'#2a1840']]);c.fill();GD_E(c,'rgba(255,255,255,.5)',-.35,-.2,.2,.8);c.restore();}}},
+  corn:{n:'とうもろこし',hc:'#f2c230',draw(c,x,y,s,r){const h=4+s*18;GD_stem(c,x,y,x,y-h,.8,'#6a9a3a');for(let q=1;q<6;q++){c.save();c.translate(x,y-h*q/6);c.rotate(q%2?.9:-.9);c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(.9,-3,(q%2?1:-1)*1.4,-5.4);c.quadraticCurveTo(-.4,-2.6,0,0);c.fillStyle='#6aa84a';c.fill();c.restore();}
+      if(s>=.6){c.strokeStyle='#d8b060';c.lineWidth=.25;c.beginPath();for(let q=-1;q<=1;q++){c.moveTo(x,y-h);c.lineTo(x+q*1.2,y-h-2);}c.stroke();}
+      if(s>=.75){c.save();c.translate(x+.9,y-h*.5);c.rotate(.35);GD_E(c,'#7ab45a',0,0,1,2.2);if(s>=1){GD_E(c,'#f2c230',.2,-.4,.6,1.5);GD_E(c,'#a8d070',-.4,.2,.5,1.6,-.2);}c.strokeStyle='#c87a3a';c.lineWidth=.2;c.beginPath();c.moveTo(0,-2.2);c.lineTo(.4,-3.2);c.stroke();c.restore();}}},
+  satsumaimo:{n:'さつまいも',hc:'#a8406a',draw(c,x,y,s,r){if(s>=.9)for(const dx of[-1.6,1.2]){c.save();c.translate(x+dx,y+.4);c.rotate(dx*.2);c.beginPath();c.ellipse(0,0,1.5,.85,0,0,TAU);c.fillStyle=GD_lg(c,0,-.8,0,.8,[[0,'#c85a84'],[1,'#7a2a4a']]);c.fill();c.restore();}
+      const n=2+Math.round(s*4);for(let k=0;k<n;k++){const a=(k/(n-1||1)-.5)*2.2,len=2+s*4.5,ex=x+Math.sin(a)*len,ey=y-1-Math.cos(a)*len*.45;GD_stem(c,x,y,ex,ey,.35,'#6a5a3a');c.save();c.translate(ex,ey);c.beginPath();c.moveTo(0,.9);c.bezierCurveTo(-2,-.4,-1.2,-2.2,0,-1.2);c.bezierCurveTo(1.2,-2.2,2,-.4,0,.9);c.fillStyle=k%2?'#5aa64f':'#4f9d48';c.fill();c.restore();}}},
+  ninjin:{n:'にんじん',hc:'#ee8a2e',draw(c,x,y,s,r){if(s>=.6){GD_E(c,'#ee8a2e',x,y-.1,.9,.75);GD_E(c,'rgba(255,255,255,.3)',x-.3,y-.3,.25,.2);}for(let k=0;k<5;k++){const a=(k-2)*.32,len=2+s*5,ex=x+Math.sin(a)*len,ey=y-.6-Math.cos(a)*len;c.strokeStyle='#4f8d3f';c.lineWidth=.22;c.beginPath();c.moveTo(x,y-.5);c.lineTo(ex,ey);c.stroke();
+        for(let q=1;q<5;q++){const px=x+(ex-x)*q/5,py=y-.5+(ey-y+.5)*q/5;c.beginPath();c.moveTo(px,py);c.lineTo(px-.7,py-.5);c.moveTo(px,py);c.lineTo(px+.7,py-.5);c.stroke();}}}},
+  kabocha:{n:'かぼちゃ',hc:'#e8942e',draw(c,x,y,s,r){for(let k=0;k<3;k++){const a=(k-1)*1.1;c.save();c.translate(x+Math.sin(a)*2.4,y-1.6-Math.cos(a)*1.2);c.scale(.6+s*.5,.6+s*.5);c.beginPath();for(let p=0;p<5;p++){const b=-Math.PI/2+(p-2)*.62;c.lineTo(Math.cos(b)*2.4,Math.sin(b)*2.1);c.lineTo(Math.cos(b+.31)*1.4,Math.sin(b+.31)*1.2);}c.lineTo(0,.8);c.closePath();c.fillStyle=k%2?'#4f9d48':'#5aa64f';c.fill();c.restore();}
+      if(s>=.7){const col=s>=1?'#e8942e':'#5a7a3a',R=s>=1?2:1.4;for(let q=-1;q<=1;q++)GD_E(c,shade(col,q?-.08:.06),x+1.4+q*R*.45,y-.2,R*.55,R*.75);GD_E(c,'#5a4a2a',x+1.4,y-R*.8,.25,.4);GD_E(c,'rgba(255,255,255,.3)',x+.8,y-.6,.3,.5);}}},
+  broccoli:{n:'ブロッコリー',hc:'#4f8d48',draw(c,x,y,s,r){for(let k=0;k<5;k++)GD_leaf(c,x,y,2.6+s*3,1.8,(k-2)*.6,k%2?'#4f8a6a':'#5a9a7a');if(s>=.7){const R=s>=1?1.9:1.2;for(let q=0;q<7;q++){const a=q*TAU/7;GD_E(c,q%2?'#3f7a35':'#4f8d3f',x+Math.cos(a)*R*.55,y-3.2+Math.sin(a)*R*.4,R*.5,R*.42);}GD_E(c,'#5aa64f',x,y-3.4,R*.45,R*.38);}}},
+  daikon:{n:'だいこん',hc:'#f0f2ea',draw(c,x,y,s,r){if(s>=.5){const h=1+s*2.4;fillR(c,GD_lg(c,x-1.2,0,x+1.2,0,[[0,'#ffffff'],[1,'#d8ddd0']]),x-1.1,y-h,2.2,h+.4,1);fillR(c,'#a8d070',x-1.1,y-h,2.2,.9,.8);}
+      for(let k=0;k<6;k++){const a=(k-2.5)*.42;c.save();c.translate(x,y-(s>=.5?1+s*2.4:0));c.rotate(a);c.beginPath();c.moveTo(0,0);for(let q=0;q<=4;q++){const yy=-q*(1+s*.9),ww=.5+Math.sin(q*.8)*(.5+s*.4);c.lineTo(-ww,yy);}c.lineTo(0,-5*(1+s*.9)*.9);for(let q=4;q>=0;q--){const yy=-q*(1+s*.9),ww=.5+Math.sin(q*.8)*(.5+s*.4);c.lineTo(ww,yy);}c.closePath();c.fillStyle=k%2?'#4f9d48':'#5aa64f';c.fill();c.restore();}}},
+  hakusai:{n:'はくさい',hc:'#d8eab0',draw(c,x,y,s,r){const R=1+s*2.4;for(let k=0;k<5;k++)GD_E(c,'#5a9a46',x+(k-2)*R*.55,y-R*.4,R*.55,R*.4,(k-2)*.4);c.beginPath();c.ellipse(x,y-R*1.1,R*.75,R*1.15,0,0,TAU);c.fillStyle=GD_lg(c,x-R,0,x+R,0,[[0,'#f4f6e6'],[.6,'#d8e8b8'],[1,'#a8c880']]);c.fill();
+      GD_E(c,'#7cbf5a',x,y-R*1.85,R*.6,R*.4);c.strokeStyle='rgba(255,255,255,.7)';c.lineWidth=.2;c.beginPath();c.moveTo(x-.3,y-.2);c.lineTo(x-.2,y-R*1.8);c.stroke();}},
+  negi:{n:'ねぎ',hc:'#6aa84a',draw(c,x,y,s,r){const h=3+s*9;for(const dx of[-1.2,0,1.2]){fillR(c,'#f0f2e6',x+dx-.35,y-h*.35,.7,h*.35,.3);c.strokeStyle=dx?'#5aa64f':'#4f9d48';c.lineWidth=.6;c.lineCap='round';c.beginPath();c.moveTo(x+dx,y-h*.35);c.quadraticCurveTo(x+dx*1.4,y-h*.8,x+dx*2.2,y-h);c.stroke();}}},
+  horenso:{n:'ほうれんそう',hc:'#2f7a3a',draw(c,x,y,s,r){for(let k=0;k<6;k++)GD_leaf(c,x,y,1.6+s*3,1.2+s*.6,(k-2.5)*.5,k%2?'#2f7a3a':'#3f8a45');GD_E(c,'#c84a6a',x,y,.4,.25);}}
+};
+const VEG_SEASON={spring:['ichigo','soramame','lettuce','radish'],summer:['tomato','kyuri','nasu','corn'],autumn:['satsumaimo','ninjin','kabocha','broccoli'],winter:['daikon','hakusai','negi','horenso']};
+const VEG_GROW=3*GD_DAY;
+function vegState(){if(!S)return null;const want=VEG_SEASON[season()];let V0=S.veg;
+  if(!V0||!Array.isArray(V0.rows)||V0.rows.length!==4){V0=S.veg={rows:want.map((c0,i)=>({c:c0,at:Date.now()-VEG_GROW*(.35+i*.22)}))};}
+  for(let i=0;i<4;i++){const r0=V0.rows[i];const st=r0&&r0.c?(Date.now()-r0.at)/VEG_GROW:0;
+    if(!r0||(!r0.c&&Date.now()-(r0.h||0)>6*3600e3)||(r0.c&&r0.c!==want[i]&&st<.3))V0.rows[i]={c:want[i],at:Date.now()};}
+  return V0;}
+const vegStage=r0=>r0&&r0.c?Math.min(1,(Date.now()-r0.at)/VEG_GROW):-1;
+function vegRipe(){const V0=vegState();if(!V0)return[];return V0.rows.map((r0,i)=>i).filter(i=>vegStage(V0.rows[i])>=1);}
+function GD_vegRow(i,r0,vw){const s=vegStage(r0),sb=snowCover>.15?1:0,key='veg|'+i+'|'+(r0&&r0.c)+'|'+(s<0?-1:s>=1?9:Math.floor(s*8))+'|'+vw+'|'+sb;let e=GD_cache.get(key);if(e)return e;const[cv,c]=GD_cv(vw+6,40);c.translate(3,34);
+  if(r0&&r0.c){const Vd=VEG[r0.c];for(let j=0;j<8;j++){const px=6+j*11;if(px>vw-2)continue;const r=k=>hash(j*5+k,i*17,93);c.save();c.translate(px,0);c.scale(1.25,1.25);if(s<.18)GD_seedling(c,0,0,s/.18,GD_GL);else Vd.draw(c,0,0,s,r);c.restore();}
+    if(sb)for(let q=0;q<14;q++)GD_E(c,'rgba(250,252,255,.85)',4+hash(q,i,95)*(vw-8),-1.5-hash(q,i,96)*4,1,.4);}
+  else{for(let j=0;j<8;j++){const px=6+j*11;if(px>vw-2)continue;GD_E(c,'#4a3222',px,.2,1.6,.7);}}
+  e={cv,w:vw+6,h:40,dx:-3,dy:-34};GD_cache.set(key,e);return e;}
+function vegItems(items){const v=OUT.veg,vx=v.x*T+2,vy=v.y*T+2,vw=v.w*T-4,V0=vegState();if(!V0)return;
+  for(let i=0;i<4;i++){const ry=vy+6+i*11+1.5,r0=V0.rows[i];items.push({k:ry+.5,f:()=>{const e=GD_vegRow(i,r0,vw);g.drawImage(e.cv,vx+e.dx,ry+e.dy,e.w,e.h);}});}}
+/* kitchen garden bed (ground, baked into the island): wooden edging, ridged rows of dark tilled soil */
+function GD_vegBase(c){const v=OUT.veg,vx=v.x*T+2,vy=v.y*T+2,vw=v.w*T-4,vh=v.h*T-4;
+  fillE(c,'rgba(20,35,10,.25)',vx+vw/2,vy+vh+1.5,vw/2+3,3);
+  c.fillStyle=GD_lg(c,0,vy,0,vy+vh,[[0,'#5a3e2a'],[1,'#4a3222']]);rr(c,vx,vy,vw,vh,3);c.fill();
+  for(let i=0;i<4;i++){const ry=vy+3+i*11;c.fillStyle='rgba(30,18,10,.45)';c.fillRect(vx+2,ry+8,vw-4,2.2);
+    c.fillStyle=GD_lg(c,0,ry,0,ry+8,[[0,'#9a6a46'],[.5,'#7e5538'],[1,'#5e3e28']]);rr(c,vx+2.5,ry+1,vw-5,7.6,3.6);c.fill();
+    for(let q=0;q<26;q++)GD_E(c,q%3?'rgba(60,35,20,.45)':'rgba(190,150,110,.35)',vx+4+hash(q,i,71)*(vw-8),ry+2+hash(q,i,72)*5.6,.35+hash(q,i,73)*.35,.22,hash(q,i,74)*3);
+    fillR(c,'rgba(255,230,190,.15)',vx+4,ry+1.6,vw-8,.6,.3);}
+  // wooden edging boards
+  for(const[ex,ey,ew,eh]of[[vx-1.5,vy-1.5,vw+3,2.4],[vx-1.5,vy+vh-1,vw+3,2.6],[vx-1.5,vy-1.5,2.4,vh+3],[vx+vw-.9,vy-1.5,2.4,vh+3]]){c.fillStyle=GD_lg(c,ex,ey,ex+(ew>eh?0:ew),ey+(ew>eh?eh:0),[[0,'#b48458'],[1,'#7a5233']]);rr(c,ex,ey,ew,eh,.9);c.fill();}
+  // name stakes per row
+  for(let i=0;i<4;i++){const sx=vx+vw-2.2,sy=vy+5+i*11;fillR(c,'#c9a77a',sx,sy-1,.7,3.6,.2);fillR(c,'#efe6d0',sx-1,sy-2.4,2.7,1.8,.3);fillR(c,'rgba(80,60,40,.5)',sx-.6,sy-1.8,1.8,.25);}}
+
+function gardenLine(b){const st=bedState(b),n=FLW[st.sp].n;return st.stage<.15?pick([`${n}の芽、早く出ないかな`,`${n}を植えたばかり`]):st.stage<.7?pick([`${n}のつぼみがふくらんできた`,`${n}、もうすぐ咲きそう`,'お花が元気になった']):pick([`${n}、きれいに咲いてる`,`${n}が満開！`,'お花が元気になった']);}
+A.harvest=function(){const v=OUT.veg,rp=vegRipe(),go={t:'go',sc:'out',x:v.x+v.w,y:v.y};
+  if(!rp.length){const V0=vegState(),ns=[...new Set(V0.rows.filter(r=>r&&r.c).map(r=>VEG[r.c].n))];
+    return[go,{t:'face',d:'left'},FN(()=>C.holding='can'),SAY(()=>pick([`${ns.slice(0,2).join('と')}、大きくなあれ`,'畑に水をあげよう',`${ns[0]||'野菜'}の芽、のびてきた！`])),
+      W8(3.5,dt=>{if(Math.random()<dt*6)particles.push({sc:'out',x:(v.x+.3+Math.random()*(v.w-.6))*T,y:v.y*T+8+Math.random()*24,vx:rnd(-6,6),vy:rnd(-24,-8),life:.6,max:.6,type:'drop'});}),
+      FN(()=>{C.holding=null;S.needs.fun=clamp(S.needs.fun+4,0,100);}),SAY(()=>pick(['収穫が楽しみ','あと何日かで食べごろかな']))];}
+  const i=rp[0],cK=S.veg.rows[i].c,nm=VEG[cK].n;
+  return[go,{t:'face',d:'left'},SAY(pick([`${nm}が食べごろ！`,`畑の${nm}、とりごろだ`])),W8(3.5,need('fun',1)),
+    FN(()=>{const r0=S.veg.rows[i];if(r0&&r0.c===cK)S.veg.rows[i]={c:null,h:Date.now()};S.vegN=(S.vegN||0)+1;S.vegLog=S.vegLog||{};S.vegLog[cK]=(S.vegLog[cK]||0)+1;C.holding='veg';C.vegK=cK;S.needs.hunger=clamp(S.needs.hunger+6,0,100);save();}),
+    SAY(()=>pick([`${nm}がとれた！`,`${nm}、こんなにとれたよ`,`とれたての${nm}！あとで食べよう`])),W8(1.6),FN(()=>{C.holding=null;}),SAY('また植えておこう')];};
+{const H0=held;held=function(c,h,d,o){if(h!=='veg')return H0.apply(this,arguments);const x=d==='right'?6:0,y=-8,Vd=VEG[C.vegK]||VEG.tomato;
+  // small woven basket with the harvest piled in it
+  fillR(c,'#8a5e34',x-4.2,y-1.6,8.4,4.4,1.4);c.fillStyle='rgba(60,35,15,.35)';for(let q=-3;q<4;q+=1.4)c.fillRect(x+q,y-1.4,.35,4);fillR(c,'#a8784a',x-4.4,y-2.2,8.8,1.2,.6);
+  const col=Vd.hc;for(const[dx,dy]of[[-2.2,-2.6],[0,-3.2],[2.2,-2.6],[-1,-3.9],[1.2,-4]])GD_E(c,col,x+dx,y+dy,1.3,1.1);GD_E(c,'rgba(255,255,255,.4)',x-.4,y-3.8,.4,.3);GD_E(c,'#5aa64f',x+.4,y-4.9,.9,.35);
+  c.strokeStyle='#7a5230';c.lineWidth=.6;c.beginPath();c.arc(x,y-1.6,4,Math.PI,TAU);c.stroke();};}
 
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
