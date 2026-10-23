@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版171（2026/10/23 #21）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版172（2026/10/23 #22）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版171（2026/10/23 #21）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版172（2026/10/23 #22）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -10277,7 +10277,7 @@ const JMA_OFFICE={'北海道':'016000','青森':'020000','岩手':'030000','宮�
 const WARN_NAME={'02':'暴風雪警報','03':'大雨警報','04':'洪水警報','05':'暴風警報','06':'大雪警報','07':'波浪警報','08':'高潮警報','10':'大雨注意報','12':'大雪注意報','13':'風雪注意報','14':'雷注意報','15':'強風注意報','16':'波浪注意報','17':'融雪注意報','18':'洪水注意報','19':'高潮注意報','20':'濃霧注意報','21':'乾燥注意報','22':'なだれ注意報','23':'低温注意報','24':'霜注意報','25':'着氷注意報','26':'着雪注意報','32':'暴風雪特別警報','33':'大雨特別警報','35':'暴風特別警報','36':'大雪特別警報','37':'波浪特別警報','38':'高潮特別警報'};
 const prefKey=()=>{const p=(ENV.pref||'東京').replace(/\s/g,'');for(const k in JMA_OFFICE)if(p.indexOf(k)===0)return k;return'東京';};
 async function bosaiJSON(u){try{return await fetchJSON(u,9000);}catch(e){const t=await fetchText('https://corsproxy.io/?url='+encodeURIComponent(u),9000);return JSON.parse(t);}}
-function bosaiBanner(text,level,ms){const el=$('quake');if(!el)return;el.textContent=text;el.className='quake'+(level>=2?' eew':'');el.hidden=false;clearTimeout(quakeAlert.tm);quakeAlert.tm=setTimeout(()=>{el.hidden=true;},ms||30000);}
+function bosaiBanner(text,level,ms){const el=$('quake');if(!el)return;el.textContent=text;el.className='quake'+(level>=2?' eew':'');el.hidden=false;tickerize(el);bosaiBarVis();clearTimeout(quakeAlert.tm);quakeAlert.tm=setTimeout(()=>{el.hidden=true;bosaiBarVis();},ms||30000);}
 function bosaiSay(line,mline){if(!S)return;say(line);emote('!',2);if(M&&!M.sleeping&&mline)setTimeout(()=>msay(mline),2400);}
 /* ---- 気象警報・注意報 ---- */
 async function warnFetch(){const pk=prefKey(),code=JMA_OFFICE[pk];const j=await bosaiJSON(`https://www.jma.go.jp/bosai/warning/data/warning/${code}.json`);
@@ -10323,15 +10323,22 @@ function tsunamiAlert(q){if(!BOSAI.tsunami)return;const G={MajorWarning:'大津�
     const tms=Date.parse((q.time||'').replace(/\//g,'-').replace(' ','T')+'+09:00');if(!(Date.now()-tms<3*3600e3))continue;tsunamiAlert(q);}}}catch(e){}}
   if(BOSAI.quake)return q0();};}
 /* start polling only once a game is running (the title screen has no S yet), then keep a small line in the info window */
-function bosaiHud(){const el=$('hBosai');if(!el)return;const parts=[];const w=ENV.warn;if(BOSAI.warn&&w&&w.codes&&w.codes.length){const sp=w.codes.some(c=>+c>=32),wn=w.codes.filter(c=>WARN_NAME[c].endsWith('警報'));
-    parts.push(`<b class="${sp||wn.length?'bw':'bn'}">⚠ ${esc(w.codes.map(c=>WARN_NAME[c].replace('注意報','注').replace('特別警報','特警').replace('警報','警')).join('・'))}</b>`);}
-  if(BOSAI.typhoon&&ENV.typhoons&&ENV.typhoons.length){const c=ENV.typhoons.slice().sort((a,b)=>(a.km||9e9)-(b.km||9e9))[0];parts.push(`<b class="${c.km!=null&&c.km<600?'bw':'bn'}">🌀 ${c.no?`台風${c.no}号`:'台風'}${c.km!=null?` ${c.km}km`:''}</b>`);}
-  el.innerHTML=parts.join(' ');el.hidden=!parts.length;}
+function bosaiHud(){const bar=$('bosaiBar');if(!bar)return;const parts=[];const w=ENV.warn;
+  if(BOSAI.warn&&w&&w.codes&&w.codes.length){const sp=w.codes.some(c=>+c>=32);parts.push(`${sp?'⚠ ':''}気象情報（${w.pref}）　${w.codes.map(c=>WARN_NAME[c]).join('・')}`+(w.headline?`　${w.headline}`:''));}
+  if(BOSAI.typhoon&&ENV.typhoons&&ENV.typhoons.length)for(const c of ENV.typhoons.slice().sort((a,b)=>(a.km||9e9)-(b.km||9e9)))parts.push(`台風情報　${c.no?`台風第${c.no}号`:'台風'}${c.name?`（${c.name}）`:''}`+(c.p?`　中心気圧${c.p}hPa`:'')+(c.w?`　最大風速${c.w}m/s`:'')+(c.km!=null?`　${prefKey()}から約${c.km}km`:''));
+  const txt=parts.join('　　｜　　');if(bar.dataset.t!==txt){bar.dataset.t=txt;bar.dataset.m='';}
+  const hot=(w&&w.codes&&w.codes.some(c=>WARN_NAME[c].endsWith('警報')))||(ENV.typhoons||[]).some(c=>c.km!=null&&c.km<600);bar.classList.toggle('hot',!!hot);bosaiBarVis();}
+function bosaiBarVis(){const bar=$('bosaiBar'),q=$('quake');if(!bar)return;bar.hidden=!bar.dataset.t||!(q&&q.hidden);if(!bar.hidden&&bar.dataset.m!==bar.dataset.t){bar.dataset.m=bar.dataset.t;bar.textContent=bar.dataset.t;tickerize(bar);}}
+/* one-line banner that scrolls sideways when the text does not fit */
+function tickerize(el){if(!el||!el.firstChild&&!el.textContent)return;const t=el.textContent;el.innerHTML='';const sp=document.createElement('span');sp.className='tk';sp.textContent=t;el.append(sp);
+  requestAnimationFrame(()=>{const w=sp.scrollWidth,box=el.clientWidth-20;if(box>0&&w>box){sp.textContent='';const a=document.createElement('span');a.textContent=t;const gp=document.createElement('i');gp.className='tkgap';const b=document.createElement('span');b.textContent=t;sp.append(a,gp,b);
+      const dist=w+48;sp.style.setProperty('--d',(-dist)+'px');sp.style.animationDuration=Math.max(6,dist/38)+'s';sp.classList.add('run');}});}
+{const qa=quakeAlert;quakeAlert=function(q){qa(q);tickerize($('quake'));bosaiBarVis();};}
 {const wp=warnPoll;warnPoll=async function(){await wp();bosaiHud();};const tp=tcPoll;tcPoll=async function(){await tp();bosaiHud();};}
 {const kick=setInterval(()=>{if(!S)return;clearInterval(kick);warnPoll();setTimeout(tcPoll,3000);},3000);}
 setInterval(()=>{if(S)warnPoll();},10*60e3);setInterval(()=>{if(S)tcPoll();},30*60e3);
-(function(){const pl=$('hPlace');if(pl&&pl.after&&!$('hBosai')){const d=document.createElement('div');d.id='hBosai';d.className='hbosai';d.hidden=true;pl.after(d);}
-  const st=document.createElement('style');st.textContent='.hbosai{margin-top:2px;font-size:11px;line-height:1.35;max-width:170px;white-space:normal}.hbosai b{font-weight:700;display:inline-block;margin-right:4px}.hbosai .bw{color:#ff8a6a}.hbosai .bn{color:#ffd27a}';if(document.head&&document.head.appendChild)document.head.appendChild(st);})();
+(function(){const q=$('quake');if(q&&q.after&&!$('bosaiBar')){const d=document.createElement('div');d.id='bosaiBar';d.className='quake bosaibar';d.hidden=true;q.after(d);}setInterval(bosaiBarVis,1000);
+  const st=document.createElement('style');st.textContent='.quake{white-space:nowrap;overflow:hidden}.quake .tk{display:inline-block}.quake .tk.run{animation:tkr linear infinite;animation-delay:1.2s}@keyframes tkr{from{transform:translateX(0)}to{transform:translateX(var(--d))}}.quake .tkgap{display:inline-block;width:48px}.bosaibar{background:rgba(60,40,20,.82);border-color:rgba(255,210,120,.55)}.bosaibar.hot{background:rgba(150,50,30,.86);border-color:#ffc0a0}';if(document.head&&document.head.appendChild)document.head.appendChild(st);})();
 /* ---- settings (チャネル tab) ---- */
 (function(){const anchor=$('wikiMsg');if(!anchor||typeof anchor.after!=='function')return;const box=document.createElement('div');
   box.innerHTML=`<h3>防災情報</h3><p class="hint">地震・津波は「P2P地震情報」、気象警報・注意報と台風は気象庁の防災情報から取得します。お住まいの都道府県（${esc(prefKey())}）が対象です。届いた情報は画面下の帯で知らせ、キャラも反応します。</p>`+
