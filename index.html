@@ -95,7 +95,7 @@ button:active{transform:translateY(1px)}
 button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--lantern);outline-offset:2px}
 button.primary{background:var(--lantern);color:#2a200b;border-color:transparent}
 .note{font-size:12px;color:var(--muted);line-height:1.6;text-align:center;margin:0}
-.bubble{position:absolute;left:0;top:0;z-index:3;max-width:min(80%,300px);background:rgba(255,250,240,.58);-webkit-backdrop-filter:blur(5px) saturate(1.2);backdrop-filter:blur(5px) saturate(1.2);border:1px solid rgba(255,255,255,.7);color:#1a1530;text-shadow:0 0 2px rgba(255,255,255,.95),0 0 6px rgba(255,255,255,.7);font-weight:700;border-radius:16px;padding:9px 13px 10px;font-family:var(--f-pixel);font-weight:500;font-size:14px;line-height:1.55;box-shadow:0 6px 18px rgba(0,0,0,.3);transition:opacity .3s;pointer-events:none;word-break:break-word;will-change:transform}
+.bubble.offs .tail{display:none}.bubble .bname{display:block;font-size:10px;font-weight:700;opacity:.75;line-height:1.2;margin-bottom:1px}.bubble{position:absolute;left:0;top:0;z-index:3;max-width:min(80%,300px);background:rgba(255,250,240,.58);-webkit-backdrop-filter:blur(5px) saturate(1.2);backdrop-filter:blur(5px) saturate(1.2);border:1px solid rgba(255,255,255,.7);color:#1a1530;text-shadow:0 0 2px rgba(255,255,255,.95),0 0 6px rgba(255,255,255,.7);font-weight:700;border-radius:16px;padding:9px 13px 10px;font-family:var(--f-pixel);font-weight:500;font-size:14px;line-height:1.55;box-shadow:0 6px 18px rgba(0,0,0,.3);transition:opacity .3s;pointer-events:none;word-break:break-word;will-change:transform}
 .bubble.fade{opacity:0}
 .convo{position:absolute;left:0;top:0;z-index:4;width:min(88%,330px);display:flex;flex-direction:column;gap:6px;pointer-events:none;transition:opacity .35s}
 .convo.fade{opacity:0}
@@ -212,8 +212,8 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <div class="quake" id="quake" hidden></div>
     <div class="tip" id="tip" hidden></div>
     <div class="devb" id="devb" hidden><span class="di" id="devI"></span><div><small id="devCh"></small><b id="devT"></b></div><i class="tail"></i></div>
-    <div class="bubble vis" id="bubble2" hidden aria-live="polite"><div class="btext" id="text2"></div><i class="tail"></i></div>
-    <div class="bubble mate" id="bubble3" hidden aria-live="polite"><div class="btext" id="text3"></div><i class="tail"></i></div>
+    <div class="bubble vis" id="bubble2" hidden aria-live="polite"><small class="bname" id="bname2" hidden></small><div class="btext" id="text2"></div><i class="tail"></i></div>
+    <div class="bubble mate" id="bubble3" hidden aria-live="polite"><small class="bname" id="bname3" hidden></small><div class="btext" id="text3"></div><i class="tail"></i></div>
     <div class="convo" id="convo" hidden aria-live="polite"></div>
   </div>
 </div>
@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版173（2026/10/23 #23）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版175（2026/10/23 #25）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版173（2026/10/23 #23）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版175（2026/10/23 #25）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -663,7 +663,7 @@ const FT={
   table:F('ダイニングテーブル',2,2,'free',['kit'],{use:'side',sitChair:1,draw:dTable,parts:pTable}),
   sink:F('洗面台',1,1,'back',['dress'],{fix:1,tall:1,use:'front',draw:dSink}),
   ksink:F('流し台',1,1,'back',['kit'],{fix:1,use:'front',draw:dKsink}),
-  sofa:F('ソファ',4,1,'free',['liv'],{snap:L=>({px:(L.x+1.15)*T,py:L.y*T+25,pose:'sit',d:'up'}),draw:dSofa,parts:pSofa}),
+  sofa:F('ソファ',4,1,'free',['liv'],{snap:L=>({px:(L.x+1.15)*T,py:L.y*T+22.5,pose:'sit',d:'up'}),draw:dSofa,parts:pSofa}),
   lowtable:F('ローテーブル',2,1,'free',['liv'],{slots:[[13,3],[35,3]],draw:dLowtable}),
   wardrobe:F('洋服ダンス',2,1,'back',['bed'],{tall:1,use:'front',draw:dWardrobe}),
   wardrobe2:F('同居人の洋服ダンス',2,1,'back',['bed','liv'],{tall:1,use:'front',draw:(X,Y,Wd,Dp,L,t)=>dWardrobe(X,Y,Wd,Dp,L,t,'#d8b98c')}),
@@ -1351,10 +1351,14 @@ function bubbleTick(){const bb=$('bubble');
   if(tn>until){if(!bb.classList.contains('fade'))bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
   bb.hidden=false;bb.classList.remove('fade');
   const cp=charPos(),hd=C.pose==='lie'?16:C.pose==='bath'?26:C.pose==='sit'?41:45;posBubble(bb,cp.cx,cp.by,hd);}
+/* show the speaker's name inside the bubble when the speaker is not visible on screen */
+function bubbleName(id,name,cx,by,h){const el=$(id);if(!el)return;const k=cv.clientWidth/W,sx=((cx-cam.x)*Z+W/2)*k,top=((by-h-cam.y)*Z+H/2)*k,bot=((by-cam.y)*Z+H/2)*k,sw=cv.clientWidth,sh=cv.clientHeight;
+  const off=sx<4||sx>sw-4||bot<10||top>sh-10;const show=off&&!!name;if(el.parentNode&&el.parentNode.classList)el.parentNode.classList.toggle('offs',off);if(el.hidden===show){el.hidden=!show;}if(show&&el.textContent!==name)el.textContent=name;}
 function posBubble(bb,cx,by,hd){const k=cv.clientWidth/W,cp={cx,by};
   const sx=((cp.cx-cam.x)*Z+W/2)*k,sy=((cp.by-hd-cam.y)*Z+H/2)*k,bw=bb.offsetWidth,bh=bb.offsetHeight,sw=cv.clientWidth;
   let left=clamp(sx-bw/2,8,Math.max(8,sw-bw-8)),top=sy-bh-9,below=false;
   if(top<6){top=((cp.by+6-cam.y)*Z+H/2)*k+9;below=true;}
+  {const sh=cv.clientHeight;if(top>sh-bh-56)top=Math.max(6,sh-bh-56);if(top<6)top=6;}
   bb.classList.toggle('below',below);bb.style.transform=`translate(${Math.round(left)}px,${Math.round(top)}px)`;bb.style.setProperty('--tx',clamp(sx-left,16,bw-16)+'px');bb._pos={left,top,bw,bh,sx};}
 function avoidBubble(bb,others){const p=bb._pos;if(!p)return;for(const o of others){if(!o||o.hidden||!o._pos)continue;const q=o._pos;
   if(p.left<q.left+q.bw+2&&p.left+p.bw>q.left-2&&p.top<q.top+q.bh+2&&p.top+p.bh>q.top-2){let nt=q.top-p.bh-6;let below=false;if(nt<4){nt=q.top+q.bh+6;below=true;}p.top=nt;bb.classList.toggle('below',false);bb.style.transform=`translate(${Math.round(p.left)}px,${Math.round(nt)}px)`;}}}
@@ -5305,7 +5309,7 @@ function vBubbleTick(){const bb=$('bubble2');if(!bb)return;
   if(!S||!V||!vTyping.full||V.scene!==C.scene){bb.hidden=true;return;}
   const tn=performance.now(),until=vTyping.at+vTyping.full.length/28*1000+5200;
   if(tn>until){bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
-  bb.hidden=false;bb.classList.remove('fade');let vp=vPos();if(V.ride){const d=V.ride;vp={cx:(d.x+.5)*T+d.dx,by:(d.y+1)*T-5-d.alt};}posBubble(bb,vp.cx,vp.by,V.sit?41:45);avoidBubble(bb,[$('convo'),$('bubble')]);}
+  bb.hidden=false;bb.classList.remove('fade');let vp=vPos();if(V.ride){const d=V.ride;vp={cx:(d.x+.5)*T+d.dx,by:(d.y+1)*T-5-d.alt};}bubbleName('bname2',V.name,vp.cx,vp.by,V.sit?30:42);posBubble(bb,vp.cx,vp.by,V.sit?41:45);avoidBubble(bb,[$('convo'),$('bubble')]);}
 function vTypeTick(dt){if(vTyping.shown<vTyping.full.length){vTyping.t+=dt;const n=Math.floor(vTyping.t*28);if(n>vTyping.shown){vTyping.shown=Math.min(vTyping.full.length,n);$('text2').textContent=vTyping.full.slice(0,vTyping.shown);}}}
 function meetSpot(){const e=OUT.entry,c=[];
   for(let dy=2;dy<=5;dy++)for(let dx=-3;dx<=1;dx++){const x=e.x+dx,y=e.y+dy;if(walkOut(x,y)&&walkOut(x+1,y)&&walkOut(x+2,y)&&bfs('out',e.x,e.y,x,y))c.push({x,y,d:'right'});}
@@ -5900,7 +5904,7 @@ function drawMateTag(){if(!M||!S.mate||M.scene!==C.scene)return;const p=mPos(),l
   g.save();if(M.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:sitp?45:51)+(S.mate.sp==='human'?(lie?3:(M.outfit&&((M.outfit.hat&&M.outfit.hat.k!=='none')||M.outfit.costume)?(sitp?-2:3):(sitp?2:10))):0)-(M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0),S.mate.name,st);g.restore();}
 function mBubbleTick(){const bb=$('bubble3');if(!bb)return;if(!S||!M||!mTyping.full||M.scene!==C.scene){bb.hidden=true;return;}
   const tn=performance.now(),until=mTyping.at+mTyping.full.length/28*1000+5200;if(tn>until){bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
-  bb.hidden=false;bb.classList.remove('fade');const p=mPos();posBubble(bb,p.cx,p.by,M.sit?(M.sit.pose==='lie'?16:41):45);avoidBubble(bb,[$('convo'),$('bubble'),$('bubble2')]);}
+  bb.hidden=false;bb.classList.remove('fade');const p=mPos();bubbleName('bname3',S.mate&&S.mate.name,p.cx,p.by,M.sit?30:42);posBubble(bb,p.cx,p.by,M.sit?(M.sit.pose==='lie'?16:41):45);avoidBubble(bb,[$('convo'),$('bubble'),$('bubble2')]);}
 function mTypeTick(dt){if(mTyping.shown<mTyping.full.length){mTyping.t+=dt;const n=Math.floor(mTyping.t*28);if(n>mTyping.shown){mTyping.shown=Math.min(mTyping.full.length,n);$('text3').textContent=mTyping.full.slice(0,mTyping.shown);}}}
 const mateFree=()=>!!(S&&S.mate&&M&&!M.sleeping&&!M.busy);
 const mateHere=()=>!!(S&&S.mate&&M&&!M.sleeping);
@@ -5910,7 +5914,7 @@ function mRelease(){if(!M)return;M.busy=false;M.sit=null;M.seatK=null;M.holding=
 const MSELF=['今日はなにしようかな','ふあ〜、のんびり','この部屋、日当たりいいね','ちょっとストレッチ','あとで洗濯しなきゃ','おなかすいたかも','なんか甘いもの食べたいな','窓の外、きれいだな','ふんふーん♪','そういえば、あれどこに置いたっけ','いい匂いがする','さて、と','空の上の暮らし、慣れてきたな'];
 function mateYield(k,sp){if(!M||M.busy||!M.sit||M.sleeping||M.scene!==C.scene)return;const mp=mPos();const dd=Math.hypot(mp.cx-sp.px,mp.by-sp.py);if(!(k==='sofa'?dd<14:((k&&M.seatK===k)||dd<14)))return;
   M.sit=null;M.seatK=null;const st=mSeatTile();M.steps=[{t:'say',text:pick(['あ、どうぞどうぞ','席、ゆずるね','じゃあ、わたしはあっちに座ろう','おっと、ここ使う？'])}];if(st){const s2=sitAtTile(st.u,FT[st.k]&&FT[st.k].sitChair);M.steps.push({t:'go',sc:'in',x:st.u.x,y:st.u.y},{t:'fn',f:()=>{M.sit={...s2,pose:'sit'};M.seatK=st.k;}},{t:'wait',s:rnd(15,30)},{t:'fn',f:()=>{M.sit=null;M.seatK=null;}});}else{const r=randomTile('in','liv');if(r)M.steps.push({t:'go',sc:'in',x:r.x,y:r.y});}}
-const sofaB=()=>{const L=S.layout.sofa;if(!L||!has('sofa'))return null;const tile=[{x:L.x+3,y:L.y-1},{x:L.x+2,y:L.y-1},{x:L.x+4,y:L.y},{x:L.x+3,y:L.y+1},{x:L.x+2,y:L.y+1}].find(q=>walkIn(q.x,q.y));return tile?{tile,sit:{px:(L.x+2.85)*T,py:L.y*T+25,pose:'sit',d:'up'}}:null;};
+const sofaB=()=>{const L=S.layout.sofa;if(!L||!has('sofa'))return null;const tile=[{x:L.x+3,y:L.y-1},{x:L.x+2,y:L.y-1},{x:L.x+4,y:L.y},{x:L.x+3,y:L.y+1},{x:L.x+2,y:L.y+1}].find(q=>walkIn(q.x,q.y));return tile?{tile,sit:{px:(L.x+2.85)*T,py:L.y*T+22.5,pose:'sit',d:'up'}}:null;};
 function mSeatTile(){const ks=['sofa','armchair','cushion','beanbag','rocking','kotatsu','lowtable'].filter(k=>has(k)&&(C.snapK!==k||k==='sofa'));for(const k of shuffle(ks)){if(k==='sofa'){const sb=sofaB();if(sb)return{k,u:sb.tile};continue;}const u=U(k);if(!u)continue;if(C.scene==='in'&&Math.abs(C.tx-u.x)+Math.abs(C.ty-u.y)<=1)continue;if(C.snap&&Math.hypot((u.x+.5)*T-C.snap.px,u.y*T+19-C.snap.py)<16)continue;return{k,u};}return null;}
 function chooseMateAct(){const h=hourNow(),s=[];
   if(sleepTime(1)&&has('bed2')){const u=U('bed2');if(u){const L=S.layout.bed2;return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.sit={px:(L.x+1)*T,py:L.y*T+7,pose:'lie',d:'down',over:true,bed:true};M.sleeping=true;if(Math.random()<.5)msay(pick(['おやすみ〜','ふあ…もう寝るね','明日もいい日になりますように']));}},{t:'until',cond:()=>!sleepTime(1)},{t:'fn',f:()=>{M.sleeping=false;M.sit=null;const u=U('bed2');if(u)mPlace('in',u.x,u.y);msay(sleepInfo(1).over?pick(['寝坊しちゃった〜！','もうこんな時間！？']):pick(['おはよう〜','よく寝た！','ふあ〜、朝だ']));}},
@@ -6712,7 +6716,7 @@ FT.sofa.draw=function(X,Y,Wd,Dp,L){g.save();const col=VAR.sofa[(L.v||0)%4];
     g.strokeStyle=shade(col,-.38);g.lineWidth=.45;rr(g,ax+.2,Y-10.8,7.6,31.6,3.6);g.stroke();}
   g.restore();};
 dSofa=FT.sofa.draw;
-FT.sofa.parts=function(L){const X=L.x*T,Y=L.y*T,Wd=4*T;return[{k:Y+30,f:()=>{g.save();A_sofaBack(X,Y,Wd,L);g.restore();}}];};
+FT.sofa.parts=function(L){const X=L.x*T,Y=L.y*T,Wd=4*T;return[{k:Y+30,f:()=>{g.save();const col=VAR.sofa[(L.v||0)%4];/* skirt under the back panel so nothing of the sitter peeks out below */fillR(g,shade(col,-.32),X+5,Y+22.6,Wd-10,4.2,1.2);fillR(g,'rgba(255,255,255,.12)',X+5.5,Y+22.8,Wd-11,.5);A_sofaBack(X,Y,Wd,L);g.restore();}}];};
 pSofa=FT.sofa.parts;
 
 /* ---------- low table (ローテーブル) ---------- */
@@ -10429,16 +10433,16 @@ function HOUSE_sideWin(cx,gy,gw,gh,cut){const gx=cx-gw/2;
 /* ===== sprite cache: detailed items are rendered once into an offscreen bitmap and blitted every frame.
    Each item's cache key holds exactly the game state its drawing code reads (found from its source);
    items that animate in that state are drawn live. Re-baking is spread over frames (budget) so nothing stutters. */
-const SPRC={on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new Set(),scr:null,budget:0,stats:{hit:0,bake:0,live:0}};
+const SPRC={per:{},on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new Set(),scr:null,budget:0,stats:{hit:0,bake:0,live:0}};
 (function(){
   const seen=new Set();
   function srcDeps(fn,depth){const s=Function.prototype.toString.call(fn);if(depth<=0)return s;let out=s;const names=new Set(s.match(/\b[A-Za-z_$][\w$]*(?=\s*\()/g)||[]);
-    for(const n of names){if(n.length<2||seen.has(n))continue;seen.add(n);let v;try{v=(0,eval)(n);}catch(e){continue;}if(typeof v!=='function')continue;const vs=Function.prototype.toString.call(v);if(/\[native code\]/.test(vs))continue;out+='\n'+srcDeps(v,depth-1);}return out;}
-  function depsOf(fn){seen.clear();const src=srcDeps(fn,3),objs={C:new Set(),S:new Set(),M:new Set(),V:new Set(),RV:new Set(),ENV:new Set(),GS:new Set(),MUS:new Set()};
+    for(const n of names){if(n.length<2||seen.has(n))continue;seen.add(n);let v;try{v=eval(n);}catch(e){continue;}if(typeof v!=='function')continue;const vs=Function.prototype.toString.call(v);if(/\[native code\]/.test(vs))continue;out+='\n'+srcDeps(v,depth-1);}return out;}
+  function depsOf(fn){seen.clear();const src=srcDeps(fn,7),objs={C:new Set(),S:new Set(),M:new Set(),V:new Set(),RV:new Set(),ENV:new Set(),GS:new Set(),MUS:new Set()};
     const re=/\b(C|S|M|V|RV|ENV|GS|MUS)\.([A-Za-z_$][\w$]*)/g;let m;while((m=re.exec(src)))objs[m[1]].add(m[2]);
     const wk=new Set();const re2=/wActive\(\s*'(\w+)'\s*\)/g;while((m=re2.exec(src)))wk.add(m[1]);if(/wActive\(\s*[^'\s]/.test(src))['sink','ksink','handwash','bath'].forEach(k=>wk.add(k));
-    const usesM=/\bM\b/.test(src),usesV=/\bV\b/.test(src),clock=/\bnow\(\)|hourNow\(|todayStr|Date\(\)/.test(src),lb=/\bLB\b|lbColOf/.test(src);
-    const parts=[];for(const o in objs){for(const p of objs[o])parts.push([o,p]);}
+    const usesM=/\bM\b/.test(src),usesV=/\bV\b/.test(src),clock=/\bnow\(\)|hourNow\(|todayStr|Date\(\)/.test((seen.clear(),srcDeps(fn,1))),lb=/\bLB\b|lbColOf/.test(src);
+    const SKIP=new Set(['S.lastSeen','S.dex','S.stored','S.recycled','S.ystored','S.diary','S.tday','S.notes','S.owned','S.yard','S.layout']);const parts=[];for(const o in objs){for(const p of objs[o])if(!SKIP.has(o+'.'+p))parts.push([o,p]);}
     return{parts,wk:[...wk],usesM,usesV,clock,lb};}
   const val=v=>v==null?'':typeof v==='number'?Math.round(v*20)/20:typeof v==='object'?JSON.stringify(v):String(v);
   function dynSig(d){const out=[];for(const[o,p]of d.parts){const ob=o==='C'?C:o==='S'?S:o==='M'?M:o==='V'?V:o==='RV'?(typeof RV!=='undefined'?RV:null):o==='ENV'?ENV:o==='GS'?(typeof GS!=='undefined'?GS:null):(typeof MUS!=='undefined'?MUS:null);
@@ -10455,21 +10459,30 @@ const SPRC={on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new Set(),sc
     let x0=W0,y0=H0,x1=-1,y1=-1;for(let y=0;y<H0;y++){const r=y*W0*4;for(let x=0;x<W0;x++){if(d[r+x*4+3]>2){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}}}
     if(x1<0)return{cv:null};x0=Math.max(0,x0-1);y0=Math.max(0,y0-1);x1=Math.min(W0-1,x1+1);y1=Math.min(H0-1,y1+1);const w=x1-x0+1,h=y1-y0+1;
     const out=document.createElement('canvas');out.width=w;out.height=h;out.getContext('2d').drawImage(cv,x0,y0,w,h,0,0,w,h);return{cv:out,x:box.x+x0/s,y:box.y+y0/s,w:w/s,h:h/s};}
+  /* animated items: redraw into a reusable bitmap ~15 times a second instead of every frame */
+  const ANIM=new Map();
+  function animDraw(slot,orig,call,box,s,t,ax,ay,key){let e=ANIM.get(slot);const fb=Math.floor(t*15);
+    if(!e||e.k!==key||e.fb!==fb){const W0=Math.ceil(box.w*s),H0=Math.ceil(box.h*s);if(!e||!e.cv||e.cv.width!==W0||e.cv.height!==H0){e={cv:document.createElement('canvas')};e.cv.width=W0;e.cv.height=H0;ANIM.set(slot,e);}
+      const c=e.cv.getContext('2d');c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,W0,H0);c.setTransform(s,0,0,s,-box.x*s,-box.y*s);withG(c,()=>orig.apply(null,call));c.setTransform(1,0,0,1,0,0);e.k=key;e.fb=fb;}
+    g.drawImage(e.cv,ax+box.x,ay+box.y,box.w,box.h);}
   function wrap(tbl,k,kind){const f=tbl[k];if(!f||typeof f.draw!=='function'||f.draw.__spr)return;const orig=f.draw,id=kind+':'+k;let dep;try{dep=depsOf(orig);}catch(e){return;}
-    const nf=function(...a){if(!SPRC.on||SPRC.live.has(id)){SPRC.stats.live++;return orig.apply(this,a);}
+    SPRC.deps=SPRC.deps||{};SPRC.deps[id]=dep.parts.map(p=>p.join('.')).concat(dep.wk.map(k=>'w:'+k),dep.clock?['clock']:[],dep.usesM?['M']:[],dep.usesV?['V']:[]);
+    const nf=function(...a){const P=(SPRC.per[id]=SPRC.per[id]||{l:0,b:0,h:0});if(!SPRC.on)return orig.apply(this,a);
       const L=a[kind==='f'?4:2],t=a[kind==='f'?5:3]||0,ax=a[0],ay=a[1];let box,call;
       if(kind==='f'){const Wd=a[2]||24,Dp=a[3]||24;box={x:-30,y:-100,w:Wd+60,h:Dp+130};call=[0,0,a[2],a[3],L,t];}
       else if(kind==='y'){box={x:-34,y:-72,w:(f.w||1)*24+68,h:(f.h||1)*24+100};call=[0,0,L,t];}
       else if(kind==='top'){box={x:-18,y:-32,w:36,h:40};call=[0,0,L,t];}
       else{box={x:-16,y:-16,w:56,h:62};call=[0,0,L,t];}
-      const ds=dynSig(dep),s=scaleOf(),slot=id+'#'+((L&&L.v)||0)+'#'+((L&&L.side)||''),key=sig()+'|'+s+'|'+ds;let e=SPRC.map.get(slot);
-      if(!e||e.key!==key){const pk=id+'|'+((L&&L.v)||0)+'|'+ds+'|'+sig();
-        if(SPRC.lk.has(pk)||SPRC.budget<=0){SPRC.stats.live++;return orig.apply(this,a);}
+      const ds=dynSig(dep),s=scaleOf(),slot=id+'#'+((L&&L.v)||0)+'#'+((L&&L.side)||''),key=sig()+'|'+s+'|'+ds,pk=id+'|'+((L&&L.v)||0)+'|'+ds+'|'+sig();
+      if(SPRC.live.has(id)||SPRC.lk.has(pk)){P.l++;return orig.apply(this,a);}
+      let e=SPRC.map.get(slot);
+      if(!e||e.key!==key){
+        if(SPRC.budget<=0){SPRC.stats.live++;P.l++;return orig.apply(this,a);}
         SPRC.budget--;
         if(!SPRC.probe.has(pk)){const h1=bake(orig,call,box,1,false),c2=call.slice();c2[c2.length-1]=t+0.731;const h2=bake(orig,c2,box,1,false);if(SPRC.probe.size>4000)SPRC.probe.clear();SPRC.probe.add(pk);
-          if(!h1||!h2||h1.hash!==h2.hash){if(!dep.parts.length&&!dep.wk.length&&!dep.clock)SPRC.live.add(id);else{if(SPRC.lk.size>4000)SPRC.lk.clear();SPRC.lk.add(pk);}SPRC.stats.live++;return orig.apply(this,a);}}
-        const b=bake(orig,call,box,s,true);if(!b){SPRC.live.add(id);return orig.apply(this,a);}e={key,...b};SPRC.map.set(slot,e);SPRC.stats.bake++;}
-      else SPRC.stats.hit++;
+          if(!h1||!h2||h1.hash!==h2.hash){if(SPRC.lk.size>4000)SPRC.lk.clear();SPRC.lk.add(pk);P.l++;return orig.apply(this,a);}}
+        const b=bake(orig,call,box,s,true);if(!b){SPRC.live.add(id);return orig.apply(this,a);}e={key,...b};SPRC.map.set(slot,e);SPRC.stats.bake++;P.b++;}
+      else{SPRC.stats.hit++;P.h++;}
       if(e.cv)g.drawImage(e.cv,ax+e.x,ay+e.y,e.w,e.h);};
     nf.__spr=1;nf.__orig=orig;f.draw=nf;}
   for(const k in FT){const f=FT[k];if(f.art)continue;wrap(FT,k,f.k==='top'?'top':f.k==='wall'?'w':'f');}
