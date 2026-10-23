@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版186（2026/10/23 #36）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版189（2026/10/23 #39）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版186（2026/10/23 #36）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版189（2026/10/23 #39）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -807,7 +807,7 @@ function adjOut(x,y){for(const[dx,dy,d]of[[0,1,'up'],[1,0,'left'],[-1,0,'right']
 const KEY='fuyuchi-save-v3',OLDKEY='fuyuchi-save-v2';
 let S=null;
 function load(){try{let s=localStorage.getItem(KEY);if(s)return JSON.parse(s);s=localStorage.getItem(OLDKEY);if(s){const o=JSON.parse(s);o.migrate=1;return o;}}catch(e){}return null;}
-function save(){if(!S)return;try{dexSync();}catch(_){}try{S.lastSeen=Date.now();localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
+function save(){if(!S)return;try{dexSync();}catch(_){}try{if(C&&(C.scene==='in'||C.scene==='out')&&Number.isFinite(C.tx))S.pos={sc:C.scene,x:C.tx,y:C.ty,d:C.dir};}catch(_){}try{S.lastSeen=Date.now();localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}}
 const ENV={lat:null,lon:null,place:'',placeShort:'',parts:[],pref:'',city:'',area:'',locSrc:'tz',locNote:'',acc:null,temp:null,hum:null,code:null,sunrise:null,sunset:null,elev:null,wSrc:'wait',news:[],nSrc:'wait',ov:{weather:'',shift:0,date:''}};
 const C={scene:'in',tx:IN_ENTRY.x,ty:IN_ENTRY.y-1,px:0,py:0,dir:'down',path:[],moving:false,frame:0,animT:0,pose:'stand',snap:null,snapK:null,steps:[],idleT:2,holding:null,sleeping:false,cooking:false,emote:null,emoteT:0,act:''};
 let fadeT=0,flashT=0,nextFlash=8,snowCover=0;
@@ -5884,6 +5884,41 @@ m:最近、ことばにしなくても通じ合える気がする|p:たとえば
 m:ねえ、おやすみの前に一言|p:なに？|m:今日もありがとう|p:こちらこそ、おやすみ
 `;
 const MTALK=MTALK_SRC.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+/* ===== fashion small talk: compliments, advice and outfit chat between the main character, the housemate and guests ===== */
+const FT_TOPW={tshirt:'シンプルでいい感じ',longsleeve:'さわやかだね',tank:'夏っぽくていいね',polo:'きちんと感があるね',blouse:'上品だね',sweater:'あったかそうでいいな',hoodie:'ラフでいい感じ',cardigan:'やさしい雰囲気だね',sweatshirt:'カジュアルでかわいい',turtle:'大人っぽいね',aloha:'南国っぽくて楽しい！',vest:'知的な感じがする',jersey:'スポーティだね',coat:'きれいめでいいね',down:'もこもこであったかそう',denimjk:'こなれてるね',stadium:'レトロでかっこいい！',peacoat:'トラッドでかっこいい',ma1:'ミリタリーっぽくてクール'};
+const FT_BOTW={pants:'すっきりして見える',jeans:'定番だけどやっぱりいいね',djeans:'ダメージ感がいい味出してる',cargo:'ポケットがたくさんで便利そう',jogger:'動きやすそう',shorts:'元気な感じ',skirt:'ふんわりしてかわいい',longskirt:'ゆれるのがきれい',culottes:'軽やかだね',overalls:'サロペット、かわいい！'};
+function ftWear(of,out){if(!of)return null;if(of.costume&&COS[of.costume])return{cos:COS[of.costume].n,main:`${COS[of.costume].n}の衣装`};
+  const outer=out&&of.outer&&of.outer.k?of.outer:null,t=outer||of.top;if(!t||!KN.top[t.k])return null;
+  const pat=!outer&&t.p&&PATJ[t.p]?PATJ[t.p]+'の':'';const main=`${t.c}の${pat}${KN.top[t.k]}`,bot=of.bottom&&KN.bottom[of.bottom.k]?`${of.bottom.c}の${KN.bottom[of.bottom.k]}`:null;
+  return{k:t.k,c:t.c,c2:outer&&outer.c2,outer:!!outer,main,bot,bk:of.bottom&&of.bottom.k,bc:of.bottom&&of.bottom.c,tp:of.top&&of.top.p,bp:of.bottom&&of.bottom.p,top:of.top,hat:out&&of.hat&&of.hat.k!=='none'?`${of.hat.c}の${KN.hat[of.hat.k]}`:null};}
+/* a = the other person ('m' housemate or 'v' guest), name = their name; returns conversation lines */
+function fashionTalk(a,name,aOf,aOut){const me=S.name,mo=ftWear(S.outfit,C.scene==='out'),ao=ftWear(aOf,aOut),t=tempNow(),k=wKind(),out=[];if(!mo)return null;
+  const thx=()=>pick(['ありがとう！お気に入りなんだ','えへへ、うれしい','この前届いたばかりなんだ','色で選んでみたんだ','そう言ってもらえると自信つく！']);
+  // compliments for the main character
+  if(mo.cos)out.push(()=>[[a,pick([`${me}、その${mo.main}どうしたの！？`,`わあ、${mo.cos}だ！かわいい〜`])],['me',pick(['今日はなりきりの日なんだ','似合う？'])],[a,pick(['すっごく似合ってる！','写真撮りたい！','今度わたしも着てみたいな'])]]);
+  else{out.push(()=>[[a,`その${mo.main}、${FT_TOPW[mo.k]||'すてきだね'}`],['me',thx()],[a,pick(['色がよく似合ってるよ','今日のコーデ、決まってるね','どこで見つけたの？'])]]);
+    if(mo.k==='stadium'&&mo.c2)out.push(()=>[[a,`スタジャンの${mo.c}と${mo.c2}の切り替え、いいね！`],['me','袖の色がポイントなんだ'],[a,'わかる、かっこいい']]);
+    if(mo.bot)out.push(()=>[[a,`${mo.bot}、${FT_BOTW[mo.bk]||'すてき'}`],['me',thx()]]);
+    if(mo.hat)out.push(()=>[[a,`${mo.hat}、かわいい！`],['me','帽子ひとつで気分が変わるよね']]);}
+  // the main character compliments the other person
+  if(ao){if(ao.cos)out.push(()=>[['me',`${name}、その${ao.main}どうしたの！？`],[a,pick(['今日はなりきってみた！','へへ、似合う？'])],['me','似合いすぎ！']]);
+    else{out.push(()=>[['me',`${name}の${ao.main}、${FT_TOPW[ao.k]||'すてきだね'}`],[a,pick(['ほんと？うれしい！','ありがとう！奮発して買ったんだ','えへへ、お気に入り'])],['me','わたしも同じの欲しくなっちゃった']]);
+      if(ao.bot)out.push(()=>[['me',`${name}、その${ao.bot}と${ao.main}の組み合わせ、すてき`],[a,'色合わせ、けっこう考えたんだ'],['me','さすが！']]);}
+    if(!mo.cos&&!ao.cos&&mo.c===ao.c)out.push(()=>[[a,`あれ、${mo.c}でおそろいだね！`],['me','ほんとだ！'],[a,'気が合うね（笑）']]);}
+  // advice
+  if(!mo.cos){
+    if(t!=null&&t<10&&C.scene==='out'&&!mo.outer)out.push(()=>[[a,`${Math.round(t)}℃だよ、なにか羽織らないと寒くない？`],['me','たしかに…ちょっと寒いかも'],[a,pick(['ピーコートとか似合いそう','ダウンがあったかいよ'])]]);
+    if(t!=null&&t>=25&&['sweater','turtle','hoodie','sweatshirt','longsleeve','cardigan'].includes(S.outfit.top.k))out.push(()=>[[a,`その${KN.top[S.outfit.top.k]}、暑くない？`],['me','ちょっと暑いかも…'],[a,pick(['半袖のほうが涼しいよ','Tシャツに着替えちゃえば？','見てるだけで汗かいちゃう（笑）'])]]);
+    if(t!=null&&t<=8&&['tshirt','tank','aloha','polo'].includes(S.outfit.top.k))out.push(()=>[[a,`${Math.round(t)}℃なのに${KN.top[S.outfit.top.k]}！？`],['me','元気いっぱいだから！'],[a,'風邪ひかないでね（笑）']]);
+    if((k==='rain'||k==='thunder')&&C.scene==='out'&&!S.outfit.over)out.push(()=>[[a,'雨だよ、レインコート着ていきなよ'],['me','そうする！']]);
+    if(mo.tp&&mo.tp!=='plain'&&mo.bp&&mo.bp!=='plain')out.push(()=>[[a,'柄と柄の組み合わせ、攻めてるね'],['me','ちょっとやりすぎ？'],[a,'片方を無地にすると、柄がもっと引き立つかも']]);
+    if(mo.bc&&!NEUTRAL.includes(mo.bc)&&!NEUTRAL.includes(S.outfit.top.c))out.push(()=>[[a,`${S.outfit.top.c}と${mo.bc}、どっちも主役の色だね`],['me','にぎやかすぎるかな？'],[a,`ボトムを${pick(['紺','ベージュ','グレー','白'])}にすると、${S.outfit.top.c}が映えるよ`],['me','なるほど、やってみる']]);
+    const pal=PAL[season()];if(pal)out.push(()=>{const c0=pick(pal);return[[a,`${{spring:'春',summer:'夏',autumn:'秋',winter:'冬'}[season()]}は${c0}を入れると季節感が出るよ`],['me',`${c0}かあ。持ってたかな`],[a,'小物で取り入れるのもおすすめ']];});
+    if(S.trend&&Date.now()-S.trend.at<36*3600e3){const tr=S.trend,w=(tr.color?tr.color+'の':'')+(tr.item?KN[tr.item.slot][tr.item.k]:'服');out.push(()=>[['me',`ニュースで${w}が流行ってるって見たよ`],[a,pick(['知ってる！わたしも気になってた','今度いっしょに探そう','似合いそう！'])]]);}
+    out.push(()=>[['me',`ねえ${name}、この${mo.bot||'服'}に合う靴、なにがいいと思う？`],[a,pick(['スニーカーで抜け感出すのがいいかも','ローファーできれいめにするのは？','ブーツで引きしめるとかっこいいよ'])],['me','参考にする！']]);}
+  // the other person asks for advice
+  if(ao&&!ao.cos)out.push(()=>[[a,`ねえ${me}、今日の${ao.main}、${ao.bot?ao.bot+'と':''}合ってるかな？`],['me',pick(['すごく合ってる！','いい感じ！色のバランスがきれい',`${pick(['帽子','ストール','ベルト'])}を足すともっとよくなるかも`])],[a,pick(['よかった〜','試してみる！','ありがとう、安心した'])]]);
+  return out.length?pick(out)():null;}
 function convoParts(){const v=V,me=S.name,t=tempNow(),k=wKind(),pl=ENV.area||ENV.city||ENV.place||'このへん';
   const vt=()=>'';
   const greet=v.again?[['v',vt()+pick([`${me}、また遊びに来ちゃった！`,`やっほー${me}！ドローンに乗って来たよ`])],['me',pick([`${v.name}！いらっしゃい`,`わあ、${v.name}だ！元気だった？`])]]
@@ -5908,8 +5943,9 @@ function convoParts(){const v=V,me=S.name,t=tempNow(),k=wKind(),pl=ENV.area||ENV
     ()=>[['v',`そういえば、『${t2}』ってニュース見た？`],['me',pick(['見た見た！','え、知らなかった','さっきテレビでやってたよ'])+'　'+react(it.title)],['v',reactInfo(newsInfo(it.title),it.title)]],
     ()=>[['v',`となりの島でも話題なんだけど、『${t2}』だって`],['me',react(it.title)],['v',pick(['だよね〜','ほんとそれ','気になるよね','続報も見なきゃ'])]],
     ()=>[['me',`ねえ、『${t2}』ってニュース、知ってる？`],['v',reactInfo(newsInfo(it.title),it.title)],['me',pick(['だよね','わたしもそう思った','世の中いろいろだね'])]]])();};
-  return{greet,out:()=>{const L=sh(T2.slice()).slice(0,1).flatMap(f=>f()).concat(VT());const nw=Math.random()<.5&&NEWS();return nw?L.concat(nw):L;},
-    inn:()=>{const L=sh(inside.slice()).slice(0,1).flatMap(f=>f()).concat(VT());const nw=Math.random()<.6&&NEWS();if(nw)L.push(...nw);if(Math.random()<.5)L.push(...VT());else L.push(...sh(T2.slice())[0]());return L;},
+  const FAS=()=>{try{return fashionTalk('v',v.name,v.outfit,v.scene==='out');}catch(e){return null;}};
+  return{greet,out:()=>{const L=sh(T2.slice()).slice(0,1).flatMap(f=>f()).concat(VT());if(Math.random()<.45){const fa=FAS();if(fa)L.splice(Math.min(2,L.length),0,...fa);}const nw=Math.random()<.5&&NEWS();return nw?L.concat(nw):L;},
+    inn:()=>{const L=sh(inside.slice()).slice(0,1).flatMap(f=>f()).concat(VT());if(Math.random()<.4){const fa=FAS();if(fa)L.push(...fa);}const nw=Math.random()<.6&&NEWS();if(nw)L.push(...nw);if(Math.random()<.5)L.push(...VT());else L.push(...sh(T2.slice())[0]());return L;},
     bye:[['v',pick(['そろそろ帰るね。楽しかった！','あ、迎えのドローンを呼ばなきゃ。またね！','おしゃべりできてうれしかった！また来るね'])],['me',pick(['またね！気をつけて帰ってね','またいつでも来てね！','バイバーイ！'])]]};}
 /* ===== guests' souvenirs: regional specialities & well-known sweets (boxed) ===== */
 // p: where/maker label, n: product, k: w=和菓子 y=洋菓子 s=せんべい・おかき c=チョコ, col: wrapping colour
@@ -6119,7 +6155,7 @@ function dailyTalk(me){const mn=mName(),k=wKind(),t=tempNow(),out=[];
   out.push(()=>[['m',`${ENV.area||ENV.city||'下の街'}って、どんなところなんだろう`],['me','今度、望遠鏡でのぞいてみよう'],['m','行ってみたいなあ']]);
   for(const f of EXTRA_DAILY)out.push(()=>f(me,mn));
   return out;}
-function chatLines(){const me=S.name;if(Math.random()<.32)return pick(CONSULT).L(me);return pick(dailyTalk(me))();}
+function chatLines(){const me=S.name;if(Math.random()<.22&&M){const L=fashionTalk('m',mName(),M.outfit,M.scene==='out');if(L)return L;}if(Math.random()<.32)return pick(CONSULT).L(me);return pick(dailyTalk(me))();}
 const MEALTALK=[m=>[['m','いただきます！'],['me','いただきます'],['m',`${m}、おいしい〜`],['me',pick(['よかった！','うまくできたかも','おかわりあるよ'])]],
  m=>[['m','いい匂いだね'],['me',`今日は${m}だよ`],['m','やった、大好き'],['m','…うん、おいしい！'],['me','ゆっくり食べてね']],
  m=>[['me','味、どう？'],['m',pick(['ちょうどいい！','もうちょっと濃くてもいいかも','完璧です'])],['me','次の参考にするね'],['m','作ってくれてありがとう']],
@@ -10583,13 +10619,13 @@ function myTableSeat(L){if(!L||C.scene!=='in'||C.snapK!=='table')return undefine
 const SPRC={per:{},on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new Set(),scr:null,budget:0,stats:{hit:0,bake:0,live:0}};
 (function(){
   const seen=new Set();
-  function srcDeps(fn,depth){const s=Function.prototype.toString.call(fn);if(depth<=0)return s;let out=s;const names=new Set(s.match(/\b[A-Za-z_$][\w$]*(?=\s*\()/g)||[]);
+  function srcDeps(fn,depth){const s=Function.prototype.toString.call(fn);if(depth<=0)return s;let out=s;const names=new Set(s.match(/(?<![.\w$])[A-Za-z_$][\w$]*(?=\s*\()/g)||[]);
     for(const n of names){if(n.length<2||seen.has(n))continue;seen.add(n);let v;try{v=eval(n);}catch(e){continue;}if(typeof v!=='function')continue;const vs=Function.prototype.toString.call(v);if(/\[native code\]/.test(vs))continue;out+='\n'+srcDeps(v,depth-1);}return out;}
   function depsOf(fn){seen.clear();const src=srcDeps(fn,7),objs={C:new Set(),S:new Set(),M:new Set(),V:new Set(),RV:new Set(),ENV:new Set(),GS:new Set(),MUS:new Set()};
     const re=/\b(C|S|M|V|RV|ENV|GS|MUS)\.([A-Za-z_$][\w$]*)/g;let m;while((m=re.exec(src)))objs[m[1]].add(m[2]);
     const wk=new Set();const re2=/wActive\(\s*'(\w+)'\s*\)/g;while((m=re2.exec(src)))wk.add(m[1]);if(/wActive\(\s*[^'\s]/.test(src))['sink','ksink','handwash','bath'].forEach(k=>wk.add(k));
     const usesM=/\bM\b/.test(src),usesV=/\bV\b/.test(src),clock=/(^|[^.\w])now\(\)|hourNow\(|todayStr|new Date\(\)/.test((seen.clear(),srcDeps(fn,1))),lb=/\bLB\b|lbColOf/.test(src);
-    const SKIP=new Set(['S.lastSeen','S.dex','S.stored','S.recycled','S.ystored','S.diary','S.tday','S.notes','S.owned','S.yard','S.layout']);const parts=[];for(const o in objs){for(const p of objs[o])if(!SKIP.has(o+'.'+p))parts.push([o,p]);}
+    const SKIP=new Set(['S.pos','S.vegLog','S.vegN','S.lastSeen','S.dex','S.stored','S.recycled','S.ystored','S.diary','S.tday','S.notes','S.owned','S.yard','S.layout']);const parts=[];for(const o in objs){for(const p of objs[o])if(!SKIP.has(o+'.'+p))parts.push([o,p]);}
     return{parts,wk:[...wk],usesM,usesV,clock,lb};}
   const val=v=>v==null?'':typeof v==='number'?Math.round(v*20)/20:typeof v==='object'?JSON.stringify(v):String(v);
   let MEMO=new Map(),memoT=-1;const POS=new Set(['tx','ty','px','py','x','y']);
@@ -11170,9 +11206,11 @@ function contGame(s){S=s;M=null;setTimeout(()=>placeCheck(),6000);if(!SPEC[S.spe
   refreshOcc();placeAllMissing();if(!S.shelfGiven){S.shelfGiven=1;if(!S.owned.includes('bookshelf')&&!(S.stored||[]).some(e=>e.k==='bookshelf')){const p=placeFor('bookshelf');if(p){S.layout.bookshelf=p;S.owned.push('bookshelf');refreshOcc();}}}if(!S.boomboxGiven){S.boomboxGiven=1;if(!S.owned.includes('boombox')){const p=placeFor('boombox');if(p){S.layout.boombox=p;S.owned.push('boombox');refreshOcc();}}}if(S.music&&S.music.on)setTimeout(musResume,800);if(S.syn)delete S.syn;void placeAllMissing();refreshOcc();
   if(S.mate){try{if(!has('bed2'))placeBed2();if(!has('wardrobe2'))placeWardrobe2();spawnMate(false);}catch(e){}}
   S.ystored=(S.ystored||[]).filter(e=>e&&OFT[e.k]&&!(S.yard||{})[e.k]);S.yard=S.yard||{};for(const k in S.yard){if(!OFT[k])delete S.yard[k];else delete S.yard[k].carry;}S.xbeds=S.xbeds||[];if(S.yardDel&&!OFT[S.yardDel.k])S.yardDel=null;refreshOut();
+  /* resume where the character was when the game was closed (if that spot is still free to stand on) */
+  {const ps=S.pos;if(ps&&ps.sc==='out'&&walkOut(ps.x,ps.y)){C.scene='out';place(ps.x,ps.y);}else if(ps&&ps.sc==='in'&&walkIn(ps.x,ps.y)){place(ps.x,ps.y);}if(ps&&ps.d)C.dir=ps.d;cam.init=false;}
   const away=clamp((Date.now()-(S.lastSeen||Date.now()))/1000,0,3*86400);
   const m=Math.min(away,86400)/60;for(const k of['hunger','hygiene','bladder','fun'])S.needs[k]=Math.max(k==='hygiene'?55:30,Math.min(S.needs[k],S.needs[k]-m*(k==='hygiene'?.07:.6)));S.needs.energy=clamp(S.needs.energy+(isNight()?m:0),30,100);
-  gearFor('in');if(S.outfit.top.k==='pajama'&&!isNight())wearDay(false);
+  gearFor(C.scene);if(S.outfit.top.k==='pajama'&&!isNight())wearDay(false);
   for(const dd of[S.delivery,S.yardDel])if(dd){if(!dd.drop)dd.drop=dropSpot(dd===S.delivery?0:2);if(dd.stage==='air')dd.stage='yard';if(dd.stage==='carry')dd.stage='yard';}
   save();updateHUD();updateRoom();
   if(away>600)handleAway(away);else say(pick(['おかえり！','あ、また来てくれた！']));
