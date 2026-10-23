@@ -309,11 +309,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版175（2026/10/23 #25）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版179（2026/10/23 #29）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版175（2026/10/23 #25）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版179（2026/10/23 #29）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1588,7 +1588,12 @@ function waterStream(x,y0,y1){const t=performance.now()/1000;if(!S||C.scene!=='i
   for(let i=0;i<=4;i++){const yy=y0+(y1-y0)*i/4;g.lineTo(x+1.05+Math.sin(t*30+i)*.3,yy);}for(let i=4;i>=0;i--){const yy=y0+(y1-y0)*i/4;g.lineTo(x-1.05+Math.sin(t*30+i+1)*.3,yy);}g.closePath();g.fill();
   g.fillStyle='rgba(255,255,255,.6)';g.fillRect(x-.2,y0+.5,.4,(y1-y0)*.8);g.globalAlpha=.85;fillE(g,'rgba(210,236,252,.95)',x,y1,2.6+Math.sin(t*20)*.5,1);for(let i=0;i<3;i++){const a2=t*7+i*2.1;fillE(g,'rgba(170,215,245,.9)',x+Math.sin(a2)*2.6,y1-1-Math.abs(Math.cos(a2*1.3))*1.4,.45,.45);}g.restore();}
 const wActive=k=>WATER[k]&&WATER[k]>performance.now();
-function emit(k,type,n,spread){const c=itemCenter(k);for(let i=0;i<(n||1);i++)particles.push({sc:'in',x:c.x+rnd(-(spread||8),spread||8),y:c.y+rnd(-6,4),vx:rnd(-8,8),vy:type==='drop'?rnd(4,20):rnd(-26,-12),life:type==='note'?1.6:1,max:type==='note'?1.6:1,type});}
+function emit(k,type,n,spread){const c=itemCenter(k),fall=type==='drop'||type==='flake';let y0=c.y,lift=false;
+  // never start an effect on top of the character standing/sitting in front of the item: lift it above their head
+  if(C.scene==='in'){const cp=charPos(),top=cp.by-(C.pose==='sit'?40:46);if(Math.abs(cp.cx-c.x)<20&&cp.by>c.y-4){const ny=top-(fall?16:6);if(ny<y0){y0=ny;lift=true;}}}
+  for(let i=0;i<(n||1);i++)particles.push({sc:'in',x:c.x+rnd(-(spread||8),spread||8),y:y0+rnd(-6,fall?0:4),vx:type==='flake'?rnd(-3,3):rnd(-8,8),vy:type==='flake'?rnd(3,7):type==='drop'?(lift?rnd(2,8):rnd(4,20)):rnd(-26,-12),life:type==='note'?1.6:fall?.8:1,max:type==='note'?1.6:fall?.8:1,type});}
+/* keep an effect's start point above the head of a character who stands/sits in front of it */
+function fxY(x,y,fall){if(!S||C.scene!=='in')return y;const cp=charPos(),top=cp.by-(C.pose==='sit'?40:46);if(Math.abs(cp.cx-x)<20&&cp.by>y-4&&y>top-(fall?14:6))return top-(fall?14:6);return y;}
 function sparkleAt(c){for(let i=0;i<16;i++)particles.push({sc:'in',x:c.x+rnd(-14,14),y:c.y+rnd(-12,8),vx:rnd(-24,24),vy:rnd(-44,-10),life:1.2,max:1.2,type:'spark'});}
 function puffAt(c,sc){for(let i=0;i<12;i++)particles.push({sc:sc||'in',x:c.x+rnd(-12,12),y:c.y+rnd(-10,8),vx:rnd(-18,18),vy:rnd(-24,4),life:.8,max:.8,type:'puff'});}
 const SNK=[['さきいか','#f2e6c8','sake shochu beer'],['あたりめ','#e8d8b0','sake shochu'],['ビーフジャーキー','#7a3a2a','whisky beer'],['亀田の柿の種','#c8682a','beer sour shochu'],['バターピーナッツ','#d8a868','beer whisky'],
@@ -2046,7 +2051,7 @@ const A={
   piano(){if(!has('piano')){want('piano');return null;}let tk=0;
     return[...goF('piano'),snapF('piano'),SAY(pick(['ピアノをひこう','ポロン…♪','練習中の曲、ひいてみよう'])),W8(12,dt=>{need('fun',3)(dt);tk+=dt;if(tk>.35){tk=0;emit('piano','note',1,14);}}),SAY(pick(['ちょっと上手になったかも','まちがえちゃった…']))];},
   fish(){if(!has('aquarium')){want('aquarium');return null;}
-    return[...goF('aquarium'),SAY('お魚にえさをあげよう'),W8(3,dt=>{if(Math.random()<dt*4)emit('aquarium','drop',1,10);}),FN(()=>{S.fishDay=now().toDateString();}),SAY('みんな元気に泳いでる')];},
+    return[...goF('aquarium'),SAY('お魚にえさをあげよう'),W8(3,dt=>{if(Math.random()<dt*6)emit('aquarium','flake',1,9);}),FN(()=>{S.fishDay=now().toDateString();}),SAY('みんな元気に泳いでる')];},
   exercise(){if(!has('bike')){want('bike');return null;}
     return[...goF('bike'),snapF('bike'),FN(()=>{S.bikeOn=true;}),SAY('エアロバイクでひと汗かこう'),W8(12,dt=>{need('fun',2)(dt);need('energy',-1.2)(dt);need('hygiene',-.6)(dt);}),FN(()=>{S.bikeOn=false;}),SAY('ふう、いい運動になった')];},
   kotatsu(){if(!has('kotatsu')){want('kotatsu');return null;}
@@ -2268,9 +2273,9 @@ function puff(){const p=charPos();puffAt({x:p.cx,y:p.by-16},C.scene);}
 function hearts(){const cx=C.snap?C.snap.px:C.px+T/2,cy=(C.snap?C.snap.py:C.py+T)-34;for(let i=0;i<5;i++)particles.push({sc:C.scene,x:cx+rnd(-10,10),y:cy+rnd(-4,4),vx:rnd(-8,8),vy:rnd(-30,-16),life:1.3,max:1.3,type:'heart'});}
 function partTick(dt){
   for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.life-=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.type==='drop')p.vy+=120*dt;if(p.life<=0)particles.splice(i,1);}
-  if(C.cooking&&has('stove')&&Math.random()<dt*8){const c=itemCenter('stove');particles.push({sc:'in',x:c.x-9+Math.random()*4,y:c.y-12,vx:rnd(-4,4),vy:rnd(-22,-12),life:1.4,max:1.4,type:'steam'});}
+  if(C.cooking&&has('stove')&&Math.random()<dt*8){const c=itemCenter('stove');particles.push({sc:'in',x:c.x-9+Math.random()*4,y:fxY(c.x-8,c.y-12),vx:rnd(-4,4),vy:rnd(-22,-12),life:1.4,max:1.4,type:'steam'});}
   if(C.pose==='bath'&&has('bath')&&Math.random()<dt*4){const c=itemCenter('bath');particles.push({sc:'in',x:c.x+rnd(-20,20),y:c.y-8,vx:rnd(-3,3),vy:rnd(-16,-8),life:1.6,max:1.6,type:'steam'});}
-  if(S.heatOn&&has('heater')&&Math.random()<dt*1.5){const c=itemCenter('heater');particles.push({sc:'in',x:c.x+rnd(-3,3),y:c.y-14,vx:rnd(-2,2),vy:rnd(-12,-6),life:1.5,max:1.5,type:'steam'});}
+  if(S.heatOn&&has('heater')&&Math.random()<dt*1.5){const c=itemCenter('heater');particles.push({sc:'in',x:c.x+rnd(-3,3),y:fxY(c.x,c.y-14),vx:rnd(-2,2),vy:rnd(-12,-6),life:1.5,max:1.5,type:'steam'});}
   if(C.emoteT>0){C.emoteT-=dt;if(C.emoteT<=0)C.emote=null;}}
 
 /* ========== drawing: character (IT residents) ========== */
@@ -3804,7 +3809,7 @@ function drawCloth(x,y,w,h){const c=clothOf(),[n,kind,pat,base,acc]=c;let cx=x-1
 function dTable(X,Y,Wd,Dp,L){const H=14;g.fillStyle=WOOD.dk;for(const[lx,ly]of[[X+5,Y+8],[X+Wd-8,Y+8],[X+5,Y+Dp-6],[X+Wd-8,Y+Dp-6]])g.fillRect(lx,ly-H+4,3,H);
   shadowR(X+4,Y+Dp-5,Wd-6,6);fillR(g,WOOD.dk,X+3,Y+Dp-6-H,Wd-6,4,2);fillR(g,'#c49a6c',X+3,Y+3-H,Wd-6,Dp-9,4);grain(X+3,Y+3-H,Wd-6,Dp-9,.06);
   fillR(g,'rgba(255,255,255,.15)',X+5,Y+4-H,Wd-10,1.6,1);drawCloth(X+3,Y+3-H,Wd-6,Dp-9);
-  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L);if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
+  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L,myTableSeat(L));if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
     else if(ts.md&&ts.mt&&ts.drink&&!ts.pair&&M&&M.drink&&M.busy){const right=ts.mt.x<L.x;let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:right?'right':'left'});const gx=p2.x+(X+Wd/2-p2.x)*.35+(right?-4:4),gy=p2.y+(Y+9-p2.y)*.45+1.6;if(M.holding==='glass')fillE(g,'#f3f1ea',gx,gy-.4,1.4,.9);else drawGlass(g,gx,gy,M.drink,M.drinkLv);}}
   const vx=C.tableSet&&C.tableSet.k==='table'?X+Wd/2+(Wd/2-6):X+Wd/2,vy=C.tableSet&&C.tableSet.k==='table'?Y-6:Y+3;fillR(g,'#9fd0ee',vx-1.5,vy,3,6,1);fillE(g,'#ef8fb0',vx,vy-2,2.6,2.2);fillE(g,'#f2c230',vx+2,vy-.5,1.6,1.4);}
 function pTable(L){const out=[];const col=WOOD.md;for(let r=0;r<2;r++){const y=L.y+r;
@@ -4313,7 +4318,7 @@ function dRadioF(X,Y,Wd,Dp,L,t){prism(X+4,Y+8,16,12,10,WOOD.md,{top:WOOD.lt});gr
   fillR(g,on?'#ffe08a':'#e8d9b0',bx+1.6,by-8.8,4.8,2.6,.6);fillR(g,'#d9483b',bx+2.4+(on?((t*.3)%1)*3:1.2),by-8.8,.5,2.6);
   fillE(g,'#5a3e28',bx+2.8,by-4,1.2,1.2);fillE(g,'#5a3e28',bx+5.4,by-4,1.2,1.2);
   g.strokeStyle='#9aa3ad';g.lineWidth=.6;g.beginPath();g.moveTo(bx+5,by-10);g.lineTo(bx+8.4,by-19);g.stroke();fillE(g,'#c9ced3',bx+8.4,by-19,.7,.7);
-  if(on&&Math.random()<.04)particles.push({sc:'in',x:bx+rnd(-6,6),y:by-12,vx:rnd(-6,6),vy:rnd(-20,-10),life:1.4,max:1.4,type:'note'});}
+  if(on&&Math.random()<.04)particles.push({sc:'in',x:bx+rnd(-6,6),y:fxY(bx,by-12),vx:rnd(-6,6),vy:rnd(-20,-10),life:1.4,max:1.4,type:'note'});}
 function drawFurnK(k,t){const f=FT[k],L=S.layout[k];
   if(L.ped){const X=L.x*T,Y=L.y*T;g.fillStyle=WOOD.dk;g.fillRect(X+8,Y+12,2,8);g.fillRect(X+14,Y+12,2,8);prism(X+6,Y+12,12,8,10,'#b98d63',{top:'#d2ad82',r:2});f.draw(X+12,Y+4,L,t);return;}
   f.draw(L.x*T,L.y*T,f.w*T,f.h*T,L,t);
@@ -4600,6 +4605,7 @@ function drawParticles(){
     else if(p.type==='puff')fillE(g,'rgba(255,255,255,.8)',p.x,p.y,3+(1-a)*3,3+(1-a)*3);
     else if(p.type==='steam')fillE(g,'rgba(255,255,255,.55)',p.x,p.y,2+(1-a)*4,2+(1-a)*4);
     else if(p.type==='drop')fillE(g,'#8fd0f2',p.x,p.y,1.2,1.8);
+    else if(p.type==='flake'){fillE(g,'#b86a2a',p.x,p.y,1.3,.95,p.x);fillE(g,'#f2b45a',p.x-.35,p.y-.3,.55,.4);}
     else if(p.type==='heart')heart(p.x,p.y,4,'#ef6f8f');
     else if(p.type==='note'){g.fillStyle='#5a4e8a';g.font='bold 8px sans-serif';g.textAlign='center';g.fillText('♪',p.x,p.y);}
     g.globalAlpha=1;}
@@ -4667,7 +4673,7 @@ function dBoombox(X,Y,Wd,Dp,L,t){// wide 90s-style double-cassette boombox with 
     const sp=on&&d===0?t*6:0;for(const rx of[cx+1.9,cx+3.7]){g.save();g.translate(rx,y+11.5);g.rotate(sp);fillE(g,'#596070',0,0,.6,.6);g.restore();}}
   for(let i=0;i<4;i++)fillR(g,'#3a3f4e',px+1+i*2.8,y+14.6,2,.9,.3);
   fillE(g,on?'#ff4a3a':'#5a2a2a',x+w-15,y+3.4,.45,.45);fillE(g,'#3a3f4e',x+w-15,y+5,.45,.45);
-  if(on&&Math.random()<.04)particles.push({sc:'in',x:x+(Math.random()<.5?8:w-8),y:y,vx:rnd(-6,6),vy:rnd(-22,-12),life:1.4,max:1.4,type:'note'});}
+  if(on&&Math.random()<.04)particles.push({sc:'in',x:x+(Math.random()<.5?8:w-8),y:fxY(x+w/2,y),vx:rnd(-6,6),vy:rnd(-22,-12),life:1.4,max:1.4,type:'note'});}
 const MUS={playing:false,audio:null,url:null,title:'',pend:false};
 function idb(){return new Promise((ok,ng)=>{if(typeof indexedDB==='undefined')return ng('no idb');const r=indexedDB.open('fuyuchi-music',1);r.onupgradeneeded=()=>{r.result.createObjectStore('songs',{keyPath:'id'});};r.onsuccess=()=>ok(r.result);r.onerror=()=>ng(r.error);});}
 async function idbPut(rec){const db=await idb();return new Promise((ok,ng)=>{const tx=db.transaction('songs','readwrite');tx.objectStore('songs').put(rec);tx.oncomplete=()=>ok();tx.onerror=()=>ng(tx.error);});}
@@ -6782,7 +6788,7 @@ FT.table.draw=function(X,Y,Wd,Dp,L){g.save();const H=14,tp='#c49468',dk='#6e4a2c
   g.fillStyle='rgba(0,0,0,.08)';g.fillRect(X+Wd/2-.25,Y+3.5-H,.5,Dp-10);
   A_outline(X+2.6,Y+3-H,Wd-5.2,Dp-5,3,.4);
   drawCloth(X+3,Y+3-H,Wd-6,Dp-9);
-  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L);if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
+  if(C.tableSet&&C.tableSet.k==='table'){const ts=C.tableSet;let p=tableSpot(L,myTableSeat(L));if(ts.pair)p={x:X+Wd/2,y:Y+12};else if(ts.foods)p={x:clamp(p.x,X+11,X+Wd-11),y:Y+8};else if(ts.drink)p={x:p.x+(X+Wd/2-p.x)*.55,y:p.y+(Y+9-p.y)*.45};drawSet(p.x,p.y,ts);if((ts.food2||ts.foods2)&&ts.mt){let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:ts.mt.x<L.x?'right':'left'});p2=ts.foods2?{x:clamp(p2.x,X+11,X+Wd-11),y:Y+8}:{x:p2.x+(X+Wd/2-p2.x)*.35,y:p2.y+(Y+9-p2.y)*.45};drawSet(p2.x,p2.y,ts.foods2?{foods:ts.foods2,phase:ts.phase}:{food:ts.food2,phase:ts.phase});}
     else if(ts.md&&ts.mt&&ts.drink&&!ts.pair&&M&&M.drink&&M.busy){const right=ts.mt.x<L.x;let p2=tableSpot(L,{x:ts.mt.x,y:ts.mt.y,d:right?'right':'left'});const gx=p2.x+(X+Wd/2-p2.x)*.35+(right?-4:4),gy=p2.y+(Y+9-p2.y)*.45+1.6;if(M.holding==='glass')fillE(g,'#f3f1ea',gx,gy-.4,1.4,.9);else drawGlass(g,gx,gy,M.drink,M.drinkLv);}}
   const vx=C.tableSet&&C.tableSet.k==='table'?X+Wd/2+(Wd/2-6):X+Wd/2,vy=C.tableSet&&C.tableSet.k==='table'?Y-6:Y+3;A_vase(vx,vy);
   g.restore();};
@@ -9148,7 +9154,7 @@ FT.radio.draw=function(X,Y,Wd,Dp,L,t){g.save();
   // antenna
   g.strokeStyle=SZ.lg(bx+5,0,bx+8.4,0,[[0,'#c9ced3'],[1,'#7a828c']]);g.lineWidth=.6;g.beginPath();g.moveTo(bx+5,by-10);g.lineTo(bx+8.4,by-19);g.stroke();fillE(g,'#e6e9ee',bx+8.4,by-19,.7,.7);fillE(g,'#7a828c',bx+5,by-10,.6,.4);
   if(on){if(dl<.6)SZ.glow(bx+4,by-7.6,6,'rgba(255,200,110,A)',(.6-dl)*.6);
-    if(Math.random()<.04)particles.push({sc:'in',x:bx+rnd(-6,6),y:by-12,vx:rnd(-6,6),vy:rnd(-20,-10),life:1.4,max:1.4,type:'note'});}
+    if(Math.random()<.04)particles.push({sc:'in',x:bx+rnd(-6,6),y:fxY(bx,by-12),vx:rnd(-6,6),vy:rnd(-20,-10),life:1.4,max:1.4,type:'note'});}
   g.restore();};
 dRadioF=FT.radio.draw;
 /* ===== part D: yard items, high-quality redraws ===== */
@@ -10325,15 +10331,38 @@ function bosaiHud(){const bar=$('bosaiBar');if(!bar)return;const parts=[];const 
   const hot=(w&&w.codes&&w.codes.some(c=>WARN_NAME[c].endsWith('警報')))||(ENV.typhoons||[]).some(c=>c.km!=null&&c.km<600);bar.classList.toggle('hot',!!hot);bosaiBarVis();}
 function bosaiBarVis(){const bar=$('bosaiBar'),q=$('quake');if(!bar)return;bar.hidden=!bar.dataset.t||!(q&&q.hidden);if(!bar.hidden&&bar.dataset.m!==bar.dataset.t){bar.dataset.m=bar.dataset.t;bar.textContent=bar.dataset.t;tickerize(bar);}}
 /* one-line banner that scrolls sideways when the text does not fit */
-function tickerize(el){if(!el||!el.firstChild&&!el.textContent)return;const t=el.textContent;el.innerHTML='';const sp=document.createElement('span');sp.className='tk';sp.textContent=t;el.append(sp);
-  requestAnimationFrame(()=>{const w=sp.scrollWidth,box=el.clientWidth-20;if(box>0&&w>box){sp.textContent='';const a=document.createElement('span');a.textContent=t;const gp=document.createElement('i');gp.className='tkgap';const b=document.createElement('span');b.textContent=t;sp.append(a,gp,b);
+const TKI=(()=>{const st='fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"',cl='<path d="M7 15.5h10.5a3.7 3.7 0 0 0 .4-7.4A5.5 5.5 0 0 0 7.4 7.3 4.1 4.1 0 0 0 7 15.5z"/>';
+  const I={
+   rain:`<g ${st}>${cl.replace('15.5h','13h').replace('7.4A','4.9A').replace('7.3 ','4.8 ').replace('15.5z','13z').replace('8.1A','5.6A')}<path d="M8 16.5l-1 3M12.5 16.5l-1 3M17 16.5l-1 3"/></g>`,
+   wind:`<g ${st}><path d="M3 8.5h10.5a2.6 2.6 0 1 0-2.6-2.6"/><path d="M3 12.5h15a3 3 0 1 1-3 3"/><path d="M3 16.5h7"/></g>`,
+   typhoon:`<g ${st} stroke-width="2.2"><circle cx="12" cy="12" r="3.4"/><path d="M8.7 11.2C8.2 6.4 12.3 3.2 18.5 3.6"/><path d="M15.3 12.8C15.8 17.6 11.7 20.8 5.5 20.4"/></g>`,
+   snow:`<g ${st}><path d="M12 3v18M4.2 7.5l15.6 9M4.2 16.5l15.6-9"/><path d="M9.6 4.6 12 6.5l2.4-1.9M9.6 19.4 12 17.5l2.4 1.9"/></g>`,
+   thunder:`<path fill="currentColor" d="M13.6 2.5 5.5 13.4h5.3L9.6 21.5l8.9-11.4h-5.5z"/>`,
+   wave:`<g ${st}><path d="M2.5 15c2 0 2-1.6 4-1.6s2 1.6 4 1.6 2-1.6 4-1.6 2 1.6 4 1.6 2-1.6 3-1.6"/><path d="M2.5 19.5c2 0 2-1.6 4-1.6s2 1.6 4 1.6 2-1.6 4-1.6 2 1.6 4 1.6 2-1.6 3-1.6"/><path d="M4 11c1.6-4.5 6-7 10.5-6.2-2.6 1-3.8 3.4-3 6"/></g>`,
+   flood:`<g ${st}><path d="M12 2.8s-4 4.6-4 7.2a4 4 0 0 0 8 0c0-2.6-4-7.2-4-7.2z"/><path d="M2.5 18c2 0 2-1.6 4-1.6s2 1.6 4 1.6 2-1.6 4-1.6 2 1.6 4 1.6 2-1.6 3-1.6"/></g>`,
+   fog:`<g ${st}><path d="M4 7.5h16M2.5 12h19M4 16.5h16M7 21h10"/></g>`,
+   dry:`<g ${st}><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M5.3 18.7l1.6-1.6M17.1 6.9l1.6-1.6"/></g>`,
+   cold:`<g ${st}><path d="M10 4.5a2 2 0 0 1 4 0v9.3a4 4 0 1 1-4 0z"/><path d="M12 9v6.5"/></g>`,
+   quake:`<g ${st}><path d="M2 12h3.5l2-5 3 11 3-14 2.6 11 1.8-3H22"/></g>`,
+   warn:`<g ${st}><path d="M12 3.2 2.6 19.6h18.8z"/><path d="M12 9.5v4.6M12 16.9v.2"/></g>`};
+  for(const k in I)I[k]='<svg class="tki" viewBox="0 0 24 24" aria-hidden="true">'+I[k]+'</svg>';
+  const kind=w=>/雷/.test(w)?'thunder':/雪|なだれ/.test(w)?'snow':/洪水/.test(w)?'flood':/波浪|高潮/.test(w)?'wave':/風/.test(w)?'wind':/雨/.test(w)?'rain':/霧/.test(w)?'fog':/乾燥/.test(w)?'dry':/低温|霜|着氷/.test(w)?'cold':'warn';
+  const RE=/⚠\s?|台風情報|台風第|津波|震度|地震|(?:記録的短時間大雨|暴風雪|大雨|洪水|暴風|大雪|波浪|高潮|風雪|雷|強風|融雪|濃霧|乾燥|なだれ|低温|霜|着氷|着雪)(?:特別)?(?:警報|注意報)/g;
+  return function(el,t){let i=0,m,once={};RE.lastIndex=0;const add=x=>{if(x)el.append(document.createTextNode(x));};
+    while((m=RE.exec(t))){add(t.slice(i,m.index));const w=m[0];let k=null;
+      if(w[0]==='⚠')k='warn';else if(w==='台風情報'||w==='台風第')k=once.ty?null:'typhoon',once.ty=1;else if(w==='津波')k=once.ts?null:'wave',once.ts=1;else if(w==='震度'||w==='地震')k=once.eq?null:'quake',once.eq=1;else k=kind(w);
+      if(k){const sp=document.createElement('span');sp.innerHTML=I[k];el.append(sp.firstChild);}
+      if(w[0]!=='⚠')add(w);i=m.index+w.length;}
+    add(t.slice(i));};})();
+function tickerize(el){if(!el||!el.firstChild&&!el.textContent)return;const t=el.textContent;el.innerHTML='';const sp=document.createElement('span');sp.className='tk';TKI(sp,t);el.append(sp);
+  requestAnimationFrame(()=>{const w=sp.scrollWidth,box=el.clientWidth-20;if(box>0&&w>box){sp.textContent='';const a=document.createElement('span');TKI(a,t);const gp=document.createElement('i');gp.className='tkgap';const b=document.createElement('span');TKI(b,t);sp.append(a,gp,b);
       const dist=w+48;sp.style.setProperty('--d',(-dist)+'px');sp.style.animationDuration=Math.max(6,dist/38)+'s';sp.classList.add('run');}});}
 {const qa=quakeAlert;quakeAlert=function(q){qa(q);tickerize($('quake'));bosaiBarVis();};}
 {const wp=warnPoll;warnPoll=async function(){await wp();bosaiHud();};const tp=tcPoll;tcPoll=async function(){await tp();bosaiHud();};}
 {const kick=setInterval(()=>{if(!S)return;clearInterval(kick);warnPoll();setTimeout(tcPoll,3000);},3000);}
 setInterval(()=>{if(S)warnPoll();},10*60e3);setInterval(()=>{if(S)tcPoll();},30*60e3);
 (function(){const q=$('quake');if(q&&q.after&&!$('bosaiBar')){const d=document.createElement('div');d.id='bosaiBar';d.className='quake bosaibar';d.hidden=true;q.after(d);}setInterval(bosaiBarVis,1000);
-  const st=document.createElement('style');st.textContent='.quake{white-space:nowrap;overflow:hidden}.quake .tk{display:inline-block}.quake .tk.run{animation:tkr linear infinite;animation-delay:1.2s}@keyframes tkr{from{transform:translateX(0)}to{transform:translateX(var(--d))}}.quake .tkgap{display:inline-block;width:48px}.bosaibar{background:rgba(60,40,20,.82);border-color:rgba(255,210,120,.55)}.bosaibar.hot{background:rgba(150,50,30,.86);border-color:#ffc0a0}';if(document.head&&document.head.appendChild)document.head.appendChild(st);})();
+  const st=document.createElement('style');st.textContent='.quake{white-space:nowrap;overflow:hidden}.quake .tk{display:inline-block}.quake .tk.run{animation:tkr linear infinite;animation-delay:1.2s}@keyframes tkr{from{transform:translateX(0)}to{transform:translateX(var(--d))}}.quake .tkgap{display:inline-block;width:48px}.quake .tki{display:inline-block;width:1.2em;height:1.2em;vertical-align:-.25em;margin:0 .22em 0 .12em}.quake{text-shadow:0 1px 2px rgba(0,0,0,.55)}.quake:not(.eew):not(.bosaibar){background:rgba(40,30,60,.55)}.bosaibar{background:rgba(50,36,24,.38);border-color:rgba(255,210,120,.35);box-shadow:0 1px 6px rgba(0,0,0,.12);-webkit-backdrop-filter:blur(2px);backdrop-filter:blur(2px)}.bosaibar.hot{background:rgba(150,50,30,.48);border-color:rgba(255,192,160,.6)}';if(document.head&&document.head.appendChild)document.head.appendChild(st);})();
 /* ---- settings (チャネル tab) ---- */
 (function(){const anchor=$('wikiMsg');if(!anchor||typeof anchor.after!=='function')return;const box=document.createElement('div');
   box.innerHTML=`<h3>防災情報</h3><p class="hint">地震・津波は「P2P地震情報」、気象警報・注意報と台風は気象庁の防災情報から取得します。お住まいの都道府県（${esc(prefKey())}）が対象です。届いた情報は画面下の帯で知らせ、キャラも反応します。</p>`+
@@ -10430,6 +10459,11 @@ function HOUSE_sideWin(cx,gy,gw,gh,cut){const gx=cx-gw/2;
   for(let i=0;i<7;i++){const fx=bx+1+i*(bw-2)/6;fillE(g,se==='winter'?'#2f6a3a':'#4f9d48',fx,by-.3,1.2,.8);fillE(g,fc[i%2],fx+.2,by-1,.7,.65);fillE(g,'rgba(255,255,255,.5)',fx,by-1.2,.2,.2);}
   g.strokeStyle='#4f8a3a';g.lineWidth=.35;g.beginPath();g.moveTo(bx+1,by+.6);g.quadraticCurveTo(bx-.4,by+2.4,bx+.6,by+3.8);g.moveTo(bx+bw-1.2,by+.6);g.quadraticCurveTo(bx+bw+.4,by+2,bx+bw-.4,by+3.4);g.stroke();}
 
+
+/* where the main character actually sits at the table (so their own plate is in front of them, not on the mate's side) */
+function myTableSeat(L){if(!L||C.scene!=='in'||C.snapK!=='table')return undefined;const x=C.tx,y=C.ty;
+  return{x,y,d:x<L.x?'right':x>=L.x+2?'left':y<L.y?'down':'up'};}
+
 /* ===== sprite cache: detailed items are rendered once into an offscreen bitmap and blitted every frame.
    Each item's cache key holds exactly the game state its drawing code reads (found from its source);
    items that animate in that state are drawn live. Re-baking is spread over frames (budget) so nothing stutters. */
@@ -10441,22 +10475,33 @@ const SPRC={per:{},on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new S
   function depsOf(fn){seen.clear();const src=srcDeps(fn,7),objs={C:new Set(),S:new Set(),M:new Set(),V:new Set(),RV:new Set(),ENV:new Set(),GS:new Set(),MUS:new Set()};
     const re=/\b(C|S|M|V|RV|ENV|GS|MUS)\.([A-Za-z_$][\w$]*)/g;let m;while((m=re.exec(src)))objs[m[1]].add(m[2]);
     const wk=new Set();const re2=/wActive\(\s*'(\w+)'\s*\)/g;while((m=re2.exec(src)))wk.add(m[1]);if(/wActive\(\s*[^'\s]/.test(src))['sink','ksink','handwash','bath'].forEach(k=>wk.add(k));
-    const usesM=/\bM\b/.test(src),usesV=/\bV\b/.test(src),clock=/\bnow\(\)|hourNow\(|todayStr|Date\(\)/.test((seen.clear(),srcDeps(fn,1))),lb=/\bLB\b|lbColOf/.test(src);
+    const usesM=/\bM\b/.test(src),usesV=/\bV\b/.test(src),clock=/(^|[^.\w])now\(\)|hourNow\(|todayStr|new Date\(\)/.test((seen.clear(),srcDeps(fn,1))),lb=/\bLB\b|lbColOf/.test(src);
     const SKIP=new Set(['S.lastSeen','S.dex','S.stored','S.recycled','S.ystored','S.diary','S.tday','S.notes','S.owned','S.yard','S.layout']);const parts=[];for(const o in objs){for(const p of objs[o])if(!SKIP.has(o+'.'+p))parts.push([o,p]);}
     return{parts,wk:[...wk],usesM,usesV,clock,lb};}
   const val=v=>v==null?'':typeof v==='number'?Math.round(v*20)/20:typeof v==='object'?JSON.stringify(v):String(v);
-  function dynSig(d){const out=[];for(const[o,p]of d.parts){const ob=o==='C'?C:o==='S'?S:o==='M'?M:o==='V'?V:o==='RV'?(typeof RV!=='undefined'?RV:null):o==='ENV'?ENV:o==='GS'?(typeof GS!=='undefined'?GS:null):(typeof MUS!=='undefined'?MUS:null);
-      out.push(ob?val(ob[p]):'');}
+  let MEMO=new Map(),memoT=-1;const POS=new Set(['tx','ty','px','py','x','y']);
+  function dynSig(d){const tn=performance.now();if(tn!==memoT){memoT=tn;MEMO.clear();}const out=[];for(const[o,p]of d.parts){const mk=o+'.'+p;if(MEMO.has(mk)){out.push(MEMO.get(mk));continue;}
+      if(POS.has(p)&&((o==='C'&&!C.snap)||(o==='M'&&!(M&&M.sit)))){MEMO.set(mk,'');out.push('');continue;}const ob=o==='C'?C:o==='S'?S:o==='M'?M:o==='V'?V:o==='RV'?(typeof RV!=='undefined'?RV:null):o==='ENV'?ENV:o==='GS'?(typeof GS!=='undefined'?GS:null):(typeof MUS!=='undefined'?MUS:null);
+      const vv=ob?val(ob[p]):'';MEMO.set(mk,vv);out.push(vv);}
     if(d.usesM)out.push(M?1:0);if(d.usesV)out.push(V?1:0);for(const k of d.wk)out.push(wActive(k)?1:0);
     if(d.clock){const n=now();out.push(n.getDate()+'/'+n.getHours()+':'+n.getMinutes());}if(d.lb)out.push(typeof LB!=='undefined'?LB.length:0);
     return out.join('|');}
   function sig(){return Math.round(daylight()*10)+'|'+season()+'|'+(typeof snowCover!=='undefined'?Math.round(snowCover*4):0)+'|'+wKind();}
   function scaleOf(){const m=g.getTransform();return Math.min(6,Math.max(1,Math.round(Math.hypot(m.a,m.b)*2)/2));}
   function scratch(w,h){const c0=SPRC.scr;if(!c0||c0.width<w||c0.height<h){const c=document.createElement('canvas');c.width=Math.max(w,c0?c0.width:0);c.height=Math.max(h,c0?c0.height:0);SPRC.scr=c;}return SPRC.scr;}
-  function bake(orig,args,box,s,trim){const W0=Math.ceil(box.w*s),H0=Math.ceil(box.h*s),cv=scratch(W0,H0),c=cv.getContext('2d',{willReadFrequently:true});c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,W0,H0);c.setTransform(s,0,0,s,-box.x*s,-box.y*s);
+  const BB={};
+  function bake(orig,args,box,s,trim,id,reuse){
+    // final bake: if the item's bounds are known (from the cheap 1x probe), draw straight into a tight canvas – no pixel read-back
+    if(trim&&id&&BB[id]){const b=BB[id],m=3,bx=box.x+b.x0-m,by=box.y+b.y0-m,bw=b.x1-b.x0+1+2*m,bh=b.y1-b.y0+1+2*m,W0=Math.ceil(bw*s),H0=Math.ceil(bh*s);
+      const out=reuse&&reuse.width===W0&&reuse.height===H0?reuse:document.createElement('canvas');out.width=W0;out.height=H0;const c=out.getContext('2d');c.setTransform(s,0,0,s,-bx*s,-by*s);
+      const ok=withG(c,()=>orig.apply(null,args));c.setTransform(1,0,0,1,0,0);if(!ok)return null;return{cv:out,x:bx,y:by,w:W0/s,h:H0/s};}
+    const W0=Math.ceil(box.w*s),H0=Math.ceil(box.h*s),cv=scratch(W0,H0),c=cv.getContext('2d',{willReadFrequently:true});c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,W0,H0);c.setTransform(s,0,0,s,-box.x*s,-box.y*s);
     let ok=withG(c,()=>orig.apply(null,args));c.setTransform(1,0,0,1,0,0);if(!ok)return null;
-    const d=c.getImageData(0,0,W0,H0).data;if(!trim){let h=0;for(let i=3;i<d.length;i+=53)h=(h*31+d[i]*3+d[i-1]+d[i-2]*7)|0;return{hash:h};}
+    const d=c.getImageData(0,0,W0,H0).data;
     let x0=W0,y0=H0,x1=-1,y1=-1;for(let y=0;y<H0;y++){const r=y*W0*4;for(let x=0;x<W0;x++){if(d[r+x*4+3]>2){if(x<x0)x0=x;if(x>x1)x1=x;if(y<y0)y0=y;if(y>y1)y1=y;}}}
+    if(!trim){let h=0;for(let i=3;i<d.length;i+=53)h=(h*31+d[i]*3+d[i-1]+d[i-2]*7)|0;
+      if(id&&x1>=0){const o=BB[id];BB[id]=o?{x0:Math.min(o.x0,x0/s),y0:Math.min(o.y0,y0/s),x1:Math.max(o.x1,x1/s),y1:Math.max(o.y1,y1/s)}:{x0:x0/s,y0:y0/s,x1:x1/s,y1:y1/s};}
+      return{hash:h};}
     if(x1<0)return{cv:null};x0=Math.max(0,x0-1);y0=Math.max(0,y0-1);x1=Math.min(W0-1,x1+1);y1=Math.min(H0-1,y1+1);const w=x1-x0+1,h=y1-y0+1;
     const out=document.createElement('canvas');out.width=w;out.height=h;out.getContext('2d').drawImage(cv,x0,y0,w,h,0,0,w,h);return{cv:out,x:box.x+x0/s,y:box.y+y0/s,w:w/s,h:h/s};}
   /* animated items: redraw into a reusable bitmap ~15 times a second instead of every frame */
@@ -10469,21 +10514,22 @@ const SPRC={per:{},on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new S
     SPRC.deps=SPRC.deps||{};SPRC.deps[id]=dep.parts.map(p=>p.join('.')).concat(dep.wk.map(k=>'w:'+k),dep.clock?['clock']:[],dep.usesM?['M']:[],dep.usesV?['V']:[]);
     const nf=function(...a){const P=(SPRC.per[id]=SPRC.per[id]||{l:0,b:0,h:0});if(!SPRC.on)return orig.apply(this,a);
       const L=a[kind==='f'?4:2],t=a[kind==='f'?5:3]||0,ax=a[0],ay=a[1];let box,call;
-      if(kind==='f'){const Wd=a[2]||24,Dp=a[3]||24;box={x:-30,y:-100,w:Wd+60,h:Dp+130};call=[0,0,a[2],a[3],L,t];}
-      else if(kind==='y'){box={x:-34,y:-72,w:(f.w||1)*24+68,h:(f.h||1)*24+100};call=[0,0,L,t];}
-      else if(kind==='top'){box={x:-18,y:-32,w:36,h:40};call=[0,0,L,t];}
-      else{box={x:-16,y:-16,w:56,h:62};call=[0,0,L,t];}
-      const ds=dynSig(dep),s=scaleOf(),slot=id+'#'+((L&&L.v)||0)+'#'+((L&&L.side)||''),key=sig()+'|'+s+'|'+ds,pk=id+'|'+((L&&L.v)||0)+'|'+ds+'|'+sig();
+      if(kind==='f'){const Wd=a[2]||24,Dp=a[3]||24;box={x:-30,y:-100,w:Wd+60,h:Dp+130};call=[ax,ay,a[2],a[3],L,t];}
+      else if(kind==='y'){box={x:-34,y:-72,w:(f.w||1)*24+68,h:(f.h||1)*24+100};call=[ax,ay,L,t];}
+      else if(kind==='top'){box={x:-18,y:-32,w:36,h:40};call=[ax,ay,L,t];}
+      else{box={x:-16,y:-16,w:56,h:62};call=[ax,ay,L,t];}
+      box.x+=ax;box.y+=ay; /* bake at the real position: some drawings use absolute coordinates from L */
+      const ds=dynSig(dep),s=scaleOf(),slot=id+'#'+((L&&L.v)||0)+'#'+((L&&L.side)||''),key=sig()+'|'+s+'|'+ds+'|'+ax+','+ay,pk=id+'|'+((L&&L.v)||0)+'|'+ds+'|'+sig();
       if(SPRC.live.has(id)||SPRC.lk.has(pk)){P.l++;return orig.apply(this,a);}
       let e=SPRC.map.get(slot);
       if(!e||e.key!==key){
         if(SPRC.budget<=0){SPRC.stats.live++;P.l++;return orig.apply(this,a);}
         SPRC.budget--;
-        if(!SPRC.probe.has(pk)){const h1=bake(orig,call,box,1,false),c2=call.slice();c2[c2.length-1]=t+0.731;const h2=bake(orig,c2,box,1,false);if(SPRC.probe.size>4000)SPRC.probe.clear();SPRC.probe.add(pk);
+        if(!SPRC.probe.has(pk)){const h1=bake(orig,call,box,1,false,id),c2=call.slice();c2[c2.length-1]=t+0.731;const h2=bake(orig,c2,box,1,false,id);if(SPRC.probe.size>4000)SPRC.probe.clear();SPRC.probe.add(pk);
           if(!h1||!h2||h1.hash!==h2.hash){if(SPRC.lk.size>4000)SPRC.lk.clear();SPRC.lk.add(pk);P.l++;return orig.apply(this,a);}}
-        const b=bake(orig,call,box,s,true);if(!b){SPRC.live.add(id);return orig.apply(this,a);}e={key,...b};SPRC.map.set(slot,e);SPRC.stats.bake++;P.b++;}
+        const b=bake(orig,call,box,s,true,id,e&&e.cv);if(!b){SPRC.live.add(id);return orig.apply(this,a);}e={key,...b};SPRC.map.set(slot,e);SPRC.stats.bake++;P.b++;}
       else{SPRC.stats.hit++;P.h++;}
-      if(e.cv)g.drawImage(e.cv,ax+e.x,ay+e.y,e.w,e.h);};
+      if(e.cv)g.drawImage(e.cv,e.x,e.y,e.w,e.h);};
     nf.__spr=1;nf.__orig=orig;f.draw=nf;}
   for(const k in FT){const f=FT[k];if(f.art)continue;wrap(FT,k,f.k==='top'?'top':f.k==='wall'?'w':'f');}
   for(const k in OFT){if(OFT[k].art)continue;wrap(OFT,k,'y');}
