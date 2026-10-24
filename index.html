@@ -314,11 +314,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版228（2026/10/24 #78）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版233（2026/10/24 #83）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版228（2026/10/24 #78）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版233（2026/10/24 #83）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -329,6 +329,28 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
 <input type="file" id="musIn" accept="audio/*" multiple hidden><input type="file" id="musIn1" accept="audio/*" hidden>
 <div class="overlay center" id="musDlg" hidden><div class="card" role="dialog" aria-labelledby="musH" style="max-width:320px"><h2 id="musH" style="font-size:18px">ラジカセ</h2><p id="musT" class="note" style="text-align:left"></p><div class="row2"><button id="musChg" class="primary" type="button">曲をえらぶ</button><button id="musOff" type="button">演奏を止める</button></div><div class="row2" style="margin-top:8px"><button id="musX" type="button">キャンセル</button></div></div></div>
 <div class="overlay center" id="recy" hidden><div class="card" role="dialog" aria-labelledby="recyT" style="max-width:320px"><h2 style="font-size:18px" id="recyH">どうする？</h2><p id="recyT" class="note" style="text-align:left"></p><div class="row2"><button id="recySt" class="primary" type="button">しまう</button><button id="recyOk" type="button">リサイクルに出す</button></div><div class="row2" style="margin-top:8px"><button id="recyNo" type="button">やめる</button></div></div></div>
+<div class="overlay center" id="setupAsk" hidden>
+  <div class="card" role="dialog" aria-labelledby="saTitle">
+    <h2 id="saTitle">同居人も一緒に住む？</h2>
+    <p class="note" style="text-align:left">同居人は、いっしょにごはんを食べたり、おしゃべりしたり、自分のペースで暮らしたりする相棒です。</p>
+    <div class="row2" style="flex-direction:column;gap:8px"><button class="primary" id="saYes" type="button">同居人を作る</button><button id="saNo" type="button">ひとりで始める</button></div>
+    <p class="note" style="text-align:left;margin-top:10px">あとからでも、メニューの「同居人」タブでいつでも迎えられます。</p>
+  </div>
+</div>
+<div class="overlay center" id="setupM" hidden>
+  <div class="card" role="dialog" aria-labelledby="smTitle">
+    <h2 id="smTitle">いっしょに住む同居人</h2>
+    <p class="note" style="text-align:left">同居人の見た目と名前、星座を決めてください。</p>
+    <div class="hpick"><canvas id="smPrev" width="180" height="96"></canvas><div class="col"><div class="seg"><button type="button" id="smGm">男性</button><button type="button" id="smGf">女性</button></div><button type="button" id="smLook">見た目を変更</button><button type="button" id="smRand">おまかせ</button></div></div>
+    <h3>なまえ</h3>
+    <div class="namerow"><input id="smName" type="text" maxlength="10" aria-label="同居人のなまえ"><button id="smNewName" type="button">新しい名前</button></div>
+    <h3>星座</h3>
+    <div class="namerow"><select id="smZd" aria-label="同居人の星座" style="flex:1;background:#0f1530;color:#fff;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:11px 12px;font-size:16px;font-family:inherit"><option value="">えらんでください</option></select></div>
+    <p class="note" id="smNeed" style="text-align:left;margin:6px 0 0;color:#ff9a8a"></p>
+    <button class="primary start" id="smStart" type="button">ふたりで暮らす</button>
+    <button id="smSolo" type="button" style="width:100%;margin-top:8px">やっぱりひとりで始める</button>
+  </div>
+</div>
 <div class="overlay center" id="setup" hidden>
   <div class="card" role="dialog" aria-labelledby="setupTitle">
     <h2 id="setupTitle">浮遊島に、だれが住む？</h2>
@@ -339,6 +361,9 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <h3>島が浮かぶ地域（任意）</h3>
     <div class="namerow"><input id="spLocQ" type="text" placeholder="例：吉祥寺、札幌市中央区" aria-label="地域"><button id="spLocB">さがす</button></div>
     <p class="note" id="spLocNow" style="text-align:left;margin:4px 0"></p><div class="chips" id="spLocRes"></div>
+    <h3>星座</h3>
+    <div class="namerow"><select id="spZd" aria-label="星座" style="flex:1;background:#0f1530;color:#fff;border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:11px 12px;font-size:16px;font-family:inherit"><option value="">えらんでください</option></select></div>
+    <p class="note" id="spNeed" style="text-align:left;margin:6px 0 0;color:#ff9a8a"></p>
     <button class="primary start" id="bStart">この人と暮らす</button>
   </div>
 </div>
@@ -833,7 +858,10 @@ const LOC={manual:null};try{LOC.manual=JSON.parse(localStorage.getItem('fuyuchi-
 
 /* ========== time & environment ========== */
 /* ========== time & environment ========== */
-const now=()=>{const d=new Date(Date.now()+ENV.ov.shift*3600e3);if(ENV.ov.date){const m=/^(\d+)-(\d+)-(\d+)$/.exec(ENV.ov.date);if(m)d.setFullYear(+m[1],+m[2]-1,+m[3]);}return d;};
+/* local time of a manually chosen place: shift the game clock by (place's UTC offset − this device's offset) */
+function TZS(){if(!LOC.manual||ENV.lat==null)return 0;const off=(ENV.utcOff!=null&&ENV.utcOffKey===ENV.lat.toFixed(2)+','+ENV.lon.toFixed(2))?ENV.utcOff:Math.round(ENV.lon/15)*3600;return(off+new Date().getTimezoneOffset()*60)*1000;}
+function absNow(){return now().getTime()-TZS();}
+const now=()=>{const d=new Date(Date.now()+ENV.ov.shift*3600e3+TZS());if(ENV.ov.date){const m=/^(\d+)-(\d+)-(\d+)$/.exec(ENV.ov.date);if(m)d.setFullYear(+m[1],+m[2]-1,+m[3]);}return d;};
 const hourNow=()=>{const d=now();return d.getHours()+d.getMinutes()/60;};
 const pad=n=>String(n).padStart(2,'0');
 const fmtH=h=>h==null?'--:--':pad(Math.floor(h))+':'+pad(Math.round((h%1)*60)%60);
@@ -937,7 +965,7 @@ async function fetchWeather(){
   const base=`https://api.open-meteo.com/v1/forecast?latitude=${ENV.lat.toFixed(3)}&longitude=${ENV.lon.toFixed(3)}`;
   const hm=s=>{const m=/T(\d+):(\d+)/.exec(s||'');return m?(+m[1]+ +m[2]/60):null;};
   try{const j=await fetchJSON(base+'&current=temperature_2m,relative_humidity_2m,apparent_temperature,weather_code,is_day,wind_speed_10m,wind_direction_10m,wind_gusts_10m,cloud_cover,pressure_msl,uv_index&hourly=precipitation_probability,weather_code&daily=sunrise,sunset,temperature_2m_max,temperature_2m_min,precipitation_probability_max,weather_code,uv_index_max&wind_speed_unit=ms&timezone=auto&past_days=1&forecast_days=2');
-    const c=j.current,d=j.daily;ENV.temp=c.temperature_2m;ENV.hum=c.relative_humidity_2m;ENV.code=c.weather_code;ENV.elev=j.elevation;
+    if(j.utc_offset_seconds!=null){ENV.utcOff=j.utc_offset_seconds;ENV.utcOffKey=ENV.lat.toFixed(2)+','+ENV.lon.toFixed(2);}const c=j.current,d=j.daily;ENV.temp=c.temperature_2m;ENV.hum=c.relative_humidity_2m;ENV.code=c.weather_code;ENV.elev=j.elevation;
     const ti=(d.time||[]).length>=3?1:0;ENV.sunrise=hm(d.sunrise[ti]);ENV.sunset=hm(d.sunset[ti]);
     const w={app:c.apparent_temperature,wind:c.wind_speed_10m,wdir:c.wind_direction_10m,gust:c.wind_gusts_10m,cloud:c.cloud_cover,pres:c.pressure_msl,uv:c.uv_index!=null?c.uv_index:d.uv_index_max&&d.uv_index_max[ti],
       tmax:d.temperature_2m_max[ti],tmin:d.temperature_2m_min[ti],ymax:ti?d.temperature_2m_max[0]:null,ymin:ti?d.temperature_2m_min[0]:null,pop:d.precipitation_probability_max?d.precipitation_probability_max[ti]:null,
@@ -949,7 +977,7 @@ async function fetchWeather(){
     ENV.wx=w;ENV.wSrc='live';
   }catch(e){
     try{const j=await fetchJSON(base+'&current=temperature_2m,relative_humidity_2m,weather_code,is_day&daily=sunrise,sunset&timezone=auto&forecast_days=1');
-      const c=j.current;ENV.temp=c.temperature_2m;ENV.hum=c.relative_humidity_2m;ENV.code=c.weather_code;ENV.elev=j.elevation;
+      if(j.utc_offset_seconds!=null){ENV.utcOff=j.utc_offset_seconds;ENV.utcOffKey=ENV.lat.toFixed(2)+','+ENV.lon.toFixed(2);}const c=j.current;ENV.temp=c.temperature_2m;ENV.hum=c.relative_humidity_2m;ENV.code=c.weather_code;ENV.elev=j.elevation;
       ENV.sunrise=hm(j.daily&&j.daily.sunrise[0]);ENV.sunset=hm(j.daily&&j.daily.sunset[0]);ENV.wSrc='live';
     }catch(e2){if(ENV.wSrc!=='live')ENV.wSrc='sim';}}
   updateHUD();
@@ -1062,11 +1090,11 @@ function sampleRadio(){const d=now();d.setHours(0,0,0,0);const base=d.getTime(),
     while(h<24){let e=h+1;while(e<24&&gs[e]===gs[h]&&e-h<2)e++;const kind=gs[h],pool=RTITLES[kind];
       out.push({start:base+dd*86400e3+h*3600e3,end:base+dd*86400e3+e*3600e3,title:pool[Math.floor(hash(day,h,ch.length*5)*pool.length)],genre:RGEN[kind],ch});h=e;}}}
   return out;}
-function radioOnAir(){const t=now().getTime();if(!ENV.radio||!ENV.radio.length||!ENV.radio.some(p=>p.end>t))ENV.radio=sampleRadio();
+function radioOnAir(){const t=absNow();if(!ENV.radio||!ENV.radio.length||!ENV.radio.some(p=>p.end>t))ENV.radio=sampleRadio();
   const cur=ENV.radio.filter(p=>p.start<=t&&t<p.end);if(!cur.length)return null;const lk=S?LIKES[S.species]:[];const fav=cur.filter(p=>lk.includes(p.genre));return Math.random()<.25&&fav.length?pick(fav):pick(cur);}
-function onAir(){const t=now().getTime();const cur=(ENV.tv||[]).filter(p=>p.start<=t&&t<p.end);if(!cur.length)return null;const lk=S?LIKES[S.species]:[];const fav=cur.filter(p=>lk.includes(p.genre));return Math.random()<.25&&fav.length?pick(fav):pick(cur);}
+function onAir(){const t=absNow();const cur=(ENV.tv||[]).filter(p=>p.start<=t&&t<p.end);if(!cur.length)return null;const lk=S?LIKES[S.species]:[];const fav=cur.filter(p=>lk.includes(p.genre));return Math.random()<.25&&fav.length?pick(fav):pick(cur);}
 function planShow(){
-  if(!ENV.tv||!ENV.tv.length)return null;const t=now().getTime(),lk=LIKES[S.species];
+  if(!ENV.tv||!ENV.tv.length)return null;const t=absNow(),lk=LIKES[S.species];
   const c=ENV.tv.filter(p=>p.start>t+3*60e3&&p.start<t+10*3600e3&&lk.includes(p.genre)&&p.end-p.start>=10*60e3&&p.end-p.start<=90*60e3&&!(new Date(p.start).getHours()<6));
   if(!c.length)return null;c.sort((a,b)=>(a.start-b.start)+(lk.indexOf(a.genre)-lk.indexOf(b.genre))*3600e3);
   const p=c[0];return{start:p.start,end:p.end,title:p.title,sub:p.sub,content:p.content,genre:p.genre,ch:p.ch};}
@@ -1446,7 +1474,7 @@ function talkLine(){
     autumn:[`${pl}もそろそろ紅葉かな`,'食欲の秋！','秋の空って高いね。ここも高いけど','読書の秋だね','栗ご飯食べたい','秋の夜長、何しよう','さんまの季節だ','落ち葉がきれい','芸術の秋、絵でも描こうかな','空気が澄んできた'],winter:['冬はこたつがほしくなる','空気が澄んで遠くまで見える','みかん食べたい','鍋の季節だね','手がつめたい','あったかい飲み物がおいしい','冬の星座はきれい','マフラー出さなきゃ','雪、降るかな','乾燥注意！']}[season()]),'season');
   if(ENV.news.length)add(.57,()=>newsLine(pickNews()),'news'); // ≈5% of idle remarks
   if(S.tday&&S.tday.d===now().toDateString()&&S.tday.ev.length)add(1.25,()=>reflectLine()||pick(IDLE_MUSE),'reflect'); // ≈10%: looking back on today
-  if(S.tvPlan&&S.tvPlan.start>now().getTime())add(1.5,()=>pick([`${hm(S.tvPlan.start)}から『${short(S.tvPlan.title,22)}』があるんだ。楽しみ`,`『${short(S.tvPlan.title,22)}』まであと${Math.max(1,Math.round((S.tvPlan.start-now().getTime())/60e3))}分！`]),'media');
+  if(S.tvPlan&&S.tvPlan.start>absNow())add(1.5,()=>pick([`${hm(S.tvPlan.start)}から『${short(S.tvPlan.title,22)}』があるんだ。楽しみ`,`『${short(S.tvPlan.title,22)}』まであと${Math.max(1,Math.round((S.tvPlan.start-absNow())/60e3))}分！`]),'media');
   const wish=S.wish.find(w=>!has(w));
   if(wish)add(1.2,()=>{const f=FT[wish];return pick([`${f.n}、もうすぐ届くかな`,`${f.n}を調達中。楽しみ！`]);});
   if(S.tipsyUntil&&Date.now()<S.tipsyUntil)add(3,()=>pick(['ふわふわ〜、いい気分','えへへ、ちょっと酔っちゃった','お水も飲まなきゃね','なんだか楽しくなってきた']));
@@ -2021,7 +2049,7 @@ const A={
   tv(){if(!has('tv')){want('tv');return null;}
     const s=tvSeat(),p=onAir();s.push(FN(()=>{C.tvNow=p;}));
     if(p){let cur=p;const talk=()=>cur.genre==='00'&&ENV.news.length&&Math.random()<.6?(()=>{const it=pickNews();return`ニュースで『${short(it.title,40)}』って。${react(it.title)}`;})():showTalk(cur);
-      const zap=()=>{const t=now().getTime(),others=(ENV.tv||[]).filter(q=>q.start<=t&&t<q.end&&q.ch!==cur.ch&&q.title!==cur.title);if(!others.length)return null;cur=pick(others);C.tvNow=cur;return pick([`チャンネル変えちゃお。${cur.ch}は『${short(cur.title,24)}』`,`ぽちっ。${cur.ch}にしてみよう。『${short(cur.title,24)}』だって`,`ほかに何やってるかな…${cur.ch}で『${short(cur.title,24)}』`,`CMになったから、${cur.ch}に変えよう`,`ザッピング〜。『${short(cur.title,24)}』、ちょっと見てみよう`]);};
+      const zap=()=>{const t=absNow(),others=(ENV.tv||[]).filter(q=>q.start<=t&&t<q.end&&q.ch!==cur.ch&&q.title!==cur.title);if(!others.length)return null;cur=pick(others);C.tvNow=cur;return pick([`チャンネル変えちゃお。${cur.ch}は『${short(cur.title,24)}』`,`ぽちっ。${cur.ch}にしてみよう。『${short(cur.title,24)}』だって`,`ほかに何やってるかな…${cur.ch}で『${short(cur.title,24)}』`,`CMになったから、${cur.ch}に変えよう`,`ザッピング〜。『${short(cur.title,24)}』、ちょっと見てみよう`]);};
       s.push(SAY(pick(TVIN)(p)),W8(12,need('fun',4)),SAY(talk),W8(10,need('fun',3)));const n=2+Math.floor(Math.random()*3);
       for(let i=0;i<n;i++)s.push(SAY(()=>Math.random()<.45?(zap()||talk()):talk()),W8(9,need('fun',3)));}
     else s.push(SAY('いまは見たい番組がないなあ'),W8(5));
@@ -2031,9 +2059,9 @@ const A={
       const p=S.tvPlan;say(p?`${hm(p.start)}から${p.ch}で『${p.title}』！${GENRE[p.genre]||''}は見のがせない`:'今日は見たい番組がないかも');}));return s;},
   tvshow(){if(!has('tv'))return null;const p=S.tvPlan;if(!p)return null;const s=tvSeat();let tk=0;
     s.push(FN(()=>{C.tvNow=p;say(pick([`始まる！『${p.title}』`,`『${p.title}』の時間だ！`]));}),
-      {t:'until',cond:()=>now().getTime()>=Math.min(p.end,p.start+60*60e3)||S.needs.bladder<18||S.needs.hunger<15||(isNight()&&hourNow()<5),
+      {t:'until',cond:()=>absNow()>=Math.min(p.end,p.start+60*60e3)||S.needs.bladder<18||S.needs.hunger<15||(isNight()&&hourNow()<5),
        tick:dt=>{S.needs.fun=clamp(S.needs.fun+dt*.08,0,100);tk+=dt;if(tk>35){tk=0;if(!msgBusy())say(showTalk(p));}}},
-      FN(()=>{const done=now().getTime()>=p.end;C.tvNow=null;S.tvPlan=null;say(done?pick(['おもしろかった〜！','また来週も見よう','いい番組だった']):'ちょっと中断…あとで続きが気になる');}));return s;},
+      FN(()=>{const done=absNow()>=p.end;C.tvNow=null;S.tvPlan=null;say(done?pick(['おもしろかった〜！','また来週も見よう','いい番組だった']):'ちょっと中断…あとで続きが気になる');}));return s;},
   read(){if(!has('bookshelf')){want('bookshelf');return null;}
     const s=[...goF('bookshelf'),W8(1),FN(()=>C.holding='book')];
     if(has('armchair'))s.push(...goF('armchair'),snapF('armchair'));else if(has('sofa'))s.push(...goF('sofa'),snapF('sofa'));
@@ -2216,7 +2244,7 @@ function chooseActivity(){
   if((h>=19.5&&S.bathDay!==today)||(n.hygiene<20&&S.bathDay!==today)||n.hygiene<6)add('bath',h>=19.5?55:60);
   if(!night&&Date.now()-(S.dressAt||S.born)>(S.dressGap||2*3600e3)&&!C.sleeping){S.dressN=(S.dressN||0)+1;S.dressAt=Date.now();S.dressGap=rnd(1.2,3)*3600e3;S.dressMood=1;}
   if(!night&&outfitDiff())add('change',58);
-  {const p=S.tvPlan,tn=now().getTime();if(p&&tn>=p.end)S.tvPlan=null;else if(p&&tn>=p.start-90e3&&has('tv'))add('tvshow',140);}
+  {const p=S.tvPlan,tn=absNow();if(p&&tn>=p.end)S.tvPlan=null;else if(p&&tn>=p.start-90e3&&has('tv'))add('tvshow',140);}
   if(has('tv')&&!S.tvPlan&&Date.now()-(S.guideAt||0)>3*3600e3&&h>=6&&h<22)add('guide',45);
   if(!night){
     if(has('lamp')&&!S.lampOn&&light<.5)add('lamp',75);if(has('lamp')&&S.lampOn&&light>.7)add('lamp',45);
@@ -4803,7 +4831,7 @@ function holidaysOf(y){if(_holC[y])return _holC[y];const H={},k=(m,d)=>`${m}/${d
   return(_holC[y]=H);}
 function holidayOf(d){return holidaysOf(d.getFullYear())[`${d.getMonth()+1}/${d.getDate()}`]||null;}
 function annivOf(d){return ANNIV[pad(d.getMonth()+1)+pad(d.getDate())]||null;}
-function moonAge(d){const jd=d.getTime()/86400000+2440587.5,L=29.530588853;return(((jd-2451550.1)%L)+L)%L;}
+function moonAge(d){const jd=(d.getTime()-TZS())/86400000+2440587.5,L=29.530588853;return(((jd-2451550.1)%L)+L)%L;}
 function moonName(a){return a<1.5||a>28?'新月':a<5.5?'三日月':a<9?'上弦の月':a<13.5?'十三夜ごろ':a<16.2?'満月':a<20.5?'十六夜すぎ':a<24?'下弦の月':'有明の月';}
 function moonSVG(a){const p=a/29.530588853,r=7,c=Math.cos(2*Math.PI*p),rx=Math.max(.01,Math.abs(c)*r),wax=p<.5,o=wax?1:0,ts=wax?(c>0?0:1):(c>0?1:0);
   return`<svg viewBox="-9 -9 18 18" width="18" height="18" aria-hidden="true"><circle r="7.2" fill="#3c4260" stroke="rgba(255,255,255,.35)" stroke-width=".6"/><path d="M0 ${-r}A${r} ${r} 0 0 ${o} 0 ${r}A${rx.toFixed(2)} ${r} 0 0 ${ts} 0 ${-r}Z" fill="#f6e9b0"/></svg>`;}
@@ -4954,7 +4982,7 @@ function updateHUD(){
   const d=now(),k=wKind(),night=daylight()<.3;
   {const hol=holidayOf(d),an=annivOf(d),red=hol||d.getDay()===0;const key=d.toDateString()+'|'+hol+'|'+an;if($('hDate')._k!==key){$('hDate')._k=key;
     $('hDate').innerHTML=`<span${red?' class="hred"':d.getDay()===6?' class="hblue"':''}>${d.getFullYear()}/${d.getMonth()+1}/${d.getDate()}(${'日月火水木金土'[d.getDay()]})</span>${hol?`<b class="hhol">${hol}</b>`:''}${an?`<small class="hann">${esc(an)}</small>`:''}`;}}
-  {const ma=moonAge(d),mk=Math.round(ma*4);if($('hMoon')._k!==mk){$('hMoon')._k=mk;$('hMoon').innerHTML=moonSVG(ma);$('hMoon').title=`月齢${ma.toFixed(1)}（${moonName(ma)}）`;$('hMoon').setAttribute('aria-label',$('hMoon').title);$('hMoonT').innerHTML=`<small>月齢</small>${ma.toFixed(1)} ${moonName(ma)}`;}}$('hClock').innerHTML=pad(d.getHours())+':'+pad(d.getMinutes())+((ENV.ov.shift||(ENV.ov.mode&&ENV.ov.mode.t))?'<small>手動</small>':'');
+  {const ma=moonAge(d),mk=Math.round(ma*4);if($('hMoon')._k!==mk){$('hMoon')._k=mk;$('hMoon').innerHTML=moonSVG(ma);$('hMoon').title=`月齢${ma.toFixed(1)}（${moonName(ma)}）`;$('hMoon').setAttribute('aria-label',$('hMoon').title);$('hMoonT').innerHTML=`<small>月齢</small>${ma.toFixed(1)} ${moonName(ma)}`;}}$('hClock').innerHTML=pad(d.getHours())+':'+pad(d.getMinutes())+((ENV.ov.shift||(ENV.ov.mode&&ENV.ov.mode.t))?'<small>手動</small>':'')+(TZS()?'<small>現地</small>':'');
   {const pt=ENV.placeShort||ENV.place||'—';if($('hPlace')._k!==pt){$('hPlace')._k=pt;$('hPlace').innerHTML=`<svg viewBox="0 0 24 24" width="13" height="13" aria-hidden="true"><path d="M12 2.2a7 7 0 0 0-7 7c0 5.2 7 12.6 7 12.6s7-7.4 7-12.6a7 7 0 0 0-7-7z" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"/><circle cx="12" cy="9.2" r="2.6" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>${esc(pt)}</span>`;}$('hPlace').title=ENV.place||'';}
   $('hIcon').innerHTML=k==='clear'?(night?ICON.moon:ICON.sun):k==='cloudy'?ICON.cloud:ICON[k];
   $('hIcon').setAttribute('aria-label',WJP[k]);$('hIcon').title=WJP[k];$('hWx').textContent=WJP[k];
@@ -5043,12 +5071,12 @@ function renderOv(){const md=ovMode();for(const sg of document.querySelectorAll(
   $('ovSubD').hidden=!md.d;$('ovSubT').hidden=!md.t;$('ovSubW').hidden=!md.w;$('ovD').value=ENV.ov.date||'';$('ovW').value=ENV.ov.weather||wKind();
   const d=now();$('ovTm').value=`${pad(d.getHours())}:${pad(d.getMinutes())}`;$('ovTv').textContent=md.t?'（この時刻から進みます）':'';}
 document.addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('.seg[data-ov] button');if(!b||!S)return;const k=b.parentNode.dataset.ov,man=b.dataset.m==='m';ENV.ov.mode=ENV.ov.mode||{};ENV.ov.mode[k]=man;
-  if(k==='d'){if(man){if(!ENV.ov.date){const r=new Date();ENV.ov.date=`${r.getFullYear()}-${pad(r.getMonth()+1)}-${pad(r.getDate())}`;}}else ENV.ov.date='';}
+  if(k==='d'){if(man){if(!ENV.ov.date){const r=new Date(Date.now()+TZS());ENV.ov.date=`${r.getFullYear()}-${pad(r.getMonth()+1)}-${pad(r.getDate())}`;}}else ENV.ov.date='';}
   if(k==='t'&&!man)ENV.ov.shift=0;if(k==='w'){ENV.ov.weather=man?(ENV.ov.weather||wKind()):'';}
   renderOv();updateHUD();});
 $('ovW').onchange=e=>{ENV.ov.weather=e.target.value;updateHUD();};
 $('ovD').onchange=e=>{ENV.ov.date=e.target.value||'';updateHUD();};
-$('ovTm').onchange=e=>{const m=/^(\d+):(\d+)/.exec(e.target.value);if(!m)return;const r=new Date(),want=+m[1]*60+ +m[2],cur=r.getHours()*60+r.getMinutes();let diff=want-cur;if(diff>720)diff-=1440;if(diff<-720)diff+=1440;ENV.ov.shift=diff/60;renderOv();updateHUD();};
+$('ovTm').onchange=e=>{const m=/^(\d+):(\d+)/.exec(e.target.value);if(!m)return;const r=new Date(Date.now()+TZS()),want=+m[1]*60+ +m[2],cur=r.getHours()*60+r.getMinutes();let diff=want-cur;if(diff>720)diff-=1440;if(diff<-720)diff+=1440;ENV.ov.shift=diff/60;renderOv();updateHUD();};
 $('locQB').onclick=async()=>{const q=$('locQ').value.trim();if(!q)return;const box=$('locRes');box.textContent='さがしています…';
   const rs=await searchPlace(q);box.innerHTML='';if(!rs.length){box.textContent='見つかりませんでした。駅名や市区町村名で試してください';return;}
   rs.forEach(r=>{const b=document.createElement('button');b.type='button';b.textContent=r.label;b.onclick=()=>{
@@ -5993,7 +6021,7 @@ function convoParts(){const v=V,me=S.name,t=tempNow(),k=wKind(),pl=ENV.area||ENV
     ['me',t==null?'ほんとだね':t>=27?`${Math.round(t)}℃もあって暑いけどね`:t<=10?`${Math.round(t)}℃でひんやりするけどね`:`${Math.round(t)}℃くらいで気持ちいいよね`]]);
   T2.push(()=>[['v',`その${descTop(S.outfit)}、似合ってるね`],['me',`ありがとう！${v.name}の${v.col}の服もかわいいよ`]]);
   T2.push(()=>[['v',vt()+`最近ね、${HOBBY[v.sp]}にハマってるんだ`],['me',pick(['へえ、楽しそう！こんど見せて','いいなあ、やってみたい',`${v.name}らしいね`])]]);
-  if(S.tvPlan&&S.tvPlan.start>now().getTime())T2.push(()=>[['me',`このあと『${short(S.tvPlan.title,20)}』を見るんだ`],['v','いいね！わたしも帰ったら見ようかな']]);
+  if(S.tvPlan&&S.tvPlan.start>absNow())T2.push(()=>[['me',`このあと『${short(S.tvPlan.title,20)}』を見るんだ`],['v','いいね！わたしも帰ったら見ようかな']]);
   if(S.trend&&Date.now()-S.trend.at<36*3600e3)T2.push(()=>[['v',`${S.trend.color||'その'}の服、流行ってるらしいね`],['me','そうなの、だからまねしてみた！']]);
   T2.push(()=>[['v',{spring:'春は風があまくて、飛ぶのが楽しいんだ',summer:'夏の雲は大きくて、よけるのが大変だった',autumn:'秋の空って高くて気持ちいいね',winter:'冬は空気が澄んでて、遠くの島まで見えるよ'}[season()]],['me',pick(['ほんとだね','わかる〜','ここからの景色も好きなんだ'])]]);
   const yd=yardList();if(yd.length)T2.push(()=>{const o=OFT[pick(yd)];return[['v',`お庭の${o.n}、いいね！`],['me',pick(['でしょ？お気に入りなんだ','こんど一緒に遊ぼう！'])]];});
@@ -13238,37 +13266,46 @@ v:BA-TSUのお店、原宿にあったよね|p:あった！ロゴ入りの服が
 v:アバハウスのジャケット、似合いそう|p:ほんと？昔ほしかったんだ|v:今度いっしょに見に行こうよ|p:島から行けるかなあ…
 v:JUNのCM、おしゃれだったよね|p:大人の世界って感じだった|v:ROPÉのバッグもあこがれだった|p:わかる、お姉さんっぽかった
 `.trim().split('\n').map(l=>l.trim()).filter(Boolean);RETRO_V.push(...DCV);VTALK.push(...DCV);}
-/* ---- Japanese cars (80s–90s) ---- */
-RETRO_SOLO.push('マークII、チェイサー、クレスタ。ハイソカー三兄弟って呼ばれてたんだよね','白いマークIIが、大人の成功のしるしみたいに見えてた','チェイサーのうしろ姿、子どもながらにかっこいいと思ってた','クレスタって名前の響き、なんだか上品だったなあ',
-'近所のおうちのセドリック、ピカピカに磨かれてたっけ','セドリックとグロリア、どっちがどっちか最後まで分からなかった','シーマが出たとき、「シーマ現象」なんて言葉まで生まれたんだって','ソアラの助手席、大人のデートってこういうことかと思ってた',
-'プレリュードはデートカーの代表だったよね。先輩が乗ってて、うらやましかった','シルビアのCM、おしゃれでずっと見てた','ハチロクのリトラクタブルライト、パカッと開くのが好きだった','赤いファミリアの屋根にサーフボード、海に行かなくても載せてる人がいたなあ',
-'ホンダ シティ、小さな箱みたいでかわいかった','CR-Xって小さいのに速くて、なんだかかっこよかった','Be-1とパオ、まるいレトロな形がかわいくて欲しかったなあ','スカイラインGT-R、男子はみんなミニカー持ってた',
-'ユーノス・ロードスターで海までドライブ、あこがれだった','RX-7のロータリーエンジン、音がちがうんだよね','NSXが出たとき、日本にもスーパーカーができたって大騒ぎだった','「かっこインテグラ」のCM、つい口に出して言っちゃう',
-'セルシオって、高級車といえばこれって感じだった','パジェロでスキーに行くの、ちょっとした夢だった','レガシィのワゴンにスキー板を積んで、ゲレンデへ向かうのがかっこよかった','エスティマの丸いかたち、「天才タマゴ」ってCMで言ってたよね',
-'オデッセイが出てから、ミニバンで家族旅行する家が増えた気がする','ホンダのビート、屋根の開く小さなオープンカー。乗ってみたかったな','ビートって、エンジンが座席のうしろにあるんだよ','ランエボとインプレッサ、どっちが速いかで友だちと言い合ってた');
+/* ---- Japanese cars (80s–90s), always with the maker's name ---- */
+RETRO_SOLO.push('トヨタのマークII、チェイサー、クレスタ。ハイソカー三兄弟って呼ばれてたんだよね','白いトヨタ マークIIが、大人の成功のしるしみたいに見えてた','トヨタ チェイサーのうしろ姿、子どもながらにかっこいいと思ってた','トヨタ クレスタって名前の響き、なんだか上品だったなあ',
+'近所のおうちの日産 セドリック、ピカピカに磨かれてたっけ','日産のセドリックとグロリア、どっちがどっちか最後まで分からなかった','日産 シーマが出たとき、「シーマ現象」なんて言葉まで生まれたんだって','トヨタ ソアラの助手席、大人のデートってこういうことかと思ってた',
+'ホンダ プレリュードはデートカーの代表だったよね。先輩が乗ってて、うらやましかった','日産 シルビアのCM、おしゃれでずっと見てた','トヨタ カローラレビンとスプリンタートレノ、ハチロクのライトがパカッと開くのが好きだった','赤いマツダ ファミリアの屋根にサーフボード、海に行かなくても載せてる人がいたなあ',
+'ホンダ シティ、小さな箱みたいでかわいかった','ホンダ CR-Xって小さいのに速くて、なんだかかっこよかった','日産のBe-1とパオ、まるいレトロな形がかわいくて欲しかったなあ','日産 スカイラインGT-R、男子はみんなミニカー持ってた',
+'ユーノス・ロードスターで海までドライブ、あこがれだった。マツダのオープンカーだよね','マツダ RX-7のロータリーエンジン、音がちがうんだよね','ホンダ NSXが出たとき、日本にもスーパーカーができたって大騒ぎだった','ホンダ インテグラの「かっこインテグラ」のCM、つい口に出して言っちゃう',
+'トヨタ セルシオって、高級車といえばこれって感じだった','三菱 パジェロでスキーに行くの、ちょっとした夢だった','スバル レガシィのワゴンにスキー板を積んで、ゲレンデへ向かうのがかっこよかった','トヨタ エスティマの丸いかたち、「天才タマゴ」ってCMで言ってたよね',
+'ホンダ オデッセイが出てから、ミニバンで家族旅行する家が増えた気がする','ホンダ ビート、屋根の開く小さなオープンカー。乗ってみたかったな','ホンダ ビートって、エンジンが座席のうしろにあるんだよ','三菱 ランサーエボリューションとスバル インプレッサ、どっちが速いかで友だちと言い合ってた',
+// Civic, CR-X and VTEC
+'ホンダ シビック、「ワンダーシビック」っていう愛称があったんだよね','ホンダ シビックの「グランドシビック」、丸みのある形が好きだった','ホンダ シビックのSiR、走り好きのお兄さんたちの定番だった','ホンダ シビックは、初めての車に選ぶ人が多かったなあ',
+'ホンダ CR-X、うしろがスパッと切れた形がかっこよかった','ホンダ CR-Xは「バラードスポーツCR-X」って名前で出たんだって','ホンダのVTEC、回転が上がると音が変わる瞬間がたまらないんだって',
+'「VTECに入った！」って、助手席の先輩がうれしそうに言ってたなあ','ホンダ インテグラから始まったVTEC、高回転まで気持ちよく回るエンジンだったんだって','ホンダ シビックもCR-XもVTECが載ってて、走り好きのあこがれだった');
 RETRO_DUO.push(...`
-m:ねえ{me}、子どものころお父さんの車って何だった？|p:セドリック！|m:うちはグロリアだった|p:それ、ほとんど同じ車じゃない？
-m:マークII、チェイサー、クレスタって覚えてる？|p:ハイソカー三兄弟でしょ|m:白いのばっかり走ってたよね|p:どれがどれか、エンブレムで見分けてた
-m:デートカーっていったら何だった？|p:やっぱりプレリュード！|m:わたしはソアラかなあ|p:どっちも助手席にあこがれたね
-m:スカイラインGT-Rのミニカー、持ってた？|p:持ってた！ボロボロになるまで遊んだ|m:本物はいまだに乗ったことないなあ|p:いつか乗ってみたいね
-m:免許とったら、最初に何の車がほしかった？|p:シルビア！|m:わたしはロードスター|p:屋根を開けて走るの、気持ちよさそう
-m:ホンダのビートって知ってる？|p:小さなオープンカーでしょ|m:エンジンがうしろにあるんだって|p:ちっちゃいのに本格的なんだね
-m:Be-1とパオ、覚えてる？|p:まるくてかわいいやつ！|m:抽選じゃないと買えなかったんだって|p:今見てもかわいいよね
-m:パジェロでスキー行ったことある？|p:友だちのお父さんの車で！|m:いいなあ。うちはレガシィのワゴンだった|p:どっちもスキー場の定番だったね
-m:RX-7とNSX、どっちがかっこいい？|p:うーん、むずかしい…|m:わたしはRX-7の形が好き|p:じゃあわたしはNSXにしとく
-m:エスティマの「天才タマゴ」ってCM、覚えてる？|p:覚えてる！まるい車|m:未来の車って感じがしたよね|p:乗ってみたかったなあ
-m:赤いファミリアに乗ってた人、いた？|p:いた！屋根にサーフボード載せて|m:でも海には行かないんだよね|p:「陸サーファー」って呼ばれてた
-m:ハチロクのライト、パカッて開くの好きだった？|p:大好き！|m:リトラクタブルライトっていうんだよね|p:今の車にはないのがさみしい
+m:ねえ{me}、子どものころお父さんの車って何だった？|p:日産 セドリック！|m:うちは日産 グロリアだった|p:それ、ほとんど同じ車じゃない？
+m:トヨタのマークII、チェイサー、クレスタって覚えてる？|p:ハイソカー三兄弟でしょ|m:白いのばっかり走ってたよね|p:どれがどれか、エンブレムで見分けてた
+m:デートカーっていったら何だった？|p:やっぱりホンダ プレリュード！|m:わたしはトヨタ ソアラかなあ|p:どっちも助手席にあこがれたね
+m:日産 スカイラインGT-Rのミニカー、持ってた？|p:持ってた！ボロボロになるまで遊んだ|m:本物はいまだに乗ったことないなあ|p:いつか乗ってみたいね
+m:免許とったら、最初に何の車がほしかった？|p:日産 シルビア！|m:わたしはマツダのユーノス・ロードスター|p:屋根を開けて走るの、気持ちよさそう
+m:ホンダ ビートって知ってる？|p:小さなオープンカーでしょ|m:エンジンがうしろにあるんだって|p:ちっちゃいのに本格的なんだね
+m:日産のBe-1とパオ、覚えてる？|p:まるくてかわいいやつ！|m:抽選じゃないと買えなかったんだって|p:今見てもかわいいよね
+m:三菱 パジェロでスキー行ったことある？|p:友だちのお父さんの車で！|m:いいなあ。うちはスバル レガシィのワゴンだった|p:どっちもスキー場の定番だったね
+m:マツダ RX-7とホンダ NSX、どっちがかっこいい？|p:うーん、むずかしい…|m:わたしはマツダ RX-7の形が好き|p:じゃあわたしはホンダ NSXにしとく
+m:トヨタ エスティマの「天才タマゴ」ってCM、覚えてる？|p:覚えてる！まるい車|m:未来の車って感じがしたよね|p:乗ってみたかったなあ
+m:赤いマツダ ファミリアに乗ってた人、いた？|p:いた！屋根にサーフボード載せて|m:でも海には行かないんだよね|p:「陸サーファー」って呼ばれてた
+m:トヨタのハチロクのライト、パカッて開くの好きだった？|p:大好き！|m:リトラクタブルライトっていうんだよね|p:今の車にはないのがさみしい
+m:ホンダ シビックって、何代目が好き？|p:グランドシビックかな|m:わたしはワンダーシビック！|p:どっちもいい形してたよね
+m:ホンダのVTECって知ってる？|p:エンジンの回転が上がると切り替わるやつ！|m:音がガラッと変わるんだって|p:「VTECに入った！」って言いたくなるね
+m:ホンダ CR-Xって覚えてる？|p:うしろがスパッと切れた小さい車！|m:VTECが載ったのもあったんだよね|p:小さくて速いって、かっこいいよね
 `.trim().split('\n').map(l=>l.trim()).filter(Boolean));
 {const CV=`
-v:{me}、昔あこがれた車ってある？|p:ユーノス・ロードスター！|v:わかる〜！海までドライブしたかった|p:屋根を開けて走りたかったなあ
-v:ハイソカーって言葉、知ってる？|p:マークIIとかチェイサーでしょ|v:そうそう、白いボディでね|p:大人の車って感じだった
-v:お父さんの車、セドリックだった？|p:うちはクレスタ！|v:どっちも高級車だね|p:ちょっと自慢だった
-v:先輩のプレリュードに乗せてもらったことある？|p:ある！ドキドキした|v:デートカーだもんね|p:助手席、緊張したなあ
-v:ホンダのビートって知ってる？|p:小さなオープンカー！|v:黄色いの、かわいかったよね|p:島の道を走ったら気持ちよさそう
-v:スカイラインGT-R、かっこよかったよね|p:男子みんなあこがれてた|v:今でも人気なんだって|p:ずっと特別な車なんだね
-v:シーマって覚えてる？|p:「シーマ現象」！|v:みんな高級車を買ってた時代だよね|p:景気がよかったんだなあ
-v:スキー場に行くとき、何の車だった？|p:友だちのパジェロ！|v:わたしはレガシィのワゴン|p:スキー板、屋根に積んだよね
+v:{me}、昔あこがれた車ってある？|p:マツダのユーノス・ロードスター！|v:わかる〜！海までドライブしたかった|p:屋根を開けて走りたかったなあ
+v:ハイソカーって言葉、知ってる？|p:トヨタ マークIIとかチェイサーでしょ|v:そうそう、白いボディでね|p:大人の車って感じだった
+v:お父さんの車、日産 セドリックだった？|p:うちはトヨタ クレスタ！|v:どっちも高級車だね|p:ちょっと自慢だった
+v:先輩のホンダ プレリュードに乗せてもらったことある？|p:ある！ドキドキした|v:デートカーだもんね|p:助手席、緊張したなあ
+v:ホンダ ビートって知ってる？|p:小さなオープンカー！|v:黄色いの、かわいかったよね|p:島の道を走ったら気持ちよさそう
+v:日産 スカイラインGT-R、かっこよかったよね|p:男子みんなあこがれてた|v:今でも人気なんだって|p:ずっと特別な車なんだね
+v:日産 シーマって覚えてる？|p:「シーマ現象」！|v:みんな高級車を買ってた時代だよね|p:景気がよかったんだなあ
+v:スキー場に行くとき、何の車だった？|p:友だちの三菱 パジェロ！|v:わたしはスバル レガシィのワゴン|p:スキー板、屋根に積んだよね
+v:ホンダ シビック、乗ってたことある？|p:先輩のSiRに乗せてもらった！|v:VTECの音、聞いた？|p:聞いた！回転が上がるとガラッと変わるの
+v:ホンダ CR-X、かっこよかったよね|p:小さくてキビキビ走るやつ！|v:VTECのモデルもあったんだって|p:走り好きにはたまらないね
 `.trim().split('\n').map(l=>l.trim()).filter(Boolean);RETRO_V.push(...CV);VTALK.push(...CV);}
 TALKCAT.push(['t:retro','思い出話']);MTALKCAT.push(['m:retro','思い出話']);
 let RETRO_RECENT=[];
@@ -13624,7 +13661,7 @@ $('hudSetBody').addEventListener('click',e=>{const b=e.target.closest&&e.target.
 /* ===== astronomy: the real sun, moon and bright stars for the player's place and time ===== */
 const D2R=Math.PI/180,R2D=180/Math.PI;
 function astroLoc(){return{lat:ENV.lat!=null?ENV.lat:35.68,lon:ENV.lon!=null?ENV.lon:139.77};}
-function asJd(d){return d.getTime()/86400000+2440587.5;}
+function asJd(d){return(d.getTime()-TZS())/86400000+2440587.5;}
 function gmstDeg(jd){return(((280.46061837+360.98564736629*(jd-2451545))%360)+360)%360;}
 function eqToHor(ra,dec,jd,lat,lon){const H=(gmstDeg(jd)+lon-ra)*D2R,f=lat*D2R,d=dec*D2R;
   const sa=Math.sin(f)*Math.sin(d)+Math.cos(f)*Math.cos(d)*Math.cos(H),alt=Math.asin(Math.max(-1,Math.min(1,sa)));
@@ -14147,6 +14184,164 @@ function svFit(btn,text){const sp=btn.querySelector('span')||btn;if(sp._t===text
   const fits=()=>sp.scrollWidth<=maxW+1&&sp.scrollHeight<=lh()*(fs>=11?1:2)+2;
   while(!fits()&&fs>9){fs-=.5;sp.style.fontSize=fs+'px';}
   if(sp.scrollHeight>lh()*2+2){let t2=text;while(t2.length>1&&sp.scrollHeight>lh()*2+2){t2=t2.slice(0,-1);sp.textContent=t2+'…';}}}
+/* ===== 星座 (zodiac) for the hero and the housemate + the coffee-shop style zodiac fortune machine ===== */
+const ZODIAC=[['おひつじ座','3/21〜4/19'],['おうし座','4/20〜5/20'],['ふたご座','5/21〜6/21'],['かに座','6/22〜7/22'],['しし座','7/23〜8/22'],['おとめ座','8/23〜9/22'],
+ ['てんびん座','9/23〜10/23'],['さそり座','10/24〜11/22'],['いて座','11/23〜12/21'],['やぎ座','12/22〜1/19'],['みずがめ座','1/20〜2/18'],['うお座','2/19〜3/20']];
+function zdOf(who){if(!S)return 0;if(who==='m'){if(!S.mate)return 0;if(S.mate.zodiac==null)S.mate.zodiac=Math.floor(Math.random()*12);return S.mate.zodiac;}if(S.zodiac==null)S.zodiac=Math.floor(Math.random()*12);return S.zodiac;}
+// registration fields in the menu (hero tab / housemate tab)
+try{const st=document.querySelector('#sheet [data-p="st"] .hpick'),mt=document.getElementById('mtRename');
+  const mk=id=>{const f=document.createElement('div');f.className='field';f.innerHTML=`<label for="${id}">星座</label><select id="${id}">${ZODIAC.map((z,i)=>`<option value="${i}">${z[0]}（${z[1]}）</option>`).join('')}</select>`;return f;};
+  if(st)st.after(mk('zdMe'));if(mt&&mt.parentNode)mt.parentNode.after(mk('zdM'));
+  const a=document.getElementById('zdMe'),b=document.getElementById('zdM');
+  if(a)a.onchange=e=>{if(!S)return;S.zodiac=+e.target.value;save();};if(b)b.onchange=e=>{if(!S||!S.mate)return;S.mate.zodiac=+e.target.value;save();};
+  const RS=renderSheet;renderSheet=function(){const r=RS.apply(this,arguments);try{if(S){if(a)a.value=zdOf('me');if(b&&S.mate)b.value=zdOf('m');}}catch(_){}return r;};}catch(e){}
+/* --- fortune text (each luck: 20 good, 15 so-so, 15 bad) --- */
+const OMK_LV=[['大吉','#d9302a'],['中吉','#e0602a'],['小吉','#c88a1a'],['吉','#4a8a3a'],['末吉','#4a6aa8'],['凶','#5a5a6a']];
+const OMK_CAT=['金運','仕事運','恋愛運','健康運','対人運'];
+const OMK_TX={
+ 金運:{g:['思わぬところから臨時収入があるかも','ポイントがたまっていることに気づきそう','安くていいものに出会える日','財布の中を整えると運気アップ','欲しかったものがセールになっているかも','小銭を拾うようなうれしい予感','買い物の勘がさえる日','節約したぶん、いいことが返ってきそう','お金の計画を立てるのにぴったり','いただきものに恵まれそう','くじ運がちょっといい日','昔の貸しが返ってくるかも','金運の流れが上向き','ちょっとしたぜいたくが吉','人におごると巡ってくる日','財布を新しくするなら今日','家計簿をつけると発見あり','クーポンがちょうど使える日','いい買い物で気分も上々','黄色い小物がお金を呼ぶ'],
+  m:['大きな出費はひかえめに','可もなく不可もない一日','レシートをちゃんと確認して','コンビニのついで買いに注意','貯金箱に小銭を入れてみて','必要なものだけ買えばOK','値段より質を見て選んで','今日は使うより貯める日','お金の話は明日でもいい','ポイント還元を上手に使って','財布の中のレシートを整理して','衝動買いの前に一呼吸','ちいさな得をコツコツと','家にあるもので工夫できる日','無理な節約は逆効果'],
+  b:['財布の置き忘れに注意','衝動買いで後悔しそう','うっかり払いすぎに気をつけて','うまい話には乗らないこと','今日の買い物は慎重に','小銭をなくしやすい日','計算ミスに注意','見栄のための出費はがまん','お金の貸し借りは避けて','セールの誘惑に負けそう','財布のひもが緩みがち','なくし物がお金に響くかも','カードの使いすぎに注意','おつりの確認を忘れずに','今日は家でのんびりが節約']},
+ 仕事運:{g:['アイデアがどんどんわいてくる日','集中力がぐんと上がる','頼まれごとがうまくいく','ほめられるチャンスあり','苦手な作業もすいすい進む','新しいことを始めるのに最適','まわりの協力が得られる','段取りがぴたりと決まる日','ひらめきが成果につながる','前から気になっていた仕事を片づけよう','勉強したことがすぐ役に立つ','話し合いがスムーズに進む','やる気がみなぎる一日','小さな成功が続く予感','書類仕事がはかどる','先回りの気配りが評価される','早起きが大成功のカギ','チームワークが光る日','思い切った提案が通りそう','目標に一歩近づける'],
+  m:['ゆっくりでも確実に進めて','いつも通りが一番','メモをとると安心','無理せずできる範囲で','午前中に大事なことを','休憩をこまめにとって','整理整頓から始めると吉','人の意見にも耳を傾けて','今日は準備の日','確認をもう一度','焦らずマイペースで','苦手なことは誰かに相談','小さな約束を守ると吉','机の上を片づけて','新しい道具がやる気をくれる'],
+  b:['うっかりミスに注意','やる気が空回りしそう','約束の時間を忘れないで','大事なメールは見直して','頑張りすぎると疲れが出る','今日は決断を先のばしに','思わぬ横やりが入るかも','忘れ物をしやすい日','集中が途切れがち','人まかせにすると失敗しそう','締め切りぎりぎりに注意','言葉足らずで誤解されやすい','パソコンの不調に気をつけて','早とちりに注意','疲れたら早めに切り上げて']},
+ 恋愛運:{g:['素敵な出会いの予感','気持ちが通じ合う一日','さりげない優しさが伝わる','笑顔がいちばんの魅力になる日','思いがけない連絡が来るかも','ふたりの距離がぐっと縮まる','デートに出かけるなら今日','おしゃれが運気を上げる','素直な気持ちが届く日','やさしい言葉をかけてもらえそう','記念日を思い出すと吉','手紙やメッセージが吉','いつもの場所にときめきあり','好きな音楽が恋を呼ぶ','ペアのものが幸運のカギ','聞き上手が恋を引き寄せる','ちょっとしたプレゼントが大成功','感謝を伝えると関係が深まる','ロマンチックな夜になりそう','心がぽかぽかする一日'],
+  m:['焦らず自然体で','相手の話をよく聞いて','いつもどおりがいちばん','小さな思いやりを大切に','今日は自分磨きの日','気持ちは言葉にして','返事は急がなくて大丈夫','友だちの話がヒントに','おだやかな時間を楽しんで','身だしなみを整えて','思い出の場所を訪ねてみて','相手のペースに合わせると吉','ひとりの時間も大切に','素直さがカギ','やさしい色の服がおすすめ'],
+  b:['ちょっとしたすれ違いに注意','言葉がきつくなりがち','やきもちは控えめに','約束を忘れないように','今日は深追いしないで','気持ちが空回りしそう','意地を張ると後悔しそう','タイミングが合わない日','誤解されやすいので丁寧に','比べすぎに注意','わがままは控えて','返信が遅くても気にしすぎないで','疲れがイライラにつながりそう','過去を蒸し返さないで','今日は自分を大切にする日']},
+ 健康運:{g:['体がとても軽い日','ぐっすり眠れそう','お散歩で元気がチャージされる','食欲もりもり、体調ばっちり','肌の調子がいい日','ストレッチが効果ばつぐん','深呼吸で気分すっきり','新しい運動を始めるのに最適','朝ごはんがパワーの源','お風呂でしっかりリフレッシュ','姿勢がよくなると運気も上向き','旬の野菜で元気いっぱい','笑うほど元気になる日','早寝早起きが大吉','足取りが軽くなる一日','水をたくさん飲むと吉','日光を浴びて元気チャージ','体を動かすと気分も晴れる','よく噛んで食べると吉','心も体も絶好調'],
+  m:['無理は禁物','こまめに水分補給を','腹八分目を心がけて','軽いストレッチがおすすめ','目を休める時間をつくって','今日は早めに寝よう','体を冷やさないように','温かい飲み物がおすすめ','階段を使うとちょうどいい運動に','肩の力を抜いて','休憩をこまめに','甘いものはほどほどに','よく笑ってリラックス','ゆっくりお風呂に入って','姿勢に気をつけて'],
+  b:['寝不足に注意','食べすぎに気をつけて','冷えに注意','転ばないように足もと注意','頭痛が出やすい日','無理をすると疲れが残る','夜ふかしは厳禁','目の疲れに注意','のどを大事にして','ぶつけたりしないよう気をつけて','急な温度差に注意','ストレスをためこまないで','ついだらだらしがち','腰に負担をかけないで','今日はのんびり休む日']},
+ 対人運:{g:['人気者になれる日','うれしい再会があるかも','頼りにされる一日','楽しいおしゃべりがはずむ','新しい友だちができそう','ありがとうと言われる日','まわりの笑顔に囲まれる','誘いにのると楽しいことが','久しぶりの人から連絡がありそう','自分から声をかけると吉','聞き役になると信頼アップ','人の縁がつながる日','ほめ言葉が倍になって返ってくる','グループ活動が大成功','頼みごとがすんなり通る','あいさつが運を呼ぶ','おすそわけが喜ばれる','仲直りのチャンス','先輩や年上の人に恵まれる','みんなと過ごす時間が宝物に'],
+  m:['相手の立場で考えてみて','ほどよい距離感を大切に','今日は聞き役に回って','あいさつを丁寧に','無理に合わせなくて大丈夫','約束は小さくても守って','笑顔を忘れずに','言いにくいことは明日に','メッセージは短めに','ひとりの時間も楽しんで','感謝の気持ちを言葉に','人の話を最後まで聞いて','いつもの仲間と過ごすと安心','お礼は早めに','ゆずり合いが吉'],
+  b:['うわさ話には近づかないで','言い方ひとつで誤解されそう','つい言いすぎてしまうかも','人ごみで疲れやすい日','頼まれごとを安請け合いしないで','意見の食い違いに注意','気をつかいすぎて疲れそう','約束の行き違いに注意','今日は控えめにしておこう','比べられてもへこまないで','秘密はしっかり守って','返事を急かさないで','イライラは深呼吸で','距離をおくのも優しさ','今日は自分のペースを守って']}};
+const OMK_COL=['赤','ピンク','オレンジ','黄色','クリーム色','ミントグリーン','緑','水色','青','紺','ラベンダー','紫','白','黒','グレー','茶色','ベージュ','金色','銀色','ワインレッド'];
+const OMK_ITEM=['ハンカチ','手帳','マグカップ','ヘアピン','腕時計','ボールペン','キーホルダー','折りたたみ傘','イヤホン','ハンドクリーム','リップクリーム','鏡','スニーカー','帽子','マフラー','ブローチ','しおり','観葉植物','クッキー','チョコレート','温かいお茶','コーヒー','文庫本','カメラ','花の香り','ネックレス','トートバッグ','くつ下','ろうそく','星のモチーフ'];
+const OMK_ADV=[['迷ったら進んで正解！','やりたいことは全部やってみて','今日のあなたは最強です'],['いい流れに乗っていこう','笑顔がさらに幸運を呼ぶ','ちょっとの勇気が大きな実りに'],['小さな幸せを見つけよう','コツコツが実を結ぶ日','ていねいな暮らしが吉'],['いつも通りがいちばん','おだやかに過ごすと吉','あせらずマイペースで'],['ゆっくり運気が上がっていくよ','明日はきっといい日','準備をしておくと後で役立つ'],['今日は無理せず、のんびりと','慎重に行動すれば大丈夫','悪い運は早めに出しきろう']];
+function omkRand(seed){let a=seed>>>0;return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function omkFortune(zd,d){d=d||now();const r=omkRand(dayKey(d)*131+zd*977+7);
+  const w=[12,18,22,22,16,10];let x=r()*w.reduce((a,b)=>a+b,0),lv=0;while(x>w[lv]){x-=w[lv];lv++;}
+  const base=[4.6,4,3.5,3.1,2.6,1.9][lv],res={zd,lv,cats:[]};
+  for(const c of OMK_CAT){const st=Math.max(1,Math.min(5,Math.round(base+(r()-.5)*2.6)));const g=st>=4?'g':st===3?'m':'b',arr=OMK_TX[c][g];res.cats.push({c,st,tx:arr[Math.floor(r()*arr.length)]});}
+  res.col=OMK_COL[Math.floor(r()*OMK_COL.length)];res.item=OMK_ITEM[Math.floor(r()*OMK_ITEM.length)];res.num=1+Math.floor(r()*9);res.adv=OMK_ADV[lv][Math.floor(r()*OMK_ADV[lv].length)];return res;}
+/* --- reactions --- */
+const OMK_RE=[['やったー！大吉！','大吉だって！今日はいいことありそう','大吉！思わずガッツポーズ'],['中吉！なかなかいい感じ','中吉だ、悪くないね','中吉！ちょっとうれしい'],['小吉かあ。ささやかな幸せがありそう','小吉。ほどほどがいちばん','小吉だって。地道にいこう'],['吉。ふつうがいちばん','吉だね。いつも通りでいこう','吉かあ、まあまあかな'],['末吉…これから良くなるってことだよね','末吉だって。後半に期待','末吉。じわじわ上向きだって'],['えっ、凶…','凶かあ…今日は気をつけよう','凶…でもこれ以上は下がらないってことだよね！']];
+function omkComment(f,who){const best=f.cats.slice().sort((a,b)=>b.st-a.st)[0],worst=f.cats.slice().sort((a,b)=>a.st-b.st)[0];const L=[];
+  if(best.st===5)L.push(`${best.c}が星5つ！「${best.tx}」だって`);if(worst.st<=1)L.push(`${worst.c}は星1つ…「${worst.tx}」か。気をつけよう`);
+  const love=f.cats.find(c=>c.c==='恋愛運');if(love.st>=4)L.push(who==='m'?'恋愛運がいいって。ふふっ':'恋愛運がいいって。なんだか照れるな');
+  const money=f.cats.find(c=>c.c==='金運');if(money.st>=5)L.push('金運最高だって！宝くじ買っちゃおうかな');if(money.st<=1)L.push('金運が…今日はお財布のひもをしめよう');
+  L.push(`ラッキーカラーは${f.col}、ラッキーアイテムは${f.item}だって`);return pick(L);}
+/* --- the machine (on a slender wooden side table) --- */
+const OMK={spin:0};
+function drawOmk(X,Y,Wd,Dp,L,t){const cx=X+12,spin=performance.now()<OMK.spin;
+  // shadow
+  fillE(g,'rgba(40,25,10,.22)',cx+1,Y+22.4,9,2.4);
+  // slender table: round top, four thin legs with a little stretcher ring
+  const wood='#9a6a40',woodD='#6a4426',woodL='#c8955e';
+  for(const[dx,dy]of[[-6,-1],[6,-1]]){g.strokeStyle=woodD;g.lineWidth=1.2;g.beginPath();g.moveTo(cx+dx*.9,Y+8);g.lineTo(cx+dx*1.15,Y+21+dy);g.stroke();}
+  g.strokeStyle=shade(wood,-.1);g.lineWidth=.8;g.beginPath();g.ellipse(cx,Y+16,6.6,1.6,0,0,TAU);g.stroke();
+  for(const dx of[-6.5,6.5]){g.strokeStyle=wood;g.lineWidth=1.5;g.beginPath();g.moveTo(cx+dx*.85,Y+8.5);g.lineTo(cx+dx*1.1,Y+22.2);g.stroke();g.strokeStyle=woodL;g.lineWidth=.4;g.beginPath();g.moveTo(cx+dx*.85-.4,Y+9);g.lineTo(cx+dx*1.1-.4,Y+22);g.stroke();}
+  fillE(g,woodD,cx,Y+8.2,10,3.2);g.fillStyle=GD_lg(g,cx-10,0,cx+10,0,[[0,shade(wood,-.15)],[.4,woodL],[1,shade(wood,-.2)]]);g.beginPath();g.ellipse(cx,Y+7,10,3,0,0,TAU);g.fill();
+  g.strokeStyle='rgba(60,30,10,.35)';g.lineWidth=.3;for(const k of[.5,.75]){g.beginPath();g.ellipse(cx,Y+7,10*k,3*k,0,0,TAU);g.stroke();}
+  // pedestal with spoked foot
+  fillE(g,'#141418',cx,Y+6,6.4,1.9);g.fillStyle='#202026';g.beginPath();g.ellipse(cx,Y+5.4,6,1.6,0,0,TAU);g.fill();g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=.35;for(let i=0;i<6;i++){const a=i/6*TAU;g.beginPath();g.moveTo(cx+Math.cos(a)*1.6,Y+5.4+Math.sin(a)*.45);g.lineTo(cx+Math.cos(a)*5.4,Y+5.4+Math.sin(a)*1.4);g.stroke();}
+  fillR(g,'#18181e',cx-1.6,Y+1.4,3.2,4.2,.8);
+  // black glossy sphere
+  const sy=Y-6,R=8.2;g.fillStyle=GD_rg(g,cx-3,sy-3,.4,cx,sy,R*1.05,[[0,'#5a5a66'],[.35,'#24242c'],[1,'#08080c']]);g.beginPath();g.arc(cx,sy,R,0,TAU);g.fill();
+  // zodiac band with tiny white icons and gold dates (turns while spinning)
+  g.save();g.beginPath();g.arc(cx,sy,R,0,TAU);g.clip();const rot=spin?performance.now()/700:0;
+  g.fillStyle='rgba(255,255,255,.06)';g.fillRect(cx-R,sy-3.2,R*2,5.6);
+  for(let i=0;i<12;i++){const a=(i/12)*TAU+rot,sx=Math.sin(a),z=Math.cos(a);if(z<.1)continue;const px=cx+sx*R*.92,w2=z;g.globalAlpha=Math.min(1,z*1.4);
+    g.strokeStyle='#f4f2ea';g.lineWidth=.32;g.beginPath();g.ellipse(px,sy-.6,1.1*w2,1.2,0,0,TAU);g.moveTo(px-.8*w2,sy+.6);g.lineTo(px+.8*w2,sy-.2);g.stroke();
+    g.fillStyle='#e8c35a';g.fillRect(px-1*w2,sy+1.6,2*w2,.35);g.fillStyle='rgba(244,242,234,.9)';g.fillRect(px-.9*w2,sy-2.7,1.8*w2,.3);}
+  g.globalAlpha=1;g.restore();
+  g.strokeStyle='rgba(0,0,0,.6)';g.lineWidth=.35;g.beginPath();g.ellipse(cx,sy-3.4,R*.97,1.6,0,0,Math.PI);g.stroke();g.beginPath();g.ellipse(cx,sy+2.8,R*.92,1.8,0,0,Math.PI);g.stroke();
+  fillR(g,'#3a3a44',cx-1.8,sy+3.6,3.6,.8,.3);fillR(g,'#0a0a0e',cx-1.4,sy+3.8,2.8,.4,.2);// coin slot
+  // transparent dome with the roulette inside
+  const dy=sy-3.6;g.save();g.beginPath();g.ellipse(cx,dy,R*.92,6.2,0,Math.PI,0);g.lineTo(cx+R*.92,dy+.4);g.ellipse(cx,dy+.4,R*.92,2,0,0,Math.PI);g.closePath();g.clip();
+  g.fillStyle='rgba(180,170,220,.22)';g.fillRect(cx-R,dy-8,R*2,10);
+  const wr=6.4,wa=spin?performance.now()/120:0;for(let i=0;i<24;i++){const a0=i/24*TAU+wa,a1=a0+TAU/24;g.fillStyle=i===0?'#2a8a3a':i%2?'#c8202a':'#1a1a1e';g.beginPath();g.moveTo(cx,dy);g.ellipse(cx,dy,wr,wr*.3,0,a0,a1);g.closePath();g.fill();}
+  fillE(g,'#d8d8de',cx,dy,3.4,1);g.fillStyle=GD_lg(g,cx-2,0,cx+2,0,[[0,'#9a9aa6'],[.5,'#f0f0f4'],[1,'#8a8a96']]);g.beginPath();g.moveTo(cx-2.6,dy);g.lineTo(cx-.3,dy-4.4);g.lineTo(cx+.3,dy-4.4);g.lineTo(cx+2.6,dy);g.closePath();g.fill();fillR(g,'#c8c8d0',cx-.25,dy-6,.5,1.8,.2);
+  const ba=spin?-performance.now()/90:2.4;fillE(g,'#f4f4f8',cx+Math.cos(ba)*wr*.82,dy+Math.sin(ba)*wr*.25,.7,.6);
+  g.restore();
+  g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=.4;g.beginPath();g.ellipse(cx,dy,R*.92,6.2,0,Math.PI,0);g.stroke();
+  g.fillStyle='rgba(255,255,255,.55)';g.beginPath();g.ellipse(cx-3.6,dy-3.6,1.6,.7,-.5,0,TAU);g.fill();fillE(g,'rgba(255,255,255,.35)',cx-4,sy+.5,1,2.4);
+  fillR(g,'#b8b8c4',cx-.6,dy-6.8,1.2,.9,.3);
+  if(spin&&Math.random()<.3)particles.push({sc:'in',x:cx+rnd(-6,6),y:sy-10+rnd(-3,3),vx:rnd(-6,6),vy:rnd(-14,-5),life:.6,max:.6,type:'spark'});}
+FT.omikuji=F('星座おみくじ器',1,1,'free',['liv','kit'],{tall:1,draw:drawOmk});
+
+/* --- the result slip --- */
+function omkShow(f,who){let ov=document.getElementById('omkOv');if(!ov){const st=document.createElement('style');st.textContent=`#omkOv .card{max-width:330px;background:#fbf6e6;color:#3a2a20;border:2px solid #c8a46a;box-shadow:0 6px 24px rgba(0,0,0,.35);padding:14px 16px 12px}
+#omkOv h2{margin:0;text-align:center;font-size:15px;color:#7a4a20;letter-spacing:.1em}#omkOv .ozd{text-align:center;font-size:12px;color:#8a6a4a;margin:2px 0 6px}
+#omkOv .olv{text-align:center;font-size:34px;font-weight:800;letter-spacing:.2em;margin:2px 0 4px;font-family:"Zen Maru Gothic",serif}
+#omkOv .orow{display:grid;grid-template-columns:4.2em 4.8em 1fr;gap:4px;align-items:center;padding:4px 0;border-top:1px dashed #d8c4a0;font-size:12.5px}#omkOv .orow b{color:#7a4a20}#omkOv .ost{color:#e0a020;letter-spacing:-1px;font-size:12px}
+#omkOv .oluck{border-top:1px dashed #d8c4a0;padding-top:6px;margin-top:2px;font-size:12px;line-height:1.6}#omkOv .oadv{text-align:center;margin-top:6px;font-weight:700;color:#a0402a;font-size:13px}#omkOv button{margin-top:10px;width:100%}`;try{document.head.appendChild(st);}catch(_){}
+  ov=document.createElement('div');ov.id='omkOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
+  const d=now(),z=ZODIAC[f.zd],nm=who==='m'?(S.mate&&S.mate.name)||'同居人':S.name||'わたし',lv=OMK_LV[f.lv],stars=n=>'★'.repeat(n)+'☆'.repeat(5-n);
+  ov.innerHTML=`<div class="card" role="dialog"><h2>✦ 星座おみくじ ✦</h2><div class="ozd">${z[0]}（${z[1]}）・${d.getMonth()+1}月${d.getDate()}日・${nm}</div><div class="olv" style="color:${lv[1]}">${lv[0]}</div>`+
+    f.cats.map(c=>`<div class="orow"><b>${c.c}</b><span class="ost">${stars(c.st)}</span><span>${c.tx}</span></div>`).join('')+
+    `<div class="oluck">ラッキーカラー：${f.col}<br>ラッキーアイテム：${f.item}<br>ラッキーナンバー：${f.num}</div><div class="oadv">${f.adv}</div><button type="button" class="primary" id="omkX">とじる</button></div>`;
+  ov.hidden=false;ov.querySelector('#omkX').onclick=()=>{ov.hidden=true;};}
+/* --- the hero draws one (double-tap the machine) --- */
+A.omikuji=function(){const f0={};return[...goF('omikuji'),FN(()=>{C.dir='up';}),SAY(()=>{const done=S.omkDay===dayKey(now());return done?pick(['もう一回引いちゃおう','今日の運勢、もう一回確かめよう']):pick(['星座おみくじ、引いてみよう','今日の運勢はどうかな','コインを入れて…と'])}),
+  FN(()=>{OMK.spin=performance.now()+2600;}),W8(2.7),
+  FN(()=>{const f=omkFortune(zdOf('me'));Object.assign(f0,f);const again=S.omkDay===dayKey(now());S.omkDay=dayKey(now());S.omkLast=f.lv;save();omkShow(f,'me');say(again?pick(['…やっぱり同じ結果だ','うん、今日はこの運勢で決まりだね']):pick(OMK_RE[f.lv]));emote(f.lv<=1?'♪':f.lv>=5?'…':'!',1.6);
+    if(M&&S.mate&&M.scene===C.scene&&!M.sleeping&&Math.random()<.7)setTimeout(()=>{if(M&&!M.sleeping)msay(f.lv<=1?pick(['いいなあ、大吉！','すごい！わたしも引こうかな','今日はついてるね']):f.lv>=5?pick(['だいじょうぶ、ただのおみくじだよ','凶のあとはいいことあるって','気にしない気にしない']):pick(['わたしはどうかな','なるほどね〜','ふふ、当たるかな？']));},2200);}),
+  W8(2.6),SAY(()=>omkComment(f0,'me')),W8(1.2)];};
+{const TP=tapPlan;tapPlan=function(tg){if(tg&&tg.t==='f'&&tg.k==='omikuji'&&has('omikuji'))return{n:'hobby',s:A.omikuji()};return TP(tg);};}
+/* --- the housemate goes to draw one by themself (about once a day) --- */
+{const CM=chooseMateAct;chooseMateAct=function(){if(has('omikuji')&&S.mate&&!M.sleeping&&!sleepTime(1)&&S.mate.omkDay!==dayKey(now())&&Math.random()<.14){let f=null;
+    return[{t:'say',text:pick(['星座おみくじ、引いてこよう','今日の運勢、見てこようっと','おみくじ、おみくじ〜'])},{t:'go',sc:'in',dyn:()=>U('omikuji')},{t:'fn',f:()=>{M.dir='up';OMK.spin=performance.now()+2600;}},{t:'wait',s:2.7},
+      {t:'fn',f:()=>{f=omkFortune(zdOf('m'));S.mate.omkDay=dayKey(now());save();}},{t:'say',text:()=>`${ZODIAC[f.zd][0]}は${OMK_LV[f.lv][0]}！`+pick(OMK_RE[f.lv])},{t:'wait',s:2.6},{t:'say',text:()=>omkComment(f,'m')},
+      {t:'fn',f:()=>{if(C.scene==='in'&&!C.sleeping&&Math.random()<.6)setTimeout(()=>{if(!msgBusy())say(f.lv<=1?pick(['いいなあ、大吉！','おめでとう！']):f.lv>=5?pick(['だいじょうぶだよ、気にしないで','凶って逆にレアだよ']):pick(['へえ、当たるといいね','わたしも引いてみようかな']));},1800);}},{t:'wait',s:3}];}
+  return CM.apply(this,arguments);};}
+// the resident wants one soon
+
+
+
+// a new game starts only after the name, the look and the zodiac sign have been chosen
+const SETUPQ={look:false};
+{const z=$('spZd');if(z)ZODIAC.forEach((q,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${q[0]}（${q[1]}）`;z.append(o);});
+  $('spRand').addEventListener('click',()=>{SETUPQ.look=true;spNeedUpd();});
+  $('leOk').addEventListener('click',()=>{if(!$('setup').hidden){SETUPQ.look=true;spNeedUpd();}});
+  $('nameIn').addEventListener('input',spNeedUpd);$('bNewName').addEventListener('click',()=>setTimeout(spNeedUpd,0));if(z)z.addEventListener('change',spNeedUpd);
+  {const OS=openSetup;openSetup=function(){const r=OS.apply(this,arguments);SETUPQ.look=false;if(z)z.value='';$('nameIn').value='';autoName='';$('spNeed').textContent='';spNeedUpd();return r;};}
+  setTimeout(()=>{const B=$('bStart').onclick;$('bStart').onclick=e=>{const miss=spMissing();if(miss.length){spNeedUpd(true);return;}const zd=+$('spZd').value;if(B)B(e);if(S){S.zodiac=zd;save();}};},0);}
+function spMissing(){const m=[];if(!$('nameIn').value.trim())m.push('なまえ');if(!SETUPQ.look)m.push('姿（「見た目を変更」で決めるか「おまかせ」）');if($('spZd').value==='')m.push('星座');return m;}
+function spNeedUpd(show){const m=spMissing(),el=$('spNeed'),b=$('bStart');b.classList.toggle('dim',m.length>0);b.style.opacity=m.length?'.55':'';if(show||el.textContent)el.textContent=m.length?'まだ決まっていないもの：'+m.join('、'):'';}
+
+/* ===== new game, part 2: ask whether a housemate moves in too; if so, set their name, look and sign; both start side by side ===== */
+const NG={heroLook:null,heroZd:0,mLook:null,mLookSet:false,mAuto:''};
+{const z=$('smZd');ZODIAC.forEach((q,i)=>{const o=document.createElement('option');o.value=i;o.textContent=`${q[0]}（${q[1]}）`;z.append(o);});}
+function smDraw(){humPrev($('smPrev'),'human',NG.mLook);$('smGm').setAttribute('aria-pressed',NG.mLook.g==='m');$('smGf').setAttribute('aria-pressed',NG.mLook.g==='f');}
+function smRename(){const cur=$('smName').value.trim();if(!cur||cur===NG.mAuto)$('smName').value=NG.mAuto=humanName(NG.mLook.g);}
+function smMissing(){const m=[];if(!$('smName').value.trim())m.push('なまえ');if(!NG.mLookSet)m.push('姿（「見た目を変更」で決めるか「おまかせ」）');if($('smZd').value==='')m.push('星座');return m;}
+function smNeedUpd(show){const m=smMissing(),el=$('smNeed');$('smStart').style.opacity=m.length?'.55':'';if(show||el.textContent)el.textContent=m.length?'まだ決まっていないもの：'+m.join('、'):'';}
+$('smGm').onclick=()=>{if(NG.mLook.g!=='m'){NG.mLook.g='m';smDraw();smRename();}};$('smGf').onclick=()=>{if(NG.mLook.g!=='f'){NG.mLook.g='f';smDraw();smRename();}};
+$('smRand').onclick=()=>{NG.mLook=randomLook();NG.mLookSet=true;smDraw();smRename();smNeedUpd();};
+$('smLook').onclick=()=>openLook(NG.mLook,lk=>{const gc=lk.g!==NG.mLook.g;NG.mLook=lk;NG.mLookSet=true;smDraw();if(gc)smRename();smNeedUpd();});
+$('smNewName').onclick=()=>{$('smName').value=NG.mAuto=humanName(NG.mLook.g);smNeedUpd();};$('smName').addEventListener('input',()=>smNeedUpd());$('smZd').addEventListener('change',()=>smNeedUpd());
+$('saYes').onclick=()=>{$('setupAsk').hidden=true;NG.mLook=firstLook(NG.heroLook&&NG.heroLook.g==='m'?'f':'m');NG.mLookSet=false;NG.mAuto='';$('smName').value='';$('smZd').value='';$('smNeed').textContent='';smDraw();smNeedUpd();$('setupM').hidden=false;const cd=document.querySelector('#setupM .card');if(cd)cd.scrollTop=0;};
+$('saNo').onclick=()=>{$('setupAsk').hidden=true;ngBegin(null);};
+$('smSolo').onclick=()=>{$('setupM').hidden=true;ngBegin(null);};
+$('smStart').onclick=()=>{if(smMissing().length){smNeedUpd(true);return;}$('setupM').hidden=true;ngBegin({name:$('smName').value.trim(),look:{...NG.mLook},zd:+$('smZd').value});};
+// furniture for a fresh home: keep beds and wardrobes in the bedroom, the fortune machine in the living room
+function placeIn(k,rooms){const f=FT[k],r0=f.rooms;f.rooms=rooms;let p=null;try{p=placeFor(k);}finally{f.rooms=r0;}return p||placeFor(k);}
+function ngBegin(mate){$('setup').hidden=true;startNew({...NG.heroLook});if(!S)return;S.zodiac=NG.heroZd;
+  for(const k of['bed','wardrobe']){const L=S.layout[k];if(L&&roomAt(L.x,L.y)!=='bed'){delete S.layout[k];refreshOcc();const p=placeIn(k,['bed']);if(p)S.layout[k]=p;refreshOcc();}}
+  if(!has('omikuji')){const p=placeIn('omikuji',['liv']);if(p){S.layout.omikuji=p;S.owned.push('omikuji');refreshOcc();}}S.wish=(S.wish||[]).filter(k=>k!=='omikuji');
+  if(mate){S.mate={name:mate.name,sp:'human',look:mate.look,since:Date.now(),zodiac:mate.zd};
+    {const p=placeIn('bed2',['bed']);if(p){S.layout.bed2={...p,v:((S.layout.bed&&S.layout.bed.v||0)+2)%4};S.owned.push('bed2');refreshOcc();}else placeBed2();}
+    {const p=placeIn('wardrobe2',['bed']);if(p){S.layout.wardrobe2={...p,v:(((S.layout.wardrobe&&S.layout.wardrobe.v)||0)+1)%4};S.owned.push('wardrobe2');refreshOcc();}else placeWardrobe2();}
+    spawnMate(true);
+    // stand side by side just inside the door
+    const hx=IN_ENTRY.x,hy=IN_ENTRY.y-1,mx=walkIn(hx+1,hy)?hx+1:walkIn(hx-1,hy)?hx-1:hx,my=mx===hx?hy-1:hy;place(hx,hy);if(typeof mPlace==='function')mPlace('in',mx,my);C.dir='down';M.dir='down';
+    C.steps=[];C.idleT=6;M.steps=[{t:'wait',s:3.2},{t:'say',text:`${S.name}、これからよろしくね！`},{t:'wait',s:3}];M.idle=4;
+    setTimeout(()=>{if(S&&S.mate)queueSay(`${S.mate.name}といっしょの新生活、楽しみだね`);},6500);}
+  save();updateHUD();}
+setTimeout(()=>{const B=$('bStart').onclick;$('bStart').onclick=e=>{if(spMissing().length){spNeedUpd(true);return;}
+  chosen='human';if(!setupLook)setupLook=firstLook('m');NG.heroLook={...setupLook};NG.heroZd=+$('spZd').value;$('setup').hidden=true;$('setupAsk').hidden=false;};},10);
+// existing homes also get the fortune machine as standard equipment
+setTimeout(()=>{try{if(S&&!has('omikuji')&&!(S.stored||[]).some(e=>e.k==='omikuji')){const p=placeIn('omikuji',['liv']);if(p){S.layout.omikuji=p;S.owned.push('omikuji');refreshOcc();S.wish=(S.wish||[]).filter(k=>k!=='omikuji');save();}}}catch(e){}},3500);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
