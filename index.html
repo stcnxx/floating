@@ -315,11 +315,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版242（2026/10/24 #92）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版245（2026/10/24 #95）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版242（2026/10/24 #92）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版245（2026/10/24 #95）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2091,7 +2091,7 @@ const A={
     SAY(()=>{const a=ENV.area||ENV.city,c=ENV.city;return a?pick([`見えた！${a}のあたりだ`,`${c}の街並みが小さく見える`,`${a}…きょうも人がいっぱい`,`${ENV.placeShort}、ここから見るとおもちゃみたい`]):'雲しか見えないや';}),W8(4,need('fun',4))];},
   mail(){return mailSteps();},
   change(){const s=[];if(has('wardrobe'))s.push(...goF('wardrobe'),W8(1.4));
-    s.push(FN(()=>{const d=dayClothes(),tr=S.trend&&Date.now()-S.trend.at<36*3600e3,mood=S.dressMood;S.dressMood=0;const o={...S.outfit,...d,costume:d.costume||null};
+    s.push(FN(()=>{const d=chgClothes(),tr=S.trend&&Date.now()-S.trend.at<36*3600e3,mood=S.dressMood;S.dressMood=0;const o={...S.outfit,...d,costume:d.costume||null};
       say(d.costume?pick([`今日は${COS[d.costume].n}になりきっちゃおう！`,`${COS[d.costume].n}の衣装、着てみよう！`,`へんしん！${COS[d.costume].n}になるぞ`]):mood?pick([`気分を変えて、${descTop(o)}に着がえよう`,`今度は${d.bottom.c}の${KN.bottom[d.bottom.k]}にしてみよう`,`お着がえタイム！${descTop(o)}にしよう`]):tr&&d.top.c===S.trend.color?`流行りの${descTop(o)}に着がえよう`:pick([`${tempNow()}℃だから、${descTop(o)}にしよう`,`今日は${descTop(o)}の気分`]));}),W8(1.8),FN(()=>doron()),W8(.45),FN(()=>wearDay(false)),W8(.9));
     if(has('dresser'))s.push(...goF('dresser'),W8(1.6),SAY(pick(['鏡でチェック。うん、似合ってる','今日の服、いい感じ！'])));return s;},
   setup(){const d=S.delivery;if(!d)return null;const k=d.k,f=FT[k],pre=receiveSteps(()=>S.delivery,f.n);
@@ -13812,12 +13812,12 @@ function moonTexture(N){if(MOONTEX[N])return MOONTEX[N];const cv=document.create
     const rx=cr*.7,ry=rx*Math.max(.12,p.z);x.save();x.translate(p.x,p.y);x.rotate(p.a+Math.PI/2);const al=.035+hash(i,54,9)*.05,br=hash(i,55,9)>.6;
     x.fillStyle=br?`rgba(255,252,240,${al*2.2})`:`rgba(60,55,48,${al})`;x.beginPath();x.ellipse(0,0,rx,ry,0,0,TAU);x.fill();x.restore();}
   // bright ray craters: Tycho, Copernicus, Kepler, Aristarchus, Proclus
-  x.globalCompositeOperation='lighter';x.filter=`blur(${Math.max(.6,R*.006)}px)`;
+  {const rc=document.createElement('canvas');rc.width=rc.height=N;const X0=x;const xr=rc.getContext('2d');
   for(const[cl,cb,n,len,al]of[[-11.4,-43.3,34,62,.06],[-20,9.6,30,22,.07],[-38,8.1,18,14,.06],[-47.5,23.7,10,9,.05],[47,16.2,10,14,.05]]){
     for(let j=0;j<n;j++){const brg=hash(j,61,cl|0)*360,L=len*(.35+hash(j,62,cl|0)*.75);let prev=null;x.lineCap='round';
       for(let s=1;s<=10;s++){const[ql,qb]=MT_gc(cl,cb,brg,L*s/10),p=P(ql,qb);if(p.z<0){prev=null;continue;}
-        if(prev){x.strokeStyle=`rgba(255,255,248,${al*.8*(1-s/11)*(.5+hash(j,63,s)*.8)})`;x.lineWidth=Math.max(.8,R*.02*(1.3-s/10)*(.5+hash(j,64,7)));x.beginPath();x.moveTo(prev.x,prev.y);x.lineTo(p.x,p.y);x.stroke();}prev=p;}}}
-  x.globalCompositeOperation='source-over';x.filter='none';
+        if(prev){xr.lineCap='round';xr.strokeStyle=`rgba(255,255,248,${al*.8*(1-s/11)*(.5+hash(j,63,s)*.8)})`;xr.lineWidth=Math.max(.8,R*.02*(1.3-s/10)*(.5+hash(j,64,7)));xr.beginPath();xr.moveTo(prev.x,prev.y);xr.lineTo(p.x,p.y);xr.stroke();}prev=p;}}}
+  X0.globalCompositeOperation='lighter';X0.filter=`blur(${Math.max(.6,R*.006)}px)`;X0.drawImage(rc,0,0);X0.globalCompositeOperation='source-over';X0.filter='none';rc.width=rc.height=1;}
   for(const[cl,cb,cr,br,dark]of[[-11.4,-43.3,2.4,.95,1],[-20,9.6,2.5,.75,1],[-38,8.1,1.1,.7,0],[-47.5,23.7,1,1,0],[47,16.2,.8,.7,0],[-14,-58,6,.1,1],[-1.9,-9.2,5,.08,1],[61,-9,4,.18,1],[60,-25,5.5,.15,1],[26,-11,3.5,.25,1],[-60,-20,2,.4,0],[-4,-12,1.6,.35,0],[17,-5,1.2,.4,0]]){
     const p=P(cl,cb);if(p.z<.05)continue;const rx=cr*D2R*R,ry=rx*p.z;x.save();x.translate(p.x,p.y);x.rotate(p.a+Math.PI/2);
     const hg=x.createRadialGradient(0,0,0,0,0,rx*2.6);hg.addColorStop(0,`rgba(255,255,250,${br*.55})`);hg.addColorStop(1,'rgba(255,255,250,0)');x.fillStyle=hg;x.scale(1,Math.max(.12,p.z));x.beginPath();x.arc(0,0,rx*2.6,0,TAU);x.fill();x.restore();
@@ -13830,16 +13830,13 @@ function moonSprite(r,o){const ts=o.ts||(r>60?512:r>18?192:96),key=[r|0,ts,Math.
   let e=MOONR[key];if(e)return e;for(const k in MOONR)if(MOONR[k].r===(r|0)&&MOONR[k].ts===ts)delete MOONR[k];
   const pad2=Math.ceil(r*.06)+3,S2=Math.ceil(r*2+pad2*2),sc=o.pxs||Math.min(2,(typeof DPR!=='undefined'?DPR:1)),cv=document.createElement('canvas');cv.width=cv.height=Math.ceil(S2*sc);const x=cv.getContext('2d');x.scale(sc,sc);const c=S2/2;
   x.save();x.translate(c,c);x.rotate(o.rot);x.drawImage(moonTexture(ts),-r,-r,r*2,r*2);x.restore();
-  // shadow (dark side) with a soft terminator
-  const m=document.createElement('canvas');m.width=m.height=cv.width;const y=m.getContext('2d');y.scale(sc,sc);y.translate(c,c);y.rotate(o.limb-Math.PI/2);
-  const k=1-2*o.frac,rx=Math.max(.01,Math.abs(k)*r);y.fillStyle='#000';y.beginPath();y.moveTo(0,-r-1);y.arc(0,0,r+1,-Math.PI/2,Math.PI/2,true);
-  if(k>0)y.ellipse(0,0,rx,r+1,0,Math.PI/2,-Math.PI/2,true);else y.ellipse(0,0,rx,r+1,0,Math.PI/2,Math.PI*1.5,false);y.closePath();y.fill();
-  const soft=Math.max(.6,r*.035);
-  x.save();x.setTransform(1,0,0,1,0,0);
-  if(o.day){x.globalCompositeOperation='destination-out';x.filter=`blur(${soft*sc}px)`;x.drawImage(m,0,0);}
-  else{const sh=document.createElement('canvas');sh.width=sh.height=cv.width;const z=sh.getContext('2d');z.filter=`blur(${soft*sc}px)`;z.drawImage(m,0,0);z.filter='none';z.globalCompositeOperation='source-in';z.fillStyle='rgba(8,11,24,.9)';z.fillRect(0,0,sh.width,sh.height);
-    x.globalCompositeOperation='source-atop';x.drawImage(sh,0,0);}
-  x.restore();e={cv,S2,r:r|0,ts};MOONR[key]=e;return e;}
+  // dark side: light each pixel from the sun direction (cheap, no blur filters)
+  {const Wp=cv.width,cc=c*sc,rp=r*sc,im=x.getImageData(0,0,Wp,Wp),d=im.data,fr=Math.max(0,Math.min(1,o.frac)),sz=2*fr-1,mg=Math.sqrt(Math.max(0,1-sz*sz)),sx=Math.sin(o.limb)*mg,sy=-Math.cos(o.limb)*mg,ew=Math.max(.03,Math.min(.1,3/rp));
+   for(let py=0;py<Wp;py++){const v=(py+.5-cc)/rp;if(v<-1.02||v>1.02)continue;for(let px=0;px<Wp;px++){const u=(px+.5-cc)/rp,q=u*u+v*v;if(q>1.04)continue;const i=(py*Wp+px)*4;if(!d[i+3])continue;
+     const z=Math.sqrt(Math.max(0,1-q)),dt=u*sx+v*sy+z*sz;let l=(dt+ew)/(2*ew);l=l<0?0:l>1?1:l*l*(3-2*l);if(l>=1)continue;
+     if(o.day)d[i+3]=d[i+3]*l;else{const k2=(1-l)*.9;d[i]=d[i]*(1-k2)+8*k2;d[i+1]=d[i+1]*(1-k2)+11*k2;d[i+2]=d[i+2]*(1-k2)+24*k2;}}}
+   x.putImageData(im,0,0);}
+  e={cv,S2,r:r|0,ts};MOONR[key]=e;return e;}
 function moonDraw(ctx,cx,cy,r,o){const e=moonSprite(r,o);
   if(o.glow){const hr=r*(2+o.frac*2.2),hg=ctx.createRadialGradient(cx,cy,r*.9,cx,cy,hr);hg.addColorStop(0,`rgba(255,248,225,${o.glow*(.1+.32*o.frac)})`);hg.addColorStop(1,'rgba(255,248,225,0)');ctx.fillStyle=hg;ctx.beginPath();ctx.arc(cx,cy,hr,0,TAU);ctx.fill();}
   ctx.save();ctx.globalAlpha=o.alpha==null?1:o.alpha;ctx.drawImage(e.cv,cx-e.S2/2,cy-e.S2/2,e.S2,e.S2);ctx.restore();}
@@ -14666,6 +14663,25 @@ FT.microwave.draw=function(X,Y,Wd,Dp,L,t){g.save();B_cab(X,Y);const on=(S.mwUnti
   g.restore();};
 /* ninomiya statue retired: clean it out of existing saves */
 setInterval(()=>{try{if(!S)return;if(S.yard&&S.yard.ninomiya)delete S.yard.ninomiya;if(S.ystored)S.ystored=S.ystored.filter(e=>e.k!=='ninomiya');if(S.yunstoreQ)S.yunstoreQ=S.yunstoreQ.filter(k=>k!=='ninomiya');if(S.yardDel&&S.yardDel.k==='ninomiya')S.yardDel=null;}catch(e){}},1500);
+/* ---- v243: honour the 防災情報 switches at once (banner, ticker bar, news), multi-proxy fetch for the train JSON ---- */
+const BS_kindOf=t=>/運行情報/.test(t)?'train':/津波/.test(t)?'tsunami':/台風/.test(t)?'typhoon':/気象情報|警報|注意報/.test(t)?'warn':'quake';
+{const bb=bosaiBanner;bosaiBanner=function(text,level,ms){const k=BS_kindOf(String(text||''));if(BOSAI[k]===false)return;bb(text,level,ms);try{$('quake').dataset.kind=k;}catch(e){}};}
+{const qa=quakeAlert;quakeAlert=function(q){if(!BOSAI.quake)return;qa(q);try{$('quake').dataset.kind='quake';}catch(e){}};}
+const BS_NEWS={quake:/地震|震度|緊急地震速報/,tsunami:/津波/,warn:/警報|注意報/,typhoon:/台風/,train:/運行|遅延|遅れ/};
+function bosaiApply(){try{if(BOSAI.warn===false)ENV.warn=null;if(BOSAI.typhoon===false)ENV.typhoons=null;if(BOSAI.train===false)ENV.trains=null;
+  const q=$('quake');if(q&&!q.hidden&&BOSAI[q.dataset.kind||BS_kindOf(q.textContent||'')]===false){q.hidden=true;clearTimeout(quakeAlert.tm);}
+  if(Array.isArray(ENV.news))ENV.news=ENV.news.filter(n=>!(n&&!n.link&&Object.keys(BS_NEWS).some(k=>BOSAI[k]===false&&BS_NEWS[k].test(n.title||''))));
+  bosaiHud();bosaiBarVis();}catch(e){}}
+setTimeout(()=>{try{document.querySelectorAll('input[data-bk]').forEach(i=>i.addEventListener('change',()=>setTimeout(bosaiApply,0)));}catch(e){}},1800);
+setInterval(()=>{try{const q=$('quake');if(q&&!q.hidden&&BOSAI[q.dataset.kind||'quake']===false)bosaiApply();}catch(e){}},1000);
+setTimeout(()=>{try{bosaiApply();}catch(e){}},4000);
+/* the train JSON has no CORS header: try it directly, then through several public relays */
+async function trainJSON(u){const tries=[u,'https://api.allorigins.win/raw?url='+encodeURIComponent(u),'https://api.codetabs.com/v1/proxy/?quest='+encodeURIComponent(u),'https://corsproxy.io/?url='+encodeURIComponent(u),'https://thingproxy.freeboard.io/fetch/'+u];
+  let err;for(const t of tries){try{const s=await fetchText(t,9000);const j=JSON.parse(s);if(Array.isArray(j))return j;}catch(e){err=e;}}throw err||new Error('train');}
+{const bj=bosaiJSON;bosaiJSON=function(u){return u===TR_URL?trainJSON(u):bj(u);};}
+/* ---- v245: changing clothes at the wardrobe always gives a different outfit ---- */
+function chgClothes(){const o=S.outfit||{},same=d=>(d.costume||null)===(o.costume||null)&&(d.costume||(d.top&&o.top&&d.top.k===o.top.k&&d.top.c===o.top.c&&d.bottom&&o.bottom&&d.bottom.k===o.bottom.k));
+  let d=dayClothes();for(let i=0;i<12&&same(d);i++){S.dressN=(S.dressN||0)+1;d=dayClothes();}return d;}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
