@@ -311,11 +311,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版217（2026/10/24 #67）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版221（2026/10/24 #71）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版217（2026/10/24 #67）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版221（2026/10/24 #71）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1397,8 +1397,11 @@ function posBubble(bb,cx,by,hd){const k=cv.clientWidth/W,cp={cx,by};
   if(top<6){top=((cp.by+6-cam.y)*Z+H/2)*k+9;below=true;}
   {const sh=cv.clientHeight;if(top>sh-bh-56)top=Math.max(6,sh-bh-56);if(top<6)top=6;}
   bb.classList.toggle('below',below);bb.style.transform=`translate(${Math.round(left)}px,${Math.round(top)}px)`;bb.style.setProperty('--tx',clamp(sx-left,16,bw-16)+'px');bb._pos={left,top,bw,bh,sx};}
-function avoidBubble(bb,others){const p=bb._pos;if(!p)return;for(const o of others){if(!o||o.hidden||!o._pos)continue;const q=o._pos;
-  if(p.left<q.left+q.bw+2&&p.left+p.bw>q.left-2&&p.top<q.top+q.bh+2&&p.top+p.bh>q.top-2){let nt=q.top-p.bh-6;let below=false;if(nt<4){nt=q.top+q.bh+6;below=true;}p.top=nt;bb.classList.toggle('below',false);bb.style.transform=`translate(${Math.round(p.left)}px,${Math.round(nt)}px)`;}}}
+function avoidBubble(bb,others){const p=bb._pos;if(!p)return;const m=bb._av?16:2;let tgt=p.top,moved=false;
+  for(const o of others){if(!o||o.hidden||!o._pos)continue;const q=o._pos;
+    if(p.left<q.left+q.bw+m&&p.left+p.bw>q.left-m&&tgt<q.top+q.bh+m&&tgt+p.bh>q.top-m){let nt=q.top-p.bh-6;if(nt<4)nt=q.top+q.bh+6;tgt=nt;moved=true;}}
+  bb._av=moved;const prev=bb._st==null||bb._stAt<performance.now()-500?tgt:bb._st,st=Math.abs(tgt-prev)<.6?tgt:prev+(tgt-prev)*.3;bb._st=st;bb._stAt=performance.now();p.top=st;
+  if(moved)bb.classList.toggle('below',false);bb.style.transform=`translate(${Math.round(p.left)}px,${Math.round(st)}px)`;}
 function tic(){return'';}
 const newsSeen=[];function pickNews(){if(!ENV.news.length)return null;const fresh=ENV.news.filter(n=>!newsSeen.includes(n.title));const it=pick(fresh.length?fresh:ENV.news);newsSeen.push(it.title);if(newsSeen.length>Math.min(40,Math.floor(ENV.news.length*.7)))newsSeen.shift();return it;}
 const IDLE_MUSE=['ふんふーん♪','なにしようかな','この部屋、居心地いいなあ','ちょっと伸びをしよう','今日の運勢、どうかな','あ、靴下が裏返しだった','部屋の模様替え、そのうちしたいな','観葉植物、元気そう','なんだか歌いたい気分','ちょっと日記書こうかな','空の上の暮らし、気に入ってる','この島、もっと素敵にしたいな','次は何を飾ろうかな','庭の手入れ、そろそろかな','ぼーっとするのも大事な時間','あれ、何しようとしてたんだっけ','ちょっとストレッチ','肩こったなあ','新しい趣味、始めてみようかな','そういえば、あの本の続き読まなきゃ','今日のごはん、楽しみ','お気に入りのマグで何か飲もう','床、ピカピカにしたいな','窓の外、鳥が飛んでる','雲がゆっくり流れてく','風が気持ちいい','時計の音、落ちつく','部屋の中、ちょっと散らかってる？','明日は何しようかな','ふふ、なんだか楽しい','深呼吸、すー、はー','今日もいい日','あくび出ちゃった','そうだ、手紙でも書こうかな','いい匂いがする気がする','今度、パンでも焼いてみようかな','ラジオ、つけようかな','カレンダー見なきゃ','ちょっと休憩','なんだか甘いものが食べたい','ゆっくりお茶したいな','このクッション、ふかふか','ぽかぽかして眠くなる','うーん、平和だなあ','空の上だと、時間がゆっくり流れる気がする','下の街の音、ここまでは聞こえないね','ちょっと掃除しようかな','好きな曲、なんだったっけ','部屋の明かり、ちょうどいい','今度、星座の本を読もう'];
@@ -4728,7 +4731,7 @@ function render0(){
   items.sort((a,b)=>a.k-b.k).forEach(i=>i.f());
   if(C.scene==='out')for(const d of DRONES)drawDrone(d,t);
   musTickEQ();drawDrag();drawParticles();drawMateTag();drawMainTag();drawVisitorTag();drawMusicTag();g.restore();
-  if(C.scene==='out'){weatherOut(t);lightingOut(t);}
+  if(C.scene==='out'){weatherOut(t);lightingOut(t);starsOut(t);}
   else{g.save();g.beginPath();g.rect(0,0,W,H);g.rect((0-cam.x)*Z+W/2,(T-8-cam.y)*Z+H/2,IN.w*T*Z,(21*T+22)*Z);g.clip('evenodd');weatherOut(t);lightingOut(t);g.restore();lightingIn(t);}
   worldBegin();if(C.scene==='out')glowOut();else glowIn(t);
   drawEmote(cp.cx,cp.by-(C.pose==='lie'?14:C.pose==='bath'?24:C.pose==='sit'?36:40));g.restore();
@@ -6736,7 +6739,7 @@ function lbNear(x,y){const c=[];for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx+
 function lbChirp(b,tx){b.say={text:tx||pick(LBV),until:performance.now()+2200};}
 function lbTick(dt){if(!S)return;lbSync();if(!LB.length)return;const night=sleepTime(0)&&C.sleeping;
   for(const b of LB){b.ph+=dt;
-    if(b.path.length){const[nx,ny]=b.path[0],gx=nx*T,gy=ny*T,dx=gx-b.px,dy=gy-b.py,dist=Math.hypot(dx,dy),sp=SPEED*T/3*dt;if(Math.abs(dx)>Math.abs(dy))b.dir=dx>0?'right':'left';else if(dy)b.dir=dy>0?'down':'up';
+    if(b.path.length){const[nx,ny]=b.path[0],gx=nx*T,gy=ny*T,dx=gx-b.px,dy=gy-b.py,dist=Math.hypot(dx,dy),sp=SPEED*T/3*.6*dt;if(Math.abs(dx)>Math.abs(dy))b.dir=dx>0?'right':'left';else if(dy)b.dir=dy>0?'down':'up';
       if(dist<=sp){b.px=gx;b.py=gy;b.tx=nx;b.ty=ny;b.path.shift();}else{b.px+=dx/dist*sp;b.py+=dy/dist*sp;}b.moving=true;}else b.moving=false;
     b.sayT-=dt;if(b.sayT<=0){b.sayT=rnd(14,40);if(!night)lbChirp(b);else lbChirp(b,'すぴ…');}
     b.t-=dt;if(b.t>0)continue;b.t=rnd(5,12);
@@ -13193,12 +13196,200 @@ v:たれぱんだのグッズ、持ってた？|p:ぬいぐるみ持ってた|v:
 v:2000年になる瞬間、何してた？|p:家族でテレビ見てた|v:2000年問題、ドキドキしたよね|p:何も起きなくてほっとした
 `.trim().split('\n').map(l=>l.trim()).filter(Boolean);
 VTALK.push(...RETRO_V);
+/* ---- DC brands (80s–90s) ---- */
+RETRO_SOLO.push('セーラーズのトレーナー、おニャン子クラブが着てて大人気だったよね','セーラーズのロゴ入りトレーナー、ずっとほしかったなあ','セーラーズの服を着てると、それだけで話しかけられた','セーラーズのショップの袋、宝物みたいに取っておいた');
+RETRO_DUO.push('m:セーラーズのトレーナー、覚えてる？|p:覚えてる！おニャン子が着てたやつ|m:「夕やけニャンニャン」見てると、ほしくなったよね|p:ロゴが大きくてかわいかった','m:セーラーズとパーソンズ、どっちがほしかった？|p:断然セーラーズ！|m:わたしも！でも高くて買えなかった|p:お店の前でながめるだけだったね');
+{const SV=['v:セーラーズって知ってる？|p:知ってる！ロゴのトレーナー|v:おニャン子が着てたよね|p:クラスの子が着てて、うらやましかった'];RETRO_V.push(...SV);VTALK.push(...SV);}
+RETRO_SOLO.push('DCブランドブーム、ショップの紙袋を持って歩くだけでうれしかった','BIGIのショップ、店に入るだけで緊張したなあ','メンズビギのジャケット、あこがれだった',
+'ニコルの服、大人っぽくて背伸びして着てた','ムッシュ ニコル、ちょっといいお出かけの日に着たっけ','アバハウスのシャツ、えりの形がきれいだったなあ',
+'POSH BOYのロゴ、なんだか特別に見えた','ペイトンプレイスのトレーナー、みんな着てたよね','BA-TSUのロゴ入りの服、原宿で見つけたときはドキドキした',
+'ヒステリックグラマーの女の子のイラスト、インパクトあったなあ','ヒスのTシャツ、90年代の原宿の空気そのものだった','JUNのショップ、なんだか都会の香りがした',
+'ROPÉのバッグ、お姉さんっぽくてあこがれた','丸井の赤いカード、大人の証みたいに見えてたな','丸井のバーゲン、朝から長い行列ができてたんだって',
+'ラフォーレ原宿のバーゲン、人の波がすごかった','DCブランドの紙袋、サブバッグにしてずっと使ってた','黒い服ばかり着る「カラス族」って呼ばれる人たちもいたね',
+'肩パッドの入ったジャケット、肩幅がすごかったなあ','タケオキクチのスーツ、かっこいい大人の象徴だった','肩のロゴがちょっと見えるように着るのがこだわりだった',
+'お年玉をためてDCブランドのセーターを買ったの、今でも覚えてる','ショップの店員さんがおしゃれすぎて、話しかけられると固まってた','ピンクハウスのフリフリの服、ふわふわでかわいかった',
+'MILKのワンピース、原宿のお店の前で何度も眺めてた','ブランドのセールの初日、学校が終わったら走って行った','DCブランドの服、クリーニングに出すほど大事に着てた');
+RETRO_DUO.push(...`
+m:ねえ{me}、DCブランドって覚えてる？|p:覚えてる！BIGIとかニコルとか|m:ショップに入るだけでドキドキしたよね|p:店員さんがみんなおしゃれで…
+m:ペイトンプレイスのトレーナー、持ってた？|p:持ってた！ロゴが大きいやつ|m:クラスで何人もかぶってたよね|p:それでもうれしかったなあ
+m:BA-TSUって知ってる？|p:原宿のお店でしょ！|m:ロゴ入りの服、あこがれだった|p:おこづかいじゃ全然足りなかった
+m:ヒステリックグラマー、着てた？|p:Tシャツを1枚だけ大事に持ってた|m:女の子のイラストのやつ？|p:そうそう、ちょっと派手で好きだった
+m:アバハウスとPOSH BOY、どっちが好きだった？|p:うーん、アバハウスかな|m:わたしはPOSH BOYのロゴが好きだった|p:どっちも大人っぽかったね
+m:丸井の赤いカード、覚えてる？|p:覚えてる！大人になったら作るんだって思ってた|m:バーゲンの行列もすごかったよね|p:朝早くから並んでたらしい
+m:DCブランドの紙袋、捨てられなかったよね|p:わかる！サブバッグにしてた|m:学校に持っていくとちょっと自慢できた|p:中身は体操服なのにね
+m:JUNとかROPÉって、なんだか都会の香りがしたよね|p:した！CMもおしゃれで|m:大人になったら着るんだって思ってた|p:結局いつ着るようになったっけ
+m:肩パッドの入った服、着てた？|p:着てた！肩幅がすごかった|m:いま見るとアメフト選手みたい|p:当時はあれがかっこよかったんだよ
+m:ニコルの服って大人っぽかったよね|p:うん、親戚の結婚式に着ていった|m:背伸びした感じが楽しかった|p:ちょっと大人になった気分だった
+m:お年玉で買ったブランドの服、覚えてる？|p:BIGIのセーター！|m:いいなあ。わたしはピンクハウスのブラウス|p:どっちもずっと大事にしてたよね
+m:カラス族って知ってる？|p:全身黒の服の人たちでしょ|m:かっこよかったけど、ちょっとこわかった|p:今見てもおしゃれだと思う
+`.trim().split('\n').map(l=>l.trim()).filter(Boolean));
+{const DCV=`
+v:{me}、DCブランドの服って着てた？|p:ペイトンプレイスのトレーナーとか！|v:なつかしい〜！わたしはBIGI派|p:おとなっぽくていいね
+v:ヒステリックグラマーのTシャツ、まだ持ってる？|p:どこかにしまってあるかも|v:今また人気あるらしいよ|p:探してみようかな
+v:丸井のバーゲン、行ったことある？|p:一回だけ！すごい人だった|v:わたしは迷子になった|p:あの混雑はすごかったよね
+v:BA-TSUのお店、原宿にあったよね|p:あった！ロゴ入りの服がほしかった|v:わたしは紙袋だけ持ってた|p:紙袋でも十分うれしいよね
+v:アバハウスのジャケット、似合いそう|p:ほんと？昔ほしかったんだ|v:今度いっしょに見に行こうよ|p:島から行けるかなあ…
+v:JUNのCM、おしゃれだったよね|p:大人の世界って感じだった|v:ROPÉのバッグもあこがれだった|p:わかる、お姉さんっぽかった
+`.trim().split('\n').map(l=>l.trim()).filter(Boolean);RETRO_V.push(...DCV);VTALK.push(...DCV);}
+/* ---- Japanese cars (80s–90s) ---- */
+RETRO_SOLO.push('マークII、チェイサー、クレスタ。ハイソカー三兄弟って呼ばれてたんだよね','白いマークIIが、大人の成功のしるしみたいに見えてた','チェイサーのうしろ姿、子どもながらにかっこいいと思ってた','クレスタって名前の響き、なんだか上品だったなあ',
+'近所のおうちのセドリック、ピカピカに磨かれてたっけ','セドリックとグロリア、どっちがどっちか最後まで分からなかった','シーマが出たとき、「シーマ現象」なんて言葉まで生まれたんだって','ソアラの助手席、大人のデートってこういうことかと思ってた',
+'プレリュードはデートカーの代表だったよね。先輩が乗ってて、うらやましかった','シルビアのCM、おしゃれでずっと見てた','ハチロクのリトラクタブルライト、パカッと開くのが好きだった','赤いファミリアの屋根にサーフボード、海に行かなくても載せてる人がいたなあ',
+'ホンダ シティ、小さな箱みたいでかわいかった','CR-Xって小さいのに速くて、なんだかかっこよかった','Be-1とパオ、まるいレトロな形がかわいくて欲しかったなあ','スカイラインGT-R、男子はみんなミニカー持ってた',
+'ユーノス・ロードスターで海までドライブ、あこがれだった','RX-7のロータリーエンジン、音がちがうんだよね','NSXが出たとき、日本にもスーパーカーができたって大騒ぎだった','「かっこインテグラ」のCM、つい口に出して言っちゃう',
+'セルシオって、高級車といえばこれって感じだった','パジェロでスキーに行くの、ちょっとした夢だった','レガシィのワゴンにスキー板を積んで、ゲレンデへ向かうのがかっこよかった','エスティマの丸いかたち、「天才タマゴ」ってCMで言ってたよね',
+'オデッセイが出てから、ミニバンで家族旅行する家が増えた気がする','ホンダのビート、屋根の開く小さなオープンカー。乗ってみたかったな','ビートって、エンジンが座席のうしろにあるんだよ','ランエボとインプレッサ、どっちが速いかで友だちと言い合ってた');
+RETRO_DUO.push(...`
+m:ねえ{me}、子どものころお父さんの車って何だった？|p:セドリック！|m:うちはグロリアだった|p:それ、ほとんど同じ車じゃない？
+m:マークII、チェイサー、クレスタって覚えてる？|p:ハイソカー三兄弟でしょ|m:白いのばっかり走ってたよね|p:どれがどれか、エンブレムで見分けてた
+m:デートカーっていったら何だった？|p:やっぱりプレリュード！|m:わたしはソアラかなあ|p:どっちも助手席にあこがれたね
+m:スカイラインGT-Rのミニカー、持ってた？|p:持ってた！ボロボロになるまで遊んだ|m:本物はいまだに乗ったことないなあ|p:いつか乗ってみたいね
+m:免許とったら、最初に何の車がほしかった？|p:シルビア！|m:わたしはロードスター|p:屋根を開けて走るの、気持ちよさそう
+m:ホンダのビートって知ってる？|p:小さなオープンカーでしょ|m:エンジンがうしろにあるんだって|p:ちっちゃいのに本格的なんだね
+m:Be-1とパオ、覚えてる？|p:まるくてかわいいやつ！|m:抽選じゃないと買えなかったんだって|p:今見てもかわいいよね
+m:パジェロでスキー行ったことある？|p:友だちのお父さんの車で！|m:いいなあ。うちはレガシィのワゴンだった|p:どっちもスキー場の定番だったね
+m:RX-7とNSX、どっちがかっこいい？|p:うーん、むずかしい…|m:わたしはRX-7の形が好き|p:じゃあわたしはNSXにしとく
+m:エスティマの「天才タマゴ」ってCM、覚えてる？|p:覚えてる！まるい車|m:未来の車って感じがしたよね|p:乗ってみたかったなあ
+m:赤いファミリアに乗ってた人、いた？|p:いた！屋根にサーフボード載せて|m:でも海には行かないんだよね|p:「陸サーファー」って呼ばれてた
+m:ハチロクのライト、パカッて開くの好きだった？|p:大好き！|m:リトラクタブルライトっていうんだよね|p:今の車にはないのがさみしい
+`.trim().split('\n').map(l=>l.trim()).filter(Boolean));
+{const CV=`
+v:{me}、昔あこがれた車ってある？|p:ユーノス・ロードスター！|v:わかる〜！海までドライブしたかった|p:屋根を開けて走りたかったなあ
+v:ハイソカーって言葉、知ってる？|p:マークIIとかチェイサーでしょ|v:そうそう、白いボディでね|p:大人の車って感じだった
+v:お父さんの車、セドリックだった？|p:うちはクレスタ！|v:どっちも高級車だね|p:ちょっと自慢だった
+v:先輩のプレリュードに乗せてもらったことある？|p:ある！ドキドキした|v:デートカーだもんね|p:助手席、緊張したなあ
+v:ホンダのビートって知ってる？|p:小さなオープンカー！|v:黄色いの、かわいかったよね|p:島の道を走ったら気持ちよさそう
+v:スカイラインGT-R、かっこよかったよね|p:男子みんなあこがれてた|v:今でも人気なんだって|p:ずっと特別な車なんだね
+v:シーマって覚えてる？|p:「シーマ現象」！|v:みんな高級車を買ってた時代だよね|p:景気がよかったんだなあ
+v:スキー場に行くとき、何の車だった？|p:友だちのパジェロ！|v:わたしはレガシィのワゴン|p:スキー板、屋根に積んだよね
+`.trim().split('\n').map(l=>l.trim()).filter(Boolean);RETRO_V.push(...CV);VTALK.push(...CV);}
 TALKCAT.push(['t:retro','思い出話']);MTALKCAT.push(['m:retro','思い出話']);
 let RETRO_RECENT=[];
 function retroPick(arr){const fresh=arr.filter(x=>!RETRO_RECENT.includes(x));const l=pick(fresh.length?fresh:arr);RETRO_RECENT.push(l);if(RETRO_RECENT.length>60)RETRO_RECENT.shift();return l;}
 {const TL=talkLine;talkLine=function(){const w=1.1*talkMul('t:retro');if(w>0&&Math.random()<w/(w+9))return retroPick(RETRO_SOLO);return TL();};}
 {const CL=chatLines;chatLines=function(){const w=.12*talkMul('m:retro');if(M&&w>0&&Math.random()<w/(w+.9))return vtalkLines(retroPick(RETRO_DUO),{me:S.name,m:mName(),v:''});return CL();};}
 
+/* ===== new items: billiard table, giant bean-bag cushions (x3), life-size teddy bear ===== */
+const IT_lg=(x0,y0,x1,y1,st)=>{const q=g.createLinearGradient(x0,y0,x1,y1);for(const s of st)q.addColorStop(s[0],s[1]);return q;};
+const IT_rg=(x,y,r0,r1,st)=>{const q=g.createRadialGradient(x,y,r0,x,y,r1);for(const s of st)q.addColorStop(s[0],s[1]);return q;};
+function IT_ball(x,y,r,col,stripe,num){fillE(g,'rgba(0,0,0,.28)',x+.5,y+.7,r,r*.55);g.fillStyle=IT_rg(x-r*.35,y-r*.4,.1,r*1.15,[[0,shade(stripe?'#fbfaf4':col,.45)],[.5,stripe?'#f4f0e4':col],[1,shade(stripe?'#e8e2d4':col,-.35)]]);g.beginPath();g.arc(x,y,r,0,TAU);g.fill();
+  if(stripe){g.save();g.beginPath();g.arc(x,y,r,0,TAU);g.clip();g.fillStyle=IT_lg(0,y-r,0,y+r,[[0,shade(col,.3)],[1,shade(col,-.25)]]);g.fillRect(x-r,y-r*.42,r*2,r*.84);g.restore();}
+  if(num){fillE(g,'#fbfaf4',x,y,r*.42,r*.42);}fillE(g,'rgba(255,255,255,.85)',x-r*.38,y-r*.42,r*.26,r*.2);}
+/* ---------- billiard table (4x2) ---------- */
+function dBilliard(X,Y,Wd,Dp,L,t){g.save();t=t||performance.now()/1000;
+  const x0=X+3,x1=X+Wd-3,top=Y-8,bot=Y+Dp-14,ap=7;// top surface from top..bot, apron below
+  B_sh(X+Wd/2,Y+Dp-3,Wd*.52,6,.34);
+  // legs
+  for(const lx of[x0+6,x1-6,X+Wd/2]){if(lx===X+Wd/2)continue;g.fillStyle=IT_lg(lx-3,0,lx+3,0,[[0,'#5a3418'],[.4,'#8a5428'],[1,'#3a200c']]);g.beginPath();g.moveTo(lx-3.2,bot+ap-1);g.lineTo(lx+3.2,bot+ap-1);g.lineTo(lx+2.2,Y+Dp-4);g.lineTo(lx-2.2,Y+Dp-4);g.closePath();g.fill();
+    fillR(g,'#c8a050',lx-2.6,Y+Dp-6,5.2,1.2,.4);fillE(g,'#2a1808',lx,Y+Dp-3.6,2.4,.9);}
+  // apron (front face of the table body)
+  g.fillStyle=IT_lg(0,bot,0,bot+ap,[[0,'#7a4620'],[.5,'#5a3216'],[1,'#3e200a']]);rr(g,x0,bot-1,x1-x0,ap+1,2);g.fill();
+  g.fillStyle='rgba(255,220,170,.18)';g.fillRect(x0+2,bot,x1-x0-4,.6);
+  for(const px of[x0+14,X+Wd/2,x1-14]){fillE(g,'#c8a050',px,bot+ap/2,1.6,1.2);fillE(g,'#fff2b0',px-.4,bot+ap/2-.3,.5,.35);}
+  // rails (cushion frame)
+  g.fillStyle=IT_lg(0,top,0,bot,[[0,'#9a5a2a'],[.5,'#7a4220'],[1,'#5a2e14']]);rr(g,x0,top,x1-x0,bot-top,4);g.fill();
+  g.strokeStyle='rgba(255,220,170,.35)';g.lineWidth=.5;rr(g,x0+.4,top+.4,x1-x0-.8,bot-top-.8,3.6);g.stroke();
+  // diamond sights on the rails
+  for(let i=1;i<8;i++){if(i===4)continue;const x=x0+(x1-x0)*i/8;dia2(x,top+2.6);dia2(x,bot-2.4);}
+  for(let i=1;i<4;i++){const y=top+(bot-top)*i/4;dia2(x0+2.6,y);dia2(x1-2.6,y);}
+  function dia2(x,y){g.fillStyle='#f2ead0';g.beginPath();g.moveTo(x,y-.8);g.lineTo(x+.6,y);g.lineTo(x,y+.8);g.lineTo(x-.6,y);g.closePath();g.fill();}
+  // felt bed
+  const fx=x0+5,fy=top+5,fw=x1-x0-10,fh=bot-top-10;
+  g.fillStyle=IT_rg(fx+fw/2,fy+fh*.4,2,fw*.7,[[0,'#2fa060'],[.6,'#1e8048'],[1,'#125a32']]);rr(g,fx,fy,fw,fh,1.5);g.fill();
+  g.fillStyle='rgba(0,0,0,.18)';g.fillRect(fx,fy,fw,1.4);g.fillRect(fx,fy,1.4,fh);
+  // cushion edges
+  g.strokeStyle='#167040';g.lineWidth=1.4;rr(g,fx-.7,fy-.7,fw+1.4,fh+1.4,2);g.stroke();
+  // lamp light on the felt
+  g.fillStyle=IT_rg(fx+fw/2,fy+fh/2,1,fw*.45,[[0,'rgba(255,250,210,.18)'],[1,'rgba(255,250,210,0)']]);g.fillRect(fx,fy,fw,fh);
+  // head string & spot
+  g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=.3;g.beginPath();g.moveTo(fx+fw*.25,fy+1);g.lineTo(fx+fw*.25,fy+fh-1);g.stroke();fillE(g,'rgba(255,255,255,.35)',fx+fw*.75,fy+fh/2,.5,.4);
+  // pockets
+  for(const[px,py]of[[fx,fy],[fx+fw/2,fy-.6],[fx+fw,fy],[fx,fy+fh],[fx+fw/2,fy+fh+.6],[fx+fw,fy+fh]]){fillE(g,'#c8a050',px,py,2.6,2.1);fillE(g,'#141008',px,py,2,1.6);fillE(g,'rgba(255,255,255,.15)',px-.6,py-.6,.6,.4);}
+  // balls: racked triangle, or scattered while someone is playing
+  const playing=C.act==='hobby'&&C.scene==='in'&&Math.hypot(C.px-(X+Wd/2-12),C.py-(Y+Dp/2-12))<T*3.2;
+  const cols=['#f2c230','#2a5ad8','#d8302a','#6a2a9a','#f07a20','#1e8a4a','#8a2a1a','#1e1e24','#f2c230','#2a5ad8','#d8302a','#6a2a9a','#f07a20','#1e8a4a','#8a2a1a'];
+  const br=1.35;
+  if(!playing){const rx=fx+fw*.7,ry=fy+fh/2;let n=0;for(let c=0;c<5;c++)for(let r=0;r<=c;r++){if(n>=15)break;IT_ball(rx+c*br*1.75,ry+(r-c/2)*br*2.05,br,cols[n],n>=8,1);n++;}IT_ball(fx+fw*.24,ry,br,'#fbfaf4',0,0);
+    // cue lying on the rail
+    g.strokeStyle=IT_lg(x0+4,0,x1-20,0,[[0,'#2a1a10'],[.3,'#c89a5a'],[1,'#f2e2c0']]);g.lineWidth=1.1;g.lineCap='round';g.beginPath();g.moveTo(x0+6,bot+1.2);g.lineTo(x1-16,bot+1.6);g.stroke();fillE(g,'#3a6ad8',x1-16,bot+1.6,.6,.5);}
+  else{for(let i=0;i<10;i++){const a=hash(i,3,77)*TAU+t*.6*(i%3===0?1:0),r=.25+hash(i,4,77)*.33;const bx=fx+fw/2+Math.cos(a+i)*fw*r,by=fy+fh/2+Math.sin(a*1.3+i)*fh*r*.8;IT_ball(Math.max(fx+2,Math.min(fx+fw-2,bx)),Math.max(fy+2,Math.min(fy+fh-2,by)),br,cols[i],i>=8,1);}
+    const cx=fx+fw*.5+Math.sin(t*1.7)*fw*.3,cy=fy+fh*.5+Math.cos(t*1.3)*fh*.25;IT_ball(cx,cy,br,'#fbfaf4',0,0);}
+  g.restore();}
+/* ---------- giant bean-bag cushion (2x1) ---------- */
+const YOGI_COL=[['オレンジ','#f08a3a'],['ターコイズ','#2ab0b8'],['ピンク','#f07aa0'],['イエロー','#f2c840'],['ライム','#8ac84a'],['ネイビー','#3a4a8a'],['パープル','#8a5ac8'],['レッド','#d8443a']];
+const YOGIK=['yogibo','yogibo2','yogibo3'];
+function yogiCol(k,L){return YOGI_COL[(YOGIK.indexOf(k)*3+(L.v||0))%YOGI_COL.length];}
+function dYogi(X,Y,Wd,Dp,L,t){const k=YOGIK.find(q=>S.layout[q]===L)||'yogibo',[cn,col]=yogiCol(k,L),dk=shade(col,-.3),lt=shade(col,.32),md=shade(col,-.12);g.save();
+  const cx=X+Wd/2,base=Y+Dp-2,occ=(C.snapK===k&&C.scene==='in')||(M&&M.seatK===k);
+  B_sh(cx,base,Wd*.5,5,.36);
+  const w=Wd*.47,fh=11,th=9,sag=occ?2.4:0;// front face height, top face depth
+  // front face: plump rounded block
+  const front=()=>{g.beginPath();g.moveTo(cx-w+3,base);g.bezierCurveTo(cx-w-1.5,base,cx-w-1.8,base-fh,cx-w+1,base-fh-1);g.lineTo(cx+w-1,base-fh-1);g.bezierCurveTo(cx+w+1.8,base-fh,cx+w+1.5,base,cx+w-3,base);g.bezierCurveTo(cx+w*.3,base+1.4,cx-w*.3,base+1.4,cx-w+3,base);g.closePath();};
+  front();g.fillStyle=IT_lg(0,base-fh,0,base,[[0,col],[.6,md],[1,dk]]);g.fill();
+  // top face (seen from above), bulging up, dented when someone sits
+  const ty=base-fh-1;const topF=()=>{g.beginPath();g.moveTo(cx-w+1,ty);g.bezierCurveTo(cx-w-2,ty-th*.4,cx-w+2,ty-th-1.5,cx-w+6,ty-th);g.bezierCurveTo(cx-w*.3,ty-th-1.6+sag,cx+w*.3,ty-th-1.6+sag,cx+w-6,ty-th);g.bezierCurveTo(cx+w-2,ty-th-1.5,cx+w+2,ty-th*.4,cx+w-1,ty);g.bezierCurveTo(cx+w*.3,ty+1.6,cx-w*.3,ty+1.6,cx-w+1,ty);g.closePath();};
+  topF();g.fillStyle=IT_rg(cx-w*.3,ty-th*.7,1,w*1.3,[[0,lt],[.55,col],[1,md]]);g.fill();
+  if(occ){g.fillStyle='rgba(0,0,0,.16)';g.beginPath();g.ellipse(cx,ty-th*.45,w*.42,3,0,0,TAU);g.fill();}
+  // piping seams + puffy creases + highlight
+  g.strokeStyle=shade(col,-.38);g.globalAlpha=.55;g.lineWidth=.6;topF();g.stroke();g.globalAlpha=1;
+  g.strokeStyle='rgba(0,0,0,.14)';g.lineWidth=.5;for(const s of[-1,1]){g.beginPath();g.moveTo(cx+s*w*.55,ty+.6);g.quadraticCurveTo(cx+s*w*.62,base-fh*.45,cx+s*w*.5,base-.6);g.stroke();g.beginPath();g.moveTo(cx+s*w*.3,ty-th*.2);g.quadraticCurveTo(cx+s*w*.45,ty-th*.6,cx+s*w*.62,ty-th*.85);g.stroke();}
+  g.fillStyle='rgba(255,255,255,.3)';g.beginPath();g.ellipse(cx-w*.3,ty-th*.7,w*.32,1.6,-.06,0,TAU);g.fill();
+  g.fillStyle='rgba(255,255,255,.14)';g.beginPath();g.ellipse(cx-w*.2,base-fh*.65,w*.5,1.4,0,0,TAU);g.fill();
+  g.fillStyle='rgba(255,255,255,.07)';for(let i=0;i<50;i++){g.fillRect(cx-w+hash(i,1,k.length+3)*w*2,ty-th+hash(i,2,9)*(th+fh),.5,.5);}
+  g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=.4;front();g.stroke();
+  // fabric handle tab
+  fillR(g,shade(col,-.45),cx+w-4.2,base-fh*.6,3.4,1.8,.7);fillR(g,'rgba(255,255,255,.25)',cx+w-4,base-fh*.6,3,.4,.2);
+  g.restore();}
+/* ---------- life-size teddy bear (1x1, tall) ---------- */
+function dTeddy(X,Y,Wd,Dp,L,t){g.save();t=t||performance.now()/1000;const cx=X+12,base=Y+Dp-3,fur=['#b8804a','#c8925a','#a87444','#d8a66a'][(L.v||0)%4],dk=shade(fur,-.3),lt=shade(fur,.25),pad='#f2dcc0';
+  B_sh(cx,base,11,3.6,.32);
+  const furTex=(x,y,rx,ry)=>{g.save();g.beginPath();g.ellipse(x,y,rx,ry,0,0,TAU);g.clip();g.strokeStyle='rgba(90,50,20,.25)';g.lineWidth=.35;for(let i=0;i<Math.round(rx*ry*.9);i++){const a=hash(i,Math.round(x),7)*TAU,r=hash(i,Math.round(y),8);const px=x+Math.cos(a)*rx*r,py=y+Math.sin(a)*ry*r;g.beginPath();g.moveTo(px,py);g.lineTo(px+.4,py+.9);g.stroke();}
+    g.strokeStyle='rgba(255,230,190,.2)';for(let i=0;i<Math.round(rx*ry*.4);i++){const a=hash(i,3,Math.round(x)),r=hash(i,4,Math.round(y));g.beginPath();g.moveTo(x+Math.cos(a*TAU)*rx*r,y+Math.sin(a*TAU)*ry*r);g.lineTo(x+Math.cos(a*TAU)*rx*r-.3,y+Math.sin(a*TAU)*ry*r+.7);g.stroke();}g.restore();};
+  const blob=(x,y,rx,ry,c1,a)=>{g.fillStyle=IT_rg(x-rx*.35,y-ry*.4,.5,Math.max(rx,ry)*1.25,[[0,lt],[.55,c1||fur],[1,dk]]);g.beginPath();g.ellipse(x,y,rx,ry,a||0,0,TAU);g.fill();};
+  // legs stretched forward
+  for(const s of[-1,1]){blob(cx+s*6.2,base-3.6,4.2,3.6,fur,s*.2);fillE(g,pad,cx+s*7,base-2.6,2.6,2.2);fillE(g,shade(pad,-.1),cx+s*7,base-2.2,1.2,1);for(const d of[-1,0,1])fillE(g,shade(pad,-.12),cx+s*7+d*1.1,base-4.2,.5,.45);}
+  // body
+  blob(cx,base-11,8.4,8.6);furTex(cx,base-11,8.2,8.4);fillE(g,shade(fur,.18),cx,base-9.6,4.8,5.4);
+  // arms
+  for(const s of[-1,1]){blob(cx+s*8,base-11.4,3,5.6,fur,s*-.35);fillE(g,pad,cx+s*9,base-7.4,1.8,1.6);}
+  // bow ribbon
+  const rib=['#d8302a','#2a5ad8','#e86a9a','#2a8a5a'][(L.v||0)%4];g.fillStyle=rib;for(const s of[-1,1]){g.beginPath();g.moveTo(cx,base-18.4);g.quadraticCurveTo(cx+s*4.4,base-21.6,cx+s*5,base-18.2);g.quadraticCurveTo(cx+s*4.4,base-15.6,cx,base-18.4);g.fill();}
+  g.fillStyle=shade(rib,-.2);g.beginPath();g.moveTo(cx-1,base-18);g.lineTo(cx-2.6,base-13.6);g.lineTo(cx-.6,base-14.8);g.closePath();g.moveTo(cx+1,base-18);g.lineTo(cx+2.6,base-13.6);g.lineTo(cx+.6,base-14.8);g.closePath();g.fill();fillE(g,shade(rib,.15),cx,base-18.4,1.4,1.3);
+  // head
+  for(const s of[-1,1]){blob(cx+s*6.6,base-31.4,3.4,3.3);fillE(g,pad,cx+s*6.6,base-31.2,1.9,1.8);}
+  blob(cx,base-25.4,8.6,7.8);furTex(cx,base-25.4,8.4,7.6);
+  // muzzle, nose, mouth, eyes
+  fillE(g,shade(pad,-.04),cx,base-22.6,4,3.1);fillE(g,'rgba(255,255,255,.35)',cx-1.2,base-23.6,1.6,.8);
+  g.fillStyle='#2a1a14';g.beginPath();g.moveTo(cx-1.5,base-24.2);g.quadraticCurveTo(cx,base-25.4,cx+1.5,base-24.2);g.quadraticCurveTo(cx,base-22.6,cx-1.5,base-24.2);g.fill();fillE(g,'rgba(255,255,255,.5)',cx-.5,base-24.5,.45,.25);
+  g.strokeStyle='#2a1a14';g.lineWidth=.45;g.beginPath();g.moveTo(cx,base-23.2);g.lineTo(cx,base-21.8);g.quadraticCurveTo(cx-1.2,base-20.6,cx-2.2,base-21.6);g.moveTo(cx,base-21.8);g.quadraticCurveTo(cx+1.2,base-20.6,cx+2.2,base-21.6);g.stroke();
+  const blink=(t%6)<.12&&0;for(const s of[-1,1]){fillE(g,'#1a1210',cx+s*3.4,base-27.2,1.2,1.25);fillE(g,'rgba(255,255,255,.85)',cx+s*3.4-.4,base-27.6,.4,.35);}
+  fillE(g,'rgba(240,140,140,.28)',cx-5,base-23.6,1.6,1);fillE(g,'rgba(240,140,140,.28)',cx+5,base-23.6,1.6,1);
+  // stitch on the tummy
+  g.strokeStyle='rgba(90,50,20,.35)';g.lineWidth=.3;g.setLineDash([.6,.6]);g.beginPath();g.moveTo(cx,base-17);g.lineTo(cx,base-5);g.stroke();g.setLineDash([]);
+  g.restore();}
+FT.billiard=F('ビリヤード台',4,2,'free',['liv'],{draw:dBilliard,act:{say:['ビリヤードで一勝負！','ナインボール、狙うよ','キューの先にチョークを塗って…'],s:14,end:['ナイスショット！','ポケットイン！','うーん、惜しい！']}});
+FT.yogibo=F('ビーズクッション',2,1,'free',['liv','bed'],{draw:dYogi,act:{sit:1,say:['ビーズクッションでごろーん','このクッション、体にフィットする〜','ずぶずぶ沈む…しあわせ'],s:12}});
+FT.yogibo2=F('ビーズクッション（2個目）',2,1,'free',['liv','bed'],{draw:dYogi,act:{sit:1,say:['こっちのクッションもいいね','ふかふか、気持ちいい'],s:12}});
+FT.yogibo3=F('ビーズクッション（3個目）',2,1,'free',['liv','bed'],{draw:dYogi,act:{sit:1,say:['クッションに埋もれたい','色ちがいのクッション、かわいい'],s:12}});
+for(const k of YOGIK)FT[k].snap=L=>{const u=Math.round((L.v||0)+(L.flip||0))%2;return{px:(L.x+1)*T,py:L.y*T+6,pose:'sit',d:u?'up':'down',over:true};};
+FT.teddy=F('大きなテディベア',1,1,'free',['liv','bed'],{tall:1,draw:dTeddy,act:{say:['くまさん、ぎゅー！','もふもふ…いやされる','今日もかわいいね、くまさん'],s:6,fx:'heart'}});
+ALLK.push('billiard','yogibo','yogibo2','yogibo3','teddy');
+// sit either way on the bean-bag: flip which way each time someone settles in
+{const H0=A.hobby;A.hobby=function(fk){const st=H0(fk);if(st)st.unshift(FN(()=>{for(const k of YOGIK){const L=S.layout[k];if(!L)continue;L.flip=Math.random()<.5?1:0;if(!U(k))L.flip=1-L.flip;}}));return st;};}
+// only one bean-bag at first: the 2nd and 3rd come after the previous one
+{const NC=nextComfort;nextComfort=function(){const r=NC();if(r==='yogibo2'&&!has('yogibo'))return 'yogibo';if(r==='yogibo3'&&!has('yogibo2'))return has('yogibo')?'yogibo2':'yogibo';return r;};}
+
+/* ===== starry night sky over the island (clear nights), drawn above the night tint but never over the island ===== */
+const NSTARS=Array.from({length:140},(_,i)=>({x:hash(i,11,5),y:hash(i,12,5),r:.35+Math.pow(hash(i,13,5),3)*1.5,p:hash(i,14,5)*6,c:hash(i,15,5)}));let SHOOT=null;
+function starsOut(t){const dl=daylight();if(wKind()!=='clear'||dl>.35)return;const a=Math.min(1,(.35-dl)/.25);
+  g.save();g.beginPath();g.rect(0,0,W,H);worldBegin();for(let x=0;x<OG.w;x++){let y0=-1,y1=-1;for(let y=0;y<OG.h;y++)if(MASK[y][x]){if(y0<0)y0=y;y1=y;}if(y0<0)continue;g.rect(x*T-1,y0*T-46,T+2,(y1-y0+1)*T+46+ISLE_PAD);}g.restore();
+  g.clip('evenodd');const px=cam.x*.04,py=cam.y*.04;
+  for(const s of NSTARS){const x=((s.x*W*1.2-px)%(W*1.2)+W*1.2)%(W*1.2)-W*.1,y=((s.y*H*1.2-py)%(H*1.2)+H*1.2)%(H*1.2)-H*.1,tw=.55+.45*Math.sin(t*(1.2+s.c*2)+s.p),al=a*tw;
+    g.globalAlpha=al;g.fillStyle=s.c>.85?'#ffe9b8':s.c>.7?'#cfe0ff':'#ffffff';g.beginPath();g.arc(x,y,s.r,0,TAU);g.fill();
+    if(s.r>1.2){g.globalAlpha=al*.5;g.strokeStyle=g.fillStyle;g.lineWidth=.5;g.beginPath();g.moveTo(x-s.r*3,y);g.lineTo(x+s.r*3,y);g.moveTo(x,y-s.r*3);g.lineTo(x,y+s.r*3);g.stroke();}}
+  if(!SHOOT&&Math.random()<.0025)SHOOT={x:Math.random()*W,y:Math.random()*H*.5,t:0};
+  if(SHOOT){SHOOT.t+=1/60;const k=SHOOT.t/.9,x=SHOOT.x+k*120,y=SHOOT.y+k*60;g.globalAlpha=a*(1-k);const gr=g.createLinearGradient(x-30,y-15,x,y);gr.addColorStop(0,'rgba(255,255,255,0)');gr.addColorStop(1,'rgba(255,255,255,.95)');g.strokeStyle=gr;g.lineWidth=1.2;g.beginPath();g.moveTo(x-30,y-15);g.lineTo(x,y);g.stroke();if(k>=1)SHOOT=null;}
+  g.globalAlpha=1;g.restore();}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
