@@ -19,6 +19,7 @@ body{margin:0;background:var(--sky-deep);background-image:radial-gradient(120% 7
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px;box-sizing:border-box}
 .app{max-width:500px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
 .stage{position:relative;border-radius:18px;overflow:hidden;box-shadow:0 14px 40px rgba(0,0,0,.45),inset 0 0 0 1px var(--rule);background:#0d1430}
+html,body,button,#cv{-webkit-tap-highlight-color:transparent}
 #cv{display:block;width:100%;height:auto;aspect-ratio:384/600;touch-action:none;cursor:pointer;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 .glass{position:absolute;background:rgba(13,18,42,.38);text-shadow:0 1px 3px rgba(0,0,0,.55);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid var(--rule);border-radius:12px;font-family:var(--f-pixel)}
 .hud{top:8px;right:8px;padding:7px 11px 7px}
@@ -230,7 +231,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <div class="row2"><button id="rnSave" class="primary" hidden>この内容に変更する</button></div>
     <h3>名前の表示（主人公・同居人・お客さん）</h3><div class="tagGrid" id="tagGrid"></div><p class="hint">名前や見た目の変更は、下の「決定」で反映されます。</p>
     <div id="schedMain"></div><div id="sheetBody"></div><div id="prefBox"></div></section>
-    <section class="tp" data-p="home" hidden><div id="homeBody"></div></section>
+    <section class="tp" data-p="home" hidden><div class="row2" style="margin:2px 0 10px"><button type="button" id="ygGo">物見櫓に登って空を見る</button></div><div id="homeBody"></div></section>
     <section class="tp" data-p="dex" hidden><div id="dexBody"></div></section>
     <section class="tp" data-p="diary" hidden><div id="diaryBody"></div></section>
     <section class="tp" data-p="mate" hidden>
@@ -270,6 +271,8 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
       <div class="ovsub" id="ovSubT" hidden><input type="time" id="ovTm"><small class="hint" id="ovTv"></small></div>
       <span>天気</span><div class="seg" data-ov="w"><button type="button" data-m="a">自動</button><button type="button" data-m="m">手動</button></div>
       <div class="ovsub" id="ovSubW" hidden><select id="ovW"><option value="clear">晴れ</option><option value="cloudy">くもり</option><option value="rain">雨</option><option value="snow">雪</option><option value="thunder">雷雨</option><option value="fog">霧</option></select></div>
+      <span>視点</span><div class="seg" data-ov="c"><button type="button" data-m="a">キャラを追う</button><button type="button" data-m="m">手動操作</button></div>
+      <div class="ovsub"><small class="hint">手動操作：主人公の位置に関係なく、画面をドラッグしてスクロールできます。ものは長押ししてから動かせます。</small></div>
     </div>
     <p class="hint">日付を変えると季節や庭、天気（季節に合わせた天気）も変わります。時刻を手動にすると、その時刻から時間が進みます。</p>
     </section>
@@ -311,11 +314,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版222（2026/10/24 #72）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版228（2026/10/24 #78）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版222（2026/10/24 #72）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版228（2026/10/24 #78）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2916,8 +2919,7 @@ function skyColors(){
 function drawSky(t){
   const sc=skyColors(),gr=g.createLinearGradient(0,0,0,H);gr.addColorStop(0,sc.top);gr.addColorStop(1,sc.bot);g.fillStyle=gr;g.fillRect(0,0,W,H);
   const dl=daylight(),k=wKind();
-  if(dl<.5&&(k==='clear'||k==='cloudy')){const a=(1-dl*2)*(k==='clear'?1:.35);for(const s of STARS){g.globalAlpha=a*(.45+.55*Math.abs(Math.sin(t*.8+s.p)));g.fillStyle='#fff';g.fillRect(s.x,s.y,s.r,s.r);}g.globalAlpha=1;
-    if(k==='clear'&&C.scene==='out'){fillE(g,'rgba(255,246,214,'+(a*.95)+')',40,H-70,13,13);fillE(g,sc.bot,46,H-75,12,12);}}
+  if(dl<.5&&(k==='clear'||k==='cloudy')&&C.scene!=='out'){const a=(1-dl*2)*(k==='clear'?1:.35);for(const s of STARS){g.globalAlpha=a*(.45+.55*Math.abs(Math.sin(t*.8+s.p)));g.fillStyle='#fff';g.fillRect(s.x,s.y,s.r,s.r);}g.globalAlpha=1;}
   const cloudA=k==='clear'?.55:k==='cloudy'||k==='fog'?.85:.7;const cc=dl>.4?'255,255,255':dl>.1?'255,214,190':'140,155,200';
   for(const cl of CLOUDS){const x=(((cl.x+t*cl.v-cam.x*.25)%(W*1.4))+W*1.4)%(W*1.4)-W*.2;g.fillStyle=`rgba(${cc},${cloudA*(dl>.1?1:.5)})`;for(let i=0;i<4;i++){ell(g,x+i*11*cl.s,cl.y+Math.sin(i*1.7)*4,14*cl.s,8*cl.s);g.fill();}}
 }
@@ -4708,7 +4710,7 @@ function render0(){
   if(M&&S.mate&&M.scene===C.scene)items.push({k:mateKey(),f:drawMate});
   if(C.scene==='in')for(const b of LB)items.push({k:b.py+T-3,f:()=>drawLBot(b)});
   if(C.scene==='in'&&has('robovac')&&RV.ph!=='dock')items.push({k:RV.y+T-6,f:()=>drawRobo(RV.x+T/2,RV.y+T-6,true)});
-  items.push({k:C.scene==='in'&&C.pose==='lie'&&C.snapK==='bed'&&S.layout.bed?(S.layout.bed.y+3)*T+1:C.scene==='in'&&C.snapK==='sofa'&&C.snap&&S.layout.sofa?SOFA_K():cp.by+(C.snap&&C.snap.over?40:0),f:()=>drawChar(g,cp.cx,cp.by,charOpts())});
+  items.push({k:C.scene==='out'&&C.snapK==='y:yagura'&&S.yard&&S.yard.yagura?YG_KEY()+(C.snap&&C.snap.climb?.9:.4):C.scene==='in'&&C.pose==='lie'&&C.snapK==='bed'&&S.layout.bed?(S.layout.bed.y+3)*T+1:C.scene==='in'&&C.snapK==='sofa'&&C.snap&&S.layout.sofa?SOFA_K():cp.by+(C.snap&&C.snap.over?40:0),f:()=>drawChar(g,cp.cx,cp.by,charOpts())});
   if(C.scene==='out'){
     drawIsland(t);
     OUT.trees.forEach(tr=>items.push({k:tr.y*T+21,f:()=>drawTree(tr,t)}));
@@ -4717,7 +4719,7 @@ function render0(){
     items.push({k:OUT.bench.y*T+20,f:()=>drawProps('bench')},{k:OUT.mailbox.y*T+22,f:()=>drawProps('mailbox')},...OUT.scopes.map(q=>({k:q.y*T+18,f:()=>drawProps('scope',q)})));
     OUT.lanterns.forEach(l=>items.push({k:l.y*T+22,f:()=>drawProps('lantern',l)}));
     allBeds().forEach(b=>items.push({k:b.y*T+21,f:()=>drawPlanter(b)}));vegItems(items);if(typeof BD_items==='function')BD_items(items,t);
-    for(const k of yardList()){const p=S.yard[k];if(p.carry)continue;const f=OFT[k];items.push({k:(p.y+f.h)*T-1,f:()=>f.draw(p.x*T,p.y*T,p,t)});}
+    for(const k of yardList()){const p=S.yard[k];if(p.carry)continue;const f=OFT[k];items.push({k:(p.y+f.h)*T-1,f:()=>f.draw(p.x*T,p.y*T,p,t)});}if(typeof YG_items==='function')YG_items(items,t);
     if(S.yardDel&&S.yardDel.p){const d=S.yardDel;if(!d.stage||d.stage==='unpack')items.push({k:(d.p.y+1)*T-1,f:()=>yBoxDraw({...d.p,w:OFT[d.k].w})});else if(d.stage==='yard'&&d.drop)items.push({k:(d.drop.y+1)*T-4,f:()=>drawGroundBox(d.drop)});}
     if(S.delivery&&S.delivery.stage==='yard'&&S.delivery.drop){const d=S.delivery;items.push({k:(d.drop.y+1)*T-4,f:()=>drawGroundBox(d.drop)});}
     FENCE.forEach(f=>items.push({k:f.k,f:()=>drawFence(f)}));
@@ -4991,7 +4993,7 @@ const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',
 function actJP(){if(C.sleeping)return'ねている';return{rugswap:'ラグの模様替え',funmask:'へんそうあそび',afternoon:'アフタヌーンティー',sleep:'ねる準備',eat:'ごはん',toilet:'トイレ',bath:'お風呂',tv:'テレビ',read:'読書',clean:'そうじ',walk:'さんぽ',bench:'ベンチでひとやすみ',yunstore:'庭のものを出す',garden:'花壇の水やり',pick:'木の実とり',change:'着がえ',wander:'うろうろ',setup:'家具のセット',mail:'郵便受けを見る',lamp:'ランプのスイッチ',water:'植物に水やり',yoga:'ストレッチ',tea:'お茶',laundry:'洗濯',nap:'ソファで昼寝',face:'洗顔',guide:'番組表チェック',tvshow:'お目当ての番組',oyatsu:'おやつタイム',chat:`${(S.mate&&S.mate.name)||'同居人'}とおしゃべり`,newscheck:'ニュースチェック',
   heater:'ストーブのスイッチ',fan:'扇風機のスイッチ',diary:'日記',music:'レコード',piano:'ピアノ',fish:'魚にえさ',exercise:'エアロバイク',kotatsu:'こたつ',relax:'ひと休み',play:'おもちゃで遊ぶ',admire:'飾りをながめる',cloth:'テーブルクロスの交換',remodel:'模様替え',harvest:'畑の収穫',scope:'望遠鏡',yardsetup:'庭に置く準備',yardplay:'庭で遊ぶ',yardmove:'庭の模様替え',yardseason:'季節の飾りつけ',yardclear:'季節の片付け',newbed:'花壇づくり',tapwalk:'おでかけ中',drink:'お酒タイム',game:'テレビゲーム',radio:'ラジオ',hobby:'趣味の時間',store:'片付け',unstore:'しまったものを出す',visit:'お客さん'}[C.act]||'ぼんやり';}
 let sheetSnap=null;
-function openSheet(){if(!S)return;$('prefBox').innerHTML=prefHTML()+talkHTML();setTimeout(renderOv,0);$('schedMain').innerHTML=schedHTML(0);sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur();}catch(_){}const cd0=document.querySelector('#sheet .card');if(cd0)cd0.scrollTop=0;}
+function openSheet(){if(!S)return;$('prefBox').innerHTML=prefHTML()+talkHTML();setTimeout(renderOv,0);$('schedMain').innerHTML=schedHTML(0);sheetSnap={pref:JSON.stringify(S.drinkPref||{}),fav:JSON.stringify(S.favDrinks||[]),ov:{...ENV.ov,mode:{...(ENV.ov.mode||{})}},mt:S.mate?JSON.stringify({tag:S.mate.tag,out:S.mate.out,near:S.mate.near,look:S.mate.look}):null};renderSheet();renderRename();renderMate();$('dMsg').textContent='';selTab('st');renderEpg();$('sheet').hidden=false;try{document.activeElement&&document.activeElement.blur&&document.activeElement.blur();}catch(_){}const cd0=document.querySelector('#sheet .card');if(cd0)cd0.scrollTop=0;}
 function selTab(t){if(t==='hudset')setTimeout(renderHudSet,0);if(t==='bgm')setTimeout(renderBGM,0);if(t==='dex')setTimeout(renderDex,0);if(t==='diary')setTimeout(()=>renderDiary(true),0);document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.t===t));document.querySelectorAll('#sheet .tp').forEach(sct=>sct.hidden=sct.dataset.p!==t);try{localStorage.setItem('fuyuchi-tab',t);}catch(e){}}
 document.querySelectorAll('#tabs button').forEach(b=>b.onclick=()=>selTab(b.dataset.t));
 function exportText(){save();return'FUYUCHI1:'+btoa(unescape(encodeURIComponent(JSON.stringify(S))));}
@@ -5036,7 +5038,7 @@ async function epgCheck(i){const e=epgDraft[i],out=$('epgRes'+i);if(!e||!out)ret
 function epgCommit(){const a=epgDraft.map(e=>({k:e.k,name:(e.name||'').trim(),url:(e.url||'').trim()})).filter(e=>e.url||e.name);EPG=a.filter(e=>e.k!=='news').slice(0,EPG_MAX).concat(a.filter(e=>e.k==='news').slice(0,EPG_MAX));try{localStorage.setItem('fuyuchi-epg',JSON.stringify(EPG));}catch(_){}epgDirty=false;}
 $('epgSave').onclick=async()=>{epgCommit();renderEpg();$('epgMsg').textContent='読み込み中…';await Promise.all([tvReload(),fetchNews()]);renderEpg();};
 $('epgDef').onclick=()=>{epgDraft=EPG_DEF.concat(NEWS_DEF).map(e=>({...e}));epgDirty=true;renderEpg(true);};
-function ovMode(){ENV.ov.mode=ENV.ov.mode||{};const m=ENV.ov.mode;return{d:!!(m.d||ENV.ov.date),t:!!(m.t||ENV.ov.shift),w:!!(m.w||ENV.ov.weather)};}
+function ovMode(){ENV.ov.mode=ENV.ov.mode||{};const m=ENV.ov.mode;return{d:!!(m.d||ENV.ov.date),t:!!(m.t||ENV.ov.shift),w:!!(m.w||ENV.ov.weather),c:!!m.c};}
 function renderOv(){const md=ovMode();for(const sg of document.querySelectorAll('#sheet .seg[data-ov]')){const on=md[sg.dataset.ov];[...sg.children].forEach(b=>b.setAttribute('aria-pressed',(b.dataset.m==='m')===on));}
   $('ovSubD').hidden=!md.d;$('ovSubT').hidden=!md.t;$('ovSubW').hidden=!md.w;$('ovD').value=ENV.ov.date||'';$('ovW').value=ENV.ov.weather||wKind();
   const d=now();$('ovTm').value=`${pad(d.getHours())}:${pad(d.getMinutes())}`;$('ovTv').textContent=md.t?'（この時刻から進みます）':'';}
@@ -13561,6 +13563,590 @@ for(const k in MK_SPR)delete MK_SPR[k];
   c.save();if(!full){c.strokeStyle='#c8302a';c.lineWidth=.4;c.beginPath();c.moveTo(-hw*.95,cy-1.4);c.lineTo(hw*.1,cy-1.3);c.stroke();}
   c.translate(full?0:hw*.3,cy);c.scale(sc,sc);if(full){c.translate(-.9,-.6);c.scale(.95,.95);}c.drawImage(MK_sprite(k,'side'),MK_X0,MK_Y0,MK_W,MK_H);c.restore();};}
 
+/* ===== the moon: real phase (moon age), rises and sets with the time of night, drawn in the sky around the island ===== */
+function moonPhaseDraw(x,y,r,age,a){const p=age/29.530588853,cs=Math.cos(2*Math.PI*p),wax=p<.5,cres=cs>0,rx=Math.max(.01,Math.abs(cs)*r),lit=(1-cs)/2;
+  // halo grows with the lit fraction
+  const hr=r*(1.8+lit*.9),hg=g.createRadialGradient(x,y,r*.8,x,y,hr);hg.addColorStop(0,`rgba(255,248,220,${(.08+.2*lit)*a})`);hg.addColorStop(1,'rgba(255,248,220,0)');g.fillStyle=hg;g.beginPath();g.arc(x,y,hr,0,TAU);g.fill();
+  // earthshine on the dark part
+  g.globalAlpha=a;g.fillStyle='rgba(70,82,118,.55)';g.beginPath();g.arc(x,y,r,0,TAU);g.fill();
+  // lit part: limb half + terminator ellipse
+  g.save();g.beginPath();g.arc(x,y,r,-Math.PI/2,Math.PI/2,!wax);g.ellipse(x,y,rx,r,0,Math.PI/2,-Math.PI/2,wax===cres);g.closePath();
+  const lg=g.createRadialGradient(x-r*.3,y-r*.35,r*.1,x,y,r*1.05);lg.addColorStop(0,'#fffef4');lg.addColorStop(.7,'#f6eec8');lg.addColorStop(1,'#d8cc98');g.fillStyle=lg;g.fill();g.clip();
+  // maria and craters
+  g.fillStyle='rgba(150,140,110,.32)';for(const[mx,my,mr]of[[-.3,-.25,.32],[.25,-.35,.22],[.1,.15,.28],[-.35,.35,.18],[.42,.25,.14]]){g.beginPath();g.ellipse(x+mx*r,y+my*r,mr*r,mr*r*.85,.4,0,TAU);g.fill();}
+  g.fillStyle='rgba(255,255,255,.5)';for(const[mx,my,mr]of[[.05,.62,.07],[-.6,.05,.06],[.55,-.05,.05]]){g.beginPath();g.arc(x+mx*r,y+my*r,mr*r,0,TAU);g.fill();}
+  g.restore();g.globalAlpha=1;}
+let MOONP=null,MOON_MISS=0,MOON_COL=null,MOON_ON=false;// sky moon is off for now (follow-the-sky placement looked unnatural)
+function moonOut(a){const d=now(),age=moonAge(d);if(age<1.2||age>28.4){MOONP=null;return;}// new moon: not visible
+  const hr=d.getHours()+d.getMinutes()/60,transit=(12+age*24/29.530588853)%24,dh=((hr-transit+36)%24)-12;if(Math.abs(dh)>6.3){MOONP=null;return;}// below the horizon
+  const f=(dh+6.3)/12.6,alt=Math.sin(Math.PI*f),r=12,px=W*(.1+.8*f),py=H*(.05+.2*(1-alt));
+  // the island hides most of the sky: if the moon's spot is behind the island, show it in the nearest open patch of sky
+  let tx,ty;const nowT=performance.now();if(!MOONP&&nowT-MOON_MISS<250)return;if(MOONP&&MOONP.tt&&nowT-MOONP.tt<250&&Math.abs(MOONP.px-px)<2){tx=MOONP.tx;ty=MOONP.ty;}else{
+  if(!MOON_COL){MOON_COL=[];for(let x=0;x<OG.w;x++){let y0=-1,y1=-1;for(let y=0;y<OG.h;y++)if(MASK[y][x]){if(y0<0)y0=y;y1=y;}MOON_COL.push(y0<0?null:[y0*T-46,(y1+1)*T+ISLE_PAD]);}}
+  const open=(x,y,m)=>{if(x<r+4||x>W-r-4||y<r+4||y>H-r-4)return false;const wx0=(x-m-W/2)/Z+cam.x,wx1=(x+m-W/2)/Z+cam.x,wy0=(y-m-H/2)/Z+cam.y,wy1=(y+m-H/2)/Z+cam.y;
+    for(let i=Math.max(0,Math.floor((wx0-1)/T)),i1=Math.min(OG.w-1,Math.floor((wx1+1)/T));i<=i1;i++){const c=MOON_COL[i];if(c&&wy1>c[0]&&wy0<c[1])return false;}return true;};
+  tx=px;ty=py;if(!open(px,py,r*3)){tx=null;for(const m of[r*3,r*1.8,r+1]){let best=1e9;for(let y=r+4;y<H-r;y+=8)for(let x=r+4;x<W-r;x+=8){const dd=(x-px)*(x-px)+(y-py)*(y-py)*2;if(dd<best&&open(x,y,m)){best=dd;tx=x;ty=y;}}if(tx!==null)break;}if(tx===null){MOONP=null;MOON_MISS=nowT;return;}}}
+  if(!MOONP||Math.hypot(MOONP.x-tx,MOONP.y-ty)>W*.6)MOONP={x:tx,y:ty};else{MOONP.x+=(tx-MOONP.x)*.12;MOONP.y+=(ty-MOONP.y)*.12;}
+  if(MOONP.tx!==tx||MOONP.ty!==ty||!MOONP.tt||nowT-MOONP.tt>=250){MOONP.tx=tx;MOONP.ty=ty;MOONP.px=px;MOONP.tt=nowT;}
+  moonPhaseDraw(MOONP.x,MOONP.y,r,age,a*Math.min(1,.45+alt));}
+{const SO=starsOut;starsOut=function(t){SO(t);const dl=daylight();if(wKind()!=='clear'||dl>.35||C.scene!=='out')return;const a=Math.min(1,(.35-dl)/.25);
+  g.save();g.beginPath();g.rect(0,0,W,H);worldBegin();for(let x=0;x<OG.w;x++){let y0=-1,y1=-1;for(let y=0;y<OG.h;y++)if(MASK[y][x]){if(y0<0)y0=y;y1=y;}if(y0<0)continue;g.rect(x*T-1,y0*T-46,T+2,(y1-y0+1)*T+46+ISLE_PAD);}g.restore();
+  g.clip('evenodd');if(MOON_ON)moonOut(a);g.restore();};}
+
+/* ===== manual view: drag to scroll freely (ignores where the hero is); long-press still moves things ===== */
+function camManual(){return !!(ENV.ov.mode&&ENV.ov.mode.c);}
+let CPAN=null,CAM_SC=null;
+function camManHold(){if(!camManual()){CAM_SC=null;return false;}if(CAM_SC!==C.scene){CAM_SC=C.scene;cam.init=false;return false;}return true;}
+function camClampMan(){const vw=W/Z,vh=H/Z,gw=GW(C.scene)*T,gh=GH(C.scene)*T,mx=vw*(C.scene==='out'?.9:.35),my=vh*(C.scene==='out'?.5:.35);
+  cam.x=Math.max(Math.min(vw/2-mx,gw/2),Math.min(Math.max(gw-vw/2+mx,gw/2),cam.x));cam.y=Math.max(Math.min(vh/2-my-60,gh/2),Math.min(Math.max(gh-vh/2+my,gh/2),cam.y));}
+cv.addEventListener('pointerdown',e=>{if(!S||!camManual()||DRAG||fadeT>0)return;CPAN={id:e.pointerId,x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y,on:false};},true);
+cv.addEventListener('pointermove',e=>{if(!CPAN||e.pointerId!==CPAN.id)return;if(DRAG){CPAN=null;return;}const dx=e.clientX-CPAN.x,dy=e.clientY-CPAN.y;
+  if(!CPAN.on&&Math.hypot(dx,dy)>10)CPAN.on=true;if(!CPAN.on)return;const r=cv.getBoundingClientRect(),k=W/r.width/Z;cam.x=CPAN.cx-dx*k;cam.y=CPAN.cy-dy*k;camClampMan();cam.init=true;},true);
+cv.addEventListener('pointerup',e=>{const p=CPAN;CPAN=null;if(p&&p.on){e.stopImmediatePropagation();if(dragPend){clearTimeout(dragPend.id);dragPend=null;}if(charLP){clearTimeout(charLP.id);charLP=null;}}},true);
+cv.addEventListener('pointercancel',()=>{CPAN=null;},true);
+/* ===== info window position: top-right (default) / bottom-right / bottom-left / top-left / off ===== */
+const HUDPOS_N=[['tr','右上'],['br','右下'],['bl','左下'],['tl','左上'],['off','オフ']];
+function hudPos(){return(S&&S.hudPos)||'tr';}
+{const HA=hudAvoid;hudAvoid=function(){const hud=$('hud');if(!hud||!S)return;const pos=hudPos();
+  if(pos==='off'){if(hud.className!=='glass hud off')hud.className='glass hud off';hud.style.bottom='';hudMode='';return;}
+  if(pos==='tr'){hud.style.bottom='';return HA();}
+  const left=pos==='bl'||pos==='tl',bottom=pos==='br'||pos==='bl';
+  const cls='glass hud'+(left?' left':'')+(bottom?' bottom':'');if(hud.className!==cls)hud.className=cls;hudMode=(bottom?'B':'')+(left?'L':'R');
+  if(bottom){// keep clear of the pause button, the help button (left) and the disaster/news ticker
+    let b=left?76:46;const q=$('quake');if(q&&!q.hidden){const pr=(hud.offsetParent||document.body).getBoundingClientRect(),qr=q.getBoundingClientRect();if(qr.height)b=Math.max(b,Math.round(pr.bottom-qr.top)+6);}
+    const v=b+'px';if(hud.style.bottom!==v)hud.style.bottom=v;}else if(hud.style.bottom)hud.style.bottom='';};}
+{const st=document.createElement('style');st.textContent='.hud.off{display:none!important}.hud{transition:left .35s ease,right .35s ease,bottom .3s ease}.hudpos{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 10px}.hudpos button{flex:1 1 auto;min-width:56px;padding:6px 8px}.hudpos button[aria-pressed=true]{background:var(--accent,#ffd36b);color:#2a2340;font-weight:700}';try{document.head.appendChild(st);}catch(_){}}
+{const RH=renderHudSet;renderHudSet=function(){RH();const el=$('hudSetBody');if(!el||!S)return;const p=el.querySelector('.note');if(p)p.textContent='情報ウインドウの位置と、表示する項目を選べます。名前・日付・時刻・場所はいつも表示します。項目が多いときはウインドウが3列になります。';
+  const box=document.createElement('div');box.innerHTML='<h3>表示する位置</h3><div class="hudpos">'+HUDPOS_N.map(([k,n])=>`<button type="button" data-hp="${k}" aria-pressed="${hudPos()===k}">${n}</button>`).join('')+'</div>';
+  el.insertBefore(box,el.firstChild.nextSibling);};}
+$('hudSetBody').addEventListener('click',e=>{const b=e.target.closest&&e.target.closest('[data-hp]');if(!b||!S)return;S.hudPos=b.dataset.hp;save();hudAvoid();renderHudSet();});
+
+/* ===== astronomy: the real sun, moon and bright stars for the player's place and time ===== */
+const D2R=Math.PI/180,R2D=180/Math.PI;
+function astroLoc(){return{lat:ENV.lat!=null?ENV.lat:35.68,lon:ENV.lon!=null?ENV.lon:139.77};}
+function asJd(d){return d.getTime()/86400000+2440587.5;}
+function gmstDeg(jd){return(((280.46061837+360.98564736629*(jd-2451545))%360)+360)%360;}
+function eqToHor(ra,dec,jd,lat,lon){const H=(gmstDeg(jd)+lon-ra)*D2R,f=lat*D2R,d=dec*D2R;
+  const sa=Math.sin(f)*Math.sin(d)+Math.cos(f)*Math.cos(d)*Math.cos(H),alt=Math.asin(Math.max(-1,Math.min(1,sa)));
+  const az=Math.atan2(-Math.cos(d)*Math.sin(H),Math.sin(d)*Math.cos(f)-Math.cos(d)*Math.sin(f)*Math.cos(H));
+  return{alt:alt*R2D,az:((az*R2D)%360+360)%360,H};}
+function sunEq(jd){const n=jd-2451545,L=(280.46+.9856474*n)%360,gm=((357.528+.9856003*n)%360)*D2R,lam=(L+1.915*Math.sin(gm)+.02*Math.sin(2*gm))*D2R,eps=(23.439-4e-7*n)*D2R;
+  return{ra:((Math.atan2(Math.cos(eps)*Math.sin(lam),Math.cos(lam))*R2D)+360)%360,dec:Math.asin(Math.sin(eps)*Math.sin(lam))*R2D,lam:((lam*R2D)%360+360)%360};}
+function moonEq(jd){const T2=(jd-2451545)/36525,s=x=>Math.sin(x*D2R),c=x=>Math.cos(x*D2R);
+  const lam=218.32+481267.881*T2+6.29*s(135+477198.87*T2)-1.27*s(259.3-413335.36*T2)+.66*s(235.7+890534.22*T2)+.21*s(269.9+954397.74*T2)-.19*s(357.5+35999.05*T2)-.11*s(186.5+966404.03*T2);
+  const bet=5.13*s(93.3+483202.02*T2)+.28*s(228.2+960400.89*T2)-.28*s(318.3+6003.15*T2)-.17*s(217.6-407332.21*T2);
+  const par=.9508+.0518*c(135+477198.87*T2)+.0095*c(259.3-413335.36*T2)+.0078*c(235.7+890534.22*T2)+.0028*c(269.9+954397.74*T2);
+  const eps=23.439*D2R,l=lam*D2R,b=bet*D2R;
+  const x=Math.cos(b)*Math.cos(l),y=Math.cos(eps)*Math.cos(b)*Math.sin(l)-Math.sin(eps)*Math.sin(b),z=Math.sin(eps)*Math.cos(b)*Math.sin(l)+Math.cos(eps)*Math.sin(b);
+  return{ra:((Math.atan2(y,x)*R2D)+360)%360,dec:Math.asin(z)*R2D,lam:((lam%360)+360)%360,par};}
+function moonAltAt(jd,lat,lon){const me=moonEq(jd),h=eqToHor(me.ra,me.dec,jd,lat,lon);return h.alt-me.par*Math.cos(h.alt*D2R);}
+function skyAt(d){const jd=asJd(d),{lat,lon}=astroLoc(),se=sunEq(jd),me=moonEq(jd);
+  const sun=eqToHor(se.ra,se.dec,jd,lat,lon),moon=eqToHor(me.ra,me.dec,jd,lat,lon);moon.alt-=me.par*Math.cos(moon.alt*D2R);
+  const a1=se.ra*D2R,d1=se.dec*D2R,a2=me.ra*D2R,d2=me.dec*D2R;
+  const cosE=Math.sin(d1)*Math.sin(d2)+Math.cos(d1)*Math.cos(d2)*Math.cos(a1-a2),elong=Math.acos(Math.max(-1,Math.min(1,cosE)));
+  const frac=(1-Math.cos(elong))/2,wax=((me.lam-se.lam)%360+360)%360<180;
+  // position angle of the bright limb (from celestial north toward east) and the parallactic angle
+  const chi=Math.atan2(Math.cos(d1)*Math.sin(a1-a2),Math.sin(d1)*Math.cos(d2)-Math.cos(d1)*Math.sin(d2)*Math.cos(a1-a2));
+  const f=lat*D2R,q=Math.atan2(Math.sin(moon.H),Math.tan(f)*Math.cos(d2)-Math.sin(d2)*Math.cos(moon.H));
+  return{d,jd,lat,lon,sun,moon,se,me,frac,wax,chi,q,elong:elong*R2D};}
+let SKY_C=null;
+function skyNow(){const d=now(),tn=performance.now();if(SKY_C&&tn-SKY_C.at<1000&&Math.abs(SKY_C.v.d-d)<90e3)return SKY_C.v;const v=skyAt(d);SKY_C={at:tn,v};return v;}
+function moonRiseSet(d){const{lat,lon}=astroLoc(),jd0=asJd(d);let rise=null,set=null,prev=moonAltAt(jd0-1,lat,lon)+.3;
+  for(let m=-1440+10;m<=1440;m+=10){const jd=jd0+m/1440,a=moonAltAt(jd,lat,lon)+.3;
+    if(prev<0&&a>=0){const tt=m-10*a/(a-prev);if(m>-720&&(!rise||Math.abs(tt)<Math.abs(rise)))rise=tt;}
+    if(prev>=0&&a<0){const tt=m-10*a/(a-prev);if(m>-720&&(!set||Math.abs(tt)<Math.abs(set)))set=tt;}prev=a;}
+  const fmt=mm=>{if(mm==null)return'—';const t2=new Date(d.getTime()+mm*60e3);return`${t2.getHours()}:${pad(t2.getMinutes())}`;};return{rise:fmt(rise),set:fmt(set)};}
+const AZ_JP=['北','北北東','北東','東北東','東','東南東','南東','南南東','南','南南西','南西','西南西','西','西北西','北西','北北西'];
+function azName(az){return AZ_JP[Math.round(((az%360)+360)%360/22.5)%16];}
+/* --- bright stars (J2000: RA hours, Dec degrees, magnitude, colour class, name) --- */
+const BSTAR={
+ bet:[5.919,7.407,.5,'r','ベテルギウス'],rig:[5.242,-8.202,.13,'b','リゲル'],bel:[5.419,6.35,1.64,'b'],sai:[5.796,-9.67,2.06,'b'],alt1:[5.679,-1.943,1.77,'b'],aln:[5.604,-1.202,1.69,'b'],min:[5.533,-.299,2.23,'b'],mei:[5.585,9.934,3.4,'b'],
+ sir:[6.752,-16.716,-1.46,'w','シリウス'],mir:[6.378,-17.956,1.98,'b'],wez:[7.14,-26.393,1.84,'y'],adh:[6.977,-28.972,1.5,'b'],alu:[7.401,-29.303,2.45,'b'],fur:[6.338,-30.064,3,'b'],
+ pro:[7.655,5.225,.34,'y','プロキオン'],gom:[7.453,8.289,2.9,'b'],
+ cas1:[7.577,31.888,1.58,'w','カストル'],pol:[7.755,28.026,1.14,'o','ポルックス'],alh:[6.629,16.399,1.93,'w'],meb:[6.732,25.131,3,'y'],tej:[6.383,22.514,2.87,'r'],was:[7.335,21.982,3.5,'w'],mek:[7.068,20.57,3.8,'y'],
+ ald:[4.599,16.509,.85,'r','アルデバラン'],eln:[5.438,28.608,1.65,'b'],tia:[5.627,21.143,3,'b'],th2:[4.478,15.871,3.4,'w'],gTa:[4.33,15.628,3.65,'y'],dTa:[4.382,17.543,3.76,'y'],eTa:[4.477,19.18,3.5,'y'],
+ alc:[3.791,24.105,2.87,'b'],atl:[3.82,24.053,3.6,'b'],ele:[3.749,24.113,3.7,'b'],maia:[3.764,24.367,3.9,'b'],mer:[3.772,23.948,4.1,'b'],tay:[3.754,24.467,4.3,'b'],
+ cap:[5.278,45.998,.08,'y','カペラ'],men:[5.992,44.948,1.9,'w'],thA:[5.995,37.213,2.6,'w'],iA:[4.95,33.166,2.7,'o'],eA:[5.033,43.823,3,'w'],
+ sch:[.675,56.537,2.24,'o'],caph:[.153,59.15,2.28,'w'],gCa:[.945,60.717,2.15,'b'],ruc:[1.43,60.235,2.66,'w'],seg:[1.907,63.67,3.35,'b'],
+ dub:[11.062,61.751,1.79,'o'],mer2:[11.031,56.382,2.37,'w'],phe:[11.897,53.695,2.44,'w'],meg:[12.257,57.033,3.31,'w'],ali:[12.9,55.96,1.77,'w'],miz:[13.399,54.925,2.27,'w'],alk:[13.792,49.313,1.86,'b'],
+ pola:[2.53,89.264,1.98,'y','北極星'],koc:[14.845,74.156,2.08,'o'],phk:[15.345,71.834,3,'w'],dUM:[17.537,86.586,4.36,'w'],eUM:[16.766,82.037,4.2,'y'],zUM:[15.734,77.795,4.3,'w'],hUM:[16.292,75.755,4.95,'w'],
+ den:[20.69,45.28,1.25,'w','デネブ'],sad:[20.37,40.257,2.23,'y'],gie:[20.77,33.97,2.48,'o'],dCy:[19.75,45.131,2.87,'b'],alb:[19.512,27.96,3.05,'o'],
+ veg:[18.616,38.784,.03,'w','ベガ'],she:[18.835,33.363,3.5,'b'],sul:[18.982,32.69,3.25,'b'],zLy:[18.746,37.605,4.3,'w'],dLy:[18.908,36.899,4.3,'r'],
+ alta:[19.846,8.868,.77,'w','アルタイル'],tar:[19.771,10.613,2.72,'o'],als:[19.922,6.407,3.7,'y'],zAq:[19.09,13.863,2.99,'w'],dAq:[19.425,3.115,3.36,'w'],lAq:[19.104,-4.882,3.4,'b'],thAq:[20.188,-.821,3.2,'b'],
+ ant:[16.49,-26.432,1.06,'r','アンタレス'],sha:[17.56,-37.104,1.62,'b'],sar:[17.622,-42.998,1.86,'y'],dsc:[16.006,-22.622,2.29,'b'],acr:[16.091,-19.806,2.6,'b'],piS:[15.981,-26.114,2.9,'b'],sgS:[16.353,-25.593,2.9,'b'],tauS:[16.598,-28.216,2.8,'b'],eS:[16.836,-34.293,2.29,'o'],mu1:[16.864,-38.047,3,'b'],ze2:[16.91,-42.362,3.6,'o'],etS:[17.203,-43.239,3.3,'w'],io1:[17.793,-40.127,3,'y'],kaS:[17.708,-39.03,2.4,'b'],
+ kau:[18.403,-34.385,1.85,'b'],nun:[18.921,-26.297,2.05,'b'],asc:[19.044,-29.88,2.6,'w'],kme:[18.35,-29.828,2.7,'o'],kbo:[18.466,-25.422,2.8,'o'],gSg:[18.097,-30.424,2.98,'o'],phS:[18.761,-26.991,3.2,'b'],taS:[19.116,-27.671,3.3,'o'],
+ reg:[10.14,11.967,1.35,'b','レグルス'],dnb:[11.818,14.572,2.14,'w'],alg:[10.333,19.842,2,'o'],zos:[11.235,20.524,2.56,'w'],che:[11.237,15.43,3.3,'w'],eLe:[10.122,16.763,3.5,'w'],adf:[10.278,23.417,3.4,'w'],muL:[9.88,26.007,3.9,'o'],epL:[9.764,23.774,3,'y'],
+ spi:[13.42,-11.161,.97,'b','スピカ'],por:[12.694,-1.449,2.74,'w'],vin:[13.036,10.959,2.8,'y'],dVi:[12.927,3.397,3.4,'r'],zVi:[13.578,-.596,3.4,'w'],bVi:[11.845,1.765,3.6,'w'],hVi:[12.332,-.667,3.9,'w'],
+ arc:[14.261,19.182,-.05,'o','アークトゥルス'],iza:[14.75,27.074,2.35,'o'],muf:[13.911,18.398,2.68,'y'],sgn:[14.535,38.308,3,'w'],nek:[15.032,40.39,3.5,'y'],dBo:[15.258,33.315,3.5,'y'],rBo:[14.53,30.371,3.6,'o'],
+ mrk:[23.079,15.205,2.48,'b'],sct:[23.063,28.083,2.42,'r'],agn:[.22,15.184,2.83,'b'],alp:[.14,29.091,2.06,'b'],enf:[21.736,9.875,2.38,'o'],hom:[22.691,10.831,3.4,'b'],thP:[22.17,6.198,3.5,'w'],
+ mra:[1.162,35.621,2.05,'r'],alm:[2.065,42.33,2.1,'o'],dAn:[.656,30.861,3.27,'o'],
+ mrf:[3.405,49.861,1.79,'y'],algo:[3.136,40.956,2.1,'b'],zPe:[3.902,31.884,2.85,'b'],ePe:[3.964,40.01,2.9,'b'],dPe:[3.715,47.788,3,'b'],gPe:[3.08,53.506,2.9,'y'],
+ acx:[12.443,-63.099,.77,'b'],mim:[12.795,-59.689,1.25,'b'],gac:[12.519,-57.113,1.6,'r'],dCr:[12.252,-58.749,2.8,'b'],
+ aCe:[14.66,-60.834,-.27,'y','ケンタウルス座α'],had:[14.064,-60.373,.61,'b'],fom:[22.961,-29.622,1.16,'w','フォーマルハウト'],can:[6.399,-52.696,-.74,'w','カノープス'],ach:[1.629,-57.237,.46,'b','アケルナル'],
+ alf:[9.46,-8.659,1.98,'o'],ras:[17.582,12.56,2.07,'w'],dip:[.727,-17.987,2.04,'o'],mnk:[3.038,4.09,2.5,'r'],
+ aCB:[15.578,26.715,2.2,'w'],bCB:[15.464,29.106,3.7,'w'],gCB:[15.712,26.296,3.8,'w'],thCB:[15.549,31.359,4.1,'b'],dCB:[15.826,26.068,4.6,'y'],eCB:[15.96,26.878,4.1,'o'],
+ ham:[2.12,23.462,2,'o'],shr:[1.911,20.808,2.64,'w'],mes:[1.892,19.294,3.9,'w']};
+const CONST=[
+ ['オリオン座',[['mei','bet'],['mei','bel'],['bet','bel'],['bet','alt1'],['bel','min'],['min','aln'],['aln','alt1'],['alt1','sai'],['min','rig']]],
+ ['おおいぬ座',[['mir','sir'],['sir','wez'],['wez','adh'],['adh','fur'],['wez','alu']]],
+ ['こいぬ座',[['pro','gom']]],
+ ['ふたご座',[['cas1','pol'],['cas1','meb'],['meb','tej'],['pol','was'],['was','mek'],['mek','alh']]],
+ ['おうし座',[['ald','th2'],['th2','gTa'],['gTa','dTa'],['dTa','eTa'],['eTa','eln'],['ald','tia']]],
+ ['ぎょしゃ座',[['cap','men'],['men','thA'],['thA','eln'],['eln','iA'],['iA','eA'],['eA','cap']]],
+ ['カシオペヤ座',[['caph','sch'],['sch','gCa'],['gCa','ruc'],['ruc','seg']]],
+ ['北斗七星',[['dub','mer2'],['mer2','phe'],['phe','meg'],['meg','dub'],['meg','ali'],['ali','miz'],['miz','alk']]],
+ ['こぐま座',[['pola','dUM'],['dUM','eUM'],['eUM','zUM'],['zUM','koc'],['koc','phk'],['phk','hUM'],['hUM','zUM']]],
+ ['はくちょう座',[['den','sad'],['sad','alb'],['dCy','sad'],['sad','gie']]],
+ ['こと座',[['veg','zLy'],['zLy','she'],['she','sul'],['sul','dLy'],['dLy','zLy']]],
+ ['わし座',[['zAq','tar'],['tar','alta'],['alta','als'],['als','thAq'],['alta','dAq'],['dAq','lAq']]],
+ ['さそり座',[['acr','dsc'],['dsc','piS'],['dsc','sgS'],['sgS','ant'],['ant','tauS'],['tauS','eS'],['eS','mu1'],['mu1','ze2'],['ze2','etS'],['etS','sar'],['sar','io1'],['io1','kaS'],['kaS','sha']]],
+ ['いて座',[['gSg','kau'],['kau','asc'],['asc','phS'],['phS','kme'],['kme','gSg'],['kme','kbo'],['kbo','phS'],['phS','nun'],['nun','taS'],['taS','asc']]],
+ ['しし座',[['reg','eLe'],['eLe','alg'],['alg','adf'],['adf','muL'],['muL','epL'],['alg','zos'],['zos','dnb'],['dnb','che'],['che','reg'],['che','zos']]],
+ ['おとめ座',[['bVi','hVi'],['hVi','por'],['por','dVi'],['dVi','vin'],['por','spi'],['spi','zVi'],['zVi','dVi']]],
+ ['うしかい座',[['arc','iza'],['iza','dBo'],['dBo','nek'],['nek','sgn'],['sgn','rBo'],['rBo','arc'],['arc','muf']]],
+ ['ペガスス座',[['mrk','sct'],['sct','alp'],['alp','agn'],['agn','mrk'],['mrk','hom'],['hom','thP'],['thP','enf']]],
+ ['アンドロメダ座',[['alp','dAn'],['dAn','mra'],['mra','alm']]],
+ ['ペルセウス座',[['gPe','mrf'],['mrf','dPe'],['dPe','ePe'],['ePe','zPe'],['mrf','algo']]],
+ ['かんむり座',[['thCB','bCB'],['bCB','aCB'],['aCB','gCB'],['gCB','dCB'],['dCB','eCB']]],
+ ['おひつじ座',[['ham','shr'],['shr','mes']]],
+ ['みなみじゅうじ座',[['acx','gac'],['mim','dCr']]]];
+const ASTERISM=[['冬の大三角',['bet','sir','pro']],['夏の大三角',['veg','den','alta']]];
+// faint background stars spread over the whole sky (fixed on the celestial sphere so they rise and set naturally)
+const FAINT=Array.from({length:420},(_,i)=>{const u=hash(i,31,7)*2-1;return[hash(i,32,7)*24,Math.asin(u)*R2D,3.6+hash(i,33,7)*2.4,hash(i,34,7)];});
+// the Milky Way: points along the galactic equator (b=0) plus scattered star clouds
+const MWAY=(()=>{const aN=192.85948*D2R,dN=27.12825*D2R,lN=122.93192*D2R,toEq=(l,b)=>{l*=D2R;b*=D2R;const sd=Math.sin(dN)*Math.sin(b)+Math.cos(dN)*Math.cos(b)*Math.cos(lN-l),d=Math.asin(sd);
+    const a=aN+Math.atan2(Math.cos(b)*Math.sin(lN-l),Math.cos(dN)*Math.sin(b)-Math.sin(dN)*Math.cos(b)*Math.cos(lN-l));return[((a*R2D)%360+360)%360/15,d*R2D];};
+  const band=[];for(let l=0;l<360;l+=4){const br=.45+.55*Math.max(Math.cos(l*D2R),0)*1+.3*Math.exp(-Math.pow(((l-80+540)%360-180)/25,2));band.push([...toEq(l,0),Math.min(1.2,br)]);}
+  const dots=[];for(let i=0;i<700;i++){const l=hash(i,41,3)*360,b=(hash(i,42,3)+hash(i,43,3)+hash(i,44,3)-1.5)*9;dots.push([...toEq(l,b),hash(i,45,3)]);}return{band,dots};})();
+function starHor(ra,dec,sk){return eqToHor(ra*15,dec,sk.jd,sk.lat,sk.lon);}
+
+/* ===== the moon's face: a procedural map of the real near side (maria, bright ray craters), north up as seen with the naked eye ===== */
+function MT_noise(x,y,s){const xi=Math.floor(x),yi=Math.floor(y),xf=x-xi,yf=y-yi,h=(a,b)=>hash(a,b,s),u=xf*xf*(3-2*xf),v=yf*yf*(3-2*yf);
+  return(h(xi,yi)*(1-u)+h(xi+1,yi)*u)*(1-v)+(h(xi,yi+1)*(1-u)+h(xi+1,yi+1)*u)*v;}
+function MT_fbm(x,y,s){let a=0,f=1,w=.5;for(let i=0;i<4;i++){a+=w*MT_noise(x*f,y*f,s+i*7);f*=2.03;w*=.5;}return a;}
+// [lon, lat, half-size lon, half-size lat, albedo] (degrees)
+// [lon, lat, half-size lon, half-size lat, albedo, irregularity] (degrees) — the near side's maria, basins are round, the rest ragged
+const MT_MARIA=[[-15.6,32.8,19.5,18,.5,.12],[-31,44,7,5,.52,.15],[17.5,27.5,11,10.5,.55,.1],[59.1,17,9.5,8,.46,.08],[30,8.5,13.5,11.5,.45,.35],[22,17,7,6,.48,.3],[38,1,8,8,.47,.3],[26,-4,6,5,.5,.3],
+ [51.3,-6,8,12.5,.54,.35],[55,-16,5,6,.55,.3],[35.5,-15.2,6,6,.53,.1],[-17.3,-21.3,12.5,10.5,.54,.3],[-23,-9,7,6,.55,.3],[-39.4,-24.4,6.5,6.5,.5,.1],
+ [-52,22,20,26,.47,.3],[-62,-2,15,16,.46,.3],[-42,6,12,14,.48,.3],[-50,-15,9,7,.5,.3],[-36,34,10,10,.48,.3],[-30,8,9,7,.53,.3],[-9,11,6,4.5,.55,.3],[3.6,13.3,5,4,.55,.25],[3,2.4,3.5,3,.58,.2],
+ [-38,57,14,4.5,.57,.3],[-12,56.5,14,4,.57,.3],[14,56,14,4,.57,.3],[37,55,10,3.5,.59,.3],[29.2,38,6.5,5,.58,.3],
+ [-68.3,-5.2,4,5,.38,.06],[-9.3,51.6,3,2.4,.38,.05],[86.5,13.3,5,5,.58,.3],[87.3,1.3,5,6,.58,.3]];
+function MT_proj(lon,lat){lon*=D2R;lat*=D2R;return{u:Math.cos(lat)*Math.sin(lon),v:-Math.sin(lat),z:Math.cos(lat)*Math.cos(lon)};}
+function MT_gc(lon,lat,brg,dist){const l1=lat*D2R,b=brg*D2R,d=dist*D2R,l2=Math.asin(Math.sin(l1)*Math.cos(d)+Math.cos(l1)*Math.sin(d)*Math.cos(b));
+  return[lon+Math.atan2(Math.sin(b)*Math.sin(d)*Math.cos(l1),Math.cos(d)-Math.sin(l1)*Math.sin(l2))*R2D,l2*R2D];}
+const MOONTEX={};
+function moonTexture(N){if(MOONTEX[N])return MOONTEX[N];const cv=document.createElement('canvas');cv.width=cv.height=N;const x=cv.getContext('2d'),im=x.createImageData(N,N),d=im.data,R=N/2-.5,c0=N/2;
+  for(let py=0;py<N;py++)for(let px=0;px<N;px++){const u=(px+.5-c0)/R,v=(py+.5-c0)/R,rr=u*u+v*v,i=(py*N+px)*4;if(rr>1.0001){d[i+3]=0;continue;}
+    const z=Math.sqrt(Math.max(0,1-rr)),lat=Math.asin(-v)*R2D,lon=Math.atan2(u,z)*R2D,cl=Math.cos(lat*D2R);
+    const n1=MT_fbm(lon*.09,lat*.09,11),n2=MT_fbm(lon*.35,lat*.35,23),n3=MT_noise(lon*1.6,lat*1.6,37),n4=MT_fbm(lon*.9,lat*.9,41),n5=MT_noise(lon*4.2,lat*4.2,53);
+    let alb=.8+(n1-.5)*.14+(n2-.5)*.1+(n3-.5)*.06+(n4-.5)*.06+(n5>.86?(n5-.86)*1.1:0)-(n5<.12?(.12-n5)*.6:0),mar=0;
+    const wl=lon+(MT_fbm(lon*.045,lat*.045,61)-.5)*16,wb=lat+(MT_fbm(lon*.045,lat*.045,67)-.5)*12;
+    for(const[m0,m1,rx,ry,ma,ir]of MT_MARIA){const w2=ir>.2?1:.25,dl=((lon+(wl-lon)*w2-m0+540)%360-180)*cl,db=lat+(wb-lat)*w2-m1,dist=Math.sqrt((dl/rx)*(dl/rx)+(db/ry)*(db/ry))+((n2-.5)*.22+(n4-.5)*.12)*ir;
+      if(dist<1.3){const t2=dist<.8?1:dist>1.12?0:1-(dist-.8)/.32;const tt=t2*t2*(3-2*t2);const mv=ma*(.9+n1*.2)+(n2-.5)*.09+(n4-.5)*.07+(n3-.5)*.02+(dist>.6?(dist-.6)*.08:0);if(tt>0){alb=alb*(1-tt)+mv*tt;mar=Math.max(mar,tt);}}}
+    // the southern highlands are brighter and rougher
+    {const sl=Math.max(0,Math.min(1,(-lat-10)/30));alb+=(1-mar)*.05*sl*sl*(3-2*sl);}alb+=(MT_fbm(lon*2.4,lat*2.4,71)-.5)*.16*(1-mar)+(MT_noise(lon*7,lat*7,79)-.5)*.07*(1-mar*.6);
+    const ld=.9+.1*Math.pow(z,.35);alb*=ld;
+    const r=alb*(242-mar*14),gr=alb*(238-mar*12),b=alb*(228-mar*4);
+    d[i]=Math.min(255,r);d[i+1]=Math.min(255,gr);d[i+2]=Math.min(255,b);d[i+3]=rr>.985?Math.max(0,Math.min(255,(1-rr)/.015*255)):255;}
+  x.putImageData(im,0,0);
+  const P=(lon,lat)=>{const p=MT_proj(lon,lat);return{x:c0+p.u*R,y:c0+p.v*R,z:p.z,a:Math.atan2(p.v,p.u)};};
+  x.save();x.beginPath();x.arc(c0,c0,R,0,TAU);x.clip();
+  // small craters everywhere (fainter on the maria)
+  for(let i=0;i<Math.round(N*.9);i++){const lon=(hash(i,51,9)*2-1)*88,lat=Math.asin(hash(i,52,9)*2-1)*R2D,cr=(.35+Math.pow(hash(i,53,9),3.2)*4.2)*D2R*R,p=P(lon,lat);if(p.z<.05||cr<.35)continue;
+    const rx=cr*.7,ry=rx*Math.max(.12,p.z);x.save();x.translate(p.x,p.y);x.rotate(p.a+Math.PI/2);const al=.035+hash(i,54,9)*.05,br=hash(i,55,9)>.6;
+    x.fillStyle=br?`rgba(255,252,240,${al*2.2})`:`rgba(60,55,48,${al})`;x.beginPath();x.ellipse(0,0,rx,ry,0,0,TAU);x.fill();x.restore();}
+  // bright ray craters: Tycho, Copernicus, Kepler, Aristarchus, Proclus
+  x.globalCompositeOperation='lighter';x.filter=`blur(${Math.max(.6,R*.006)}px)`;
+  for(const[cl,cb,n,len,al]of[[-11.4,-43.3,34,62,.06],[-20,9.6,30,22,.07],[-38,8.1,18,14,.06],[-47.5,23.7,10,9,.05],[47,16.2,10,14,.05]]){
+    for(let j=0;j<n;j++){const brg=hash(j,61,cl|0)*360,L=len*(.35+hash(j,62,cl|0)*.75);let prev=null;x.lineCap='round';
+      for(let s=1;s<=10;s++){const[ql,qb]=MT_gc(cl,cb,brg,L*s/10),p=P(ql,qb);if(p.z<0){prev=null;continue;}
+        if(prev){x.strokeStyle=`rgba(255,255,248,${al*.8*(1-s/11)*(.5+hash(j,63,s)*.8)})`;x.lineWidth=Math.max(.8,R*.02*(1.3-s/10)*(.5+hash(j,64,7)));x.beginPath();x.moveTo(prev.x,prev.y);x.lineTo(p.x,p.y);x.stroke();}prev=p;}}}
+  x.globalCompositeOperation='source-over';x.filter='none';
+  for(const[cl,cb,cr,br,dark]of[[-11.4,-43.3,2.4,.95,1],[-20,9.6,2.5,.75,1],[-38,8.1,1.1,.7,0],[-47.5,23.7,1,1,0],[47,16.2,.8,.7,0],[-14,-58,6,.1,1],[-1.9,-9.2,5,.08,1],[61,-9,4,.18,1],[60,-25,5.5,.15,1],[26,-11,3.5,.25,1],[-60,-20,2,.4,0],[-4,-12,1.6,.35,0],[17,-5,1.2,.4,0]]){
+    const p=P(cl,cb);if(p.z<.05)continue;const rx=cr*D2R*R,ry=rx*p.z;x.save();x.translate(p.x,p.y);x.rotate(p.a+Math.PI/2);
+    const hg=x.createRadialGradient(0,0,0,0,0,rx*2.6);hg.addColorStop(0,`rgba(255,255,250,${br*.55})`);hg.addColorStop(1,'rgba(255,255,250,0)');x.fillStyle=hg;x.scale(1,Math.max(.12,p.z));x.beginPath();x.arc(0,0,rx*2.6,0,TAU);x.fill();x.restore();
+    x.save();x.translate(p.x,p.y);x.rotate(p.a+Math.PI/2);x.fillStyle=`rgba(255,255,252,${br*.75})`;x.beginPath();x.ellipse(0,0,rx,ry,0,0,TAU);x.fill();
+    if(dark){x.fillStyle='rgba(120,112,100,.28)';x.beginPath();x.ellipse(0,0,rx*.62,ry*.62,0,0,TAU);x.fill();}x.restore();}
+  x.restore();MOONTEX[N]=cv;return cv;}
+/* draw the moon: o={tex size, frac (lit fraction), limb: screen angle (clockwise from up) toward the bright limb, rot: clockwise rotation of the face, day: sky colour shows through the dark part, glow, alpha} */
+const MOONR={};
+function moonSprite(r,o){const ts=o.ts||(r>60?512:r>18?192:96),key=[r|0,ts,Math.round(o.frac*200),Math.round(o.limb*R2D),Math.round(o.rot*R2D),o.day?1:0,o.pxs||0].join(',');
+  let e=MOONR[key];if(e)return e;for(const k in MOONR)if(MOONR[k].r===(r|0)&&MOONR[k].ts===ts)delete MOONR[k];
+  const pad2=Math.ceil(r*.06)+3,S2=Math.ceil(r*2+pad2*2),sc=o.pxs||Math.min(2,(typeof DPR!=='undefined'?DPR:1)),cv=document.createElement('canvas');cv.width=cv.height=Math.ceil(S2*sc);const x=cv.getContext('2d');x.scale(sc,sc);const c=S2/2;
+  x.save();x.translate(c,c);x.rotate(o.rot);x.drawImage(moonTexture(ts),-r,-r,r*2,r*2);x.restore();
+  // shadow (dark side) with a soft terminator
+  const m=document.createElement('canvas');m.width=m.height=cv.width;const y=m.getContext('2d');y.scale(sc,sc);y.translate(c,c);y.rotate(o.limb-Math.PI/2);
+  const k=1-2*o.frac,rx=Math.max(.01,Math.abs(k)*r);y.fillStyle='#000';y.beginPath();y.moveTo(0,-r-1);y.arc(0,0,r+1,-Math.PI/2,Math.PI/2,true);
+  if(k>0)y.ellipse(0,0,rx,r+1,0,Math.PI/2,-Math.PI/2,true);else y.ellipse(0,0,rx,r+1,0,Math.PI/2,Math.PI*1.5,false);y.closePath();y.fill();
+  const soft=Math.max(.6,r*.035);
+  x.save();x.setTransform(1,0,0,1,0,0);
+  if(o.day){x.globalCompositeOperation='destination-out';x.filter=`blur(${soft*sc}px)`;x.drawImage(m,0,0);}
+  else{const sh=document.createElement('canvas');sh.width=sh.height=cv.width;const z=sh.getContext('2d');z.filter=`blur(${soft*sc}px)`;z.drawImage(m,0,0);z.filter='none';z.globalCompositeOperation='source-in';z.fillStyle='rgba(8,11,24,.9)';z.fillRect(0,0,sh.width,sh.height);
+    x.globalCompositeOperation='source-atop';x.drawImage(sh,0,0);}
+  x.restore();e={cv,S2,r:r|0,ts};MOONR[key]=e;return e;}
+function moonDraw(ctx,cx,cy,r,o){const e=moonSprite(r,o);
+  if(o.glow){const hr=r*(2+o.frac*2.2),hg=ctx.createRadialGradient(cx,cy,r*.9,cx,cy,hr);hg.addColorStop(0,`rgba(255,248,225,${o.glow*(.1+.32*o.frac)})`);hg.addColorStop(1,'rgba(255,248,225,0)');ctx.fillStyle=hg;ctx.beginPath();ctx.arc(cx,cy,hr,0,TAU);ctx.fill();}
+  ctx.save();ctx.globalAlpha=o.alpha==null?1:o.alpha;ctx.drawImage(e.cv,cx-e.S2/2,cy-e.S2/2,e.S2,e.S2);ctx.restore();}
+/* the sun: white-hot core, soft corona and a faint star-shaped glare */
+function sunDraw(ctx,x,y,r,a,warm,t){warm=warm||0;ctx.save();ctx.globalCompositeOperation='lighter';
+  const c1=warm>0?`255,${Math.round(214-warm*70)},${Math.round(150-warm*90)}`:'255,236,190';
+  let gr=ctx.createRadialGradient(x,y,0,x,y,r*9);gr.addColorStop(0,`rgba(${c1},${.5*a})`);gr.addColorStop(.25,`rgba(${c1},${.18*a})`);gr.addColorStop(1,`rgba(${c1},0)`);ctx.fillStyle=gr;ctx.beginPath();ctx.arc(x,y,r*9,0,TAU);ctx.fill();
+  ctx.translate(x,y);ctx.rotate((t||0)*.02);for(let i=0;i<8;i++){ctx.rotate(Math.PI/4);const L=r*(i%2?3.2:5.4);const lg=ctx.createLinearGradient(0,0,L,0);lg.addColorStop(0,`rgba(${c1},${.28*a})`);lg.addColorStop(1,`rgba(${c1},0)`);ctx.fillStyle=lg;ctx.beginPath();ctx.moveTo(0,-r*.16);ctx.lineTo(L,0);ctx.lineTo(0,r*.16);ctx.closePath();ctx.fill();}
+  ctx.restore();ctx.save();
+  gr=ctx.createRadialGradient(x,y,0,x,y,r*1.15);gr.addColorStop(0,`rgba(255,255,252,${a})`);gr.addColorStop(.7,`rgba(255,${Math.round(250-warm*40)},${Math.round(225-warm*80)},${a})`);gr.addColorStop(1,`rgba(255,${Math.round(220-warm*60)},${Math.round(150-warm*90)},0)`);ctx.fillStyle=gr;ctx.beginPath();ctx.arc(x,y,r*1.15,0,TAU);ctx.fill();ctx.restore();}
+
+/* ===== the real sky over the island (top-down view, north = up): sun, moon and stars at their true directions; the island may hide them ===== */
+const SKYC={R:430};
+function skyMap(az,alt){const cx=OG.w*T/2,cy=OG.h*T/2,r=SKYC.R*(1-Math.max(-5,alt)/90);return{x:cx+Math.sin(az*D2R)*r,y:cy-Math.cos(az*D2R)*r};}
+let CEL_C=null;
+function celCache(){const tn=performance.now();if(CEL_C&&tn-CEL_C.at<2000)return CEL_C;const sk=skyNow(),st=[];
+  for(const k in BSTAR){const s=BSTAR[k],h=starHor(s[0],s[1],sk);if(h.alt>0)st.push([h.az,h.alt,s[2],s[3],hash(k.length,k.charCodeAt(0),3)]);}
+  for(const f of FAINT){const h=starHor(f[0],f[1],sk);if(h.alt>0)st.push([h.az,h.alt,f[2],'w',f[3]]);}
+  CEL_C={at:tn,sk,st};return CEL_C;}
+const STARCOL={w:'#ffffff',b:'#d4e2ff',y:'#fff3d6',o:'#ffe2bd',r:'#ffcfae'};
+function isleSkyClip(){g.beginPath();g.rect(0,0,W,H);worldBegin();for(let x=0;x<OG.w;x++){let y0=-1,y1=-1;for(let y=0;y<OG.h;y++)if(MASK[y][x]){if(y0<0)y0=y;y1=y;}if(y0<0)continue;g.rect(x*T-1,y0*T-46,T+2,(y1-y0+1)*T+46+ISLE_PAD);}g.restore();g.clip('evenodd');}
+starsOut=function(t){if(C.scene!=='out'||!S)return;const k=wKind(),cc=celCache(),sk=cc.sk;
+  const showSun=sk.sun.alt>-1.5&&(k==='clear'||k==='cloudy'),showMoon=sk.moon.alt>0&&(k==='clear'||k==='cloudy'),showStars=k==='clear'&&sk.sun.alt<-4;
+  if(!showSun&&!showMoon&&!showStars)return;
+  g.save();isleSkyClip();worldBegin();
+  if(showStars){const a=Math.min(1,(-4-sk.sun.alt)/8),moonW=sk.moon.alt>0?sk.frac*1.6:0;
+    for(const s of cc.st){const mag=s[2];if(mag>6-moonW)continue;const p=skyMap(s[0],s[1]),r=Math.max(.42,(5.4-mag)*.36)/Z*1.5,tw=.62+.38*Math.sin(t*(1.1+s[4]*2.2)+s[4]*40);
+      g.globalAlpha=a*tw*Math.max(.18,Math.min(1,(6.3-mag)/3.8));g.fillStyle=STARCOL[s[3]]||'#fff';g.beginPath();g.arc(p.x,p.y,r,0,TAU);g.fill();
+      if(mag<1.6){g.globalAlpha*=.5;g.strokeStyle=g.fillStyle;g.lineWidth=.25;g.beginPath();g.moveTo(p.x-r*3.4,p.y);g.lineTo(p.x+r*3.4,p.y);g.moveTo(p.x,p.y-r*3.4);g.lineTo(p.x,p.y+r*3.4);g.stroke();}}
+    g.globalAlpha=1;}
+  if(showSun){const p=skyMap(sk.sun.az,sk.sun.alt);sunDraw(g,p.x,p.y,6,k==='cloudy'?.5:1,sk.sun.alt<12?(12-Math.max(0,sk.sun.alt))/12:0,t);}
+  if(showMoon){const p=skyMap(sk.moon.az,sk.moon.alt),ps=skyMap(sk.sun.az,sk.sun.alt),ang=Math.atan2(ps.x-p.x,-(ps.y-p.y)),day=sk.sun.alt>-3;
+    moonDraw(g,p.x,p.y,7.5,{frac:sk.frac,limb:ang,rot:0,day,glow:day?.25:1,alpha:(day?.78:1)*(k==='cloudy'?.6:1),ts:96,pxs:Math.min(4,Z*DPR)});}
+  g.restore();
+  if(showStars){if(!SHOOT&&Math.random()<.002)SHOOT={x:Math.random()*W,y:Math.random()*H*.5,t:0};
+    if(SHOOT){SHOOT.t+=1/60;const kk=SHOOT.t/.9,x=SHOOT.x+kk*120,y=SHOOT.y+kk*60;g.globalAlpha=1-kk;const gr=g.createLinearGradient(x-30,y-15,x,y);gr.addColorStop(0,'rgba(255,255,255,0)');gr.addColorStop(1,'rgba(255,255,255,.95)');g.strokeStyle=gr;g.lineWidth=1.2;g.beginPath();g.moveTo(x-30,y-15);g.lineTo(x,y);g.stroke();if(kk>=1)SHOOT=null;}}
+  g.globalAlpha=1;g.restore();};
+
+/* ===== 物見櫓 (wooden lookout tower): built-in yard equipment, movable, anyone can climb it to look at the sky ===== */
+function YG_wood(x0,y0,x1,y1,base){return GD_lg(g,x0,y0,x1,y1,[[0,shade(base,.22)],[.45,base],[1,shade(base,-.28)]]);}
+function YG_beam(x0,y0,x1,y1,w,base){// a squared timber with highlight, shade and grain
+  const dx=x1-x0,dy=y1-y0,L=Math.hypot(dx,dy),nx=-dy/L,ny=dx/L;g.save();g.lineCap='butt';
+  g.strokeStyle=shade(base,-.45);g.lineWidth=w+.8;g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();
+  g.strokeStyle=base;g.lineWidth=w;g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();
+  g.strokeStyle=shade(base,.28);g.lineWidth=Math.max(.35,w*.28);g.beginPath();g.moveTo(x0+nx*w*.28,y0+ny*w*.28);g.lineTo(x1+nx*w*.28,y1+ny*w*.28);g.stroke();
+  g.strokeStyle=shade(base,-.22);g.lineWidth=Math.max(.3,w*.18);g.beginPath();g.moveTo(x0-nx*w*.3,y0-ny*w*.3);g.lineTo(x1-nx*w*.3,y1-ny*w*.3);g.stroke();
+  if(L>10){g.strokeStyle='rgba(50,28,12,.28)';g.lineWidth=.25;for(let i=0;i<2;i++){const o=(i?.12:-.05)*w;g.beginPath();g.moveTo(x0+nx*o+dx*.1,y0+ny*o+dy*.1);g.quadraticCurveTo(x0+nx*(o+.3)+dx*.5,y0+ny*(o+.3)+dy*.5,x0+nx*o+dx*.85,y0+ny*o+dy*.85);g.stroke();}}
+  g.restore();}
+function YG_rope(x,y,r){fillE(g,'#cdb98a',x,y,r,r*.8);g.strokeStyle='rgba(110,85,40,.7)';g.lineWidth=.3;for(let i=-1;i<=1;i++){g.beginPath();g.moveTo(x-r*.8,y+i*r*.4-.3);g.lineTo(x+r*.8,y+i*r*.4+.3);g.stroke();}}
+function YG_bolt(x,y){fillE(g,'#3a3430',x,y,.55,.55);fillE(g,'rgba(255,255,255,.35)',x-.15,y-.15,.2,.2);}
+function YG_geom(X,Y){const bx=X+24;return{bx,gy:Y+44,bgy:Y+30,df:Y-8,db:Y-22,ef:Y-50,eb:Y-66,ridge:Y-76};}
+const YG_WOOD='#8a5e38',YG_DECK='#b8875a',YG_RAIL='#9a6a42';
+function drawYagura(X,Y,L,t){const G=YG_geom(X,Y),bx=G.bx;
+  // ground shadow
+  g.fillStyle='rgba(20,35,10,.26)';g.beginPath();g.ellipse(bx+4,G.gy+1,31,7.5,0,0,TAU);g.fill();g.fillStyle='rgba(20,35,10,.16)';g.beginPath();g.ellipse(bx+10,G.gy-2,40,10,0,0,TAU);g.fill();
+  // stone footings (back then front)
+  const foot=(x,y)=>{fillE(g,'rgba(0,0,0,.25)',x+.6,y+1.4,4.6,1.8);fillR(g,GD_lg(g,0,y-3,0,y+2,[[0,'#cfc8b8'],[1,'#8a8476']]),x-4,y-3,8,4.4,1.2);fillR(g,'rgba(255,255,255,.35)',x-3.4,y-2.8,5,.8,.4);fillE(g,'rgba(90,120,60,.5)',x-2.4,y+1,1.6,.6);};
+  for(const s of[-1,1])foot(bx+s*20,G.bgy);
+  // back legs & back bracing (seen through the front)
+  for(const s of[-1,1])YG_beam(bx+s*20,G.bgy-1,bx+s*18.5,G.db+1,2.8,shade(YG_WOOD,-.18));
+  g.globalAlpha=.75;YG_beam(bx-19.5,G.bgy-4,bx+19,G.db+14,1.4,shade(YG_WOOD,-.25));YG_beam(bx+19.5,G.bgy-4,bx-19,G.db+14,1.4,shade(YG_WOOD,-.25));g.globalAlpha=1;
+  // back railing + back roof posts
+  for(const s of[-1,1])YG_beam(bx+s*22,G.db,bx+s*22,G.eb+1,2,shade(YG_RAIL,-.12));
+  for(let i=-2;i<=2;i++)YG_beam(bx+i*11,G.db,bx+i*11,G.db-13,1.3,shade(YG_RAIL,-.1));
+  YG_beam(bx-23,G.db-13,bx+23,G.db-13,1.8,shade(YG_RAIL,-.05));YG_beam(bx-23,G.db-6,bx+23,G.db-6,1.1,shade(YG_RAIL,-.1));
+  // deck: top face with planks, then the front fascia
+  g.fillStyle=GD_lg(g,0,G.db,0,G.df,[[0,shade(YG_DECK,-.12)],[1,YG_DECK]]);g.fillRect(bx-24,G.db,48,G.df-G.db);
+  g.strokeStyle='rgba(70,40,15,.38)';g.lineWidth=.35;for(let i=1;i<7;i++){const y=G.db+i*(G.df-G.db)/7;g.beginPath();g.moveTo(bx-24,y);g.lineTo(bx+24,y);g.stroke();}
+  for(let i=0;i<7;i++){const y=G.db+(i+.5)*(G.df-G.db)/7,xx=bx-24+((i*17)%40)+4;g.beginPath();g.moveTo(xx,y-.9);g.lineTo(xx,y+.9);g.stroke();}
+  g.fillStyle='rgba(255,240,210,.18)';g.fillRect(bx-24,G.db,48,.8);
+  // side railings (run front-to-back)
+  for(const s of[-1,1]){YG_beam(bx+s*23,G.db-13,bx+s*23,G.df-13,1.6,YG_RAIL);YG_beam(bx+s*23,G.db-6,bx+s*23,G.df-6,1,YG_RAIL);YG_beam(bx+s*23,(G.db+G.df)/2,bx+s*23,(G.db+G.df)/2-13,1.2,YG_RAIL);}
+  // front legs with bracing, beams and rope lashings
+  for(const s of[-1,1])foot(bx+s*21,G.gy);
+  for(const s of[-1,1])YG_beam(bx+s*21,G.gy-1,bx+s*19,G.df+2,3.6,YG_WOOD);
+  const bays=[[G.df+2,G.df+26],[G.df+26,G.gy-2]];
+  for(const[y0,y1]of bays){YG_beam(bx-19.6,y0+1,bx+19.6,y1-1,1.8,shade(YG_WOOD,-.05));YG_beam(bx+19.6,y0+1,bx-19.6,y1-1,1.8,shade(YG_WOOD,-.1));YG_rope(bx,(y0+y1)/2,1.3);}
+  for(const y of[G.df+3,G.df+26,G.gy-6]){YG_beam(bx-21.5,y,bx+21.5,y,2.2,shade(YG_WOOD,.04));YG_bolt(bx-19.5,y);YG_bolt(bx+19.5,y);}
+  g.fillStyle=GD_lg(g,0,G.df,0,G.df+5,[[0,shade(YG_DECK,-.2)],[1,shade(YG_DECK,-.42)]]);g.fillRect(bx-25,G.df,50,4.6);g.fillStyle='rgba(255,235,200,.25)';g.fillRect(bx-25,G.df,50,.7);
+  for(let i=-2;i<=2;i++)YG_bolt(bx+i*11,G.df+2.3);
+  // ladder up the front
+  const lx0=bx+3,lx1=bx+11;YG_beam(lx0,G.gy+2,lx0+.5,G.df-1,1.3,'#9c7048');YG_beam(lx1,G.gy+2,lx1-.5,G.df-1,1.3,'#9c7048');
+  for(let y=G.gy-3;y>G.df+1;y-=5.2)YG_beam(lx0+.3,y,lx1-.3,y,1,'#b48a5e');
+  // little pennant on a pole above the roof (drawn here so it sits behind the roof's front)
+  const wind=((ENV.wx&&ENV.wx.wind)||2),fl=Math.sin(t*(2+wind*.4))*1.4;g.strokeStyle='#5a4030';g.lineWidth=.8;g.beginPath();g.moveTo(bx,G.ridge+1);g.lineTo(bx,G.ridge-13);g.stroke();
+  g.fillStyle='#d9483b';g.beginPath();g.moveTo(bx+.4,G.ridge-13);g.quadraticCurveTo(bx+5,G.ridge-12+fl,bx+10,G.ridge-10.5+fl*1.3);g.quadraticCurveTo(bx+5,G.ridge-9+fl,bx+.4,G.ridge-8.4);g.closePath();g.fill();
+  g.fillStyle='rgba(255,255,255,.3)';g.beginPath();g.moveTo(bx+.4,G.ridge-13);g.quadraticCurveTo(bx+5,G.ridge-12+fl,bx+10,G.ridge-10.5+fl*1.3);g.lineTo(bx+.4,G.ridge-11.6);g.closePath();g.fill();fillE(g,'#e8c35a',bx,G.ridge-13.4,.8,.8);}
+// front railing, front roof posts, roof and lantern: drawn after anyone standing on the deck
+function drawYaguraFront(X,Y,t){const G=YG_geom(X,Y),bx=G.bx;
+  for(const s of[-1,1])YG_beam(bx+s*22.5,G.df,bx+s*22.5,G.ef+1,2.3,YG_WOOD);
+  for(const x of[-11,0,14])YG_beam(bx+x,G.df,bx+x,G.df-13,1.4,YG_RAIL);
+  YG_beam(bx-23.5,G.df-13,bx,G.df-13,2,YG_RAIL);YG_beam(bx+14,G.df-13,bx+23.5,G.df-13,2,YG_RAIL);YG_beam(bx-23.5,G.df-6,bx,G.df-6,1.2,YG_RAIL);YG_beam(bx+14,G.df-6,bx+23.5,G.df-6,1.2,YG_RAIL);
+  YG_rope(bx-22.5,G.df-13,1.1);YG_rope(bx+22.5,G.df-13,1.1);
+  // hip roof: side faces, front face with shingle rows, ridge cap
+  const L0=bx-31,R0=bx+31,rl=bx-9,rr2=bx+9;
+  g.fillStyle='#3a261a';g.beginPath();g.moveTo(L0,G.ef);g.lineTo(rl,G.ridge);g.lineTo(L0,G.eb);g.closePath();g.fill();g.beginPath();g.moveTo(R0,G.ef);g.lineTo(rr2,G.ridge);g.lineTo(R0,G.eb);g.closePath();g.fill();
+  g.fillStyle='rgba(0,0,0,.35)';g.fillRect(L0+3,G.ef,R0-L0-6,2.2);
+  const face=()=>{g.beginPath();g.moveTo(L0,G.ef);g.lineTo(R0,G.ef);g.lineTo(rr2,G.ridge);g.lineTo(rl,G.ridge);g.closePath();};
+  g.save();face();g.fillStyle=GD_lg(g,0,G.ridge,0,G.ef,[[0,'#7a5238'],[.6,'#5e3c28'],[1,'#4a2e1e']]);g.fill();g.clip();
+  const rows=7;for(let i=0;i<rows;i++){const y=G.ridge+(i+1)*(G.ef-G.ridge)/rows;g.fillStyle='rgba(30,15,8,.4)';g.fillRect(L0,y-.6,R0-L0,.8);g.fillStyle='rgba(255,220,180,.12)';g.fillRect(L0,y+.2,R0-L0,.5);
+    const off=(i%2)*3;g.fillStyle='rgba(30,15,8,.3)';for(let x=L0+off;x<R0;x+=6)g.fillRect(x,y-(G.ef-G.ridge)/rows+.4,.45,(G.ef-G.ridge)/rows-1);}
+  const sh=g.createLinearGradient(L0,0,R0,0);sh.addColorStop(0,'rgba(255,230,190,.16)');sh.addColorStop(.5,'rgba(255,230,190,0)');sh.addColorStop(1,'rgba(0,0,0,.18)');g.fillStyle=sh;g.fillRect(L0,G.ridge,R0-L0,G.ef-G.ridge);g.restore();
+  g.strokeStyle='rgba(20,10,5,.6)';g.lineWidth=.5;face();g.stroke();
+  YG_beam(rl-1,G.ridge,rr2+1,G.ridge,2.2,'#4a3022');YG_beam(L0-1,G.ef+.6,R0+1,G.ef+.6,1.6,'#6a4630');
+  for(const s of[-1,1]){g.strokeStyle='#4a3022';g.lineWidth=1.4;g.beginPath();g.moveTo(bx+s*31,G.ef);g.lineTo(bx+s*9,G.ridge);g.stroke();}
+  // paper lantern under the front eave
+  const lit=daylight()<.45,sw=Math.sin(t*1.3)*.6;g.strokeStyle='#2a2018';g.lineWidth=.35;g.beginPath();g.moveTo(bx,G.ef+1.5);g.lineTo(bx+sw,G.ef+4.5);g.stroke();
+  const lx=bx+sw,ly=G.ef+8;g.fillStyle=lit?GD_rg(g,lx-1,ly-1,.3,lx,ly,3.4,[[0,'#fff3c0'],[.6,'#ffb050'],[1,'#d9483b']]):GD_rg(g,lx-1,ly-1,.3,lx,ly,3.4,[[0,'#ffd8c8'],[1,'#c8302a']]);g.beginPath();g.ellipse(lx,ly,2.6,3.4,0,0,TAU);g.fill();
+  g.strokeStyle='rgba(80,20,10,.5)';g.lineWidth=.25;for(const k of[-1.6,0,1.6]){g.beginPath();g.ellipse(lx,ly,2.6,3.4,0,0,TAU);g.stroke();g.beginPath();g.moveTo(lx-2.5,ly+k);g.lineTo(lx+2.5,ly+k);g.stroke();}
+  fillR(g,'#2a2018',lx-1.6,ly-4,3.2,1,.3);fillR(g,'#2a2018',lx-1.6,ly+3.1,3.2,1,.3);}
+OFT.yagura={n:'物見櫓',w:2,h:2,draw:drawYagura};
+const YG_KEY=()=>{const p=S.yard.yagura;return(p.y+2)*T-1;};
+function YG_items(items,t){if(C.scene!=='out'||!S.yard||!S.yard.yagura||S.yard.yagura.carry)return;const p=S.yard.yagura;items.push({k:YG_KEY()+.8,f:()=>drawYaguraFront(p.x*T,p.y*T,t)});}
+function YG_spot(who){const p=S.yard.yagura,G=YG_geom(p.x*T,p.y*T);return{px:G.bx+(who==='m'?9:-7),py:G.db+8,lx:G.bx+7,gy:G.gy+T-14,dy:G.db+8};}
+function yaguraFront(){const p=S.yard.yagura;if(!p)return null;const c=[{x:p.x+1,y:p.y+2,d:'up'},{x:p.x,y:p.y+2,d:'up'}];for(const q of c)if(walkOut(q.x,q.y))return q;return yardFront('yagura',p);}
+// glowing lantern at night
+{const GO=glowOut;glowOut=function(){GO();const p=S&&S.yard&&S.yard.yagura;if(!p||p.carry)return;const dl=daylight();if(dl>=.45)return;const s=Math.min(1,(.45-dl)*2.4),G=YG_geom(p.x*T,p.y*T);
+  g.globalCompositeOperation='lighter';const gr=g.createRadialGradient(G.bx,G.ef+8,0,G.bx,G.ef+8,34);gr.addColorStop(0,`rgba(255,190,100,${.5*s})`);gr.addColorStop(1,'rgba(255,190,100,0)');g.fillStyle=gr;g.fillRect(G.bx-34,G.ef-26,68,68);g.globalCompositeOperation='source-over';};}
+// built-in: every island gets a lookout tower near its edge
+function yaguraGive(){if(!S||!S.yard||S.yard.yagura)return;const t2=outTester(2,2,null),c=[];const cx=OG.w/2,cy=OG.h/2;
+  for(let y=2;y<OG.h-3;y++)for(let x=1;x<OG.w-2;x++)if(t2.cellsOk({x,y}))c.push({x,y,d:Math.hypot((x+1-cx)/OG.w,(y+1-cy)/OG.h)});
+  c.sort((a,b)=>b.d-a.d);let p=null;for(const q of c.slice(0,140))if(t2.full(q)){p=q;break;}if(!p)p=placeOut(2,2);if(!p)return;S.yard.yagura={x:p.x,y:p.y};refreshOut();save();}
+setInterval(()=>{try{if(S&&S.yard&&!S.yard.yagura)yaguraGive();}catch(e){}},1500);
+// can't be put away or recycled; the resident never moves it on their own
+{const RA=recycleAsk;recycleAsk=function(k,sc){if(sc!=='in'&&k==='yagura'){say(pick(['物見櫓は島のシンボルだから、片付けられないよ','物見櫓は大事な見晴らし台。動かすことはできるよ']));emote('?',1.2);return;}return RA(k,sc);};}
+{const YM=A.yardmove;A.yardmove=function(){const y=S.yard&&S.yard.yagura;if(!y)return YM.apply(this,arguments);delete S.yard.yagura;try{return YM.apply(this,arguments);}finally{S.yard.yagura=y;}};}
+// tapping anywhere on the tall tower counts as tapping the tower
+{const TT=tapTarget;tapTarget=function(wx,wy){const p=C.scene==='out'&&S&&S.yard&&S.yard.yagura;if(p&&!p.carry){const X=p.x*T,Y=p.y*T;if(wx>=X-6&&wx<X+54&&wy>=Y-90&&wy<Y+48)return{t:'yard',k:'yagura'};}return TT(wx,wy);};}
+/* --- what you see from up there --- */
+function skyLines(who){const sk=skyNow(),k=SKYV.open&&SKYV.clear?'clear':wKind(),dl=daylight(),L=[];
+  if(k==='rain'||k==='thunder')return['雨で空がまっ白…何も見えないや','雨の日の物見櫓、ちょっと寒い'];
+  if(k==='snow')return['雪がふわふわ舞ってる','雪雲で空が見えないね'];
+  if(k==='fog')return['霧で真っ白！雲の中にいるみたい','霧で遠くが見えないね'];
+  if(k==='cloudy')L.push('雲が多いね','雲のすき間から空がのぞいてる');
+  if(sk.sun.alt>8&&k==='clear')L.push('空が近い！','雲の海がどこまでも続いてる','太陽がまぶしい！',`太陽は${azName(sk.sun.az)}の空だね`);
+  if(sk.sun.alt>-3&&sk.sun.alt<=8&&k==='clear')L.push(sk.sun.az>180?'夕日がきれい…':'朝日がのぼってくる！','空がオレンジ色に染まってる');
+  if(sk.moon.alt>3&&k!=='cloudy'){const mn=moonName(moonAge(now()));L.push(`${mn}が${azName(sk.moon.az)}の空に出てる`,sk.sun.alt>0?'昼間の月が白く見える':`${mn}がきれい`);}
+  if(sk.sun.alt<-10&&k==='clear'){const vis=CONST.filter(([n,ls])=>{let a=0,c2=0;for(const[s1]of ls){const st=BSTAR[s1],h=starHor(st[0],st[1],sk);a+=h.alt;c2++;}return a/c2>25;});
+    if(vis.length){const c3=pick(vis)[0];L.push(`あれは${c3}かな`,`${c3}が見えるよ`);}L.push('星がいっぱい！','流れ星、見えないかな');}
+  if(!L.length)L.push('いい眺め！','島のまわりが全部見渡せる');return L;}
+A.yagura=function(user){const k='yagura';let t0=0,ph=0;const up=()=>{const sp=YG_spot('c');return sp;};
+  const s=[{t:'go',sc:'out',dyn:()=>S.yard.yagura?yaguraFront():null},FN(()=>{C.yardK=k;}),
+    {t:'snap',k:'y:yagura',dyn:()=>{if(!S.yard.yagura)return null;const sp=up();return{px:sp.lx,py:charPos().by,pose:'stand',d:'up',over:true};}},
+    FN(()=>{t0=charPos().by;}),
+    W8(2.4,dt=>{if(!C.snap||!S.yard.yagura)return;C.snap.climb=true;ph=Math.min(1,ph+dt/2.3);const sp=up();C.snap.px=sp.lx;C.snap.py=t0+(sp.dy-t0)*ph;C.dir='up';C.frame=(ph*14|0)%2;}),
+    FN(()=>{if(!C.snap||!S.yard.yagura)return;const sp=up();C.snap.px=sp.px;C.snap.py=sp.py;C.snap.climb=false;C.dir='down';})];
+  if(user)s.push(FN(()=>skyvOpen()),{t:'until',cond:()=>!SKYV.open});
+  else s.push(SAY(()=>pick(skyLines())),W8(rnd(10,16)),SAY(()=>pick(skyLines())),W8(rnd(8,14)));
+  s.push(FN(()=>{if(!C.snap||!S.yard.yagura)return;const sp=up();C.snap.px=sp.lx;C.snap.climb=true;C.dir='up';ph=1;}),
+    W8(2.2,dt=>{if(!C.snap||!S.yard.yagura)return;ph=Math.max(0,ph-dt/2.1);const sp=up();C.snap.py=t0+(sp.dy-t0)*ph;C.frame=(ph*14|0)%2;}),
+    FN(()=>{unsnap();C.yardK=null;C.dir='down';}));
+  return s;};
+{const YP=A.yardplay;A.yardplay=function(k){const ks=yardList().filter(x=>!S.yard[x].carry&&OFT[x].act);if(k==='yagura'||(!k&&S.yard.yagura&&!S.yard.yagura.carry&&(!ks.length||Math.random()<1/(ks.length+1))))return A.yagura(false);return YP.apply(this,arguments);};}
+{const TP=tapPlan;tapPlan=function(tg){if(tg&&tg.t==='yard'&&tg.k==='yagura'&&S.yard.yagura){if(C.snapK==='y:yagura'&&C.snap&&Math.abs(C.snap.py-YG_spot('c').py)<2){skyvOpen();return null;}return{n:'yardplay',s:A.yagura(true)};}return TP(tg);};}
+// the housemate climbs it too, now and then
+function mateYaguraSteps(){if(!S.yard||!S.yard.yagura)return null;let t0=0,st=0;const sp=()=>YG_spot('m');
+  const climb=dir=>()=>{if(!S.yard.yagura)return true;if(!st){st=performance.now();t0=t0||mPos().by;}const ph=Math.min(1,(performance.now()-st)/2300),q=sp(),k2=dir>0?ph:1-ph;
+    M.sit={px:q.lx-2,py:t0+(q.dy-t0)*k2,pose:'stand',d:'up',over:true,yagura:1,climb:1};if(ph>=1){st=0;if(dir>0)M.sit={px:q.px,py:q.py,pose:'stand',d:'down',over:true,yagura:1};return true;}return false;};
+  return[{t:'say',text:pick(['物見櫓に登ってくるね','ちょっと上から景色を見てくる','櫓の上で風にあたってこよう'])},{t:'go',sc:'out',dyn:()=>{const p=S.yard.yagura;if(!p)return null;const c=[{x:p.x,y:p.y+2},{x:p.x+1,y:p.y+2}];for(const q of c)if(walkOut(q.x,q.y))return q;return null;}},
+    {t:'fn',f:()=>{t0=mPos().by;}},{t:'until',cond:climb(1)},{t:'say',text:()=>pick(skyLines('m'))},{t:'wait',s:rnd(14,26)},{t:'say',text:()=>pick(skyLines('m'))},{t:'wait',s:rnd(8,16)},
+    {t:'until',cond:climb(-1)},{t:'fn',f:()=>{M.sit=null;}},{t:'go',sc:'in',x:IN_ENTRY.x,y:IN_ENTRY.y-1}];}
+{const CM=chooseMateAct;chooseMateAct=function(){if(S.yard&&S.yard.yagura&&!sleepTime(1)&&!badOut()&&!M.sleeping){const sk=skyNow(),nice=wKind()==='clear'&&(sk.moon.alt>5||sk.sun.alt<-8||(sk.sun.alt>-3&&sk.sun.alt<8));if(Math.random()<(nice?.1:.04)){const st=mateYaguraSteps();if(st)return st;}}return CM.apply(this,arguments);};}
+{const MK=mateKey;mateKey=function(){if(M&&M.sit&&M.sit.yagura&&S.yard&&S.yard.yagura)return YG_KEY()+(M.sit.climb?.9:.5);return MK.apply(this,arguments);};}
+
+/* ===== the view from the lookout tower: look around the real sky (sun, moon, stars, constellations, clouds) ===== */
+const SKYV={open:false,A0:180,fov:96,lines:true,zoom:false,zoomReady:false,msg:'',msgAt:0,nextMsg:0,ptr:null,lastTap:{t:0,x:0,y:0},moonP:null,raf:0,flash:0,nextFlash:3};
+function skyvEl(){let ov=document.getElementById('skyv');if(ov)return ov;
+  const st=document.createElement('style');st.textContent=`#skyv{position:absolute;z-index:8;overflow:hidden;touch-action:none;background:#000;-webkit-user-select:none;user-select:none}
+#skyv canvas{position:absolute;left:0;top:0;width:100%;height:100%;display:block}
+#skyv .sv-top{position:absolute;top:8px;left:0;right:0;text-align:center;color:#fff;font-size:12px;font-weight:600;letter-spacing:.06em;text-shadow:0 1px 3px rgba(0,0,0,.8);pointer-events:none}
+#skyv .sv-msg{position:absolute;left:14px;right:14px;top:30px;text-align:center;pointer-events:none;transition:opacity .5s}
+#skyv .sv-msg span{display:inline-block;padding:6px 12px;border-radius:14px;background:rgba(255,255,255,.88);color:#3a2f48;font-size:13px;font-weight:600;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+#skyv .sv-bar{position:absolute;left:8px;right:8px;bottom:12px;display:flex;justify-content:space-between;gap:6px}#skyv .sv-bar button{flex:1 1 0;min-width:0;padding:7px 4px!important;font-size:12px!important;white-space:nowrap}#skyv .sv-bar button[hidden]{display:none}#skyv #svCall{padding:4px 4px!important;white-space:normal;display:flex;align-items:center;justify-content:center}#skyv #svCall span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;line-height:1.15;word-break:break-all;text-align:center}
+#skyv .sv-bar button{background:rgba(24,22,44,.6);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:17px;padding:7px 15px;font-size:13px;font-weight:600;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);cursor:pointer}
+#skyv #svLines[aria-pressed=false]{opacity:.6}#skyv #svClr[aria-pressed=true]{background:rgba(120,170,255,.55)}#skyv .sv-bar button:disabled{opacity:.75}
+#skyv .sv-hint{position:absolute;bottom:56px;left:0;right:0;text-align:center;color:rgba(255,255,255,.85);font-size:11px;text-shadow:0 1px 3px #000;transition:opacity 1.2s;pointer-events:none}`;
+  try{document.head.appendChild(st);}catch(_){}
+  ov=document.createElement('div');ov.id='skyv';ov.hidden=true;
+  ov.innerHTML='<canvas id="skyc"></canvas><div class="sv-top" id="svDir"></div><div class="sv-msg" id="svMsg"></div><div class="sv-hint" id="svHint">左右にドラッグで見回す・月をダブルタップで拡大</div><div class="sv-bar"><button type="button" id="svDown">おりる</button><button type="button" id="svCall"><span>同居人を呼ぶ</span></button><button type="button" id="svClr" aria-pressed="false">雲を消す</button><button type="button" id="svLines" aria-pressed="true">星座線</button></div>';
+  cv.parentNode.appendChild(ov);
+  ov.querySelector('#svDown').onclick=e=>{e.stopPropagation();skyvClose();};
+  ov.querySelector('#svClr').onclick=e=>{e.stopPropagation();SKYV.clear=!SKYV.clear;e.currentTarget.setAttribute('aria-pressed',SKYV.clear);e.currentTarget.textContent=SKYV.clear?'雲をもどす':'雲を消す';if(SKYV.clear){SKYV.msg=pick(['雲がすーっと晴れていく！','わあ、雲がなくなった！','空がすっきり見える！']);SKYV.msgAt=performance.now();}};
+  ov.querySelector('#svCall').onclick=e=>{e.stopPropagation();skyvCallMate();};
+  ov.querySelector('#svLines').onclick=e=>{e.stopPropagation();SKYV.lines=!SKYV.lines;e.currentTarget.setAttribute('aria-pressed',SKYV.lines);};
+  const c=ov.querySelector('#skyc');
+  c.addEventListener('pointerdown',e=>{SKYV.ptr={id:e.pointerId,x:e.clientX,y:e.clientY,a0:SKYV.A0,moved:false};try{c.setPointerCapture(e.pointerId);}catch(_){}});
+  c.addEventListener('pointermove',e=>{const p=SKYV.ptr;if(!p||p.id!==e.pointerId||SKYV.zoom)return;const dx=e.clientX-p.x;if(Math.abs(dx)>6)p.moved=true;if(p.moved)SKYV.A0=((p.a0-dx*SKYV.fov/c.clientWidth)%360+360)%360;});
+  c.addEventListener('pointerup',e=>{const p=SKYV.ptr;SKYV.ptr=null;if(!p||p.moved)return;const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,tn=performance.now(),lt=SKYV.lastTap;
+    if(SKYV.zoom){SKYV.zoom=false;SKYV.lastTap={t:0,x,y};return;}
+    const dbl=tn-lt.t<380&&Math.hypot(x-lt.x,y-lt.y)<34;SKYV.lastTap={t:dbl?0:tn,x,y};
+    const m=SKYV.moonP;if(dbl&&m&&Math.hypot(x-m.x,y-m.y)<m.r+22){SKYV.zoom=true;SKYV.zoomReady=false;}});
+  c.addEventListener('pointercancel',()=>{SKYV.ptr=null;});
+  return ov;}
+function skyvOpen(){if(SKYV.open)return;const ov=skyvEl(),sk=skyNow(),k=wKind();SKYV.open=true;SKYV.zoom=false;
+  const clear=k==='clear'||k==='cloudy';SKYV.A0=clear&&sk.moon.alt>3?sk.moon.az:clear&&sk.sun.alt>-4?sk.sun.az:180;
+  ov.hidden=false;const h=ov.querySelector('#svHint');h.style.opacity='1';setTimeout(()=>{h.style.opacity='0';},4500);
+  SKYV.msg=pick(skyLines());SKYV.msgAt=performance.now();SKYV.nextMsg=SKYV.msgAt+16000;
+  if(M&&M.sit&&M.sit.yagura&&Math.random()<.7)setTimeout(()=>{if(SKYV.open){SKYV.msg=`${S.mate.name}「${pick(skyLines('m'))}」`;SKYV.msgAt=performance.now();}},5200);
+  cancelAnimationFrame(SKYV.raf);const step=()=>{if(!SKYV.open)return;try{skyvDraw(performance.now()/1000);}catch(e){console.error(e);}SKYV.raf=requestAnimationFrame(step);};step();}
+function skyvClose(){if(!SKYV.open)return;SKYV.open=false;SKYV.zoom=false;cancelAnimationFrame(SKYV.raf);const ov=document.getElementById('skyv');if(ov)ov.hidden=true;}
+{const RR=render;render=function(){if(SKYV.open)return;return RR.apply(this,arguments);};}
+/* --- colours --- */
+function hexRgb(h){const n=parseInt(h.slice(1),16);return[(n>>16)&255,(n>>8)&255,n&255];}
+function mixRgb(a,b,t){return[a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+const rgbS=(c,a)=>`rgba(${c[0]|0},${c[1]|0},${c[2]|0},${a==null?1:a})`;
+const SKY_KF=[[-90,'#010208','#04071a'],[-18,'#01030c','#070c26'],[-12,'#050a26','#18204c'],[-6,'#18286a','#6a5a92'],[-2,'#2c4688','#e3876a'],[2,'#4674bc','#ffc48c'],[8,'#3a78d0','#cde3f3'],[90,'#2a68cf','#d2e8f8']];
+function skyCols(sa,k){let i=0;while(i<SKY_KF.length-2&&sa>SKY_KF[i+1][0])i++;const a=SKY_KF[i],b=SKY_KF[i+1],t2=Math.max(0,Math.min(1,(sa-a[0])/(b[0]-a[0])));
+  let top=mixRgb(hexRgb(a[1]),hexRgb(b[1]),t2),hor=mixRgb(hexRgb(a[2]),hexRgb(b[2]),t2);
+  const ov=k==='cloudy'?.35:k==='rain'||k==='thunder'?.78:k==='snow'?.65:k==='fog'?.7:0;
+  if(ov){const gy=c=>{const l=c[0]*.3+c[1]*.55+c[2]*.15;return[l*1.02,l*1.04,l*1.1];};top=mixRgb(top,gy(top),ov);hor=mixRgb(hor,gy(hor),ov);if(k==='fog'){top=mixRgb(top,[200,206,214].map(v=>v*Math.max(.15,Math.min(1,(sa+8)/16))),.5);hor=mixRgb(hor,[215,220,226].map(v=>v*Math.max(.15,Math.min(1,(sa+8)/16))),.6);}}
+  return{top,hor};}
+function cloudTint(sk,k){const sa=sk.sun.alt,moonlit=sk.moon.alt>0?sk.frac:0;let c;
+  if(sa>8)c=[255,255,255];else if(sa>-2)c=mixRgb([255,170,140],[255,236,214],Math.max(0,(sa+2)/10));else if(sa>-10)c=mixRgb([70,70,120],[230,140,130],Math.max(0,(sa+10)/8));else c=mixRgb([28,32,58],[92,104,140],moonlit);
+  if(k==='rain'||k==='thunder')c=c.map(v=>v*.62);else if(k==='snow'||k==='cloudy')c=c.map(v=>v*.86);return c.map(v=>Math.round(v/12)*12);}
+/* --- cloud sprites (soft, lit from above, shaded underneath), tinted per sky colour --- */
+const CLOUDSPR=[],CLOUDTINT={};
+function cloudSprite(i){if(CLOUDSPR[i])return CLOUDSPR[i];const w=300,h=120,cv2=document.createElement('canvas');cv2.width=w;cv2.height=h;const x=cv2.getContext('2d');
+  const n=30+((hash(i,1,5)*14)|0);for(let j=0;j<n;j++){const u=hash(j,i,7),v=hash(j,i,8),cx=w*(.12+.76*u),bulge=Math.sin(u*Math.PI),r=12+bulge*(22+hash(j,i,9)*16),cy=h*.72-bulge*h*.32*v-r*.25;
+    const gr=x.createRadialGradient(cx-r*.25,cy-r*.3,r*.1,cx,cy,r);gr.addColorStop(0,'rgba(255,255,255,.95)');gr.addColorStop(.55,'rgba(250,250,252,.7)');gr.addColorStop(1,'rgba(240,242,248,0)');x.fillStyle=gr;x.beginPath();x.arc(cx,cy,r,0,TAU);x.fill();}
+  x.globalCompositeOperation='source-atop';const sh=x.createLinearGradient(0,h*.2,0,h);sh.addColorStop(0,'rgba(0,0,0,0)');sh.addColorStop(.6,'rgba(40,50,80,.22)');sh.addColorStop(1,'rgba(40,50,80,.45)');x.fillStyle=sh;x.fillRect(0,0,w,h);
+  CLOUDSPR[i]=cv2;return cv2;}
+function cloudTinted(i,c){const key=i+'|'+c.join(',');if(CLOUDTINT[key])return CLOUDTINT[key];for(const k2 in CLOUDTINT)if(k2.startsWith(i+'|'))delete CLOUDTINT[k2];
+  const s=cloudSprite(i),cv2=document.createElement('canvas');cv2.width=s.width;cv2.height=s.height;const x=cv2.getContext('2d');x.drawImage(s,0,0);x.globalCompositeOperation='multiply';x.fillStyle=rgbS(c);x.fillRect(0,0,cv2.width,cv2.height);x.globalCompositeOperation='destination-in';x.drawImage(s,0,0);CLOUDTINT[key]=cv2;return cv2;}
+/* --- sea of clouds below the horizon --- */
+const SEA={};
+function seaStrip(c,layer){const key=layer+'|'+c.join(',');if(SEA[key])return SEA[key];for(const k2 in SEA)if(k2.startsWith(layer+'|'))delete SEA[k2];
+  const w=1440,h=layer===1?70:layer===2?120:170,cv2=document.createElement('canvas');cv2.width=w;cv2.height=h;const x=cv2.getContext('2d');
+  const n=layer===1?80:layer===2?42:26,base=layer===1?13:layer===2?30:50;
+  const puff=(X,Y,r)=>{const gr=x.createRadialGradient(X-r*.3,Y-r*.5,r*.05,X,Y,r);gr.addColorStop(0,rgbS(mixRgb(c,[255,255,255],.4),1));gr.addColorStop(.5,rgbS(c,.97));gr.addColorStop(.85,rgbS(c.map(v=>v*.86),.75));gr.addColorStop(1,rgbS(c.map(v=>v*.8),0));x.fillStyle=gr;x.beginPath();x.arc(X,Y,r,0,TAU);x.fill();};
+  for(let j=0;j<n;j++){const cx=(j+hash(j,layer,2)*.9)/n*w,r=base*(.55+hash(j,layer,3)*.95),cy=h*.62+hash(j,layer,4)*h*.18-r*.2;
+    for(const dx of[-w,0,w]){const X=cx+dx;if(X+r*1.6<0||X-r*1.6>w)continue;puff(X,cy+r*.35,r*1.15);for(let q=0;q<3;q++){const a=hash(j,q,layer+5)*Math.PI,rr=r*(.35+hash(j,q,layer+6)*.35);puff(X+Math.cos(Math.PI+a)*r*.55,cy-Math.sin(a)*r*.45,rr);}puff(X,cy,r*.8);}}
+  x.globalCompositeOperation='destination-out';const fd=x.createLinearGradient(0,h*.6,0,h);fd.addColorStop(0,'rgba(0,0,0,0)');fd.addColorStop(1,'rgba(0,0,0,1)');x.fillStyle=fd;x.fillRect(0,h*.6,w,h*.4);
+  SEA[key]=cv2;return cv2;}
+/* --- the wooden railing in the foreground (pre-rendered per size) --- */
+let RAILC=null;
+function railImg(Wc,Hc){if(RAILC&&RAILC.w===Wc&&RAILC.h===Hc)return RAILC.cv;const sc=Math.min(2,DPR||1),cv2=document.createElement('canvas');cv2.width=Math.ceil(Wc*sc);cv2.height=Math.ceil(Hc*sc);const x=cv2.getContext('2d');x.scale(sc,sc);
+  const top=Hc*.8,base='#8a5e38';
+  const grain=(x0,y0,w,h,vert,seed)=>{x.save();x.beginPath();x.rect(x0,y0,w,h);x.clip();x.strokeStyle='rgba(60,32,14,.28)';x.lineWidth=.6;const n=vert?Math.ceil(w/3):Math.ceil(h/2.6);
+    for(let i=0;i<n;i++){x.beginPath();for(let s=0;s<=24;s++){const t2=s/24,wob=Math.sin(t2*9+i*1.7+seed)*1.1+Math.sin(t2*23+i)*.4;if(vert){const xx=x0+(i+.5)*w/n+wob,yy=y0+t2*h;s?x.lineTo(xx,yy):x.moveTo(xx,yy);}else{const xx=x0+t2*w,yy=y0+(i+.5)*h/n+wob*.6;s?x.lineTo(xx,yy):x.moveTo(xx,yy);}}x.stroke();}
+    for(let i=0;i<Math.max(1,(vert?h:w)/120);i++){const kx=vert?x0+w*(.3+hash(i,seed|0,5)*.4):x0+w*hash(i,seed|0,6),ky=vert?y0+h*hash(i,seed|0,7):y0+h*(.3+hash(i,seed|0,8)*.4);x.fillStyle='rgba(70,36,14,.45)';x.beginPath();x.ellipse(kx,ky,vert?2:3.4,vert?3.4:1.8,0,0,TAU);x.fill();x.strokeStyle='rgba(70,36,14,.35)';x.beginPath();x.ellipse(kx,ky,vert?3.4:5.6,vert?5.4:3,0,0,TAU);x.stroke();}x.restore();};
+  // deck boards at the very bottom
+  x.fillStyle=GD_lg(x,0,Hc*.95,0,Hc,[[0,'#7a5232'],[1,'#4a301c']]);x.fillRect(0,Hc*.95,Wc,Hc*.05);for(let i=0;i<9;i++){x.strokeStyle='rgba(30,15,5,.4)';x.lineWidth=.8;x.beginPath();x.moveTo(Wc*i/8,Hc*.95);x.lineTo(Wc/2+(Wc*i/8-Wc/2)*1.4,Hc);x.stroke();}
+  // posts
+  for(const fx of[-.03,.25,.75,1.03]){const px=Wc*fx,pw=18;x.fillStyle=GD_lg(x,px-pw/2,0,px+pw/2,0,[[0,shade(base,-.35)],[.25,shade(base,.18)],[.6,base],[1,shade(base,-.4)]]);x.fillRect(px-pw/2,top-10,pw,Hc-top+10);grain(px-pw/2,top-10,pw,Hc-top+10,true,fx*31);
+    x.fillStyle=GD_lg(x,0,top-14,0,top-8,[[0,shade(base,.3)],[1,shade(base,-.1)]]);x.fillRect(px-pw/2-2,top-14,pw+4,5);x.fillStyle='rgba(0,0,0,.25)';x.fillRect(px+pw/2-3,top-9,3,Hc-top+9);}
+  // rails: top (thick) and middle
+  const rail=(y,h,seed)=>{x.fillStyle=GD_lg(x,0,y,0,y+h,[[0,shade(base,.34)],[.3,shade(base,.08)],[1,shade(base,-.38)]]);x.fillRect(0,y,Wc,h);grain(0,y,Wc,h,false,seed);x.fillStyle='rgba(255,236,200,.35)';x.fillRect(0,y,Wc,1.2);x.fillStyle='rgba(0,0,0,.3)';x.fillRect(0,y+h,Wc,2);};
+  rail(top,15,3);rail(Hc*.885,9,9);
+  // rope lashings where rails meet posts
+  for(const fx of[.25,.75])for(const ry of[top+7.5,Hc*.885+4.5]){const px=Wc*fx;x.fillStyle='#d6c08e';x.fillRect(px-11,ry-6,22,12);x.strokeStyle='rgba(110,80,36,.75)';x.lineWidth=1;for(let i=-10;i<11;i+=2.6){x.beginPath();x.moveTo(px+i,ry-6);x.lineTo(px+i+2.4,ry+6);x.stroke();}x.fillStyle='rgba(255,255,255,.25)';x.fillRect(px-11,ry-6,22,2);}
+  RAILC={w:Wc,h:Hc,cv:cv2};return cv2;}
+/* --- main drawing --- */
+function skyvDraw(t){const ov=skyvEl(),c=ov.querySelector('#skyc');if(!S||C.scene!=='out'||C.snapK!=='y:yagura'){skyvClose();return;}
+  ov.style.left=cv.offsetLeft+'px';ov.style.top=cv.offsetTop+'px';ov.style.width=cv.offsetWidth+'px';ov.style.height=cv.offsetHeight+'px';
+  const Wc=c.clientWidth||cv.offsetWidth,Hc=c.clientHeight||cv.offsetHeight,dpr=Math.min(2,DPR||1);if(c.width!==Math.round(Wc*dpr)||c.height!==Math.round(Hc*dpr)){c.width=Math.round(Wc*dpr);c.height=Math.round(Hc*dpr);}
+  const x=c.getContext('2d');x.setTransform(dpr,0,0,dpr,0,0);x.globalAlpha=1;x.globalCompositeOperation='source-over';
+  const sk=skyNow(),k=SKYV.clear?'clear':wKind(),sa=sk.sun.alt,hy=Hc*.62,kk=Wc/SKYV.fov,wind=((ENV.wx&&ENV.wx.wind)||2);
+  const P=(az,alt)=>{const d=((az-SKYV.A0+540)%360)-180;return{x:Wc/2+d*kk,y:hy-alt*kk,d};};
+  const clr=k==='clear',cld=k==='cloudy',wet=k==='rain'||k==='thunder'||k==='snow';
+  // sky
+  const sc2=skyCols(sa,k),gr=x.createLinearGradient(0,0,0,hy);gr.addColorStop(0,rgbS(sc2.top));gr.addColorStop(.75,rgbS(mixRgb(sc2.top,sc2.hor,.55)));gr.addColorStop(1,rgbS(sc2.hor));x.fillStyle=gr;x.fillRect(0,0,Wc,hy+2);
+  if(sa>-16&&sa<14&&!wet){const ps=P(sk.sun.az,Math.max(sa,-4)),a=(1-Math.abs(sa-1)/15)*(cld?.5:1),rg=x.createRadialGradient(ps.x,hy,0,ps.x,hy,Wc*1.1);rg.addColorStop(0,`rgba(255,${sa>0?190:140},${sa>0?120:110},${.55*a})`);rg.addColorStop(.4,`rgba(255,150,120,${.18*a})`);rg.addColorStop(1,'rgba(255,150,120,0)');x.fillStyle=rg;x.fillRect(0,0,Wc,hy+2);}
+  if(sk.moon.alt>0&&sa<-6&&!wet){x.fillStyle=`rgba(70,90,150,${.08*sk.frac})`;x.fillRect(0,0,Wc,hy);}
+  // the Milky Way and stars
+  const starA=Math.max(0,Math.min(1,(-4-sa)/9))*(clr?1:cld?.35:0);
+  if(starA>0){const moonW=sk.moon.alt>0?sk.frac:0;
+    if(sa<-11){const mwA=starA*(1-moonW*.75);if(mwA>.03){x.save();x.globalCompositeOperation='lighter';
+      for(const b of MWAY.band){const h=starHor(b[0],b[1],sk);if(h.alt<-8)continue;const p=P(h.az,h.alt);if(Math.abs(p.d)>SKYV.fov/2+25)continue;const r=kk*(9+b[2]*7),rg=x.createRadialGradient(p.x,p.y,0,p.x,p.y,r);rg.addColorStop(0,`rgba(190,200,235,${.075*b[2]*mwA})`);rg.addColorStop(1,'rgba(190,200,235,0)');x.fillStyle=rg;x.fillRect(p.x-r,p.y-r,r*2,r*2);}
+      x.fillStyle=`rgba(225,230,255,${.55*mwA})`;for(const d of MWAY.dots){const h=starHor(d[0],d[1],sk);if(h.alt<0)continue;const p=P(h.az,h.alt);if(Math.abs(p.d)>SKYV.fov/2+2)continue;x.globalAlpha=.25+d[2]*.6;x.fillRect(p.x,p.y,.8,.8);}
+      x.restore();}}
+    const magLim=6.2-moonW*1.8-(sa>-10?(sa+10)*.25:0);
+    for(const f of FAINT){if(f[2]>magLim)continue;const h=starHor(f[0],f[1],sk);if(h.alt<0)continue;const p=P(h.az,h.alt);if(Math.abs(p.d)>SKYV.fov/2+2)continue;const tw=.7+.3*Math.sin(t*(1.4+f[3]*2)+f[3]*50);x.globalAlpha=starA*tw*Math.max(.15,(magLim-f[2])/2.4);x.fillStyle='#fff';x.beginPath();x.arc(p.x,p.y,Math.max(.45,(5.6-f[2])*.42),0,TAU);x.fill();}
+    x.globalAlpha=1;
+    const SP={};for(const key in BSTAR){const s=BSTAR[key],h=starHor(s[0],s[1],sk);SP[key]={...P(h.az,h.alt),alt:h.alt,s};}
+    if(SKYV.lines&&starA>.15){x.lineWidth=1;x.strokeStyle=`rgba(150,190,255,${.38*starA})`;x.beginPath();
+      for(const[,ls]of CONST)for(const[a1,b1]of ls){const A1=SP[a1],B1=SP[b1];if(A1.alt<-3||B1.alt<-3||Math.abs(A1.d)>100||Math.abs(B1.d)>100||Math.abs(A1.x-B1.x)>Wc*.8)continue;x.moveTo(A1.x,A1.y);x.lineTo(B1.x,B1.y);}x.stroke();
+      x.setLineDash([3,4]);x.strokeStyle=`rgba(255,215,140,${.4*starA})`;x.beginPath();for(const[,ks]of ASTERISM){for(let i=0;i<3;i++){const A1=SP[ks[i]],B1=SP[ks[(i+1)%3]];if(A1.alt<0||B1.alt<0||Math.abs(A1.x-B1.x)>Wc*.9)continue;x.moveTo(A1.x,A1.y);x.lineTo(B1.x,B1.y);}}x.stroke();x.setLineDash([]);
+      x.font='600 10.5px "Zen Maru Gothic",sans-serif';x.textAlign='center';x.fillStyle=`rgba(195,215,255,${.82*starA})`;
+      for(const[n,ls]of CONST){const ks=[...new Set(ls.flat())],pts=ks.map(q=>SP[q]);if(pts.some(p=>p.alt<0))continue;const mx=pts.reduce((a,p)=>a+p.x,0)/pts.length,my=Math.max(...pts.map(p=>p.y))+14;if(mx<-20||mx>Wc+20||Math.max(...pts.map(p=>p.x))-Math.min(...pts.map(p=>p.x))>Wc*.8)continue;x.fillText(n,mx,my);}
+      x.fillStyle=`rgba(255,225,160,${.75*starA})`;x.font='600 10px "Zen Maru Gothic",sans-serif';for(const[n,ks]of ASTERISM){const pts=ks.map(q=>SP[q]);if(pts.some(p=>p.alt<3))continue;const mx=pts.reduce((a,p)=>a+p.x,0)/3,my=pts.reduce((a,p)=>a+p.y,0)/3;if(mx<0||mx>Wc||Math.max(...pts.map(p=>p.x))-Math.min(...pts.map(p=>p.x))>Wc*.9)continue;x.fillText(n,mx,my);}}
+    for(const key in SP){const p=SP[key],s=p.s;if(p.alt<0||Math.abs(p.d)>SKYV.fov/2+3||s[2]>magLim+.5)continue;const r=Math.max(.6,(5.4-s[2])*.55),tw=.72+.28*Math.sin(t*(1.6+(key.charCodeAt(0)%7)*.3)+key.length*7),col=STARCOL[s[3]]||'#fff';
+      if(s[2]<2.2){const rg=x.createRadialGradient(p.x,p.y,0,p.x,p.y,r*5);rg.addColorStop(0,col);rg.addColorStop(.2,col.replace('#','#'));rg.addColorStop(1,'rgba(255,255,255,0)');x.globalAlpha=starA*.32*tw;x.fillStyle=rg;x.beginPath();x.arc(p.x,p.y,r*5,0,TAU);x.fill();}
+      x.globalAlpha=starA*tw;x.fillStyle=col;x.beginPath();x.arc(p.x,p.y,r,0,TAU);x.fill();
+      if(s[2]<1.2){x.globalAlpha=starA*tw*.55;x.strokeStyle=col;x.lineWidth=.6;x.beginPath();x.moveTo(p.x-r*5,p.y);x.lineTo(p.x+r*5,p.y);x.moveTo(p.x,p.y-r*5);x.lineTo(p.x,p.y+r*5);x.stroke();}
+      if(s[4]&&SKYV.lines&&p.alt>1){x.globalAlpha=starA*.85;x.fillStyle='rgba(255,240,200,.9)';x.font='10px "Zen Maru Gothic",sans-serif';x.textAlign='left';x.fillText(s[4],p.x+r+4,p.y-r-2);}}
+    x.globalAlpha=1;}
+  // sun
+  if(sa>-3&&!wet){const p=P(sk.sun.az,sa);if(Math.abs(p.d)<SKYV.fov/2+40)sunDraw(x,p.x,p.y,11,cld?.55:1,sa<14?(14-Math.max(0,sa))/14:0,t);}
+  // moon (drawn a few times larger than life so its face can be seen)
+  SKYV.moonP=null;if(sk.moon.alt>-3&&!wet){const p=P(sk.moon.az,sk.moon.alt);if(Math.abs(p.d)<SKYV.fov/2+30){const day=sa>-4,r=16;
+    moonDraw(x,p.x,p.y,r,{frac:sk.frac,limb:sk.q-sk.chi,rot:sk.q,day,glow:day?.3:1,alpha:(day?Math.max(.35,.85-sa/60):1)*(cld?.75:1),ts:192,pxs:dpr});SKYV.moonP={x:p.x,y:p.y,r};}}
+  // clouds
+  const ct=cloudTint(sk,k),nC=SKYV.clear?0:clr?4:cld?16:wet?24:k==='fog'?8:6;
+  for(let i=0;i<nC;i++){const sp=cloudTinted(i%6,ct),az0=hash(i,71,3)*360+t*(.15+wind*.06)*(.6+hash(i,72,3)*.8),alt=(clr?18:5)+Math.pow(hash(i,73,3),1.3)*(wet?50:38),p=P(az0,alt);
+    const w=(wet?2.1:1.35)*sp.width*(.45+alt/70)*(.7+hash(i,74,3)*.6)*(Wc/400),h=w*sp.height/sp.width*(.75+alt/120);if(p.x+w/2<0||p.x-w/2>Wc)continue;x.globalAlpha=(clr?.75:.92);x.drawImage(sp,p.x-w/2,p.y-h*.6,w,h);}
+  x.globalAlpha=1;
+  // horizon: sea of clouds
+  const seaC=mixRgb(ct,sc2.hor,.35),s1=seaStrip(seaC,1),s2=seaStrip(mixRgb(seaC,[255,255,255],sa>0?.15:.05),2);
+  x.fillStyle=GD_lg(x,0,hy-6,0,Hc,[[0,rgbS(mixRgb(sc2.hor,seaC,.6))],[.35,rgbS(seaC)],[1,rgbS(seaC.map(v=>v*.7))]]);x.fillRect(0,hy-4,Wc,Hc-hy+4);
+  const drawStrip=(img,y,h,par)=>{const w=img.width*(h/img.height);const off=SKYV.A0/360*w*par+t*1.5*par;let sx=-(((off%w)+w)%w);for(;sx<Wc;sx+=w)x.drawImage(img,sx,y,w+.5,h);};
+  const s3=seaStrip(mixRgb(seaC,[255,255,255],sa>0?.25:.08),3);drawStrip(s1,hy-12,26,1);drawStrip(s2,hy+2,48,1.5);drawStrip(s3,hy+30,80,2.3);
+  if(sk.moon.alt>0&&sa<-4&&!wet){const p=P(sk.moon.az,sk.moon.alt);if(Math.abs(p.d)<SKYV.fov){const rg=x.createRadialGradient(p.x,hy+20,0,p.x,hy+20,120);rg.addColorStop(0,`rgba(255,250,220,${.25*sk.frac})`);rg.addColorStop(1,'rgba(255,250,220,0)');x.fillStyle=rg;x.fillRect(p.x-120,hy-10,240,140);}}
+  // compass on the horizon
+  x.font='600 11px "Zen Maru Gothic",sans-serif';x.textAlign='center';for(let a=0;a<360;a+=45){const p=P(a,0);if(p.x<-20||p.x>Wc+20)continue;x.fillStyle=a===0?'rgba(255,140,120,.95)':'rgba(255,255,255,.85)';x.strokeStyle='rgba(0,0,0,.35)';x.lineWidth=3;x.strokeText(AZ_JP[a/22.5],p.x,hy-14);x.fillText(AZ_JP[a/22.5],p.x,hy-14);x.fillRect(p.x-.5,hy-9,1,5);}
+  {const cb=ov.querySelector('#svCall'),can=!!(M&&S.mate);cb.hidden=!can;if(can){const on=M.sit&&M.sit.yagura,coming=SKYV.called&&!on;cb.disabled=on||coming;svFit(cb,on?`${S.mate.name}も一緒`:coming?'向かってるよ…':`${S.mate.name}を呼ぶ`);}}
+  ov.querySelector('#svDir').textContent=`${azName(SKYV.A0)}の空を見ています`;
+  // weather in the air
+  if(k==='rain'||k==='thunder'){x.strokeStyle='rgba(210,225,245,.5)';x.lineWidth=1;x.beginPath();for(let i=0;i<140;i++){const y=((hash(i,1,5)*Hc+t*520*(.8+hash(i,3,5)*.4))%(Hc+30))-15,xx=((hash(i,2,5)*Wc*1.2-y*.18)%Wc+Wc)%Wc;x.moveTo(xx,y);x.lineTo(xx-2.2,y+12);}x.stroke();}
+  if(k==='snow'){x.fillStyle='rgba(255,255,255,.92)';for(let i=0;i<110;i++){const s2=.5+hash(i,3,6),y=((hash(i,1,6)*Hc+t*30*s2)%(Hc+10))-5,xx=(hash(i,2,6)*Wc+Math.sin(t*.8+i)*12+Wc)%Wc;x.beginPath();x.arc(xx,y,.8+s2*1.1,0,TAU);x.fill();}}
+  if(k==='fog'){const fg=x.createLinearGradient(0,0,0,Hc);fg.addColorStop(0,'rgba(220,226,232,.25)');fg.addColorStop(.6,'rgba(225,230,236,.55)');fg.addColorStop(1,'rgba(225,230,236,.3)');x.fillStyle=fg;x.fillRect(0,0,Wc,Hc);}
+  // the people on the deck (seen from behind), with their name tags
+  const onM=M&&S.mate&&M.sit&&M.sit.yagura,hx=onM?Wc*.36:Wc*.5,mx2=Wc*.64,by=Hc*.975,SC=3.8;
+  {const fy=Hc*.93;x.fillStyle=GD_lg(x,0,fy,0,Hc,[[0,'#8a6038'],[1,'#4a301c']]);x.fillRect(0,fy,Wc,Hc-fy);x.fillStyle='rgba(255,230,190,.25)';x.fillRect(0,fy,Wc,1.2);
+    x.strokeStyle='rgba(30,15,5,.45)';x.lineWidth=.8;for(let i=0;i<=10;i++){const xx=Wc*i/10;x.beginPath();x.moveTo(xx,fy);x.lineTo(Wc/2+(xx-Wc/2)*1.5,Hc);x.stroke();}}
+  x.save();try{const o=charOpts();drawChar(x,hx,by,{...o,dir:'up',pose:'stand',moving:false,scale:SC});if(onM)drawChar(x,mx2,by,{sun:ACC_mateSun(),fun:M.fun||null,noOuter:false,level:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:'up',moving:false,ph:0,frame:0,pose:'stand',scale:SC,seed:M.seed});}catch(e){}x.restore();
+  const dl=Math.max(0,Math.min(1,(sa+8)/16));if(dl<1){x.fillStyle=`rgba(10,16,48,${(1-dl)*.45})`;x.fillRect(0,Hc*.72,Wc,Hc*.28);}
+  {const ts=typeof tagStyle==='function'?tagStyle():'white';if(ts!=='none'){x.save();x.font='700 13px "Zen Maru Gothic",sans-serif';x.textAlign='center';x.lineJoin='round';x.lineWidth=3.5;
+    const tag=(n,cx)=>{const y=by-SC*37;x.strokeStyle=ts==='black'?'rgba(255,255,255,.9)':'rgba(20,16,40,.75)';x.fillStyle=ts==='black'?'#2a2340':'#fff';x.strokeText(n,cx,y);x.fillText(n,cx,y);};
+    tag(S.name||'わたし',hx);if(onM)tag(S.mate.name||'同居人',mx2);x.restore();}}
+  if(k==='thunder'){SKYV.nextFlash-=1/60;if(SKYV.nextFlash<=0){SKYV.flash=.22;SKYV.nextFlash=4+Math.random()*9;}if(SKYV.flash>0){x.fillStyle=`rgba(255,255,255,${SKYV.flash*2.6})`;x.fillRect(0,0,Wc,Hc);SKYV.flash-=1/60;}}
+  // talk
+  const tn=performance.now();if(tn>SKYV.nextMsg){SKYV.msg=pick(skyLines());SKYV.msgAt=tn;SKYV.nextMsg=tn+18000+Math.random()*8000;}
+  const mEl=ov.querySelector('#svMsg'),showM=tn-SKYV.msgAt<5500&&!SKYV.zoom;if(mEl._t!==SKYV.msg){mEl._t=SKYV.msg;mEl.innerHTML='';const sp=document.createElement('span');sp.textContent=SKYV.msg;mEl.append(sp);}mEl.style.opacity=showM?'1':'0';
+  if(SKYV.zoom)skyvZoom(x,Wc,Hc,sk,t);}
+function skyvZoom(x,Wc,Hc,sk,t){x.fillStyle='rgba(2,3,10,.95)';x.fillRect(0,0,Wc,Hc);
+  const r=Math.min(Wc,Hc)*.36,cx=Wc/2,cy=Hc*.4;
+  if(!SKYV.zoomReady){x.fillStyle='rgba(255,255,255,.8)';x.font='13px "Zen Maru Gothic",sans-serif';x.textAlign='center';x.fillText('月をのぞいています…',cx,cy);SKYV.zoomReady=1;return;}
+  if(SKYV.zoomReady===1){moonTexture(512);SKYV.zoomReady=2;}
+  for(let i=0;i<40;i++){x.globalAlpha=.25+hash(i,9,2)*.5;x.fillStyle='#fff';x.fillRect(hash(i,7,2)*Wc,hash(i,8,2)*Hc*.8,1,1);}x.globalAlpha=1;
+  moonDraw(x,cx,cy,r,{frac:sk.frac,limb:sk.q-sk.chi,rot:sk.q,day:false,glow:.18,ts:512,pxs:Math.min(2,DPR||1)});
+  const age=moonAge(now()),rs=moonRiseSet(now());x.textAlign='center';x.fillStyle='#fff';x.font='700 16px "Zen Maru Gothic",sans-serif';x.fillText(`月齢 ${age.toFixed(1)}（${moonName(age)}）`,cx,cy+r+40);
+  x.font='13px "Zen Maru Gothic",sans-serif';x.fillStyle='#d6dcf2';x.fillText(`光っている部分 ${Math.round(sk.frac*100)}%　${sk.wax?'満ちていく月':'欠けていく月'}`,cx,cy+r+64);
+  x.fillText(sk.moon.alt>0?`高さ ${Math.round(sk.moon.alt)}°・${azName(sk.moon.az)}の空`:'いまは地平線の下',cx,cy+r+86);x.fillText(`月の出 ${rs.rise}　月の入り ${rs.set}`,cx,cy+r+108);
+  x.fillStyle='rgba(255,255,255,.55)';x.font='11px "Zen Maru Gothic",sans-serif';x.fillText('タップでもどる',cx,Hc-70);}
+
+
+// menu shortcut: go up the lookout tower from anywhere (wakes the hero up if needed)
+$('ygGo').onclick=()=>{if(!S||!S.yard||!S.yard.yagura)return;try{$('bClose').click();}catch(_){$('sheet').hidden=true;}
+  if(C.snapK==='y:yagura'){skyvOpen();return;}const wasSleep=C.sleeping,night=sleepTime(0);abort();C.sleeping=false;C.napping=false;unsnap();
+  const st=A.yagura(true);if(wasSleep)st.unshift(SAY(pick(['ん…空を見に行くの？いいよ','ふあぁ…ちょっとだけ星を見てこよう'])),W8(1));
+  if(wasSleep&&night)st.push(SAY('さて、ベッドに戻ろう'),...goF('bed'),snapF('bed'),FN(()=>{C.sleeping=true;}),{t:'until',cond:()=>!sleepTime(0)},FN(()=>{C.sleeping=false;unsnap();}),FN(()=>wearDay()));
+  C.act='yardplay';C.steps=st;C.idleT=rnd(2,4);};
+
+// call the housemate up to the tower while looking at the sky; they stay until the view is closed
+function skyvCallMate(){if(!M||!S.mate||!S.yard||!S.yard.yagura)return;if(M.sit&&M.sit.yagura)return;SKYV.called=true;const mn=S.mate.name;
+  SKYV.msg=`おーい、${mn}！こっちに来て空を見ようよ`;SKYV.msgAt=performance.now();
+  const wasSleep=M.sleeping;M.busy=false;M.sleeping=false;M.sit=null;M.seatK=null;M.wc=0;M.holding=null;
+  const st=mateYaguraSteps(true);M.steps=[{t:'fn',f:()=>{setTimeout(()=>{if(SKYV.open){SKYV.msg=`${mn}「${wasSleep?'ふあ…いま行くね〜':pick(['はーい、いま行く！','わあ、行く行く！','ちょっと待ってて！'])}」`;SKYV.msgAt=performance.now();}},1600);}},...st];M.idle=0;}
+{const MY=mateYaguraSteps;mateYaguraSteps=function(stay){const st=MY();if(!st||!stay)return st;
+  // drop the leaving announcement and the timed waits; stay up there while the sky view is open
+  const i0=st.findIndex(s2=>s2.t==='until');const up=st.slice(1,i0+1),rest=st.slice(i0+1),down=rest.slice(rest.findIndex(s2=>s2.t==='until'));
+  return[...up,{t:'fn',f:()=>{if(SKYV.open){SKYV.msg=`${S.mate.name}「${pick(skyLines('m'))}」`;SKYV.msgAt=performance.now()+800;}}},{t:'until',cond:()=>!SKYV.open},{t:'wait',s:1.5},...down];};}
+{const SC=skyvClose;skyvClose=function(){SKYV.called=false;SKYV.clear=false;const b=document.getElementById('svClr');if(b){b.setAttribute('aria-pressed','false');b.textContent='雲を消す';}return SC.apply(this,arguments);};}
+// fill name placeholders that slipped through in spoken lines
+function fillPH(t){if(typeof t!=='string'||!S)return t;return t.replace(/\{me\}/g,S.name||'わたし').replace(/\{m\}/g,(S.mate&&S.mate.name)||'同居人').replace(/\{v\}/g,(typeof V!=='undefined'&&V&&V.name)||'友だち');}
+{const S0=say;say=function(text,...a){return S0(fillPH(text),...a);};const M0=msay;msay=function(text,...a){return M0(fillPH(text),...a);};const C0=convoSay;convoSay=function(who,text,...a){return C0(who,fillPH(text),...a);};}
+
+// fit a label in its button: shrink the font (12→9px), wrap to at most 2 lines, then end with "…"
+function svFit(btn,text){const sp=btn.querySelector('span')||btn;if(sp._t===text&&btn._w===btn.clientWidth)return;sp._t=text;btn._w=btn.clientWidth;sp.textContent=text;
+  const maxW=btn.clientWidth-8;let fs=12;sp.style.fontSize=fs+'px';const lh=()=>parseFloat(getComputedStyle(sp).lineHeight)||fs*1.15;
+  const fits=()=>sp.scrollWidth<=maxW+1&&sp.scrollHeight<=lh()*(fs>=11?1:2)+2;
+  while(!fits()&&fs>9){fs-=.5;sp.style.fontSize=fs+'px';}
+  if(sp.scrollHeight>lh()*2+2){let t2=text;while(t2.length>1&&sp.scrollHeight>lh()*2+2){t2=t2.slice(0,-1);sp.textContent=t2+'…';}}}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -13568,7 +14154,7 @@ function setPause(on){PAUSED=!!on;const b=$("pauseB");if(b){b.setAttribute("aria
 function update(dt){
   if(fadeT>0)fadeT-=dt;
   if(!PAUSED){moveTick(dt);if(fadeT<=.2)runner(dt);}
-  if(!dragPan(dt)){const p=charPos(),tx=p.cx,ty=p.by-18;if(!cam.init){cam.x=tx;cam.y=ty;cam.init=true;}const k=1-Math.exp(-dt*5);cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;}
+  if(!dragPan(dt)&&!camManHold()){const p=charPos(),tx=p.cx,ty=p.by-18;if(!cam.init){cam.x=tx;cam.y=ty;cam.init=true;}const k=1-Math.exp(-dt*5);cam.x+=(tx-cam.x)*k;cam.y+=(ty-cam.y)*k;}
   if(!PAUSED){needsTick(dt);droneTick(dt);visitTick(dt);mateTick(dt);rvTick(dt);lbTick(dt);if(M&&M.drink&&M.sit)M.drinkLv=Math.max(.12,(M.drinkLv||1)-dt*.012);if(M&&M.drink&&M.sit&&C.tableSet&&C.tableSet.md){M._sp=(M._sp||0)+dt;M.holding=(M._sp%6.5)>4.8?'glass':null;}yardTick(dt);shopTick(dt);msgTick(dt);talkTick(dt);}partTick(dt);
   const k=wKind();if(k==='snow')snowCover=Math.min(.7,snowCover+dt/90);else snowCover=Math.max(0,snowCover-dt/240);
   if(k==='thunder'){nextFlash-=dt;if(nextFlash<=0){flashT=.18;nextFlash=rnd(6,16);}}if(flashT>0)flashT-=dt;
