@@ -311,11 +311,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版212（2026/10/24 #62）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版214（2026/10/24 #64）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版212（2026/10/24 #62）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版214（2026/10/24 #64）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -12885,6 +12885,62 @@ async function bgmDefaultInstall(force){if(!S)return;
   try{await idbPut({id:BGM_ID,name:BGM_NAME,type:'audio/mp4',blob:bgmBlob()});if(S.music)return;S.bgmDefOff=0;S.music={ids:[BGM_ID],names:[BGM_NAME],idx:0,pos:0,on:true,mode:'one'};save();await musLoad(0,0);setTimeout(renderBGM,300);}catch(e){}}
 function bgmDefPlay(){if(bgmIsDef())musResume2();else bgmDefaultInstall(true);setTimeout(renderBGM,400);}
 function bgmDefStop(){musPause();if(S&&S.music)S.music.on=false;save();setTimeout(renderBGM,200);}
+/* ===== robot vacuum: built-in, slow serpentine sweep of living room / bedroom / kitchen, turns on the spot, hourly, long-press control ===== */
+RV.ang=Math.PI/2;RV.t=rnd(90,240);
+const RV_SPD=T*.5,RV_TURN=2.6;
+function rvPlan(){const d=rvDock();if(!d)return[];const pts=[];
+  for(const room of['liv','kit','bed']){let minx=99,miny=99,maxx=-1,maxy=-1;for(let y=1;y<IN.h;y++)for(let x=0;x<IN.w;x++)if(roomAt(x,y)===room){minx=Math.min(minx,x);maxx=Math.max(maxx,x);miny=Math.min(miny,y);maxy=Math.max(maxy,y);}
+    if(maxx<0)continue;let flip=false;
+    for(let y=miny;y<=maxy;y+=2){const row=[];for(let x=minx;x<=maxx;x++)if(roomAt(x,y)===room&&walkIn(x,y))row.push(x);if(!row.length)continue;if(flip)row.reverse();flip=!flip;
+      // keep the turning points of each run of free tiles
+      let prev=null;for(let i=0;i<row.length;i++){const x=row[i],nx=row[i+1];if(prev===null||Math.abs(x-prev)>1||nx===undefined||Math.abs(nx-x)>1)pts.push({x,y});prev=x;}}}
+  pts.push({x:d.x,y:d.y,home:1});return pts;}
+function rvStart(manual){const d=rvDock();if(!d||RV.ph==='clean')return false;RV.ph='clean';RV.targets=rvPlan();RV.path=[];RV.turning=false;
+  if(C.scene==='in'&&!msgBusy())say(manual?pick(['ロボちゃん、今すぐお掃除お願い！','お掃除スタート、よろしくね']):pick(['あ、ロボット掃除機が動き出した','おそうじロボ、いってらっしゃい','今日もおそうじよろしくね']));
+  if(!manual&&M&&M.scene==='in'&&!M.sleeping&&Math.random()<.3)msay(pick(['ロボちゃん、がんばれ〜','あ、足どけなきゃ']));return true;}
+function rvHome(manual){const d=rvDock();if(!d||RV.ph!=='clean')return false;RV.targets=[{x:d.x,y:d.y,home:1}];RV.path=[];
+  if(manual&&C.scene==='in'&&!msgBusy())say(pick(['ロボちゃん、今日はもうおしまい。おうちに帰ろう','充電器に戻ってね〜','おつかれさま、帰っていいよ']));return true;}
+rvTick=function(dt){if(!S||!has('robovac')){RV.ph='dock';return;}const d=rvDock();if(!d)return;
+  if(RV.ph==='dock'){RV.tx=d.x;RV.ty=d.y;RV.x=d.x*T;RV.y=d.y*T;RV.ang=Math.PI/2;RV.t-=dt;if(RV.t<=0){if(C.sleeping||isNight()){RV.t=600;return;}rvStart(false);}return;}
+  RV.spin+=dt*14;
+  if(!RV.path.length){const g2=RV.targets[0];if(!g2){RV.targets=[{x:d.x,y:d.y,home:1}];return;}
+    if(RV.tx===g2.x&&RV.ty===g2.y){RV.targets.shift();if(g2.home){RV.ph='dock';RV.t=rnd(55,65)*60;if(C.scene==='in'&&!msgBusy()&&Math.random()<.3)say(pick(['ロボット掃除機、充電に戻った','おつかれさま、ロボちゃん']));}return;}
+    const p=bfs('in',RV.tx,RV.ty,g2.x,g2.y);if(!p){RV.targets.shift();return;}RV.path=p;}
+  const[nx,ny]=RV.path[0],gx=nx*T,gy=ny*T,dx=gx-RV.x,dy=gy-RV.y,dist=Math.hypot(dx,dy);
+  if(dist>.01){// turn on the spot first, then roll forward
+    const want=Math.atan2(dy,dx);let df=want-RV.ang;while(df>Math.PI)df-=TAU;while(df<-Math.PI)df+=TAU;
+    if(Math.abs(df)>.04){RV.ang+=Math.sign(df)*Math.min(Math.abs(df),RV_TURN*dt);RV.turning=true;return;}RV.ang=want;RV.turning=false;}
+  const sp=RV_SPD*dt;if(dist<=sp){RV.x=gx;RV.y=gy;RV.tx=nx;RV.ty=ny;RV.path.shift();}else{RV.x+=dx/dist*sp;RV.y+=dy/dist*sp;}
+  if(Math.random()<dt*.8)particles.push({sc:'in',x:RV.x+T/2+rnd(-6,6),y:RV.y+T-4+rnd(-2,2),vx:rnd(-6,6),vy:rnd(-10,-3),life:.6,max:.6,type:'spark'});};
+/* top-down-ish robot with a front bumper that shows where it is heading */
+drawRobo=function(cx,cy,on){const a=on?RV.ang:Math.PI/2,fx=Math.cos(a),fy=Math.sin(a)*.58;
+  fillE(g,'rgba(0,0,0,.2)',cx+.6,cy+1.5,7.6,3.8);
+  fillE(g,'#7a808c',cx,cy+.6,7.3,4.3);fillE(g,'rgba(255,255,255,.25)',cx-1,cy+1.6,5.6,1.4);                                   // side skirt
+  g.fillStyle=GD_rg(g,cx-2,cy-2.4,.5,cx,cy-.4,7.4,[[0,'#ffffff'],[.45,'#d8dce3'],[.8,'#aeb4be'],[1,'#8c929c']]);g.beginPath();g.ellipse(cx,cy-.5,7,3.9,0,0,TAU);g.fill();
+  // front bumper arc
+  g.strokeStyle='#4a4e58';g.lineWidth=1.1;g.beginPath();g.ellipse(cx,cy-.3,7.1,4,0,a-1.05,a+1.05);g.stroke();g.strokeStyle='rgba(90,96,108,.6)';g.lineWidth=.3;g.beginPath();g.ellipse(cx,cy-.5,7,3.9,0,0,TAU);g.stroke();g.strokeStyle='rgba(120,126,138,.5)';g.beginPath();g.ellipse(cx,cy-.6,4.6,2.4,0,0,TAU);g.stroke();
+  g.strokeStyle='rgba(255,255,255,.25)';g.lineWidth=.35;g.beginPath();g.ellipse(cx,cy-.6,6.7,3.7,0,a-1,a+1);g.stroke();
+  // lidar turret
+  fillE(g,'#1e1e24',cx-fx*1.2,cy-1.2-fy*1.2,2,1.3);fillE(g,'#3a3a46',cx-fx*1.2,cy-1.6-fy*1.2,1.7,1);fillE(g,'rgba(255,255,255,.35)',cx-fx*1.2-.5,cy-1.9-fy*1.2,.6,.3);
+  // status lamp (blinking green while working, blue while charging)
+  const bl=(performance.now()/380|0)%2,lx=cx+fx*3.6,ly=cy-.9+fy*3.6;fillE(g,on?(bl?'#5ae07a':'#1e6a3a'):'#4fa0ef',lx,ly,.75,.55);
+  if(on&&bl){g.fillStyle='rgba(90,230,120,.35)';g.beginPath();g.ellipse(lx,ly,1.8,1.2,0,0,TAU);g.fill();}
+  fillE(g,'rgba(255,255,255,.75)',cx-2.6,cy-2.5,2.6,.7,-.1);
+  // spinning side brush at the front-left corner
+  if(on){const bx=cx+Math.cos(a-.75)*6,by=cy+.6+Math.sin(a-.75)*3.4,s=RV.spin;g.strokeStyle='rgba(210,210,220,.8)';g.lineWidth=.35;for(let i=0;i<3;i++){const b=s+i*2.1;g.beginPath();g.moveTo(bx,by);g.lineTo(bx+Math.cos(b)*2.2,by+Math.sin(b)*.9);g.stroke();}fillE(g,'#c8c8d0',bx,by,.45,.3);}};
+// long-press: on the robot while it works -> back to the dock; on the dock -> clean now / come home
+{const dE=dragEnd;dragEnd=function(cancel){const d=DRAG;if(d&&!cancel&&d.sc==='in'&&d.k==='robovac'&&d.cur.x===d.orig.x&&d.cur.y===d.orig.y){DRAG=null;dragEndAt=performance.now();S.layout.robovac=d.orig;
+    rvAsk();try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}return;}return dE(cancel);};}
+let rvLP=null;
+function rvAsk(){let ov=document.getElementById('rvAsk');if(!ov){ov=document.createElement('div');ov.id='rvAsk';ov.className='overlay center';ov.innerHTML='<div class="card" role="dialog" style="max-width:320px"><h2 style="font-size:17px">ロボット掃除機</h2><p class="note" id="rvAskT" style="text-align:left"></p><div class="row2"><button type="button" class="primary" id="rvGo">掃除をはじめる</button><button type="button" id="rvBack">充電器にもどる</button></div><div class="row2 closer"><button type="button" id="rvX">とじる</button></div></div>';document.body.append(ov);
+    ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});ov.querySelector('#rvGo').onclick=()=>{ov.hidden=true;if(RV.ph==='clean'){if(!msgBusy())say('もう掃除してるよ〜');}else rvStart(true);};ov.querySelector('#rvBack').onclick=()=>{ov.hidden=true;if(RV.ph!=='clean'){if(!msgBusy())say('ロボちゃんは充電中だよ');}else rvHome(true);};ov.querySelector('#rvX').onclick=()=>{ov.hidden=true;};}
+  const busy=RV.ph==='clean';ov.querySelector('#rvAskT').textContent=busy?'いまは掃除中です。':'いまは充電器で充電中です。';ov.querySelector('#rvGo').disabled=busy;ov.querySelector('#rvBack').disabled=!busy;ov.hidden=false;}
+cv.addEventListener('pointerdown',e=>{if(!S||C.scene!=='in'||RV.ph!=='clean'||!has('robovac'))return;const w=tapWorld(e);if(Math.hypot(w.x-(RV.x+T/2),(w.y-(RV.y+T-6))*1.3)>11)return;
+  e.stopImmediatePropagation();const lp={x:e.clientX,y:e.clientY};lp.id=setTimeout(()=>{rvLP=null;rvAsk();try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}},480);rvLP=lp;},true);
+cv.addEventListener('pointermove',e=>{if(rvLP&&Math.hypot(e.clientX-rvLP.x,e.clientY-rvLP.y)>10){clearTimeout(rvLP.id);rvLP=null;}},true);
+cv.addEventListener('pointerup',()=>{if(rvLP){clearTimeout(rvLP.id);rvLP=null;}},true);
+// built-in equipment: every home gets a robot vacuum (new games and existing saves)
+function rvGive(){if(!S||S.owned.includes('robovac')||(S.stored||[]).some(e=>e.k==='robovac'))return;const p=placeFor('robovac');if(p){S.layout.robovac=p;S.owned.push('robovac');refreshOcc();S.wish=(S.wish||[]).filter(k=>k!=='robovac');save();}}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -13046,7 +13102,7 @@ function renderDex(){const el=$('dexBody');if(!el||!S)return;dexSync();const D=S
   {const nt=S.notes||{},names=Object.keys(nt).sort((a,b)=>(nt[b].n||0)-(nt[a].n||0));const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>飲んだお酒</h3><small>${names.length}種類</small>`;el.append(h);
     if(!names.length){const p=document.createElement('p');p.className='dexnone';p.textContent='まだありません';el.append(p);}else{const w=document.createElement('div');w.className='dexs';for(const n of names){const sp=document.createElement('span');sp.textContent=`${n}${nt[n].n>1?' ×'+nt[n].n:''}`;w.append(sp);}el.append(w);}}}
 /* ----- recycle (long-press without moving) ----- */
-const ESSENTIAL=new Set(['boombox','bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','bed2','wardrobe2','ksink']);
+const ESSENTIAL=new Set(['robovac','boombox','bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','bed2','wardrobe2','ksink']);
 let recyK=null;
 function recycleAsk(k,sc){const n=(sc==='in'?FT:OFT)[k].n;
   if(sc==='in'&&ESSENTIAL.has(k)){say((k==='bed2'||k==='wardrobe2')?`${n}は${S.mate?S.mate.name:'同居人'}の生活必需品だから、リサイクルには出せないよ`:pick([`${n}は生活必需品だから、リサイクルには出せないよ`,`${n}がないと暮らせないよ…リサイクルはやめておこう`]));emote('?',1.2);return;}
@@ -13212,7 +13268,7 @@ function startNew(look){setTimeout(()=>bgmDefaultInstall(),2500);M=null;
   S={isle3:1,kitVer:2,hw:XS,shelfGiven:1,species:chosen,name,born:Date.now(),owned:[],layout:{},lampOn:false,wish:[],needs:{hunger:75,energy:85,hygiene:80,bladder:80,fun:70},outfit:simpleOutfit(),trend:null,bathDay:'',lastSeen:Date.now(),dseedK:Math.floor(Math.random()*9973),dressN:Math.floor(Math.random()*50)};if(look)S.look=look;
   C.scene='in';place(IN_ENTRY.x,IN_ENTRY.y-1);refreshOcc();
   S.yard={};S.xbeds=[];refreshOut();
-  for(const k of['bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','boombox','bookshelf']){const p=placeFor(k);if(p){S.layout[k]=p;S.owned.push(k);refreshOcc();}}
+  for(const k of['bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','boombox','bookshelf','robovac']){const p=placeFor(k);if(p){S.layout[k]=p;S.owned.push(k);refreshOcc();}}
   wearDay(false);gearFor('in');C.steps=[];C.idleT=3;C.sleeping=false;unsnap();
   $('setup').hidden=true;save();updateHUD();updateRoom();
   say(`はじめまして、${name}です！最低限の家具はそろってるから、あとは少しずつ好きなものを増やしていくね`);
@@ -13226,7 +13282,7 @@ function isleMigrate(){if(!S||S.isle3)return;S.isle3=1;if(!S.isle2)return;const 
 function isleFix(){if(!S)return;const PS=new Set(PATH.map(q=>q[0]+','+q[1]));const bad=c=>{const[x,y]=c.split(',').map(Number);return OUTBLOCK.has(c)||PS.has(c)||!inIsle(x,y);};
   refreshOut();for(const k of yardList()){const p=S.yard[k];if(p.carry)continue;if(yardCells(k,p).some(bad)){const f=OFT[k],q=placeOut(f.w,f.h,k);if(q){S.yard[k]={...p,x:q.x,y:q.y};refreshOut();}}}
   (S.xbeds||[]).forEach(b=>{if(yardCells('_bed',b).some(bad)){const q=placeOut(b.w||2,1);if(q){b.x=q.x;b.y=q.y;refreshOut();}}});}
-function contGame(s){setTimeout(()=>bgmDefaultInstall(),2500);S=s;M=null;try{const m=S.music;if(m&&m.names){const j=m.ids.indexOf(BGM_ID);if(j>=0)m.names[j]=BGM_NAME;}if(m&&m.ids.includes('bgmdef')){const k=m.ids.indexOf('bgmdef');m.ids[k]=BGM_ID;if(m.names)m.names[k]=BGM_NAME;m.pos=0;idbDel('bgmdef').catch(()=>{});}}catch(e){}try{isleMigrate();}catch(e){}setTimeout(()=>{try{isleFix();}catch(e){}},300);try{ACC_migrate(S.look);if(S.mate)ACC_migrate(S.mate.look);ACC_migDex();if(!S.wish.length&&S.owned.length>=10&&(!S.owned.includes('robovac')||!S.owned.includes('lbot1')))comfortT=rnd(90,240);}catch(e){}setTimeout(()=>placeCheck(),6000);if(!SPEC[S.species])S.species=OLD_SPECIES[S.species]||'cloud';S.wish=(S.wish||[]).filter(k=>FT[k]);S.outfit=S.outfit||simpleOutfit();S.noRoom=[];
+function contGame(s){setTimeout(()=>bgmDefaultInstall(),2500);setTimeout(()=>{try{rvGive();}catch(e){}},1200);S=s;M=null;try{const m=S.music;if(m&&m.names){const j=m.ids.indexOf(BGM_ID);if(j>=0)m.names[j]=BGM_NAME;}if(m&&m.ids.includes('bgmdef')){const k=m.ids.indexOf('bgmdef');m.ids[k]=BGM_ID;if(m.names)m.names[k]=BGM_NAME;m.pos=0;idbDel('bgmdef').catch(()=>{});}}catch(e){}try{isleMigrate();}catch(e){}setTimeout(()=>{try{isleFix();}catch(e){}},300);try{ACC_migrate(S.look);if(S.mate)ACC_migrate(S.mate.look);ACC_migDex();if(!S.wish.length&&S.owned.length>=10&&(!S.owned.includes('robovac')||!S.owned.includes('lbot1')))comfortT=rnd(90,240);}catch(e){}setTimeout(()=>placeCheck(),6000);if(!SPEC[S.species])S.species=OLD_SPECIES[S.species]||'cloud';S.wish=(S.wish||[]).filter(k=>FT[k]);S.outfit=S.outfit||simpleOutfit();S.noRoom=[];
   if(S.dseedK==null)S.dseedK=Math.floor(Math.random()*9973);
   S.stored=(S.stored||[]).filter(e=>e&&FT[e.k]&&!(S.owned||[]).includes(e.k));S.unstoreQ=[];
   if(S.layout&&S.layout.radio&&S.layout.radio.on)delete S.layout.radio;
