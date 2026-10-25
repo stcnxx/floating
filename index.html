@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版274（2026/10/25 #124）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版281（2026/10/25 #131）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版274（2026/10/25 #124）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版281（2026/10/25 #131）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2034,11 +2034,11 @@ const A={
     if(plan.items.length>1)s.push(FN(()=>{C.holding='tray';C.trayC=plan.items.map(x=>x.c||'#e8b84a');}));
     if(has('table'))s.push(...goF('table'),snapF('table'),FN(()=>{C.holding=null;C.tableSet={k:'table',foods:plan.items,phase:'full'};}),...mateJoinSteps('table',ms=>{if(C.tableSet){C.tableSet.foods2=plan.items.map(x=>({...x}));C.tableSet.mt=ms.tile;}}),...talkMate(()=>M&&M.busy&&M.sit?pick(MEALTALK)(m):null),SAY(pick(['いただきます！',`${m}、できたてだ`])));else{want('table');s.push(...sitFloor('liv'));}
     s.push(W8(5+plan.items.length*1.5,need('hunger',slot==='night'?6:10)),FN(()=>{if(C.tableSet)C.tableSet.phase='eaten';say(pick([`${m}、おいしかった！`,'ごちそうさまでした','おなかいっぱい！',slot==='night'?'夜食って、なんでこんなにおいしいんだろう':`${SJ}、満足！`]));}),W8(1.6),
-      FN(()=>{C.tableSet=null;C.holding='dish';if(M&&M.busy)mRelease();}),SAY(pick(['お皿をさげよう','片付けまでがごはんです'])));
+      FN(()=>{C.tableSet=null;C.holding='dish';const mc=C.mateClean&&Date.now()-C.mateClean<10*60e3&&M&&!M.sleeping&&M.scene==='in';C.mateClean=0;if(mc){C.holding=null;const i=C.steps.findIndex(q=>q.cleanEnd);if(i>0)C.steps.splice(1,i);try{mateCleanUp();}catch(e){}queueSay(pick(['ありがとう、助かる！','じゃあお言葉に甘えて','いつもありがとう']));}else if(M&&M.busy)mRelease();}),SAY(pick(['お皿をさげよう','片付けまでがごはんです'])));
     if(hasKSink())s.push(...goSink(),FN(()=>{C.holding=null;}),SAY('お皿を洗おう'),W8(3,wTick('ksink')));else s.push(FN(()=>{C.holding=null;}));
     if(has('cupboard'))s.push(...goF('cupboard'),SAY('お皿を食器棚にしまって…完了！'),W8(1));
     if(has('trash')&&Math.random()<.4)s.push(...goF('trash'),SAY('ゴミはゴミ箱へ'),W8(.8));
-    return s;},
+    s.push({t:'fn',f:()=>{},cleanEnd:1});return s;},
   toilet(){if(!has('toilet')){want('toilet');return[SAY('トイレ…早くトイレがほしい！'),W8(3,need('bladder',10))];}
     const s=[{t:'until',cond:()=>!(M&&M.wc)},...goF('toilet'),snapF('toilet'),W8(4,need('bladder',25))];const hw=has('handwash')?'handwash':has('sink')?'sink':null;if(hw)s.push(...goF(hw),SAY('手をあらおう'),W8(2,wTick(hw)));return s;},
   bath(){const today=()=>{S.bathDay=now().toDateString();};
@@ -6024,7 +6024,7 @@ function fashionTalk(a,name,aOf,aOut){const me=S.name,mo=ftWear(S.outfit,C.scene
 function convoParts(){const v=V,me=S.name,t=tempNow(),k=wKind(),pl=ENV.area||ENV.city||ENV.place||'このへん';
   const vt=()=>'';
   const greet=v.again?[['v',vt()+pick([`${me}、また遊びに来ちゃった！`,`やっほー${me}！ドローンに乗って来たよ`])],['me',pick([`${v.name}！いらっしゃい`,`わあ、${v.name}だ！元気だった？`])]]
-    :[['v',v.sp==='human'?`はじめまして！となりの浮遊島に住んでる${v.name}です`:`はじめまして！となりの浮遊島に住んでる${SPEC[v.sp].kind}の${v.name}です`],['me',`はじめまして、${me}だよ！人が乗れるドローンなんてすごい！`]];
+    :[['v',v.sp==='human'?`はじめまして！となりの浮遊島に住んでる${v.name}です`:`はじめまして！となりの浮遊島に住んでる${SPEC[v.sp].kind}の${v.name}です`],['me',pick([`はじめまして、${me}だよ！遠いところ、来てくれてありがとう`,`はじめまして、${me}です！ようこそ、ゆっくりしていってね`,`はじめまして、${me}だよ！となりの島、ここからも見えるよね`,`はじめまして、${me}です！お隣さんに会えてうれしいな`,`はじめまして、${me}だよ！ドローン、揺れなかった？`])]];
   const T2=[];
   T2.push(()=>[['v',{clear:`今日は${pl}の上、よく晴れてるね`,cloudy:'くもり空も、ふわふわしてていいよね',fog:'霧の中を飛ぶの、ちょっとドキドキしたよ',snow:'雪の中を飛んできたよ、さむい〜',rain:'雨がやんでよかった',thunder:'かみなりが鳴らないうちに来れてよかった'}[k]||'いい空だね'],
     ['me',t==null?'ほんとだね':t>=27?`${Math.round(t)}℃もあって暑いけどね`:t<=10?`${Math.round(t)}℃でひんやりするけどね`:`${Math.round(t)}℃くらいで気持ちいいよね`]]);
@@ -12891,7 +12891,7 @@ const RUGS=[
  ['キリム（赤）','kilim',['#b8432e','#f2e2c0','#2e4a6a','#e8a83a']],['キリム（青）','kilim',['#3e6a9a','#f3e6c8','#c8583a','#e8c45a']],
  ['モロッカン','moroccan',['#f4efe4','#3a3438']],['モロッカン（ピンク）','moroccan',['#f6e6e4','#c86a7a']],
  ['水玉','dots',['#f6e8c8','#e07a5a','#5aa0c8']],['シェブロン','chevron',['#f2ede4','#6a7a8a','#d8b25a']],
- ['青海波','waves',['#2e4a7a','#e8eef6']],['麻の葉','asanoha',['#c8584a','#f6e8d8']],
+ ['青海波','waves',['#2e4a7a','#e8eef6']],['麻の葉','asanoha',['#3e1f5c','#eadcf4']],
  ['花柄','floral',['#f4ecdc','#e8708a','#f6c84a','#7ab06a']],['七宝','shippo',['#f2ead8','#2e4a7a','#c8a040']],
  ['オンブレ（青）','ombre',['#bcd8ea','#3e6a9a']],['オンブレ（夕焼け）','ombre',['#f6d090','#d8584a']],
  ['タータン','plaid',['#2e5a3e','#c8302a','#e8c45a','#1e2a3e']],['ノルディック','nordic',['#c8302a','#fbf8f2']],
@@ -12958,7 +12958,7 @@ function RUG_paint(c,i,w,h){const L=(x0,y0,x1,y1,st)=>{const q=c.createLinearGra
    case'dots':{for(let y=4;y<h;y+=7)for(let x=4+((y/7|0)%2)*3.5;x<w;x+=7)E(x,y,1.6,1.6,C[1+((x+y)/7|0)%2]);break;}
    case'chevron':{for(let r=0;r<h/6+1;r++){c.strokeStyle=C[1+r%2];c.lineWidth=2.2;c.beginPath();for(let k=0;k<=w/6+1;k++)c.lineTo(k*6,r*6+(k%2?3:0));c.stroke();}break;}
    case'waves':{const s=7;for(let y=h+s;y>-s;y-=s/2)for(let x=((y/(s/2)|0)%2)*s/2;x<w+s;x+=s){for(let k=4;k>0;k--){c.fillStyle=k%2?C[0]:C[1];c.beginPath();c.arc(x,y,s*k/4*.75,Math.PI,0);c.fill();}}break;}
-   case'asanoha':{c.strokeStyle=C[1];c.lineWidth=.42;c.lineCap='round';const sd=7.2,hh=sd*.866,P=(a,b)=>[a*sd+(b%2?sd/2:0),b*hh];c.beginPath();
+   case'asanoha':{c.strokeStyle=C[1];c.lineWidth=.55;c.lineCap='round';const sd=11.23,hh=sd*.866,P=(a,b)=>[a*sd+(b%2?sd/2:0),b*hh];c.beginPath();
      for(let b=-1;b*hh<h+hh;b++)for(let a=-1;a*sd<w+sd;a++){const p0=P(a,b),p1=P(a+1,b),q0=b%2?P(a+1,b+1):P(a,b+1),q1=b%2?P(a,b+1):P(a-1,b+1);
        for(const tri of[[p0,p1,q0],[p0,q1,q0]]){const cx2=(tri[0][0]+tri[1][0]+tri[2][0])/3,cy2=(tri[0][1]+tri[1][1]+tri[2][1])/3;for(const v of tri){c.moveTo(v[0],v[1]);c.lineTo(cx2,cy2);}c.moveTo(tri[0][0],tri[0][1]);c.lineTo(tri[1][0],tri[1][1]);c.lineTo(tri[2][0],tri[2][1]);c.closePath();}}
      c.stroke();break;}
@@ -14799,41 +14799,40 @@ camSet=function(man){ENV.ov.mode=ENV.ov.mode||{};ENV.ov.mode.c=!!man;try{localSt
 // draw the island view while the hero is indoors (the hero is inside the house, so not drawn); no fade while the view is fixed
 {const r0=render0;render0=function(){if(!S||!camManual())return r0.apply(this,arguments);const f=fadeT;fadeT=0;
   if(!MANOUT()){try{return r0.apply(this,arguments);}finally{fadeT=f;}}
-  const sc=C.scene,sn=C.snap,sk=C.snapK,em=C.emote;C.scene='out';C.snap={px:-1e5,py:-1e5,pose:C.pose,d:C.dir};C.snapK=null;C.emote=null;
+  const sc=C.scene,sn=C.snap,sk=C.snapK,em=C.emote;C.scene=CAM_VIEW;C.snap={px:-1e5,py:-1e5,pose:C.pose,d:C.dir};C.snapK=null;C.emote=null;
   try{return r0.apply(this,arguments);}finally{C.scene=sc;C.snap=sn;C.snapK=sk;C.emote=em;fadeT=f;}};}
 // while looking at the island with the hero indoors, a drag only pans (no taps / moving furniture with the wrong map)
 (function(){const host=cv.parentNode||document;
   // yard pieces can still be long-pressed and moved while the hero is indoors
-  let yLP=null;const outTarget=ev=>{const sc=C.scene;C.scene='out';try{return dragTarget(ev);}catch(_){return null;}finally{C.scene=sc;}};
+  let yLP=null;const outTarget=ev=>{const sc=C.scene;C.scene=CAM_VIEW;try{return dragTarget(ev);}catch(_){return null;}finally{C.scene=sc;}};
   host.addEventListener('pointerdown',e=>{if(e.target!==cv||!MANOUT())return;CPAN={id:e.pointerId,x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y,on:false};try{cv.setPointerCapture(e.pointerId);}catch(_){}e.stopPropagation();
-    if(yLP){clearTimeout(yLP.id);yLP=null;}if(DRAG||fadeT>0)return;const t=outTarget(e);if(!t||t.sc!=='out')return;const o={x:e.clientX,y:e.clientY,t,pid:e.pointerId,cx:e.clientX,cy:e.clientY};
+    if(yLP){clearTimeout(yLP.id);yLP=null;}if(DRAG||fadeT>0)return;const t=outTarget(e);if(!t||t.sc!==CAM_VIEW)return;const o={x:e.clientX,y:e.clientY,t,pid:e.pointerId,cx:e.clientX,cy:e.clientY};
     o.id=setTimeout(()=>{if(yLP!==o)return;yLP=null;if(CPAN&&CPAN.on)return;CPAN=null;dragStart(o.t,{clientX:o.cx,clientY:o.cy,pointerId:o.pid});},420);yLP=o;},true);
   host.addEventListener('pointermove',e=>{if(yLP&&e.pointerId===yLP.pid){yLP.cx=e.clientX;yLP.cy=e.clientY;if(Math.hypot(e.clientX-yLP.x,e.clientY-yLP.y)>10){clearTimeout(yLP.id);yLP=null;}}},true);
   host.addEventListener('pointerup',e=>{if(e.target!==cv||!MANOUT())return;if(yLP){clearTimeout(yLP.id);yLP=null;}const tap=CPAN&&!CPAN.on&&!DRAG&&performance.now()-dragEndAt>120;CPAN=null;if(DRAG){try{dragEnd(false);}catch(_){}}e.stopPropagation();
-    if(tap){const sc=C.scene;C.scene='out';try{showTip(e);}catch(_){}finally{C.scene=sc;}}},true);
+    if(tap){const sc=C.scene;C.scene=CAM_VIEW;try{showTip(e);}catch(_){}finally{C.scene=sc;}}},true);
   host.addEventListener('pointercancel',e=>{if(yLP){clearTimeout(yLP.id);yLP=null;}if(MANOUT()&&DRAG){try{dragEnd(true);}catch(_){}}},true);
   for(const ev of['click','dblclick'])host.addEventListener(ev,e=>{if(e.target===cv&&MANOUT())e.stopPropagation();},true);})();
 setTimeout(()=>{try{CAM_SC=null;camBtn();}catch(e){}},500);
 // speech while looking at the island with the hero indoors: the hero's bubble comes from the front door, the others follow the island view
-{const bt=bubbleTick;bubbleTick=function(){if(!MANOUT())return bt();const sn=C.snap;C.snap={px:(OUT.entry.x+.5)*T,py:OUT.entry.y*T+4,pose:'stand',d:'down'};try{bt();}finally{C.snap=sn;}};
- for(const n of['mBubbleTick','vBubbleTick']){const f=window[n]||eval(n);const w=function(){if(!MANOUT())return f();const sc=C.scene;C.scene='out';try{f();}finally{C.scene=sc;}};if(n==='mBubbleTick')mBubbleTick=w;else vBubbleTick=w;}}
+{const bt=bubbleTick;bubbleTick=function(){if(!MANOUT())return bt();if(CAM_VIEW!=='out'){try{bt();}catch(_){}return;}const sn=C.snap;C.snap={px:(OUT.entry.x+.5)*T,py:OUT.entry.y*T+4,pose:'stand',d:'down'};try{bt();}finally{C.snap=sn;}};
+ for(const n of['mBubbleTick','vBubbleTick']){const f=window[n]||eval(n);const w=function(){if(!MANOUT())return f();const sc=C.scene;C.scene=CAM_VIEW;try{f();}finally{C.scene=sc;}};if(n==='mBubbleTick')mBubbleTick=w;else vBubbleTick=w;}}
 /* ---- v248: manual camera keeps the indoor view while the hero is indoors; panning past the house walls switches to the island view ---- */
 let CAM_VIEW=null;
 const IN_RECT=()=>({x0:0,x1:IN.w*T,y0:T-8,y1:T-8+21*T+22});
 const in2out=(x,y)=>{const h=OUT.house,r=IN_RECT();return{x:h.x*T+(x-r.x0)/(r.x1-r.x0)*h.w*T,y:h.y*T+(y-r.y0)/(r.y1-r.y0)*h.h*T};};
-MANOUT=()=>!!(S&&camManual()&&CAM_VIEW==='out'&&C.scene==='in');
+MANOUT=()=>!!(S&&camManual()&&CAM_VIEW&&CAM_VIEW!==C.scene);
 function camExtV(){if(CAM_VIEW==='in'){const r=IN_RECT();return r;}return camExt('out');}
 camClampMan=function(){const e=camExtV();cam.x=Math.max(e.x0,Math.min(e.x1,cam.x));cam.y=Math.max(e.y0,Math.min(e.y1,cam.y));};
 function camToOut(){if(CAM_VIEW!=='in')return;const p=in2out(cam.x,cam.y);CAM_VIEW='out';cam.x=p.x;cam.y=p.y;camClampMan();}
 camManHold=function(){if(!camManual()){if(CAM_VIEW){CAM_VIEW=null;CAM_SC=null;cam.init=false;}return false;}
   if(!CAM_VIEW){CAM_VIEW=C.scene;CAM_SC=C.scene;camClampMan();cam.init=true;}
-  else if(CAM_VIEW==='in'&&C.scene==='out')camToOut();
   return true;};
 camSet=function(man){ENV.ov.mode=ENV.ov.mode||{};ENV.ov.mode.c=!!man;try{localStorage.setItem('fuyuchi-cam',man?'m':'f');}catch(e){}camManHold();camBtn();try{if(!$('sheet').hidden)renderOv();}catch(e){}};
 // overscroll past the house walls (about 2 tiles) → island view, continuing the same drag
 (function(){const host=cv.parentNode||document;let over=0,pend=false,last=null;
   host.addEventListener('pointerdown',()=>{over=0;},true);
-  host.addEventListener('pointermove',e=>{if(!CPAN||e.pointerId!==CPAN.id||!camManual()||CAM_VIEW!=='in'||C.scene!=='in')return;const dx=e.clientX-CPAN.x,dy=e.clientY-CPAN.y;if(!CPAN.on&&Math.hypot(dx,dy)<=10)return;
+  host.addEventListener('pointermove',e=>{if(!CPAN||e.pointerId!==CPAN.id||!camManual()||CAM_VIEW!=='in')return;const dx=e.clientX-CPAN.x,dy=e.clientY-CPAN.y;if(!CPAN.on&&Math.hypot(dx,dy)<=10)return;
     last={x:e.clientX,y:e.clientY};if(pend)return;
     const r=cv.getBoundingClientRect(),k=W/r.width/Z,wx=CPAN.cx-dx*k,wy=CPAN.cy-dy*k,b=IN_RECT();
     const ox=wx<b.x0?b.x0-wx:wx>b.x1?wx-b.x1:0,oy=wy<b.y0?b.y0-wy:wy>b.y1?wy-b.y1:0;over=Math.max(ox,oy);
@@ -15158,7 +15157,7 @@ function patOpen(k){const t=patType(k),list=patList(k),cur=patCur(k);let sel=cur
 setInterval(()=>{try{camBtn();}catch(e){}},700);
 /* ---- v257: wallpapers for the living room and the bedroom (36, shared list); the wainscot and the curtains follow the paper ---- */
 const WP=[
- {n:'いまのリビング（ダイヤ柄）',p:'livdef',cu:'#bcdde6'},{n:'いまの寝室（ラベンダーの小花）',p:'beddef',cu:'#c7b3e4'},
+ {n:'ダイヤ柄',p:'livdef',cu:'#bcdde6'},{n:'ラベンダーの小花',p:'beddef',cu:'#c7b3e4'},
  {n:'ホワイト',c:'#f6f3ec',p:'plain',wc:'#efe9dd',ws:'bead',cu:'#dfe8ee'},{n:'クリーム',c:'#f0e2c4',p:'plain',wc:'#a87b52',ws:'panel',cu:'#e8c98a'},
  {n:'ライトグレー',c:'#dcdde0',p:'plain',wc:'#f2f1ec',ws:'bead',cu:'#9aa6b8'},{n:'セージグリーン',c:'#c6d4bf',p:'plain',wc:'#f2efe6',ws:'panel',cu:'#e8dcc0'},
  {n:'ペールブルー',c:'#d3e2ef',p:'plain',wc:'#f4f3ee',ws:'bead',cu:'#f2e6c8'},{n:'ペールピンク',c:'#f4dfdd',p:'plain',wc:'#f6f2ea',ws:'bead',cu:'#e8a8b4'},
@@ -15336,10 +15335,10 @@ try{const st=document.createElement('style');st.textContent='#room{display:none!
 // only furniture that can be used now must stay usable after the move (something already blocked elsewhere must not lock every move)
 function allUsableRel(occR,occ,skipK){let occ0=null;for(const kk of S.owned){if(kk===skipK)continue;const L=S.layout[kk];if(!L||L.carry)continue;if(useTileFor(kk,L,occR))continue;if(!occ0)occ0=reachOcc(occ)||new Set();if(useTileFor(kk,L,occ0))return false;}return true;}
 /* v264: the main loop can never stop: if one frame throws, the next frame is still scheduled */
-{const L0=loop;let errN=0;loop=function(ts){try{const r=L0.apply(this,arguments);try{MANOUT_hide();}catch(_){}return r;}catch(e){errN++;if(errN<20)console.warn('frame error',e);try{if(S&&S.mate&&C.snap&&C.snap.px===-1e5)C.snap=null;}catch(_){}requestAnimationFrame(loop);}};}
+{const L0=loop;let errN=0;loop=function(ts){try{const r=L0.apply(this,arguments);try{MANOUT_hide();}catch(_){}return r;}catch(e){errN++;if(errN<20)console.warn('frame error',e);try{DBG_err(e,'frame');}catch(_){}try{if(S&&S.mate&&C.snap&&C.snap.px===-1e5)C.snap=null;}catch(_){}requestAnimationFrame(loop);}};}
 /* v266: while looking at the island with the hero indoors, speech / TV / chat bubbles from inside the house are not shown */
-function MANOUT_hide(){if(!MANOUT())return;for(const id of['bubble','convo','devb'])$(id)&&($(id).hidden=true);
-  if(M&&M.scene==='in'&&$('bubble3'))$('bubble3').hidden=true;if(V&&V.scene==='in'&&$('bubble2'))$('bubble2').hidden=true;}
+function MANOUT_hide(){if(!MANOUT())return;for(const id of['bubble','convo'])$(id)&&($(id).hidden=true);if(CAM_VIEW==='out'&&$('devb'))$('devb').hidden=true;
+  if(M&&M.scene!==CAM_VIEW&&$('bubble3'))$('bubble3').hidden=true;if(V&&V.scene!==CAM_VIEW&&$('bubble2'))$('bubble2').hidden=true;}
 /* ---- v268: flowerbeds can be moved by long-press & drag (the two original beds too) ---- */
 let BEDSKIP=null;
 const bedDragB=()=>DRAG&&DRAG.bed?DRAG.bed:null;
@@ -15410,7 +15409,7 @@ const mMediaOn=k=>!!(typeof M!=='undefined'&&M&&M.media&&M.media.k===k&&M.sit&&!
 {const RD=FT.radio.draw;FT.radio.draw=function(){if((C.radioNow&&C.scene==='in')||!mMediaOn('radio'))return RD.apply(this,arguments);
   const sv={scene:C.scene,radioNow:C.radioNow};C.scene='in';C.radioNow=M.media.p;try{return RD.apply(this,arguments);}finally{Object.assign(C,sv);}};dRadioF=FT.radio.draw;}
 // program label over the set (when the hero isn't already showing one)
-{const DT=devTick;devTick=function(){DT.apply(this,arguments);try{const el=$('devb');if(!el||!el.hidden||!S||C.scene!=='in'||MANOUT()||!M||!M.media)return;const k=M.media.k,p=M.media.p;if(!mMediaOn(k)||!p)return;
+{const DT=devTick;devTick=function(){DT.apply(this,arguments);try{const el=$('devb');if(!el||!el.hidden||!S||(MANOUT()?CAM_VIEW:C.scene)!=='in'||!M||!M.media)return;const k=M.media.k,p=M.media.p;if(!mMediaOn(k)||!p)return;
   el.hidden=false;$('devI').textContent=k==='tv'?'📺':'📻';const ch=`${p.ch||''}${p.start&&p.end?'　'+hm(p.start)+'–'+hm(p.end):''}`;if($('devCh').textContent!==ch)$('devCh').textContent=ch;if($('devT').textContent!==p.title)$('devT').textContent=p.title||'';
   const c=itemCenter(k);posBubble(el,c.x,c.y+6,k==='tv'?40:28);}catch(e){}};}
 // safety: a stale "on" state never lingers
@@ -15618,6 +15617,94 @@ function NOMI_draw(c){const INK='#1a1418',PK='#f040c4',PU='#9b6fe0',lw=.62;
   if(back){c.restore();return;}if(side){c.translate(hw*.42,0);c.scale(.62,1);}c.translate(0,cy+.4);const s=W*1.02/10;c.scale(s,s);NOMI_draw(c);c.restore();};}
 {const AN=ACC_name;ACC_name=function(f){if(f&&f.k==='mask'&&f.id==='nomisugi')return '飲みすぎ仮面';return AN.apply(this,arguments);};}
 {const AD=ACC_dexName;ACC_dexName=function(key){if(key==='mask:nomisugi')return '飲みすぎ仮面';return AD.apply(this,arguments);};}
+/* ---- v275: freeze log, automatic recovery and cache limits ---- */
+const DBG={key:'fuyuchi-dbg',hbKey:'fuyuchi-hb',prev:0,errT:[],gapT:[],fpsN:0,fpsT:0,fps:0};
+function DBG_ver(){try{const e=document.querySelector('.appver');return e?e.textContent.trim():'';}catch(e){return '';}}
+function DBG_cacheMB(){let px=0;const add=cv=>{if(cv&&cv.width)px+=cv.width*cv.height;};
+  try{for(const m of[ANIM,GD_cache,YD_C,FCC])for(const v of m.values()){add(v&&v.cv);if(v instanceof HTMLCanvasElement)add(v);}
+    for(const v of SPRC.map.values())add(v&&v.cv);for(const o of[RUG_C,SCP_SPR,MOONR,MOONTEX])for(const k in o){const v=o[k];add(v&&v.cv);if(v instanceof HTMLCanvasElement)add(v);}
+    add(houseC.cv);add(isle.cv);add(around.cv);for(const k in treeC)add(treeC[k]&&treeC[k].cv);}catch(e){}return Math.round(px*4/1048576);}
+function DBG_state(){const o={};try{o.v=DBG_ver();o.at=new Date().toLocaleString('ja-JP');o.scene=C.scene;o.act=C.act||'';o.steps=(C.steps||[]).length;o.sleep=!!C.sleeping;
+  o.mate=M?((M.steps&&M.steps[0]&&M.steps[0].t)||'idle')+(M.media?'/'+M.media.k:''):'-';o.manual=!!camManual();o.view=CAM_VIEW||'';o.manout=!!MANOUT();o.power=PWR.m;o.dpr=DPR;o.cv=cv.width+'x'+cv.height;
+  o.fps=DBG.fps;o.cacheMB=DBG_cacheMB();const pm=performance.memory;if(pm)o.heapMB=Math.round(pm.usedJSHeapSize/1048576)+'/'+Math.round(pm.jsHeapSizeLimit/1048576);o.menu=!$('sheet').hidden;}catch(e){o.err=String(e&&e.message||e);}return o;}
+function DBG_read(){try{return JSON.parse(localStorage.getItem(DBG.key)||'[]');}catch(e){return [];}}
+function DBG_log(kind,info){try{const L=DBG_read();L.push({k:kind,...info,st:DBG_state()});while(L.length>40)L.shift();localStorage.setItem(DBG.key,JSON.stringify(L));}catch(e){}}
+function DBG_err(e,where){const msg=String(e&&e.message||e).slice(0,160),stk=String(e&&e.stack||'').split('\n').slice(1,4).map(s=>s.trim().replace(/\(?file:.*?:(\d+):(\d+)\)?/,'行$1')).join(' / ').slice(0,240);
+  if(Date.now()-(DBG.lastErrW||0)<2000&&DBG.lastMsg===msg){DBG.errT.push(Date.now());return;}DBG.lastErrW=Date.now();DBG.lastMsg=msg;
+  const L=DBG_read(),last=L[L.length-1];if(last&&last.k==='エラー'&&last.msg===msg&&Date.now()-(last.ts||0)<60e3){last.n=(last.n||1)+1;try{localStorage.setItem(DBG.key,JSON.stringify(L));}catch(_){}}else DBG_log('エラー',{msg,where,stk,ts:Date.now(),n:1});
+  const now=Date.now();DBG.errT=DBG.errT.filter(t=>now-t<10e3);DBG.errT.push(now);if(DBG.errT.length>=10)DBG_recover('hard','エラーが続いたため');}
+function DBG_trim(force){try{const lim=(m,n)=>{if(m.size>n){const del=m.size-(force?0:Math.floor(n*.7));let i=0;for(const k of m.keys()){if(i++>=del)break;m.delete(k);}}};
+  lim(GD_cache,force?0:220);lim(YD_C,force?0:220);lim(FCC,force?0:60);lim(ANIM,force?0:220);
+  for(const[o,n]of[[RUG_C,40],[SCP_SPR,12],[MOONR,16]])if(force||Object.keys(o).length>n)for(const k in o)delete o[k];if(force)SPRC.map.clear();}catch(e){}}
+let DBG_recT=0,DBG_recN=0;
+function DBG_recover(level,why){const now=Date.now();if(now-DBG_recT<60e3||DBG_recN>=3)return;DBG_recT=now;DBG_recN++;DBG_log('自動復帰',{level,why});
+  try{DBG_trim(false);}catch(e){}
+  if(level==='hard'){try{abort();}catch(e){}try{if(M&&!M.sleeping){M.steps=[];M.sit=null;M.busy=false;M.media=null;M.idle=1;}}catch(e){}}}
+// error hooks
+addEventListener('error',e=>{try{DBG_err(e.error||e.message,'window');}catch(_){}});
+addEventListener('unhandledrejection',e=>{try{const r=e.reason;if(r&&/fetch|network|abort|timeout|proxy|JSON/i.test(String(r.message||r)))return;DBG_err(r,'promise');}catch(_){}});
+// frame gaps (the page was visible but no frame ran for a long time)
+{const L2=loop;loop=function(ts){const pn=performance.now();if(DBG.prev&&!document.hidden&&pn>15000){const gap=pn-DBG.prev;if(gap>1500){const now=Date.now();DBG.gapT=DBG.gapT.filter(t=>now-t<60e3);if(DBG.gapT.length<5){DBG.gapT.push(now);DBG_log('画面停止',{gapSec:Math.round(gap/100)/10});}}}
+  DBG.prev=pn;DBG.fpsN++;if(pn-DBG.fpsT>2000){DBG.fps=Math.round(DBG.fpsN*1000/(pn-DBG.fpsT));DBG.fpsN=0;DBG.fpsT=pn;}
+  try{return L2.apply(this,arguments);}catch(e){DBG_err(e,'loop');requestAnimationFrame(loop);}};}
+document.addEventListener('visibilitychange',()=>{DBG.prev=0;});
+// heartbeat: if the app is closed without a clean exit (frozen and killed), the next start records it
+{let hb=null;try{hb=JSON.parse(localStorage.getItem(DBG.hbKey)||'null');}catch(e){}
+  if(hb&&!hb.clean&&Date.now()-hb.t<3*86400e3){try{const L=DBG_read();L.push({k:'前回の異常終了',note:'正常に閉じられずに終わりました（フリーズして強制終了した可能性）',last:hb.st,at:new Date(hb.t).toLocaleString('ja-JP')});while(L.length>40)L.shift();localStorage.setItem(DBG.key,JSON.stringify(L));}catch(e){}}
+  const beat=clean=>{try{localStorage.setItem(DBG.hbKey,JSON.stringify({t:Date.now(),clean:!!clean,st:S?DBG_state():null}));}catch(e){}};
+  setInterval(()=>{if(!document.hidden)beat(false);},3000);addEventListener('pagehide',()=>beat(true));document.addEventListener('visibilitychange',()=>{if(document.hidden)beat(true);else beat(false);});}
+setInterval(()=>DBG_trim(false),30e3);
+// UI in データ・描画設定
+function DBG_text(){const L=DBG_read();return `浮遊島ぐらし フリーズ記録 ${DBG_ver()}\n${navigator.userAgent}\n`+L.map((e,i)=>`#${i+1} ${e.k}\n`+JSON.stringify(e)).join('\n');}
+function DBG_ui(){const sm=$('dbgSum');if(!sm||!sm.querySelector&&0)return;const L=DBG_read(),cnt=k=>L.filter(e=>e.k===k).length;
+  sm.textContent=L.length?`記録 ${L.length}件（画面停止 ${cnt('画面停止')}・エラー ${cnt('エラー')}・異常終了 ${cnt('前回の異常終了')}・自動復帰 ${cnt('自動復帰')}）。フリーズしたあとに「記録をコピー」を押して、チャットに貼り付けて送ってください。`:'まだ記録はありません。フリーズや画面の停止が起きると、自動で記録されます。';}
+try{const sec=document.querySelector('section[data-p="data"]'),h=sec&&sec.querySelector('h3:nth-of-type(2)');if(sec&&h&&!$('dbgSum')){const box=document.createElement('div');
+  box.innerHTML='<h3>フリーズ記録</h3><p class="hint" id="dbgSum"></p><div class="row2"><button type="button" id="dbgCopy">記録をコピー</button><button type="button" id="dbgClr">記録を消す</button></div><textarea id="dbgText" rows="4" readonly hidden style="width:100%;box-sizing:border-box;font-size:11px;margin-top:6px"></textarea>';
+  sec.insertBefore(box,h);
+  $('dbgCopy').onclick=async()=>{const t=DBG_text(),ta=$('dbgText');ta.value=t;ta.hidden=false;let ok=false;try{await navigator.clipboard.writeText(t);ok=true;}catch(e){}if(!ok){try{ta.focus();ta.select();ok=document.execCommand('copy');}catch(e){}}
+    $('dbgSum').textContent=ok?'コピーしました。チャットに貼り付けて送ってください。':'自動でコピーできませんでした。下の枠の文字を長押しして、すべて選択してコピーしてください。';};
+  $('dbgClr').onclick=()=>{try{localStorage.removeItem(DBG.key);}catch(e){}$('dbgText').hidden=true;DBG_ui();};
+  const st=selTab;selTab=function(t){const r=st.apply(this,arguments);if(t==='data')setTimeout(DBG_ui,0);return r;};DBG_ui();}}catch(e){}
+/* ---- v277: the housemate really clears the table when they offered to; furniture moves explain why a spot is not allowed ---- */
+{const i=MEALTALK.findIndex(f=>{try{return JSON.stringify(f('x')).includes('片付けはわたしがやるね');}catch(e){return false;}});
+ if(i>=0){const f0=MEALTALK[i];MEALTALK[i]=m=>{C.mateClean=Date.now();return f0(m);};}}
+function mateCleanUp(){if(!M)return;mRelease();const sinkU=()=>{const L=S.layout.stove;if(L&&has('stove')){for(const x of[L.x,L.x+1,L.x+2])if(walkIn(x,L.y+1))return{x,y:L.y+1};}return U('ksink')||U('sink')||U('stove');};
+  M.steps=[{t:'fn',f:()=>{M.holding='dish';}},{t:'say',text:()=>pick(['じゃあ、片付けるね','お皿、さげまーす','座ってていいよ'])},{t:'go',sc:'in',dyn:sinkU},{t:'fn',f:()=>{M.holding=null;}},
+    {t:'say',text:()=>pick(['お皿洗い、っと','ふんふーん♪','泡あわ〜'])},{t:'wait',s:4.5}];
+  if(has('cupboard'))M.steps.push({t:'go',sc:'in',dyn:()=>U('cupboard')},{t:'wait',s:1});
+  M.steps.push({t:'say',text:()=>pick(['片付け完了！','ピカピカになった','おしまい！'])});M.idle=rnd(3,6);}
+// why a spot is not allowed (same checks as validIn), in plain words
+function validInWhy(k,p){try{const f=FT[k];const occ=occSet(new Set([k]));const nm=kk=>(FT[kk]&&FT[kk].n)||kk;
+  if(p.wall)return '壁のその場所にはかけられないみたい';
+  const w=p.ped?1:f.w,h=p.ped?1:f.h,r=roomAt(p.x,p.y);if(!r||!f.rooms.includes(r))return `${f.n}は、その部屋には置けないよ`;
+  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r)return '部屋からはみ出しちゃう';if(KEEP.has(kk)||DOORCELL.has(kk))return 'ドアの前は通れるようにあけておきたいな';if(f.k!=='floor'&&occ.has(kk))return 'ほかの家具と重なっちゃう';}
+  if(f.tall){const usedW=wallUsed();for(let xx=p.x;xx<p.x+w;xx++)if(usedW.has(xx+','+(p.y-1)))return '背が高いから、壁の飾りや窓にかかっちゃう';const fw=wallFront();for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)if(fw.has(xx+','+yy))return '背が高いから、壁の飾りの前はふさげないよ';}
+  const occ2=new Set(occ);for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)occ2.add(xx+','+yy);const occR=reachOcc(occ2);
+  if(!occR)return '玄関から入れなくなっちゃう';if(occR.size-occ2.size>Math.max(12,reachPk(occ)))return '奥に入れない場所ができちゃう';
+  if(!useTileFor(k,p,occR))return `${f.n}の前に立てる場所がなくなっちゃう`;
+  const occ0=reachOcc(occ)||new Set(),bl=[];for(const kk of S.owned){if(kk===k)continue;const L=S.layout[kk];if(!L||L.carry)continue;if(!useTileFor(kk,L,occR)&&useTileFor(kk,L,occ0))bl.push(nm(kk));}
+  if(bl.length)return `${[...new Set(bl)].slice(0,3).join('・')}が使えなくなっちゃう`;
+  if(k==='table')return 'テーブルの両側に座れる場所がなくなっちゃう';}catch(e){}return null;}
+{const DE=dragEnd;dragEnd=function(cancel){const d=DRAG;let why=null;if(d&&d.sc==='in'&&!cancel&&!d.ok&&!(d.cur.x===d.orig.x&&d.cur.y===d.orig.y&&d.cur.side===d.orig.side)){why=validInWhy(d.k,d.cur);}
+  if(!why)return DE.apply(this,arguments);const sv=say;say=()=>{};try{DE.apply(this,arguments);}finally{say=sv;}say(why);};}
+/* ---- v278: in manual mode the view stays where it is when the hero goes in or out ---- */
+{const TR=transfer;transfer=function(){if(!(S&&camManual()))return TR.apply(this,arguments);if(!CAM_VIEW)CAM_VIEW=C.scene;const cx=cam.x,cy=cam.y,vw=CAM_VIEW;
+  const r=TR.apply(this,arguments);CAM_VIEW=vw;CAM_SC=C.scene;cam.x=cx;cam.y=cy;cam.init=true;fadeT=0;SW_HOLD=0;SW_HIDE=false;try{camSwitchShow(false);}catch(_){}return r;};}
+// talk bubbles of whoever is in the place not on screen stay hidden (the hero's own one too)
+setInterval(()=>{try{MANOUT_hide();}catch(e){}},250);
+/* ---- v279: afternoon tea starts by laying the white linen cloth so the tiered trays stand out ---- */
+{const AF=A.afternoon;A.afternoon=function(){const st=AF.apply(this,arguments);if(!st||!st.length)return st;const cur=(S.cloth==null?23:S.cloth)%CLOTHS.length;if(cur===0)return st;
+  st.splice(1,0,...goF('table'),W8(1),FN(()=>{S.cloth=0;S.clothAt=Date.now();try{sparkleAt(posCenter('table',S.layout.table));}catch(e){}}),W8(.5),SAY(pick(['トレーが映えるように、白いリネンのクロスにしよう','まずはテーブルを白いリネンに。ケーキがきれいに見えるよ','白いクロスにかけかえて…準備オッケー'])));return st;};}
+/* ---- v281: 「画面準備中」 while the saved game is being opened ---- */
+function prepShow(on){let el=$('prepSw');if(!el){el=document.createElement('div');el.id='prepSw';el.setAttribute('role','status');
+    el.innerHTML='<svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true"><path d="M6 2.5h12v2h-1.2c0 3.2-1.6 5.3-3.6 7.5 2 2.2 3.6 4.3 3.6 7.5H18v2H6v-2h1.2c0-3.2 1.6-5.3 3.6-7.5C8.8 9.8 7.2 7.7 7.2 4.5H6z" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/><path d="M9.2 6h5.6c-.4 1.6-1.4 2.9-2.8 4.3C10.6 8.9 9.6 7.6 9.2 6zM8.8 19.5c.3-2.1 1.5-3.6 3.2-5.2 1.7 1.6 2.9 3.1 3.2 5.2z" fill="#fff"/></svg><span>画面準備中</span>';
+    const st=document.createElement('style');st.textContent='#prepSw{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:9999;display:flex;align-items:center;gap:9px;padding:14px 22px;border-radius:14px;background:rgba(20,18,40,.8);color:#fff;font-weight:700;font-size:16px;letter-spacing:.08em;pointer-events:none;box-shadow:0 4px 18px rgba(0,0,0,.35);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}#prepSw[hidden]{display:none}#prepSw svg{animation:camSwR 1.2s ease-in-out infinite}@keyframes camSwR{0%,40%{transform:rotate(0)}60%,100%{transform:rotate(180deg)}}';
+    document.head.append(st);document.body.append(el);}el.hidden=!on;}
+let PREP=null;
+{const r2=render;render=function(){const r=r2.apply(this,arguments);if(PREP&&S){PREP.n++;if(PREP.n>=4&&(houseC.cv||isle.cv)){PREP=null;requestAnimationFrame(()=>setTimeout(()=>prepShow(false),120));}}return r;};}
+setTimeout(()=>{try{const b=$('bCont'),o=b&&b.onclick;if(!o)return;b.onclick=function(e){if(PREP)return;PREP={n:0};prepShow(true);try{b.disabled=true;}catch(_){}
+  requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>{try{o.call(b,e);}finally{try{b.disabled=false;}catch(_){}}
+    setTimeout(()=>{if(PREP){PREP=null;}prepShow(false);},20000);},40)));};}catch(e){}},0);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
