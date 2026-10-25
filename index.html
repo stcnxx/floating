@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版309（2026/10/26 #159）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版311（2026/10/26 #161）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版309（2026/10/26 #159）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版311（2026/10/26 #161）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -16836,6 +16836,24 @@ function ISL_inside(x0,y0,x1,y1){const f=(x,y)=>inIsle(Math.floor(x/T),Math.floo
 {const FR0=fillR;fillR=function(c,col,x,y,w,h,r){if(c===g&&C&&C.scene==='out'&&typeof col==='string'&&ISL_SH.test(col)&&!ISL_inside(x,y,x+w,y+h)){const ip=ISL_path();if(ip){c.save();c.clip(ip);FR0.apply(this,arguments);c.restore();return;}}return FR0.apply(this,arguments);};}
 // rabbit shadows too
 {const RD=RB_drawOne;RB_drawOne=function(x,y,r,t,o){if(o&&o.noShadow)return RD.apply(this,arguments);const ip=C.scene==='out'&&!ISL_inside(x-6,y-2,x+6,y+2)?ISL_path():null;if(!ip&&C.scene==='out'){fillE(g,'rgba(0,0,0,.18)',x,y+.4,(4.4-RB_pose(r).h*.35)*((o&&o.sc)||1),1.2*((o&&o.sc)||1));}if(ip){g.save();g.clip(ip);fillE(g,'rgba(0,0,0,.18)',x,y+.4,(4.4-RB_pose(r).h*.35)*((o&&o.sc)||1),1.2*((o&&o.sc)||1));g.restore();}return RD.call(this,x,y,r,t,{...(o||{}),noShadow:true});};}
+/* ---- v310: the drinks in the picture book — every one of them by kind, unknown ones as "？"; the unlock trick reveals the names (without counting a drink) ---- */
+function DEX_drinkIcon(d){return dexIcon(x=>withG(x,()=>{x.save();x.translate(20,53);x.scale(5.2,5.2);try{drawBottle(0,0,d);}catch(e){}x.restore();x.save();x.translate(40,53);x.scale(4.4,4.4);try{drawGlass(x,0,0,d,.8);}catch(e){}x.restore();}));}
+function DEX_drinks(el){if(!document.getElementById('dexdkCss')){const st=document.createElement('style');st.id='dexdkCss';st.textContent='.dexdk{margin:0 0 6px;border-radius:10px;background:rgba(255,255,255,.04)}.dexdk>summary{list-style:none;display:flex;align-items:baseline;gap:8px;padding:8px 10px;cursor:pointer;border-radius:10px;background:rgba(255,255,255,.07)}.dexdk>summary::-webkit-details-marker{display:none}.dexdk>summary b{font-size:14px;font-weight:700}.dexdk>summary small{margin-left:auto;opacity:.75;font-size:12px}.dexdk-a{font-size:11px;opacity:.7;width:12px}.dexdk[open]>summary{background:rgba(255,211,107,.14)}.dexdk>.dexg{padding:6px 4px 8px}';document.head.append(st);}const nt=S.notes||{},rv=S.dexDrink||{};const cnt=Object.keys(nt).length;
+  const h0=document.createElement('div');h0.className='dexh';h0.innerHTML=`<h3>お酒</h3><small>飲んだ ${DRINKS.filter(d=>nt[d.n]).length} / ${DRINKS.length}</small>`;el.append(h0);
+  for(const[cat,cn]of PREFCAT){const ds=DRINKS.filter(d=>drinkCat(d)===cat);if(!ds.length)continue;const drunk=ds.filter(d=>nt[d.n]).length,known=ds.filter(d=>nt[d.n]||rv[d.n]).length;
+    // the heading itself opens / closes the list, so it is clear which kind it belongs to
+    const det=document.createElement('details');det.className='dexdk';const sm=document.createElement('summary');
+    sm.innerHTML=`<span class="dexdk-a">▶</span><b>お酒：${cn}</b><small>${drunk} / ${ds.length}${known>drunk?'（名前だけ '+(known-drunk)+'）':''}</small>`;det.append(sm);
+    const gr=document.createElement('div');gr.className='dexg';det.append(gr);el.append(det);
+    det.addEventListener('toggle',()=>{sm.querySelector('.dexdk-a').textContent=det.open?'▼':'▶';if(!det.open||gr.childElementCount)return;
+      // drunk ones first (most often first), then the revealed ones, then the unknown
+      const order=ds.slice().sort((a,b)=>((nt[b.n]?2:rv[b.n]?1:0)-(nt[a.n]?2:rv[a.n]?1:0))||((nt[b.n]&&nt[b.n].n||0)-(nt[a.n]&&nt[a.n].n||0)));
+      for(const d of order){const o=nt[d.n],seen=o||rv[d.n],it=document.createElement('div');it.className='dexi';
+        if(seen){it.append(DEX_drinkIcon(d));const sp=document.createElement('span');sp.textContent=d.n+(o&&o.n>1?' ×'+o.n:'');if(!o)sp.style.opacity='.6';it.append(sp);
+          it.onclick=()=>dexZoom(()=>DEX_drinkIcon(d),d.n,`${cn}　${o?`飲んだ回数 ${o.n}・最高 ${o.s}点`:'まだ飲んでいない'}${d.say&&d.say[0]?'　「'+d.say[0]+'」':''}`);}
+        else{const q=document.createElement('div');q.style.cssText='width:56px;height:56px;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:700;color:rgba(255,255,255,.35);background:rgba(0,0,0,.18);border-radius:8px';q.textContent='？';it.append(q);const sp=document.createElement('span');sp.textContent='？？？';sp.style.opacity='.5';it.append(sp);}
+        gr.append(it);}});}}
+{const DU=DEX_unlockAll;DEX_unlockAll=function(){let n=DU.apply(this,arguments)||0;try{S.dexDrink=S.dexDrink||{};for(const d of DRINKS)if(!S.dexDrink[d.n]&&!(S.notes&&S.notes[d.n])){S.dexDrink[d.n]=1;n++;}save();}catch(e){}return n;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -16994,8 +17012,7 @@ function renderDex(){const el=$('dexBody');if(!el||!S)return;dexSync();const D=S
   const chips=(title,obj)=>{const names=Object.keys(obj||{}).sort((a,b)=>obj[b]-obj[a]);const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>${title}</h3><small>${names.length}種類</small>`;el.append(h);
     if(!names.length){const p=document.createElement('p');p.className='dexnone';p.textContent='まだありません';el.append(p);return;}const w=document.createElement('div');w.className='dexs';for(const n of names){const sp=document.createElement('span');sp.textContent=`${n}${obj[n]>1?' ×'+obj[n]:''}`;w.append(sp);}el.append(w);};
   chips('食べた料理・おやつ',S.ate);chips('飲んだ飲み物',S.drank);
-  {const nt=S.notes||{},names=Object.keys(nt).sort((a,b)=>(nt[b].n||0)-(nt[a].n||0));const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>飲んだお酒</h3><small>${names.length}種類</small>`;el.append(h);
-    if(!names.length){const p=document.createElement('p');p.className='dexnone';p.textContent='まだありません';el.append(p);}else{const w=document.createElement('div');w.className='dexs';for(const n of names){const sp=document.createElement('span');sp.textContent=`${n}${nt[n].n>1?' ×'+nt[n].n:''}`;w.append(sp);}el.append(w);}}}
+  DEX_drinks(el);}
 /* ----- recycle (long-press without moving) ----- */
 const ESSENTIAL=new Set(['robovac','boombox','bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','bed2','wardrobe2','ksink']);
 let recyK=null;
