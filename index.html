@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版281（2026/10/25 #131）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版283（2026/10/25 #133）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版281（2026/10/25 #131）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版283（2026/10/25 #133）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1103,7 +1103,7 @@ function planShow(){
   if(!c.length)return null;c.sort((a,b)=>(a.start-b.start)+(lk.indexOf(a.genre)-lk.indexOf(b.genre))*3600e3);
   const p=c[0];return{start:p.start,end:p.end,title:p.title,sub:p.sub,content:p.content,genre:p.genre,ch:p.ch};}
 const hm=ms=>{const d=new Date(ms);return pad(d.getHours())+':'+pad(d.getMinutes());};
-const short=(t,n)=>t&&t.length>n?t.slice(0,n)+'…':(t||'');
+const short=(t,n)=>String(t||'');/* v282: titles in speech are shown in full */
 const TVG={
  '00':['なるほど、そういうことか','ちゃんと見ておかないとね','わかりやすい解説だな','キャスターさん、声が聞きやすい','今日もいろんなことがあったんだね','世の中の動きって早いなあ','メモしておこうかな','へえ、知らなかった','この話、あとで調べてみよう','天気予報もちゃんと見ておかなきゃ','現地の映像、すごいね','専門家の話、むずかしいけど面白い'],
  '01':['がんばれー！','いけいけー！','今の、ナイスプレー！','うわ、惜しい！','ここからが勝負！','手に汗にぎる…','どっちが勝つかな','選手の顔、真剣だ','リプレイ見たい！','この解説の人、くわしいね','実況の声が熱い！','よし、逆転だ！','次の一球が大事…','応援してるほうが緊張しちゃう'],
@@ -2198,8 +2198,8 @@ const A={
   unstore(){S.stored=S.stored||[];S.unstoreQ=(S.unstoreQ||[]).filter(k=>isStored(k));
     let k=S.unstoreQ[0];if(!k){const old=S.stored.filter(e=>Date.now()-e.at>(e.user?3*3600e3:40*60e3));if(!old.length)return null;k=pick(old).k;}
     let target=null;
-    return[{t:'go',sc:'in',dyn:()=>closetTile()},FN(()=>{target=placeFor(k);if(!target){S.unstoreQ=S.unstoreQ.filter(x=>x!==k);return;}C.holding='box';}),
-      SAY(()=>target?pick([`ひさしぶりに${FT[k].n}を出そう`,`${FT[k].n}、また飾ってみよう`,`しまってた${FT[k].n}、出してこよう`]):`${FT[k].n}を出したいけど、置く場所がないや`),
+    return[{t:'go',sc:'in',dyn:()=>closetTile()},{t:'face',d:'up'},W8(1.4),FN(()=>{target=placeFor(k);if(!target){S.unstoreQ=S.unstoreQ.filter(x=>x!==k);return;}C.holding='box';}),
+      SAY(()=>target?pick(has('storerack')?[`納戸から${FT[k].n}を出そう`,`納戸にしまってた${FT[k].n}、ひさしぶり！`,`よいしょ…納戸から${FT[k].n}を出してきた`]:[`ひさしぶりに${FT[k].n}を出そう`,`${FT[k].n}、また飾ってみよう`,`しまってた${FT[k].n}、出してこよう`]):`${FT[k].n}を出したいけど、置く場所がないや`),
       {t:'go',sc:'in',dyn:()=>{if(!target)return{x:C.tx,y:C.ty};const o2=new Set(OCC);for(const c of cellsOf(k,target))o2.add(c);return useTileFor(k,target,o2);}},
       FN(()=>{C.holding=null;if(!target)return;if(cellsOf(k,target).some(c=>OCC.has(c))){target=placeFor(k);if(!target)return;}
         S.layout[k]={...target};if(!S.owned.includes(k))S.owned.push(k);S.stored=S.stored.filter(e=>e.k!==k);S.unstoreQ=S.unstoreQ.filter(x=>x!==k);refreshOcc();sparkleAt(posCenter(k,target));emote('♪',2);save();}),
@@ -12891,7 +12891,7 @@ const RUGS=[
  ['キリム（赤）','kilim',['#b8432e','#f2e2c0','#2e4a6a','#e8a83a']],['キリム（青）','kilim',['#3e6a9a','#f3e6c8','#c8583a','#e8c45a']],
  ['モロッカン','moroccan',['#f4efe4','#3a3438']],['モロッカン（ピンク）','moroccan',['#f6e6e4','#c86a7a']],
  ['水玉','dots',['#f6e8c8','#e07a5a','#5aa0c8']],['シェブロン','chevron',['#f2ede4','#6a7a8a','#d8b25a']],
- ['青海波','waves',['#2e4a7a','#e8eef6']],['麻の葉','asanoha',['#3e1f5c','#eadcf4']],
+ ['青海波','waves',['#2e4a7a','#e8eef6']],['麻の葉','asanoha',['#2a0c44','#e6d4f4']],
  ['花柄','floral',['#f4ecdc','#e8708a','#f6c84a','#7ab06a']],['七宝','shippo',['#f2ead8','#2e4a7a','#c8a040']],
  ['オンブレ（青）','ombre',['#bcd8ea','#3e6a9a']],['オンブレ（夕焼け）','ombre',['#f6d090','#d8584a']],
  ['タータン','plaid',['#2e5a3e','#c8302a','#e8c45a','#1e2a3e']],['ノルディック','nordic',['#c8302a','#fbf8f2']],
@@ -12906,8 +12906,10 @@ const PERSIAN=[['ペルシャ絨毯（カシャーン）',['#8a1e22','#1e2a5a','
  ['ペルシャ絨毯（タブリーズ）',['#6a1a2a','#e8d8b0','#2a3a5a','#b8803a','#5a8a6a']],['ペルシャ絨毯（クム・シルク）',['#e8e0c8','#7a9ab0','#c86a5a','#d8b860','#4a7a5a']],
  ['ペルシャ絨毯（ナイン）',['#f2ece0','#2a4a7a','#8aa0b8','#c8b080','#4a5a7a']]];
 const RUG_N=RUGS.length+PERSIAN.length;
+/* v282: the indigo asanoha rug was retired (its slot is kept so saved indices stay valid) */
+const RUG_HIDE=RUGS.findIndex(r=>r[0]==='麻の葉（藍）'),RUG_ASA=RUGS.findIndex(r=>r[0]==='麻の葉');
 function rugName(i){i=((i%RUG_N)+RUG_N)%RUG_N;return i<RUGS.length?RUGS[i][0]:PERSIAN[i-RUGS.length][0];}
-function rugIdx(L){if(L.rug==null)L.rug=[RUGS.length,7,RUGS.length+1,15][(L.v||0)%4];return((L.rug%RUG_N)+RUG_N)%RUG_N;}
+function rugIdx(L){if(L.rug===RUG_HIDE)L.rug=RUG_ASA;if(L.rug==null)L.rug=[RUGS.length,7,RUGS.length+1,15][(L.v||0)%4];return((L.rug%RUG_N)+RUG_N)%RUG_N;}
 const RUG_C={};
 /* paint one rug design into c, field rect 0,0,w,h */
 function RUG_paint(c,i,w,h){const L=(x0,y0,x1,y1,st)=>{const q=c.createLinearGradient(x0,y0,x1,y1);for(const s of st)q.addColorStop(s[0],s[1]);return q;};
@@ -13002,7 +13004,7 @@ FT.rug.draw=RUG_draw;dRug=RUG_draw;
 FT.rug2=F('ラグ（寝室）',3,2,'floor',['bed'],{draw:RUG_draw});
 /* swap the pattern now and then (the rug stays where it is) */
 A.rugswap=function(){const ks=['rug','rug2'].filter(k=>has(k)&&S.layout[k]&&!S.layout[k].carry);if(!ks.length)return null;const k=pick(ks),L=S.layout[k];let n=rugIdx(L);
-  const persianish=Math.random()<.2;let to=n;while(to===n)to=persianish?RUGS.length+Math.floor(Math.random()*PERSIAN.length):Math.floor(Math.random()*RUGS.length);
+  const persianish=Math.random()<.2;let to=n;while(to===n||to===RUG_HIDE)to=persianish?RUGS.length+Math.floor(Math.random()*PERSIAN.length):Math.floor(Math.random()*RUGS.length);
   const c=posCenter(k,L);return[...goF(k),SAY(pick(['ラグの柄、そろそろ替えようかな','気分転換に、ラグを替えよう','季節に合わせてラグを替えよっと'])),W8(1.2),
     FN(()=>{L.rug=to;S.rugAt=Date.now();puffAt({x:c.x,y:c.y+6});}),SAY(()=>`${rugName(to)}にしてみた！`+(to>=RUGS.length?' 本物の手織りは憧れだよね':'')),W8(2)];};
 
@@ -14658,14 +14660,14 @@ function dGfClock(X,Y,Wd,Dp,L,t){g.save();const cx=X+12,fl=Y+21,v=(L&&L.v||0)%3;
   const brass=(x0,y0,x1,y1)=>B_lg(x0,y0,x1,y1,[[0,'#fbe9a6'],[.45,'#d4ac52'],[1,'#8a6420']]);
   B_sh(cx+.6,fl-.4,10.5,2.6,.34);
   // side face (depth) for a little volume
-  g.fillStyle=WD[2];g.beginPath();g.moveTo(cx+7.2,Y-13);g.lineTo(cx+8.6,Y-14.6);g.lineTo(cx+8.6,fl-2.4);g.lineTo(cx+7.2,fl-1);g.closePath();g.fill();
+  g.fillStyle=WD[2];g.beginPath();g.moveTo(cx+8.2,Y-34.2);g.lineTo(cx+9.4,Y-35.4);g.lineTo(cx+9.4,fl-2.2);g.lineTo(cx+8.2,fl-1);g.closePath();g.fill();
   // plinth with bracket feet and a raised panel
-  wood(cx-8.4,Y+9.6,16.8,10.2,.4);fillR(g,'rgba(0,0,0,.18)',cx-8.4,Y+19.2,16.8,.6);
-  for(const sx of[-1,1]){g.fillStyle=WD[2];g.beginPath();g.moveTo(cx+sx*8.4,fl-1.4);g.lineTo(cx+sx*8.4,fl);g.lineTo(cx+sx*5.6,fl);g.quadraticCurveTo(cx+sx*6,fl-1,cx+sx*5,fl-1.4);g.closePath();g.fill();}
+  wood(cx-8.2,Y+9.6,16.4,10.2,.4);fillR(g,'rgba(0,0,0,.18)',cx-8.2,Y+19.2,16.4,.6);
+  for(const sx of[-1,1]){g.fillStyle=WD[2];g.beginPath();g.moveTo(cx+sx*8.2,fl-1.4);g.lineTo(cx+sx*8.2,fl);g.lineTo(cx+sx*5.6,fl);g.quadraticCurveTo(cx+sx*6,fl-1,cx+sx*5,fl-1.4);g.closePath();g.fill();}
   fillR(g,'rgba(0,0,0,.2)',cx-5.8,Y+11.6,11.6,6.2,.6);wood(cx-5.4,Y+12,10.8,5.4,.5);fillR(g,'rgba(255,230,200,.18)',cx-5.4,Y+12,10.8,.4);
   fillR(g,WD[0],cx-8.9,Y+8.8,17.8,1.2,.4);fillR(g,'rgba(255,230,200,.3)',cx-8.9,Y+8.8,17.8,.35);
   // trunk with a long glass door
-  wood(cx-7.2,Y-13,14.4,22,.3);
+  wood(cx-8.2,Y-13,16.4,22,.3);
   const gx=cx-4.3,gy=Y-10.6,gw=8.6,gh=17.6;fillR(g,'rgba(0,0,0,.35)',gx-.7,gy-.7,gw+1.4,gh+1.4,[4.6,4.6,.6,.6]);fillR(g,brass(gx-.5,0,gx+gw+.5,0),gx-.5,gy-.5,gw+1,gh+1,[4.4,4.4,.5,.5]);
   g.save();rr(g,gx,gy,gw,gh,[4,4,.3,.3]);g.clip();
   fillR(g,B_lg(0,gy,0,gy+gh,[[0,'#2a1c14'],[1,'#120c08']]),gx,gy,gw,gh);
@@ -14682,7 +14684,7 @@ function dGfClock(X,Y,Wd,Dp,L,t){g.save();const cx=X+12,fl=Y+21,v=(L&&L.v||0)%3;
   g.restore();
   fillE(g,brass(0,0,1,1),cx+5.4,Y-1,.45,.6);fillR(g,'#3a2010',cx+5.25,Y-.6,.3,.6);// keyhole
   // waist moulding
-  fillR(g,WD[0],cx-8,Y-14.4,16,1.6,.4);fillR(g,'rgba(255,230,200,.3)',cx-8,Y-14.4,16,.35);
+  fillR(g,WD[0],cx-8.9,Y-14.4,17.8,1.6,.4);fillR(g,'rgba(255,230,200,.3)',cx-8.9,Y-14.4,17.8,.35);
   // hood
   wood(cx-8.2,Y-34.6,16.4,20.4,.4);
   for(const sx of[-1,1]){const px=cx+sx*7.2-.6;fillR(g,B_lg(px,0,px+1.2,0,[[0,'#f6e2a0'],[1,'#8a6420']]),px,Y-31.6,1.2,16.6,.4);fillR(g,'#c9a24f',px-.3,Y-32.2,1.8,.8,.3);fillR(g,'#c9a24f',px-.3,Y-15.4,1.8,.8,.3);}
@@ -15109,7 +15111,7 @@ setTimeout(()=>{try{const tg=$('tagGrid');if(!tg||$('decoSelf'))return;const hin
 const PAT_K={table:'cloth',rug:'rug',rug2:'rug',sofa:'sofa',sofa2:'sofa',sofaL:'sofa'};
 PAT_K.bed='bed';PAT_K.bed2='bed';
 const patType=k=>k.startsWith('wall:')?'wall':PAT_K[k];
-function patList(k){const t=patType(k);if(t==='cloth')return CLOTHS.map((c,i)=>({i,n:c[0]}));if(t==='rug')return Array.from({length:RUG_N},(_,i)=>({i,n:rugName(i)}));
+function patList(k){const t=patType(k);if(t==='cloth')return CLOTHS.map((c,i)=>({i,n:c[0]}));if(t==='rug')return Array.from({length:RUG_N},(_,i)=>({i,n:rugName(i)})).filter(o=>o.i!==RUG_HIDE);
   if(t==='bed')return BED_COV.map((c,i)=>({i,n:c.n}));if(t==='wall')return WP.map((c,i)=>({i,n:c.n}));return SOFA_COV.map((c,i)=>({i,n:c.n}));}
 function patCur(k){const t=patType(k);if(t==='wall'){const r=k.slice(5),m=S.wallp||{};return m[r]!=null?m[r]:(r==='bed'?1:0);}const L=S.layout[k];if(t==='cloth')return(S.cloth==null?23:S.cloth)%CLOTHS.length;if(t==='rug')return rugIdx(L);
   if(t==='bed')return L.bcov!=null?L.bcov:(L.v||0)%4;return L.cov!=null?L.cov:(L.v||0)%4;}
@@ -15575,7 +15577,7 @@ function FSM_img(){if(FSM.im)return FSM.im;const S2=FSM.S,PW=FSM.PW,PH=FSM.PH,Wt
 cosPick=function(n){const m=now().getMonth()+1,xmas=inMD(1201,1225);let pool=COSK.filter(k=>k!=='santa');if(m===10)pool=pool.concat(['pumpkin','ghost','wizard','pumpkin','ghost']);if(m===12)pool=pool.concat(['snowman']);
   if(xmas)pool=pool.concat(['santa','santa','santa','santa']);if(season()==='winter')pool=pool.concat(['penguin','snowman']);if(season()==='summer')pool=pool.filter(k=>!['snowman','penguin'].includes(k));return dpick(pool,n);};
 // someone still dressed as Santa after Christmas changes into everyday clothes
-setInterval(()=>{try{if(!S||inMD(1201,1225))return;if(S.outfit&&S.outfit.costume==='santa'){delete S.outfit.costume;}if(typeof M!=='undefined'&&M&&M.outfit&&M.outfit.costume==='santa')delete M.outfit.costume;}catch(e){}},5000);
+setInterval(()=>{try{if(!S||inMD(1201,1225))return;if(S.outfit&&S.outfit.costume==='santa'&&!(S.outfit.userPick&&Date.now()-S.outfit.userPick<24*3600e3)){delete S.outfit.costume;}if(typeof M!=='undefined'&&M&&M.outfit&&M.outfit.costume==='santa')delete M.outfit.costume;}catch(e){}},5000);
 /* ---- v274: 「飲みすぎ仮面」 mask (original art by the player) ---- */
 MASK2.nomisugi={n:'飲みすぎ仮面',base:'#f040c4'};
 MASK_ON.nomisugi=['飲みすぎ仮面、参上！','ういっく…今夜も飲みすぎちゃった','目がぐるぐる〜','もう一杯だけ…ひっく'];
@@ -15705,6 +15707,37 @@ let PREP=null;
 setTimeout(()=>{try{const b=$('bCont'),o=b&&b.onclick;if(!o)return;b.onclick=function(e){if(PREP)return;PREP={n:0};prepShow(true);try{b.disabled=true;}catch(_){}
   requestAnimationFrame(()=>requestAnimationFrame(()=>setTimeout(()=>{try{o.call(b,e);}finally{try{b.disabled=false;}catch(_){}}
     setTimeout(()=>{if(PREP){PREP=null;}prepShow(false);},20000);},40)));};}catch(e){}},0);
+/* ---- v282: stored things go into (and come out of) the storeroom (納戸) ---- */
+closetTile=function(){try{const r=S.layout.storerack;if(has('storerack')&&r){const u=useTileFor('storerack',r);if(u)return u;for(const[dx,dy]of[[0,1],[1,1],[-1,0],[2,0],[0,2]]){if(walkIn(r.x+dx,r.y+dy))return{x:r.x+dx,y:r.y+dy};}}}catch(e){}
+  const w=S.layout.wardrobe;if(has('wardrobe')&&w){const u=useTileFor('wardrobe',w);if(u)return u;}return randomTile('in','bed');};
+/* ---- v282: wear something straight from the picture book (図鑑) ---- */
+function DEX_wearable(key){if(!key||typeof key!=='string'||!S)return false;const[p,id]=key.split(':');if(!id)return false;
+  if(['top','bottom','shoes','hat'].includes(p))return!!(KN[p]&&KN[p][id]);if(p==='cos')return!!COS[id];if(p==='mask')return!!MASK2[id];if(p==='nose')return!!NOSEG[+id];if(p==='sun')return!!SUNS[+id];
+  if(p==='gl')return S.species==='human'&&!!S.look;return false;}
+function DEX_wear(key){const[p,id]=key.split(':'),info=((S.dex&&S.dex.c)||{})[key]||{};const nm=(()=>{try{return p==='cos'?COS[id].n+'の衣装':['mask','nose','sun','gl'].includes(p)?ACC_dexName(key):KN[p][id];}catch(e){return 'これ';}})();
+  if(C.sleeping){say(`いまは寝てるから、起きたら${nm}を着てみるね`);return;}
+  const o=S.outfit=S.outfit||{};
+  if(p==='cos'){o.costume=id;o.userPick=Date.now();}
+  else if(['top','bottom','shoes','hat'].includes(p)){delete o.costume;o[p]={k:id,c:info.c||(o[p]&&o[p].c)||'白',p:info.p||'plain'};if(p==='bottom'&&id==='pjpants')o.top={k:'pajama',c:info.c||'水色',p:'stripe'};if(p==='top'&&o.outer)delete o.outer;o.userPick=Date.now();try{normOutfit(o);}catch(e){}}
+  else if(p==='mask'||p==='nose'){const f={k:p,id:p==='nose'?+id:id,until:Date.now()+15*60e3};C.fun=f;let why=null;try{why=ACC_offWhy();}catch(e){}if(why&&why!=='time'){C.fun=null;C.funPend={...f,until:Date.now()+40*60e3};say(why==='eat'?`食べ終わったら${nm}をつけるね`:why==='bath'?`お風呂のあとで${nm}をつけるね`:why==='visit'?`お客さんが帰ったら${nm}をつけよう`:`あとで${nm}をつけるね`);save();return;}}
+  else if(p==='sun'){C.fun=null;C.sunWear={id:+id,until:Date.now()+20*60e3};}
+  else if(p==='gl'){S.look.gl=id;}
+  try{puffAt(charPos?{x:charPos().cx,y:charPos().by-16}:posCenter('wardrobe',S.layout.wardrobe),C.scene);}catch(e){}
+  say(pick([`${nm}にしてみた！どうかな？`,`${nm}、着てみたよ`,`じゃーん、${nm}！`]));try{emote('♪',1.6);}catch(e){}save();}
+setInterval(()=>{try{const f=C.funPend;if(!f||!S)return;if(Date.now()>f.until){C.funPend=null;return;}if(C.fun)return;C.fun={...f,until:Date.now()+15*60e3};let why=null;try{why=ACC_offWhy();}catch(e){}if(why&&why!=='time'){C.fun=null;return;}C.funPend=null;say(pick(['よし、つけちゃおう！','おまたせ、つけてみた！']));}catch(e){}},2000);
+{const HS=ACC_heroSun;ACC_heroSun=function(){const w=C.sunWear;if(w&&Date.now()<w.until&&!C.fun)return w.id;if(w&&Date.now()>=w.until)C.sunWear=null;return HS.apply(this,arguments);};}
+{const DZ=dexZoom;dexZoom=function(mk,nm,cat,key){const r=DZ.apply(this,arguments);try{if(!DEX_wearable(key))return r;const card=document.querySelector('#dexZoom .dzcard');if(!card)return r;
+  const row=document.createElement('div');row.className='dzbtns';const acc=/^(mask|nose|sun|gl):/.test(key);
+  const b=document.createElement('button');b.type='button';b.className='primary dzwear';b.textContent=acc?'つける':'着る';
+  b.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;try{$('sheet').hidden=true;}catch(_){}DEX_wear(key);};
+  const x=document.createElement('button');x.type='button';x.className='dzclose';x.textContent='閉じる';x.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};
+  row.append(b,x);const h=card.querySelector('.dzhint');if(h)h.hidden=true;card.append(row);
+  if(!document.getElementById('dzwearSt')){const st=document.createElement('style');st.id='dzwearSt';st.textContent='#dexZoom .dzbtns{display:flex;gap:10px;justify-content:center;margin:12px auto 2px}#dexZoom .dzbtns button{min-width:120px;padding:10px 18px;border-radius:12px;font-weight:700;font-size:15px}';document.head.append(st);}}catch(e){}return r;};}
+/* ---- v283: the program label also shows while the hero listens to the radio (and during radio exercises), whichever room */
+{const DT3=devTick;devTick=function(){DT3.apply(this,arguments);try{const el=$('devb');if(!el||!el.hidden||!S||!has('radio'))return;const onIn=MANOUT()?CAM_VIEW==='in':C.scene==='in';if(!onIn||C.scene!=='in')return;
+  if(!['radio','taiso'].includes(C.act))return;const p=C.radioNow||{ch:'ラジオ',title:C.act==='taiso'?'ラジオ体操':'音楽番組'};
+  el.hidden=false;$('devI').textContent='📻';const ch=`${p.ch||'ラジオ'}${p.start&&p.end?'　'+hm(p.start)+'–'+hm(p.end):''}`;if($('devCh').textContent!==ch)$('devCh').textContent=ch;if($('devT').textContent!==(p.title||''))$('devT').textContent=p.title||'';
+  const c=itemCenter('radio');posBubble(el,c.x,c.y+6,28);}catch(e){}};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -15844,7 +15877,7 @@ function clothIcon(key,info){const[part,k]=key.split(':');const of=simpleOutfitF
 function renderDex(){const el=$('dexBody');if(!el||!S)return;dexSync();const D=S.dex;el.innerHTML='';
   const sec=(title,keys,have,icon,name)=>{const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>${title}</h3><small>${have.length} / ${keys.length}</small>`;el.append(h);
     if(!have.length){const p=document.createElement('p');p.className='dexnone';p.textContent='まだありません';el.append(p);return;}
-    const gr=document.createElement('div');gr.className='dexg';for(const k of have){const d=document.createElement('div');d.className='dexi';d.append(icon(k));const s2=document.createElement('span');s2.textContent=name(k);d.append(s2);d.onclick=()=>dexZoom(()=>icon(k),name(k),title);gr.append(d);}el.append(gr);};
+    const gr=document.createElement('div');gr.className='dexg';for(const k of have){const d=document.createElement('div');d.className='dexi';d.append(icon(k));const s2=document.createElement('span');s2.textContent=name(k);d.append(s2);d.onclick=()=>dexZoom(()=>icon(k),name(k),title,k);gr.append(d);}el.append(gr);};
   const fk=Object.keys(FT).filter(k=>k!=='ksink');const by=(k,at)=>(at[k]||0);
   const grp={liv:'リビングの家具',bed:'寝室の家具',kit:'キッチンの家具',bath:'水まわりの家具',wc:'水まわりの家具',dress:'水まわりの家具'};
   const groups=[['リビングの家具',k=>FT[k].rooms[0]==='liv'],['寝室の家具',k=>FT[k].rooms[0]==='bed'],['キッチンの家具',k=>FT[k].rooms[0]==='kit'],['水まわりの家具',k=>['bath','wc','dress'].includes(FT[k].rooms[0])]];
