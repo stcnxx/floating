@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版283（2026/10/25 #133）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版285（2026/10/25 #135）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版283（2026/10/25 #133）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版285（2026/10/25 #135）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -14389,7 +14389,7 @@ A.omikuji=function(){const f0={};return[...goF('omikuji'),FN(()=>{C.dir='up';}),
 {const CM=chooseMateAct;chooseMateAct=function(){if(has('omikuji')&&S.mate&&!M.sleeping&&!sleepTime(1)&&S.mate.omkDay!==dayKey(now())&&Math.random()<.14){let f=null;
     return[{t:'say',text:pick(['星座おみくじ、引いてこよう','今日の運勢、見てこようっと','おみくじ、おみくじ〜'])},{t:'go',sc:'in',dyn:()=>U('omikuji')},{t:'fn',f:()=>{M.dir='up';OMK.spin=performance.now()+2600;}},{t:'wait',s:2.7},
       {t:'fn',f:()=>{f=omkFortune(zdOf('m'));S.mate.omkDay=dayKey(now());save();}},{t:'say',text:()=>`${ZODIAC[f.zd][0]}は${OMK_LV[f.lv][0]}！`+pick(OMK_RE[f.lv])},{t:'wait',s:2.6},{t:'say',text:()=>omkComment(f,'m')},
-      {t:'fn',f:()=>{if(C.scene==='in'&&!C.sleeping&&Math.random()<.6)setTimeout(()=>{if(!msgBusy())say(f.lv<=1?pick(['いいなあ、大吉！','おめでとう！']):f.lv>=5?pick(['だいじょうぶだよ、気にしないで','凶って逆にレアだよ']):pick(['へえ、当たるといいね','わたしも引いてみようかな']));},1800);}},{t:'wait',s:3}];}
+      {t:'fn',f:()=>{if(C.scene==='in'&&!C.sleeping&&Math.random()<.6)setTimeout(()=>{if(!msgBusy())say(f.lv<=1?pick(['いいなあ、大吉！','おめでとう！']):f.lv>=5?pick(['だいじょうぶだよ、気にしないで',f.lv>=6?'大凶って逆にレアだよ！':'凶って逆にレアだよ']):pick(['へえ、当たるといいね','わたしも引いてみようかな']));},1800);}},{t:'wait',s:3}];}
   return CM.apply(this,arguments);};}
 // the resident wants one soon
 
@@ -15738,6 +15738,63 @@ setInterval(()=>{try{const f=C.funPend;if(!f||!S)return;if(Date.now()>f.until){C
   if(!['radio','taiso'].includes(C.act))return;const p=C.radioNow||{ch:'ラジオ',title:C.act==='taiso'?'ラジオ体操':'音楽番組'};
   el.hidden=false;$('devI').textContent='📻';const ch=`${p.ch||'ラジオ'}${p.start&&p.end?'　'+hm(p.start)+'–'+hm(p.end):''}`;if($('devCh').textContent!==ch)$('devCh').textContent=ch;if($('devT').textContent!==(p.title||''))$('devT').textContent=p.title||'';
   const c=itemCenter('radio');posBubble(el,c.x,c.y+6,28);}catch(e){}};}
+/* ---- v284: star-sign fortune — a little luckier, a rare 大凶 (3%), and a starry result card with the zodiac sign ---- */
+OMK_LV.push(['大凶','#3a2a4a']);
+OMK_RE.push(['だ、大凶…！？','大凶だって…逆にめずらしいかも','大凶！ここから上がるだけだね']);
+OMK_ADV.push(['今日は守りに徹して、明日に期待','ゆっくり休むのがいちばんの開運','下を向かずに、夜空を見上げよう']);
+const ZD_SYM=['♈','♉','♊','♋','♌','♍','♎','♏','♐','♑','♒','♓'];
+const OMK_LVC=['#ff7a6a','#ffa86a','#f6d26a','#8ee08a','#8ab8ff','#c8c8d8','#c89af6'];
+let OMK_SKY=null;
+function omkSky(){if(OMK_SKY)return OMK_SKY;try{const w=360,h=640,c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+  const gr=x.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#0a1030');gr.addColorStop(.55,'#1a1f4e');gr.addColorStop(1,'#2a1f50');x.fillStyle=gr;x.fillRect(0,0,w,h);
+  // milky way
+  x.save();x.translate(w*.5,h*.45);x.rotate(-.6);const mw=x.createLinearGradient(0,-70,0,70);mw.addColorStop(0,'rgba(180,170,255,0)');mw.addColorStop(.5,'rgba(200,190,255,.16)');mw.addColorStop(1,'rgba(180,170,255,0)');x.fillStyle=mw;x.fillRect(-w,-70,w*2,140);x.restore();
+  let sd=7;const R=()=>{sd=(sd*9301+49297)%233280;return sd/233280;};
+  for(let i=0;i<420;i++){const px=R()*w,py=R()*h,r=R()<.92?.4+R()*.5:.9+R()*.8,a=.35+R()*.65;x.fillStyle=`rgba(${R()<.2?'255,230,200':R()<.2?'200,220,255':'255,255,255'},${a})`;x.beginPath();x.arc(px,py,r,0,Math.PI*2);x.fill();
+    if(r>1.3){x.strokeStyle=`rgba(255,255,255,${a*.5})`;x.lineWidth=.4;x.beginPath();x.moveTo(px-r*3,py);x.lineTo(px+r*3,py);x.moveTo(px,py-r*3);x.lineTo(px,py+r*3);x.stroke();}}
+  OMK_SKY=c.toDataURL('image/jpeg',.85);}catch(e){OMK_SKY='';}return OMK_SKY;}
+omkFortune=function(zd,d){d=d||now();const r=omkRand(dayKey(d)*131+zd*977+7);
+  const w=[16,21,22,20,12,6,3];let x=r()*w.reduce((a,b)=>a+b,0),lv=0;while(lv<w.length-1&&x>w[lv]){x-=w[lv];lv++;}
+  const base=[4.6,4,3.5,3.1,2.6,1.9,1.4][lv],res={zd,lv,cats:[]};
+  for(const c of OMK_CAT){const st=Math.max(1,Math.min(5,Math.round(base+(r()-.5)*2.6)));const g=st>=4?'g':st===3?'m':'b',arr=OMK_TX[c][g];res.cats.push({c,st,tx:arr[Math.floor(r()*arr.length)]});}
+  res.col=OMK_COL[Math.floor(r()*OMK_COL.length)];res.item=OMK_ITEM[Math.floor(r()*OMK_ITEM.length)];res.num=1+Math.floor(r()*9);res.adv=OMK_ADV[lv][Math.floor(r()*OMK_ADV[lv].length)];return res;};
+{const OS=omkShow;omkShow=function(f,who){OS.apply(this,arguments);try{const ov=document.getElementById('omkOv');if(!ov)return;
+  if(!document.getElementById('omkSkySt')){const st=document.createElement('style');st.id='omkSkySt';st.textContent=`#omkOv .card{background:#141a44 center/cover no-repeat;color:#eef0ff;border:2px solid #b8a46a;box-shadow:0 6px 28px rgba(0,0,30,.6),inset 0 0 40px rgba(120,110,255,.15)}
+#omkOv h2{color:#f2d68a;text-shadow:0 0 8px rgba(255,220,140,.45)}#omkOv .ozd{color:#c8cdf0}#omkOv .ozd .zsym{display:inline-block;font-size:17px;color:#f6d77a;margin-right:4px;vertical-align:-2px;text-shadow:0 0 6px rgba(255,220,120,.7);font-family:"Segoe UI Symbol","Noto Sans Symbols","Apple Symbols",sans-serif}
+#omkOv .olv{text-shadow:0 0 10px rgba(255,255,255,.35),0 2px 3px rgba(0,0,0,.5)}#omkOv .orow{border-top:1px dashed rgba(220,220,255,.28);color:#eef0ff}#omkOv .orow b{color:#f2d68a}#omkOv .ost{color:#ffd24a;text-shadow:0 0 4px rgba(255,210,80,.5)}
+#omkOv .oluck{border-top:1px dashed rgba(220,220,255,.28);color:#dfe3ff}#omkOv .oadv{color:#ffb8a8;text-shadow:0 0 6px rgba(255,150,130,.35)}`;document.head.appendChild(st);}
+  const card=ov.querySelector('.card');if(card)card.style.backgroundImage=`url(${omkSky()})`;
+  const zd=ov.querySelector('.ozd');if(zd&&!zd.querySelector('.zsym')){const sp=document.createElement('span');sp.className='zsym';sp.textContent=(ZD_SYM[f.zd]||'✦')+'︎';zd.prepend(sp);}
+  const lv=ov.querySelector('.olv');if(lv)lv.style.color=OMK_LVC[f.lv]||'#fff';}catch(e){}};}
+/* ---- v285: the result card's sky shows the constellation of that sign ---- */
+const ZD_STARS=[
+ {p:[[.14,.33,2],[.5,.44,3.2],[.68,.54,2.4],[.73,.62,1.8]],e:[[0,1],[1,2],[2,3]]},
+ {p:[[.12,.7,2.2],[.15,.24,2.6],[.4,.56,3.4],[.43,.43,2],[.53,.5,2],[.66,.6,1.8],[.86,.72,1.8],[.74,.28,1.4],[.77,.26,1.2],[.76,.31,1.2],[.72,.31,1.1],[.79,.3,1.1]],e:[[0,2],[2,4],[4,3],[3,1],[4,5],[5,6]]},
+ {p:[[.25,.17,3],[.42,.13,3.2],[.21,.48,2],[.46,.44,2],[.15,.84,2],[.24,.8,1.6],[.56,.8,2],[.48,.84,1.6]],e:[[0,2],[2,4],[2,5],[1,3],[3,6],[3,7],[2,3]]},
+ {p:[[.5,.5,2],[.46,.18,2.2],[.24,.82,2.4],[.72,.82,2],[.5,.62,1.6]],e:[[0,1],[0,4],[4,2],[4,3]]},
+ {p:[[.66,.76,3.4],[.62,.56,2],[.6,.42,2.6],[.66,.29,2],[.77,.24,1.8],[.82,.34,1.8],[.3,.4,2.4],[.12,.56,2.8],[.33,.6,2]],e:[[0,1],[1,2],[2,3],[3,4],[4,5],[2,6],[6,7],[7,8],[8,0],[6,8]]},
+ {p:[[.6,.84,3.4],[.55,.56,2],[.4,.46,2],[.3,.24,2.2],[.72,.42,1.8],[.88,.36,2],[.36,.66,1.8],[.2,.5,1.6]],e:[[0,1],[1,4],[4,5],[1,2],[2,3],[2,7],[1,6],[6,0]]},
+ {p:[[.3,.38,2.6],[.62,.28,2.8],[.72,.6,2],[.42,.7,2],[.24,.86,1.6],[.78,.86,1.6]],e:[[0,1],[1,2],[2,3],[3,0],[3,4],[2,5]]},
+ {p:[[.62,.16,2],[.7,.27,2.4],[.72,.42,2],[.55,.32,2],[.42,.42,3.4],[.36,.56,2],[.3,.69,2],[.32,.81,2],[.45,.89,2],[.6,.88,2],[.69,.8,2.2],[.66,.72,1.8]],e:[[0,1],[1,2],[1,3],[3,4],[4,5],[5,6],[6,7],[7,8],[8,9],[9,10],[10,11]]},
+ {p:[[.28,.56,2.2],[.45,.5,2.4],[.5,.33,2.2],[.62,.48,2.4],[.64,.66,2.6],[.42,.72,2.4],[.24,.7,2],[.78,.4,1.6],[.8,.6,1.6]],e:[[0,1],[1,2],[2,3],[3,1],[3,4],[4,5],[5,6],[6,0],[5,1],[3,7],[4,8]]},
+ {p:[[.14,.3,2.4],[.34,.34,2],[.82,.28,2.6],[.72,.55,2],[.5,.76,2.2],[.3,.6,2]],e:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,0]]},
+ {p:[[.18,.18,2.4],[.34,.3,2.6],[.5,.24,2.2],[.56,.4,2],[.44,.55,2],[.6,.66,2],[.5,.86,2],[.76,.8,1.8],[.66,.46,1.6]],e:[[0,1],[1,2],[2,3],[3,8],[3,4],[4,5],[5,6],[5,7]]},
+ {p:[[.8,.49,1.8],[.86,.53,1.8],[.85,.61,1.8],[.78,.63,1.8],[.74,.56,1.8],[.62,.68,1.6],[.45,.86,2.6],[.38,.62,1.8],[.33,.42,1.8],[.3,.26,2],[.24,.15,1.8]],e:[[0,1],[1,2],[2,3],[3,4],[4,0],[3,5],[5,6],[6,7],[7,8],[8,9],[9,10]]}];
+const OMK_SKYZ={};
+function omkSkyZ(zd,asp){asp=Math.max(.8,Math.min(2.2,asp||1.6));const ck=zd+'|'+asp.toFixed(2);if(OMK_SKYZ[ck])return OMK_SKYZ[ck];let url='';try{const w=360,h=Math.round(360*asp),c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');
+  const gr=x.createLinearGradient(0,0,0,h);gr.addColorStop(0,'#081030');gr.addColorStop(.55,'#161c4a');gr.addColorStop(1,'#241a4a');x.fillStyle=gr;x.fillRect(0,0,w,h);
+  x.save();x.translate(w*.5,h*.45);x.rotate(-.6+zd*.11);const mw=x.createLinearGradient(0,-70,0,70);mw.addColorStop(0,'rgba(180,170,255,0)');mw.addColorStop(.5,'rgba(200,190,255,.12)');mw.addColorStop(1,'rgba(180,170,255,0)');x.fillStyle=mw;x.fillRect(-w,-70,w*2,140);x.restore();
+  let sd=7+zd*31;const R=()=>{sd=(sd*9301+49297)%233280;return sd/233280;};
+  for(let i=0;i<360;i++){const px=R()*w,py=R()*h,r=.3+R()*.6,a=.25+R()*.5;x.fillStyle=`rgba(255,255,255,${a})`;x.beginPath();x.arc(px,py,r,0,Math.PI*2);x.fill();}
+  // faint zodiac mark
+  x.save();x.globalAlpha=.08;x.fillStyle='#ffe6a8';x.font='bold 200px "Segoe UI Symbol","Noto Sans Symbols","Apple Symbols",serif';x.textAlign='center';x.textBaseline='middle';x.fillText(ZD_SYM[zd]+'︎',w*.5,h*.55);x.restore();
+  // constellation: soft lines, glowing stars
+  const Z=ZD_STARS[zd],P=Z.p.map(([u,v,m])=>[24+u*(w-48),h*.2+v*(h*.72),m]);
+  x.lineCap='round';for(const[a,b]of Z.e){const p=P[a],q=P[b];x.strokeStyle='rgba(150,190,255,.18)';x.lineWidth=5;x.beginPath();x.moveTo(p[0],p[1]);x.lineTo(q[0],q[1]);x.stroke();x.strokeStyle='rgba(200,220,255,.55)';x.lineWidth=1.3;x.stroke();}
+  for(const[px,py,m]of P){const gl=x.createRadialGradient(px,py,0,px,py,m*7);gl.addColorStop(0,'rgba(255,245,220,.55)');gl.addColorStop(1,'rgba(255,245,220,0)');x.fillStyle=gl;x.beginPath();x.arc(px,py,m*7,0,Math.PI*2);x.fill();
+    x.fillStyle='#fffaf0';x.beginPath();x.arc(px,py,m*.9,0,Math.PI*2);x.fill();if(m>=2.4){x.strokeStyle='rgba(255,255,255,.6)';x.lineWidth=.8;x.beginPath();x.moveTo(px-m*4,py);x.lineTo(px+m*4,py);x.moveTo(px,py-m*4);x.lineTo(px,py+m*4);x.stroke();}}
+  url=c.toDataURL('image/jpeg',.86);}catch(e){url=omkSky();}OMK_SKYZ[ck]=url;return url;}
+{const OS2=omkShow;omkShow=function(f,who){OS2.apply(this,arguments);try{const card=document.querySelector('#omkOv .card');if(card){const r=card.getBoundingClientRect();card.style.backgroundImage=`linear-gradient(rgba(8,10,40,.2),rgba(8,10,40,.34)),url(${omkSkyZ(f.zd,r.width?r.height/r.width:1.6)})`;card.style.backgroundSize='100% 100%';}}catch(e){}};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
