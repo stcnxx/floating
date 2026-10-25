@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版288（2026/10/25 #138）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版295（2026/10/25 #145）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版288（2026/10/25 #138）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版295（2026/10/25 #145）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -15679,7 +15679,7 @@ function mateCleanUp(){if(!M)return;mRelease();const sinkU=()=>{const L=S.layout
 function validInWhy(k,p){try{const f=FT[k];const occ=occSet(new Set([k]));const nm=kk=>(FT[kk]&&FT[kk].n)||kk;
   if(p.wall)return '壁のその場所にはかけられないみたい';
   const w=p.ped?1:f.w,h=p.ped?1:f.h,r=roomAt(p.x,p.y);if(!r||!f.rooms.includes(r))return `${f.n}は、その部屋には置けないよ`;
-  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r)return '部屋からはみ出しちゃう';if(KEEP.has(kk)||DOORCELL.has(kk))return 'ドアの前は通れるようにあけておきたいな';if(f.k!=='floor'&&occ.has(kk))return 'ほかの家具と重なっちゃう';}
+  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r)return '部屋からはみ出しちゃう';if(DOORCELL.has(kk))return 'ドアの通り道はふさげないよ';if(KEEP.has(kk))return '玄関の前は通れるようにあけておきたいな';if(f.k!=='floor'&&occ.has(kk))return 'ほかの家具と重なっちゃう';}
   if(f.tall){const usedW=wallUsed();for(let xx=p.x;xx<p.x+w;xx++)if(usedW.has(xx+','+(p.y-1)))return '背が高いから、壁の飾りや窓にかかっちゃう';const fw=wallFront();for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)if(fw.has(xx+','+yy))return '背が高いから、壁の飾りの前はふさげないよ';}
   const occ2=new Set(occ);for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)occ2.add(xx+','+yy);const occR=reachOcc(occ2);
   if(!occR)return '玄関から入れなくなっちゃう';if(occR.size-occ2.size>Math.max(12,reachPk(occ)))return '奥に入れない場所ができちゃう';
@@ -15935,6 +15935,188 @@ function MX_cands(){const h=hourNow(),k=wKind(),t=tempNow(),se=season(),out=[];
   if(t!=null)out.push(...MX_TEMP[t>=28?'hot':t>=22?'warm':t>=13?'mild':t>=9?'cool':'cold']);
   if(MX_SEA[se])out.push(...MX_SEA[se]);return out;}
 {const MS=mateSelfLine;mateSelfLine=function(){try{if(Math.random()<.32){S.mselfRecent=S.mselfRecent||[];const c=MX_cands(),fresh=c.filter(x=>!S.mselfRecent.includes(x));if(fresh.length){const line=pick(fresh);S.mselfRecent.push(line);if(S.mselfRecent.length>50)S.mselfRecent.splice(0,S.mselfRecent.length-50);return line;}}}catch(e){}return MS.apply(this,arguments);};}
+/* ---- v289: moving furniture by hand — the spots next to doors and beside the entrance are allowed (only the doorways, the entrance and the step inside it stay clear; every room must still be reachable) ---- */
+function KEEP_relaxed(fn){const sv=[...KEEP];KEEP.clear();KEEP.add(IN_ENTRY.x+','+IN_ENTRY.y);KEEP.add(IN_ENTRY.x+','+(IN_ENTRY.y-1));try{return fn();}finally{KEEP.clear();for(const k of sv)KEEP.add(k);}}
+{const VI=validIn;validIn=function(){const a=arguments,t=this;return KEEP_relaxed(()=>VI.apply(t,a));};}
+{const VW=validInWhy;validInWhy=function(){const a=arguments,t=this;return KEEP_relaxed(()=>VW.apply(t,a));};}
+/* ---- v290: four more costumes — Shinsengumi swordsman, full-body tights, teddy bear (full head), western knight ---- */
+{const LG2=(c,x0,y0,x1,y1,st)=>{const q=c.createLinearGradient(x0,y0,x1,y1);for(const[o,col]of st)q.addColorStop(o,col);return q;};
+ const RG2=(c,x,y,r0,r1,st)=>{const q=c.createRadialGradient(x,y,r0,x,y,r1);for(const[o,col]of st)q.addColorStop(o,col);return q;};
+ // 新選組隊士: light-blue haori with the white "mountain" (dandara) edging, dark hakama, a headband with a steel plate and a topknot
+ COS.shinsen={n:'新選組隊士',suit:'#5fb2d6',legs:'#2a2a3a',hand:'#f2d2b0',feet:'#f4f1ea',robe:1,
+  front:(c,d,t)=>{const zig=(y0,x0,x1,h)=>{c.fillStyle='#ffffff';c.beginPath();c.moveTo(x0,y0);const n=Math.max(3,Math.round((x1-x0)/2.2));for(let i=0;i<=n;i++){const x=x0+(x1-x0)*i/n;c.lineTo(x,i%2?y0-h:y0);}c.lineTo(x1,y0+1.4);c.lineTo(x0,y0+1.4);c.closePath();c.fill();};
+    zig(-3.2,-7.4,7.4,1.8);
+    if(d==='down'){c.fillStyle='#2c2c3a';c.beginPath();c.moveTo(-2.4,-15.2);c.lineTo(0,-10.6);c.lineTo(2.4,-15.2);c.closePath();c.fill();c.strokeStyle='#f6f6f2';c.lineWidth=.7;c.beginPath();c.moveTo(-2.6,-15.2);c.lineTo(0,-10.4);c.lineTo(2.6,-15.2);c.stroke();
+      c.strokeStyle='#ffffff';c.lineWidth=.45;c.beginPath();c.moveTo(-3.6,-15);c.lineTo(-3.2,-5.4);c.moveTo(3.6,-15);c.lineTo(3.2,-5.4);c.stroke();E(c,'#ffffff',-1,-9.4,.9,.7);E(c,'#ffffff',1,-9.4,.9,.7);RR(c,'#ffffff',-.3,-9.2,.6,2.4,.3);}
+    else if(d==='up'){c.save();c.fillStyle='rgba(255,255,255,.95)';c.font='bold 6px serif';c.textAlign='center';c.textBaseline='middle';c.fillText('誠',0,-10.4);c.restore();}
+    else{const s=d==='right'?1:-1;RR(c,'#e8e4da',-6.6,-8.6,13.2,1.4,.4);c.fillStyle='#2c2c3a';c.beginPath();c.moveTo(s*1.5,-6);c.lineTo(s*9.5,-12);c.lineTo(s*9.9,-11.2);c.lineTo(s*2,-5.2);c.closePath();c.fill();RR(c,'#c8a24a',s*2-.6,-6.2,1.2,1.2,.3);}},
+  head:(c,y,w,d,t)=>{// topknot (chonmage) lying on the crown, then the headband with its steel plate
+    c.fillStyle='#1d1a1a';c.beginPath();c.ellipse(0,y-.6,w*.2,1.2,0,0,TAU);c.fill();RR(c,'#1d1a1a',-.6,y-1.6,1.2,4.2,.6);
+    if(d==='up'){RR(c,'#1d1a1a',-w*.25,y+1,w*.5,1.6,.8);}
+    RR(c,'#f6f6f2',-w*1.02,y+3.4,w*2.04,2.2,1);c.fillStyle='rgba(0,0,0,.08)';c.fillRect(-w*1.02,y+5,w*2.04,.5);
+    if(d!=='up'){const px=d==='right'?w*.35:d==='left'?-w*.35:0;RR(c,LG2(c,px-2.2,0,px+2.2,0,[[0,'#7a8088'],[.5,'#e6eaee'],[1,'#6a7078']]),px-2.2,y+3,4.4,3,.5);for(const s of[-1,1])E(c,'#3a3e44',px+s*1.5,y+4.5,.3,.3);}
+    else{c.strokeStyle='#f6f6f2';c.lineWidth=.8;c.beginPath();c.moveTo(-1,y+5);c.quadraticCurveTo(-2,y+9,-1.2,y+11);c.moveTo(1,y+5);c.quadraticCurveTo(2.2,y+9,1.6,y+11.4);c.stroke();}}};
+ // 全身タイツ: one color from head to toe, the face covered too
+ COS.zentai={n:'全身タイツ',suit:'#2fb86e',hand:'#2fb86e',feet:'#2fb86e',legs:'#2fb86e',
+  front:(c,d)=>{c.fillStyle='rgba(255,255,255,.14)';c.beginPath();c.ellipse(d==='right'?1.5:d==='left'?-1.5:-2,-11,1.6,3.6,-.2,0,TAU);c.fill();c.strokeStyle='rgba(0,0,0,.12)';c.lineWidth=.35;if(d==='up'){c.beginPath();c.moveTo(0,-15);c.lineTo(0,-2);c.stroke();}},
+  overHead:(c,S6,d)=>{const y=S6.top,w=S6.hw,col='#2fb86e';c.fillStyle=RG2(c,-w*.35,y+7,1,w*1.5,[[0,shade(col,.25)],[.6,col],[1,shade(col,-.2)]]);ell(c,0,y+9.2,w*1.16,11.4);c.fill();
+    c.fillStyle=col;c.fillRect(-w*.3,y+18.5,w*.6,3);
+    c.fillStyle='rgba(255,255,255,.28)';ell(c,-w*.45,y+4,w*.28,2.4,-.5);c.fill();
+    if(d!=='up'){const sx=d==='right'?w*.3:d==='left'?-w*.3:0;c.fillStyle='rgba(0,0,0,.12)';for(const s of(d==='down'?[-1,1]:[1]))c.beginPath(),c.ellipse(sx+s*w*.32*(d==='down'?1:0)+(d!=='down'?(d==='right'?1:-1)*w*.2:0),y+9,1.1,.7,0,0,TAU),c.fill();
+      c.strokeStyle='rgba(0,0,0,.15)';c.lineWidth=.35;c.beginPath();c.arc(sx,y+12.6,1.4,.2,Math.PI-.2);c.stroke();}}};
+ // テディベア: a big bear head covering the whole head, round ears, button eyes, a stitched muzzle
+ COS.teddy={n:'テディベア',suit:'#a8723e',belly:'#ecd2a4',hand:'#8a5a2e',feet:'#8a5a2e',
+  front:(c,d)=>{if(d==='down'){c.strokeStyle='rgba(90,50,20,.5)';c.lineWidth=.3;c.setLineDash([.6,.5]);c.beginPath();c.moveTo(0,-14);c.lineTo(0,-3);c.stroke();c.setLineDash([]);RR(c,'#c8323a',-3.2,-15.2,6.4,1.8,.8);E(c,'#c8323a',-1.6,-14.3,1.4,1.1);E(c,'#c8323a',1.6,-14.3,1.4,1.1);E(c,'#a8222a',0,-14.3,.7,.7);}},
+  back:(c,d)=>{if(d==='up')E(c,'#ecd2a4',0,-5,1.8,1.8);},
+  overHead:(c,S6,d)=>{const y=S6.top,w=S6.hw,fur='#a8723e',cx=0,cy=y+9.4,rx=w*1.28,ry=12.2;
+    for(const s of[-1,1]){const ex=s*rx*.72,ey=cy-ry*.78;E(c,shade(fur,-.15),ex,ey,4.2,4.2);E(c,fur,ex,ey-.2,3.9,3.9);E(c,'#ecd2a4',ex,ey,2.3,2.3);}
+    c.fillStyle=RG2(c,-rx*.3,cy-ry*.4,1,rx*1.5,[[0,shade(fur,.2)],[.65,fur],[1,shade(fur,-.22)]]);ell(c,cx,cy,rx,ry);c.fill();
+    c.strokeStyle='rgba(70,40,15,.35)';c.lineWidth=.3;c.setLineDash([.7,.6]);if(d==='up'){c.beginPath();c.moveTo(0,cy-ry);c.lineTo(0,cy+ry);c.stroke();}c.setLineDash([]);
+    if(d==='up'){c.restore&&0;return;}
+    const sx=d==='right'?rx*.32:d==='left'?-rx*.32:0;
+    E(c,'#ecd2a4',sx,cy+4.6,rx*.46,ry*.32);c.strokeStyle='rgba(90,50,20,.35)';c.lineWidth=.28;ell(c,sx,cy+4.6,rx*.46,ry*.32);c.stroke();
+    E(c,'#3a2216',sx,cy+2.6,1.9,1.3);E(c,'rgba(255,255,255,.5)',sx-.6,cy+2.2,.5,.3);
+    c.strokeStyle='#3a2216';c.lineWidth=.45;c.beginPath();c.moveTo(sx,cy+3.8);c.lineTo(sx,cy+5.4);c.moveTo(sx-1.8,cy+6.2);c.quadraticCurveTo(sx-.9,cy+7,sx,cy+5.4);c.quadraticCurveTo(sx+.9,cy+7,sx+1.8,cy+6.2);c.stroke();
+    const eyes=d==='down'?[-1,1]:[d==='right'?1:-1];for(const s of eyes){const ex=d==='down'?s*rx*.38:sx+s*rx*.1+(d==='right'?-1:1)*rx*.18,ey=cy-2.6;E(c,'#1a1210',ex,ey,1.35,1.45);E(c,'rgba(255,255,255,.75)',ex-.4,ey-.5,.4,.4);}
+    E(c,'rgba(240,140,140,.28)',sx-rx*.55,cy+3,2,1.2);E(c,'rgba(240,140,140,.28)',sx+rx*.55,cy+3,2,1.2);}};
+ // 西洋の騎士: plate armor, a red cape, a helmet with a visor slit and a red plume
+ COS.knight={n:'西洋の騎士',suit:'#aab3bd',limb:'#8d96a0',hand:'#7a838d',feet:'#5d646c',legs:'#9aa3ad',boots:1,
+  front:(c,d,t)=>{const steel=x0=>LG2(c,x0-6.5,0,x0+6.5,0,[[0,'#6c747e'],[.3,'#e8edf2'],[.55,'#aab3bd'],[1,'#5a626b']]);
+    RR(c,steel(0),-6.4,-15,12.8,9.4,2.4);c.strokeStyle='rgba(40,46,54,.45)';c.lineWidth=.3;c.beginPath();c.moveTo(-6,-10.6);c.quadraticCurveTo(0,-9.4,6,-10.6);c.stroke();
+    if(d==='down'){c.fillStyle='#b8282e';c.beginPath();c.moveTo(-3.2,-15);c.lineTo(3.2,-15);c.lineTo(3.4,-3);c.lineTo(0,-1.6);c.lineTo(-3.4,-3);c.closePath();c.fill();RR(c,'#f2d06a',-.6,-13.6,1.2,7.6,.3);RR(c,'#f2d06a',-2.6,-11.4,5.2,1.2,.3);}
+    if(d==='down'||d==='up')for(const s of[-1,1]){E(c,'#9aa3ad',s*6.4,-14,2.6,2);E(c,'rgba(255,255,255,.5)',s*6.4-.6,-14.6,1,.6);}
+    RR(c,'#4a3a2a',-6.6,-6.4,13.2,1.6,.4);RR(c,'#d4b04a',-1,-6.6,2,2,.3);
+    for(let i=0;i<3;i++)RR(c,steel(0),-5.6+(i%2)*.3,-4.6+i*1.5,11.2,1.6,.6);},
+  back:(c,d,t)=>{const col='#9a1e26',sw=Math.sin(t*2)*.8;if(d==='up'){RR(c,col,-7.4,-15.6,14.8,15.2,2);RR(c,shade(col,-.2),-7.4,-15.6,14.8,1.6,.8);}else if(d==='right'||d==='left'){const s=d==='right'?-1:1;c.fillStyle=col;c.beginPath();c.moveTo(s*2,-15);c.lineTo(s*(9+sw),-.5);c.lineTo(s*2,-.5);c.closePath();c.fill();}else{RR(c,shade(col,-.15),-8,-15,2,14,1);RR(c,shade(col,-.15),6,-15,2,14,1);}},
+  overHead:(c,S6,d)=>{const y=S6.top,w=S6.hw,cy=y+9.4,rx=w*1.16,ry=11.6;const steel=LG2(c,-rx,0,rx,0,[[0,'#5f6770'],[.32,'#eef2f6'],[.6,'#aeb7c1'],[1,'#56606a']]);
+    // plume
+    const sw=Math.sin(performance.now()/500)*.6;c.fillStyle='#c42a32';c.beginPath();c.moveTo(-1,cy-ry+1);c.bezierCurveTo(-2+sw,cy-ry-6,4+sw,cy-ry-8,7+sw,cy-ry-3);c.bezierCurveTo(4,cy-ry-3,2,cy-ry-1,1,cy-ry+1.5);c.closePath();c.fill();c.fillStyle='rgba(255,255,255,.25)';c.beginPath();c.moveTo(0,cy-ry);c.quadraticCurveTo(2+sw,cy-ry-5.5,5.5+sw,cy-ry-4.6);c.lineTo(5+sw,cy-ry-4);c.quadraticCurveTo(2,cy-ry-4.4,.4,cy-ry+.4);c.fill();
+    c.fillStyle=steel;ell(c,0,cy,rx,ry);c.fill();c.fillStyle=steel;c.fillRect(-rx*.7,cy+ry*.45,rx*1.4,ry*.62);
+    c.strokeStyle='rgba(40,46,54,.5)';c.lineWidth=.35;c.beginPath();c.moveTo(0,cy-ry);c.lineTo(0,cy+ry*.4);c.stroke();
+    if(d==='up'){c.fillStyle='rgba(255,255,255,.25)';ell(c,-rx*.4,cy-ry*.5,rx*.25,2.4,-.4);c.fill();return;}
+    const sx=d==='right'?rx*.28:d==='left'?-rx*.28:0,vw=d==='down'?rx*1.5:rx*1.1;
+    RR(c,'#1a1e24',sx-vw/2,cy-1.6,vw,2.2,1);RR(c,'#1a1e24',sx-.5,cy-1.6,1,6.4,.4);
+    for(let i=0;i<4;i++)for(const s of[-1,1])RR(c,'#2a2e34',sx+s*(1.4+i*1.1)-.25,cy+2.4,.5,1.6,.2);
+    c.fillStyle='rgba(255,255,255,.35)';ell(c,sx-rx*.42,cy-ry*.45,rx*.22,2.6,-.4);c.fill();for(const s of[-1,1])E(c,'#d4b04a',s*rx*.86,cy+1,.6,.6);}};
+ COSK.push('shinsen','zentai','teddy','knight');}
+
+/* ---- v291: うちゅう人 (the player's own design) replaces the full-body tights; fluffy teddy bear; true side views for the teddy and the knight ---- */
+{const LG2=(c,x0,y0,x1,y1,st)=>{const q=c.createLinearGradient(x0,y0,x1,y1);for(const[o,col]of st)q.addColorStop(o,col);return q;};
+ const RG2=(c,x,y,r0,r1,st)=>{const q=c.createRadialGradient(x,y,r0,x,y,r1);for(const[o,col]of st)q.addColorStop(o,col);return q;};
+ delete COS.zentai;{const i=COSK.indexOf('zentai');if(i>=0)COSK.splice(i,1);}
+ // うちゅう人: big glass bubble helmet with a neck ring, blue suit with puffed shoulders, white straps and a chest box (speaker + buttons)
+ COS.uchu={n:'うちゅう人',suit:'#3f6fd0',hand:'#3f6fd0',feet:'#e8ecf2',legs:'#3f6fd0',boots:1,
+  front:(c,d,t)=>{const INK='#1e2a4a';
+    if(d==='up'){RR(c,'#c9ced6',-4.6,-14.6,9.2,9,1);RR(c,'#9aa2ae',-4.6,-14.6,9.2,1,.5);return;}
+    if(d!=='down'){const s=d==='right'?1:-1;RR(c,'#d8dde4',s*1.4-.9,-15,1.8,10,.6);RR(c,'#e6e9ee',s*2.6-1.6,-11.6,3.2,6,.8);c.strokeStyle=INK;c.lineWidth=.25;c.strokeRect(s*2.6-1.6,-11.6,3.2,6);return;}
+    for(const s of[-1,1]){RR(c,'#d8dde4',s*3.6-.8,-15.2,1.6,6,.4);c.strokeStyle='rgba(30,42,74,.5)';c.lineWidth=.2;c.strokeRect(s*3.6-.8,-15.2,1.6,6);}
+    const bx=-4.6,by=-10.4,bw=9.2,bh=7.4;RR(c,'rgba(0,0,0,.18)',bx+.4,by+.4,bw,bh,.5);RR(c,LG2(c,bx,by,bx+bw,by+bh,[[0,'#f4f5f7'],[1,'#c9ced6']]),bx,by,bw,bh,.5);c.strokeStyle=INK;c.lineWidth=.28;c.strokeRect(bx,by,bw,bh);
+    const sx=bx+3,sy=by+3.9;E(c,'#1a1a1e',sx,sy,2.5,2.5);c.strokeStyle='rgba(255,255,255,.22)';c.lineWidth=.12;for(let r=.9;r<2.4;r+=.35){c.beginPath();c.arc(sx,sy,r,0,TAU);c.stroke();}E(c,'#e8ecf0',sx,sy,.9,.9);E(c,'#3a8ab8',sx,sy,.42,.42);
+    const cols=['#e8262a','#2a7ac8','#2a7ac8','#2a7ac8'];cols.forEach((col,i)=>{RR(c,col,bx+bw-2.3,by+.7+i*1.42,1.5,1.2,.15);c.strokeStyle='rgba(0,0,0,.35)';c.lineWidth=.12;c.strokeRect(bx+bw-2.3,by+.7+i*1.42,1.5,1.2);});
+    c.strokeStyle='rgba(30,42,74,.6)';c.lineWidth=.15;c.strokeRect(bx+bw-2.1,by+bh-1,1.1,.5);},
+  back:(c,d)=>{if(d!=='down'&&d!=='up')return;for(const s of[-1,1]){c.fillStyle='#4f80e0';c.beginPath();c.ellipse(s*6.2,-13.2,2.8,2.2,s*.3,0,TAU);c.fill();}},
+  overHead:(c,S6,d)=>{const y=S6.top,w=S6.hw,r=Math.max(w*1.32,12.4),cy=y+9.6;
+    RR(c,LG2(c,-4,0,4,0,[[0,'#8fb4c2'],[.5,'#e2f0f4'],[1,'#7aa0ae']]),-w*.5,cy+r-2.2,w,2.6,1.2);
+    c.fillStyle=RG2(c,-r*.25,cy-r*.3,r*.2,r*1.15,[[0,'#ecf6fa'],[.6,'#c4dee8'],[1,'#96bac8']]);c.beginPath();c.arc(0,cy,r,0,TAU);c.fill();
+    c.strokeStyle='rgba(255,255,255,.55)';c.lineWidth=.35;c.beginPath();c.arc(0,cy,r-.2,0,TAU);c.stroke();
+    const hx=d==='right'?r*.15:d==='left'?-r*.15:0;c.fillStyle='rgba(255,255,255,.75)';c.beginPath();c.ellipse(hx-r*.25,cy-r*.42,r*.32,r*.16,-.5,0,TAU);c.fill();
+    c.fillStyle=RG2(c,hx+r*.18,cy+r*.35,0,r*.3,[[0,'rgba(255,255,255,.95)'],[1,'rgba(255,255,255,0)']]);c.beginPath();c.arc(hx+r*.18,cy+r*.35,r*.3,0,TAU);c.fill();}};
+ COSK.push('uchu');
+ // fluffy fur edge around a shape (small overlapping tufts)
+ const tufts=(c,cx,cy,rx,ry,col,n,sz)=>{for(let i=0;i<n;i++){const a=i/n*TAU,j=(Math.sin(i*7.3)+1)*.5;c.fillStyle=col;c.beginPath();c.arc(cx+Math.cos(a)*rx,cy+Math.sin(a)*ry,sz*(.7+j*.5),0,TAU);c.fill();}};
+ const furStrokes=(c,cx,cy,rx,ry,col,n)=>{c.strokeStyle=col;c.lineWidth=.22;c.lineCap='round';for(let i=0;i<n;i++){const a=(i*2.399)%TAU,rr=Math.sqrt((i+.5)/n),x=cx+Math.cos(a)*rx*rr*.9,y=cy+Math.sin(a)*ry*rr*.9,ang=a+1.2;c.beginPath();c.moveTo(x,y);c.lineTo(x+Math.cos(ang)*.7,y+Math.sin(ang)*.7);c.stroke();}};
+ const T_FUR='#a8723e',T_FD='#8a5a2e',T_FL='#c48e58',T_BEL='#ecd2a4';
+ COS.teddy.suit=T_FUR;
+ COS.teddy.front=(c,d)=>{if(d==='down'||d==='up')tufts(c,0,-9,6.4,5.8,T_FUR,22,.85);else tufts(c,0,-9,3.6,5.6,T_FUR,14,.75);if(d==='down'){E(c,T_BEL,0,-8.4,3.6,4.6);tufts(c,0,-8.4,3.4,4.4,T_BEL,16,.55);furStrokes(c,0,-8.4,3.2,4.2,'rgba(180,140,90,.5)',26);
+    RR(c,'#c8323a',-3.2,-15.2,6.4,1.8,.8);E(c,'#c8323a',-1.6,-14.3,1.4,1.1);E(c,'#c8323a',1.6,-14.3,1.4,1.1);E(c,'#a8222a',0,-14.3,.7,.7);}
+  else if(d!=='up'){const s=d==='right'?1:-1;E(c,T_BEL,s*3.2,-8.4,2.2,4.2);tufts(c,s*3.2,-8.4,2,4,T_BEL,12,.5);RR(c,'#c8323a',s*1.4-1.6,-15.2,3.2,1.6,.7);E(c,'#c8323a',s*3,-14.4,1.2,1);}
+  furStrokes(c,0,-9,d==='down'||d==='up'?6:3.4,5.4,'rgba(90,55,25,.35)',40);};
+ COS.teddy.overHead=(c,S6,d)=>{const y=S6.top,w=S6.hw,cy=y+9.4,rx=w*1.26,ry=12;
+   const head=(cx)=>{c.fillStyle=RG2(c,cx-rx*.3,cy-ry*.4,1,rx*1.5,[[0,T_FL],[.6,T_FUR],[1,T_FD]]);ell(c,cx,cy,rx,ry);c.fill();tufts(c,cx,cy,rx*.98,ry*.98,T_FUR,34,1.05);
+     c.fillStyle=RG2(c,cx-rx*.3,cy-ry*.4,1,rx*1.4,[[0,T_FL],[.7,T_FUR],[1,shade(T_FUR,-.12)]]);ell(c,cx,cy,rx*.9,ry*.9);c.fill();furStrokes(c,cx,cy,rx*.9,ry*.9,'rgba(90,55,25,.32)',70);furStrokes(c,cx,cy-ry*.2,rx*.7,ry*.6,'rgba(255,230,190,.25)',30);};
+   const ear=(ex,ey,s)=>{tufts(c,ex,ey,3.6,3.6,T_FD,14,.8);E(c,T_FUR,ex,ey,3.7,3.7);E(c,T_BEL,ex,ey+.2,2.1,2.1);furStrokes(c,ex,ey,3.2,3.2,'rgba(90,55,25,.35)',12);};
+   if(d==='down'||d==='up'){for(const s of[-1,1])ear(s*rx*.72,cy-ry*.8,s);head(0);
+     if(d==='up'){c.strokeStyle='rgba(70,40,15,.35)';c.lineWidth=.3;c.setLineDash([.7,.6]);c.beginPath();c.moveTo(0,cy-ry);c.lineTo(0,cy+ry);c.stroke();c.setLineDash([]);return;}
+     E(c,T_BEL,0,cy+4.4,rx*.44,ry*.32);tufts(c,0,cy+4.4,rx*.42,ry*.3,T_BEL,14,.5);E(c,'#3a2216',0,cy+2.6,1.9,1.3);E(c,'rgba(255,255,255,.5)',-.6,cy+2.2,.5,.3);
+     c.strokeStyle='#3a2216';c.lineWidth=.45;c.beginPath();c.moveTo(0,cy+3.8);c.lineTo(0,cy+5.2);c.moveTo(-1.8,cy+6);c.quadraticCurveTo(-.9,cy+6.8,0,cy+5.2);c.quadraticCurveTo(.9,cy+6.8,1.8,cy+6);c.stroke();
+     for(const s of[-1,1]){E(c,'#1a1210',s*rx*.38,cy-2.4,1.35,1.45);E(c,'rgba(255,255,255,.8)',s*rx*.38-.4,cy-2.9,.42,.42);}
+     E(c,'rgba(240,140,140,.3)',-rx*.56,cy+2.6,2,1.2);E(c,'rgba(240,140,140,.3)',rx*.56,cy+2.6,2,1.2);return;}
+   // true profile: facing right (mirrored for left)
+   c.save();if(d==='left')c.scale(-1,1);
+   ear(-rx*.35,cy-ry*.86,-1);head(-.6);ear(rx*.1,cy-ry*.92,1);
+   // muzzle sticking out to the front, nose at the tip, a smile line under it
+   const mx=rx*.78,my=cy+3.4;c.fillStyle=T_BEL;c.beginPath();c.ellipse(mx,my,4.2,3.2,-.1,0,TAU);c.fill();tufts(c,mx,my,4,3,T_BEL,12,.5);
+   E(c,'#3a2216',mx+3.6,my-1.1,1.3,1.1);E(c,'rgba(255,255,255,.5)',mx+3.3,my-1.5,.4,.3);c.strokeStyle='#3a2216';c.lineWidth=.42;c.beginPath();c.moveTo(mx+3.3,my);c.quadraticCurveTo(mx+2.2,my+2,mx+.6,my+1.6);c.stroke();
+   // one eye on the near side, a cheek blush
+   E(c,'#1a1210',rx*.42,cy-2.4,1.3,1.45);E(c,'rgba(255,255,255,.8)',rx*.42+.3,cy-2.9,.42,.42);E(c,'rgba(240,140,140,.3)',rx*.2,cy+3,1.8,1.1);
+   c.restore();};
+ // knight: true side view of the helmet (visor and its slit pointing forward, plume streaming back)
+ {const OH=COS.knight.overHead;COS.knight.overHead=(c,S6,d)=>{if(d==='down'||d==='up')return OH(c,S6,d);const y=S6.top,w=S6.hw,cy=y+9.4,rx=w*1.12,ry=11.6;
+   c.save();if(d==='left')c.scale(-1,1);
+   const sw=Math.sin(performance.now()/500)*.7;c.fillStyle='#c42a32';c.beginPath();c.moveTo(-1,cy-ry+.6);c.bezierCurveTo(-3,cy-ry-6,-9+sw,cy-ry-4,-12+sw,cy-ry+3);c.bezierCurveTo(-8,cy-ry-1,-5,cy-ry+.6,-2,cy-ry+2.4);c.closePath();c.fill();
+   c.fillStyle='rgba(255,255,255,.25)';c.beginPath();c.moveTo(-1.4,cy-ry+.4);c.bezierCurveTo(-3.4,cy-ry-4.6,-8+sw,cy-ry-3,-10.4+sw,cy-ry+1.6);c.lineTo(-9.6+sw,cy-ry+1.4);c.bezierCurveTo(-7,cy-ry-2,-3.8,cy-ry-3.4,-1,cy-ry+1.2);c.fill();
+   const steel=LG2(c,-rx,cy-ry,rx,cy+ry,[[0,'#59616a'],[.35,'#e8edf2'],[.65,'#aab3bd'],[1,'#5a626b']]);
+   // skull + neck guard
+   c.fillStyle=steel;c.beginPath();c.ellipse(-.6,cy,rx*.96,ry,0,0,TAU);c.fill();c.beginPath();c.moveTo(-rx*.9,cy+2);c.lineTo(-rx*1.05,cy+ry*.95);c.lineTo(rx*.2,cy+ry*.95);c.lineTo(rx*.2,cy+2);c.closePath();c.fill();
+   c.strokeStyle='rgba(40,46,54,.45)';c.lineWidth=.3;c.beginPath();c.ellipse(-.6,cy,rx*.96,ry,0,Math.PI*1.05,Math.PI*1.95);c.stroke();
+   // visor: a pointed snout to the front
+   c.fillStyle=LG2(c,0,cy-4,0,cy+8,[[0,'#eef2f6'],[.5,'#aeb7c1'],[1,'#5e666f']]);c.beginPath();c.moveTo(rx*.1,cy-4.6);c.quadraticCurveTo(rx*.9,cy-4.4,rx*1.3,cy+1.4);c.quadraticCurveTo(rx*.95,cy+6.4,rx*.1,cy+7.4);c.closePath();c.fill();
+   c.strokeStyle='rgba(30,36,44,.6)';c.lineWidth=.3;c.stroke();
+   RR(c,'#14181e',rx*.3,cy-1.2,rx*.82,1.4,.6);for(let i=0;i<3;i++)RR(c,'#2a2e34',rx*.45+i*1.3,cy+2.6,.45,1.6,.2);
+   E(c,'#d4b04a',rx*.12,cy+1,.7,.7);E(c,'rgba(255,255,255,.45)',-rx*.35,cy-ry*.5,rx*.24,2.4,-.4);
+   c.restore();};}}
+// costumes worn with the retired "tights" become the new うちゅう人
+setInterval(()=>{try{if(!S)return;for(const o of[S.outfit,typeof M!=='undefined'&&M?M.outfit:null])if(o&&o.costume==='zentai')o.costume='uchu';const D=S.dex&&S.dex.c;if(D&&D['cos:zentai']){D['cos:uchu']=D['cos:uchu']||D['cos:zentai'];delete D['cos:zentai'];}}catch(e){}},3000);
+/* ---- v292: うちゅう人 boots in the suit blue; secret: triple-tap the 手動設定 tab to open the whole picture book ---- */
+COS.uchu.feet='#3f6fd0';
+function DEX_unlockAll(){if(!S)return 0;const D=S.dex=S.dex||{f:{},y:{},c:{}};D.f=D.f||{};D.y=D.y||{};D.c=D.c||{};const now0=Date.now();let n=0;const set=(o,k,v)=>{if(!o[k]){o[k]=v;n++;}};
+  for(const k of Object.keys(FT))if(k!=='ksink')set(D.f,k,now0);for(const k of Object.keys(OFT))set(D.y,k,now0);
+  for(const part of['top','bottom','shoes','hat'])for(const k in KN[part])if(k!=='none')set(D.c,part+':'+k,{c:'白',p:'plain',at:now0});
+  for(const k in COS)set(D.c,'cos:'+k,{at:now0});for(const k of GL_KEYS)set(D.c,'gl:'+k,{at:now0});SUNS.forEach((_,i)=>set(D.c,'sun:'+i,{at:now0}));NOSEG.forEach((_,i)=>set(D.c,'nose:'+i,{at:now0}));for(const k in MASK2)set(D.c,'mask:'+k,{at:now0});
+  try{S.birds=S.birds||{};for(const b of BIRDS)if(!S.birds[b.k]){S.birds[b.k]=1;n++;}}catch(e){}
+  save();return n;}
+setTimeout(()=>{try{const b=document.querySelector('#tabs button[data-t="try"]');if(!b)return;let taps=[];
+  b.addEventListener('click',()=>{const t=performance.now();taps=taps.filter(x=>t-x<700);taps.push(t);if(taps.length>=3){taps=[];const n=DEX_unlockAll();
+    let el=$('dexCheat');if(!el){el=document.createElement('div');el.id='dexCheat';el.setAttribute('role','status');el.style.cssText='position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:9999;padding:14px 22px;border-radius:14px;background:rgba(20,18,40,.88);color:#ffe08a;font-weight:700;font-size:15px;pointer-events:none;box-shadow:0 4px 18px rgba(0,0,0,.35);text-align:center';document.body.append(el);}
+    el.textContent=n?`✨ 図鑑をぜんぶ開放しました（${n}件）`:'✨ 図鑑はすでにぜんぶ開放されています';el.hidden=false;clearTimeout(el._t);el._t=setTimeout(()=>{el.hidden=true;},2600);}});}catch(e){}},0);
+/* ---- v295: the housemate wears costumes too; both react when the other dresses up or puts on a mask; 飲みすぎ仮面 after a lot of drinks ---- */
+{const MO=mateOutfit;mateOutfit=function(){const o=MO.apply(this,arguments);try{const d=now(),nm=(S.mate&&S.mate.name)||'x',r=hash(d.getFullYear()+d.getMonth()*40+d.getDate()+(S.dressN||0)*31,nm.length*13+nm.charCodeAt(0),57);
+  if(r<.14){let k=cosPick(37);if(S.outfit&&S.outfit.costume===k)k=cosPick(41);if(COS[k])o.costume=k;}}catch(e){}return o;};}
+// reactions
+const RX_COS_SP={santa:['サンタさんだ！プレゼントは？','メリークリスマス！…ちょっと早い？'],shinsen:['新選組だ！かっこいい','誠の一文字、決まってる！'],teddy:['もふもふのくまさんだ！','ぎゅってしたくなる…'],knight:['騎士さま参上だ！','その兜、重くない？'],uchu:['うちゅう人だ！どこの星から来たの？','ヘルメット、くもらない？'],
+ ninja:['にんにん！忍者だ','いつの間にそこに…！'],king:['王さま、ははーっ','その王冠、似合ってる'],wizard:['魔法、かけてみて！','ちちんぷいぷい？'],pirate:['海賊だ！宝の地図は？','アホイ！'],ghost:['うらめしや〜…って、こわくないよ','おばけ、かわいい'],pumpkin:['トリックオアトリート！','かぼちゃだ！'],
+ dino:['ガオー！きょうりゅうだ','しっぽ、かわいい'],astro:['宇宙飛行士だ！','月まで行ける？'],hero:['正義の味方だ！','マント、かっこいい'],snowman:['雪だるまさん、とけないでね','ふわふわの雪だるま'],bear:['くまさんだ','あったかそう'],cat:['ねこちゃんだ、にゃー','しっぽ、ゆれてる'],rabbit:['うさぎさん、ぴょん！','耳、ながーい'],penguin:['ペンギンだ、よちよち','南極から来たの？'],panda:['パンダだ！','笹、食べる？'],chick:['ひよこさん、ぴよぴよ','かわいすぎる'],frog:['かえるだ、けろけろ','雨の日にぴったり'],ladybug:['てんとう虫だ','ラッキーカラーだね'],alien:['宇宙人だ！ワレワレハ…','どこの星から？']};
+const RX_COS_G=[n=>`わっ、${n}の衣装！`,n=>`今日は${n}なんだね`,n=>`${n}、似合ってる！`,n=>`どうしたの、その${n}の格好`,n=>`${n}だ！写真撮っていい？`,n=>`えっ、${n}になってる！`];
+const RX_MASK_SP={nomisugi:['の、飲みすぎ仮面！？','その顔…飲みすぎたんじゃない？','お水、持ってくるね…'],oni:['鬼だ！こわい〜','鬼は外〜！'],kitsune:['きつねさん、こんこん','お祭りみたいだね'],hyottoko:['ひょっとこ、ぷぷっ','その口、どうなってるの'],okame:['おかめさん、福がきそう','ほっこりする顔'],tengu:['天狗だ！鼻たかーい','鼻、ぶつけないでね'],
+ usagi:['うさぎのお面、かわいい','ぴょんぴょんしてる'],neko:['ねこのお面だ','にゃーって言って'],hero:['ヒーロー参上だ！','正義のお面だね'],carnival:['カーニバルみたい！','羽根、ゴージャス'],wrestler:['覆面レスラーだ！','リングネームは？']};
+const RX_MASK_G=[n=>`${n}、つけてる！`,n=>`ぷっ、${n}だ`,n=>`その${n}、どうしたの？`,n=>`だれかと思ったら…${n}！`];
+const RX_NOSE=['鼻メガネ！ずるい、笑っちゃう','だれ！？…って、わかるよ','その変装、バレバレだよ','ぷぷっ、似合いすぎ'];
+function RX_line(kind,key,n){if(kind==='cos'){const sp=RX_COS_SP[key];return sp&&Math.random()<.6?pick(sp):pick(RX_COS_G)(n);}if(kind==='mask'){const sp=RX_MASK_SP[key];return sp&&Math.random()<.6?pick(sp):pick(RX_MASK_G)(n);}return pick(RX_NOSE);}
+let RX_prev=null;
+function RX_state(){const h=S&&S.outfit,m=typeof M!=='undefined'&&M?M:null;return{hc:h&&h.costume||null,hf:C.fun?C.fun.k+':'+C.fun.id:null,mc:m&&m.outfit&&m.outfit.costume||null,mf:m&&m.fun?m.fun.k+':'+m.fun.id:null};}
+setInterval(()=>{try{if(!S||!S.mate||typeof M==='undefined'||!M){RX_prev=null;return;}const st=RX_state();if(!RX_prev){RX_prev=st;return;}const pv=RX_prev;RX_prev=st;
+  const together=M.scene===C.scene&&!M.sleeping&&!C.sleeping;if(!together||V)return;
+  const mateSees=(k,n)=>setTimeout(()=>{try{if(M&&!M.sleeping&&M.scene===C.scene)msay(k);}catch(e){}},1800);
+  const heroSees=(k,tries=0)=>setTimeout(()=>{try{if(C.sleeping)return;if(msgBusy()&&tries<4){heroSees(k,tries+1);return;}say(k);}catch(e){}},tries?1800:2200);
+  // the hero changed → the housemate reacts
+  if(st.hc&&st.hc!==pv.hc&&COS[st.hc]&&Math.random()<.85)mateSees(RX_line('cos',st.hc,COS[st.hc].n));
+  else if(st.hf&&st.hf!==pv.hf&&Math.random()<.85){const[k,id]=st.hf.split(':');mateSees(k==='mask'?RX_line('mask',id,MASK2[id]?MASK2[id].n:'お面'):RX_line('nose'));}
+  // the housemate changed → the hero reacts
+  if(st.mc&&st.mc!==pv.mc&&COS[st.mc]&&Math.random()<.85)heroSees(RX_line('cos',st.mc,COS[st.mc].n));
+  else if(st.mf&&st.mf!==pv.mf&&Math.random()<.85){const[k,id]=st.mf.split(':');heroSees(k==='mask'?RX_line('mask',id,MASK2[id]?MASK2[id].n:'お面'):RX_line('nose'));}
+}catch(e){}},1500);
+// when the two meet again while one is still dressed up, sometimes comment on it
+setInterval(()=>{try{if(!S||!S.mate||typeof M==='undefined'||!M||V||M.sleeping||C.sleeping||M.scene!==C.scene||msgBusy())return;if(Math.random()>.04)return;
+  const mc=M.outfit&&M.outfit.costume;if(mc&&COS[mc]){say(pick([`${mName()}の${COS[mc].n}、何回見てもいいね`,`その${COS[mc].n}、今日一日そのまま？`,`${COS[mc].n}の${mName()}と一緒だと楽しい`]));return;}
+  const hc=S.outfit&&S.outfit.costume;if(hc&&COS[hc])msay(pick([`${COS[hc].n}の${S.name}、なんだか見慣れてきた`,`その${COS[hc].n}、本気だね`,`今日はずっと${COS[hc].n}なの？`]));}catch(e){}},20000);
+// 飲みすぎ仮面: more likely after several drinks in one day
+function drinksToday(){const k=dayKey(now());return S&&S.drinkDay&&S.drinkDay.d===k?S.drinkDay.n:0;}
+{let lastN=null,lastAt=null;setInterval(()=>{try{if(!S)return;const n=S.drinkN||0,a=S.drinkAt||0;if(lastN===null){lastN=n;lastAt=a;return;}
+  let inc=0;if(n>lastN)inc+=n-lastN;if(a&&a!==lastAt&&!(n>lastN))inc+=1;lastN=n;lastAt=a;if(!inc)return;const k=dayKey(now());if(!S.drinkDay||S.drinkDay.d!==k)S.drinkDay={d:k,n:0};S.drinkDay.n+=inc;}catch(e){}},2000);}
+{const RF=ACC_rollFun;ACC_rollFun=function(){try{const n=drinksToday(),tipsy=S.tipsyUntil&&Date.now()<S.tipsyUntil;const p=n>=2?Math.min(.7,.2*(n-1)+(tipsy?.15:0)):tipsy?.12:0;if(p&&Math.random()<p)return{k:'mask',id:'nomisugi'};}catch(e){}return RF.apply(this,arguments);};}
+// after three or more drinks, the tipsy hero may put on 飲みすぎ仮面 by themself
+setInterval(()=>{try{if(!S||C.fun||C.sleeping||V)return;const n=drinksToday();if(n<3||!(S.tipsyUntil&&Date.now()<S.tipsyUntil))return;if(Math.random()>.12)return;
+  const f={k:'mask',id:'nomisugi',until:Date.now()+rnd(8,12)*60e3};C.fun=f;if(ACC_offWhy()){C.fun=null;return;}ACC_dex('mask:nomisugi');say(pick(['ういっく…飲みすぎ仮面、参上！','今日は飲みすぎちゃった…変身！','ひっく…飲みすぎ仮面だぞ〜']));}catch(e){}},60000);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
