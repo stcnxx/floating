@@ -224,7 +224,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
 <div class="overlay" id="sheet" hidden>
   <div class="card" role="dialog" aria-labelledby="sheetTitle">
     <h2 id="sheetTitle">メニュー</h2>
-    <div class="tabs" role="tablist" id="tabs"><button role="tab" data-t="st" aria-selected="true">主人公</button><button role="tab" data-t="mate">同居人</button><button role="tab" data-t="home">住居</button><button role="tab" data-t="diary">日記</button><button role="tab" data-t="dex">図鑑</button><button role="tab" data-t="loc">位置情報</button><button role="tab" data-t="tv">チャネル</button><button role="tab" data-t="bgm">BGM</button><button role="tab" data-t="hudset">情報ウインドウ</button><button role="tab" data-t="data">セーブ・ロード</button><button role="tab" data-t="try">手動設定</button></div>
+    <div class="tabs" role="tablist" id="tabs"><button role="tab" data-t="st" aria-selected="true">主人公</button><button role="tab" data-t="mate">同居人</button><button role="tab" data-t="home">住居</button><button role="tab" data-t="diary">日記</button><button role="tab" data-t="dex">図鑑</button><button role="tab" data-t="loc">位置情報</button><button role="tab" data-t="tv">チャネル</button><button role="tab" data-t="bgm">BGM</button><button role="tab" data-t="hudset">情報ウインドウ</button><button role="tab" data-t="data">データ・描画設定</button><button role="tab" data-t="try">手動設定</button></div>
     <section class="tp" data-p="st">
     <div class="field"><label for="rnName">なまえ</label><input type="text" id="rnName" maxlength="10" autocomplete="off"><button id="rnNew">おまかせ</button></div>
     <div class="hpick"><canvas id="rnPrev" width="180" height="96"></canvas><div class="col"><button id="rnLook" type="button">見た目を変える</button></div></div>
@@ -279,6 +279,9 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     </section>
     <section class="tp" data-p="bgm" hidden><div id="bgmBody"></div></section>
     <section class="tp" data-p="data" hidden>
+      <h3>描画設定（電力モード）</h3>
+      <div class="seg pwrseg" id="pwrSeg" role="radiogroup" aria-label="電力モード"><button type="button" data-pw="eco" role="radio">省電力</button><button type="button" data-pw="std" role="radio">標準</button><button type="button" data-pw="max" role="radio">高画質</button></div>
+      <p class="hint" id="pwrHint"></p>
       <h3>データの書き出し（バックアップ・機種変更）</h3>
       <p class="hint">今の暮らしをファイルやテキストにして保存できます。別の端末やブラウザで「読み込み」すると続きから遊べます。</p>
       <div class="row2"><button id="dExport">ファイルに保存</button><button id="dCopy">テキストをコピー</button></div>
@@ -315,16 +318,16 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版269（2026/10/25 #119）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版271（2026/10/25 #121）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版269（2026/10/25 #119）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版271（2026/10/25 #121）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
 <h3>寝ているとき</h3><dl><dt>昼寝中にダブルタップ</dt><dd>起きてそこへ向かいます</dd><dt>夜中にダブルタップ</dt><dd>寝ぼけて行くけど、すぐベッドに戻ります</dd></dl>
-<h3>メニュー</h3><dl><dt>主人公</dt><dd>名前と見た目、名前の表示のしかた、寝る・起きる時間、今の気分・お酒の好み、つぶやき・同居人との会話の割合</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・寝る時間</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>BGM</dt><dd>ラジカセの曲を選ぶ・止める・次の曲・削除</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>手動設定</dt><dd>日付・時刻・天気を、自動か手動か選ぶ</dd><dt>セーブ・ロード</dt><dd>データの保存・読み込み・別の端末への引っ越し</dd></dl>
+<h3>メニュー</h3><dl><dt>主人公</dt><dd>名前と見た目、名前の表示のしかた、寝る・起きる時間、今の気分・お酒の好み、つぶやき・同居人との会話の割合</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・寝る時間</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>BGM</dt><dd>ラジカセの曲を選ぶ・止める・次の曲・削除</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>手動設定</dt><dd>日付・時刻・天気を、自動か手動か選ぶ</dd><dt>データ・描画設定</dt><dd>描画と電池の設定（電力モード）、データの保存・読み込み・別の端末への引っ越し</dd></dl>
 <h3>そのほか</h3><dl><dt>配達</dt><dd>欲しいものはドローンで届き、受け取ると中身を教えてくれます</dd><dt>お客さん</dt><dd>となりの浮遊島からドローンで遊びに来ます</dd><dt>留守のあいだ</dt><dd>アプリを閉じていた間の出来事を、次に開いたときに教えてくれます</dd><dt>キーボード</dt><dd>Enter でメニュー</dd></dl>
 <div class="row2" style="margin-top:14px"><button id="helpX" class="primary" type="button">とじる</button></div></div></div>
 <input type="file" id="musIn" accept="audio/*" multiple hidden><input type="file" id="musIn1" accept="audio/*" hidden>
@@ -15373,6 +15376,20 @@ function bedOK(b,p){const w=b.w||2;for(let x=p.x;x<p.x+w;x++){if(C.scene==='out'
   refreshOut();sparkOut((b.x+(b.w||2)/2)*T,b.y*T+8);
   if(C.scene==='out'){if(C.act==='garden')abort();else if(C.path&&C.path.length)C.path=[];}
   todayLog('move',{n:'花壇'});if(!msgBusy())say(pick(['花壇、そこに移すんだね','お、花壇の場所が変わった！','お花もいっしょにお引っ越し！']));save();};}
+/* ---- v270/271: power modes — eco / std (default) / max, chosen in データ・描画設定 ---- */
+const PWR_M={eco:{fps:30,sleep:12,dpr:2,n:'省電力',d:'電池を最優先。画面の描き直しを1秒に30回（寝ているときは12回）にし、描く細かさも抑えます。'},
+  std:{fps:45,sleep:20,dpr:2.5,n:'標準',d:'おすすめ。なめらかさと電池のバランスをとります（1秒に45回・寝ているときは20回、細かさは少しだけ抑えます）。'},
+  max:{fps:0,sleep:0,dpr:3,n:'高画質',d:'従来どおり。端末の性能いっぱいに、いちばんなめらかで細かく描きます。電池の消費はいちばん多くなります。'}};
+const PWR={m:'std',next:0};try{const v=localStorage.getItem('fuyuchi-pwr2');if(PWR_M[v])PWR.m=v;}catch(e){}
+function pwrFps(){const P=PWR_M[PWR.m];if(!P.fps)return 0;try{if(DRAG||CPAN||dragPend||fadeT>0||SW_HOLD)return 60;
+  if(S&&C.sleeping&&!C.moving&&(!M||M.sleeping))return P.sleep;}catch(e){}return P.fps;}
+{const L1=loop;loop=function(ts){const f=S?pwrFps():0;if(f&&f<60){const iv=1000/f;if(ts<PWR.next-1){requestAnimationFrame(loop);return;}PWR.next+=iv;if(PWR.next<ts-iv||PWR.next>ts+iv*2)PWR.next=ts+iv;}else PWR.next=ts;return L1.apply(this,arguments);};}
+function pwrDPR(){const cap=PWR_M[PWR.m].dpr;if(DPR<=cap)return;DPR=cap;cv.width=Math.round(W*DPR);cv.height=Math.round(H*DPR);try{resetCaches();}catch(_){}}
+addEventListener('resize',pwrDPR);if(window.visualViewport)visualViewport.addEventListener('resize',pwrDPR);setTimeout(pwrDPR,350);pwrDPR();
+function pwrUI(){const sg=$('pwrSeg');if(!sg||!sg.querySelectorAll)return;sg.querySelectorAll('button').forEach(b=>{const on=b.dataset.pw===PWR.m;b.setAttribute('aria-checked',on?'true':'false');b.classList.toggle('on',on);});const h=$('pwrHint');if(h)h.textContent=PWR_M[PWR.m].d+'（いつでも切り替えられます）';}
+function pwrSet(m){if(!PWR_M[m])return;PWR.m=m;try{localStorage.setItem('fuyuchi-pwr2',m);}catch(e){}resize();try{resetCaches();}catch(_){}pwrDPR();pwrUI();}
+{const sg=$('pwrSeg');if(sg&&sg.querySelectorAll){sg.addEventListener('click',e=>{const b=e.target.closest('button[data-pw]');if(b)pwrSet(b.dataset.pw);});pwrUI();}}
+try{const st=document.createElement('style');st.textContent='#pwrSeg{display:flex;gap:6px;margin:4px 0}#pwrSeg button{flex:1}#pwrSeg button.on{background:#ffd36b;color:#3a2a10;border-color:#e0a83a;font-weight:700}';document.head.append(st);}catch(e){}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
