@@ -315,11 +315,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版263（2026/10/25 #113）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版269（2026/10/25 #119）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版263（2026/10/25 #113）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版269（2026/10/25 #119）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -4580,7 +4580,15 @@ function buildAround(){isle.chunks=null;isle.cv=null;isle.key='';
   const sc=Z,X0=-8*T,Y0=-8*T,w=(IN.w+16)*T,h=(IN.h+16)*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(w*sc);cv2.height=Math.ceil(h*sc);
   const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);c.translate(-X0,-Y0);
   grassTex(c,X0,Y0,w,h,13);
-  for(let y=23;y<31;y++){const ox=hash(4,y,8)*6-3,cx=IN_ENTRY.x*T+12+ox,cy=y*T+13;fillE(c,'rgba(20,30,10,.25)',cx+1,cy+2,8,4.6);fillE(c,'#8f8a7e',cx,cy+1.2,7.6,4.4);fillE(c,'#c4bfb2',cx,cy,7.4,4.2);fillE(c,'rgba(255,255,255,.35)',cx-2,cy-1.2,3.6,1.4);}
+  {const cx=IN_ENTRY.x*T+12,w=38,top=22*T+16,d=13,fh=5,x=cx-w/2;
+   fillE(c,'rgba(20,30,10,.3)',cx+1.5,top+d+fh+1,w*.56,3.2);
+   c.fillStyle=IN_lg(c,0,top+d,0,top+d+fh,[[0,'#9a9486'],[1,'#6f6a5f']]);rr(c,x,top+d-2,w,fh+2,1.8);c.fill();
+   c.fillStyle=IN_lg(c,x,top,x+w,top+d,[[0,'#d6d1c4'],[.55,'#c3bdaf'],[1,'#aea899']]);rr(c,x,top,w,d,2.2);c.fill();
+   c.fillStyle='rgba(255,255,255,.4)';c.fillRect(x+2,top+d-.8,w-4,.6);
+   for(let k=0;k<26;k++){const px=x+2+hash(k,3,91)*(w-4),py=top+1.5+hash(k,4,91)*(d-3);c.fillStyle=hash(k,5,91)>.5?'rgba(60,55,50,.22)':'rgba(255,255,255,.28)';c.fillRect(px,py,.7,.7);}
+   c.strokeStyle='rgba(80,75,65,.35)';c.lineWidth=.35;c.beginPath();c.moveTo(x+w*.62,top+d);c.lineTo(x+w*.66,top+d*.55);c.lineTo(x+w*.72,top+d*.4);c.stroke();
+   c.fillStyle='rgba(70,110,50,.55)';for(let k=0;k<5;k++){const px=x+3+hash(k,6,91)*(w-6);c.fillRect(px,top+d+fh-1,.6,1.6);}}
+  for(let y=24;y<31;y++){const ox=hash(4,y,8)*6-3,cx=IN_ENTRY.x*T+12+ox,cy=y*T+13;fillE(c,'rgba(20,30,10,.25)',cx+1,cy+2,8,4.6);fillE(c,'#8f8a7e',cx,cy+1.2,7.6,4.4);fillE(c,'#c4bfb2',cx,cy,7.4,4.2);fillE(c,'rgba(255,255,255,.35)',cx-2,cy-1.2,3.6,1.4);}
   if(snowCover>.02){c.fillStyle=`rgba(246,249,255,${Math.min(.85,snowCover*1.15)})`;c.fillRect(X0,Y0,w,h);}
   around.cv=cv2;around.x0=X0;around.y0=Y0;around.w=w;around.h=h;}
 const groundKey=()=>season()+'|'+Math.round(snowCover*6)+'|'+DPR;
@@ -10535,13 +10543,13 @@ buildHouse=function(){
    withG(c,()=>HOUSE_door(ex+T/2,top,bot,false));
    c.fillStyle=IN_lg(c,0,dy+14,0,dy+18,[[0,'#ddd6c6'],[1,'#a9a292']]);c.fillRect(ex-2,dy+14,T+4,4);c.fillStyle='rgba(255,255,255,.45)';c.fillRect(ex-2,dy+14,T+4,.7);
    fillE(c,'#ffe08a',ex-1,dy+3,1.4,1.4);c.fillStyle='#3d2a20';c.fillRect(ex-2.2,dy+1,2.4,1);}
-  // genkan: stone tiles + mat
-  {const gy=IN_ENTRY.y*T+3;c.fillStyle='#8f897d';c.fillRect(ex,gy,T,T-3);
-   for(let i=0;i<2;i++)for(let j=0;j<2;j++){const base=shade('#aaa498',(hash(i,j,71)-.5)*.12);c.fillStyle=IN_lg(c,ex+i*12,gy+j*10.5,ex+i*12+11,gy+j*10.5+10,[[0,shade(base,.12)],[1,shade(base,-.08)]]);c.fillRect(ex+i*12+.5,gy+j*10.5+.5,11,9.5);}
-   c.fillStyle='rgba(255,255,255,.25)';c.fillRect(ex,gy,T,.8);c.fillStyle=IN_lg(c,0,gy-3,0,gy+1,[[0,'#b48c64'],[1,'#7d5b3d']]);c.fillRect(ex,gy-1.6,T,2);
-   c.fillStyle='rgba(0,0,0,.15)';rr(c,ex+3.4,IN_ENTRY.y*T+8.6,T-6,T-11,2);c.fill();
-   c.fillStyle=IN_lg(c,0,IN_ENTRY.y*T+8,0,IN_ENTRY.y*T+T-3,[[0,'#7aa078'],[1,'#5d815c']]);rr(c,ex+3,IN_ENTRY.y*T+8,T-6,T-11,2);c.fill();
-   c.strokeStyle='rgba(255,255,255,.3)';c.lineWidth=.4;rr(c,ex+4.2,IN_ENTRY.y*T+9.2,T-8.4,T-13.4,1.4);c.stroke();}
+  // genkan: a little wider stone floor (no mat), framed by the wooden step edge
+  {const gy=IN_ENTRY.y*T+3,gx=ex-6,gw=T+12,gh=T-3;c.fillStyle='#8f897d';c.fillRect(gx,gy,gw,gh);
+   for(let i=0;i<3;i++)for(let j=0;j<2;j++){const base=shade('#aaa498',(hash(i,j,71)-.5)*.12);const tx=gx+i*12+.5,ty=gy+j*10.5+.5;c.fillStyle=IN_lg(c,tx,ty,tx+11,ty+10,[[0,shade(base,.12)],[1,shade(base,-.08)]]);c.fillRect(tx,ty,11,9.5);
+     c.fillStyle='rgba(255,255,255,.22)';c.fillRect(tx,ty,11,.5);c.fillStyle='rgba(0,0,0,.08)';c.fillRect(tx+1+hash(i,j,72)*7,ty+2+hash(i,j,73)*5,1.2,.8);}
+   c.fillStyle=IN_lg(c,0,gy,0,gy+5,[[0,'rgba(0,0,0,.22)'],[1,'rgba(0,0,0,0)']]);c.fillRect(gx,gy,gw,5);
+   c.fillStyle=IN_lg(c,0,gy-3,0,gy+1,[[0,'#b48c64'],[1,'#7d5b3d']]);c.fillRect(gx-1,gy-1.6,gw+2,2);c.fillStyle='rgba(255,236,200,.4)';c.fillRect(gx-1,gy-1.6,gw+2,.4);
+   for(const sx of[gx-1.6,gx+gw-.4]){c.fillStyle=IN_lg(c,sx,0,sx+2,0,[[0,'#a07a58'],[1,'#6a4a30']]);c.fillRect(sx,gy-1.6,2,gh+1.6);}}
   houseC.cv=cv2;buildWallExt(sc);};
 /* ----- the tall back-wall band (raised by WEXT, drawn in depth order) ----- */
 buildWallExt=function(sc){const Wp=IN.w*T,Hp=IN.h*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(Wp*sc);cv2.height=Math.ceil(Hp*sc);const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);
@@ -10867,7 +10875,7 @@ const SPRC={per:{},on:true,map:new Map(),live:new Set(),lk:new Set(),probe:new S
     nf.__spr=1;nf.__orig=orig;f.draw=nf;}
   for(const k in FT){const f=FT[k];if(f.art)continue;wrap(FT,k,f.k==='top'?'top':f.k==='wall'?'w':'f');}
   for(const k in OFT){if(OFT[k].art)continue;wrap(OFT,k,'y');}
-  const r0=render;render=function(){SPRC.budget=3;return r0.apply(this,arguments);};
+  const r0=render;render=function(){SPRC.budget=(typeof CPAN!=='undefined'&&CPAN&&CPAN.on)?1:3;return r0.apply(this,arguments);};
 })();
 
 /* ===== flower beds (seasonal flowers that sprout, bud and bloom) & kitchen garden (seasonal crops that grow and get harvested) ===== */
@@ -13925,7 +13933,7 @@ function celCache(){const tn=performance.now();if(CEL_C&&tn-CEL_C.at<2000)return
   for(const f of FAINT){const h=starHor(f[0],f[1],sk);if(h.alt>0)st.push([h.az,h.alt,f[2],'w',f[3]]);}
   CEL_C={at:tn,sk,st};return CEL_C;}
 const STARCOL={w:'#ffffff',b:'#d4e2ff',y:'#fff3d6',o:'#ffe2bd',r:'#ffcfae'};
-function isleSkyClip(){g.beginPath();g.rect(0,0,W,H);worldBegin();for(let x=0;x<OG.w;x++){let y0=-1,y1=-1;for(let y=0;y<OG.h;y++)if(MASK[y][x]){if(y0<0)y0=y;y1=y;}if(y0<0)continue;g.rect(x*T-1,y0*T-46,T+2,(y1-y0+1)*T+46+ISLE_PAD);}g.restore();g.clip('evenodd');}
+function isleSkyClip(){g.beginPath();g.rect(0,0,W,H);worldBegin();for(let x=0;x<OG.w;x++){let y0=-1,y1=-1;for(let y=0;y<OG.h;y++)if(MASK[y][x]){if(y0<0)y0=y;y1=y;}if(y0<0)continue;const l=(x===0||!MASK.some(r=>r[x-1]))?1:0,rr=(x===OG.w-1||!MASK.some(r=>r[x+1]))?1:0;g.rect(x*T-l,y0*T-46,T+l+rr,(y1-y0+1)*T+46+ISLE_PAD);}g.restore();g.clip('evenodd');}
 starsOut=function(t){if(C.scene!=='out'||!S)return;const k=wKind(),cc=celCache(),sk=cc.sk;
   const showSun=sk.sun.alt>-1.5&&(k==='clear'||k==='cloudy'),showMoon=sk.moon.alt>0&&(k==='clear'||k==='cloudy'),showStars=k==='clear'&&sk.sun.alt<-4;
   if(!showSun&&!showMoon&&!showStars)return;
@@ -14751,7 +14759,7 @@ async function trainJSON(u){const tries=[u,'https://api.allorigins.win/raw?url='
 function chgClothes(){const o=S.outfit||{},same=d=>(d.costume||null)===(o.costume||null)&&(d.costume||(d.top&&o.top&&d.top.k===o.top.k&&d.top.c===o.top.c&&d.bottom&&o.bottom&&d.bottom.k===o.bottom.k));
   let d=dayClothes();for(let i=0;i<12&&same(d);i++){S.dressN=(S.dressN||0)+1;d=dayClothes();}return d;}
 /* ---- v246: follow / manual camera toggle at the bottom; manual panning reaches every spot the hero can stand on ---- */
-try{const v=localStorage.getItem('fuyuchi-cam');if(v!==null){ENV.ov.mode=ENV.ov.mode||{};ENV.ov.mode.c=v==='m';}}catch(e){}
+try{ENV.ov.mode=ENV.ov.mode||{};ENV.ov.mode.c=false;localStorage.setItem('fuyuchi-cam','f');}catch(e){}
 const CAMX={};
 function camExt(sc){const key=sc+':'+GW(sc)+'x'+GH(sc),e=CAMX[sc];if(e&&e.key===key&&performance.now()-e.at<5000)return e;
   const wk=sc==='out'?(typeof walkOut==='function'?walkOut:null):(typeof walkIn==='function'?walkIn:null);let a=[1e9,1e9,-1e9,-1e9];
@@ -14792,8 +14800,15 @@ camSet=function(man){ENV.ov.mode=ENV.ov.mode||{};ENV.ov.mode.c=!!man;try{localSt
   try{return r0.apply(this,arguments);}finally{C.scene=sc;C.snap=sn;C.snapK=sk;C.emote=em;fadeT=f;}};}
 // while looking at the island with the hero indoors, a drag only pans (no taps / moving furniture with the wrong map)
 (function(){const host=cv.parentNode||document;
-  host.addEventListener('pointerdown',e=>{if(e.target!==cv||!MANOUT())return;CPAN={id:e.pointerId,x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y,on:false};try{cv.setPointerCapture(e.pointerId);}catch(_){}e.stopPropagation();},true);
-  host.addEventListener('pointerup',e=>{if(e.target!==cv||!MANOUT())return;CPAN=null;e.stopPropagation();},true);
+  // yard pieces can still be long-pressed and moved while the hero is indoors
+  let yLP=null;const outTarget=ev=>{const sc=C.scene;C.scene='out';try{return dragTarget(ev);}catch(_){return null;}finally{C.scene=sc;}};
+  host.addEventListener('pointerdown',e=>{if(e.target!==cv||!MANOUT())return;CPAN={id:e.pointerId,x:e.clientX,y:e.clientY,cx:cam.x,cy:cam.y,on:false};try{cv.setPointerCapture(e.pointerId);}catch(_){}e.stopPropagation();
+    if(yLP){clearTimeout(yLP.id);yLP=null;}if(DRAG||fadeT>0)return;const t=outTarget(e);if(!t||t.sc!=='out')return;const o={x:e.clientX,y:e.clientY,t,pid:e.pointerId,cx:e.clientX,cy:e.clientY};
+    o.id=setTimeout(()=>{if(yLP!==o)return;yLP=null;if(CPAN&&CPAN.on)return;CPAN=null;dragStart(o.t,{clientX:o.cx,clientY:o.cy,pointerId:o.pid});},420);yLP=o;},true);
+  host.addEventListener('pointermove',e=>{if(yLP&&e.pointerId===yLP.pid){yLP.cx=e.clientX;yLP.cy=e.clientY;if(Math.hypot(e.clientX-yLP.x,e.clientY-yLP.y)>10){clearTimeout(yLP.id);yLP=null;}}},true);
+  host.addEventListener('pointerup',e=>{if(e.target!==cv||!MANOUT())return;if(yLP){clearTimeout(yLP.id);yLP=null;}const tap=CPAN&&!CPAN.on&&!DRAG&&performance.now()-dragEndAt>120;CPAN=null;if(DRAG){try{dragEnd(false);}catch(_){}}e.stopPropagation();
+    if(tap){const sc=C.scene;C.scene='out';try{showTip(e);}catch(_){}finally{C.scene=sc;}}},true);
+  host.addEventListener('pointercancel',e=>{if(yLP){clearTimeout(yLP.id);yLP=null;}if(MANOUT()&&DRAG){try{dragEnd(true);}catch(_){}}},true);
   for(const ev of['click','dblclick'])host.addEventListener(ev,e=>{if(e.target===cv&&MANOUT())e.stopPropagation();},true);})();
 setTimeout(()=>{try{CAM_SC=null;camBtn();}catch(e){}},500);
 // speech while looking at the island with the hero indoors: the hero's bubble comes from the front door, the others follow the island view
@@ -15317,6 +15332,47 @@ try{const st=document.createElement('style');st.textContent='#room{display:none!
   for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='floor'||!L||L.carry)continue;if(tx>=L.x&&tx<L.x+f.w&&ty>=L.y&&ty<L.y+f.h)return{k,sc:'in',w};}return null;};}
 // only furniture that can be used now must stay usable after the move (something already blocked elsewhere must not lock every move)
 function allUsableRel(occR,occ,skipK){let occ0=null;for(const kk of S.owned){if(kk===skipK)continue;const L=S.layout[kk];if(!L||L.carry)continue;if(useTileFor(kk,L,occR))continue;if(!occ0)occ0=reachOcc(occ)||new Set();if(useTileFor(kk,L,occ0))return false;}return true;}
+/* v264: the main loop can never stop: if one frame throws, the next frame is still scheduled */
+{const L0=loop;let errN=0;loop=function(ts){try{const r=L0.apply(this,arguments);try{MANOUT_hide();}catch(_){}return r;}catch(e){errN++;if(errN<20)console.warn('frame error',e);try{if(S&&S.mate&&C.snap&&C.snap.px===-1e5)C.snap=null;}catch(_){}requestAnimationFrame(loop);}};}
+/* v266: while looking at the island with the hero indoors, speech / TV / chat bubbles from inside the house are not shown */
+function MANOUT_hide(){if(!MANOUT())return;for(const id of['bubble','convo','devb'])$(id)&&($(id).hidden=true);
+  if(M&&M.scene==='in'&&$('bubble3'))$('bubble3').hidden=true;if(V&&V.scene==='in'&&$('bubble2'))$('bubble2').hidden=true;}
+/* ---- v268: flowerbeds can be moved by long-press & drag (the two original beds too) ---- */
+let BEDSKIP=null;
+const bedDragB=()=>DRAG&&DRAG.bed?DRAG.bed:null;
+// the original beds are no longer fixed map blockers; they count as occupied cells like the extra beds
+for(const b of OUT.beds)for(let x=b.x;x<b.x+b.w;x++)OUTBLOCK.delete(x+','+b.y);
+{const R0=outRes;outRes=function(){if(OUTRES)return OUTRES;const sv=OUT.beds;OUT.beds=[];try{return R0();}finally{OUT.beds=sv;}};OUTRES=null;}
+let BEDPOS_S=null;const BED0=OUT.beds.map(b=>({x:b.x,y:b.y}));
+function bedPosApply(){if(!S||BEDPOS_S===S)return;BEDPOS_S=S;const P=S.bedPos||[];OUT.beds.forEach((b,i)=>{const q=P[i];b.x=BED0[i].x;b.y=BED0[i].y;delete b.fx;if(q&&Number.isFinite(q.x)&&Number.isFinite(q.y)){b.x=q.x;b.y=q.y;if(q.fx!=null)b.fx=q.fx;}});}
+{const RO=refreshOut;refreshOut=function(){bedPosApply();RO.apply(this,arguments);if(!S)return;const skip=BEDSKIP||bedDragB();
+  for(const b of allBeds()){const cells=yardCells('_bed',b);if(b===skip)cells.forEach(c=>OUTOCC.delete(c));else cells.forEach(c=>OUTOCC.add(c));}};}
+{const OT=outTester;outTester=function(){if(!S)return OT.apply(this,arguments);const sx=S.xbeds,skip=BEDSKIP||bedDragB();S.xbeds=allBeds().filter(b=>b!==skip);try{return OT.apply(this,arguments);}finally{S.xbeds=sx;}};}
+// keep the planted flower (and its kind) when a bed moves
+bedId=function(b){const d=DRAG;if(d&&d.bed===b)return d.orig.x+','+d.orig.y;return b.x+','+b.y;};
+bedState=function(b){S.bedPlant=S.bedPlant||{};const id=bedId(b),opts=FLW_MONTH[GD_month()],sx=b.fx!=null?b.fx:b.x,want=opts[((b.v||0)+sx)%opts.length];let st=S.bedPlant[id];
+  if(!st){st=S.bedPlant[id]={sp:want,at:Date.now()-10*GD_DAY};}else if(st.sp!==want){st.sp=want;st.at=Date.now();}
+  return{sp:st.sp,stage:Math.min(1,(Date.now()-st.at)/(3*GD_DAY)),id};};
+function bedOK(b,p){const w=b.w||2;for(let x=p.x;x<p.x+w;x++){if(C.scene==='out'&&C.tx===x&&C.ty===p.y)return false;if(M&&M.scene==='out'&&M.tx===x&&M.ty===p.y)return false;if(V&&V.scene==='out'&&V.tx===x&&V.ty===p.y)return false;}
+  BEDSKIP=b;refreshOut();try{return outTester(w,1).full(p);}catch(_){return false;}finally{BEDSKIP=null;refreshOut();}}
+{const DT=dragTarget;dragTarget=function(e){const r=DT.apply(this,arguments);if(r)return r;if(!S||C.scene!=='out')return null;const w=tapWorld(e),tg=tapTarget(w.x,w.y);
+  if(tg&&tg.t==='bed'&&tg.b)return{k:'_bed',sc:'out',bed:tg.b,w};return null;};}
+{const DS=dragStart;dragStart=function(t,e){if(!t||!t.bed)return DS.apply(this,arguments);const b=t.bed;if(b.fx==null)b.fx=b.x;const orig={x:b.x,y:b.y,w:b.w||2};
+  DRAG={k:'_bed',sc:'out',bed:b,orig,ox:Math.floor(t.w.x/T)-orig.x,oy:0,cur:orig,ok:true,px:e.clientX,py:e.clientY};refreshOut();
+  try{cv.setPointerCapture(e.pointerId);}catch(_){}try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}puffAt({x:(orig.x+orig.w/2)*T,y:orig.y*T+8},'out');};}
+{const DC=dragCand;dragCand=function(e){const d=DRAG;if(!d||!d.bed)return DC.apply(this,arguments);const w=tapWorld(e);return{...d.orig,x:Math.floor(w.x/T)-d.ox,y:Math.floor(w.y/T)};};}
+{const DA=dragApply;dragApply=function(c){const d=DRAG;if(!d||!d.bed)return DA.apply(this,arguments);d.cur=c;d.ok=bedOK(d.bed,c);d.bed.x=c.x;d.bed.y=c.y;};}
+{const DD=drawDrag;drawDrag=function(){const d=DRAG;if(!d||!d.bed)return DD.apply(this,arguments);if(C.scene!=='out')return;const c=d.cur,w=c.w||2;
+  g.save();g.fillStyle=d.ok?'rgba(80,200,120,.28)':'rgba(230,70,70,.32)';g.strokeStyle=d.ok?'rgba(60,170,100,.9)':'rgba(210,50,50,.9)';g.lineWidth=1;g.setLineDash([3,2]);
+  g.fillRect(c.x*T,c.y*T,w*T,T);g.strokeRect(c.x*T+.5,c.y*T+.5,w*T-1,T-1);g.restore();};}
+{const DE=dragEnd;dragEnd=function(cancel){const d=DRAG;if(!d||!d.bed)return DE.apply(this,arguments);DRAG=null;dragEndAt=performance.now();const b=d.bed,o=d.orig,same=d.cur.x===o.x&&d.cur.y===o.y;
+  if(cancel||same||!d.ok){b.x=o.x;b.y=o.y;refreshOut();if(!cancel&&!same)say(pick(['そこには置けないみたい','うーん、そこはむずかしいかも','通れなくなっちゃうから、そこはダメかな']));
+    else if(!cancel&&same&&!msgBusy())say('花壇は、長押ししたまま動かすと場所を変えられるよ');return;}
+  const oid=o.x+','+o.y,nid=b.x+','+b.y;S.bedPlant=S.bedPlant||{};if(S.bedPlant[oid]){S.bedPlant[nid]=S.bedPlant[oid];delete S.bedPlant[oid];}
+  const i=OUT.beds.indexOf(b);if(i>=0){S.bedPos=S.bedPos||[];S.bedPos[i]={x:b.x,y:b.y,fx:b.fx};}
+  refreshOut();sparkOut((b.x+(b.w||2)/2)*T,b.y*T+8);
+  if(C.scene==='out'){if(C.act==='garden')abort();else if(C.path&&C.path.length)C.path=[];}
+  todayLog('move',{n:'花壇'});if(!msgBusy())say(pick(['花壇、そこに移すんだね','お、花壇の場所が変わった！','お花もいっしょにお引っ越し！']));save();};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
