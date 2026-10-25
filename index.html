@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版299（2026/10/25 #149）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版302（2026/10/25 #152）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版299（2026/10/25 #149）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版302（2026/10/25 #152）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2210,16 +2210,16 @@ const A={
   chat(){if(!mateFree())return null;let tg=null;return[FN(()=>{mEngage();M.goal=null;M.moving=false;}),FN(()=>{if(!M)return;const sc=M.scene;for(const[dx,dy]of[[1,0],[-1,0],[0,1],[0,-1]]){const x=M.tx+dx,y=M.ty+dy;if(sc==='in'?walkIn(x,y):walkOut(x,y)){tg={x,y,sc};C.steps.splice(1,0,{t:'go',sc,x,y});return;}}}),
     FN(()=>{if(!M)return;const dx=M.tx-C.tx,dy=M.ty-C.ty;C.dir=Math.abs(dx)>=Math.abs(dy)?(dx>0?'right':'left'):(dy>0?'down':'up');M.dir=C.dir==='right'?'left':C.dir==='left'?'right':C.dir==='up'?'down':'up';}),
     ...talkMate(()=>chatLines()),FN(()=>{mRelease();S.chatAt=Date.now();emote('♪',1.5);})];},
-  oyatsu(){const tt=teaTime(),d=tt.drink,sw=tt.sweet,today=now().toDateString();logDrink(d);logEat(sw);diaryAdd(`おやつ：${sw}と${d}`);S.oyatsuDay=today;S.oyatsuAt=Date.now();const isC=/コーヒー|カフェ|エスプレッソ|アメリカン|ブラック|カプチーノ|ウインナー/.test(d),hot=!/ジュース|アイス|麦茶|水出し/.test(d);
+  oyatsu(){const tt=teaTime(),d=tt.drink,sw=tt.sweet,today=now().toDateString();logDrink(d);logEat(sw);diaryAdd(`おやつ：${sw}と${d}`);S.oyatsuDay=today;S.oyatsuAt=Date.now();const isC=/コーヒー|カフェ|エスプレッソ|アメリカン|ブラック|カプチーノ|ウインナー/.test(d),hot=!/ジュース|アイス|麦茶|水出し/.test(d)&&!(typeof BRANDD_of==='function'&&BRANDD_of(d));
     const s=[SAY(pick(['おやつにしよう！','ちょっとひと休み、ティータイム','甘いもの食べたくなっちゃった','休憩、休憩〜']))];
-    if(has('fridge'))s.push(...goF('fridge'),SAY(`${sw}があったはず…あった！`),W8(1.2));
+    if(has('fridge'))s.push(...goF('fridge'),SAY(typeof ICE_of==='function'&&ICE_of(sw)?pick([`冷凍庫に${sw}があったはず…あった！`,`冷凍庫から${sw}を出して…`,`${sw}、ひとつ残ってた！`]):`${sw}があったはず…あった！`),W8(1.2));
     if(hot&&has('stove'))s.push(...goF('stove'),FN(()=>{C.cooking=true;C.cookware=[{k:'kettle',b:0}];}),SAY(isC?`${d}を淹れよう。いい香り…`:/茶/.test(d)?`お湯をわかして${d}を…`:`${d}を淹れて…`),W8(3),FN(()=>{C.cooking=false;}));else s.push(SAY(`${d}を用意して…`),W8(1));
     const foods=[{n:sw,t:/ケーキ|ショコラ|モンブラン|タルト|ティラミス|パイ|ロール|カステラ|バウム/.test(sw)?'cake':'plate',c:sweetCol(sw)},{n:d,t:'cup',cup:tt.cup,c:tt.dc}];
     const where=snackSeat();s.push(FN(()=>{C.holding='tray';C.trayC=[foods[0].c,foods[1].c];}));
     if(where==='table')s.push(...goF('table'),snapF('table'),FN(()=>{C.holding=null;C.tableSet={k:'table',foods,phase:'full'};}),...mateJoinSteps('table',ms=>{if(C.tableSet){C.tableSet.foods2=foods.map(x=>({...x}));C.tableSet.mt=ms.tile;}}));
     else if(where==='floor')s.push(...sitFloor('liv'),FN(()=>{C.holding='tea';}));else s.push(...goF(where),snapF(where),FN(()=>{C.holding='tea';}));
     s.push(...talkMate(()=>M&&M.busy&&M.sit?pick([[['m','おやつ？いいね！'],['me',`${sw}だよ`],['m',`${d}と合うね`]],[['m',`${d}、いい香り`],['me','でしょ？'],['m','ほっとするね']],[['m','おやつの時間って幸せ'],['me','ほんとに'],['m','明日のおやつは何にしよう']]]):null),
-      SAY(()=>pick([`${sw}、おいしい〜`,`${d}と${sw}、最高の組み合わせ`,'ほっとするなあ',`${d}、ちょうどいい温度`,'甘いもの食べると元気出る！'])),W8(9,dt=>{need('fun',1.5)(dt);need('hunger',2)(dt);}),
+      SAY(()=>pick([`${sw}、おいしい〜`,`${d}と${sw}、最高の組み合わせ`,'ほっとするなあ',`${d}、ちょうどいい温度`,'甘いもの食べると元気出る！'].concat(typeof ICE_of==='function'&&ICE_of(sw)?ICE_LINES.map(f=>f(sw,d)):[]))),W8(9,dt=>{need('fun',1.5)(dt);need('hunger',2)(dt);}),
       FN(()=>{if(C.tableSet)C.tableSet.phase='eaten';}),W8(1),FN(()=>{C.tableSet=null;C.holding='dish';if(M&&M.busy)mRelease();}),SAY(pick(['ごちそうさま','さて、もうひとがんばり'])));
     if(hasKSink())s.push(...goSink(),FN(()=>{C.holding=null;}),SAY('カップを洗っておこう'),W8(2,wTick('ksink')));else s.push(FN(()=>{C.holding=null;}));return s;},
   wander(){const s=[];for(let i=0;i<2;i++)s.push({t:'go',sc:'in',dyn:()=>randomTile('in')},W8(rnd(1,3)));return s;},
@@ -16180,6 +16180,216 @@ setInterval(()=>{try{if(!S||V)return;const n=drinksToday(),tipsy=S.tipsyUntil&&D
   // the housemate, if they drank along today
   if(typeof M!=='undefined'&&M&&!M.fun&&!M.sleeping&&!M.busy&&n>=2&&Math.random()<(tipsy?.15:.03)){M.fun={k:'mask',id:'nomisugi',until:Date.now()+rnd(8,12)*60e3};let w=null;try{w=ACC_mOffWhy();}catch(e){}if(w&&w!=='time')M.fun=null;else{ACC_dex('mask:nomisugi');msay(pick(['わたしも飲みすぎ仮面〜','ひっく…おそろいの仮面だよ','今日はちょっと飲みすぎたかも…']));}}
 }catch(e){}},45000);
+/* ---- v300: real brands among the soft drinks (tea time, meals) ---- */
+// [name, colour, cup, kind]  kind: cola soda juice coffee water tea milk sports
+const BRANDD=[
+ ['コカ・コーラ','#3a1a10','glass','cola'],['コカ・コーラ ゼロ','#3a1a10','glass','cola'],['ペプシコーラ','#3a1a10','glass','cola'],['ペプシ ゼロ','#3a1a10','glass','cola'],
+ ['ウィルキンソン ジンジャエール','#e8c060','glass','soda'],['ウィルキンソン ジンジャエール辛口','#d8a840','glass','soda'],['ウィルキンソン タンサン','#e6f2f8','glass','soda'],['ウィルキンソン タンサン レモン','#eef4d8','glass','soda'],
+ ['三ツ矢サイダー','#eef6f8','glass','soda'],['ファンタ グレープ','#7a2a8a','glass','soda'],['ファンタ オレンジ','#f29a2a','glass','soda'],['カルピス','#f6f3ea','glass','milk'],['カルピスソーダ','#f2f0e8','glass','soda'],
+ ['トロピカーナ 100% オレンジ','#f2a83a','glass','juice'],['トロピカーナ 100% アップル','#f2d070','glass','juice'],['トロピカーナ 100% グレープ','#7a2a5a','glass','juice'],['トロピカーナ 100% グレープフルーツ','#f2c8a0','glass','juice'],['なっちゃん オレンジ','#f2a83a','glass','juice'],
+ ['マウントレーニア カフェラッテ','#b8885a','glass','coffee'],['マウントレーニア エスプレッソ','#8a5a3a','glass','coffee'],['マウントレーニア カフェモカ','#7a4a2a','glass','coffee'],['マウントレーニア 深煎りエスプレッソ','#6a3a22','glass','coffee'],
+ ['ジョージア エメラルドマウンテンブレンド','#9a6a42','glass','coffee'],['サントリー BOSS','#7a4a2a','glass','coffee'],
+ ['南アルプスの天然水','#d8eef8','glass','water'],['南アルプスの天然水 スパークリング','#e2f2fa','glass','water'],['い・ろ・は・す','#d8eef8','glass','water'],
+ ['伊藤園 お〜いお茶','#a8c860','yunomi','tea'],['お〜いお茶 濃い茶','#8aa848','yunomi','tea'],['お〜いお茶 ほうじ茶','#b8783a','yunomi','tea'],['伊藤園 健康ミネラルむぎ茶','#b8783a','glass','tea'],
+ ['綾鷹','#9ab858','yunomi','tea'],['伊右衛門','#a8c860','yunomi','tea'],['生茶','#b8d070','yunomi','tea'],['爽健美茶','#c8a050','glass','tea'],['サントリー烏龍茶','#a8582a','glass','tea'],
+ ['午後の紅茶 ストレートティー','#c86a2a','glass','tea2'],['午後の紅茶 ミルクティー','#d8b890','glass','tea2'],['午後の紅茶 レモンティー','#e0a040','glass','tea2'],
+ ['ポカリスエット','#e8f0f6','glass','sports'],['アクエリアス','#e2eef8','glass','sports'],['ヤクルト','#f2dcb0','glass','milk']];
+const BRANDM=Object.fromEntries(BRANDD.map(b=>[b[0],b]));
+function BRANDD_of(n){return BRANDM[n]||null;}
+function BRANDD_pick(kinds){const a=BRANDD.filter(b=>kinds.includes(b[3]));return a.length?pick(a)[0]:pick(BRANDD)[0];}
+{const DC=drinkCol;drinkCol=function(n){const b=BRANDM[n];return b?b[1]:DC.apply(this,arguments);};}
+{const TT=teaTime;teaTime=function(){const o=TT.apply(this,arguments);try{if(Math.random()<.3){const t=tempNow(),hot=t!=null&&t>=24;
+  const d=BRANDD_pick(hot?['cola','soda','juice','tea','tea2','water','coffee','sports']:['cola','soda','juice','tea','tea2','coffee','milk']),b=BRANDM[d],k=b[3];
+  const sw=k==='tea'?pick(['どら焼き','大福','羊羹','みたらし団子','わらび餅','せんべい','カステラ','たい焼き']):(k==='cola'||k==='soda'||k==='sports')&&Math.random()<.6?pick(SNK.map(x=>x[0]).filter(x=>/ポテト|チップス|ポッキー|プリッツ|ポテコ|じゃがりこ|カール|うまい棒|ハッピーターン|ポップコーン|ルマンド|アルフォート|ピザ|ナゲット|コアラ|きのこ|たけのこ|チョコ/.test(x))):k==='tea'||k==='water'?o.sweet:pick(SWEET.filter(x=>!/羊羹|大福|団子|わらび|せんべい|あんみつ|どら焼き|たい焼き|月餅/.test(x)));
+  o.drink=d;o.sweet=sw||o.sweet;o.dc=b[1];o.cup=b[2];o.brand=true;}}catch(e){}return o;};}
+{const MD=mealDrink;mealDrink=function(slot,ns){const d=MD.apply(this,arguments);try{if(Math.random()<.28){const j=(ns||[]).join(''),west=/パン|バゲット|パスタ|ハンバーグ|ステーキ|ピザ|バーガー|サンド|カレー|フライ|カツ|グラタン|ドリア|オムライス/.test(j);
+  if(slot==='b')return BRANDD_pick(west?['juice','coffee','water']:['tea','water','juice']);if(slot==='night')return BRANDD_pick(['tea','water']);
+  return BRANDD_pick(west?['cola','soda','water','tea2','juice']:/緑茶|ほうじ|麦茶|玄米/.test(d)?['tea']:['tea','water','soda']);}}catch(e){}return d;};}
+{const MP=mealPlan;mealPlan=function(){const o=MP.apply(this,arguments);try{for(const it of (o&&o.items)||[])if(it.t==='cup'&&BRANDM[it.n]){const b=BRANDM[it.n];it.cup=b[2];it.c=b[1];}}catch(e){}return o;};}
+/* ---- v301: 50 real ice creams, eaten at tea time whatever the weather ---- */
+// [name, shape, colour, accent]   shapes: cup balls bar tube monaka cone sand mochi
+const ICE=[
+ ['ハーゲンダッツ バニラ','cup','#f6ecd0','#7a2a3a'],['ハーゲンダッツ ストロベリー','cup','#f2a0b0','#7a2a3a'],['ハーゲンダッツ グリーンティー','cup','#a8c860','#7a2a3a'],['ハーゲンダッツ クッキー&クリーム','cup','#ece4d4','#7a2a3a'],['ハーゲンダッツ マカデミアナッツ','cup','#f0e0c0','#7a2a3a'],['ハーゲンダッツ ラムレーズン','cup','#f0dcc0','#7a2a3a'],
+ ['ハーゲンダッツ クリスピーサンド キャラメル','sand','#c8904a','#f0d8a0'],['ハーゲンダッツ 華もち きなこ黒みつ','mochi','#e8d098','#7a2a3a'],
+ ['明治エッセル スーパーカップ 超バニラ','cup','#f6ecd0','#2a5ab8'],['スーパーカップ チョコクッキー','cup','#7a5a4a','#2a5ab8'],['スーパーカップ 抹茶','cup','#a8c860','#2a5ab8'],
+ ['MOW バニラ','cup','#f6ecd0','#3a6ac8'],['MOW 宇治抹茶','cup','#a8c860','#3a6ac8'],['MOW チョコレート','cup','#6a4a3a','#3a6ac8'],['爽 バニラ','cup','#f2f0e8','#2a8ad8'],['レディーボーデン バニラ','cup','#f6ecd0','#c83a3a'],
+ ['牧場しぼり','cup','#f8f4e8','#3a8a4a'],['SUNAO バニラ','cup','#f6ecd0','#e8a040'],['パナップ グレープ','cup','#a0508a','#f0d040'],['サクレ レモン','cup','#f6f6d8','#e8c020'],['白くま','cup','#f6f3ea','#e84a5a'],['やわもちアイス','cup','#f6ecd0','#5a2a2a'],
+ ['ピノ','balls','#5a3a2a','#f6ecd0'],['ピノ アーモンドチョコ','balls','#6a4a32','#f6ecd0'],['アイスの実 ぶどう','balls','#8a3a8a','#c070c0'],
+ ['ガリガリ君 ソーダ','bar','#6ac8f0','#2a8ad8'],['ガリガリ君 コーラ','bar','#8a5a3a','#5a3a2a'],['ガリガリ君 梨','bar','#e8f0b0','#c8d080'],['井村屋 あずきバー','bar','#6a2a2a','#4a1a1a'],['パルム チョコレート','bar','#4a2a1a','#f6ecd0'],
+ ['ホームランバー','bar','#f6ecd0','#e8d8a0'],['ガツン、とみかん','bar','#f2a030','#e88a20'],['ブラック','bar','#3a2216','#5a3a2a'],['ブラックモンブラン','bar','#7a4a2a','#e8c070'],['チョコバッキー','bar','#f6ecd0','#4a2a1a'],
+ ['スイカバー','bar','#e84a4a','#5a9a3a'],['メロンバー','bar','#a8d870','#f0b860'],['あいすまんじゅう','bar','#f6ecd0','#6a2a2a'],['チョコモナカジャンボ','monaka','#c8904a','#4a2a1a'],['モナ王 バニラ','monaka','#d8a060','#f6ecd0'],
+ ['パピコ チョココーヒー','tube','#8a5a3a','#d8b890'],['パピコ ホワイトサワー','tube','#f6f6ee','#a8d0e8'],['クーリッシュ バニラ','tube','#f6ecd0','#2a6ad8'],['クーリッシュ ベルギーチョコ','tube','#6a4a3a','#3a2216'],
+ ['ジャイアントコーン チョコナッツ','cone','#f6ecd0','#4a2a1a'],['セブンティーンアイス チョコミント','cone','#a8e0c8','#4a2a1a'],['森永ビスケットサンド','sand','#d8a868','#f6ecd0'],['ガーナ チョコ&クッキーサンド','sand','#5a3a2a','#f6ecd0'],
+ ['雪見だいふく','mochi','#f8f6ee','#e8e0d0'],['雪見だいふく 生チョコレート','mochi','#f2ece0','#6a4a3a']];
+const ICEM=Object.fromEntries(ICE.map(b=>[b[0],b]));
+function ICE_of(n){return ICEM[n]||null;}
+const ICE_LINES=[sw=>`${sw}、つめたくておいしい〜`,sw=>`やっぱり${sw}は裏切らない`,sw=>`${sw}、頭がキーンとする…`,sw=>`${sw}、溶ける前に食べなきゃ`,sw=>`${sw}のこの食感、たまらない`,(sw,d)=>`${sw}と${d}、意外と合う`,sw=>`寒くてもアイスは別腹`,sw=>`${sw}、ひと口ずつ大事に…`,sw=>`冷凍庫に${sw}があると安心する`,sw=>`${sw}、また買っておこう`,sw=>`あったかい部屋で食べるアイス、ぜいたく`,sw=>`${sw}、子どものころから好き`];
+function drawIce(x,y,b,eaten){const[n,sh,c,a]=b;const S2=(rx,ry)=>fillE(g,'rgba(0,0,0,.13)',x+.5,y+.7,rx,ry);
+  // a small glass dish under everything except the bar/cone/tube (held on a napkin)
+  if(sh==='cup'){S2(2.2,1.2);g.fillStyle=a;g.beginPath();g.moveTo(x-1.9,y-2.2);g.lineTo(x+1.9,y-2.2);g.lineTo(x+1.5,y);g.lineTo(x-1.5,y);g.closePath();g.fill();fillR(g,'rgba(255,255,255,.22)',x-1.6,y-1.6,3.2,.35);
+    fillE(g,shade(a,-.15),x,y-2.2,1.95,.55);fillE(g,eaten?'rgba(240,235,225,.9)':c,x,y-2.25,1.7,.45);if(!eaten){fillE(g,shade(c,.15),x-.5,y-2.35,.6,.18);g.strokeStyle='#d8d8d8';g.lineWidth=.3;g.beginPath();g.moveTo(x+.6,y-2.3);g.lineTo(x+2.3,y-3.6);g.stroke();}return;}
+  if(sh==='balls'){S2(2.8,1.4);fillE(g,'#e8f0f6',x,y,2.8,1.3);fillE(g,'#f8fbfd',x,y-.2,2.4,1);if(!eaten)for(const[dx,dy]of[[-1,-.3],[0,-.6],[1,-.3],[-.5,.2],[.6,.2],[0,-.1]]){fillE(g,c,x+dx,y+dy-.4,.62,.5);fillE(g,shade(c,.3),x+dx-.2,y+dy-.6,.2,.13);}return;}
+  if(sh==='mochi'){S2(2.6,1.3);fillE(g,'#e8f0f6',x,y,2.6,1.2);if(!eaten){for(const dx of[-.85,.85]){fillE(g,shade(c,-.08),x+dx,y-.3,1,.85);fillE(g,c,x+dx,y-.5,.95,.75);fillE(g,'#ffffff',x+dx-.3,y-.8,.3,.18);}}else fillE(g,'rgba(240,235,225,.9)',x+.3,y-.2,.5,.3);return;}
+  // on a paper napkin
+  fillR(g,'#f6f2ea',x-2.4,y-1.2,4.8,2.2,.3);fillR(g,'rgba(0,0,0,.06)',x-2.4,y+.7,4.8,.3);
+  if(sh==='bar'){if(!eaten){fillR(g,'#d8b878',x+1.4,y-.3,2,.55,.25);fillR(g,shade(c,-.15),x-2.2,y-.75,3.8,1.6,.6);fillR(g,c,x-2.2,y-.95,3.8,1.5,.6);fillR(g,'rgba(255,255,255,.35)',x-1.9,y-.75,2.4,.3,.15);if(a&&a!==c)fillR(g,a,x-2.2,y+.2,3.8,.35,.15);}else fillR(g,'#d8b878',x-.8,y-.3,2.6,.55,.25);return;}
+  if(sh==='tube'){if(!eaten){fillR(g,shade(a,-.1),x-2.3,y-.8,4,1.5,.7);fillR(g,a,x-2.3,y-.95,4,1.3,.65);fillR(g,shade(c,0),x+1.5,y-.6,.9,.8,.3);fillR(g,'rgba(255,255,255,.4)',x-2,y-.75,2.6,.25,.12);}else{g.strokeStyle=a;g.lineWidth=.6;g.beginPath();g.moveTo(x-2,y);g.lineTo(x+1.5,y-.2);g.stroke();}return;}
+  if(sh==='monaka'){if(!eaten){fillR(g,shade(c,-.2),x-2.1,y-1,4.2,1.9,.3);fillR(g,c,x-2.1,y-1.15,4.2,1.7,.3);g.strokeStyle=shade(c,-.25);g.lineWidth=.18;for(let i=-1.6;i<2;i+=.8){g.beginPath();g.moveTo(x+i,y-1.1);g.lineTo(x+i,y+.5);g.stroke();}g.beginPath();g.moveTo(x-2.1,y-.3);g.lineTo(x+2.1,y-.3);g.stroke();fillR(g,a,x-2.1,y+.45,4.2,.3,.1);}else fillR(g,c,x-.6,y-.4,1.4,.8,.2);return;}
+  if(sh==='sand'){if(!eaten){fillR(g,shade(c,-.15),x-2,y-.7,4,1.6,.4);fillR(g,a,x-1.9,y-.75,3.8,.55,.2);fillR(g,c,x-2,y-1.2,4,.6,.35);fillR(g,c,x-2,y-.2,4,.7,.35);for(let i=-1.4;i<1.6;i+=.9)fillE(g,shade(c,-.25),x+i,y-.9,.12,.1);}else fillR(g,c,x-.6,y-.4,1.3,.7,.2);return;}
+  if(sh==='cone'){if(!eaten){g.fillStyle='#d8a050';g.beginPath();g.moveTo(x-2.4,y-.2);g.lineTo(x+.6,y-1);g.lineTo(x+.6,y+.6);g.closePath();g.fill();g.strokeStyle='#b07a30';g.lineWidth=.15;for(let i=0;i<3;i++){g.beginPath();g.moveTo(x-1.8+i*.8,y-.5+i*-.05);g.lineTo(x-1.6+i*.8,y+.3);g.stroke();}
+    fillE(g,c,x+1.2,y-.2,1.1,1.05);fillE(g,a,x+1.5,y-.6,.75,.5);fillE(g,'rgba(255,255,255,.4)',x+.9,y-.6,.3,.2);if(/ナッツ/.test(n))for(const[dx,dy]of[[1.3,-.8],[1.7,-.5],[1.4,-.4]])fillE(g,'#e8c890',x+dx,y+dy,.15,.12);}else fillR(g,'#d8a050',x-1,y-.3,1.2,.6,.2);return;}}
+{const DD=drawDish;drawDish=function(x,y,d,eaten){const b=d&&ICEM[d.n];if(b){try{drawIce(x,y,b,eaten);}catch(e){}return;}return DD.apply(this,arguments);};}
+{const SC=sweetCol;sweetCol=function(n){const b=ICEM[n];return b?b[2]:SC.apply(this,arguments);};}
+// tea time: about one time in four it is an ice cream, whatever the weather
+{const TT=teaTime;teaTime=function(){const o=TT.apply(this,arguments);try{if(Math.random()<.25){o.sweet=pick(ICE)[0];}}catch(e){}return o;};}
+/* ---- v302: mirror ball (glowing, spots around the room at night), train set, cube puzzle, hula hoop ---- */
+function MB_draw(X,Y,Wd,Dp,L,t,glow){g.save();const cx=X+12,by=Y+19;
+  shadowR(cx-7,by-1,14,5);
+  // round base with a little motor housing
+  g.fillStyle=SZ.lg(0,by-3,0,by+1,[[0,'#5a5e68'],[1,'#2a2c34']]);fillE(g,g.fillStyle,cx,by,6.4,2.2);fillE(g,'#6a6e78',cx,by-.9,5.8,1.7);fillE(g,'rgba(255,255,255,.25)',cx-1.8,by-1.4,2.4,.5);
+  for(let i=0;i<5;i++){const a=i/5*TAU+t*2;fillE(g,['#ff5a7a','#ffd84a','#5ae0ff','#9a7aff','#7aff9a'][i],cx+Math.cos(a)*4.8,by-.7+Math.sin(a)*1.3,.45,.3);} // tiny LED ring
+  // pole
+  g.fillStyle=SZ.lg(cx-.8,0,cx+.8,0,[[0,'#c8ccd4'],[.5,'#f4f6fa'],[1,'#8a8e98']]);g.fillRect(cx-.7,by-17,1.4,16);
+  fillR(g,'#4a4e58',cx-1.4,by-3.4,2.8,1.4,.4);
+  // the ball
+  const bx=cx,byy=Y-3,R=7.2;
+  if(glow){g.fillStyle=SZ.rg(bx,byy,1,R*3,[[0,'rgba(255,250,230,.35)'],[1,'rgba(255,250,230,0)']]);g.beginPath();g.arc(bx,byy,R*3,0,TAU);g.fill();}
+  g.save();g.beginPath();g.arc(bx,byy,R,0,TAU);g.clip();
+  g.fillStyle=SZ.rg(bx-2.4,byy-2.6,.5,R*1.2,[[0,'#ffffff'],[.35,'#d8dce6'],[.8,'#8a90a0'],[1,'#4a4e5c']]);g.fillRect(bx-R,byy-R,R*2,R*2);
+  // facets: latitude rows, longitude columns that slide with rotation
+  const rows=9;for(let r=0;r<rows;r++){const la0=-Math.PI/2+r*Math.PI/rows,la1=la0+Math.PI/rows,yy0=byy+Math.sin(la0)*R,yy1=byy+Math.sin(la1)*R,wR=Math.cos((la0+la1)/2)*R;
+    const cols=Math.max(4,Math.round(14*Math.cos((la0+la1)/2)));for(let c=0;c<cols;c++){let lo=(c/cols*TAU+t*.9)%TAU;const s=Math.sin(lo);if(Math.cos(lo)<0)continue;
+      const x0=bx+Math.sin(lo-Math.PI/cols)*wR,x1=bx+Math.sin(lo+Math.PI/cols)*wR,lit=(.5+.5*Math.cos(lo+.6))*(.6+.4*Math.sin(-la0+.3)),k=Math.floor(Math.abs(Math.sin(c*12.9+r*78.2))*1000)%7;
+      const v=Math.round(110+lit*130+(k-3)*9);g.fillStyle=`rgb(${v},${v+3},${Math.min(255,v+12)})`;g.fillRect(Math.min(x0,x1)+.12,yy0+.12,Math.abs(x1-x0)-.24,yy1-yy0-.24);
+      if(k===0&&lit>.55){fillE(g,'rgba(255,255,255,.95)',(x0+x1)/2,(yy0+yy1)/2,.35,.35);}}}
+  g.restore();
+  g.strokeStyle='rgba(40,42,52,.6)';g.lineWidth=.35;g.beginPath();g.arc(bx,byy,R,0,TAU);g.stroke();
+  fillE(g,'rgba(255,255,255,.75)',bx-2.6,byy-3,1.4,.9,-.5);
+  // cap where pole meets ball
+  fillR(g,'#8a8e98',cx-1.1,byy+R-1,2.2,1.6,.4);
+  // twinkles
+  for(let i=0;i<4;i++){const ph=(t*1.7+i*.27)%1,a=i*1.9+t*.5;if(ph<.5){const sx=bx+Math.cos(a)*R*.7,sy=byy+Math.sin(a)*R*.7,z=(.5-Math.abs(ph-.25)*2)*2.2;g.strokeStyle='rgba(255,255,255,.95)';g.lineWidth=.3;g.beginPath();g.moveTo(sx-z,sy);g.lineTo(sx+z,sy);g.moveTo(sx,sy-z);g.lineTo(sx,sy+z);g.stroke();}}
+  g.restore();}
+// the light spots it throws around the room (drawn over a darkened room)
+function MB_spots(cx,cy,w,h,t,n){for(let i=0;i<n;i++){const a=i*2.399+t*.35,r=(.25+((i*37)%100)/100*.75),x=cx+Math.cos(a)*r*w/2,y=cy+Math.sin(a*1.3)*r*h/2,col=['255,255,255','255,120,160','120,220,255','255,230,120','170,140,255'][i%5];
+  g.fillStyle=SZ.rg(x,y,0,3,[[0,`rgba(${col},.85)`],[1,`rgba(${col},0)`]]);g.beginPath();g.arc(x,y,3,0,TAU);g.fill();fillE(g,`rgba(${col},.95)`,x,y,.9,.6);}}
+/* ③ train set: 2x1 tiles, blue plastic track laid as a rectangle with rounded corners (curve pieces), a 3-car train, a tunnel and a station */
+const TR_HW=18.5,TR_HD=13,TR_R=10.5,TR_SQ=.52;
+const TR_L=4*(TR_HW-TR_R)+4*(TR_HD-TR_R)+2*Math.PI*TR_R;
+function TR_pt(sd){ // arc length → top-down point + heading
+  const a=TR_HW-TR_R,b=TR_HD-TR_R,segs=[['l',-a,TR_HD,a,TR_HD],['c',a,b,Math.PI/2,0],['l',TR_HW,b,TR_HW,-b],['c',a,-b,0,-Math.PI/2],['l',a,-TR_HD,-a,-TR_HD],['c',-a,-b,-Math.PI/2,-Math.PI],['l',-TR_HW,-b,-TR_HW,b],['c',-a,b,Math.PI,Math.PI/2]];
+  let d=((sd%TR_L)+TR_L)%TR_L;for(const sg of segs){if(sg[0]==='l'){const len=Math.hypot(sg[3]-sg[1],sg[4]-sg[2]);if(d<=len){const f=d/len;return{x:sg[1]+(sg[3]-sg[1])*f,y:sg[2]+(sg[4]-sg[2])*f,h:Math.atan2(sg[4]-sg[2],sg[3]-sg[1])};}d-=len;}
+    else{const len=TR_R*Math.PI/2;if(d<=len){const an=sg[3]+(sg[4]-sg[3])*(d/len);return{x:sg[1]+Math.cos(an)*TR_R,y:sg[2]+Math.sin(an)*TR_R,h:an-Math.PI/2};}d-=len;}}
+  return{x:-TR_HW+TR_R,y:TR_HD,h:0};}
+function TR_path(off){const a=TR_HW-TR_R+0,b=TR_HD-TR_R,R=TR_R+off,cx=0;g.beginPath();
+  for(let k=0;k<=96;k++){const p=TR_pt(k/96*TR_L),n=[Math.cos(p.h+Math.PI/2),Math.sin(p.h+Math.PI/2)];const x=p.x+n[0]*off,y=(p.y+n[1]*off)*TR_SQ;k?g.lineTo(x,y):g.moveTo(x,y);}g.closePath();}
+function TR_draw(X,Y,t){g.save();const cx=X+23,cy=Y+6;
+  shadowR(X+2,Y+13,44,6);g.translate(cx,cy);
+  // light-blue plastic track (like the photo): wide flat bed, raised outer lips, two wheel grooves
+  g.lineJoin='round';
+  g.lineWidth=4.4;g.strokeStyle='#2f78bf';TR_path(0);g.stroke();               // side wall
+  g.save();g.translate(0,-.45);
+  g.lineWidth=4.2;g.strokeStyle='#4f9fe0';TR_path(0);g.stroke();               // top surface
+  g.lineWidth=.42;g.strokeStyle='#6ab4ee';for(const o of[-1.9,1.9]){TR_path(o);g.stroke();} // raised lips
+  g.lineWidth=.38;g.strokeStyle='#2a6aac';for(const o of[-.85,.85]){TR_path(o);g.stroke();}  // grooves
+  g.lineWidth=.16;g.strokeStyle='rgba(255,255,255,.45)';for(const o of[-.6,1.1]){TR_path(o);g.stroke();}
+  // piece joints with the H-shaped connector (4 curves + straights)
+  const a=TR_HW-TR_R,b=TR_HD-TR_R,jl=[0,2*a,2*a+TR_R*Math.PI/2,2*a+TR_R*Math.PI/2+2*b,2*a+TR_R*Math.PI+2*b,4*a+TR_R*Math.PI+2*b,4*a+TR_R*Math.PI*1.5+2*b,4*a+TR_R*Math.PI*1.5+4*b].map(v=>v-a);
+  for(const L0 of jl){const p=TR_pt(L0);g.save();g.translate(p.x,p.y*TR_SQ);g.rotate(Math.atan2(Math.sin(p.h+Math.PI/2)*TR_SQ,Math.cos(p.h+Math.PI/2)));
+    g.strokeStyle='#2a6aac';g.lineWidth=.14;g.beginPath();g.moveTo(-2.1,0);g.lineTo(2.1,0);g.stroke();
+    fillR(g,'#3f8ed2',-.75,-.45,1.5,.9,.15);fillR(g,'#2a6aac',-.75,-.08,1.5,.16,.05);fillR(g,'#2a6aac',-.75,-.45,.18,.9,.05);fillR(g,'#2a6aac',.57,-.45,.18,.9,.05);g.restore();}
+  g.restore();
+  // train
+  const sp=t*9,cars=[0,1,2].map(k=>({p:TR_pt(sp-k*4.3),k}));
+  const drawCar=({p,k})=>{const x=p.x,y=p.y*TR_SQ-1.2,ang=Math.atan2(Math.sin(p.h)*TR_SQ,Math.cos(p.h));
+    g.save();g.translate(x,y);g.rotate(ang);const L=3.8,H=1.9,col=k===0?'#e8402a':'#f2f0ea',st=k===0?'#f6f2ea':'#2a6ad8';
+    fillE(g,'rgba(0,0,0,.18)',0,1.6,L*.55,.5);fillR(g,col,-L/2,-H/2,L,H,.7);fillR(g,shade(col,-.18),-L/2,H/2-.6,L,.6,.25);fillR(g,st,-L/2,-.1,L,.4,.1);
+    for(let w=0;w<3;w++)fillR(g,'#2a3a5a',-L/2+.5+w*1.05,-H/2+.35,.7,.55,.15);
+    if(k===0){fillE(g,'#2a2a30',L/2-.15,-.1,.45,.75);fillE(g,'#fff2a0',L/2,.45,.28,.22);}
+    for(const wx of[-L/2+.8,L/2-.8])fillE(g,'#2a2a30',wx,H/2+.05,.4,.32);g.restore();};
+  const inT=c=>c.p.x>TR_HW-1.5&&Math.abs(c.p.y)<TR_HD-TR_R-1; // hidden inside the tunnel
+  const back=cars.filter(c=>c.p.y<=0&&!inT(c)),front=cars.filter(c=>c.p.y>0&&!inT(c));
+  back.sort((p,q)=>p.p.y-q.p.y).forEach(drawCar);
+  // tunnel over the right straight
+  const tx=TR_HW,ty=0;g.fillStyle=SZ.lg(0,ty-7,0,ty+3,[[0,'#7fbf5c'],[1,'#4f8a3a']]);g.beginPath();g.ellipse(tx,ty-1,4.4,6,0,Math.PI,0);g.lineTo(tx+4.4,ty+3.4);g.lineTo(tx-4.4,ty+3.4);g.closePath();g.fill();
+  fillE(g,'#3a6a2a',tx-1.6,ty-4.6,1.6,.9);fillE(g,'#9ad070',tx+1.2,ty-5.4,1.3,.7);g.fillStyle='#2a2420';g.beginPath();g.ellipse(tx,ty+3.4,1.9,3,0,Math.PI,0);g.fill();
+  front.sort((p,q)=>p.p.y-q.p.y).forEach(drawCar);
+  // station on the front straight
+  fillR(g,'#d8d0c0',-6,TR_HD*TR_SQ+2,12,2.2,.4);fillR(g,'#b8ae9a',-6,TR_HD*TR_SQ+3.6,12,.7,.3);
+  const sy=TR_HD*TR_SQ;for(const px of[-4.8,4.2])fillR(g,'#f6f2ea',px,sy-2.4,.6,4.6,.2);fillR(g,'#e84a3a',-5.6,sy-3.4,11.2,1.1,.4);fillR(g,'rgba(255,255,255,.3)',-5.4,sy-3.3,10.8,.3,.2);
+  fillR(g,'#2a6ad8',-2.4,sy+2.3,4.8,1.1,.3);g.fillStyle='#fff';g.font='bold 1px sans-serif';g.textAlign='center';g.fillText('ふゆう',0,sy+3.2);
+  const lp=cars[0].p;if(!inT(cars[0])){const ph=(t*1.5)%1;fillE(g,`rgba(255,255,255,${.5*(1-ph)})`,lp.x,lp.y*TR_SQ-3-ph*2.5,.5+ph*.7,.4+ph*.4);}
+  g.restore();}
+/* ④ cube puzzle (3x3) in isometric view */
+const CB_COL=['#f6f6f2','#f2c230','#e8402a','#f28a2a','#2a6ad8','#3fae4a'];
+function CB_draw(x,y,s,mix){g.save();g.translate(x,y);
+  const P=(a,b,c)=>[(a-b)*s*.87,(a+b)*s*.5-c*s]; // a→right-down, b→left-down, c→up
+  const poly=(pts,c)=>{g.fillStyle='#16161c';g.beginPath();pts.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();g.fill();
+    const m=[(pts[0][0]+pts[2][0])/2,(pts[0][1]+pts[2][1])/2],q=pts.map(p=>[m[0]+(p[0]-m[0])*.78,m[1]+(p[1]-m[1])*.78]);g.fillStyle=c;g.beginPath();q.forEach((p,i)=>i?g.lineTo(p[0],p[1]):g.moveTo(p[0],p[1]));g.closePath();g.fill();
+    g.fillStyle='rgba(255,255,255,.25)';g.beginPath();g.moveTo(q[0][0],q[0][1]);g.lineTo(q[1][0],q[1][1]);g.lineTo(m[0],m[1]);g.closePath();g.fill();};
+  const pk=(f,i,j)=>mix?CB_COL[Math.floor(Math.abs(Math.sin(f*31+i*7.3+j*13.1+mix))*1000)%6]:CB_COL[f];
+  const o=P(1.5,1.5,0);g.translate(-o[0],-o[1]-0);
+  fillE(g,'rgba(0,0,0,.2)',P(1.5,1.5,0)[0],P(1.5,1.5,0)[1]+s*.6,s*3,s*1);
+  for(let i=0;i<3;i++)for(let j=0;j<3;j++)poly([P(i,j,3),P(i+1,j,3),P(i+1,j+1,3),P(i,j+1,3)],pk(1,i,j));
+  for(let i=0;i<3;i++)for(let c=0;c<3;c++)poly([P(i,3,c+1),P(i+1,3,c+1),P(i+1,3,c),P(i,3,c)],pk(2,i,c)); // left-front face (b=3)
+  for(let j=0;j<3;j++)for(let c=0;c<3;c++)poly([P(3,j,c+1),P(3,j+1,c+1),P(3,j+1,c),P(3,j,c)],pk(4,j,c)); // right-front face (a=3)
+  g.restore();}
+/* ⑬ hula hoop: back half → character → front half */
+function HH_back(x,y,t,col){const u=t*9,ox=Math.cos(u)*1.8,tilt=Math.sin(u)*.13;g.save();g.translate(x+ox,y);g.rotate(tilt);
+  g.strokeStyle=shade(col,-.3);g.lineWidth=1.5;g.beginPath();g.ellipse(0,0,12,3.2,0,Math.PI,TAU);g.stroke();g.restore();}
+function HH_front(x,y,t,col){const u=t*9,ox=Math.cos(u)*1.8,tilt=Math.sin(u)*.13;g.save();g.translate(x+ox,y);g.rotate(tilt);
+  g.lineWidth=1.6;for(let i=0;i<8;i++){g.strokeStyle=i%2?col:'#fff6d0';g.beginPath();g.ellipse(0,0,12,3.2,0,i*Math.PI/8,(i+1)*Math.PI/8+.02);g.stroke();}
+  g.strokeStyle='rgba(255,255,255,.6)';g.lineWidth=.3;g.beginPath();g.ellipse(0,-.4,11.7,2.9,0,.3,1.2);g.stroke();
+  for(let i=0;i<3;i++){const a=(u*.5+i*.9)%Math.PI;g.strokeStyle='rgba(255,255,255,.5)';g.lineWidth=.25;g.beginPath();g.arc(-ox,0,14.5+i,Math.PI*.9+i*.05,Math.PI*1.02+i*.05);g.stroke();}
+  g.restore();}
+function HH_lean(x,y,col){g.save();g.translate(x,y);fillE(g,'rgba(0,0,0,.18)',2,0,6,1.4);fillR(g,'#a8784a',4,-20,2.4,20.5,.4);fillR(g,'#c8945e',4,-20,1,20.5,.3);fillR(g,'#8a5a32',3.4,-21,3.6,1.6,.5);g.lineWidth=1.3;for(let i=0;i<16;i++){g.strokeStyle=i%2?col:'#fff6d0';g.beginPath();g.ellipse(-1,-11,5,11,.18,i*TAU/16,(i+1)*TAU/16+.02);g.stroke();}g.restore();}
+
+FT.mirrorball=F('光るミラーボール',1,1,'free',['liv','bed'],{tall:1,draw:(X,Y,Wd,Dp,L,t)=>{const on=MB_on();MB_draw(X,Y,Wd,Dp,L,on?t:0,on);},
+  act:{say:['ミラーボール、オン！','今夜はディスコ気分〜','くるくる回る光、きれい…','フィーバー！'],s:12,dance:1,end:['あー、踊った踊った','いい汗かいた〜'],on:()=>{S.mbUntil=Date.now()+rnd(6,10)*60e3;}}});
+FT.trainset=F('鉄道模型（プラレール風）',2,1,'free',['liv','bed'],{draw:(X,Y,Wd,Dp,L,t)=>TR_draw(X,Y,TR_run()?t:(S.trainPos||0)),
+  act:{say:['出発進行！','ガタンゴトン…いい走りっぷり','トンネルに入った…出てきた！','まもなく、ふゆう駅〜'],s:10,end:['終点です。おつかれさまでした','レール、もっと増やしたいな'],on:()=>{S.trainUntil=Date.now()+60e3;},off:()=>{S.trainPos=performance.now()/1000;}}});
+FT.cube=F('キューブパズル',1,1,'top',['liv','bed'],{draw:(bx,by,L,t)=>{if(C.holding==='cube'&&C.hobbyK==='cube')return;CB_draw(bx,by+1,1.2,S.cubeDone?0:3.3+(S.cubeMix||0));},
+  act:{say:['キューブ、そろえてみよう','カチャカチャ…','この面はそろった！あとは…','手順、覚えてるかな'],s:9,hold:'cube',on:()=>{S.cubeMix=(S.cubeMix||0)+1.7;S.cubeDone=false;},
+    end:[()=>{const ok=Math.random()<.35;S.cubeDone=ok;S.cubeMix=(S.cubeMix||0)+.9;return ok?pick(['できた！全面そろった！','やった、6面完成！','新記録かも！']):pick(['あと少しだったのに…','うーん、ぐちゃぐちゃになっちゃった','また今度挑戦しよう']);}]}});
+function MB_on(){return!!(S&&S.mbUntil&&Date.now()<S.mbUntil);}
+function TR_run(){return!!(S&&S.trainUntil&&Date.now()<S.trainUntil);}
+ALLK.push('mirrorball','trainset','cube');
+{const _nc=nextComfort;nextComfort=function(){const r=_nc.apply(this,arguments);try{const nw=['mirrorball','trainset','cube'].filter(k=>!has(k)&&!(S.noRoom||[]).includes(k)&&!isStored(k)&&!(S.delivery&&S.delivery.k===k));if(nw.length&&r&&!ESS.includes(r)&&Math.random()<.45)return pick(nw);}catch(e){}return r;};}
+// hula hoop in the yard
+OFT.hulahoop={n:'フラフープ',w:1,h:1,draw:(X,Y,L,t)=>{const inUse=C.act==='yardplay'&&C.yardK==='hulahoop'&&!C.moving;fillE(g,'rgba(0,0,0,.18)',X+14,Y+20,6,1.4);
+    g.save();g.translate(X+10,Y+20);fillR(g,'#a8784a',4,-20,2.4,20.5,.4);fillR(g,'#c8945e',4,-20,1,20.5,.3);fillR(g,'#8a5a32',3.4,-21,3.6,1.6,.5);g.restore();if(!inUse)HH_lean(X+10,Y+20,'#ff5a9a');},
+  act:{say:['フラフープ、まわすよ〜','腰でくるくる…','よっ、ほっ…まだまだ！'],s:10,hoop:1,end:[()=>`${rnd(20,120)|0}回まわせた！`,()=>'あっ、落ちちゃった','いい運動になった〜']}};
+OKEYS.push('hulahoop');OBUY.push('hulahoop');
+// hobby: remember which toy is in use, and run its start / end hooks
+{const H0=A.hobby;A.hobby=function(fk){let k=fk;if(!k){const ks=S.owned.filter(k=>FT[k].act&&S.layout[k]&&!S.layout[k].carry);if(!ks.length)return null;k=pick(ks);}
+  const a=FT[k]&&FT[k].act,st=H0(k);if(!st||!a)return st;
+  if(a.on||a.hold||a.dance)st.splice(st.length-(a.end?2:1),0,FN(()=>{C.hobbyK=k;try{a.on&&a.on();}catch(e){}if(a.hold)C.holding=a.hold;if(a.dance)C.dance=1;}));
+  st.push(FN(()=>{try{a.off&&a.off();}catch(e){}if(a.hold&&C.holding===a.hold)C.holding=null;C.dance=0;C.hobbyK=null;}));
+  if(a.end){for(let i=st.length-1;i>=0;i--)if(st[i]&&st[i].t==='say'){st[i].text=()=>{const l=pick(a.end);return typeof l==='function'?l():l;};break;}}
+  return st;};}
+{const Y0=A.yardplay;A.yardplay=function(fk){let k=fk;if(!k){const ks=yardList().filter(k=>!S.yard[k].carry&&OFT[k].act&&(!OFT[k].need||OFT[k].need()));if(!ks.length)return null;k=pick(ks);}
+  const st=Y0.call(this,k),a=OFT[k]&&OFT[k].act;if(st&&a&&a.end)st.splice(st.length-1,0,SAY(()=>{const l=pick(a.end);return typeof l==='function'?l():l;}));return st;};}
+// cube in the hands
+{const HD=held;held=function(c,h,d,o){if(h==='cube'){const x=d==='right'?5:0;try{CB_draw(x,-4.6,1.35,S.cubeDone?0:3.3+(S.cubeMix||0)+Math.floor(performance.now()/700)*.37);}catch(e){}return;}return HD.apply(this,arguments);};}
+// hula hoop around the waist, dancing in front of the mirror ball
+{const CO=charOpts;charOpts=function(){const o=CO.apply(this,arguments);try{if(C.act==='yardplay'&&C.yardK==='hulahoop'&&!C.moving&&C.scene==='out')o.hoop=1;if(C.dance&&C.act==='hobby'&&!C.moving){const tt=performance.now()/1000;o.dir=['down','left','down','right'][Math.floor(tt*2.2)%4];}}catch(e){}return o;};}
+{const DCH=drawChar;drawChar=function(c,cx,by,o){if(!o||!o.hoop)return DCH.apply(this,arguments);const t=performance.now()/1000,sc=o.scale||1;
+  c.save();c.translate(Math.round(cx),Math.round(by));c.scale(sc,sc);try{HH_back(0,-11,t,'#ff5a9a');}catch(e){}c.restore();
+  DCH.apply(this,arguments);
+  c.save();c.translate(Math.round(cx),Math.round(by));c.scale(sc,sc);try{HH_front(0,-11,t,'#ff5a9a');}catch(e){}c.restore();};}
+// mirror ball: light spots over its room, the room dims a little
+function MB_room(){const L=S.layout.mirrorball;if(!L||L.carry)return null;const r=roomAt(L.x,L.y);if(!r)return null;let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<24;y++)for(let x=0;x<HW;x++)if(roomAt(x,y)===r){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}return{x0,y0,x1,y1,L};}
+{const LI=lightingIn;lightingIn=function(t){LI.apply(this,arguments);try{if(MB_on()&&C.scene==='in'&&has('mirrorball')){const dl=daylight();g.fillStyle=`rgba(20,10,40,${dl<.5?.22:.08})`;g.fillRect(0,0,W,H);}}catch(e){}};}
+{const GI=glowIn;glowIn=function(t){GI.apply(this,arguments);try{if(!MB_on()||C.scene!=='in'||!has('mirrorball'))return;const R=MB_room();if(!R)return;const dl=daylight(),al=dl<.5?1:.45;
+  const X0=R.x0*T,Y0=R.y0*T-8,X1=(R.x1+1)*T,Y1=(R.y1+1)*T,cx=(R.L.x+.5)*T,cy=R.L.y*T-3;g.save();g.beginPath();g.rect(X0,Y0,X1-X0,Y1-Y0);g.clip();g.globalCompositeOperation='lighter';
+  const cols=['255,255,255','255,120,170','120,220,255','255,230,120','170,140,255'],N=80;
+  for(let i=0;i<N;i++){const a=i*2.399+t*.45,rr=(.12+((i*37)%100)/100*.88),x=cx+Math.cos(a)*rr*(X1-X0)*.9,y=cy+Math.sin(a*1.17+i)*rr*(Y1-Y0)*.9;if(x<X0||x>X1||y<Y0||y>Y1)continue;const col=cols[i%5],r=3.4;
+    const gr=g.createRadialGradient(x,y,0,x,y,r*2);gr.addColorStop(0,`rgba(${col},${.55*al})`);gr.addColorStop(1,`rgba(${col},0)`);g.fillStyle=gr;g.fillRect(x-r*2,y-r*2,r*4,r*4);fillE(g,`rgba(${col},${.85*al})`,x,y,1.2,.8);}
+  const gr=g.createRadialGradient(cx,cy,0,cx,cy,30);gr.addColorStop(0,`rgba(255,250,230,${.25*al})`);gr.addColorStop(1,'rgba(255,250,230,0)');g.fillStyle=gr;g.fillRect(cx-30,cy-30,60,60);
+  g.globalCompositeOperation='source-over';g.restore();}catch(e){}};}
+// at night, with music or drinks, the ball sometimes comes on by itself
+setInterval(()=>{try{if(!S||!has('mirrorball')||MB_on()||C.sleeping||C.scene!=='in')return;const dl=daylight();if(dl>.5)return;
+  const party=['drink','music','record','jukebox','boombox','radio'].includes(C.act)||(typeof MUS!=='undefined'&&MUS&&MUS.on);if(Math.random()<(party?.18:.03)){S.mbUntil=Date.now()+rnd(5,9)*60e3;if(!msgBusy())say(pick(['ミラーボール、つけちゃおう','パーティーの始まり〜','光の粒が回ってる…きれい']));}}catch(e){}},60000);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
