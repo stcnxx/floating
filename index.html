@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版295（2026/10/25 #145）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版298（2026/10/25 #148）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版295（2026/10/25 #145）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版298（2026/10/25 #148）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2177,7 +2177,7 @@ const A={
     if(where==='bar')s.push(...goF('bar'),snapF('bar'),FN(()=>{C.tableSet=set();C.holding=null;}));else if(where==='table')s.push(...goF('table'),snapF('table'),FN(()=>{C.tableSet=set();C.holding=null;}));else if(where!=='floor')s.push(...goF(where),snapF(where),FN(()=>{C.holding='glass';}));else s.push(...sitFloor('liv'),FN(()=>{C.holding='glass';}),SAY(pick(['床に座って、ゆるっと一杯','座布団がほしいけど…まあいいか'])));
     let sipT=0;const sip=dt=>{need('fun',3)(dt);sipT+=dt;const inH=(sipT%5)<1.7;if(C.tableSet&&C.tableSet.drink){C.tableSet.inHand=inH;C.holding=inH?'glass':null;}if(inH)C.drinkLv=Math.max(.15,(C.drinkLv||1)-dt*.08);};
     s.push(...mateJoinSteps(where,ms=>{M.drink=d;M.drinkLv=1;M.holding='glass';if(C.tableSet&&C.tableSet.k===where&&(where==='bar'||where==='table')){if(where==='bar')C.tableSet.mx=ms.tile.x;else C.tableSet.mt=ms.tile;C.tableSet.md=1;M.holding=null;}}));
-    const RT=rateDrink(d);s.push(...talkMate(()=>M&&M.busy&&M.drink?pick(DRINKTALK)(d):null),SAY(()=>pick(['かんぱーい！','いただきます','ひと口目、しみる〜'])),W8(5,sip),SAY(RT.l[0]),W8(5,sip),SAY(RT.l[1]),W8(5,sip),SAY(()=>pick(d.say)),W8(5,sip),SAY(RT.l[2]),W8(4,sip),SAY(()=>pick([`${sn}が合う〜`,`${sn}をつまんで…最高`])),W8(5,sip),SAY(RT.l[3]),W8(3,sip),FN(()=>{S.notes=S.notes||{};const o=S.notes[d.n]||{s:0,n:0};o.s=Math.max(o.s,RT.score);o.n++;o.last=RT.score;S.notes[d.n]=o;S.drinkAt=Date.now();}),
+    const RT=rateDrink(d);s.push(...talkMate(()=>M&&M.busy&&M.drink?pick(DRINKTALK)(d):null),SAY(()=>pick(['かんぱーい！','いただきます','ひと口目、しみる〜'])),W8(5,sip),SAY(RT.l[0]),W8(5,sip),SAY(RT.l[1]),W8(5,sip),SAY(()=>pick(d.say)),W8(5,sip),SAY(RT.l[2]),W8(4,sip),SAY(()=>SNACK_LINE(sn)),W8(5,sip),SAY(RT.l[3]),W8(3,sip),FN(()=>{S.notes=S.notes||{};const o=S.notes[d.n]||{s:0,n:0};o.s=Math.max(o.s,RT.score);o.n++;o.last=RT.score;S.notes[d.n]=o;S.drinkAt=Date.now();}),
       FN(()=>{diaryAdd(`お酒：${d.n}`);S.drinkN=(S.drinkN||0)+1;S.tipsyUntil=Date.now()+20*60e3;emote('♪',2);}),SAY(()=>pick(['ふふ、ほろ酔い','いい気分〜','ごちそうさまでした'])),W8(1.2),
       FN(()=>{unsnap();C.tableSet=null;C.drinkLv=0;C.holding='glass';if(M&&M.busy)mRelease();}),SAY(()=>pick(['グラスとびんを片付けよう','おさけを棚にもどして…'])));
     if(hasKSink())s.push(...goSink(),SAY('グラスを洗っておこう'),W8(2.4,wTick('ksink')));
@@ -6186,11 +6186,11 @@ function chooseMateAct(){const h=hourNow(),s=[];
     return st;}}
   const tO=S.mate.out||'mid',tN=S.mate.near||'mid';
   if(Math.random()<(tN==='near'?.35:tN==='far'?0:.1)&&!C.sleeping){const sc=C.scene,cand=[];for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const x=C.tx+dx,y=C.ty+dy;if(Math.abs(dx)+Math.abs(dy)<2)continue;if(sc==='in'?walkIn(x,y):walkOut(x,y))cand.push({x,y});}
-    if(cand.length){const q=pick(cand);return[{t:'go',sc,x:q.x,y:q.y},{t:'say',text:()=>pick(['なにしてるの？','となり、いい？','ここにいよっと','ふふ、なんとなく来ちゃった',...MSELF])},{t:'wait',s:rnd(12,25)}];}}
+    if(cand.length){const q=pick(cand);return[{t:'go',sc,x:q.x,y:q.y},{t:'say',text:()=>(Math.random()<.5?pick(['なにしてるの？','となり、いい？','ここにいよっと','ふふ、なんとなく来ちゃった']):mateSelfLine())},{t:'wait',s:rnd(12,25)}];}}
   if(tN==='far'&&Math.random()<.5){const myR=C.scene==='in'?roomAt(C.tx,C.ty):'out';const rooms=['liv','kit','bed'].filter(r2=>r2!==myR);if(C.scene==='in'&&daylight()>.25&&!badOut()&&Math.random()<.35){const t2=randomTile('out');if(t2)return[{t:'say',text:pick(['ちょっと外に出てくるね','ひとりで散歩してくる'])},{t:'go',sc:'out',x:t2.x,y:t2.y},{t:'wait',s:rnd(15,30)},{t:'go',sc:'in',x:IN_ENTRY.x,y:IN_ENTRY.y-1}];}
     const t3=randomTile('in',pick(rooms));if(t3)return[{t:'go',sc:'in',x:t3.x,y:t3.y},{t:'wait',s:rnd(10,20)},{t:'say',text:()=>mateSelfLine()}];}
   let r=Math.random();const outW=tO==='out'?.45:tO==='in'?.04:.2;if(r<outW&&daylight()>.25&&!badOut())r=.5;else if(r>=.42&&r<.62)r=tO==='out'?.5:.3;
-  if(r<.32){const st=mSeatTile();if(st){const sb=st.k==='sofa'?sofaB():null;if(sb){st.u=sb.tile;}const sit=sb?sb.sit:sitAtTile(st.u,FT[st.k]&&FT[st.k].sitChair);return[{t:'go',sc:'in',x:st.u.x,y:st.u.y},{t:'fn',f:()=>{if(C.snapK===st.k){M.sit=null;return;}M.sit={...sit,pose:'sit'};M.seatK=st.k;}},{t:'say',text:()=>pick(['ちょっとひと休み','ふう、くつろぐ〜','ここ、落ちつくんだよね',...MSELF])},{t:'wait',s:rnd(18,40)},{t:'fn',f:()=>{M.sit=null;M.seatK=null;}}];}}
+  if(r<.32){const st=mSeatTile();if(st){const sb=st.k==='sofa'?sofaB():null;if(sb){st.u=sb.tile;}const sit=sb?sb.sit:sitAtTile(st.u,FT[st.k]&&FT[st.k].sitChair);return[{t:'go',sc:'in',x:st.u.x,y:st.u.y},{t:'fn',f:()=>{if(C.snapK===st.k){M.sit=null;return;}M.sit={...sit,pose:'sit'};M.seatK=st.k;}},{t:'say',text:()=>(Math.random()<.5?pick(['ちょっとひと休み','ふう、くつろぐ〜','ここ、落ちつくんだよね']):mateSelfLine())},{t:'wait',s:rnd(18,40)},{t:'fn',f:()=>{M.sit=null;M.seatK=null;}}];}}
   if(r<.42&&has('bookshelf')){const u=U('bookshelf');if(u)return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.holding='book';M._rd=pick([...BOOKS,...MANGA,...MAGS]);}},{t:'say',text:()=>{const it=M._rd;return it.mag?`『${it.t}』、読もうっと`:it.manga?`${it.a}の『${it.t}』の続き、読もうっと`:`${it.a}の『${it.t}』、続き読もうっと`;}},{t:'wait',s:rnd(8,14)},{t:'say',text:()=>{const it=M._rd;return pick(it.mag?(MAGMID[it.k]||MAGMID.zc):(BKMID[it.k]||BKMID.jm));}},{t:'wait',s:rnd(6,12)},{t:'fn',f:()=>{M.holding=null;}}];}
   if(r<.62&&daylight()>.25&&!badOut()){const pts=[];for(let i=0;i<3;i++){const t2=randomTile('out');if(t2)pts.push(t2);}const bn=OUT.bench,sv=[{t:'say',text:pick(['ちょっと庭に出てくるね','外の空気吸ってこよう','お散歩してくるね','庭の様子、見てくる'])}];
     for(const q of pts)sv.push({t:'go',sc:'out',x:q.x,y:q.y},{t:'wait',s:rnd(4,9)},{t:'say',text:()=>pick(['いい風〜','花が咲いてる','空が近いなあ','雲が足もとを流れてく','鳥の声がする','ここからの景色、好き',season()==='autumn'?'葉っぱの色がきれい':season()==='winter'?'空気が冷たくて気持ちいい':season()==='summer'?'日差しが強いね':'あったかいね'])});
@@ -16117,6 +16117,57 @@ function drinksToday(){const k=dayKey(now());return S&&S.drinkDay&&S.drinkDay.d=
 // after three or more drinks, the tipsy hero may put on 飲みすぎ仮面 by themself
 setInterval(()=>{try{if(!S||C.fun||C.sleeping||V)return;const n=drinksToday();if(n<3||!(S.tipsyUntil&&Date.now()<S.tipsyUntil))return;if(Math.random()>.12)return;
   const f={k:'mask',id:'nomisugi',until:Date.now()+rnd(8,12)*60e3};C.fun=f;if(ACC_offWhy()){C.fun=null;return;}ACC_dex('mask:nomisugi');say(pick(['ういっく…飲みすぎ仮面、参上！','今日は飲みすぎちゃった…変身！','ひっく…飲みすぎ仮面だぞ〜']));}catch(e){}},60000);
+/* ---- v296: at least 30 snacks for every kind of drink; 30 ways to praise the pairing; the housemate's monologue repeats less ---- */
+SNK.push(
+ ['カプレーゼ','#e84a3a','white rose bubbly red'],['カルパッチョ','#e8a090','white rose bubbly'],['スモークサーモン','#f08a6a','white bubbly rose'],['パテ・ド・カンパーニュ','#8a5a3a','red rose'],['テリーヌ','#c88a6a','red rose white'],['ブルスケッタ','#d8582a','red white rose'],
+ ['アヒージョ','#e8b84a','white red beer'],['生牡蠣','#d8d8c8','white bubbly sake'],['カマンベール','#f6f0dc','red white rose bubbly'],['ブルーチーズ','#d8dcc8','red sweet brandy'],['フォアグラのパテ','#d8a888','sweet red bubbly'],['ドライフルーツ','#c86a3a','sweet brandy whisky red'],
+ ['いちじくのコンポート','#8a3a5a','sweet red brandy'],['クラッカーとクリームチーズ','#f6ecd0','white rose bubbly sweet'],['魚介のマリネ','#f0c0a0','white rose'],['ピクルス','#a8c060','white rose beer sour'],['サラミ','#b84a3a','red beer whisky'],['生ハムメロン','#f0b880','white rose bubbly sweet'],
+ ['キッシュ','#f0d090','white rose red'],['ラタトゥイユ','#c8483a','red rose'],['ローストビーフ','#a83a3a','red whisky'],['ミートボール','#8a4a2a','red beer'],['バーニャカウダ','#e8c070','white rose red'],['白身魚のフリット','#f0d8a0','white bubbly beer'],
+ ['シュリンプカクテル','#f0906a','bubbly cocktail white'],['キャビアのカナッペ','#3a3a3a','bubbly'],['いちご','#e83a4a','bubbly rose sweet'],['マカロン','#f0a0c0','bubbly sweet rose cocktail'],['ビターチョコ','#4a2a1a','red whisky brandy sweet'],['トリュフチョコ','#5a3a2a','brandy whisky sweet bubbly'],
+ ['ナッツのはちみつ漬け','#d8a040','sweet brandy whisky'],['ゴルゴンゾーラのはちみつがけ','#e8d8a0','sweet red'],['フルーツの盛り合わせ','#f0a040','sweet cocktail bubbly rose'],['グリッシーニ','#e8c890','red white rose bubbly'],['ムール貝のワイン蒸し','#3a3a4a','white rose bubbly'],['タパスの盛り合わせ','#d87a4a','red rose white sour'],
+ ['チーズフォンデュ','#f0d070','white red'],['シャルキュトリー盛り合わせ','#c85a4a','red rose bubbly'],['レーズンバター','#e8d8a0','sweet brandy whisky'],['パンナコッタ','#f6f0e0','sweet rose'],['白桃','#f6c8b0','rose sweet bubbly cocktail'],['生ハムといちじく','#b85a5a','red rose sweet'],
+ ['たこわさ','#8ab060','sake shochu sour'],['なめろう','#c89070','sake shochu'],['酢の物','#a8c890','sake shochu'],['漬物の盛り合わせ','#d8c050','sake shochu'],['揚げ出し豆腐','#e8c890','sake shochu'],['焼きなす','#5a3a6a','sake shochu beer'],
+ ['牛すじ煮込み','#8a5a3a','shochu sake sour'],['豚の角煮','#8a4a2a','shochu sake'],['地鶏の炭火焼き','#7a4a2a','shochu sour beer'],['島らっきょう','#e8e8c0','shochu'],['ゴーヤチャンプルー','#6a9a4a','shochu beer sour'],['明太子','#e85a4a','sake shochu beer'],
+ ['冷やしトマト','#e84a3a','sour beer shochu'],['きゅうりの浅漬け','#6aa04a','sour shochu beer'],['チャンジャ','#c83a2a','sour shochu'],['キムチ','#d8402a','sour beer shochu'],['鶏皮ポン酢','#e8c090','sour shochu'],['燻製たまご','#c8904a','whisky shochu sake'],
+ ['スモークナッツ','#a8683a','whisky cocktail brandy'],['ベーコンの燻製','#b85a3a','whisky beer'],['オリーブとチーズのピンチョス','#8a9a3a','cocktail red white'],['トルティーヤチップス','#e8c060','cocktail beer sour'],['ポップコーン','#f6e8a0','cocktail beer sour'],['プレッツェル','#a8683a','beer cocktail'],
+ ['オランジェット','#e88a2a','cocktail brandy sweet whisky'],['ミントチョコ','#7ad0b0','cocktail sweet'],['ライチ','#f6f0e8','cocktail rose sweet'],['マンゴー','#f0b030','cocktail sweet'],['クレームブリュレ','#e8b860','brandy sweet'],['栗の渋皮煮','#7a4a2a','brandy sake sweet'],
+ ['フルーツケーキ','#a8683a','brandy whisky sweet'],['マロングラッセ','#c89060','brandy sweet'],['ブリーチーズ','#f6ecd0','brandy red white'],['スモークチーズ','#d8a050','whisky sake shochu beer'],['ナチョス','#e8b040','beer cocktail sour'],['焼き銀杏','#d8d070','sake shochu'],
+ ['しめさば','#a8b8c8','sake'],['かつおのたたき','#a83a3a','sake shochu'],['からすみ','#d87a2a','sake'],['湯豆腐','#f6f6ee','sake'],['ほたるいかの沖漬け','#8a3a3a','sake'],['フィッシュアンドチップス','#e8c070','beer'],
+ ['ジャーマンポテト','#e8c050','beer white'],['ソーセージの盛り合わせ','#c86a3a','beer white'],['オイルサーディン','#c8a050','white rose shochu'],['エビのアヒージョ','#e8804a','white rose bubbly'],['アボカドとわさび醤油','#7aa04a','white sake'],['柿とクリームチーズ','#f0904a','white sweet sake'],
+ ['キャロットラペ','#f0903a','white rose'],['えだまめのペペロンチーノ','#8ab04a','white beer'],['ハニーナッツ','#d8a040','rose sweet'],['ベリーのタルト','#a8304a','rose sweet bubbly'],['ローストナッツ','#a86a3a','rose brandy whisky'],['サーモンのタルタル','#f0906a','rose bubbly white'],
+ ['アスパラの生ハム巻き','#7a9a4a','rose bubbly white'],['チーズタルト','#f0d080','sweet rose'],['フライドポテト','#f0c050','rose sour beer cocktail'],['ドライマンゴー','#f0a030','cocktail sweet'],['チョコレートトリュフ','#4a2a1a','cocktail brandy'],['レモンピール','#f0d040','cocktail sour'],
+ ['ライム塩のナッツ','#b8c870','cocktail sour'],['ビーフシチューのひと口パイ','#7a3a2a','red brandy'],['鴨のロースト','#8a3a3a','red'],['ジビエのパテ','#6a3a2a','red'],['チーズの盛り合わせ','#f0e0b0','red white bubbly brandy'],['焼き芋のブリュレ','#c8803a','shochu sweet'],
+ ['さつまいもチップス','#e8a040','shochu sour'],['ニラ玉','#9ab84a','shochu sour'],['ホルモン焼き','#a85a3a','shochu sour beer'],['砂肝ポン酢','#a86a4a','shochu sour'],['ポテサラのいぶりがっこ和え','#e8d8a0','sake shochu whisky'],['ナッツとレーズン','#a86a3a','whisky brandy'],
+ ['燻製オイスター','#8a6a4a','whisky'],['ビターオレンジ','#e88a2a','whisky brandy'],['ショートブレッド','#e8c890','whisky'],['ブラックペッパーのジャーキー','#5a2a1a','whisky'],['スモークサーモンのカナッペ','#f08a6a','bubbly whisky'],['ガトーショコラ','#3a2a1a','brandy whisky'],
+ ['チョコがけオレンジ','#e87a2a','brandy'],['パルミジャーノ','#f0d890','brandy red'],['塩キャラメルナッツ','#c88a3a','brandy sweet'],['もつ鍋','#8a5a3a','beer shochu']);
+const SNACK_LINES=[sn=>`${sn}が合う〜`,sn=>`${sn}をつまんで…最高`,sn=>`この組み合わせ、${sn}で正解だった`,sn=>`${sn}をひと口。お酒がすすむ`,sn=>`${sn}、いい仕事してる`,sn=>`お酒と${sn}、名コンビ`,sn=>`${sn}があると、ついもう一杯`,sn=>`${sn}の塩気がちょうどいい`,sn=>`${sn}、止まらなくなっちゃう`,sn=>`${sn}で一気に居酒屋気分`,
+ sn=>`${sn}をかじりながら…しあわせ`,sn=>`${sn}、用意しておいてよかった`,sn=>`${sn}のおかげで味が引き立つ`,sn=>`${sn}とお酒を交互に…たまらない`,sn=>`${sn}、ちょっと贅沢しちゃった`,sn=>`${sn}の香りとお酒の香り、いいね`,sn=>`今日のおつまみは${sn}。大当たり`,sn=>`${sn}、もうひとつだけ…`,sn=>`${sn}があれば、何杯でもいけそう`,sn=>`${sn}、口の中でお酒とけんかしない`,
+ sn=>`${sn}とのペアリング、満点！`,sn=>`ん〜、${sn}最高`,sn=>`${sn}で、お酒の甘みが際立つ`,sn=>`やっぱりおつまみは${sn}だね`,sn=>`${sn}、手が勝手にのびる`,sn=>`${sn}をちびちび、お酒をちびちび`,sn=>`${sn}がしみる〜`,sn=>`${sn}と一緒だと、お酒がまろやか`,sn=>`このお酒には${sn}、覚えておこう`,sn=>`${sn}、また買っておこう`];
+function SNACK_LINE(sn){return pick(SNACK_LINES)(sn);}
+// the housemate's everyday remarks: the "lost sock" joke only once, and a longer memory so nothing comes back too soon
+{const i=MSELF.indexOf('靴下って、なんで片方だけなくなるんだろう');if(i>=0)MSELF.splice(i,1,'窓ガラス、ピカピカにしたいな');}
+{const MS2=mateSelfLine;mateSelfLine=function(){for(let k=0;k<6;k++){const l=MS2.apply(this,arguments);const H=S.mselfLong=S.mselfLong||[];if(!H.includes(l)||k===5){H.push(l);if(H.length>160)H.splice(0,H.length-160);return l;}}};}
+/* ---- v297: more store-bought snacks — Bourbon, Tohato, Kabaya, Shoei Delicy, and many うまい棒 flavors (as drink snacks and for tea time) ---- */
+const SNK297=[
+ // Bourbon
+ ['ルマンド','#b88a5a','cocktail sweet whisky','s'],['ホワイトロリータ','#f2ead8','sweet cocktail','s'],['バームロール','#e8c890','sweet brandy','s'],['エリーゼ','#c8905a','sweet cocktail','s'],['ブランチュール','#f2ead8','sweet bubbly','s'],['ルーベラ','#d8a868','sweet','s'],
+ ['チョコあ〜んぱん','#6a4028','sweet whisky','s'],['プチ ポテト コンソメ','#e8c060','beer sour',''],['チョコリエール','#5a3a22','whisky brandy cocktail','s'],
+ // Tohato
+ ['キャラメルコーン','#e8b860','beer sour cocktail','s'],['ポテコ','#e8c070','beer sour',''],['なげわ','#e8b050','beer sour',''],['ハーベスト','#d8a860','sweet white','s'],['ビーノ','#9ab860','beer sour',''],['オールレーズン','#a86a3a','sweet brandy whisky','s'],['あみじゃが','#e8c060','beer',''],['暴君ハバネロ','#d8402a','beer sour shochu',''],
+ // Kabaya / Shoei Delicy
+ ['さくさくぱんだ','#5a3a22','sweet cocktail','s'],['サク山チョコ次郎','#6a4028','sweet whisky cocktail','s'],
+ // うまい棒
+ ['うまい棒 コーンポタージュ味','#f2d060','beer sour',''],['うまい棒 チーズ味','#f2c040','beer sour white',''],['うまい棒 サラミ味','#d8783a','beer sour',''],['うまい棒 やさいサラダ味','#a8c860','beer sour',''],['うまい棒 たこやき味','#c8783a','beer sour',''],['うまい棒 なっとう味','#c8a050','beer sake',''],
+ ['うまい棒 エビマヨネーズ味','#f0a070','beer sour',''],['うまい棒 チキンカレー味','#e8a030','beer',''],['うまい棒 テリヤキバーガー味','#a8683a','beer',''],['うまい棒 とんかつソース味','#8a4a2a','beer shochu',''],['うまい棒 シュガーラスク味','#f2e0b0','sweet cocktail','s'],['うまい棒 ピザ味','#e85a3a','beer red','']];
+for(const[n,c,t]of SNK297)SNK.push([n,c,t]);for(const[n,c]of SNK)if(!SNKC[n])SNKC[n]=c;
+// tea time: the sweet ones can also be the afternoon snack
+for(const[n,,,sw]of SNK297)if(sw&&!SWEET.includes(n))SWEET.push(n);
+{const SC=sweetCol;sweetCol=function(n){const e=SNK297.find(x=>x[0]===n);return e?e[1]:SC.apply(this,arguments);};}
+/* ---- v298: なとり snacks and 越後製菓 ふんわり名人 ---- */
+{const add=[['なとりのチーズ鱈','#f2e6a0','beer sake white',''],['なとりの熟成チーズ鱈','#f0dc90','beer sake whisky',''],['なとりのさきいか','#f2e6c8','sake shochu beer',''],['なとりの焼ほたて貝ひも','#d89a6a','sake shochu',''],
+  ['なとりのビーフジャーキー','#7a3a2a','whisky beer red',''],['なとりのいか燻製','#c8a070','sake whisky shochu',''],['なとりの茎わかめ','#5a8a4a','sake shochu sour',''],['なとりのチーズかまぼこ','#f2c890','beer sour shochu',''],
+  ['ふんわり名人 きなこもち','#e8c890','sake shochu sweet','s'],['ふんわり名人 北海道チーズ餅','#f2d890','beer white sake sour','s']];
+ for(const e of add){SNK.push([e[0],e[1],e[2]]);SNKC[e[0]]=e[1];SNK297.push(e);if(e[3]&&!SWEET.includes(e[0]))SWEET.push(e[0]);}}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
