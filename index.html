@@ -315,11 +315,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版260（2026/10/25 #110）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版263（2026/10/25 #113）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版260（2026/10/25 #110）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版263（2026/10/25 #113）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -15308,6 +15308,15 @@ setTimeout(()=>{try{const b=$('camB');if(b){b._m2=null;camBtn();}}catch(e){}},70
 /* v260: turning a 防災情報 switch back on fetches that information right away (and shows what is in force now) */
 setTimeout(()=>{try{document.querySelectorAll('input[data-bk]').forEach(i=>i.addEventListener('change',()=>{if(!i.checked||!S)return;const k=i.dataset.bk;
   setTimeout(()=>{try{if(k==='warn'){S.warnSet=[];warnPoll();}else if(k==='typhoon'){S.tcSeen={};tcPoll();}else if(k==='quake'||k==='tsunami'){quakePoll();}else if(k==='train'){S.trainSeen=[];trainPoll();}}catch(e){}},50);}));}catch(e){}},2000);
+/* v261: keep the alert banners above the help (?) button */
+/* v262: one row of buttons at the bottom (help, pause, manual), fixed widths; the room-name label is retired */
+try{const st=document.createElement('style');st.textContent='#room{display:none!important}.helpb{bottom:8px!important;left:8px!important}.quake{bottom:46px!important}'+
+  '.botbar{left:max(46px,calc(50% - 137px))!important;bottom:8px}.botbar .pauseb{width:108px;justify-content:center;padding:0 8px}.botbar .camb{width:158px;justify-content:center;padding:0 8px}.botbar .pauseb .pl{display:inline-block;min-width:4.2em;text-align:left}#camToast{bottom:88px!important}';document.head.append(st);}catch(e){}
+/* v263: rugs (and other floor pieces) can be long-pressed too: drag to move, or release for the pattern menu */
+{const DT0=dragTarget;dragTarget=function(e){const r=DT0.apply(this,arguments);if(r)return r;if(!S||C.scene!=='in')return null;const w=tapWorld(e),tx=Math.floor(w.x/T),ty=Math.floor(w.y/T);
+  for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='floor'||!L||L.carry)continue;if(tx>=L.x&&tx<L.x+f.w&&ty>=L.y&&ty<L.y+f.h)return{k,sc:'in',w};}return null;};}
+// only furniture that can be used now must stay usable after the move (something already blocked elsewhere must not lock every move)
+function allUsableRel(occR,occ,skipK){let occ0=null;for(const kk of S.owned){if(kk===skipK)continue;const L=S.layout[kk];if(!L||L.carry)continue;if(useTileFor(kk,L,occR))continue;if(!occ0)occ0=reachOcc(occ)||new Set();if(useTileFor(kk,L,occ0))return false;}return true;}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -15404,13 +15413,13 @@ function validIn(k,p){const f=FT[k];const occ=occSet(new Set([k]));
   if(f.k==='wall'&&!(canLean(k)&&leanOK(p.x,p.y)))return false;
   const w=p.ped?1:f.w,h=p.ped?1:f.h,r=roomAt(p.x,p.y);if(!r||!f.rooms.includes(r))return false;
   const ct=C.scene==='in'?C.tx+','+C.ty:'',vt=V&&V.scene==='in'?V.tx+','+V.ty:'',usedW=wallUsed();
-  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||DOORCELL.has(kk))return false;if(f.k!=='floor'&&(occ.has(kk)||kk===ct||kk===vt))return false;}
+  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||DOORCELL.has(kk))return false;if(f.k!=='floor'&&occ.has(kk))return false;}/* the hero / visitor standing there just steps aside afterwards (seatFix) */
   if(f.k==='floor')return true;
   // furniture that prefers the wall can still be moved anywhere by hand
   if(f.tall){for(let xx=p.x;xx<p.x+w;xx++)if(usedW.has(xx+','+(p.y-1)))return false;const fw=wallFront();for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)if(fw.has(xx+','+yy))return false;}
   const occ2=new Set(occ);for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)occ2.add(xx+','+yy);
   // moving by hand: small dead-end pockets are fine, as long as the entrance and every piece of furniture can still be reached
-  const occR=reachOcc(occ2);if(!occR||occR.size-occ2.size>Math.max(4,reachPk(occ))||!useTileFor(k,p,occR)||!allUsable(occR,k))return false;
+  const occR=reachOcc(occ2);if(!occR||occR.size-occ2.size>Math.max(12,reachPk(occ))||!useTileFor(k,p,occR)||!allUsableRel(occR,occ,k))return false;
   if(k==='table'&&!((roomAt(p.x-1,p.y)&&!occ2.has((p.x-1)+','+p.y))||(roomAt(p.x+2,p.y)&&!occ2.has((p.x+2)+','+p.y))))return false;return true;}
 function validOut(k,p){const f=OFT[k];const t=outTester(f.w,f.h,k);for(let yy=p.y;yy<p.y+f.h;yy++)for(let xx=p.x;xx<p.x+f.w;xx++){if(C.scene==='out'&&C.tx===xx&&C.ty===yy)return false;if(V&&V.scene==='out'&&V.tx===xx&&V.ty===yy)return false;}return t.full(p);}
 function dragTarget(e){const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(!tg)return null;
