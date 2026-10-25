@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">あなたの街の上空に浮かぶ小さな島で、住人がひとりで暮らしています。</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版308（2026/10/26 #158）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版309（2026/10/26 #159）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版308（2026/10/26 #158）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版309（2026/10/26 #159）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2150,12 +2150,12 @@ const A={
     for(const k of picks)s.push(...moveSteps(k));
     s.push(FN(()=>{S.remodelAt=Date.now();S.noRoom=[];save();}),SAY(pick(['うん、いい感じ！','すっきりした！','新しいお部屋みたい'])));return s;},
   taiso(){if(!has('radio'))return null;S.taisoDay=now().toDateString();let sp=null,ms=null;const L=S.layout.radio;
-    const spot=()=>{const u=U('radio');if(!u)return null;for(const[dx,dy]of[[0,1],[1,1],[-1,1],[0,2],[0,0]]){const x=u.x+dx,y=u.y+dy;if(walkIn(x,y))return(sp={x,y});}return(sp={x:u.x,y:u.y});};
+    const spot=()=>{const u=U('radio');if(!u)return null;const cand=[[0,1],[1,1],[-1,1],[0,2],[1,2],[-1,2],[0,0]];const pair=mateFree();if(pair)for(const[dx,dy]of cand){const x=u.x+dx,y=u.y+dy;if(walkIn(x,y)&&(walkIn(x+1,y)||walkIn(x-1,y)))return(sp={x,y});}for(const[dx,dy]of cand){const x=u.x+dx,y=u.y+dy;if(walkIn(x,y))return(sp={x,y});}return(sp={x:u.x,y:u.y});};
     const lines=['腕を前から上にあげて、背伸びの運動〜','腕を振って、あしを曲げ伸ばす運動','腕を回しまーす','胸をそらす運動','からだを横に曲げる運動','からだをねじる運動','その場で跳躍〜！','最後に深呼吸…すって〜、はいて〜'];
     return[SAY(pick(['ラジオ体操の時間だ！','朝はやっぱりラジオ体操','ラジオ体操で目をさまそう'])),...goF('radio'),W8(.6),FN(()=>{C.radioNow={ch:'NHKラジオ第1',title:'ラジオ体操第1',genre:'exercise',start:Date.now(),end:Date.now()+180e3};}),
-      {t:'go',sc:'in',dyn:spot},FN(()=>{C.dir='down';if(mateFree()&&sp){for(const[dx,dy]of[[1,0],[-1,0],[0,1]]){const x=sp.x+dx,y=sp.y+dy;if(walkIn(x,y)){ms={x,y};mEngage();mGo('in',x,y);break;}}}}),
+      {t:'go',sc:'in',dyn:spot},FN(()=>{C.dir='down';if(mateFree()&&sp){for(const[dx,dy]of[[1,0],[-1,0]]){const x=sp.x+dx,y=sp.y+dy;if(walkIn(x,y)){ms={x,y};mEngage();mGo('in',x,y);break;}}}}),
       SAY('ラジオ体操第一〜、よーい…'),W8(1.2),FN(()=>{C.taiso=performance.now()/1000;if(M&&M.busy&&ms)M.taiso=C.taiso;}),
-      ...lines.flatMap((l,i)=>[SAY(l),W8(i===lines.length-1?6:5,dt=>{need('fun',1.2)(dt);need('energy',.6)(dt);if(M&&M.busy&&ms&&!M.goal&&!M.moving){M.dir='down';if(!M.taiso)M.taiso=C.taiso;}})]),
+      ...lines.flatMap((l,i)=>[SAY(l),W8(i===lines.length-1?6:5,dt=>{need('fun',1.2)(dt);need('energy',.6)(dt);if(M&&M.busy&&ms&&!M.goal&&!M.moving){M.dir='down';M.sit=null;M.taiso=C.taiso;C.dir='down';}})]),
       FN(()=>{C.taiso=null;C.radioNow=null;emote('♪',2);diaryAdd('ラジオ体操');todayLog&&0;if(M&&M.busy&&ms){M.taiso=null;mRelease();setTimeout(()=>msay(pick(['からだがぽかぽかしてきた','ラジオ体操、意外ときくね'])),1200);}}),SAY(pick(['すっきり！今日も一日がんばろう','ラジオ体操、ばっちり！','からだが目をさました感じ']))];},
   radio(){if(!has('radio')){want('radio');return null;}const p=radioOnAir();let tk=0;
     return[...goF('radio'),W8(.6),FN(()=>{C.radioNow=p;}),...(()=>{const u=U('radio');return u?[{t:'snap',dyn:()=>{const uu=U('radio');return uu?{px:(uu.x+.5)*T,py:uu.y*T+19,pose:'sit',d:uu.d}:null;}}]:[];})(),
@@ -6143,7 +6143,7 @@ function mMoveTick(dt){if(!M||!M.goal)return;
   M.moving=true;M.ph=(M.ph+dt*TAU*1.75)%(TAU*64);}
 function mPos(){if(M.sit&&M.sit.bed&&S.layout.bed2){const L=S.layout.bed2;return{cx:(L.x+1)*T,by:L.y*T+7};}if(M.sit)return{cx:M.sit.px,by:M.sit.py};return{cx:M.px+T/2,by:M.py+T-2};}
 function drawMate(){if(!M)return;const p=mPos(),hop=M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0,b2=S.layout.bed2;
-  drawChar(g,p.cx,p.by-hop,{sun:ACC_mateSun(),fun:M.fun||null,hang:M.sit&&M.sit.hang||0,noOuter:M.scene!=='out',level:M.sleeping?.3:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:M.sit?M.sit.d:M.dir,moving:M.moving&&!M.sit,ph:M.ph,frame:0,pose:M.sit?M.sit.pose||'sit':'stand',holding:M.holding,taiso:M.taiso,drink:M.drink,drinkLv:M.drinkLv,scale:1,seed:M.seed,sleepy:M.sleeping,blanket:VAR.bed[((b2&&b2.v)||0)%4],floor:M.sit&&M.sit.floor});}
+  drawChar(g,p.cx,p.by-hop,{sun:ACC_mateSun(),fun:M.fun||null,hang:M.sit&&M.sit.hang||0,noOuter:M.scene!=='out',level:M.sleeping?.3:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:M.taiso!=null&&!M.moving?"down":M.sit?M.sit.d:M.dir,moving:M.moving&&!M.sit,ph:M.ph,frame:0,pose:M.sit?M.sit.pose||'sit':'stand',holding:M.holding,taiso:M.taiso,drink:M.drink,drinkLv:M.drinkLv,scale:1,seed:M.seed,sleepy:M.sleeping,blanket:VAR.bed[((b2&&b2.v)||0)%4],floor:M.sit&&M.sit.floor});}
 /* someone sitting on the sofa is drawn after the seat but before the back panel (parts key Y+30) */
 function SOFA_K(){return(S.layout.sofa.y+1)*T+3;}
 function mateKey(){const p=mPos();if(M.sit&&M.sit.sofa&&S.layout.sofa)return SOFA_K()+.5;if(M.sit&&M.sit.pose==='lie'&&M.sit.bed&&S.layout.bed2)return(S.layout.bed2.y+3)*T+1;return p.by+(M.sit&&M.sit.over?40:0)+(M.sit&&C.snap?1:0);}
@@ -16485,10 +16485,13 @@ try{const QD=document.createElement('div');QD.className='overlay center';QD.id='
    if(!S){arm();return;}                                      // title screen: nothing to lose
    QD.hidden=false;arm();});
  document.getElementById('quitNo').onclick=()=>{QD.hidden=true;};
- document.getElementById('quitYes').onclick=()=>{try{save();}catch(e){}leaving=true;document.getElementById('quitH').textContent='セーブしました。';
-   try{history.go(-(guards+1));}catch(e){}
-   setTimeout(()=>{try{window.close();}catch(e){}},350);
-   setTimeout(()=>{if(document.visibilityState==='visible'){leaving=false;document.getElementById('quitT').textContent='セーブしました';document.getElementById('quitH').textContent='このままアプリ（タブ）を閉じて終了してください。続ける場合は「つづける」を押してください。';arm();}},900);};}catch(e){}
+ document.getElementById('quitYes').onclick=()=>{try{save();}catch(e){}leaving=true;QD.hidden=true;
+   // a web page is not allowed to close the browser tab itself: remove our guard so that the next 「戻る」 really leaves
+   const n=guards;guards=0;try{if(n>0)history.go(-n);}catch(e){}
+   try{window.close();}catch(e){}
+   let tst=document.getElementById('quitToast');if(!tst){tst=document.createElement('div');tst.id='quitToast';tst.style.cssText='position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:70;background:rgba(20,24,52,.92);color:#fff;padding:10px 16px;border-radius:14px;font-size:14px;line-height:1.5;text-align:center;max-width:86vw;box-shadow:0 4px 16px rgba(0,0,0,.35)';document.body.appendChild(tst);}
+   tst.innerHTML='セーブしました。<br>もう一度「戻る」を押すと終了します';tst.hidden=false;
+   clearTimeout(tst._t);tst._t=setTimeout(()=>{tst.hidden=true;leaving=false;},8000);};}catch(e){}
 /* ---- v305: floors — living room & bedroom share 40 choices, the kitchen has 30; long-press the floor to choose; the hero changes them too ---- */
 const FR={};
 FR.sq=(c,X,Y,s,col,o)=>{o=o||{};const gr=o.grout||'#9a948a';c.fillStyle=gr;c.fillRect(X,Y,T+.4,T+.4);const n=Math.round(T/s),gw=o.gw==null?.5:o.gw;
@@ -16684,7 +16687,7 @@ function RB_pose(r){const moving=r.mode==='walk'||(r.mode==='play'&&(r.hop||0)>.
   const u=((r.hopT||0)%1+1)%1;const h=u>.15&&u<.75?Math.sin(Math.PI*(u-.15)/.6)*2.6:0;
   return{h,u,ph:u<.15?'push':u<.75?'air':u<.88?'land':'gather'};}
 function RB_bubble(x,y,r){if(!r.say||performance.now()>r.say.until)return;g.save();g.font='600 4.4px "Zen Maru Gothic",sans-serif';g.textAlign='center';g.textBaseline='middle';const tw=g.measureText(r.say.text).width+4,yy=y-16;
-  g.fillStyle='rgba(255,255,255,.88)';rr(g,x-tw/2,yy-3,tw,6,3);g.fill();g.beginPath();g.moveTo(x-1,yy+3);g.lineTo(x+1,yy+3);g.lineTo(x,yy+4.6);g.closePath();g.fill();g.fillStyle='#5a4a3a';g.fillText(r.say.text,x,yy+.2);g.restore();}
+  g.fillStyle='rgba(255,255,255,.4)';rr(g,x-tw/2,yy-3,tw,6,3);g.fill();g.beginPath();g.moveTo(x-1,yy+3);g.lineTo(x+1,yy+3);g.lineTo(x,yy+4.6);g.closePath();g.fill();g.fillStyle='rgba(70,56,44,.8)';g.fillText(r.say.text,x,yy+.2);g.restore();}
 function RB_drawOne(x,y,r,t,o){o=o||{};const C2=RB_COL[r.c],sleep=r.mode==='sleep',P=RB_pose(r),hop=P.h,sc=o.sc||1;const dir=r.dir||'right';
   const eat=r.mode==='eat'||r.mode==='drink',nib=eat?Math.sin(t*12)*.25:0;
   if(!o.noShadow)fillE(g,'rgba(0,0,0,.18)',x,y+.4,(4.4-hop*.35)*sc,1.2*sc);
@@ -16774,7 +16777,7 @@ OFT.rabbithutch={n:'うさぎ小屋',w:2,h:1,draw:dHutch,act:{say:['うさぎた
 OFT.spring={n:'湧き水の水飲み場',w:1,h:1,draw:dSpring,act:{say:['湧き水、つめたくて気持ちいい','こんこんと湧いてる…','うさぎたちのお水、きれいにしておこう'],s:5,water:1}};
 for(const k of['rabbithutch','spring']){if(!OKEYS.includes(k))OKEYS.push(k);if(!OBUY.includes(k))OBUY.push(k);}
 /* ---------- the rabbits ---------- */
-const RBS=[{c:'w',ph:0},{c:'c',ph:2.1}];
+const RBS=[{c:'w',ph:0},{c:'c',ph:2.1}];let RB_sayAt=0;
 function RB_fronts(p,w){const c=[];for(let x=p.x;x<p.x+w;x++)c.push({x,y:p.y+1});c.push({x:p.x-1,y:p.y},{x:p.x+w,y:p.y},{x:p.x-1,y:p.y+1},{x:p.x+w,y:p.y+1});return c.filter(q=>walkOut(q.x,q.y));}
 function RB_home(){const p=S&&S.yard&&S.yard.rabbithutch;if(!p||p.carry)return null;const c=RB_fronts(p,2);return c.length?c[0]:null;}
 function RB_drinkSpot(){const p=S&&S.yard&&S.yard.spring;if(!p||p.carry)return null;const c=RB_fronts(p,1);return c.length?pick(c):null;}
@@ -16794,11 +16797,11 @@ function RB_tick(dt){if(!S||!S.yard||!S.yard.rabbithutch||S.yard.rabbithutch.car
       if(d>1){if(Math.abs(dy)>Math.abs(dx)*1.15)r.dir=dy<0?'up':'down';else if(Math.abs(dx)>.3)r.dir=dx<0?'left':'right';}
       if(d<sp*m*dt+.2){r.px=q.x;r.py=q.y;r.path.shift();}else{r.px+=dx/d*sp*m*dt;r.py+=dy/d*sp*m*dt;}continue;}
     r.hop=0;
-    if(r.mode==='eat'||r.mode==='drink'){r.sayT=(r.sayT==null?rnd(.3,1.5):r.sayT)-dt;if(r.sayT<=0){r.sayT=rnd(2.5,5);r.say={text:pick(r.mode==='eat'?['もぐもぐ','ぽりぽり','むしゃむしゃ','はむはむ','もしゃもしゃ']:['ぴちゃぴちゃ','ごくごく','ぺろぺろ','ちゃぷ']),until:performance.now()+1800};}}else r.sayT=null;
+    if(r.mode==='eat'||r.mode==='drink'){r.sayT=(r.sayT==null?rnd(1,4):r.sayT)-dt;if(r.sayT<=0&&Date.now()-(RB_sayAt||0)>20000){r.sayT=rnd(20,35);RB_sayAt=Date.now();r.say={text:pick(r.mode==='eat'?['もぐもぐ','ぽりぽり','むしゃむしゃ','はむはむ','もしゃもしゃ']:['ぴちゃぴちゃ','ごくごく','ぺろぺろ','ちゃぷ']),until:performance.now()+1800};}}else r.sayT=null;
     if(r.mode==='play'){// hop around each other
       r.t-=dt;const ph=t*3+r.ph;r.hop=Math.max(0,Math.sin(ph*2))*2.6;r.px+=Math.cos(ph)*dt*10;r.py+=Math.sin(ph)*dt*4;r.dir=Math.cos(ph+1.6)<0?'left':'right';
       if(!walkOut(Math.floor(r.px/T),Math.floor((r.py-6)/T))){r.px-=Math.cos(ph)*dt*10;r.py-=Math.sin(ph)*dt*4;}
-      if(Math.random()<dt*.6)particles.push({sc:'out',x:r.px+rnd(-2,2),y:r.py-9,vx:0,vy:-10,life:.9,max:.9,type:'heart'});if(Math.random()<dt*.15)r.say={text:pick(['ぷぅ','ぷっぷっ','ぴょん！']),until:performance.now()+1500};
+      if(Math.random()<dt*.6)particles.push({sc:'out',x:r.px+rnd(-2,2),y:r.py-9,vx:0,vy:-10,life:.9,max:.9,type:'heart'});if(Math.random()<dt*.15&&Date.now()-(RB_sayAt||0)>20000){RB_sayAt=Date.now();r.say={text:pick(['ぷぅ','ぷっぷっ','ぴょん！']),until:performance.now()+1500};}
       if(r.t<=0){r.mode='idle';r.t=rnd(1,3);}continue;}
     r.t-=dt;if(r.t>0)continue;
     const x=Math.random();
