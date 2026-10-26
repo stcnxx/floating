@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版355（2026/10/27 #205）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版356（2026/10/27 #206）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版355（2026/10/27 #205）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版356（2026/10/27 #206）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -20229,8 +20229,8 @@ function PB_cell(i){const r=Math.floor(i/3),c=i%3;return{x:PB_G.bx+PB_G.line/2+c
 OFT.photoboard={n:'写真の掲示板',w:3,h:1,draw:(X,Y,L,t)=>{g.save();const B=PB_G,bx=X+B.bx,by=Y+B.top,BL='#1f3aa0';
   fillE(g,'rgba(0,0,0,.22)',X+36,Y+21.5,32,3);
   // two wooden stakes and a base batten along the ground
-  for(const px of[X+bx-X+11,X+bx-X+B.w-11]){g.fillStyle=SZ.lg(px-1.5,0,px+1.5,0,[[0,'#b08a5a'],[.5,'#d8b47e'],[1,'#8a6a40']]);g.fillRect(px-1.5,by+B.h-3,3,Y+20-(by+B.h-3));g.fillStyle='rgba(60,40,20,.35)';g.fillRect(px-1.5,by+B.h-3,3,1.2);}
-  g.fillStyle=SZ.lg(0,Y+18.4,0,Y+21,[[0,'#e2c08a'],[1,'#a8824e']]);g.fillRect(bx-3,Y+18.4,B.w+6,2.4);g.fillStyle='rgba(255,255,255,.35)';g.fillRect(bx-3,Y+18.4,B.w+6,.4);
+  for(const px of[X+bx-X+11,X+bx-X+B.w-11]){g.fillStyle=SZ.lg(px-1.5,0,px+1.5,0,[[0,'#b08a5a'],[.5,'#d8b47e'],[1,'#8a6a40']]);g.fillRect(px-1.5,by+B.h-3,3,Y+20.2-(by+B.h-3));g.fillStyle='rgba(60,40,20,.35)';g.fillRect(px-1.5,by+B.h-3,3,1.2);}
+  for(const px of[bx+11,bx+B.w-11]){fillE(g,'rgba(70,50,30,.45)',px,Y+20,2.6,.9);g.strokeStyle='#4f8a32';g.lineWidth=.35;g.beginPath();for(const[dx,h]of[[-2.2,1.8],[-1.6,2.4],[1.7,2.2],[2.3,1.6]]){g.moveTo(px+dx,Y+20.4);g.lineTo(px+dx*1.15,Y+20.4-h);}g.stroke();}
   // the board: white with a slight thickness and a thin dark edge
   g.fillStyle='#9a9690';g.fillRect(bx+.9,by+1,B.w,B.h);g.fillStyle=SZ.lg(0,by,0,by+B.h,[[0,'#ffffff'],[1,'#eeeeea']]);g.fillRect(bx,by,B.w,B.h);
   for(let i=0;i<9;i++){const c=PB_cell(i),cx=X+c.x,cy=Y+c.y,im=PB_img(i),pad=.9;
