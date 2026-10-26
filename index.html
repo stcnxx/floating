@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版351（2026/10/27 #201）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版354（2026/10/27 #204）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版351（2026/10/27 #201）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版354（2026/10/27 #204）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -378,7 +378,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
 'use strict';
 /* ========== basics ========== */
 const T=24,W=384,Z=2;let H=600;
-const XS=4,HW=20+XS,IN={w:HW,h:23},OG={w:24,h:28};
+const XS=8,HW=20+XS,IN={w:HW,h:23},OG={w:24,h:28};
 const GW=sc=>sc==='out'?OG.w:IN.w,GH=sc=>sc==='out'?OG.h:IN.h;
 const $=id=>document.getElementById(id);
 const cv=$('cv');let g=cv.getContext('2d');
@@ -451,7 +451,7 @@ const SX=s=>{const[x,y]=s.split(',').map(Number);return(x>10?x+XS:x)+','+y;};
 const DOORCELL=new Set(['5,9','17,9','16,6','14,7','11,14','11,15','11,3'].map(SX));
 const DOORFLOOR=Object.fromEntries(Object.entries({'5,9':'bed','17,9':'dress','16,6':'bath','14,7':'dress','11,14':'liv','11,15':'liv','11,3':'bed'}).map(([k,v])=>[SX(k),v]));
 const KEEP=new Set(['5,8','5,10','16,5','16,7','13,7','15,7','17,8','17,10','10,14','10,15','12,14','12,15','5,20','5,19','4,20','6,20','12,3'].map(SX));KEEP.add((10+XS)+',3');
-const WINDOWS=[[3,1],[7,1],[10,1],[17,1],[0,5],[0,13],[0,17],[19,4],[19,7],[19,12],[19,17],[2,21],[9,21],[15,21],[17,21]].map(([x,y])=>[x>10?x+XS:x,y]).concat([[13,1],[12,21]]);
+const WINDOWS=[[3,1],[7,1],[10,1],[17,1],[0,5],[0,13],[0,17],[19,4],[19,7],[19,12],[19,17],[2,21],[9,21],[15,21],[17,21]].map(([x,y])=>[x>10?x+XS:x,y]).concat([[13,1],[17,1],[12,21],[16,21]]);
 const WINSET=new Set(WINDOWS.map(w=>w.join(',')));
 const DIRS=[[0,1],[1,0],[0,-1],[-1,0]];
 const WALLSPOTS=[];
@@ -20184,6 +20184,94 @@ if(!OKEYS.includes('hachiko'))OKEYS.push('hachiko');if(!OBUY.includes('hachiko')
 {const YI=yardIcon;yardIcon=function(k){if(k!=='hachiko')return YI.apply(this,arguments);const f=OFT[k];return dexIcon(x=>withG(x,()=>{const sc=.66;x.translate(28-24*sc,53-24*sc);x.scale(sc,sc);f.draw(0,0,{x:4,y:12,v:0},1.3);}));};}
 ALLK.push('planemodel','windcar','flowerrock','garakei');
 {const AL=admireLine;admireLine=function(k){const M3={planemodel:['飛行機の模型。いつか本物で遠くへ行きたいな','翼の先がきゅっと反ってて、かっこいい'],windcar:['ゼンマイカー、ぎりぎり巻いて…それっ！','ちっちゃくて丸くて、かわいい車'],flowerrock:['音楽をかけると、この花がおどるんだよね','にこにこしてる。こっちまで楽しくなる'],garakei:['なつかしいガラケー。パカッと開くのが気持ちいい','ストラップがじゃらじゃら、昔はこうだったな']};if(M3[k])return pick(M3[k]);return AL.apply(this,arguments);};}
+/* ---- v352: wide rooms get their tatami laid quickly by a running bond (half mats at alternate row ends), checked for four-corner meets ---- */
+{const TL=TAT_layout;TAT_layout=function(r){if(TAT_L[r]!==undefined)return TAT_L[r];try{
+  const cells=new Set();let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<=23;y++)for(let x=0;x<HW;x++){const k=DOORFLOOR[x+','+y]||roomAt(x,y);if(k===r){cells.add(x+','+y);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}}
+  if(cells.size){const W=x1-x0+1,H=y1-y0+1;if(W*H>130){const id=new Int32Array(W*H).fill(-1),isC=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&cells.has((x+x0)+','+(y+y0));let nid=0;
+    for(let y=0;y<H;y++){let first=true;for(let x=0;x<W;x++){if(!isC(x,y)||id[y*W+x]>=0){if(!isC(x,y))first=true;continue;}const m=nid++;
+      if(y%2===1&&first){id[y*W+x]=m;first=false;continue;}first=false;
+      if(isC(x+1,y)&&id[y*W+x+1]<0){id[y*W+x]=m;id[y*W+x+1]=m;x++;continue;}
+      if(!isC(x-1,y)&&isC(x,y+1)&&id[(y+1)*W+x]<0&&!isC(x+1,y+1)){id[y*W+x]=m;id[(y+1)*W+x]=m;continue;}id[y*W+x]=m;}}
+    const at=(x,y)=>isC(x,y)?id[y*W+x]:-2;let bad=false;
+    for(let gy=1;gy<H&&!bad;gy++)for(let gx=1;gx<W;gx++){const a=at(gx-1,gy-1),b=at(gx,gy-1),c2=at(gx-1,gy),d=at(gx,gy);if(a<0||b<0||c2<0||d<0)continue;if(a!==b&&c2!==d&&a!==c2&&b!==d){bad=true;break;}}
+    if(!bad){const res={x0,y0,W,H,id};TAT_L[r]=res;return res;}}}}catch(e){}return TL.apply(this,arguments);};}
+/* ---- v353: small things on shelves/tables can be long-pressed and moved: to another free slot, or down onto the floor (and back) ---- */
+function TOP_base(L){const HL=S.layout[L.on];if(!HL||HL.carry)return null;const f=FT[L.on];if(!f||!f.slots||!f.slots[L.slot])return null;const sl=f.slots[L.slot];return{x:HL.x*T+sl[0],y:HL.y*T+sl[1]};}
+function TOP_at(wx,wy){if(!S||C.scene!=='in')return null;let best=null,bd=1e9;for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='top'||!L||!L.on||L.carry)continue;const b=TOP_base(L);if(!b)continue;
+  if(Math.abs(wx-b.x)<5.6&&wy>b.y-12.5&&wy<b.y+2){const d=Math.hypot(wx-b.x,wy-(b.y-5));if(d<bd){bd=d;best=k;}}}return best;}
+function TOP_slotNear(k,wx,wy){const f=FT[k];let best=null,bd=9;const used=new Set();for(const kk of S.owned){const L=S.layout[kk];if(L&&L.on&&kk!==k)used.add(L.on+'#'+L.slot);}if(S.delivery&&S.delivery.p&&S.delivery.p.on)used.add(S.delivery.p.on+'#'+S.delivery.p.slot);
+  for(const hk of S.owned){const hf=FT[hk],HL=S.layout[hk];if(!hf||!hf.slots||!HL||HL.carry||HL.on||HL.wall||hk===k)continue;if(!f.rooms.includes(roomAt(HL.x,HL.y)))continue;
+    hf.slots.forEach((sl,i)=>{if(used.has(hk+'#'+i))return;const bx=HL.x*T+sl[0],by=HL.y*T+sl[1];const d=Math.hypot(wx-bx,(wy-(by-4))*1.2);if(d<bd){bd=d;best={on:hk,slot:i};}});}return best;}
+{const DT=dragTarget;dragTarget=function(e){try{if(S&&C.scene==='in'&&!(typeof MANOUT==='function'&&MANOUT())){const w=tapWorld(e),k=TOP_at(w.x,w.y);if(k)return{k,sc:'in',w,top:1};}}catch(_){}const r=DT.apply(this,arguments);try{if(r&&r.sc==='in'&&FT[r.k]&&FT[r.k].k==='top')r.top=1;}catch(_){}return r;};}
+{const DS=dragStart;dragStart=function(t,e){if(!t||!t.top)return DS.apply(this,arguments);const k=t.k,orig={...S.layout[k]};
+  DRAG={k,sc:'in',top:1,orig,cur:orig,ok:true,ox:0,oy:0,px:e.clientX,py:e.clientY};try{cv.setPointerCapture(e.pointerId);}catch(_){}try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}try{puffAt(posCenter(k,orig));}catch(_){}};}
+{const DC=dragCand;dragCand=function(e){const d=DRAG;if(!d||!d.top)return DC.apply(this,arguments);const w=tapWorld(e),v=d.orig.v||0;const sl=TOP_slotNear(d.k,w.x,w.y);if(sl)return{on:sl.on,slot:sl.slot,v};
+  return{x:Math.floor(w.x/T),y:Math.floor((w.y+4)/T),v,ped:1};};}
+{const DA=dragApply;dragApply=function(c){const d=DRAG;if(!d||!d.top)return DA.apply(this,arguments);S.layout[d.k]=c;d.cur=c;
+  if(c.on){const HL=S.layout[c.on];d.ok=!!(HL&&FT[d.k].rooms.includes(roomAt(HL.x,HL.y)));}else{let ok=false;try{ok=!!roomAt(c.x,c.y)&&FT[d.k].rooms.includes(roomAt(c.x,c.y))&&validIn(d.k,c);}catch(_){}d.ok=ok;}};}
+{const DE=dragEnd;dragEnd=function(cancel){const d=DRAG;if(!d||!d.top)return DE.apply(this,arguments);DRAG=null;dragEndAt=performance.now();
+  const o=d.orig,c=d.cur,same=(c.on||'')===(o.on||'')&&c.slot===o.slot&&c.x===o.x&&c.y===o.y;
+  if(!cancel&&same){S.layout[d.k]=o;recycleAsk(d.k,'in');return;}
+  if(cancel||!d.ok){S.layout[d.k]=o;if(!cancel)say(pick(['そこには置けないみたい','うーん、そこはむずかしいかも']));return;}
+  S.layout[d.k]=c;refreshOcc();try{sparkleAt(posCenter(d.k,c));}catch(_){}S.userPlaced=S.userPlaced||{};S.userPlaced[d.k]=Date.now();try{todayLog('move',{n:FT[d.k].n});}catch(_){}
+  if(C.hobbyK===d.k&&C.steps&&C.steps.length)abort();const n=FT[d.k].n;
+  if(!msgBusy())say(c.on?pick([`${n}、ここに飾るんだね`,`${n}の場所が変わった！`,'棚がいい感じになった']):pick([`${n}を床に置いたよ`,`${n}、床置きもいいね`]));save();};}
+{const HC=hitChar;hitChar=function(e){try{const w=tapWorld(e);if(TOP_at(w.x,w.y))return false;}catch(_){}return HC.apply(this,arguments);};}
+// a first tap on a small thing shows its name
+{const TF=tipFor;tipFor=function(e){try{const w=tapWorld(e),k=TOP_at(w.x,w.y);if(k){const b=TOP_base(S.layout[k]);return{n:FT[k].n,x:b.x,y:b.y-14};}}catch(_){}return TF.apply(this,arguments);};}
+/* ---- v354: a photo board for the garden, shaped like a Japanese election poster board: 9 numbered spaces for the player's own photos ---- */
+const PB_IMG=[];// decoded images for drawing, rebuilt from S.photos
+function PB_list(){if(!S.photos||S.photos.length!==9)S.photos=Array.from({length:9},(_,i)=>(S.photos&&S.photos[i])||null);return S.photos;}
+function PB_img(i){const src=PB_list()[i];if(!src){PB_IMG[i]=null;return null;}const c=PB_IMG[i];if(c&&c._src===src)return c.complete?c:null;if(typeof Image==='undefined')return null;const im=new Image();im._src=src;im.src=src;PB_IMG[i]=im;return null;}
+const PB_G={bx:3,top:-46,w:66,h:48};// board rectangle relative to the footprint corner (3 tiles wide)
+function PB_cell(i){const r=Math.floor(i/3),c=i%3,cw=(PB_G.w-6)/3,ch=(PB_G.h-12)/3;return{x:PB_G.bx+3+c*cw,y:PB_G.top+9+r*ch,w:cw,h:ch};}
+OFT.photoboard={n:'写真の掲示板',w:3,h:1,draw:(X,Y,L,t)=>{g.save();const B=PB_G,bx=X+B.bx,by=Y+B.top;
+  // ground shadow, posts and diagonal braces behind
+  fillE(g,'rgba(0,0,0,.22)',X+36,Y+21,34,3.2);
+  for(const px of[X+12,X+60]){g.fillStyle=SZ.lg(px-1.6,0,px+1.6,0,[[0,'#3a3530'],[.5,'#6a625a'],[1,'#2a2622']]);g.fillRect(px-1.6,by+B.h-4,3.2,Y+21-(by+B.h-4));fillE(g,'rgba(0,0,0,.25)',px,Y+21,3,.8);}
+  g.strokeStyle='#4a443e';g.lineWidth=1.1;g.beginPath();g.moveTo(X+12,Y+14);g.lineTo(X+22,by+B.h);g.moveTo(X+60,Y+14);g.lineTo(X+50,by+B.h);g.stroke();
+  // the plywood board: light grey-white with a dark edge band and a slight thickness
+  g.fillStyle='#8c8780';g.fillRect(bx+1,by+1.2,B.w,B.h);
+  g.fillStyle=SZ.lg(0,by,0,by+B.h,[[0,'#f6f4ee'],[1,'#e2ded4']]);g.fillRect(bx,by,B.w,B.h);
+  g.strokeStyle='#2c2a28';g.lineWidth=.9;g.strokeRect(bx+.45,by+.45,B.w-.9,B.h-.9);
+  // header strip
+  g.fillStyle='#2c2a28';g.fillRect(bx,by,B.w,7.2);g.fillStyle='#f6f4ee';g.font='bold 4.4px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('フォトボード',bx+B.w/2,by+3.8);
+  // 9 numbered spaces
+  for(let i=0;i<9;i++){const c=PB_cell(i),cx=X+c.x,cy=Y+c.y;
+    g.strokeStyle='#3a3836';g.lineWidth=.45;g.strokeRect(cx,cy,c.w,c.h);
+    const im=PB_img(i),pw=c.w-3.2,ph=c.h-3.6,px=cx+1.6,py=cy+2.6;
+    if(im){g.save();g.beginPath();g.rect(px,py,pw,ph);g.clip();const s=Math.max(pw/im.width,ph/im.height);g.drawImage(im,px+(pw-im.width*s)/2,py+(ph-im.height*s)/2,im.width*s,im.height*s);g.restore();
+      g.fillStyle='rgba(255,255,255,.18)';g.beginPath();g.moveTo(px,py);g.lineTo(px+pw*.45,py);g.lineTo(px,py+ph*.6);g.closePath();g.fill();g.strokeStyle='rgba(0,0,0,.35)';g.lineWidth=.25;g.strokeRect(px,py,pw,ph);
+      fillE(g,'#c8c4bc',px+1,py+1,.45,.45);fillE(g,'#c8c4bc',px+pw-1,py+1,.45,.45);}
+    // number tab
+    g.fillStyle='#ffffff';g.fillRect(cx+.4,cy+.4,4.2,3.4);g.strokeStyle='#3a3836';g.lineWidth=.3;g.strokeRect(cx+.4,cy+.4,4.2,3.4);g.fillStyle='#1c1a18';g.font='bold 2.9px sans-serif';g.fillText(String(i+1),cx+2.5,cy+2.2);}
+  // soft top light + rain-weathering at the bottom edge
+  g.fillStyle=SZ.lg(0,by+B.h-4,0,by+B.h,[[0,'rgba(80,70,60,0)'],[1,'rgba(80,70,60,.12)']]);g.fillRect(bx,by+B.h-4,B.w,4);
+  g.textAlign='left';g.textBaseline='alphabetic';g.restore();}};
+if(!OKEYS.includes('photoboard'))OKEYS.push('photoboard');if(!OBUY.includes('photoboard'))OBUY.push('photoboard');
+// tapping anywhere on the board counts (it stands well above its footprint)
+function PB_hot(wx,wy){try{if(C.scene!=='out'||!S.yard||!S.yard.photoboard||S.yard.photoboard.carry)return false;const p=S.yard.photoboard,X=p.x*T,Y=p.y*T;return wx>=X+PB_G.bx&&wx<=X+PB_G.bx+PB_G.w&&wy>=Y+PB_G.top&&wy<=Y+22;}catch(e){return false;}}
+{const TT=tapTarget;tapTarget=function(wx,wy){if(PB_hot(wx,wy))return{t:'yard',k:'photoboard'};return TT.apply(this,arguments);};}
+{const HC=hitChar;hitChar=function(e){try{const w=tapWorld(e);if(PB_hot(w.x,w.y))return false;}catch(_){}return HC.apply(this,arguments);};}
+// shrink a chosen picture to a small JPEG (cover-crop 4:3)
+function PB_shrink(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const W2=160,H2=120,c=document.createElement('canvas');c.width=W2;c.height=H2;const x=c.getContext('2d');const s=Math.max(W2/im.width,H2/im.height);x.drawImage(im,(W2-im.width*s)/2,(H2-im.height*s)/2,im.width*s,im.height*s);cb(c.toDataURL('image/jpeg',.72));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
+function PB_pick(i){let inp=document.getElementById('pbFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pbFile';inp.hidden=true;document.body.appendChild(inp);}
+  inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;PB_shrink(f,url=>{if(!url){say('その写真は読み込めなかったみたい');return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
+    queueSay(pick([`${i+1}番に写真を貼ったよ`,'いい写真！掲示板が華やかになった','この写真、すてきだね']));PB_ui(true);});};inp.click();}
+function PB_view(i){const src=PB_list()[i];if(!src)return;let ov=document.getElementById('pbView');if(!ov){ov=document.createElement('div');ov.id='pbView';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',()=>{ov.hidden=true;});}
+  ov.innerHTML=`<div class="card" style="max-width:340px;padding:10px;text-align:center"><img src="${src}" alt="" style="width:100%;border-radius:8px;image-rendering:auto"><div style="margin-top:6px;font-size:12px;opacity:.8">${i+1}番　タップでとじる</div></div>`;ov.hidden=false;}
+function PB_ui(open){let ov=document.getElementById('pbOv');if(!ov&&!open)return;if(!ov){const st=document.createElement('style');st.textContent=`#pbOv .card{max-width:340px;padding:14px 14px 12px}#pbOv h2{margin:0 0 4px;font-size:16px;text-align:center}#pbOv .hint{margin:0 0 8px;font-size:12px;opacity:.8;text-align:center}#pbOv .pbg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}#pbOv .pbc{position:relative;aspect-ratio:4/3;border-radius:6px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(255,255,255,.6);overflow:hidden;padding:0}#pbOv .pbc img{width:100%;height:100%;object-fit:cover}#pbOv .pbn{position:absolute;left:3px;top:2px;font-size:11px;font-weight:700;background:#fff;color:#222;border-radius:3px;padding:0 4px}#pbOv .pbm{display:flex;gap:6px;margin-top:8px}#pbOv .pbm button{flex:1}#pbOv .pbx{margin-top:10px;width:100%}`;try{document.head.appendChild(st);}catch(_){}
+  ov=document.createElement('div');ov.id='pbOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
+  if(open)ov.hidden=false;if(ov.hidden)return;const P=PB_list();let sel=ov._sel;
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="写真の掲示板"><h2>📷 写真の掲示板</h2><p class="hint">空いている番号をタップして写真を貼ろう（この端末の中だけに保存されます）</p><div class="pbg">${P.map((s,i)=>`<button type="button" class="pbc" data-i="${i}"${sel===i?' style="outline:2px solid #ffd36b"':''}>${s?`<img src="${s}" alt="">`:'＋'}<span class="pbn">${i+1}</span></button>`).join('')}</div>
+   ${sel!=null&&P[sel]?`<div class="pbm"><button type="button" data-a="view">大きく見る</button><button type="button" data-a="swap">入れ替える</button><button type="button" data-a="del">外す</button></div>`:''}<button type="button" class="primary pbx">とじる</button></div>`;
+  ov.querySelectorAll('.pbc').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(!P[i]){ov._sel=null;PB_pick(i);}else{ov._sel=ov._sel===i?null:i;PB_ui();}});
+  ov.querySelectorAll('.pbm button').forEach(b=>b.onclick=()=>{const i=ov._sel;if(i==null)return;const a=b.dataset.a;if(a==='view')PB_view(i);else if(a==='swap')PB_pick(i);else{P[i]=null;PB_IMG[i]=null;ov._sel=null;save();PB_ui();say(`${i+1}番の写真を外したよ`);}});
+  ov.querySelector('.pbx').onclick=()=>{ov.hidden=true;ov._sel=null;};}
+{const TP=tapPlan;tapPlan=function(tg){if(tg&&tg.t==='yard'&&tg.k==='photoboard'){try{PB_ui(true);}catch(e){}const q=yardFront('photoboard',S.yard.photoboard);return q?{n:'tapwalk',s:[{t:'go',sc:'out',x:q.x,y:q.y},{t:'face',d:q.d},SAY(pick(['どの写真を貼ろうかな','掲示板、にぎやかにしよう','思い出の写真、飾っちゃおう']))]}:null;}return TP.apply(this,arguments);};}
+// the board is delivered once right away (it can be stored / re-ordered like any garden thing)
+{const PBI=setInterval(()=>{try{if(!S)return;clearInterval(PBI);if(S.pbGiven)return;if(S.yard.photoboard||(S.ystored||[]).some(e=>e.k==='photoboard')){S.pbGiven=1;return;}
+  S.yardOrderQ=S.yardOrderQ||[];if(!S.yardOrderQ.includes('photoboard'))S.yardOrderQ.push('photoboard');S.pbGiven=1;save();}catch(e){}},4000);}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -20391,7 +20479,7 @@ let charLP=null;
 cv.addEventListener('pointerdown',e=>{if(!S||fadeT>0||DRAG)return;if(hitChar(e)){if(charLP)clearTimeout(charLP.id);const lp={x:e.clientX,y:e.clientY,fired:false};lp.id=setTimeout(()=>{lp.fired=true;clearTimeout(tapTimer);tapTimer=null;tapT=0;try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}openSheet();},520);charLP=lp;return;}const t=dragTarget(e);if(!t){dragPend=null;return;}
   const id=setTimeout(()=>{if(dragPend&&dragPend.id===id){const tt=dragPend.t;dragPend=null;dragStart(tt,e);}},420);dragPend={id,t,x:e.clientX,y:e.clientY};});
 cv.addEventListener('pointermove',e=>{if(charLP&&!charLP.fired&&Math.hypot(e.clientX-charLP.x,e.clientY-charLP.y)>10){clearTimeout(charLP.id);charLP=null;}if(dragPend&&Math.hypot(e.clientX-dragPend.x,e.clientY-dragPend.y)>10){clearTimeout(dragPend.id);dragPend=null;}
-  if(!DRAG)return;e.preventDefault();DRAG.px=e.clientX;DRAG.py=e.clientY;const c=dragCand(e);if(c.x!==DRAG.cur.x||c.y!==DRAG.cur.y||c.wall!==DRAG.cur.wall||c.side!==DRAG.cur.side)dragApply(c);});
+  if(!DRAG)return;e.preventDefault();DRAG.px=e.clientX;DRAG.py=e.clientY;const c=dragCand(e);if(c.x!==DRAG.cur.x||c.y!==DRAG.cur.y||c.wall!==DRAG.cur.wall||c.side!==DRAG.cur.side||c.on!==DRAG.cur.on||c.slot!==DRAG.cur.slot)dragApply(c);});
 cv.addEventListener('pointerup',e=>{if(dragPend){clearTimeout(dragPend.id);dragPend=null;}if(DRAG)dragEnd(false);});
 cv.addEventListener('pointercancel',()=>{if(dragPend){clearTimeout(dragPend.id);dragPend=null;}if(DRAG)dragEnd(true);});
 cv.addEventListener('contextmenu',e=>e.preventDefault());
@@ -20401,7 +20489,7 @@ $('sheet').addEventListener('click',e=>{const b=e.target.closest('button');if(!b
   if(b.dataset.fav){const n=b.dataset.fav;S.favDrinks=S.favDrinks||[];const i=S.favDrinks.indexOf(n);if(i>=0)S.favDrinks.splice(i,1);else S.favDrinks.push(n);save();const on=i<0;b.classList.toggle('fav',on);b.textContent=(on?'★':'')+b.textContent.replace(/^★/,'');}});
 function dragPan(dt){if(!DRAG)return false;const r=cv.getBoundingClientRect(),m=48,sp=150*dt;let dx=0,dy=0;
   if(DRAG.px<r.left+m)dx=-sp;else if(DRAG.px>r.right-m)dx=sp;if(DRAG.py<r.top+m)dy=-sp;else if(DRAG.py>r.bottom-m)dy=sp;
-  if(dx||dy){cam.x+=dx;cam.y+=dy;const c=dragCand({clientX:DRAG.px,clientY:DRAG.py});if(c.x!==DRAG.cur.x||c.y!==DRAG.cur.y||c.side!==DRAG.cur.side)dragApply(c);}return true;}
+  if(dx||dy){cam.x+=dx;cam.y+=dy;const c=dragCand({clientX:DRAG.px,clientY:DRAG.py});if(c.x!==DRAG.cur.x||c.y!==DRAG.cur.y||c.side!==DRAG.cur.side||c.on!==DRAG.cur.on||c.slot!==DRAG.cur.slot)dragApply(c);}return true;}
 function drawDrag(){const d=DRAG;if(!d||d.sc!==C.scene)return;const c=d.cur;let w,h;
   if(d.sc==='in'){const f=FT[d.k];if(c.wall){w=1;h=1;}else{w=c.ped?1:f.w;h=c.ped?1:f.h;}}else{w=OFT[d.k].w;h=OFT[d.k].h;}
   g.save();g.fillStyle=d.ok?'rgba(80,200,120,.28)':'rgba(230,70,70,.32)';g.strokeStyle=d.ok?'rgba(60,170,100,.9)':'rgba(210,50,50,.9)';g.lineWidth=1;g.setLineDash([3,2]);
