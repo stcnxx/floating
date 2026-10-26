@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版354（2026/10/27 #204）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版355（2026/10/27 #205）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版354（2026/10/27 #204）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版355（2026/10/27 #205）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -20223,55 +20223,52 @@ function TOP_slotNear(k,wx,wy){const f=FT[k];let best=null,bd=9;const used=new S
 const PB_IMG=[];// decoded images for drawing, rebuilt from S.photos
 function PB_list(){if(!S.photos||S.photos.length!==9)S.photos=Array.from({length:9},(_,i)=>(S.photos&&S.photos[i])||null);return S.photos;}
 function PB_img(i){const src=PB_list()[i];if(!src){PB_IMG[i]=null;return null;}const c=PB_IMG[i];if(c&&c._src===src)return c.complete?c:null;if(typeof Image==='undefined')return null;const im=new Image();im._src=src;im.src=src;PB_IMG[i]=im;return null;}
-const PB_G={bx:3,top:-46,w:66,h:48};// board rectangle relative to the footprint corner (3 tiles wide)
-function PB_cell(i){const r=Math.floor(i/3),c=i%3,cw=(PB_G.w-6)/3,ch=(PB_G.h-12)/3;return{x:PB_G.bx+3+c*cw,y:PB_G.top+9+r*ch,w:cw,h:ch};}
-OFT.photoboard={n:'写真の掲示板',w:3,h:1,draw:(X,Y,L,t)=>{g.save();const B=PB_G,bx=X+B.bx,by=Y+B.top;
-  // ground shadow, posts and diagonal braces behind
-  fillE(g,'rgba(0,0,0,.22)',X+36,Y+21,34,3.2);
-  for(const px of[X+12,X+60]){g.fillStyle=SZ.lg(px-1.6,0,px+1.6,0,[[0,'#3a3530'],[.5,'#6a625a'],[1,'#2a2622']]);g.fillRect(px-1.6,by+B.h-4,3.2,Y+21-(by+B.h-4));fillE(g,'rgba(0,0,0,.25)',px,Y+21,3,.8);}
-  g.strokeStyle='#4a443e';g.lineWidth=1.1;g.beginPath();g.moveTo(X+12,Y+14);g.lineTo(X+22,by+B.h);g.moveTo(X+60,Y+14);g.lineTo(X+50,by+B.h);g.stroke();
-  // the plywood board: light grey-white with a dark edge band and a slight thickness
-  g.fillStyle='#8c8780';g.fillRect(bx+1,by+1.2,B.w,B.h);
-  g.fillStyle=SZ.lg(0,by,0,by+B.h,[[0,'#f6f4ee'],[1,'#e2ded4']]);g.fillRect(bx,by,B.w,B.h);
-  g.strokeStyle='#2c2a28';g.lineWidth=.9;g.strokeRect(bx+.45,by+.45,B.w-.9,B.h-.9);
-  // header strip
-  g.fillStyle='#2c2a28';g.fillRect(bx,by,B.w,7.2);g.fillStyle='#f6f4ee';g.font='bold 4.4px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText('フォトボード',bx+B.w/2,by+3.8);
-  // 9 numbered spaces
-  for(let i=0;i<9;i++){const c=PB_cell(i),cx=X+c.x,cy=Y+c.y;
-    g.strokeStyle='#3a3836';g.lineWidth=.45;g.strokeRect(cx,cy,c.w,c.h);
-    const im=PB_img(i),pw=c.w-3.2,ph=c.h-3.6,px=cx+1.6,py=cy+2.6;
-    if(im){g.save();g.beginPath();g.rect(px,py,pw,ph);g.clip();const s=Math.max(pw/im.width,ph/im.height);g.drawImage(im,px+(pw-im.width*s)/2,py+(ph-im.height*s)/2,im.width*s,im.height*s);g.restore();
-      g.fillStyle='rgba(255,255,255,.18)';g.beginPath();g.moveTo(px,py);g.lineTo(px+pw*.45,py);g.lineTo(px,py+ph*.6);g.closePath();g.fill();g.strokeStyle='rgba(0,0,0,.35)';g.lineWidth=.25;g.strokeRect(px,py,pw,ph);
-      fillE(g,'#c8c4bc',px+1,py+1,.45,.45);fillE(g,'#c8c4bc',px+pw-1,py+1,.45,.45);}
-    // number tab
-    g.fillStyle='#ffffff';g.fillRect(cx+.4,cy+.4,4.2,3.4);g.strokeStyle='#3a3836';g.lineWidth=.3;g.strokeRect(cx+.4,cy+.4,4.2,3.4);g.fillStyle='#1c1a18';g.font='bold 2.9px sans-serif';g.fillText(String(i+1),cx+2.5,cy+2.2);}
-  // soft top light + rain-weathering at the bottom edge
-  g.fillStyle=SZ.lg(0,by+B.h-4,0,by+B.h,[[0,'rgba(80,70,60,0)'],[1,'rgba(80,70,60,.12)']]);g.fillRect(bx,by+B.h-4,B.w,4);
-  g.textAlign='left';g.textBaseline='alphabetic';g.restore();}};
+const PB_G={bx:9,top:-44,cs:17.6,line:.9};// board: 3×3 square spaces (cs), left edge bx, top edge top (relative to the footprint corner)
+PB_G.w=PB_G.cs*3+PB_G.line;PB_G.h=PB_G.w;
+function PB_cell(i){const r=Math.floor(i/3),c=i%3;return{x:PB_G.bx+PB_G.line/2+c*PB_G.cs,y:PB_G.top+PB_G.line/2+r*PB_G.cs,w:PB_G.cs,h:PB_G.cs};}
+OFT.photoboard={n:'写真の掲示板',w:3,h:1,draw:(X,Y,L,t)=>{g.save();const B=PB_G,bx=X+B.bx,by=Y+B.top,BL='#1f3aa0';
+  fillE(g,'rgba(0,0,0,.22)',X+36,Y+21.5,32,3);
+  // two wooden stakes and a base batten along the ground
+  for(const px of[X+bx-X+11,X+bx-X+B.w-11]){g.fillStyle=SZ.lg(px-1.5,0,px+1.5,0,[[0,'#b08a5a'],[.5,'#d8b47e'],[1,'#8a6a40']]);g.fillRect(px-1.5,by+B.h-3,3,Y+20-(by+B.h-3));g.fillStyle='rgba(60,40,20,.35)';g.fillRect(px-1.5,by+B.h-3,3,1.2);}
+  g.fillStyle=SZ.lg(0,Y+18.4,0,Y+21,[[0,'#e2c08a'],[1,'#a8824e']]);g.fillRect(bx-3,Y+18.4,B.w+6,2.4);g.fillStyle='rgba(255,255,255,.35)';g.fillRect(bx-3,Y+18.4,B.w+6,.4);
+  // the board: white with a slight thickness and a thin dark edge
+  g.fillStyle='#9a9690';g.fillRect(bx+.9,by+1,B.w,B.h);g.fillStyle=SZ.lg(0,by,0,by+B.h,[[0,'#ffffff'],[1,'#eeeeea']]);g.fillRect(bx,by,B.w,B.h);
+  for(let i=0;i<9;i++){const c=PB_cell(i),cx=X+c.x,cy=Y+c.y,im=PB_img(i),pad=.9;
+    if(im){const px=cx+pad,py=cy+pad,pw=c.w-pad*2,ph=c.h-pad*2;g.save();g.beginPath();g.rect(px,py,pw,ph);g.clip();g.fillStyle='#ffffff';g.fillRect(px,py,pw,ph);
+      const s=ph/im.height,dw=im.width*s;g.drawImage(im,px+(pw-dw)/2,py,dw,ph);g.restore();
+      g.fillStyle='rgba(255,255,255,.14)';g.beginPath();g.moveTo(px,py);g.lineTo(px+pw*.42,py);g.lineTo(px,py+ph*.5);g.closePath();g.fill();}
+    else{g.fillStyle=BL;g.font=`bold ${(c.w*.42).toFixed(1)}px sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText(String(i+1),cx+c.w/2,cy+c.h/2+.5);}
+    // the small cell number printed at the top edge, like the real board
+    g.fillStyle=BL;g.font='bold 1.6px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(String(i+1),cx+c.w/2,cy+1.4);}
+  // blue grid lines
+  g.strokeStyle=BL;g.lineWidth=B.line;for(let k=0;k<=3;k++){const x=bx+B.line/2+k*B.cs,y=by+B.line/2+k*B.cs;g.beginPath();g.moveTo(x,by+B.line/2);g.lineTo(x,by+B.h-B.line/2);g.moveTo(bx+B.line/2,y);g.lineTo(bx+B.w-B.line/2,y);g.stroke();}
+  g.fillStyle='rgba(0,0,0,.06)';g.fillRect(bx,by+B.h-2,B.w,2);g.textAlign='left';g.textBaseline='alphabetic';g.restore();}};
 if(!OKEYS.includes('photoboard'))OKEYS.push('photoboard');if(!OBUY.includes('photoboard'))OBUY.push('photoboard');
 // tapping anywhere on the board counts (it stands well above its footprint)
-function PB_hot(wx,wy){try{if(C.scene!=='out'||!S.yard||!S.yard.photoboard||S.yard.photoboard.carry)return false;const p=S.yard.photoboard,X=p.x*T,Y=p.y*T;return wx>=X+PB_G.bx&&wx<=X+PB_G.bx+PB_G.w&&wy>=Y+PB_G.top&&wy<=Y+22;}catch(e){return false;}}
+function PB_hot(wx,wy){try{if(C.scene!=='out'||!S.yard||!S.yard.photoboard||S.yard.photoboard.carry)return false;const p=S.yard.photoboard,X=p.x*T,Y=p.y*T;return wx>=X+PB_G.bx-3&&wx<=X+PB_G.bx+PB_G.w+3&&wy>=Y+PB_G.top&&wy<=Y+22;}catch(e){return false;}}
 {const TT=tapTarget;tapTarget=function(wx,wy){if(PB_hot(wx,wy))return{t:'yard',k:'photoboard'};return TT.apply(this,arguments);};}
 {const HC=hitChar;hitChar=function(e){try{const w=tapWorld(e);if(PB_hot(w.x,w.y))return false;}catch(_){}return HC.apply(this,arguments);};}
 // shrink a chosen picture to a small JPEG (cover-crop 4:3)
-function PB_shrink(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const W2=160,H2=120,c=document.createElement('canvas');c.width=W2;c.height=H2;const x=c.getContext('2d');const s=Math.max(W2/im.width,H2/im.height);x.drawImage(im,(W2-im.width*s)/2,(H2-im.height*s)/2,im.width*s,im.height*s);cb(c.toDataURL('image/jpeg',.72));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
+function PB_shrink(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const W2=144,H2=144,c=document.createElement('canvas');c.width=W2;c.height=H2;const x=c.getContext('2d');x.fillStyle='#ffffff';x.fillRect(0,0,W2,H2);const s=H2/im.height,dw=im.width*s;x.drawImage(im,(W2-dw)/2,0,dw,H2);cb(c.toDataURL('image/jpeg',.72));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
 function PB_pick(i){let inp=document.getElementById('pbFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pbFile';inp.hidden=true;document.body.appendChild(inp);}
   inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;PB_shrink(f,url=>{if(!url){say('その写真は読み込めなかったみたい');return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
     queueSay(pick([`${i+1}番に写真を貼ったよ`,'いい写真！掲示板が華やかになった','この写真、すてきだね']));PB_ui(true);});};inp.click();}
 function PB_view(i){const src=PB_list()[i];if(!src)return;let ov=document.getElementById('pbView');if(!ov){ov=document.createElement('div');ov.id='pbView';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',()=>{ov.hidden=true;});}
   ov.innerHTML=`<div class="card" style="max-width:340px;padding:10px;text-align:center"><img src="${src}" alt="" style="width:100%;border-radius:8px;image-rendering:auto"><div style="margin-top:6px;font-size:12px;opacity:.8">${i+1}番　タップでとじる</div></div>`;ov.hidden=false;}
-function PB_ui(open){let ov=document.getElementById('pbOv');if(!ov&&!open)return;if(!ov){const st=document.createElement('style');st.textContent=`#pbOv .card{max-width:340px;padding:14px 14px 12px}#pbOv h2{margin:0 0 4px;font-size:16px;text-align:center}#pbOv .hint{margin:0 0 8px;font-size:12px;opacity:.8;text-align:center}#pbOv .pbg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}#pbOv .pbc{position:relative;aspect-ratio:4/3;border-radius:6px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(255,255,255,.6);overflow:hidden;padding:0}#pbOv .pbc img{width:100%;height:100%;object-fit:cover}#pbOv .pbn{position:absolute;left:3px;top:2px;font-size:11px;font-weight:700;background:#fff;color:#222;border-radius:3px;padding:0 4px}#pbOv .pbm{display:flex;gap:6px;margin-top:8px}#pbOv .pbm button{flex:1}#pbOv .pbx{margin-top:10px;width:100%}`;try{document.head.appendChild(st);}catch(_){}
+function PB_ui(open){let ov=document.getElementById('pbOv');if(!ov&&!open)return;if(!ov){const st=document.createElement('style');st.textContent=`#pbOv .card{max-width:340px;padding:14px 14px 12px}#pbOv h2{margin:0 0 4px;font-size:16px;text-align:center}#pbOv .hint{margin:0 0 8px;font-size:12px;opacity:.8;text-align:center}#pbOv .pbg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}#pbOv .pbc{position:relative;aspect-ratio:1/1;border-radius:6px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(255,255,255,.6);overflow:hidden;padding:0}#pbOv .pbc img{width:100%;height:100%;object-fit:cover;background:#fff}#pbOv .pbs{margin-top:6px;width:100%;font-size:12px;opacity:.85}#pbOv .pbn{position:absolute;left:3px;top:2px;font-size:11px;font-weight:700;background:#fff;color:#222;border-radius:3px;padding:0 4px}#pbOv .pbm{display:flex;gap:6px;margin-top:8px}#pbOv .pbm button{flex:1}#pbOv .pbx{margin-top:10px;width:100%}`;try{document.head.appendChild(st);}catch(_){}
   ov=document.createElement('div');ov.id='pbOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
   if(open)ov.hidden=false;if(ov.hidden)return;const P=PB_list();let sel=ov._sel;
-  ov.innerHTML=`<div class="card" role="dialog" aria-label="写真の掲示板"><h2>📷 写真の掲示板</h2><p class="hint">空いている番号をタップして写真を貼ろう（この端末の中だけに保存されます）</p><div class="pbg">${P.map((s,i)=>`<button type="button" class="pbc" data-i="${i}"${sel===i?' style="outline:2px solid #ffd36b"':''}>${s?`<img src="${s}" alt="">`:'＋'}<span class="pbn">${i+1}</span></button>`).join('')}</div>
-   ${sel!=null&&P[sel]?`<div class="pbm"><button type="button" data-a="view">大きく見る</button><button type="button" data-a="swap">入れ替える</button><button type="button" data-a="del">外す</button></div>`:''}<button type="button" class="primary pbx">とじる</button></div>`;
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="写真の掲示板"><h2>📷 写真の掲示板</h2><p class="hint">番号をタップして写真を貼ろう（この端末の中だけに保存されます）</p><div class="pbg">${P.map((s,i)=>`<button type="button" class="pbc" data-i="${i}"${sel===i?' style="outline:2px solid #ffd36b"':''}>${s?`<img src="${s}" alt="">`:'＋'}<span class="pbn">${i+1}</span></button>`).join('')}</div>
+   ${sel!=null&&P[sel]?`<div class="pbm"><button type="button" data-a="view">大きく見る</button><button type="button" data-a="swap">入れ替える</button><button type="button" data-a="del">外す</button></div>`:''}<button type="button" class="primary pbx">とじる</button><button type="button" class="pbs">掲示板をしまう</button></div>`;
   ov.querySelectorAll('.pbc').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(!P[i]){ov._sel=null;PB_pick(i);}else{ov._sel=ov._sel===i?null:i;PB_ui();}});
   ov.querySelectorAll('.pbm button').forEach(b=>b.onclick=()=>{const i=ov._sel;if(i==null)return;const a=b.dataset.a;if(a==='view')PB_view(i);else if(a==='swap')PB_pick(i);else{P[i]=null;PB_IMG[i]=null;ov._sel=null;save();PB_ui();say(`${i+1}番の写真を外したよ`);}});
-  ov.querySelector('.pbx').onclick=()=>{ov.hidden=true;ov._sel=null;};}
+  ov.querySelector('.pbx').onclick=()=>{ov.hidden=true;ov._sel=null;};
+  ov.querySelector('.pbs').onclick=()=>{ov.hidden=true;ov._sel=null;try{ystoreDo('photoboard');}catch(e){}};}
 {const TP=tapPlan;tapPlan=function(tg){if(tg&&tg.t==='yard'&&tg.k==='photoboard'){try{PB_ui(true);}catch(e){}const q=yardFront('photoboard',S.yard.photoboard);return q?{n:'tapwalk',s:[{t:'go',sc:'out',x:q.x,y:q.y},{t:'face',d:q.d},SAY(pick(['どの写真を貼ろうかな','掲示板、にぎやかにしよう','思い出の写真、飾っちゃおう']))]}:null;}return TP.apply(this,arguments);};}
 // the board is delivered once right away (it can be stored / re-ordered like any garden thing)
 {const PBI=setInterval(()=>{try{if(!S)return;clearInterval(PBI);if(S.pbGiven)return;if(S.yard.photoboard||(S.ystored||[]).some(e=>e.k==='photoboard')){S.pbGiven=1;return;}
   S.yardOrderQ=S.yardOrderQ||[];if(!S.yardOrderQ.includes('photoboard'))S.yardOrderQ.push('photoboard');S.pbGiven=1;save();}catch(e){}},4000);}
+{const DE=dragEnd;dragEnd=function(cancel){const d=DRAG;if(d&&d.sc==='out'&&d.k==='photoboard'&&!cancel&&d.cur.x===d.orig.x&&d.cur.y===d.orig.y){DRAG=null;dragEndAt=performance.now();S.yard.photoboard=d.orig;try{PB_ui(true);}catch(e){}return;}return DE.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
