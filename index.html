@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版324（2026/10/26 #174）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版325（2026/10/26 #175）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版324（2026/10/26 #174）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版325（2026/10/26 #175）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -17141,6 +17141,36 @@ function RO_order(st,yard){const k=st.k;
   const h=card.querySelector('.dzhint');if(h)h.hidden=true;card.append(msg,row);
   if(!document.getElementById('dzwearSt')){const s2=document.createElement('style');s2.id='dzwearSt';s2.textContent='#dexZoom .dzbtns{display:flex;gap:10px;justify-content:center;margin:12px auto 2px}#dexZoom .dzbtns button{min-width:120px;padding:10px 18px;border-radius:12px;font-weight:700;font-size:15px}';document.head.append(s2);}
   }catch(e){}return r;};}
+/* ---- v325: names (プラ鉄道模型 / 卓上ミラーボール); the mirror ball shoots laser beams that end in a little burst, stays inside its own room, and goes off after 30 seconds ---- */
+FT.trainset.n='プラ鉄道模型';FT.mirrorball.n='卓上ミラーボール';
+FT.mirrorball.act.on=()=>{S.mbUntil=Date.now()+30e3;};
+// clip path made of the room's own floor cells (plus the wall face above its top row), so no light goes through a wall
+function MB_clip(r){const p=new Path2D();for(let y=0;y<24;y++)for(let x=0;x<HW;x++){if(roomAt(x,y)!==r)continue;p.rect(x*T,y*T,T+.5,T+.5);if(roomAt(x,y-1)!==r&&!DOORCELL.has(x+','+(y-1)))p.rect(x*T,y*T-(typeof WEXT==='number'?WEXT:14),T+.5,(typeof WEXT==='number'?WEXT:14)+.5);}return p;}
+let MB_CK='',MB_CP=null;
+{const GI0=glowIn;glowIn=function(t){// draw everything else, but not the old spots: our own drawing below replaces them
+  const on=MB_on();if(on){const u=S.mbUntil;S.mbUntil=0;try{GI0.apply(this,arguments);}finally{S.mbUntil=u;}}else GI0.apply(this,arguments);
+  try{if(!on||C.scene!=='in'||!has('mirrorball'))return;const L=S.layout.mirrorball;if(!L||L.carry)return;const r=roomAt(L.x,L.y);if(!r)return;
+    const key=r+':'+L.x+','+L.y;if(MB_CK!==key){MB_CK=key;MB_CP=MB_clip(r);}
+    const dl=daylight(),al=dl<.5?1:.5,cx=(L.x+.5)*T,cy=L.y*T-3,left=(S.mbUntil-Date.now())/1000,fade=Math.min(1,left/2);
+    g.save();g.clip(MB_CP);g.globalCompositeOperation='lighter';
+    const cols=['255,255,255','255,110,170','110,220,255','255,230,110','170,140,255','120,255,160'],N=18;
+    const inR=(x,y)=>{const fx=Math.floor(x/T),fy=Math.floor(y/T);if(roomAt(fx,fy)===r)return true;return roomAt(fx,fy+1)===r&&y>(fy+1)*T-WEXT;};
+    for(let i=0;i<N;i++){const a=i/N*TAU+t*.5+Math.sin(t*.7+i)*.08;let len=60+((i*53)%40)+Math.sin(t*1.3+i*2)*10;
+      // the beam stops (and bursts) before it would reach a wall
+      for(let l=6;l<=len;l+=3){if(!inR(cx+Math.cos(a)*l,cy+Math.sin(a)*l*.62)){len=Math.max(6,l-4);break;}}
+      const ex=cx+Math.cos(a)*len,ey=cy+Math.sin(a)*len*.62,col=cols[i%cols.length],A=al*fade;
+      // the beam: a thin bright core in a soft glow
+      const lg=g.createLinearGradient(cx,cy,ex,ey);lg.addColorStop(0,`rgba(${col},${.05*A})`);lg.addColorStop(.8,`rgba(${col},${.45*A})`);lg.addColorStop(1,`rgba(${col},${.8*A})`);
+      g.strokeStyle=lg;g.lineWidth=1.6;g.beginPath();g.moveTo(cx,cy);g.lineTo(ex,ey);g.stroke();g.lineWidth=.45;g.strokeStyle=`rgba(255,255,255,${.5*A})`;g.beginPath();g.moveTo(cx+(ex-cx)*.3,cy+(ey-cy)*.3);g.lineTo(ex,ey);g.stroke();
+      // a little burst where it lands
+      const tw=.75+.25*Math.sin(t*9+i*1.7),R=3.2*tw;const rg=g.createRadialGradient(ex,ey,0,ex,ey,R*2);rg.addColorStop(0,`rgba(${col},${.7*A})`);rg.addColorStop(1,`rgba(${col},0)`);g.fillStyle=rg;g.fillRect(ex-R*2,ey-R*2,R*4,R*4);
+      g.strokeStyle=`rgba(255,255,255,${.85*A})`;g.lineWidth=.4;g.beginPath();for(let k=0;k<4;k++){const b=k*Math.PI/4+t*2+i;g.moveTo(ex-Math.cos(b)*R,ey-Math.sin(b)*R);g.lineTo(ex+Math.cos(b)*R,ey+Math.sin(b)*R);}g.stroke();fillE(g,`rgba(255,255,255,${.9*A})`,ex,ey,.8,.8);}
+    // a few loose sparkles drifting in between
+    for(let i=0;i<24;i++){const a=i*2.399+t*.4,rr=20+((i*37)%70),x=cx+Math.cos(a)*rr,y=cy+Math.sin(a*1.1+i)*rr*.6,col=cols[i%cols.length];fillE(g,`rgba(${col},${.6*al*fade})`,x,y,.9,.6);}
+    const gr=g.createRadialGradient(cx,cy,0,cx,cy,26);gr.addColorStop(0,`rgba(255,250,230,${.3*al*fade})`);gr.addColorStop(1,'rgba(255,250,230,0)');g.fillStyle=gr;g.fillRect(cx-26,cy-26,52,52);
+    g.globalCompositeOperation='source-over';g.restore();}catch(e){}};}
+// the switch-on by itself (night, music, drinks) also lasts 30 seconds
+setInterval(()=>{try{if(S&&S.mbUntil&&S.mbUntil-Date.now()>31e3)S.mbUntil=Date.now()+30e3;}catch(e){}},1000);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
