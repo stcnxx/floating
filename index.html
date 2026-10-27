@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版378（2026/10/27 #228）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版380（2026/10/27 #230）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版378（2026/10/27 #228）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版380（2026/10/27 #230）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -20696,6 +20696,53 @@ function BD_bub(b,text,dur,fix){const n=performance.now();b.bub={text,until:n+du
     else if(b.st==='over'){b._ct=(b._ct==null?rnd(2,6):b._ct)-dt;if(b._ct<=0){b._ct=rnd(5,10);if(n-BD_callAt>2600){BD_callAt=n;BD_bub(b,pick(cl),1700);}}}}}catch(e){}};}
 {const BI=BD_items;BD_items=function(items,t){BI.apply(this,arguments);try{const n=performance.now();for(const b of BD){const u=b.bub;if(!u||n>u.until)continue;
   const sz=b.d.sz*1.25,x=u.x!=null?u.x:b.x,y=(u.y!=null?u.y:b.y)-(b.d.k==='hakucho'?26:11*sz+3);items.push({k:100000,f:()=>PL_bubble(x,y,u.text)});}}catch(e){}};}
+/* ---- v379: after choosing a picture for a rug, drag it to choose which part shows, then "適用" ---- */
+function RUP_load(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const M2=1000,s=Math.min(1,M2/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c);}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
+RUP_pick=function(k,mode){let inp=document.getElementById('rupFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='rupFile';inp.hidden=true;document.body.appendChild(inp);}
+  inp.onchange=()=>{const fl=inp.files&&inp.files[0];inp.value='';if(!fl)return;RUP_load(fl,src=>{if(!src){say('その画像は読み込めなかったみたい');return;}RUP_adjust(k,mode,src);});};inp.click();};
+function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov)return;const L=S.layout[k];if(!L)return;
+  const OW=mode==='tile'?96:264,OH=mode==='tile'?96:186,ar=OW/OH;
+  if(!document.getElementById('rupAdjSt')){const st=document.createElement('style');st.id='rupAdjSt';st.textContent='#rupOv .rpf{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#111;touch-action:none;cursor:grab;margin:4px 0 8px;box-shadow:0 0 0 2px rgba(255,211,107,.8)}#rupOv .rpf canvas{display:block;width:100%;height:100%}#rupOv .rpf .rpg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 33.3% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 66.6% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 33.3%/100% 1px no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 66.6%/100% 1px no-repeat}#rupOv .rptp{width:100%;aspect-ratio:88/62;border-radius:6px;margin:0 0 8px;background-repeat:repeat;background-size:20% auto;box-shadow:inset 0 0 0 3px rgba(120,60,60,.8)}#rupOv .rpa{display:flex;gap:8px}#rupOv .rpa button{flex:1}#rupOv .rpz{width:100%;margin:0 0 8px}';try{document.head.appendChild(st);}catch(_){}}
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="位置を調整"><h2>${mode==='tile'?'🔁 くり返し柄にする部分':'🖼 ラグに敷く部分'}</h2><p class="hint">ドラッグして位置を調整できます${mode==='tile'?'（四角の中がくり返しの1枚になります）':''}</p>
+    <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 8px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 拡大</span><input class="rpz" style="margin:0" type="range" min="100" max="300" value="100" aria-label="拡大"></div>${mode==='tile'?'<div class="rptp"></div>':''}
+    <div class="rpa"><button type="button" class="rpc">やめる</button><button type="button" class="primary rpok">適用</button></div></div>`;ov.hidden=false;
+  const fr=ov.querySelector('.rpf'),cv2=fr.querySelector('canvas'),zs=ov.querySelector('.rpz'),tp=ov.querySelector('.rptp');
+  const st={z:1,cx:.5,cy:.5};// centre of the view in image fractions
+  const view=()=>{const base=Math.max(OW/src.width,OH/src.height)*st.z;const vw=OW/base,vh=OH/base;// view size in image px
+    st.cx=Math.min(1-vw/2/src.width,Math.max(vw/2/src.width,st.cx));st.cy=Math.min(1-vh/2/src.height,Math.max(vh/2/src.height,st.cy));return{sx:st.cx*src.width-vw/2,sy:st.cy*src.height-vh/2,vw,vh};};
+  const crop=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');const v=view();x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,w,h);return c;};
+  const draw=()=>{const r=fr.getBoundingClientRect(),d=Math.min(3,window.devicePixelRatio||1),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.width/ar*d));if(cv2.width!==w||cv2.height!==h){cv2.width=w;cv2.height=h;}
+    const x=cv2.getContext('2d'),v=view();x.drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,w,h);};
+  let tpT=0;const tpUp=()=>{if(!tp)return;clearTimeout(tpT);tpT=setTimeout(()=>{try{tp.style.backgroundImage=`url(${crop(96,96).toDataURL('image/jpeg',.8)})`;}catch(_){}},60);};
+  draw();tpUp();requestAnimationFrame(()=>{draw();});
+  let drag=null;fr.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,cx:st.cx,cy:st.cy};try{fr.setPointerCapture(e.pointerId);}catch(_){}fr.style.cursor='grabbing';e.preventDefault();});
+  fr.addEventListener('pointermove',e=>{if(!drag)return;const r=fr.getBoundingClientRect(),v=view(),px=v.vw/r.width;st.cx=drag.cx-(e.clientX-drag.x)*px/src.width;st.cy=drag.cy-(e.clientY-drag.y)*px/src.height;draw();});
+  const up=()=>{if(!drag)return;drag=null;fr.style.cursor='grab';tpUp();};fr.addEventListener('pointerup',up);fr.addEventListener('pointercancel',up);
+  zs.oninput=()=>{st.z=(+zs.value)/100;draw();tpUp();};
+  ov.querySelector('.rpc').onclick=()=>{RUP_ui(k);};
+  ov.querySelector('.rpok').onclick=()=>{let url=null;try{url=crop(OW,OH).toDataURL('image/jpeg',.8);}catch(e){}if(!url){say('その画像は使えなかったみたい');return;}
+    const done=edge=>{L.uimg={m:mode,src:url};if(edge)L.uimg.edge=edge;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの画像を外してみて');}ov.hidden=true;
+      queueSay(mode==='photo'?pick(['お気に入りの写真がラグになった！','写真のラグ、すてき','足元に思い出の写真']):pick(['オリジナル柄のラグ、できた！','くり返し柄にすると、ちゃんとラグっぽい','この柄、かわいい']));};
+    if(mode==='tile')RUP_edge(url,done);else done(null);};}
+/* ---- v380: the yard photo board gets the same "drag to choose the part, then 適用" step ---- */
+function ADJ_ui(ov,o){const OW=o.OW,OH=o.OH,ar=OW/OH,src=o.src;
+  if(!document.getElementById('adjSt')){const st=document.createElement('style');st.id='adjSt';st.textContent='.adjc .rpf{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#111;touch-action:none;cursor:grab;margin:4px 0 8px;box-shadow:0 0 0 2px rgba(255,211,107,.8)}.adjc .rpf canvas{display:block;width:100%;height:100%}.adjc .rpg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 33.3% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 66.6% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 33.3%/100% 1px no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 66.6%/100% 1px no-repeat}.adjc .rpa{display:flex;gap:8px}.adjc .rpa button{flex:1}.adjc h2{margin:0 0 4px;font-size:16px;text-align:center}.adjc .hint{margin:0 0 6px;font-size:12px;opacity:.8;text-align:center}';try{document.head.appendChild(st);}catch(_){}}
+  ov.innerHTML=`<div class="card adjc" role="dialog" aria-label="位置を調整" style="max-width:320px;padding:14px 14px 12px"><h2>${o.title}</h2><p class="hint">ドラッグして位置を調整できます</p>
+    <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 10px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 拡大</span><input class="rpz" style="margin:0;flex:1" type="range" min="100" max="300" value="100" aria-label="拡大"></div>
+    <div class="rpa"><button type="button" class="rpc">やめる</button><button type="button" class="primary rpok">適用</button></div></div>`;ov.hidden=false;
+  const fr=ov.querySelector('.rpf'),cv2=fr.querySelector('canvas'),zs=ov.querySelector('.rpz'),st={z:1,cx:.5,cy:.5};
+  const view=()=>{const base=Math.max(OW/src.width,OH/src.height)*st.z,vw=OW/base,vh=OH/base;st.cx=Math.min(1-vw/2/src.width,Math.max(vw/2/src.width,st.cx));st.cy=Math.min(1-vh/2/src.height,Math.max(vh/2/src.height,st.cy));return{sx:st.cx*src.width-vw/2,sy:st.cy*src.height-vh/2,vw,vh};};
+  const draw=()=>{const r=fr.getBoundingClientRect(),d=Math.min(3,window.devicePixelRatio||1),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.width/ar*d));if(cv2.width!==w||cv2.height!==h){cv2.width=w;cv2.height=h;}const v=view();cv2.getContext('2d').drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,w,h);};
+  draw();requestAnimationFrame(draw);
+  let drag=null;fr.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,cx:st.cx,cy:st.cy};try{fr.setPointerCapture(e.pointerId);}catch(_){}e.preventDefault();});
+  fr.addEventListener('pointermove',e=>{if(!drag)return;const r=fr.getBoundingClientRect(),v=view(),px=v.vw/r.width;st.cx=drag.cx-(e.clientX-drag.x)*px/src.width;st.cy=drag.cy-(e.clientY-drag.y)*px/src.height;draw();});
+  const up=()=>{drag=null;};fr.addEventListener('pointerup',up);fr.addEventListener('pointercancel',up);zs.oninput=()=>{st.z=(+zs.value)/100;draw();};
+  ov.querySelector('.rpc').onclick=()=>{try{o.onCancel&&o.onCancel();}catch(_){}};
+  ov.querySelector('.rpok').onclick=()=>{let url=null;try{const c=document.createElement('canvas');c.width=OW;c.height=OH;const x=c.getContext('2d'),v=view();x.fillStyle='#fff';x.fillRect(0,0,OW,OH);x.drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,OW,OH);url=c.toDataURL('image/jpeg',.75);}catch(e){}o.onOk(url);};}
+PB_pick=function(i){let inp=document.getElementById('pbFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pbFile';inp.hidden=true;document.body.appendChild(inp);}
+  inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;RUP_load(f,src=>{if(!src){say('その写真は読み込めなかったみたい');return;}const ov=document.getElementById('pbOv');if(!ov){return;}
+    ADJ_ui(ov,{title:`📷 ${i+1}番に貼る部分`,OW:144,OH:144,src,onCancel:()=>{PB_ui(true);},onOk:url=>{if(!url){say('その写真は読み込めなかったみたい');PB_ui(true);return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
+      queueSay(pick([`${i+1}番に写真を貼ったよ`,'いい写真！掲示板が華やかになった','この写真、すてきだね']));ov._sel=null;PB_ui(true);}});});};inp.click();};
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
