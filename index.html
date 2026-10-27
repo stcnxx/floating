@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版397（2026/10/28 #247）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版400（2026/10/28 #250）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版397（2026/10/28 #247）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版400（2026/10/28 #250）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -4705,12 +4705,12 @@ function canopyCanvas(tr,cn,s){const key=(tr.pine?'p':'c')+tr.x+'_'+tr.y+'|'+s+'
     if(snowCover>.2){for(const[dx,dy,r]of cl.slice(2,3).concat(cl.slice(6)).concat(cl.slice(0,2)))E2(ox+dx,oy+dy-r*.55,r*.72,r*.28,`rgba(255,255,255,${Math.min(.95,snowCover+.1)})`);}}
   const o={cv:cv2,key,ox,oy,w:Wc,h:Hc};treeC[tr.x+','+tr.y]=o;return o;}
 function drawTree(tr,t){
-  const x=tr.x*T+12,y=tr.y*T+20,s=season(),sway=Math.sin(t*1.1+tr.x)*1.2;
+  const x=tr.x*T+12,y=tr.y*T+20,s=season(),sway=typeof TW_sway==='function'?TW_sway(tr,t):Math.sin(t*1.1+tr.x)*1.2;
   {g.save();try{const ip=typeof ISL_path==='function'&&!ISL_inside(x-15,y-6.5,x+29,y+8.5)?ISL_path():null;if(ip)g.clip(ip);}catch(e){}const gr=g.createRadialGradient(x+7,y+1,2,x+7,y+1,21);gr.addColorStop(0,'rgba(15,30,10,.36)');gr.addColorStop(1,'rgba(15,30,10,0)');g.fillStyle=gr;g.beginPath();g.ellipse(x+7,y+1,22,7.5,0,0,TAU);g.fill();g.restore();}
   // trunk with bark shading
   const tg=g.createLinearGradient(x-5,0,x+5,0);tg.addColorStop(0,'#8a5f3a');tg.addColorStop(.45,'#6e4a2c');tg.addColorStop(1,'#43291a');
   if(tr.pine){g.fillStyle=tg;g.fillRect(x-2.2,y-9,4.4,10);g.fillStyle='rgba(0,0,0,.25)';g.fillRect(x-2.2,y-9,4.4,2);
-    const cc=canopyCanvas(tr,CANOPY.pine,s);g.drawImage(cc.cv,x-cc.ox+sway*.5,y-cc.oy,cc.w,cc.h);return;}
+    const cc=canopyCanvas(tr,CANOPY.pine,s);TW_img(cc,x,y,sway*.6,y-8);return;}
   g.fillStyle=tg;g.beginPath();g.moveTo(x-5.5,y+1);g.quadraticCurveTo(x-2.6,y-6,x-2.6,y-17);g.lineTo(x+2.6,y-17);g.quadraticCurveTo(x+2.6,y-6,x+5.5,y+1);g.closePath();g.fill();
   g.strokeStyle='rgba(40,22,10,.35)';g.lineWidth=.5;for(let i=0;i<4;i++){const bx=x-1.6+i*1.1;g.beginPath();g.moveTo(bx,y-1);g.quadraticCurveTo(bx+(i%2?.6:-.6),y-8,bx,y-15);g.stroke();}
   fillR(g,'rgba(255,240,210,.16)',x-2,y-15,.9,13);fillE(g,'#5e3e24',x-5,y+.5,3,1.4);fillE(g,'#4a2e1a',x+5,y+.5,3,1.4);
@@ -4720,7 +4720,7 @@ function drawTree(tr,t){
       g.strokeStyle='#5a3a22';g.lineWidth=.8;g.beginPath();g.moveTo(x+Math.sin(a)*l*.6,y-14-Math.cos(a)*l*.6);g.lineTo(ex+Math.sin(a+.7)*4,ey-Math.cos(a+.7)*4);g.stroke();}
     if(snowCover>.1)for(const[a,l]of[[-.9,14],[.8,15],[-.1,18]])fillE(g,'rgba(255,255,255,.85)',x+Math.sin(a)*l,y-15-Math.cos(a)*l,3,1.3);return;}
   fillE(g,'rgba(20,12,4,.35)',x,y-15,6,2.2);
-  const cc=canopyCanvas(tr,cn,s);g.drawImage(cc.cv,x-cc.ox+sway,y-cc.oy,cc.w,cc.h);
+  const cc=canopyCanvas(tr,cn,s);TW_img(cc,x,y,sway,y-15);
   if(tr.fruit&&s!=='winter'){const fcol=s==='autumn'?'#d9483b':s==='summer'?'#8ccf4d':'#fff3f6';for(let i=0;i<6;i++){const fx=x-12+hash(tr.x,i,3)*24+sway,fy=y-32+hash(tr.y,i,3)*18;fillE(g,'rgba(0,0,0,.2)',fx+.6,fy+.8,2,2);fillE(g,fcol,fx,fy,2,2);fillE(g,'rgba(255,255,255,.6)',fx-.6,fy-.7,.6,.6);}}
 }
 const FENCE=[];
@@ -20258,9 +20258,9 @@ OFT.photoboard={n:'写真の掲示板',w:3,h:1,draw:(X,Y,L,t)=>{g.save();const B
     if(im){const px=cx+pad,py=cy+pad,pw=c.w-pad*2,ph=c.h-pad*2;g.save();g.beginPath();g.rect(px,py,pw,ph);g.clip();g.fillStyle='#ffffff';g.fillRect(px,py,pw,ph);
       const s=ph/im.height,dw=im.width*s;g.drawImage(im,px+(pw-dw)/2,py,dw,ph);g.restore();
       g.fillStyle='rgba(255,255,255,.14)';g.beginPath();g.moveTo(px,py);g.lineTo(px+pw*.42,py);g.lineTo(px,py+ph*.5);g.closePath();g.fill();}
-    else{g.fillStyle=BL;g.font=`bold ${(c.w*.42).toFixed(1)}px sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText(String(i+1),cx+c.w/2,cy+c.h/2+.5);}
+    else{g.fillStyle=BL;g.font=`bold ${(c.w*.42).toFixed(1)}px sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText(String(PB_no(i)),cx+c.w/2,cy+c.h/2+.5);}
     // the small cell number printed at the top edge, like the real board
-    g.fillStyle=BL;g.font='bold 1.6px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(String(i+1),cx+c.w/2,cy+1.4);}
+    g.fillStyle=BL;g.font='bold 1.6px sans-serif';g.textAlign='center';g.textBaseline='middle';g.fillText(String(PB_no(i)),cx+c.w/2,cy+1.4);}
   // blue grid lines
   g.strokeStyle=BL;g.lineWidth=B.line;for(let k=0;k<=3;k++){const x=bx+B.line/2+k*B.cs,y=by+B.line/2+k*B.cs;g.beginPath();g.moveTo(x,by+B.line/2);g.lineTo(x,by+B.h-B.line/2);g.moveTo(bx+B.line/2,y);g.lineTo(bx+B.w-B.line/2,y);g.stroke();}
   g.fillStyle='rgba(0,0,0,.06)';g.fillRect(bx,by+B.h-2,B.w,2);g.textAlign='left';g.textBaseline='alphabetic';g.restore();}};
@@ -20273,16 +20273,16 @@ function PB_hot(wx,wy){try{if(C.scene!=='out'||!S.yard||!S.yard.photoboard||S.ya
 function PB_shrink(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const W2=144,H2=144,c=document.createElement('canvas');c.width=W2;c.height=H2;const x=c.getContext('2d');x.fillStyle='#ffffff';x.fillRect(0,0,W2,H2);const s=H2/im.height,dw=im.width*s;x.drawImage(im,(W2-dw)/2,0,dw,H2);cb(c.toDataURL('image/jpeg',.72));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
 function PB_pick(i){let inp=document.getElementById('pbFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pbFile';inp.hidden=true;document.body.appendChild(inp);}
   inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;PB_shrink(f,url=>{if(!url){say('その写真は読み込めなかったみたい');return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
-    queueSay(pick([`${i+1}番に写真を貼ったよ`,'いい写真！掲示板が華やかになった','この写真、すてきだね']));PB_ui(true);});};inp.click();}
+    queueSay(pick([`${PB_no(i)}番に写真を貼ったよ`,'いい写真！掲示板が華やかになった','この写真、すてきだね']));PB_ui(true);});};inp.click();}
 function PB_view(i){const src=PB_list()[i];if(!src)return;let ov=document.getElementById('pbView');if(!ov){ov=document.createElement('div');ov.id='pbView';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',()=>{ov.hidden=true;});}
-  ov.innerHTML=`<div class="card" style="max-width:340px;padding:10px;text-align:center"><img src="${src}" alt="" style="width:100%;border-radius:8px;image-rendering:auto"><div style="margin-top:6px;font-size:12px;opacity:.8">${i+1}番　タップでとじる</div></div>`;ov.hidden=false;}
+  ov.innerHTML=`<div class="card" style="max-width:340px;padding:10px;text-align:center"><img src="${src}" alt="" style="width:100%;border-radius:8px;image-rendering:auto"><div style="margin-top:6px;font-size:12px;opacity:.8">${PB_no(i)}番　タップでとじる</div></div>`;ov.hidden=false;}
 function PB_ui(open){let ov=document.getElementById('pbOv');if(!ov&&!open)return;if(!ov){const st=document.createElement('style');st.textContent=`#pbOv .card{max-width:340px;padding:14px 14px 12px}#pbOv h2{margin:0 0 4px;font-size:16px;text-align:center}#pbOv .hint{margin:0 0 8px;font-size:12px;opacity:.8;text-align:center}#pbOv .pbg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}#pbOv .pbc{position:relative;aspect-ratio:1/1;border-radius:6px;background:rgba(255,255,255,.08);border:1px dashed rgba(255,255,255,.35);display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(255,255,255,.6);overflow:hidden;padding:0}#pbOv .pbc img{width:100%;height:100%;object-fit:cover;background:#fff}#pbOv .pbs{margin-top:6px;width:100%;font-size:12px;opacity:.85}#pbOv .pbn{position:absolute;left:3px;top:2px;font-size:11px;font-weight:700;background:#fff;color:#222;border-radius:3px;padding:0 4px}#pbOv .pbm{display:flex;gap:6px;margin-top:8px}#pbOv .pbm button{flex:1}#pbOv .pbx{margin-top:10px;width:100%}`;try{document.head.appendChild(st);}catch(_){}
   ov=document.createElement('div');ov.id='pbOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
   if(open)ov.hidden=false;if(ov.hidden)return;const P=PB_list();let sel=ov._sel;
-  ov.innerHTML=`<div class="card" role="dialog" aria-label="写真の掲示板"><h2>📷 写真の掲示板</h2><p class="hint">番号をタップして写真を貼ろう（この端末の中だけに保存されます）</p><div class="pbg">${P.map((s,i)=>`<button type="button" class="pbc" data-i="${i}"${sel===i?' style="outline:2px solid #ffd36b"':''}>${s?`<img src="${s}" alt="">`:'＋'}<span class="pbn">${i+1}</span></button>`).join('')}</div>
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="写真の掲示板"><h2>📷 写真の掲示板</h2><p class="hint">番号をタップして写真を貼ろう（この端末の中だけに保存されます）</p><div class="pbg">${P.map((s,i)=>`<button type="button" class="pbc" data-i="${i}"${sel===i?' style="outline:2px solid #ffd36b"':''}>${s?`<img src="${s}" alt="">`:'＋'}<span class="pbn">${PB_no(i)}</span></button>`).join('')}</div>
    ${sel!=null&&P[sel]?`<div class="pbm"><button type="button" data-a="view">大きく見る</button><button type="button" data-a="swap">入れ替える</button><button type="button" data-a="del">外す</button></div>`:''}<button type="button" class="primary pbx">とじる</button><button type="button" class="pbs">掲示板をしまう</button></div>`;
   ov.querySelectorAll('.pbc').forEach(b=>b.onclick=()=>{const i=+b.dataset.i;if(!P[i]){ov._sel=null;PB_pick(i);}else{ov._sel=ov._sel===i?null:i;PB_ui();}});
-  ov.querySelectorAll('.pbm button').forEach(b=>b.onclick=()=>{const i=ov._sel;if(i==null)return;const a=b.dataset.a;if(a==='view')PB_view(i);else if(a==='swap')PB_pick(i);else{P[i]=null;PB_IMG[i]=null;ov._sel=null;save();PB_ui();say(`${i+1}番の写真を外したよ`);}});
+  ov.querySelectorAll('.pbm button').forEach(b=>b.onclick=()=>{const i=ov._sel;if(i==null)return;const a=b.dataset.a;if(a==='view')PB_view(i);else if(a==='swap')PB_pick(i);else{P[i]=null;PB_IMG[i]=null;ov._sel=null;save();PB_ui();say(`${PB_no(i)}番の写真を外したよ`);}});
   ov.querySelector('.pbx').onclick=()=>{ov.hidden=true;ov._sel=null;};
   ov.querySelector('.pbs').onclick=()=>{ov.hidden=true;ov._sel=null;try{ystoreDo('photoboard');}catch(e){}};}
 {const TP=tapPlan;tapPlan=function(tg){if(tg&&tg.t==='yard'&&tg.k==='photoboard'){try{PB_ui(true);}catch(e){}const q=yardFront('photoboard',S.yard.photoboard);return q?{n:'tapwalk',s:[{t:'go',sc:'out',x:q.x,y:q.y},{t:'face',d:q.d},SAY(pick(['どの写真を貼ろうかな','掲示板、にぎやかにしよう','思い出の写真、飾っちゃおう']))]}:null;}return TP.apply(this,arguments);};}
@@ -20753,8 +20753,8 @@ function ADJ_ui(ov,o){const OW=o.OW,OH=o.OH,ar=OW/OH,src=o.src;
   ov.querySelector('.rpok').onclick=()=>{let url=null;try{const c=document.createElement('canvas');c.width=OW;c.height=OH;const x=c.getContext('2d'),v=view();x.fillStyle='#fff';x.fillRect(0,0,OW,OH);x.drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,OW,OH);url=c.toDataURL('image/jpeg',.75);}catch(e){}o.onOk(url);};}
 PB_pick=function(i){let inp=document.getElementById('pbFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pbFile';inp.hidden=true;document.body.appendChild(inp);}
   inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;RUP_load(f,src=>{if(!src){say('その写真は読み込めなかったみたい');return;}const ov=document.getElementById('pbOv');if(!ov){return;}
-    ADJ_ui(ov,{title:`📷 ${i+1}番に貼る部分`,OW:144,OH:144,src,onCancel:()=>{PB_ui(true);},onOk:url=>{if(!url){say('その写真は読み込めなかったみたい');PB_ui(true);return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
-      queueSay(pick([`${i+1}番に写真を貼ったよ`,'いい写真！掲示板が華やかになった','この写真、すてきだね']));ov._sel=null;PB_ui(true);}});});};inp.click();};
+    ADJ_ui(ov,{title:`📷 ${PB_no(i)}番に貼る部分`,OW:144,OH:144,src,onCancel:()=>{PB_ui(true);},onOk:url=>{if(!url){say('その写真は読み込めなかったみたい');PB_ui(true);return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
+      queueSay(pick([`${PB_no(i)}番に写真を貼ったよ`,'いい写真！掲示板が華やかになった','この写真、すてきだね']));ov._sel=null;PB_ui(true);}});});};inp.click();};
 /* ---- v381: the house light switch has four settings — 全灯 / 半灯 / 消灯 / ムーディー ---- */
 const LSW_M=[['full','全灯','今までの明るさ'],['black','ブラックライト','暗い部屋に紫の光が浮かぶ'],['off','消灯','寝るときと同じ暗さ'],['mood','ムーディー','薄暗く、ときどき色が移り変わる']];
 const LSW_MOODC=['255,80,170','150,90,255','60,120,255','255,150,60','40,200,190','255,90,110'];
@@ -21016,6 +21016,297 @@ WP.push({n:'オフホワイト（織り目）',c:'#f4f1ea',p:'v_weave',wc:'#efe9
   c.restore();};}
 CLOTHS.push(['淡いブルーのリネン','full','plain','#dde9f2','#c8d9e8'],['ペールピンクのクロス','full','plain','#f6e3e5','#ecccd2'],['ミルクティー色のクロス','full','plain','#ecdcc6','#dcc7aa'],
  ['クリーム色の小花','full','floral','#fbf5df','#e9cf8a'],['ライトグレーのストライプ','full','stripe','#f2f2f0','#d6d9dd'],['淡いミントのギンガム','full','gingham','#f3f9f5','#b4dcc6']);
+function PB_no(i){return Math.floor(i/3)*3+(3-i%3);}
+/* ---- koinobori: a tall pole with a spinning arrow wheel and gold ball, a five-colour streamer and three carp (black, red, blue) flying in the wind ---- */
+function KOI_wind(){try{const w=wxData&&wxData();const sp=w&&w.wind!=null?w.wind:3,dir=w&&w.wdir!=null?w.wdir:270;return{sp:Math.max(.5,Math.min(14,sp)),to:(dir+180)%360};}catch(e){return{sp:3,to:90};}}
+function KOI_carp(px,y0,len,hh,body,belly,fin,ph,t,amp,sx){const N=18,top=[],bot=[],sp=3.2+amp*.25;
+  for(let i=0;i<=N;i++){const u=i/N,wv=Math.sin(t*sp-u*4.6+ph)*u*amp,droop=u*u*hh*.35*(1.4-Math.min(1,amp/3)),r=hh/2*(u<.1?.86+u*1.4:u<.78?1-.28*(u-.1):.8-(u-.78)*3);const x=px+sx*(1.2+u*len);top.push([x,y0+wv+droop-r]);bot.push([x,y0+wv+droop+r]);}
+  const e=top[N],eb=bot[N],ty=(e[1]+eb[1])/2,tw=Math.sin(t*sp-4.6+ph)*amp*.6;
+  const tail=[[e[0],e[1]],[e[0]+sx*5,ty-hh*.7+tw],[e[0]+sx*3,ty+tw*.6],[e[0]+sx*5,ty+hh*.7+tw],[eb[0],eb[1]]];
+  // body
+  g.beginPath();g.moveTo(top[0][0],top[0][1]);for(const p of top)g.lineTo(p[0],p[1]);for(const p of tail)g.lineTo(p[0],p[1]);for(let i=N;i>=0;i--)g.lineTo(bot[i][0],bot[i][1]);g.closePath();
+  g.fillStyle=SZ.lg(0,y0-hh/2,0,y0+hh/2,[[0,shade(body,-.18)],[.5,body],[.78,shade(body,.12)],[1,belly]]);g.fill();
+  g.save();g.clip();
+  // scales
+  for(let i=3;i<N-2;i++){const a=top[i],b=bot[i];for(let r=0;r<3;r++){const yy=a[1]+(b[1]-a[1])*(.18+r*.27),xx=a[0]+((r%2)?sx*.6:0);g.strokeStyle=r<2?'rgba(255,255,255,.35)':'rgba(255,240,200,.4)';g.lineWidth=.3;g.beginPath();g.arc(xx,yy,hh*.13,sx>0?-1.2:Math.PI-1.2+2.4-2.4,sx>0?1.2:Math.PI+1.2);g.stroke();}}
+  // belly band and fins
+  g.fillStyle=shade(belly,.1);g.globalAlpha=.6;g.beginPath();for(let i=2;i<=N-2;i++){const a=top[i],b=bot[i];g.lineTo(a[0],a[1]+(b[1]-a[1])*.82);}for(let i=N-2;i>=2;i--)g.lineTo(bot[i][0],bot[i][1]);g.closePath();g.fill();g.globalAlpha=1;
+  g.fillStyle='rgba(255,255,255,.22)';g.fillRect(Math.min(px,px+sx*len)-2,top[0][1]-2,len+8,hh*.22);g.restore();
+  g.strokeStyle='rgba(0,0,0,.28)';g.lineWidth=.3;g.beginPath();g.moveTo(top[0][0],top[0][1]);for(const p of top)g.lineTo(p[0],p[1]);for(const p of tail)g.lineTo(p[0],p[1]);for(let i=N;i>=0;i--)g.lineTo(bot[i][0],bot[i][1]);g.closePath();g.stroke();
+  // tail tips white
+  g.fillStyle='rgba(255,255,255,.75)';g.beginPath();g.moveTo(tail[1][0],tail[1][1]);g.lineTo(tail[1][0]-sx*1.6,tail[1][1]+1);g.lineTo(tail[1][0]-sx*.4,tail[1][1]+1.8);g.fill();g.beginPath();g.moveTo(tail[3][0],tail[3][1]);g.lineTo(tail[3][0]-sx*1.6,tail[3][1]-1);g.lineTo(tail[3][0]-sx*.4,tail[3][1]-1.8);g.fill();
+  // pectoral fin
+  const fb=bot[5];g.fillStyle=fin;g.beginPath();g.moveTo(fb[0],fb[1]-.6);g.lineTo(fb[0]+sx*3,fb[1]+2.2+Math.sin(t*5+ph)*.6);g.lineTo(fb[0]+sx*3.6,fb[1]-.2);g.fill();
+  // mouth ring, gill, eye
+  const hx=top[0][0],hy=(top[0][1]+bot[0][1])/2;g.fillStyle='#f6f2e6';g.beginPath();g.ellipse(hx,hy,1.1,hh*.44,0,0,TAU);g.fill();g.fillStyle='rgba(0,0,0,.35)';g.beginPath();g.ellipse(hx,hy,.45,hh*.3,0,0,TAU);g.fill();
+  g.strokeStyle='rgba(255,255,255,.7)';g.lineWidth=.4;g.beginPath();g.arc(hx+sx*hh*.95,hy,hh*.42,sx>0?-1.1:Math.PI-1.1,sx>0?1.1:Math.PI+1.1);g.stroke();
+  const ex=hx+sx*hh*.55,ey=hy-hh*.12;fillE(g,'#ffffff',ex,ey,hh*.2,hh*.2);fillE(g,'#141418',ex+sx*.25,ey,hh*.12,hh*.12);fillE(g,'#fff',ex,ey-hh*.07,hh*.04,hh*.04);
+  return[hx,hy];}
+function KOI_draw(X,Y,L,t){g.save();const px=X+6,base=Y+20,top=Y-72,w=KOI_wind(),sx=Math.sin(w.to*Math.PI/180)>=-.2?1:-1,amp=Math.min(3.2,.8+w.sp*.32);
+  oShadow(px+1,base,5,1.6);fillR(g,'#6b5a48',px-3.5,base-4.4,8,4.4,1.2);fillR(g,'#8a7660',px-3.5,base-4.4,8,1.2,.6);
+  g.fillStyle=SZ.lg(px-1.2,0,px+1.2,0,[[0,'#b8b2a4'],[.4,'#f4f1ea'],[1,'#9c968a']]);g.fillRect(px-1.1,top,2.2,base-top-3);
+  // halyard ropes
+  g.strokeStyle='rgba(240,236,226,.85)';g.lineWidth=.3;g.beginPath();g.moveTo(px+sx*1.2,top+2);g.lineTo(px+sx*1.2,base-6);g.moveTo(px+sx*1.6,top+2);g.lineTo(px+sx*1.6,base-6);g.stroke();
+  // streamer (fukinagashi): a white head band with emblem stripes, then five colour ribbons
+  {const y0=top+9,len=34,hh=7,sp=3.6+amp*.2;const head=(u)=>{const x=px+sx*(1.4+u*len),wv=Math.sin(t*sp-u*5.2)*u*amp*1.1;return[x,y0+wv+u*u*2];};
+   const cols=['#2f55b0','#ffffff','#d9483b','#f2c230','#3f9a58'];
+   for(let i=0;i<5;i++){g.fillStyle=cols[i];g.beginPath();for(let k=0;k<=14;k++){const u=k/14,[x,yy]=head(u);g.lineTo(x,yy-hh/2+i*hh/5+u*.4*i);}for(let k=14;k>=0;k--){const u=k/14,[x,yy]=head(u);g.lineTo(x,yy-hh/2+(i+1)*hh/5+u*.4*(i+1)+(u>.6?Math.sin(t*6+i*1.7)*u*.6:0));}g.closePath();g.fill();}
+   const[hx]=head(0),[h2]=head(.2);g.fillStyle='#fbf8f0';g.beginPath();g.moveTo(hx,y0-hh/2-.2);const [x2,y2]=head(.2);g.lineTo(x2,y2-hh/2);g.lineTo(x2,y2+hh/2+.5);g.lineTo(hx,y0+hh/2+.2);g.closePath();g.fill();
+   g.fillStyle='#1e1e24';for(const q of[.06,.11]){const [qx,qy]=head(q);g.fillRect(qx-.35,qy-hh/2,.7,hh);}
+   g.fillStyle='#d9483b';{const [qx,qy]=head(.16);g.beginPath();g.arc(qx,qy,1.2,0,TAU);g.fill();}
+   g.strokeStyle='rgba(0,0,0,.18)';g.lineWidth=.25;g.strokeRect(Math.min(hx,x2),y0-hh/2,Math.abs(x2-hx),hh);void h2;}
+  // three carp, biggest on top
+  KOI_carp(px,top+21,30,7.6,'#26262e','#e8c870','#3a3a44',0,t,amp,sx);
+  KOI_carp(px,top+33,25,6.4,'#d9382e','#f6d0b0','#f08a7a',1.3,t,amp,sx);
+  KOI_carp(px,top+43.5,21,5.4,'#2f5fc0','#cfe2f6','#7aa6e8',2.4,t,amp,sx);
+  // the top: arrow wheel (yaguruma) spinning in the wind, and a gold ball
+  {const yy=top-1.5,rot=t*(2+w.sp*.9);g.save();g.translate(px,yy);
+   for(let i=0;i<8;i++){const a=rot+i*TAU/8,cx=Math.cos(a),dep=Math.sin(a);const r=6.2,ex=cx*r,ey=dep*r*.32;g.strokeStyle=i%2?'#d9483b':'#2f55b0';g.lineWidth=.6;g.beginPath();g.moveTo(0,0);g.lineTo(ex,ey);g.stroke();
+     g.fillStyle=i%2?'#f2c230':'#ffffff';g.beginPath();g.moveTo(ex,ey);g.lineTo(ex-cx*1.6-dep*.7,ey-1.2);g.lineTo(ex-cx*1.6+dep*.7,ey+1.2);g.closePath();g.fill();}
+   fillE(g,'#c8343a',0,0,1.2,.8);g.restore();
+   const by=top-6;g.fillStyle=SZ.lg(px-2.2,by-2.2,px+2.2,by+2.2,[[0,'#fff3b0'],[.45,'#e8b830'],[1,'#8a6a10']]);g.beginPath();g.arc(px,by,2.3,0,TAU);g.fill();g.strokeStyle='rgba(120,90,20,.6)';g.lineWidth=.25;for(let i=-1;i<=1;i++){g.beginPath();g.ellipse(px,by,2.3*Math.abs(Math.cos(t*3+i)),2.3,0,0,TAU);g.stroke();}
+   fillE(g,'rgba(255,255,255,.8)',px-.8,by-.9,.6,.4);}
+  g.restore();}
+OFT.koinobori.draw=KOI_draw;
+/* ---- shishi-odoshi: water runs down a bamboo spout into a pivoting tube; when full it tips, pours and knocks on the stone — "カコーン" ---- */
+function SSO_state(t){const P=7.5,q=((t%P)+P)%P;let a;// tube angle: + = mouth up (filling, back end resting on the stone), - = tipped (mouth down, pouring)
+  if(q<5.4)a=.35-(q/5.4)*.08;
+  else if(q<5.7){const u=(q-5.4)/.3;a=.27-u*u*1.0;}
+  else if(q<6.3)a=-.73+Math.sin((q-5.7)/.6*Math.PI)*.03;
+  else if(q<6.6){const u=(q-6.3)/.3;a=-.73+u*u*1.08;}
+  else{const u=(q-6.6)/.9;a=.35-Math.abs(Math.sin(u*Math.PI*3))*.06*(1-u);}
+  return{a,q,knock:q>=6.6&&q<7.5,pour:q>=5.6&&q<6.4};}
+function SSO_draw(X,Y,L,t){g.save();const s=SSO_state(t),cx=X+12,fy=Y+19;
+  oShadow(cx+1,fy+.6,10,2.6);
+  // gravel bed and the stone basin (tsukubai) at the front-right
+  fillE(g,'#cfc8b8',cx,fy-.6,11,3.2);for(let i=0;i<26;i++){fillE(g,i%2?'#e2dccf':'#b8b0a0',cx-10+hash(i,1,701)*20,fy-2+hash(i,2,701)*3,.45,.3);}
+  const bx=cx+4.5,by=fy-2.6;g.fillStyle=SZ.lg(bx-5,by-4,bx+5,by+3,[[0,'#9a968c'],[.5,'#7a766c'],[1,'#56524a']]);g.beginPath();g.ellipse(bx,by,5.2,3.2,0,0,TAU);g.fill();
+  fillE(g,'#2e4a58',bx,by-1.1,3.6,1.6);fillE(g,SZ.lg(0,by-2.6,0,by,[[0,'#6fa7c8'],[1,'#2e5a72']]),bx,by-1,3.2,1.3);
+  if(s.pour){g.strokeStyle='rgba(255,255,255,.6)';g.lineWidth=.3;const u=(s.q-5.8)/.8;ell(g,bx-1.5,by-1,1+u*2.4,.4+u*.9);g.stroke();}
+  // stone that the tube knocks on
+  fillE(g,'#6a665e',cx-6.5,fy-2.4,3,1.8);fillE(g,'#8a867c',cx-6.8,fy-3,2.4,1.3);
+  // the spout (kakehi) from the back: a bamboo pipe on a small post, water dripping into the tube
+  fillR(g,'#8a6a3a',X+21.4,Y-6,1.4,22,.4);
+  const sp=(x0,y0,x1,y1,w)=>{g.save();g.lineCap='round';g.strokeStyle='#6f8a3a';g.lineWidth=w+.5;g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();g.strokeStyle='#a8c45a';g.lineWidth=w;g.stroke();g.strokeStyle='rgba(255,255,230,.5)';g.lineWidth=w*.3;g.beginPath();g.moveTo(x0,y0-w*.25);g.lineTo(x1,y1-w*.25);g.stroke();g.restore();};
+  sp(X+22.6,Y-5,X+19.4,Y+4.6,1.5);fillE(g,'#d8e8a8',X+19.4,Y+4.6,.7,.75);
+  // the pivot stakes
+  const pvx=cx-1,pvy=fy-8;fillR(g,'#7a5a30',pvx-1.6,pvy,1,8.4,.3);fillR(g,'#7a5a30',pvx+1,pvy,1,8.4,.3);fillE(g,'#5a4020',pvx,pvy,.5,.5);
+  // the tube (takezutsu): pivot near its middle; mouth (cut on a slant) on the right
+  g.save();g.translate(pvx,pvy);g.rotate(-s.a);
+  const L1=8.6,L2=6.2,w=2.4;g.fillStyle=SZ.lg(0,-w/2,0,w/2,[[0,'#c8dc7a'],[.5,'#9ab84a'],[1,'#6f8a32']]);g.beginPath();g.moveTo(-L2,-w/2);g.lineTo(L1-1.2,-w/2);g.lineTo(L1+.8,w/2);g.lineTo(-L2,w/2);g.closePath();g.fill();
+  g.strokeStyle='#5a7028';g.lineWidth=.3;g.stroke();fillR(g,'#7a9438',-1.6,-w/2,.6,w,.2);fillR(g,'#7a9438',3.8,-w/2,.5,w,.2);
+  fillE(g,'#3a4a20',L1-.2,0,.55,w*.45,.8);
+  g.restore();
+  // water: drip from the spout into the tube while filling; a splash when it pours
+  if(s.q<5.6||s.q>6.6){for(let i=0;i<3;i++){const ph=((t*3+i/3)%1);fillE(g,'rgba(200,230,250,.85)',X+19.4,Y+5.4+ph*3,.3,.45);}}
+  if(s.pour){const mx=pvx+Math.cos(-s.a)*8.6,my=pvy+Math.sin(-s.a)*8.6+1;g.strokeStyle='rgba(200,230,250,.85)';g.lineWidth=.8;g.beginPath();g.moveTo(mx,my);g.quadraticCurveTo(mx+1.6,my+1,bx-1.5,by-1.6);g.stroke();}
+  g.restore();
+  if(s.knock&&C.scene==='out'&&typeof PL_bubble==='function')PL_bubble(cx-5,Y-12,'カコーン');}
+OFT.shishiodoshi={n:'ししおどし',w:1,h:1,draw:SSO_draw,act:{say:['ししおどし、いい音','カコーン…風流だなあ','水の音、落ちつく'],s:8,end:['心が静かになった','和の庭っていいね']}};
+/* ---- hina dolls: a three-step stand on red felt — the emperor and empress before a gold screen with bonbori and a pair of flower vases; three court ladies with two stands of rice cakes between them; tachibana, palanquin, chest, ox-cart and sakura on the bottom step; nobody's robe overlaps another ---- */
+function HINA_face(x,y,r,female){
+  // hair: a wide black mass; ladies have side wings
+  fillE(g,'#17120f',x,y-r*.2,r*1.08,r*1.0);if(female){fillE(g,'#17120f',x-r*.92,y+r*.25,r*.42,r*.95);fillE(g,'#17120f',x+r*.92,y+r*.25,r*.42,r*.95);}
+  g.fillStyle=SZ.rg(x-r*.2,y,0,r,[[0,'#ffffff'],[1,'#f2ebe0']],x,y+r*.1);ell(g,x,y+r*.14,r*.78,r*.84);g.fill();
+  fillE(g,'#17120f',x,y-r*.52,r*.8,r*.3);// fringe line
+  g.strokeStyle='#2a2020';g.lineWidth=r*.11;g.lineCap='round';g.beginPath();g.moveTo(x-r*.42,y+r*.1);g.lineTo(x-r*.16,y+r*.12);g.moveTo(x+r*.16,y+r*.12);g.lineTo(x+r*.42,y+r*.1);g.stroke();
+  fillE(g,'rgba(240,160,160,.35)',x-r*.45,y+r*.42,r*.2,r*.11);fillE(g,'rgba(240,160,160,.35)',x+r*.45,y+r*.42,r*.2,r*.11);fillE(g,'#c22a34',x,y+r*.55,r*.1,r*.06);}
+// a seated doll: wide kneeling robe with broad sleeves meeting in front; layers peek out at hems and cuffs
+function HINA_doll(x,by,w,h,o){
+  const sh=by-h*.66,sw=w*.3;
+  const shape=(k)=>{g.beginPath();g.moveTo(x-w/2-k,by);g.bezierCurveTo(x-w/2-k*.6,by-h*.42,x-sw-k*.6,sh-k*.2,x-sw*.45,sh-.3-k*.2);g.lineTo(x+sw*.45,sh-.3-k*.2);g.bezierCurveTo(x+sw+k*.6,sh-k*.2,x+w/2+k*.6,by-h*.42,x+w/2+k,by);g.closePath();};
+  // layered edges (outermost drawn first, a little larger)
+  const L=o.layers;for(let i=L.length-1;i>=1;i--){g.fillStyle=L[i];shape(i*.42);g.fill();}
+  g.fillStyle=SZ.lg(x-w/2,0,x+w/2,0,[[0,o.dk],[.45,L[0]],[1,o.dk]]);shape(0);g.fill();
+  // robe pattern
+  if(o.pat){g.save();shape(0);g.clip();for(let i=0;i<26;i++){const px=x-w/2+hash(i,3,o.seed)*w,py=sh+hash(i,4,o.seed)*(by-sh);fillE(g,o.pat[i%o.pat.length],px,py,.36,.26);}g.restore();}
+  if(o.stripe){g.save();shape(0);g.clip();for(let i=0;i<5;i++){g.strokeStyle=o.stripe[i%o.stripe.length];g.lineWidth=.35;g.beginPath();g.moveTo(x-w/2+i*.6,by);g.quadraticCurveTo(x-sw-.6+i*.5,by-h*.4,x-sw*.4+i*.2,sh);g.moveTo(x+w/2-i*.6,by);g.quadraticCurveTo(x+sw+.6-i*.5,by-h*.4,x+sw*.4-i*.2,sh);g.stroke();}g.restore();}
+  // fold shading
+  g.strokeStyle='rgba(0,0,0,.22)';g.lineWidth=.3;g.beginPath();g.moveTo(x-w*.2,by);g.quadraticCurveTo(x-w*.16,by-h*.3,x-w*.08,by-h*.42);g.moveTo(x+w*.2,by);g.quadraticCurveTo(x+w*.16,by-h*.3,x+w*.08,by-h*.42);g.stroke();
+  // under-robe (hakama for the ladies) in the middle
+  if(o.mid){g.fillStyle=o.mid;g.beginPath();g.moveTo(x-w*.17,by);g.lineTo(x-w*.1,by-h*.4);g.lineTo(x+w*.1,by-h*.4);g.lineTo(x+w*.17,by);g.closePath();g.fill();fillR(g,'rgba(0,0,0,.18)',x-.15,by-h*.38,.3,h*.38);}
+  // sleeve cuffs meeting in front, with the layers showing
+  const cy=by-h*.42;for(const s of[-1,1]){for(let i=Math.min(L.length,3)-1;i>=0;i--)fillE(g,i?L[i]:o.dk,x+s*w*.09,cy,1.15+i*.22,.85+i*.16);}
+  // collar
+  g.fillStyle=o.collar||'#f6f2ea';g.beginPath();g.moveTo(x-1.5,sh-.3);g.lineTo(x,sh+1.9);g.lineTo(x+1.5,sh-.3);g.closePath();g.fill();
+  g.strokeStyle=L[1]||'#c8283a';g.lineWidth=.35;g.beginPath();g.moveTo(x-1.1,sh-.2);g.lineTo(x,sh+1.3);g.lineTo(x+1.1,sh-.2);g.stroke();
+  // highlight
+  g.fillStyle='rgba(255,255,255,.14)';g.beginPath();g.moveTo(x-sw*.4,sh);g.quadraticCurveTo(x-w*.36,by-h*.4,x-w*.42,by);g.lineTo(x-w*.32,by);g.quadraticCurveTo(x-w*.26,by-h*.4,x-sw*.2,sh+.4);g.fill();
+  return{hx:x,hy:sh-o.r*1.08,cy};}
+function HINA_flower(x,y,r,c,ctr){for(let i=0;i<5;i++){const a=i*TAU/5-Math.PI/2;fillE(g,c,x+Math.cos(a)*r*.62,y+Math.sin(a)*r*.62,r*.5,r*.5);}fillE(g,ctr||'#f2d060',x,y,r*.28,r*.28);}
+function HINA_draw(X,Y,Wd,Dp,L,t){g.save();const cx=X+24,fy=Y+20,red='#cf1f2e',redD='#93101c',redL='#e83a48',night=daylight()<.4;
+  A_shadow(X+1,fy-3,46,5);
+  const felt=(x0,y0,w,h,seed)=>{g.save();g.globalAlpha=.16;for(let i=0;i<w*h/6;i++){fillR(g,hash(i,seed,1)>.5?'#ff8a90':'#7a0a14',x0+hash(i,seed,2)*w,y0+hash(i,seed,3)*h,.4,.4);}g.restore();};
+  const step=(w,top,depth,riser,seed)=>{const x0=cx-w/2;g.fillStyle=SZ.lg(0,top,0,top+depth,[[0,'#d82a38'],[1,redL]]);g.fillRect(x0,top,w,depth);g.fillStyle=SZ.lg(0,top+depth,0,top+depth+riser,[[0,red],[1,redD]]);g.fillRect(x0,top+depth,w,riser);
+    felt(x0,top,w,depth+riser,seed);g.fillStyle='rgba(255,255,255,.2)';g.fillRect(x0,top+depth-.35,w,.45);g.fillStyle='rgba(0,0,0,.18)';g.fillRect(x0,top,w,.4);g.fillStyle='rgba(0,0,0,.25)';g.fillRect(x0,top+depth+riser-.6,w,.6);
+    g.fillStyle='rgba(0,0,0,.12)';g.fillRect(x0,top,.6,depth+riser);g.fillRect(x0+w-.6,top,.6,depth+riser);};
+  // ---- gold folding screen (four panels) behind the top step
+  {const sx=cx-19,sy=fy-53,sw=38,sh=21;fillR(g,'#3a2412',sx-.7,sy-.7,sw+1.4,sh+1.4,.3);
+   for(let i=0;i<4;i++){const x0=sx+i*sw/4;g.fillStyle=SZ.lg(x0,sy,x0+sw/4,sy+sh,[[0,i%2?'#e2bc52':'#f2d478'],[.6,i%2?'#d4a83a':'#e8c560'],[1,i%2?'#c4982e':'#dcb450']]);g.fillRect(x0,sy,sw/4+.1,sh);
+     g.save();g.globalAlpha=.18;for(let k=0;k<30;k++)fillR(g,hash(k,i,555)>.5?'#fff2b0':'#a07818',x0+hash(k,i,556)*sw/4,sy+hash(k,i,557)*sh,.6,.6);g.restore();}
+   g.strokeStyle='rgba(110,70,20,.5)';g.lineWidth=.3;for(let i=1;i<4;i++){g.beginPath();g.moveTo(sx+i*sw/4,sy);g.lineTo(sx+i*sw/4,sy+sh);g.stroke();}
+   fillR(g,'#c8a050',sx-.7,sy-.7,1.2,1.2);fillR(g,'#c8a050',sx+sw-.5,sy-.7,1.2,1.2);}
+  step(46,fy-12,5,7,1);step(40,fy-23,4.2,6.8,2);step(36,fy-33,4.4,5.6,3);
+  // sakura embroidery on the bottom riser
+  {for(let i=0;i<13;i++){const t2=i/12,x=cx-11+t2*24,y=fy-1.6-Math.sin(t2*Math.PI)*1.2-t2*2.2+hash(i,1,881)*1.4,r=.55+hash(i,2,881)*.55;HINA_flower(x,y,r,hash(i,3,881)>.5?'#f6c2d0':'#ffffff','#e85a8a');}}
+  // ---- top step: bonbori, emperor, vases, empress
+  const ty=fy-30.4;
+  for(const s of[-1,1]){const lx=cx+s*16.6,base=ty-.4;fillE(g,'#1a1210',lx,base,1.6,.55);fillR(g,'#1a1210',lx-.35,base-11,.7,11);
+    g.strokeStyle='#d82a2a';g.lineWidth=.45;for(let k=0;k<4;k++){g.beginPath();g.moveTo(lx-.6,base-9.6+k*1.6);g.lineTo(lx+.6,base-8.8+k*1.6);g.stroke();}
+    g.beginPath();g.moveTo(lx+.4,base-5);g.quadraticCurveTo(lx+1.6,base-3.6,lx+1.2,base-2);g.stroke();fillR(g,'#c8a040',lx-.9,base-11.6,1.8,.7,.2);
+    // white flame-shaped shade
+    g.fillStyle=SZ.lg(lx-1.8,0,lx+1.8,0,[[0,'#e6e2da'],[.5,'#ffffff'],[1,'#d8d2c8']]);g.beginPath();g.moveTo(lx-1.1,base-11.4);g.quadraticCurveTo(lx-2.1,base-14,lx-1.3,base-16.4);g.quadraticCurveTo(lx-.4,base-15.4,lx,base-17);g.quadraticCurveTo(lx+.4,base-15.4,lx+1.3,base-16.4);g.quadraticCurveTo(lx+2.1,base-14,lx+1.1,base-11.4);g.closePath();g.fill();
+    g.strokeStyle='rgba(150,140,130,.6)';g.lineWidth=.2;g.stroke();g.beginPath();g.moveTo(lx,base-11.4);g.lineTo(lx,base-15.6);g.stroke();
+    if(night){g.save();g.globalCompositeOperation='lighter';const gr=g.createRadialGradient(lx,base-14,0,lx,base-14,9);gr.addColorStop(0,'rgba(255,214,140,.55)');gr.addColorStop(1,'rgba(255,200,120,0)');g.fillStyle=gr;g.fillRect(lx-9,base-23,18,18);g.restore();fillE(g,'rgba(255,240,200,.6)',lx,base-14,1.1,2);}}
+  // the vases between them: a small stand with two gold-and-silver vases of peach blossom
+  {const vx=cx,vy=ty-.2;fillR(g,'#6a4424',vx-1.8,vy-3.2,3.6,3.2,.2);fillR(g,'#8a5a30',vx-2.2,vy-3.6,4.4,.8,.2);HINA_flower(vx,vy-1.6,.5,'#f0d8b0','#c8a040');
+    for(const s of[-1,1]){const x=vx+s*1.1;g.fillStyle=SZ.lg(x-.7,0,x+.7,0,[[0,'#8a9094'],[.5,'#f2f4f6'],[1,'#8a9094']]);g.beginPath();g.moveTo(x-.5,vy-3.6);g.quadraticCurveTo(x-.9,vy-5.4,x-.3,vy-6.6);g.lineTo(x+.3,vy-6.6);g.quadraticCurveTo(x+.9,vy-5.4,x+.5,vy-3.6);g.closePath();g.fill();
+      fillR(g,'#d8b040',x-.6,vy-7.6,1.2,1.1,.3);g.strokeStyle='#5a7a3a';g.lineWidth=.25;g.beginPath();g.moveTo(x,vy-7.6);g.lineTo(x+s*.6,vy-9.6);g.moveTo(x,vy-7.6);g.lineTo(x-s*.3,vy-9.8);g.stroke();
+      for(let k=0;k<5;k++)HINA_flower(x+s*.5+(hash(k,s+2,61)-.5)*2.2,vy-9.4+(hash(k,s+2,62)-.5)*2.2,.5,k%2?'#f4a8bc':'#fbe0e8','#e8607a');}}
+  // layered tatami dais under each of the pair
+  const dais=(x,w)=>{const cs=['#3a6a3a','#f2ede0','#d84a3a','#f2ede0','#e8a840'];for(let i=0;i<cs.length;i++)fillR(g,cs[i],x-w/2+i*.15,ty-1.4+i*.36,w-i*.3,.4);fillR(g,'#7a5030',x-w*.3,ty+.3,w*.6,.7);};
+  dais(cx-8.6,9);dais(cx+8.6,9);
+  // emperor: deep navy sokutai with gold and green figures, kanmuri with the tall upright ei
+  {const d=HINA_doll(cx-8.6,ty-1.2,11.4,9.6,{layers:['#262a4a','#c8a040','#3a8a4a','#f2ede0'],dk:'#14162a',pat:['#c8a040','#4a9a5a','#d8c070'],seed:91,r:2.3,collar:'#f2ede0'});
+   HINA_face(d.hx,d.hy,2.3,false);fillR(g,'#141414',d.hx-1.5,d.hy-3.6,3,1.9,.6);fillR(g,'#141414',d.hx-.6,d.hy-5.2,1.2,1.8,.3);
+   g.fillStyle='#1e1e1e';g.beginPath();g.moveTo(d.hx-.4,d.hy-5);g.lineTo(d.hx-.8,d.hy-13.4);g.quadraticCurveTo(d.hx-.1,d.hy-13.9,d.hx+.6,d.hy-13.4);g.lineTo(d.hx+.4,d.hy-5);g.closePath();g.fill();g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=.2;g.beginPath();g.moveTo(d.hx-.1,d.hy-6);g.lineTo(d.hx-.3,d.hy-13);g.stroke();
+   g.fillStyle='#efe2b8';g.beginPath();g.moveTo(d.hx-.5,d.cy-.2);g.lineTo(d.hx-.1,d.cy-3.1);g.lineTo(d.hx+.6,d.cy-3.1);g.lineTo(d.hx+.5,d.cy-.2);g.closePath();g.fill();}
+  // empress: layered jūnihitoe in reds and oranges, a gold crown, a folding fan
+  {const d=HINA_doll(cx+8.6,ty-1.2,11.8,9.6,{layers:['#d8303a','#f08a30','#f6d070','#c8283a','#f6f2ea'],dk:'#9a1622',stripe:['#f6c84a','#f08a30','#ffffff'],seed:92,r:2.3,collar:'#f6f2ea'});
+   HINA_face(d.hx,d.hy,2.3,true);g.strokeStyle='#e0b030';g.lineWidth=.45;g.beginPath();g.moveTo(d.hx-1.6,d.hy-2.1);g.lineTo(d.hx-.8,d.hy-3.5);g.lineTo(d.hx,d.hy-2.6);g.lineTo(d.hx+.8,d.hy-3.5);g.lineTo(d.hx+1.6,d.hy-2.1);g.stroke();
+   fillE(g,'#f6d040',d.hx,d.hy-3.9,.55,.55);fillE(g,'#d82a2a',d.hx,d.hy-3.9,.25,.25);for(const s of[-1,1])fillE(g,'#f6d040',d.hx+s*1.1,d.hy-3.6,.3,.3);
+   g.fillStyle='#f8e6a8';g.beginPath();g.moveTo(d.hx,d.cy+.4);g.lineTo(d.hx-1.6,d.cy-1.9);g.quadraticCurveTo(d.hx,d.cy-2.5,d.hx+1.6,d.cy-1.9);g.closePath();g.fill();g.strokeStyle='#4a9a5a';g.lineWidth=.25;g.stroke();
+   g.strokeStyle='#e85a7a';g.lineWidth=.3;g.beginPath();g.moveTo(d.hx-1.6,d.cy-1.9);g.lineTo(d.hx-2.3,d.cy+.6);g.moveTo(d.hx+1.6,d.cy-1.9);g.lineTo(d.hx+2.3,d.cy+.6);g.stroke();}
+  // ---- middle step: three court ladies, rice-cake stands between them
+  {const my=fy-19.4;
+   for(const s of[-1,1]){const x=cx+s*6.3;fillE(g,'#5a1a10',x,my-.3,1.4,.4);fillR(g,'#7a3018',x-.25,my-3.4,.5,3.2);g.fillStyle='#8a3a1c';g.beginPath();g.moveTo(x-1.8,my-3.6);g.lineTo(x+1.8,my-3.6);g.lineTo(x+1.2,my-3.1);g.lineTo(x-1.2,my-3.1);g.closePath();g.fill();
+     fillE(g,'#fbf8f0',x,my-4.2,1.4,.7);fillE(g,'#f6a0b6',x,my-4.9,1.05,.65);fillE(g,'rgba(255,255,255,.5)',x-.3,my-5.1,.35,.2);}
+   for(const[i,dx]of[[0,-12.6],[1,0],[2,12.6]]){const d=HINA_doll(cx+dx,my-.4,8.6,7.4,{layers:['#e05a2a','#f6a040','#d8283a','#f6f2ea'],dk:'#a8301a',stripe:['#f6d070','#ffffff'],mid:'#d42030',seed:93+i,r:1.75,collar:'#fbf8f0'});
+     HINA_face(d.hx,d.hy+.2,1.75,true);
+     if(i===1){fillE(g,'#c8a040',d.hx,d.cy-.6,1.3,.5);fillE(g,'#e0c060',d.hx,d.cy-.8,1,.3);}
+     else{fillR(g,'#c8a040',d.hx-.4+(i?.9:-.9),d.cy-2,.8,2.2,.3);fillE(g,'#e8c860',d.hx+(i?.9:-.9),d.cy-2.1,.55,.3);}}}
+  // ---- bottom step: tachibana, palanquin, chest, ox-cart, sakura
+  {const by=fy-8.6;
+   const box=(x)=>{fillR(g,'#7aa0b8',x-2.2,by-.6,4.4,.8,.2);fillR(g,'#e6d8bc',x-1.9,by-3.4,3.8,2.8,.2);g.strokeStyle='#b8a078';g.lineWidth=.2;for(let k=1;k<5;k++){g.beginPath();g.moveTo(x-1.9+k*.76,by-3.4);g.lineTo(x-1.9+k*.76,by-.6);g.stroke();}g.beginPath();g.moveTo(x-1.9,by-2);g.lineTo(x+1.9,by-2);g.stroke();fillR(g,'#d6c6a4',x-2.1,by-3.7,4.2,.5,.2);};
+   const tree=(x,cols,fl,flc,blossom)=>{box(x);fillR(g,'#5a3a22',x-.25,by-5.4,.5,2);
+     for(let k=0;k<11;k++){const a=k*.57+.3,rr2=1.6+hash(k,x|0,71)*1.6;fillE(g,cols[k%cols.length],x+Math.cos(a)*rr2*1.05,by-8.6+Math.sin(a)*rr2*.85,blossom?1.25:1.35,blossom?1.1:.95);}
+     fillE(g,cols[0],x,by-8.6,1.8,1.6);for(let k=0;k<(blossom?12:7);k++)HINA_flower(x+(hash(k,3,x|0)-.5)*5.2,by-8.8+(hash(k,4,x|0)-.5)*4.2,blossom?.6:.38,fl,flc);};
+   tree(cx-19.4,['#2a6a34','#3c8a44','#24582c'],'#ffffff','#f2d060',false);tree(cx+19.4,['#f6d6de','#f2bccb','#fbe8ee'],'#f4a6bc','#e8607a',true);
+   // palanquin with its long pole
+   {const x=cx-10;g.strokeStyle='#c8a060';g.lineWidth=.7;g.lineCap='round';g.beginPath();g.moveTo(x-5.4,by-4.6);g.lineTo(x+5.4,by-4.6);g.stroke();fillR(g,'#7a4a24',x-2.6,by-4.2,5.2,3.8,.3);fillR(g,'#a86a34',x-2.9,by-4.9,5.8,.9,.4);
+    fillR(g,'#3a6a3a',x-1.3,by-3.5,2.6,2.2,.2);fillR(g,'#d8b040',x-.4,by-2.8,.8,.8,.2);g.strokeStyle='#e0a030';g.lineWidth=.3;g.beginPath();g.moveTo(x-2.6,by-.6);g.quadraticCurveTo(x-3.6,by+.2,x-3.2,by+.8);g.stroke();fillE(g,'#d8b040',x,by-5.4,.6,.35);}
+   // chest with gold diamonds and an orange cord
+   {const x=cx;fillR(g,'#6a4020',x-2.4,by-6.2,4.8,6,.3);g.fillStyle='#d8b040';for(let r=0;r<3;r++)for(let c=0;c<2;c++){const qx=x-1.2+c*2.4,qy=by-5+r*1.8;g.beginPath();g.moveTo(qx,qy-.8);g.lineTo(qx+.9,qy);g.lineTo(qx,qy+.8);g.lineTo(qx-.9,qy);g.closePath();g.fill();}
+    HINA_flower(x,by-3.2,.55,'#f4b4c4','#d8b040');g.strokeStyle='#f08a30';g.lineWidth=.35;g.beginPath();g.moveTo(x-2.5,by-5.6);g.quadraticCurveTo(x-3.4,by-2,x-2.8,by+.4);g.moveTo(x+2.5,by-5.6);g.quadraticCurveTo(x+3.4,by-2,x+3,by+.2);g.stroke();fillR(g,'#a8743a',x-2.6,by-6.6,5.2,.7,.3);}
+   // ox-cart with its big wheel and shafts
+   {const x=cx+10;g.strokeStyle='#8a4a1c';g.lineWidth=.55;g.lineCap='round';g.beginPath();g.moveTo(x-1.6,by-2.4);g.lineTo(x-5.6,by-.4);g.stroke();g.strokeStyle='#e08a30';g.lineWidth=.25;g.beginPath();g.moveTo(x-2,by-2.1);g.lineTo(x-5.4,by-.5);g.stroke();
+    fillR(g,'#8a5a2c',x-2.2,by-6.4,5,4,.3);g.fillStyle='#a87038';g.beginPath();g.moveTo(x-2.8,by-6.2);g.quadraticCurveTo(x+.3,by-7.8,x+3.4,by-6.2);g.lineTo(x+3.2,by-5.6);g.lineTo(x-2.6,by-5.6);g.closePath();g.fill();fillR(g,'#d8b040',x-.4,by-5,1.4,1.2,.2);
+    const wx=x+1.4,wy=by-2.4;g.strokeStyle='#4a2a14';g.lineWidth=.6;ell(g,wx,wy,2.2,2.2);g.stroke();g.lineWidth=.25;for(let k=0;k<8;k++){const a=k*Math.PI/4;g.beginPath();g.moveTo(wx,wy);g.lineTo(wx+Math.cos(a)*2.1,wy+Math.sin(a)*2.1);g.stroke();}fillE(g,'#d8b040',wx,wy,.5,.5);}}
+  g.restore();}
+FT.hina=F('ひな人形',2,1,'back',['liv','bed'],{tall:1,draw:HINA_draw});
+/* ---- aerovane (wind vane with propeller): faces into the wind, the propeller turns with the wind speed; twice a person's height; built-in, movable ---- */
+const ANEMO={yaw:null,rot:0,last:0};
+function ANEMO_wind(){try{const w=wxData&&wxData();if(w&&w.wind!=null&&w.wdir!=null)return{sp:Math.max(0,w.wind),from:w.wdir};}catch(e){}const d=now(),h=d.getHours();return{sp:2+hash(d.getDate(),h,77)*4,from:hash(d.getDate(),h,78)*360};}
+function ANEMO_draw(X,Y,L,t){g.save();const w=ANEMO_wind(),tn=performance.now()/1000,dt=Math.min(.2,ANEMO.last?tn-ANEMO.last:0);ANEMO.last=tn;
+  // the vane points at where the wind comes from; ease toward it
+  const target=w.from*Math.PI/180;if(ANEMO.yaw==null)ANEMO.yaw=target;let d=((target-ANEMO.yaw+Math.PI*3)%(Math.PI*2))-Math.PI;ANEMO.yaw+=d*Math.min(1,dt*1.2)+Math.sin(tn*1.7)*.004*w.sp;
+  ANEMO.rot+=dt*Math.min(9,w.sp*1.5+.35);
+  const cx=X+12,fy=Y+19,col='#c4ccc8',dk='#8e9894',lt='#e8eeea',top=fy-66;
+  g.translate(cx,fy);g.scale(.8,.8);g.translate(-cx,-fy);// 20% smaller overall; ~1.5x a person tall
+  oShadow(cx+1,fy+.6,7,2.2);
+  // base box + flange
+  fillE(g,dk,cx,fy-.4,6.2,2);fillE(g,col,cx,fy-1,6,1.8);
+  g.fillStyle=SZ.lg(cx-3.4,0,cx+3.4,0,[[0,dk],[.35,lt],[1,dk]]);g.fillRect(cx-3.2,fy-13,6.4,12);fillE(g,lt,cx,fy-13,3.2,1);fillR(g,'#4a5250',cx+3.2,fy-10,1.6,5,.4);
+  fillR(g,'rgba(60,70,70,.35)',cx-2,fy-9,4,2.2,.3);
+  // the mast
+  g.fillStyle=SZ.lg(cx-1.2,0,cx+1.2,0,[[0,dk],[.4,lt],[1,dk]]);g.fillRect(cx-1.3,top+6,2.6,fy-13-top-6);fillE(g,lt,cx,top+6,1.8,.8);
+  // body orientation: world direction 'from' → screen (east=+x, north=up, foreshortened depth)
+  const sy=Math.sin(ANEMO.yaw),cy=Math.cos(ANEMO.yaw),fx=sy,fyz=-cy*.38;// unit vector toward the wind source on screen
+  const hy=top+3,bodyL=12.5,tailL=15;const nose=[cx+fx*bodyL,hy+fyz*bodyL],tailE=[cx-fx*tailL,hy-fyz*tailL];
+  const prop=()=>{// dark paddle blades with one orange tip so the spin reads clearly; a faint disc when it is really fast
+    const r=8.6,sc=Math.max(.32,Math.abs(cy)),fast=w.sp>7;
+    if(w.sp>3){g.fillStyle=`rgba(60,70,68,${Math.min(.22,(w.sp-3)*.04)})`;ell(g,nose[0],nose[1],r*sc,r);g.fill();}
+    for(let i=0;i<3;i++){const a=ANEMO.rot+i*TAU/3,u=Math.cos(a),v=Math.sin(a),tx=u*r*sc,ty=v*r,px=-v*sc,py=u;g.save();g.translate(nose[0],nose[1]);
+      g.fillStyle=fast?'rgba(52,60,58,.75)':'#3e4846';g.beginPath();g.moveTo(px*.5,py*.5);g.quadraticCurveTo(tx*.55+px*1.9,ty*.55+py*1.9,tx+px*.9,ty+py*.9);g.quadraticCurveTo(tx*1.04,ty*1.04,tx-px*.4,ty-py*.4);g.quadraticCurveTo(tx*.5-px*.6,ty*.5-py*.6,-px*.5,-py*.5);g.closePath();g.fill();
+      g.strokeStyle='rgba(20,24,24,.6)';g.lineWidth=.3;g.stroke();
+      if(i===0){g.fillStyle='#ee7a2a';g.beginPath();g.moveTo(tx*.72+px*1.3,ty*.72+py*1.3);g.quadraticCurveTo(tx+px*.9,ty+py*.9,tx+px*.9,ty+py*.9);g.quadraticCurveTo(tx*1.04,ty*1.04,tx-px*.4,ty-py*.4);g.lineTo(tx*.72-px*.5,ty*.72-py*.5);g.closePath();g.fill();}
+      g.strokeStyle='rgba(255,255,255,.28)';g.lineWidth=.35;g.beginPath();g.moveTo(px*.3,py*.3);g.lineTo(tx*.85+px*.6,ty*.85+py*.6);g.stroke();g.restore();}
+    // spinner cone
+    g.fillStyle=SZ.lg(nose[0]-1.8,0,nose[0]+1.8,0,[[0,dk],[.45,'#ffffff'],[1,dk]]);ell(g,nose[0],nose[1],1.8,1.8);g.fill();g.strokeStyle='rgba(60,70,70,.5)';g.lineWidth=.25;g.stroke();fillE(g,'#ee7a2a',nose[0],nose[1],.55,.55);};
+  const tail=()=>{// the fin: a tall swept plate at the back end
+    const tx=tailE[0],ty=tailE[1],sc=Math.max(.12,Math.abs(sy));g.fillStyle=SZ.lg(tx-4,0,tx+4,0,[[0,lt],[1,dk]]);g.beginPath();g.moveTo(cx-fx*3,hy-fyz*3-.6);g.lineTo(tx,ty-12);g.lineTo(tx-fx*1.8,ty-11.4);g.lineTo(tx-fx*2,ty+.8);g.lineTo(cx-fx*3,hy-fyz*3+.8);g.closePath();g.fill();g.strokeStyle='rgba(80,90,90,.4)';g.lineWidth=.25;g.stroke();void sc;};
+  const body=()=>{g.strokeStyle=dk;g.lineWidth=3.4;g.lineCap='round';g.beginPath();g.moveTo(nose[0],nose[1]);g.lineTo(cx-fx*3.5,hy-fyz*3.5);g.stroke();g.strokeStyle=col;g.lineWidth=2.8;g.stroke();g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=.5;g.beginPath();g.moveTo(nose[0],nose[1]-.7);g.lineTo(cx-fx*3.5,hy-fyz*3.5-.7);g.stroke();
+    g.strokeStyle=col;g.lineWidth=1.6;g.beginPath();g.moveTo(cx-fx*3,hy-fyz*3);g.lineTo(tailE[0],tailE[1]);g.stroke();g.fillStyle=SZ.lg(cx-1.4,0,cx+1.4,0,[[0,dk],[.4,lt],[1,dk]]);g.fillRect(cx-1.2,hy,2.4,6);fillE(g,col,cx,hy+.4,2,1.6);};
+  // draw back-to-front: whichever end points away from us goes first
+  if(fyz<0){prop();body();tail();}else{tail();body();prop();}
+  g.restore();}
+OFT.anemo={n:'風向風速計',w:1,h:1,draw:ANEMO_draw};
+/* ---- v398 glue: photo-board numbering right-to-left; garden light names; shishi-odoshi in the shop; koinobori and hina dolls ordered when their season nears; kashiwa-mochi and chimaki; an aerovane ordered on a windy day ---- */
+// koinobori: an event item for Children's Day (from late March to May 6)
+Object.assign(OFT.koinobori,{season:'event',ev:'こどもの日',when:()=>inMD(325,506)});
+OKEYS.push('shishiodoshi');OBUY.push('shishiodoshi');
+// garden lights: tap shows the name, a double-tap walks there
+{const TT=tapTarget;tapTarget=function(wx,wy){try{if(C.scene==='out'){const tx=Math.floor(wx/T),ty=Math.floor(wy/T);for(const l of OUT.lanterns||[])if(tx===l.x&&(ty===l.y||ty===l.y-1))return{t:'lantern',l};}}catch(e){}return TT.apply(this,arguments);};}
+{const TF=tipFor;tipFor=function(e){try{const w=tapWorld(e),tg=tapTarget(w.x,w.y);if(tg&&tg.t==='lantern')return{n:'庭園灯（ガーデンライト）',x:(tg.l.x+.5)*T,y:tg.l.y*T-14};}catch(_){}return TF.apply(this,arguments);};}
+{const TP=tapPlan;tapPlan=function(tg){if(tg&&tg.t==='lantern'){const u=adjOut(tg.l.x,tg.l.y);return u?{n:'tapwalk',s:[{t:'go',sc:'out',x:u.x,y:u.y},{t:'face',d:u.d},SAY(()=>daylight()<.4?pick(['庭園灯、あったかい色','夜の庭を照らしてくれてる']):pick(['夜になると灯りがつくんだよ','庭園灯、いい形']))]}:null;}return TP.apply(this,arguments);};}
+// seasons
+const KOI_SEASON=()=>inMD(325,506),HINA_SEASON=()=>inMD(201,303),HINA_ORDER=()=>inMD(125,303);
+{const YS=A.yardseason;A.yardseason=function(){const f=OFT.koinobori,s=f.season;f.season=null;try{return YS.apply(this,arguments);}finally{f.season=s;}};}
+{const YC=A.yardclear;A.yardclear=function(){const k=yardList().find(k=>OFT[k].season&&(!inSeason(k)||(OFT[k].need&&!OFT[k].need())));const st=YC.apply(this,arguments);
+  if(st&&k==='koinobori')st.push(FN(()=>{S.ystored=S.ystored||[];if(!S.yard.koinobori&&!S.ystored.some(e=>e.k==='koinobori'))S.ystored.push({k:'koinobori',at:Date.now(),user:1});save();}));return st;};}
+{const YU=A.yunstore;A.yunstore=function(){if(KOI_SEASON())return YU.apply(this,arguments);const ys=S.ystored||[],hid=ys.filter(e=>e.k==='koinobori');S.ystored=ys.filter(e=>e.k!=='koinobori');try{return YU.apply(this,arguments);}finally{S.ystored=(S.ystored||[]).concat(hid);}};}
+{const US=A.unstore;A.unstore=function(){if(HINA_SEASON())return US.apply(this,arguments);const st=S.stored||[],hid=st.filter(e=>e.k==='hina');S.stored=st.filter(e=>e.k!=='hina');S.unstoreQ=(S.unstoreQ||[]).filter(k=>k!=='hina');try{return US.apply(this,arguments);}finally{S.stored=(S.stored||[]).concat(hid);}};}
+setInterval(()=>{try{if(!S||C.sleeping)return;const y=now().getFullYear();
+  // koinobori: order it (or take it out of the shed) when Children's Day nears
+  if(KOI_SEASON()&&!S.yard.koinobori&&S.koiYr!==y){const ys=S.ystored||[],q=S.yardOrderQ||[];S.koiYr=y;
+    if(ys.some(e=>e.k==='koinobori')){S.yunstoreQ=S.yunstoreQ||[];if(!S.yunstoreQ.includes('koinobori'))S.yunstoreQ.push('koinobori');queueSay('もうすぐこどもの日！こいのぼりを出そう');}
+    else if(!q.includes('koinobori')&&!(S.yardDel&&S.yardDel.k==='koinobori')){S.yardOrderQ=q;q.push('koinobori');queueSay(pick(['もうすぐこどもの日！こいのぼりを注文しよう','こいのぼり、ドローンで頼んだよ']));}
+    save();}
+  // hina dolls: order (or take out) from late January; put away right after the festival
+  if(HINA_ORDER()&&!has('hina')&&S.hinaYr!==y){S.hinaYr=y;if(isStored('hina')){want('hina');queueSay('もうすぐひな祭り！ひな人形を出そう');}else{S.wish=S.wish||[];if(!S.wish.includes('hina')&&!(S.delivery&&S.delivery.k==='hina')){S.wish.push('hina');S.orderQ=S.orderQ||[];if(!S.orderQ.includes('hina'))S.orderQ.push('hina');queueSay(pick(['もうすぐひな祭り！ひな人形を注文しよう','ひな人形、ドローンで頼んだよ']));}}save();}
+  if(!HINA_ORDER()&&has('hina')&&C.scene==='in'&&!msgBusy()&&daylight()>.2){queueSay(pick(['ひな祭りもおしまい。ひな人形、早めに片づけなきゃ','おひなさま、また来年ね']));storeDo('hina');}
+}catch(e){}},20000);
+// seasonal sweets for Children's Day
+{const TT=teaTime;teaTime=function(){const r=TT.apply(this,arguments);try{if(inMD(420,506)&&Math.random()<.5){r.sweet=pick(['柏餅','ちまき']);if(!/緑茶|ほうじ|玄米|抹茶/.test(r.drink)){r.drink=pick(['緑茶','ほうじ茶','玄米茶']);r.dc=drinkCol(r.drink);r.cup='yunomi';}}}catch(e){}return r;};}
+{const SC=sweetCol;sweetCol=function(n){if(/柏餅/.test(n))return'#6a9a4a';if(/ちまき/.test(n))return'#8aa858';return SC.apply(this,arguments);};}
+SWEET.push('柏餅','ちまき');
+{const TT2=teaTime;teaTime=function(){const r=TT2.apply(this,arguments);try{if(!inMD(420,506)&&/柏餅|ちまき/.test(r.sweet))r.sweet=pick(['どら焼き','大福','羊羹']);}catch(e){}return r;};}
+// the aerovane: not built in — on a windy day the hero decides to order one; once here it can be moved but not put away
+function ANEMO_windy(){try{const w=wxData&&wxData();if(w&&((w.wind!=null&&w.wind>=6)||(w.gust!=null&&w.gust>=11)))return true;}catch(e){}return false;}
+setInterval(()=>{try{if(!S||!S.yard)return;
+  if(!S.anemoV399){S.anemoV399=1;if(S.anemoGiven&&S.yard.anemo&&!S.anemoBought){delete S.yard.anemo;try{refreshOut();}catch(e){}}save();}
+  if(S.yard.anemo||C.sleeping||daylight()<.2)return;const q=S.yardOrderQ=S.yardOrderQ||[];if(q.includes('anemo')||(S.yardDel&&S.yardDel.k==='anemo'))return;
+  if(!ANEMO_windy())return;q.push('anemo');S.anemoBought=1;save();queueSay(pick(['今日は風が強いなあ…どのくらい吹いてるんだろう。風向風速計を注文しよう！','すごい風！風向きと風の強さがわかる風向風速計、ドローンで頼んだよ','風がびゅうびゅう。風向風速計を庭に立てたいな、注文しちゃおう']));
+}catch(e){}},20000);
+{const RA=recycleAsk;recycleAsk=function(k,sc){if(sc!=='in'&&k==='anemo'){say(pick(['風向風速計は島の大事な観測機。動かすことはできるよ','風の向きと強さがわかるから、片付けないでおこう']));emote('?',1.2);return;}return RA.apply(this,arguments);};}
+{const YM=A.yardmove;A.yardmove=function(){const a=S.yard&&S.yard.anemo;if(!a)return YM.apply(this,arguments);delete S.yard.anemo;try{return YM.apply(this,arguments);}finally{S.yard.anemo=a;}};}
+{const TF=tipFor;tipFor=function(e){const r=TF.apply(this,arguments);try{if(r&&r.n==='風向風速計'){const w=ANEMO_wind(),dirs=['北','北北東','北東','東北東','東','東南東','南東','南南東','南','南南西','南西','西南西','西','西北西','北西','北北西'];r.n=`風向風速計（${dirs[Math.round(w.from/22.5)%16]}の風 ${(Math.round(w.sp*10)/10)}m/s）`;}}catch(_){}return r;};}
+/* ---- trees in the wind: stronger, gusty sway that leans downwind (the canopy bends from the trunk top); now and then a few leaves (petals in spring) tear off and fly downwind ---- */
+function TW_wind(){try{const w=wxData&&wxData();if(w&&w.wind!=null){const to=((w.wdir!=null?w.wdir:270)+180)*Math.PI/180;return{sp:Math.max(0,w.wind),gu:w.gust!=null?w.gust:w.wind,dx:Math.sin(to),dy:-Math.cos(to)};}}catch(e){}return{sp:2,gu:2,dx:1,dy:0};}
+let TW_c={t:-9,w:null};function TW_w(){const n=Date.now();if(!TW_c.w||n-TW_c.t>4000){TW_c={t:n,w:TW_wind()};}return TW_c.w;}
+function TW_k(w){return clamp((Math.max(w.sp,w.gu*.7)-3)/6,0,1.5);}
+function TW_sway(tr,t){const w=TW_w(),k=TW_k(w),base=Math.sin(t*1.1+tr.x)*1.2;if(k<=0)return base;
+  const gust=.5+.5*Math.sin(t*.85+tr.x*.7)*Math.sin(t*.37+tr.y);// slow swells of wind
+  return base*(1+k*.8)+Math.sin(t*3.6+tr.x*2.1)*k*.8+w.dx*k*(3.4+2.6*gust);}
+function TW_img(cc,x,y,sway,py){g.save();g.translate(x,py);g.transform(1,0,-sway*.032,1,0,0);g.drawImage(cc.cv,-cc.ox+sway*.5,y-cc.oy-py,cc.w,cc.h);g.restore();}
+// flying leaves
+const TWL={a:[],next:0,last:0};
+function TWL_tick(){const n=performance.now()/1000,dt=Math.min(.1,TWL.last?n-TWL.last:0);TWL.last=n;if(C.scene!=='out'){TWL.a.length=0;return;}
+  const w=TW_w(),k=TW_k(w),s=season();
+  if(k>.3&&s!=='winter'&&OUT.trees&&OUT.trees.length){if(!TWL.next)TWL.next=n+2+Math.random()*4;
+    if(n>TWL.next){TWL.next=n+(5+Math.random()*9)/(.6+k*.6);const cand=OUT.trees.filter(t=>!t.pine);const tr=cand.length&&cand[Math.floor(Math.random()*cand.length)];
+      if(tr){const cn=s==='autumn'?(tr.x%2?CANOPY.autumnA:CANOPY.autumnB):CANOPY[s];if(cn){const x=tr.x*T+12,y=tr.y*T+20,m=2+Math.floor(Math.random()*(2+k*2));
+        for(let i=0;i<m;i++){const sp=16+k*16+Math.random()*10;TWL.a.push({x:x+(Math.random()-.5)*20+w.dx*6,y:y-22-Math.random()*20,vx:w.dx*sp+(Math.random()-.5)*4,vy:w.dy*sp*.55-3-Math.random()*4,
+          rot:Math.random()*TAU,vr:(Math.random()<.5?-1:1)*(3+Math.random()*4),fl:Math.random()*TAU,vf:5+Math.random()*5,life:0,max:2.8+Math.random()*1.8,col:[cn.light,cn.mid,cn.dark][Math.floor(Math.random()*3)],pet:s==='spring',d:i*.12});}}}}}
+  else TWL.next=0;
+  for(const p of TWL.a){if(p.d>0){p.d-=dt;continue;}p.life+=dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.vy+=2.2*dt;p.vx+=Math.sin(p.life*3+p.fl)*6*dt;p.rot+=p.vr*dt;p.fl+=p.vf*dt;}
+  TWL.a=TWL.a.filter(p=>p.life<p.max);if(TWL.a.length>40)TWL.a.splice(0,TWL.a.length-40);}
+function TWL_draw(){for(const p of TWL.a){if(p.d>0)continue;const a=Math.min(1,p.life/.25)*Math.min(1,(p.max-p.life)/.9);if(a<=0)continue;
+  g.save();g.globalAlpha=a*.95;g.translate(p.x,p.y);g.rotate(p.rot);g.scale(1,.25+.75*Math.abs(Math.sin(p.fl)));
+  g.scale(1.3,1.3);if(p.pet){fillE(g,p.col,0,0,1.25,.95);fillE(g,'rgba(255,255,255,.45)',-.3,-.2,.5,.35);}
+  else{g.fillStyle=p.col;g.beginPath();g.moveTo(-1.9,0);g.quadraticCurveTo(0,-1.3,1.9,0);g.quadraticCurveTo(0,1.3,-1.9,0);g.fill();g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=.22;g.beginPath();g.moveTo(-1.7,0);g.lineTo(1.7,0);g.stroke();}
+  g.restore();}}
+{const DP=drawParticles;drawParticles=function(){try{TWL_tick();if(C.scene==='out')TWL_draw();}catch(e){}return DP.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
