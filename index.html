@@ -228,7 +228,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <section class="tp" data-p="st">
     <div class="field"><label for="rnName">なまえ</label><input type="text" id="rnName" maxlength="10" autocomplete="off"><button id="rnNew">おまかせ</button></div>
     <div class="hpick"><canvas id="rnPrev" width="180" height="96"></canvas><div class="col"><button id="rnLook" type="button">見た目を変える</button></div></div>
-    <div class="row2"><button id="rnSave" class="primary" hidden>この内容に変更する</button></div>
+    <div class="row2"><button id="rnSave" class="primary" hidden>決定</button></div>
     <h3>名前の表示（主人公・同居人・お客さん）</h3><div class="tagGrid" id="tagGrid"></div><p class="hint">名前や見た目の変更は、下の「決定」で反映されます。</p>
     <div id="schedMain"></div><div id="sheetBody"></div><div id="prefBox"></div></section>
     <section class="tp" data-p="home" hidden><div class="row2" style="margin:2px 0 10px"><button type="button" id="ygGo">物見櫓に登って空を見る</button></div><div id="homeBody"></div></section>
@@ -259,7 +259,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
       <h3>ラジオ</h3><div class="epg" id="epgRadio"></div><button type="button" class="epgAdd" data-k="radio">＋ ラジオ局を追加</button>
       <h3>ニュース（RSS）</h3><p class="hint" id="newsStat"></p><div class="epg" id="epgNews"></div><button type="button" class="epgAdd" data-k="news">＋ ニュースを追加</button>
       <h3>ウィキペディア・ウィキニュース</h3><p class="hint">RSSが取れないときでも、ウィキペディアの「最近の出来事」とウィキニュースの新しい記事の見出しを、中継なしで取り込めます（ボランティアが書いているので、速報性はニュースサイトより落ちます）。</p><label class="hopt"><input type="checkbox" id="wikiOn"> ウィキペディア「最近の出来事」を使う</label><label class="hopt"><input type="checkbox" id="wikinOn"> ウィキニュースの新着記事を使う</label><div class="row2"><button type="button" id="wikiChk">確認</button></div><p class="hint" id="wikiMsg"></p>
-      <div class="row2"><button id="epgSave" class="primary" type="button" hidden>保存して読み込む</button><button id="epgDef" type="button">最初の設定に戻す</button></div><p class="hint">追加・変更・削除は下の「決定」で保存され、番組表とニュースを読み込み直します。各行の「確認」で、そのURLから実際に取得できるかを試せます。</p>
+      <div class="row2"><button id="epgSave" class="primary" type="button" hidden>決定</button><button id="epgDef" type="button">最初の設定に戻す</button></div><p class="hint">追加・変更・削除は下の「決定」で保存され、番組表とニュースを読み込み直します。各行の「確認」で、そのURLから実際に取得できるかを試せます。</p>
       <p class="hint" id="epgMsg"></p>
     </section>
     <section class="tp" data-p="hudset" hidden><div id="hudSetBody"></div></section>
@@ -308,7 +308,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <h3>髪型 <small id="leHairN"></small></h3><div class="lgrid" id="leHair"></div>
     <h3>髪の色</h3><div id="leHc"></div>
     <h3>体型</h3><div class="row3" id="leBody"></div>
-    <div class="row2 closer leFoot"><button id="leBack" type="button">もどる</button><button id="leOk" class="primary" type="button">この見た目で決定</button></div>
+    <div class="row2 closer leFoot"><button id="leBack" type="button">もどる</button><button id="leOk" class="primary" type="button">決定</button></div>
   </div>
 </div>
 
@@ -318,21 +318,21 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版393（2026/10/27 #243）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版397（2026/10/28 #247）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版393（2026/10/27 #243）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版397（2026/10/28 #247）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
-<h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲を選んで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
+<h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
 <h3>寝ているとき</h3><dl><dt>昼寝中にダブルタップ</dt><dd>起きてそこへ向かいます</dd><dt>夜中にダブルタップ</dt><dd>寝ぼけて行くけど、すぐベッドに戻ります</dd></dl>
-<h3>メニュー</h3><dl><dt>主人公</dt><dd>名前と見た目、名前の表示のしかた、寝る・起きる時間、今の気分・お酒の好み、つぶやき・同居人との会話の割合</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・寝る時間</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>BGM</dt><dd>ラジカセの曲を選ぶ・止める・次の曲・削除</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>手動設定</dt><dd>日付・時刻・天気を、自動か手動か選ぶ</dd><dt>データ・描画設定</dt><dd>描画と電池の設定（電力モード）、データの保存・読み込み・別の端末への引っ越し</dd></dl>
+<h3>メニュー</h3><dl><dt>主人公</dt><dd>名前と見た目、名前の表示のしかた、寝る・起きる時間、今の気分・お酒の好み、つぶやき・同居人との会話の割合</dd><dt>住居</dt><dd>家具の一覧</dd><dt>日記</dt><dd>この1週間の食事と、受け取った荷物の記録</dd><dt>図鑑</dt><dd>これまでに手に入れた家具・飾り・庭のもの・服・飲んだお酒</dd><dt>同居人</dt><dd>同居人を迎える・暮らし方・寝る時間</dd><dt>位置情報</dt><dd>島が浮かぶ地域（天気や時刻に使います）</dd><dt>BGM</dt><dd>ラジカセの曲をえらぶ・止める・次の曲・削除</dd><dt>チャネル</dt><dd>テレビ・ラジオの番組表とニュース（RSS）の設定</dd><dt>手動設定</dt><dd>日付・時刻・天気を、自動か手動か選ぶ</dd><dt>データ・描画設定</dt><dd>描画と電池の設定（電力モード）、データの保存・読み込み・別の端末への引っ越し</dd></dl>
 <h3>そのほか</h3><dl><dt>配達</dt><dd>欲しいものはドローンで届き、受け取ると中身を教えてくれます</dd><dt>お客さん</dt><dd>となりの浮遊島からドローンで遊びに来ます</dd><dt>留守のあいだ</dt><dd>アプリを閉じていた間の出来事を、次に開いたときに教えてくれます</dd><dt>キーボード</dt><dd>Enter でメニュー</dd></dl>
 <div class="row2" style="margin-top:14px"><button id="helpX" class="primary" type="button">とじる</button></div></div></div>
 <input type="file" id="musIn" accept="audio/*" multiple hidden><input type="file" id="musIn1" accept="audio/*" hidden>
 <div class="overlay center" id="musDlg" hidden><div class="card" role="dialog" aria-labelledby="musH" style="max-width:320px"><h2 id="musH" style="font-size:18px">ラジカセ</h2><p id="musT" class="note" style="text-align:left"></p><div class="row2"><button id="musChg" class="primary" type="button">曲をえらぶ</button><button id="musOff" type="button">演奏を止める</button></div><div class="row2" style="margin-top:8px"><button id="musX" type="button">キャンセル</button></div></div></div>
-<div class="overlay center" id="recy" hidden><div class="card" role="dialog" aria-labelledby="recyT" style="max-width:320px"><h2 style="font-size:18px" id="recyH">どうする？</h2><p id="recyT" class="note" style="text-align:left"></p><div class="row2"><button id="recySt" class="primary" type="button">しまう</button><button id="recyOk" type="button">リサイクルに出す</button></div><div class="row2" style="margin-top:8px"><button id="recyNo" type="button">やめる</button></div></div></div>
+<div class="overlay center" id="recy" hidden><div class="card" role="dialog" aria-labelledby="recyT" style="max-width:320px"><h2 style="font-size:18px" id="recyH">どうする？</h2><p id="recyT" class="note" style="text-align:left"></p><div class="row2"><button id="recySt" class="primary" type="button">しまう</button><button id="recyOk" type="button">リサイクルに出す</button></div><div class="row2" style="margin-top:8px"><button id="recyNo" type="button">キャンセル</button></div></div></div>
 <div class="overlay center" id="setupAsk" hidden>
   <div class="card" role="dialog" aria-labelledby="saTitle">
     <h2 id="saTitle">同居人も一緒に住む？</h2>
@@ -3995,7 +3995,7 @@ const CLOTHS=[['白いリネンのクロス','full','lace','#f3f1ea','#ffffff'],
 function clothOf(){const i=S.cloth;return CLOTHS[(i==null?23:i)%CLOTHS.length];}
 function pickCloth(){const se=season(),d=now(),xmas=d.getMonth()===11&&d.getDate()<=25;const pool=[];CLOTHS.forEach((c,i)=>{if(i===S.cloth)return;let w=1;if(c[5]==='xmas')w=xmas?6:0;else if(c[5])w=c[5]===se?4:.15;pool.push([i,w]);});
   let r=Math.random()*pool.reduce((a,b)=>a+b[1],0);for(const[i,w]of pool){r-=w;if(r<=0)return i;}return pool[0][0];}
-function drawCloth(x,y,w,h){const c=clothOf(),[n,kind,pat,base,acc]=c;let cx=x-1.5,cy=y-1,cw=w+3,ch=h+2.5;if(kind==='runner'){cw=Math.min(12,w*.5);cx=x+w/2-cw/2;cy=y-1.5;ch=h+3.5;}
+function drawCloth(x,y,w,h){const c=clothOf(),[n,kind,pat,base,acc]=c;let cx=x-1.5,cy=y-1,cw=w+3,ch=h+2.5;if(kind==='runner'){cw=Math.min(12,w*.5);cx=x+w/2-cw/2;cy=y-1.5;ch=h+3.5;}const topH=ch,drop=kind==='runner'?6.2:5.4;ch+=drop;
   g.save();fillR(g,'rgba(0,0,0,.12)',cx+.6,cy+.8,cw,ch,1);g.beginPath();g.rect(cx,cy,cw,ch);g.clip();g.fillStyle=base;g.fillRect(cx,cy,cw,ch);g.fillStyle=acc;g.strokeStyle=acc;
   if(pat==='gingham'||pat==='check'){g.globalAlpha=pat==='gingham'?.45:.85;for(let i=0;i<cw;i+=4)g.fillRect(cx+i,cy,2,ch);for(let j=0;j<ch;j+=4)g.fillRect(cx,cy+j,cw,2);g.globalAlpha=1;}
   else if(pat==='plaid'){g.globalAlpha=.6;for(let i=0;i<cw;i+=6)g.fillRect(cx+i,cy,2.4,ch);for(let j=0;j<ch;j+=6)g.fillRect(cx,cy+j,cw,2.4);g.fillStyle='#e8c46a';g.globalAlpha=.7;for(let i=3;i<cw;i+=6)g.fillRect(cx+i,cy,.4,ch);g.globalAlpha=1;}
@@ -4010,7 +4010,13 @@ function drawCloth(x,y,w,h){const c=clothOf(),[n,kind,pat,base,acc]=c;let cx=x-1
   else if(pat==='holly'){for(let j=2;j<ch;j+=5)for(let i=2+(Math.round(j/5)%2)*2.5;i<cw;i+=5){fillE(g,acc,cx+i-.8,cy+j,1,.5,.5);fillE(g,acc,cx+i+.8,cy+j,1,.5,-.5);fillE(g,'#f6f1ea',cx+i,cy+j+.6,.45,.45);}}
   else if(pat==='paisley'){for(let j=3;j<ch;j+=6)for(let i=3+(Math.round(j/6)%2)*3;i<cw;i+=6){fillE(g,acc,cx+i,cy+j,1.4,1,.6);fillE(g,base,cx+i+.3,cy+j-.1,.6,.4,.6);g.fillStyle=acc;g.fillRect(cx+i+1,cy+j-1.6,.4,.9);}}
   else if(pat==='stitch'){g.setLineDash([1,1]);g.lineWidth=.4;g.strokeRect(cx+1.4,cy+1.4,cw-2.8,ch-2.8);g.setLineDash([]);}
-  g.fillStyle='rgba(255,255,255,.14)';g.fillRect(cx,cy,cw,1);g.fillStyle='rgba(0,0,0,.12)';g.fillRect(cx,cy+ch-1.2,cw,1.2);g.restore();}
+  // the front drop: the cloth falls over the table edge (a little darker, soft vertical folds, a wavy hem)
+  {const dy=cy+topH;const gr=g.createLinearGradient(0,dy-.6,0,cy+ch);gr.addColorStop(0,'rgba(0,0,0,.22)');gr.addColorStop(.18,'rgba(0,0,0,.1)');gr.addColorStop(1,'rgba(0,0,0,.16)');g.fillStyle=gr;g.fillRect(cx,dy-.6,cw,ch-topH+.6);
+   g.fillStyle='rgba(255,255,255,.28)';g.fillRect(cx,dy-.9,cw,.45);
+   for(let i=2.2;i<cw-1;i+=4.4){g.fillStyle='rgba(255,255,255,.12)';g.fillRect(cx+i,dy+.4,1.1,ch-topH-1);g.fillStyle='rgba(0,0,0,.08)';g.fillRect(cx+i+1.4,dy+.4,.8,ch-topH-1);}}
+  g.fillStyle='rgba(255,255,255,.14)';g.fillRect(cx,cy,cw,1);g.restore();
+  {const hy=cy+ch;g.save();g.fillStyle='rgba(0,0,0,.14)';g.beginPath();g.moveTo(cx,hy-.6);for(let i=0;i<=cw;i+=2.2)g.quadraticCurveTo(cx+i+1.1,hy+.9,cx+Math.min(cw,i+2.2),hy-.4);g.lineTo(cx+cw,hy-.9);g.lineTo(cx,hy-.9);g.closePath();g.fill();
+   g.fillStyle=base;g.beginPath();g.moveTo(cx,hy-1.2);for(let i=0;i<=cw;i+=2.2)g.quadraticCurveTo(cx+i+1.1,hy+.3,cx+Math.min(cw,i+2.2),hy-1);g.lineTo(cx+cw,hy-1.4);g.lineTo(cx,hy-1.4);g.closePath();g.fill();g.fillStyle='rgba(0,0,0,.14)';g.fillRect(cx,hy-1.4,cw,.4);g.restore();}}
 function dTable(X,Y,Wd,Dp,L){const H=14;g.fillStyle=WOOD.dk;for(const[lx,ly]of[[X+5,Y+8],[X+Wd-8,Y+8],[X+5,Y+Dp-6],[X+Wd-8,Y+Dp-6]])g.fillRect(lx,ly-H+4,3,H);
   shadowR(X+4,Y+Dp-5,Wd-6,6);fillR(g,WOOD.dk,X+3,Y+Dp-6-H,Wd-6,4,2);fillR(g,'#c49a6c',X+3,Y+3-H,Wd-6,Dp-9,4);grain(X+3,Y+3-H,Wd-6,Dp-9,.06);
   fillR(g,'rgba(255,255,255,.15)',X+5,Y+4-H,Wd-10,1.6,1);drawCloth(X+3,Y+3-H,Wd-6,Dp-9);
@@ -4916,8 +4922,8 @@ async function musPick(files){const fl=[...files].filter(f=>/^audio\//.test(f.ty
 function renderBGM(){const el=$('bgmBody');if(!el||!S)return;const m=S.music;
   if(!m||bgmIsDef()){const on=!!(m&&MUS.playing);el.innerHTML=`<h3>デフォルトBGM</h3><p class="note" style="text-align:left">${on?'♪ 再生中':'⏸ 停止中'}</p>
     <div class="row2"><button type="button" class="primary" data-bgm="defplay" aria-pressed="${on}">▶ 流す</button><button type="button" data-bgm="defstop" aria-pressed="${!on}">■ 止める</button></div>
-    <h3>自分の曲</h3><p class="hint">スマホの中の曲を選ぶと、そちらが優先して流れます（デフォルトBGMは止まります）。選んだ曲はブラウザの中に保存され、次に開いたときも続きから流れます。</p><div class="row2"><button type="button" data-bgm="pick">曲を選ぶ</button></div>`;return;}
-  if(!m){el.innerHTML='<p class="hint">ラジカセで流す曲を、スマホの中から選べます。選んだ曲はブラウザの中に保存され、次に開いたときも続きから流れます。</p><div class="row2"><button class="primary" type="button" data-bgm="pick">曲を選ぶ</button><button type="button" data-bgm="def">デフォルトBGMを流す</button></div>';return;}
+    <h3>自分の曲</h3><p class="hint">スマホの中の曲をえらぶと、そちらが優先して流れます（デフォルトBGMは止まります）。選んだ曲はブラウザの中に保存され、次に開いたときも続きから流れます。</p><div class="row2"><button type="button" data-bgm="pick">曲をえらぶ</button></div>`;return;}
+  if(!m){el.innerHTML='<p class="hint">ラジカセで流す曲を、スマホの中から選べます。選んだ曲はブラウザの中に保存され、次に開いたときも続きから流れます。</p><div class="row2"><button class="primary" type="button" data-bgm="pick">曲をえらぶ</button><button type="button" data-bgm="def">デフォルトBGMを流す</button></div>';return;}
   const names=m.names||m.ids.map((_,i)=>`曲${i+1}`),mode=m.mode||'all';
   el.innerHTML=`<h3>${MUS.playing?'♪ 再生中':'⏸ 停止中'}</h3><p class="note" style="text-align:left">${esc(MUS.title||songTitle(names[m.idx])||'')}</p>
    <div class="row2"><button type="button" class="primary" data-bgm="toggle">${MUS.playing?'一時停止':'再生'}</button><button type="button" data-bgm="next">次の曲</button></div>
@@ -14113,7 +14119,7 @@ function skyvEl(){let ov=document.getElementById('skyv');if(ov)return ov;
 #skyv .sv-hint{position:absolute;bottom:56px;left:0;right:0;text-align:center;color:rgba(255,255,255,.85);font-size:11px;text-shadow:0 1px 3px #000;transition:opacity 1.2s;pointer-events:none}`;
   try{document.head.appendChild(st);}catch(_){}
   ov=document.createElement('div');ov.id='skyv';ov.hidden=true;
-  ov.innerHTML='<canvas id="skyc"></canvas><div class="sv-top" id="svDir"></div><div class="sv-msg" id="svMsg"></div><div class="sv-hint" id="svHint">左右にドラッグで見回す・月をダブルタップで拡大</div><div class="sv-bar"><button type="button" id="svDown">おりる</button><button type="button" id="svCall"><span>同居人を呼ぶ</span></button><button type="button" id="svClr" aria-pressed="false">雲を消す</button><button type="button" id="svLines" aria-pressed="true">星座線</button></div>';
+  ov.innerHTML='<canvas id="skyc"></canvas><div class="sv-top" id="svDir"></div><div class="sv-msg" id="svMsg"></div><div class="sv-hint" id="svHint">左右にドラッグで見回す・月をタップで拡大</div><div class="sv-bar"><button type="button" id="svDown">おりる</button><button type="button" id="svCall"><span>同居人を呼ぶ</span></button><button type="button" id="svClr" aria-pressed="false">雲を消す</button><button type="button" id="svLines" aria-pressed="true">星座線</button></div>';
   cv.parentNode.appendChild(ov);
   ov.querySelector('#svDown').onclick=e=>{e.stopPropagation();skyvClose();};
   ov.querySelector('#svClr').onclick=e=>{e.stopPropagation();SKYV.clear=!SKYV.clear;e.currentTarget.setAttribute('aria-pressed',SKYV.clear);e.currentTarget.textContent=SKYV.clear?'雲をもどす':'雲を消す';if(SKYV.clear){SKYV.msg=pick(['雲がすーっと晴れていく！','わあ、雲がなくなった！','空がすっきり見える！']);SKYV.msgAt=performance.now();}};
@@ -14125,7 +14131,7 @@ function skyvEl(){let ov=document.getElementById('skyv');if(ov)return ov;
   c.addEventListener('pointerup',e=>{const p=SKYV.ptr;SKYV.ptr=null;if(!p||p.moved)return;const r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,tn=performance.now(),lt=SKYV.lastTap;
     if(SKYV.zoom){SKYV.zoom=false;SKYV.lastTap={t:0,x,y};return;}
     const dbl=tn-lt.t<380&&Math.hypot(x-lt.x,y-lt.y)<34;SKYV.lastTap={t:dbl?0:tn,x,y};
-    const m=SKYV.moonP;if(dbl&&m&&Math.hypot(x-m.x,y-m.y)<m.r+22){SKYV.zoom=true;SKYV.zoomReady=false;}});
+    const m=SKYV.moonP;if(m&&Math.hypot(x-m.x,y-m.y)<m.r+26){SKYV.zoom=true;SKYV.zoomReady=false;}});
   c.addEventListener('pointercancel',()=>{SKYV.ptr=null;});
   return ov;}
 function skyvOpen(){if(SKYV.open)return;const ov=skyvEl(),sk=skyNow(),k=wKind();SKYV.open=true;SKYV.zoom=false;
@@ -14264,7 +14270,7 @@ function skyvZoom(x,Wc,Hc,sk,t){x.fillStyle='rgba(2,3,10,.95)';x.fillRect(0,0,Wc
   if(!SKYV.zoomReady){x.fillStyle='rgba(255,255,255,.8)';x.font='13px "Zen Maru Gothic",sans-serif';x.textAlign='center';x.fillText('月をのぞいています…',cx,cy);SKYV.zoomReady=1;return;}
   if(SKYV.zoomReady===1){moonTexture(512);SKYV.zoomReady=2;}
   for(let i=0;i<40;i++){x.globalAlpha=.25+hash(i,9,2)*.5;x.fillStyle='#fff';x.fillRect(hash(i,7,2)*Wc,hash(i,8,2)*Hc*.8,1,1);}x.globalAlpha=1;
-  moonDraw(x,cx,cy,r,{frac:sk.frac,limb:sk.q-sk.chi,rot:sk.q,day:false,glow:.18,ts:512,pxs:Math.min(2,DPR||1)});
+  moonDraw(x,cx,cy,r,{frac:sk.frac,limb:moonAge(now())<14.765?Math.PI/2:-Math.PI/2,rot:0,day:false,glow:.18,ts:512,pxs:Math.min(2,DPR||1)});
   const age=moonAge(now()),rs=moonRiseSet(now());x.textAlign='center';x.fillStyle='#fff';x.font='700 16px "Zen Maru Gothic",sans-serif';x.fillText(`月齢 ${age.toFixed(1)}（${moonName(age)}）`,cx,cy+r+40);
   x.font='13px "Zen Maru Gothic",sans-serif';x.fillStyle='#d6dcf2';x.fillText(`光っている部分 ${Math.round(sk.frac*100)}%　${sk.wax?'満ちていく月':'欠けていく月'}`,cx,cy+r+64);
   x.fillText(sk.moon.alt>0?`高さ ${Math.round(sk.moon.alt)}°・${azName(sk.moon.az)}の空`:'いまは地平線の下',cx,cy+r+86);x.fillText(`月の出 ${rs.rise}　月の入り ${rs.set}`,cx,cy+r+108);
@@ -15166,7 +15172,7 @@ function patOpen(k){const t=patType(k),list=patList(k),cur=patCur(k);let sel=cur
   add();}
 // long-press menu: "change pattern" in front of store / recycle
 {const RA2=recycleAsk;recycleAsk=function(k,sc){if(sc!=='in'||!PAT_K[k]||!S.layout[k])return RA2.apply(this,arguments);
-  let ov=$('patMenu');if(!ov){ov=document.createElement('div');ov.id='patMenu';ov.className='overlay center';ov.innerHTML='<div class="card" role="dialog" aria-labelledby="pmH" style="max-width:300px"><h2 style="font-size:18px" id="pmH"></h2><div class="row2"><button id="pmPat" class="primary" type="button"></button></div><div class="row2" style="margin-top:8px" id="pmImgRow" hidden><button id="pmImg" class="primary" type="button">画像を選ぶ（写真・くり返し柄）</button></div><div class="row2" style="margin-top:8px"><button id="pmEtc" type="button">しまう・リサイクル</button></div><div class="row2" style="margin-top:8px"><button id="pmNo" type="button">やめる</button></div></div>';document.body.append(ov);
+  let ov=$('patMenu');if(!ov){ov=document.createElement('div');ov.id='patMenu';ov.className='overlay center';ov.innerHTML='<div class="card" role="dialog" aria-labelledby="pmH" style="max-width:300px"><h2 style="font-size:18px" id="pmH"></h2><div class="row2"><button id="pmPat" class="primary" type="button"></button></div><div class="row2" style="margin-top:8px" id="pmImgRow" hidden><button id="pmImg" class="primary" type="button">画像を選ぶ（写真・くり返し柄）</button></div><div class="row2" style="margin-top:8px"><button id="pmEtc" type="button">しまう・リサイクル</button></div><div class="row2" style="margin-top:8px"><button id="pmNo" type="button">キャンセル</button></div></div>';document.body.append(ov);
     ov.querySelector('#pmNo').onclick=()=>{ov.hidden=true;};ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
   const t=PAT_K[k],n=FT[k].n;ov.querySelector('#pmH').textContent=`「${t==='cloth'?'テーブルクロス':n}」をどうする？`;
   ov.querySelector('#pmPat').textContent=t==='cloth'?'クロスの柄を変える':t==='rug'?'ラグの柄を変える':t==='bed'?'カバーを変える':'張り地を変える';
@@ -15749,7 +15755,7 @@ setInterval(()=>{try{const f=C.funPend;if(!f||!S)return;if(Date.now()>f.until){C
   const row=document.createElement('div');row.className='dzbtns';const acc=/^(mask|nose|sun|gl):/.test(key);
   const b=document.createElement('button');b.type='button';b.className='primary dzwear';b.textContent=acc?'つける':'着る';
   b.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;try{$('sheet').hidden=true;}catch(_){}DEX_wear(key);};
-  const x=document.createElement('button');x.type='button';x.className='dzclose';x.textContent='閉じる';x.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};
+  const x=document.createElement('button');x.type='button';x.className='dzclose';x.textContent='とじる';x.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};
   row.append(b,x);const h=card.querySelector('.dzhint');if(h)h.hidden=true;card.append(row);
   if(!document.getElementById('dzwearSt')){const st=document.createElement('style');st.id='dzwearSt';st.textContent='#dexZoom .dzbtns{display:flex;gap:10px;justify-content:center;margin:12px auto 2px}#dexZoom .dzbtns button{min-width:120px;padding:10px 18px;border-radius:12px;font-weight:700;font-size:15px}';document.head.append(st);}}catch(e){}return r;};}
 /* ---- v283: the program label also shows while the hero listens to the radio (and during radio exercises), whichever room */
@@ -17149,7 +17155,7 @@ function RO_order(st,yard){const k=st.k;
   const st=RO_state(key,yard);if(st.kind==='none')return r;const card=document.querySelector('#dexZoom .dzcard');if(!card)return r;
   const msg=document.createElement('div');msg.className='dzro';msg.style.cssText='margin:10px auto 0;font-size:13px;line-height:1.5;opacity:.85;text-align:center;max-width:260px';
   const row=document.createElement('div');row.className='dzbtns';
-  const x=document.createElement('button');x.type='button';x.className='dzclose';x.textContent='閉じる';x.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};
+  const x=document.createElement('button');x.type='button';x.className='dzclose';x.textContent='とじる';x.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};
   if(st.kind==='order'){const b=document.createElement('button');b.type='button';b.className='primary';b.textContent='再発注';
     if(st.more)msg.textContent=`もう1台頼めます（${FT[st.k].n}）`;
     b.onclick=e=>{e.stopPropagation();RO_order(st,yard);b.remove();msg.textContent='発注しました。ドローンで届きます';};row.append(b,x);}
@@ -20530,7 +20536,7 @@ function PL_frogState(t,pcx,pcy,rx,ry){const CY=100,ph=(((t+20)%CY)+CY)%CY,R=PL_
     st={x:p.x+w*Math.cos(a),y:p.y+w*Math.sin(a)*.6,ang:Math.atan2(q.y-p.y,q.x-p.x),swim:1,va};}
   else if(ph<80)st=hop(orb(A1),P,ph-79,-1,5);
   else st={x:P.x,y:P.y+Math.sin(t*.8+1)*.3,dir:-1,sit:1,on:'pad',q:ph-80};
-  st.sac=0;if(st.sit){const per=st.on==='rock'?6.5:11,q=st.q%per;if(q>1.2&&q<3.8){st.sac=Math.abs(Math.sin((q-1.2)*Math.PI*1.15));const n=Math.floor(t/per);st.say=['ケロケロ','ゲコゲコ','クワッ','ケロッ','ゲロゲロ'][Math.floor(hash(n,3,71)*5)];}}
+  st.sac=0;if(st.sit){const per=st.on==='rock'?6.5:11,q=st.q%per;if(q>1.2&&q<3.8){st.sac=Math.abs(Math.sin((q-1.2)*Math.PI*1.15));const n=Math.floor(t/per);st.say=['ケロケロ','ゲコゲコ','クワッ','ケロッ','ゲロゲロ','コロコロ'][Math.floor(hash(n,3,71)*6)];}}
   if(ph>=52.9&&ph<54.3){const p=orb(A0);st.splash={x:p.x,y:p.y};}
   return st;}
 function PL_drawFrogSwim(x,y,ang,t,va){const k=(Math.sin(t*3.6)+1)/2,dk='#3f7f26',md='#5ea83a',lt='#8fcf55';
@@ -20711,7 +20717,7 @@ function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov
   if(!document.getElementById('rupAdjSt')){const st=document.createElement('style');st.id='rupAdjSt';st.textContent='#rupOv .rpf{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#111;touch-action:none;cursor:grab;margin:4px 0 8px;box-shadow:0 0 0 2px rgba(255,211,107,.8)}#rupOv .rpf canvas{display:block;width:100%;height:100%}#rupOv .rpf .rpg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 33.3% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 66.6% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 33.3%/100% 1px no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 66.6%/100% 1px no-repeat}#rupOv .rptp{width:100%;aspect-ratio:88/62;border-radius:6px;margin:0 0 8px;background-repeat:repeat;background-size:20% auto;box-shadow:inset 0 0 0 3px rgba(120,60,60,.8)}#rupOv .rpa{display:flex;gap:8px}#rupOv .rpa button{flex:1}#rupOv .rpz{width:100%;margin:0 0 8px}';try{document.head.appendChild(st);}catch(_){}}
   ov.innerHTML=`<div class="card" role="dialog" aria-label="位置を調整"><h2>${mode==='tile'?'🔁 くり返し柄にする部分':'🖼 ラグに敷く部分'}</h2><p class="hint">ドラッグして位置を調整できます${mode==='tile'?'（四角の中がくり返しの1枚になります）':''}</p>
     <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 8px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 拡大</span><input class="rpz" style="margin:0" type="range" min="100" max="300" value="100" aria-label="拡大"></div>${mode==='tile'?'<div class="rptp"></div>':''}
-    <div class="rpa"><button type="button" class="rpc">やめる</button><button type="button" class="primary rpok">適用</button></div></div>`;ov.hidden=false;
+    <div class="rpa"><button type="button" class="rpc">キャンセル</button><button type="button" class="primary rpok">決定</button></div></div>`;ov.hidden=false;
   const fr=ov.querySelector('.rpf'),cv2=fr.querySelector('canvas'),zs=ov.querySelector('.rpz'),tp=ov.querySelector('.rptp');
   const st={z:1,cx:.5,cy:.5};// centre of the view in image fractions
   const view=()=>{const base=Math.max(OW/src.width,OH/src.height)*st.z;const vw=OW/base,vh=OH/base;// view size in image px
@@ -20735,7 +20741,7 @@ function ADJ_ui(ov,o){const OW=o.OW,OH=o.OH,ar=OW/OH,src=o.src;
   if(!document.getElementById('adjSt')){const st=document.createElement('style');st.id='adjSt';st.textContent='.adjc .rpf{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#111;touch-action:none;cursor:grab;margin:4px 0 8px;box-shadow:0 0 0 2px rgba(255,211,107,.8)}.adjc .rpf canvas{display:block;width:100%;height:100%}.adjc .rpg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 33.3% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 66.6% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 33.3%/100% 1px no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 66.6%/100% 1px no-repeat}.adjc .rpa{display:flex;gap:8px}.adjc .rpa button{flex:1}.adjc h2{margin:0 0 4px;font-size:16px;text-align:center}.adjc .hint{margin:0 0 6px;font-size:12px;opacity:.8;text-align:center}';try{document.head.appendChild(st);}catch(_){}}
   ov.innerHTML=`<div class="card adjc" role="dialog" aria-label="位置を調整" style="max-width:320px;padding:14px 14px 12px"><h2>${o.title}</h2><p class="hint">ドラッグして位置を調整できます</p>
     <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 10px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 拡大</span><input class="rpz" style="margin:0;flex:1" type="range" min="100" max="300" value="100" aria-label="拡大"></div>
-    <div class="rpa"><button type="button" class="rpc">やめる</button><button type="button" class="primary rpok">適用</button></div></div>`;ov.hidden=false;
+    <div class="rpa"><button type="button" class="rpc">キャンセル</button><button type="button" class="primary rpok">決定</button></div></div>`;ov.hidden=false;
   const fr=ov.querySelector('.rpf'),cv2=fr.querySelector('canvas'),zs=ov.querySelector('.rpz'),st={z:1,cx:.5,cy:.5};
   const view=()=>{const base=Math.max(OW/src.width,OH/src.height)*st.z,vw=OW/base,vh=OH/base;st.cx=Math.min(1-vw/2/src.width,Math.max(vw/2/src.width,st.cx));st.cy=Math.min(1-vh/2/src.height,Math.max(vh/2/src.height,st.cy));return{sx:st.cx*src.width-vw/2,sy:st.cy*src.height-vh/2,vw,vh};};
   const draw=()=>{const r=fr.getBoundingClientRect(),d=Math.min(3,window.devicePixelRatio||1),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.width/ar*d));if(cv2.width!==w||cv2.height!==h){cv2.width=w;cv2.height=h;}const v=view();cv2.getContext('2d').drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,w,h);};
@@ -20978,6 +20984,38 @@ setInterval(()=>{try{if(!S)return;const now=performance.now();
 /* ---- v393: woken by a tap in the night and back to bed: no sheep this time ---- */
 {const TG=tapGo;tapGo=function(e){try{if(S&&C.sleeping&&!C.napping&&sleepTime(0))SHP.noNext=1;}catch(_){}return TG.apply(this,arguments);};}
 setInterval(()=>{try{if(SHP.noNext&&!sleepTime(0)&&!C.sleeping)SHP.noNext=0;}catch(e){}},5000);
+/* ---- v396: wallpapers — 4 quiet off-white patterns, 4 Japanese clay walls, 3 vertical board walls; 6 pale tablecloths ---- */
+WP.push({n:'オフホワイト（織り目）',c:'#f4f1ea',p:'v_weave',wc:'#efe9dd',ws:'bead',cu:'#d8dee4'},
+ {n:'オフホワイト（小紋）',c:'#f3f0e8',p:'v_komon',wc:'#efe9dd',ws:'bead',cu:'#e2d6c0'},
+ {n:'オフホワイト（リーフ）',c:'#f4f2eb',p:'v_leaf',wc:'#f0ebe0',ws:'bead',cu:'#c8d6c0'},
+ {n:'オフホワイト（ストライプ）',c:'#f5f2ec',p:'v_tstripe',wc:'#efe9dd',ws:'bead',cu:'#d9d2c6'},
+ {n:'土壁（聚楽・黄土）',c:'#c9a86c',p:'v_tsuchi',k:0,wc:'#5a3e26',ws:'plain',cu:'#d8c49a'},
+ {n:'土壁（京壁・うぐいす）',c:'#a49a62',p:'v_tsuchi',k:1,wc:'#4a3a24',ws:'plain',cu:'#c8be8a'},
+ {n:'土壁（珪藻土・白）',c:'#ece6d8',p:'v_tsuchi',k:2,wc:'#6a4a30',ws:'plain',cu:'#d8cdb4'},
+ {n:'土壁（錆土・茶）',c:'#9a6a48',p:'v_tsuchi',k:3,wc:'#3e2a1a',ws:'plain',cu:'#c8a07a'},
+ {n:'縦板張り（ヒノキ）',c:'#ead7b4',p:'v_board',k:0,wc:'#a8835a',ws:'plain',cu:'#c8d8e4'},
+ {n:'縦板張り（ナラ）',c:'#c99a66',p:'v_board',k:1,wc:'#6e4a2e',ws:'plain',cu:'#e8dcc0'},
+ {n:'縦板張り（ウォールナット）',c:'#6e4a32',p:'v_board',k:2,wc:'#3a2616',ws:'plain',cu:'#d8c49a'});
+{const WPP=WP_paint;WP_paint=function(c,d,x0,y0,w,y1){if(!d||!/^v_/.test(d.p||''))return WPP.apply(this,arguments);const h=y1-y0,base=d.c;c.save();c.beginPath();c.rect(x0,y0,w,h);c.clip();
+  c.fillStyle=IN_lg(c,0,y0,0,y1,[[0,shade(base,.04)],[1,shade(base,-.04)]]);c.fillRect(x0,y0,w,h);
+  const H=(i,j,k)=>hash(i,j,k);
+  if(d.p==='v_weave'){c.globalAlpha=.07;c.fillStyle='#7a6a50';for(let x=Math.floor(x0/1.6)*1.6;x<x0+w;x+=1.6)c.fillRect(x,y0,.4,h);for(let y=Math.floor(y0/1.6)*1.6;y<y1;y+=1.6)c.fillRect(x0,y,w,.4);c.globalAlpha=1;
+    c.fillStyle='rgba(255,255,255,.25)';for(let x=Math.floor(x0/3.2)*3.2;x<x0+w;x+=3.2)for(let y=Math.floor(y0/3.2)*3.2;y<y1;y+=3.2)c.fillRect(x+.4,y+.4,.8,.8);}
+  else if(d.p==='v_komon'){c.fillStyle='rgba(150,130,100,.13)';for(let y=Math.floor(y0/4)*4,j=0;y<y1+4;y+=4,j++){const off=(Math.round(y/4)%2)*2.5;for(let x=Math.floor(x0/5)*5+off;x<x0+w+5;x+=5){c.beginPath();c.moveTo(x,y-.9);c.lineTo(x+.9,y);c.lineTo(x,y+.9);c.lineTo(x-.9,y);c.closePath();c.fill();}}}
+  else if(d.p==='v_leaf'){c.strokeStyle='rgba(120,140,110,.16)';c.lineWidth=.3;for(let y=Math.floor(y0/9)*9;y<y1+9;y+=9)for(let x=Math.floor(x0/10)*10+((Math.round(y/9)%2)?5:0);x<x0+w+10;x+=10){c.beginPath();c.moveTo(x-1.8,y+2);c.quadraticCurveTo(x-1.6,y-1.4,x+1.8,y-2.2);c.quadraticCurveTo(x+1.2,y+1.2,x-1.8,y+2);c.stroke();c.beginPath();c.moveTo(x-1.8,y+2);c.lineTo(x+1,y-1.2);c.stroke();}}
+  else if(d.p==='v_tstripe'){for(let x=Math.floor(x0/8)*8;x<x0+w;x+=8){c.fillStyle='rgba(160,145,120,.08)';c.fillRect(x,y0,4,h);c.fillStyle='rgba(255,255,255,.3)';c.fillRect(x+4,y0,.4,h);}}
+  else if(d.p==='v_tsuchi'){// clay plaster: mottled tone, fine sand grains and short straw fibres (すさ)
+    for(let i=0;i<Math.round(w*h/40);i++){const px=x0+H(i,Math.round(x0),401)*w,py=y0+H(i,Math.round(y0),402)*h,r=1.4+H(i,3,403)*3;c.fillStyle=H(i,4,404)>.5?'rgba(255,255,255,.07)':'rgba(60,40,20,.07)';c.beginPath();c.ellipse(px,py,r*1.4,r,0,0,TAU);c.fill();}
+    for(let i=0;i<Math.round(w*h/2.2);i++){const px=x0+H(i,Math.round(x0)+1,405)*w,py=y0+H(i,Math.round(y0)+1,406)*h,v=H(i,7,407);c.fillStyle=v>.6?'rgba(255,250,235,.32)':v>.3?'rgba(70,45,20,.22)':'rgba(30,20,10,.16)';c.fillRect(px,py,.35,.35);}
+    if(d.k!==2){c.strokeStyle=d.k===3?'rgba(230,200,150,.28)':'rgba(240,215,150,.35)';c.lineWidth=.18;for(let i=0;i<Math.round(w*h/26);i++){const px=x0+H(i,Math.round(x0)+2,408)*w,py=y0+H(i,Math.round(y0)+2,409)*h,a=H(i,8,410)*Math.PI,L=.9+H(i,9,411)*1.6;c.beginPath();c.moveTo(px,py);c.lineTo(px+Math.cos(a)*L,py+Math.sin(a)*L);c.stroke();}}}
+  else if(d.p==='v_board'){const bw=5.2,cols=[['#ead7b4','#d8bf94','#c9ad80'],['#c99a66','#b4844f','#a87646'],['#6e4a32','#5e3e28','#7a553a']][d.k||0];
+    for(let x=Math.floor(x0/bw)*bw,i=0;x<x0+w;x+=bw,i++){const ib=Math.round(x/bw),col=cols[Math.floor(H(ib,1,412)*3)];c.fillStyle=IN_lg(c,x,0,x+bw,0,[[0,shade(col,.05)],[.5,col],[1,shade(col,-.06)]]);c.fillRect(x,y0,bw,h);
+      c.strokeStyle=shade(col,-.18);c.lineWidth=.22;c.globalAlpha=.6;for(let k=0;k<3;k++){const gx=x+1+H(ib,k+2,413)*(bw-2);c.beginPath();c.moveTo(gx,y0);for(let y=y0;y<=y1;y+=3)c.lineTo(gx+Math.sin(y*.18+ib+k)*.35,y);c.stroke();}c.globalAlpha=1;
+      if(H(ib,9,414)>.55){const ky=y0+H(ib,10,415)*h;c.fillStyle=shade(col,-.28);c.beginPath();c.ellipse(x+bw*.5,ky,.6,1,0,0,TAU);c.fill();}
+      c.fillStyle='rgba(0,0,0,.32)';c.fillRect(x,y0,.45,h);c.fillStyle='rgba(255,255,255,.18)';c.fillRect(x+.45,y0,.3,h);}}
+  c.restore();};}
+CLOTHS.push(['淡いブルーのリネン','full','plain','#dde9f2','#c8d9e8'],['ペールピンクのクロス','full','plain','#f6e3e5','#ecccd2'],['ミルクティー色のクロス','full','plain','#ecdcc6','#dcc7aa'],
+ ['クリーム色の小花','full','floral','#fbf5df','#e9cf8a'],['ライトグレーのストライプ','full','stripe','#f2f2f0','#d6d9dd'],['淡いミントのギンガム','full','gingham','#f3f9f5','#b4dcc6']);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -21021,7 +21059,7 @@ const TMAP={tv:()=>onAir()?pick(['tv','tv','game']):'game',bar:'drink',liquor:'d
 const LOOK=n=>pick([`${n}だ`,`${n}、いい感じ`,`${n}をちょっと見に来た`,`ここに${n}があるんだよね`,'ふむふむ','なにかあったっけ？']);
 function tapPlan(tg){const idle=Math.random()<.22&&!(tg.t==='f'&&['tv','radio','bar','liquor'].includes(tg.k));
   if(tg.t==='floor')return{n:'tapwalk',s:[{t:'go',sc:C.scene,x:tg.x,y:tg.y},...(Math.random()<.35?[W8(.4),SAY(pick(['ここかな？','到着！','ん？なにかあった？','ここ、日当たりがいいね','ちょっと移動']))]:[])]};
-  if(tg.t==='door')return{n:'tapwalk',s:[SAY(pick(['外に出てみよう','ちょっとお庭へ'])),{t:'go',sc:'out',x:OUT.entry.x,y:OUT.entry.y+1}]};
+  if(tg.t==='door')return{n:'tapwalk',s:[SAY(pick(['外に出てみよう','ちょっとお庭へ'])),{t:'go',sc:'out',x:OUT.entry.x,y:OUT.entry.y+1},W8(.8),SAY(pick(['外の空気、気持ちいい','ちょっと庭をぶらぶらしよう','いい風が吹いてる'])),{t:'go',sc:'out',dyn:()=>randomTile('out')},W8(rnd(15,30))]};
   if(tg.t==='house')return{n:'tapwalk',s:[SAY(pick(['おうちに入ろう','ただいまー'])),{t:'go',sc:'in',x:IN_ENTRY.x,y:IN_ENTRY.y-1}]};
   if(tg.t==='pond'){const p=OUT.pond,u=adjOut(p.x+1,p.y+p.h-1)||adjOut(p.x,p.y);return{n:'tapwalk',s:[{t:'go',sc:'out',x:u.x,y:u.y},{t:'face',d:u.d},SAY(pick(['池のお魚、元気かな','水面がきらきら','カエルさん、鳴いてるかな','カメさん、甲羅干ししてるかな','ポコポコって泡が出てる','鯉が2匹、仲よく泳いでる'])),W8(3,need('fun',2))]};}
   if(tg.t==='tree'){const u=adjOut(tg.tr.x,tg.tr.y);return u?{n:'tapwalk',s:[{t:'go',sc:'out',x:u.x,y:u.y},{t:'face',d:u.d},SAY(pick(['大きな木だなあ','木かげは涼しい','葉っぱの音が気持ちいい']))]}:null;}
