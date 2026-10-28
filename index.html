@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版408（2026/10/28 #258）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版413（2026/10/28 #263）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版408（2026/10/28 #258）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版413（2026/10/28 #263）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -21539,6 +21539,153 @@ setInterval(()=>{try{if(!S||!S.yard||S.bushV)return;S.bushV=1;BU_ORIG.forEach(([
 {const YM=A.yardmove;A.yardmove=function(){const keep={};for(const k of Object.keys(S.yard||{}))if(BU_is(k)){keep[k]=S.yard[k];delete S.yard[k];}try{return YM.apply(this,arguments);}finally{Object.assign(S.yard,keep);}};}
 /* ---- the photo board is no longer sent automatically at the start ---- */
 setTimeout(()=>{try{if(S&&!S.pbAutoOff){S.pbAutoOff=1;S.pbGiven=1;if(!S.yard.photoboard&&!(S.yardDel&&S.yardDel.k==='photoboard'))S.yardOrderQ=(S.yardOrderQ||[]).filter(k=>k!=='photoboard');}}catch(e){}},0);
+/* ---- v409: industrial interior — big riveted black iron plates and checker plate for floors; dark factory walls (ribbed plate with pipes and a catwalk; ducts and vents with dim red lamps) ---- */
+/* industrial floors & walls: dark riveted iron plates, factory walls with pipes and a faint green glow */
+const IND_h=(a,b,s)=>{let x=Math.sin(a*127.1+b*311.7+s*74.7)*43758.5453;return x-Math.floor(x);};
+function IND_lg(c,x0,y0,x1,y1,st){const q=c.createLinearGradient(x0,y0,x1,y1);for(const s of st)q.addColorStop(s[0],s[1]);return q;}
+function IND_rivet(c,x,y,r,dk){r=r||.9;c.fillStyle='rgba(0,0,0,.55)';c.beginPath();c.ellipse(x+.35,y+.45,r*1.05,r*1.05,0,0,Math.PI*2);c.fill();
+  const q=c.createRadialGradient(x-r*.35,y-r*.4,0,x,y,r);q.addColorStop(0,dk?'#6a6e76':'#7a7e86');q.addColorStop(.45,dk?'#2c2e33':'#34373c');q.addColorStop(1,'#111214');c.fillStyle=q;c.beginPath();c.ellipse(x,y,r,r,0,0,Math.PI*2);c.fill();
+  c.fillStyle='rgba(255,255,255,.45)';c.beginPath();c.ellipse(x-r*.35,y-r*.38,r*.25,r*.18,0,0,Math.PI*2);c.fill();}
+function IND_brush(c,x,y,w,h,s,a){c.save();c.globalAlpha=a||.06;for(let i=0;i<h*1.6;i++){const yy=y+IND_h(i,s,3)*h,xx=x+IND_h(i,s,4)*w*.6;c.fillStyle=IND_h(i,s,5)>.5?'#ffffff':'#000000';c.fillRect(xx,yy,w*.25+IND_h(i,s,6)*w*.4,.25);}c.restore();}
+// ---- floors: f(c,X,Y) draws one 24x24 tile ----
+function INDF_plate(c,X,Y){const T=24,tx=Math.round(X/T),ty=Math.round(Y/T),v=IND_h(tx,ty,1);
+  const b=Math.round(26+v*8);c.fillStyle=IND_lg(c,X,Y,X+T,Y+T,[[0,`rgb(${b+10},${b+12},${b+16})`],[.55,`rgb(${b},${b+2},${b+5})`],[1,`rgb(${b-8},${b-7},${b-5})`]]);c.fillRect(X,Y,T,T);
+  IND_brush(c,X,Y,T,T,tx*7+ty,.05);
+  // worn sheen
+  c.fillStyle='rgba(255,255,255,.035)';c.beginPath();c.moveTo(X+3,Y);c.lineTo(X+11,Y);c.lineTo(X+3,Y+T);c.lineTo(X-5,Y+T);c.fill();
+  // seams
+  c.fillStyle='#0b0b0d';c.fillRect(X,Y,T,.7);c.fillRect(X,Y,.7,T);c.fillStyle='rgba(255,255,255,.1)';c.fillRect(X+.7,Y+.7,T-.7,.3);c.fillRect(X+.7,Y+.7,.3,T-.7);
+  c.fillStyle='rgba(0,0,0,.35)';c.fillRect(X,Y+T-.4,T,.4);c.fillRect(X+T-.4,Y,.4,T);
+  for(const[a,b2]of[[2.6,2.6],[12,2.6],[21.4,2.6],[2.6,12],[21.4,12],[2.6,21.4],[12,21.4],[21.4,21.4]])IND_rivet(c,X+a,Y+b2,.95,1);}
+function INDF_big(c,X,Y){const T=24,tx=Math.round(X/T),ty=Math.round(Y/T),px=((tx%2)+2)%2,py=((ty%2)+2)%2,v=IND_h(tx>>1,ty>>1,2),b=Math.round(24+v*7);
+  const x0=X-px*T,y0=Y-py*T;c.save();c.beginPath();c.rect(X-.4,Y-.4,T+.8,T+.8);c.clip();
+  c.fillStyle=IND_lg(c,x0,y0,x0+48,y0+48,[[0,`rgb(${b+12},${b+13},${b+17})`],[.5,`rgb(${b},${b+1},${b+4})`],[1,`rgb(${b-7},${b-6},${b-4})`]]);c.fillRect(X-.4,Y-.4,T+.8,T+.8);
+  IND_brush(c,X,Y,T,T,tx*5+ty*3,.05);
+  c.fillStyle='rgba(255,255,255,.03)';c.beginPath();c.moveTo(x0+10,y0);c.lineTo(x0+22,y0);c.lineTo(x0+4,y0+48);c.lineTo(x0-8,y0+48);c.fill();
+  // weld seam round the big plate
+  c.fillStyle='#0a0a0c';c.fillRect(x0,y0,48,.8);c.fillRect(x0,y0,.8,48);c.fillStyle='rgba(255,255,255,.09)';c.fillRect(x0+.8,y0+.8,47,.3);c.fillRect(x0+.8,y0+.8,.3,47);
+  // rivet rows along the edges, every 6
+  for(let i=3;i<48;i+=6){IND_rivet(c,x0+i,y0+2.6,.8,1);IND_rivet(c,x0+2.6,y0+i,.8,1);IND_rivet(c,x0+i,y0+45.4,.8,1);IND_rivet(c,x0+45.4,y0+i,.8,1);}
+  c.restore();}
+function INDF_tread(c,X,Y){const T=24,tx=Math.round(X/T),ty=Math.round(Y/T),v=IND_h(tx,ty,4),b=Math.round(30+v*6);
+  c.fillStyle=IND_lg(c,X,Y,X+T,Y+T,[[0,`rgb(${b+8},${b+10},${b+13})`],[1,`rgb(${b-6},${b-5},${b-3})`]]);c.fillRect(X,Y,T,T);
+  // raised lozenges (checker plate), alternating directions
+  for(let r=0;r<6;r++)for(let q=0;q<6;q++){const cx=X+2+q*4,cy=Y+2+r*4,d=(r+q)%2?1:-1;c.save();c.translate(cx,cy);c.rotate(d*.78);
+    c.fillStyle='rgba(0,0,0,.55)';c.fillRect(-1.5,-.25+.25,3,.75);c.fillStyle='#52565e';c.fillRect(-1.5,-.4,3,.6);c.fillStyle='rgba(255,255,255,.25)';c.fillRect(-1.3,-.4,2.4,.18);c.restore();}
+  c.fillStyle='#0b0b0d';c.fillRect(X,Y,T,.7);c.fillRect(X,Y,.7,T);c.fillStyle='rgba(255,255,255,.08)';c.fillRect(X+.7,Y+.7,T,.3);
+  for(const[a,b2]of[[2.4,2.4],[21.6,2.4],[2.4,21.6],[21.6,21.6]])IND_rivet(c,X+a,Y+b2,1,1);}
+function INDF_grate(c,X,Y){const T=24,tx=Math.round(X/T),ty=Math.round(Y/T);
+  // dark pit below with a faint green glow, then a steel grating on a riveted frame
+  c.fillStyle='#07090a';c.fillRect(X,Y,T,T);const g2=c.createRadialGradient(X+12,Y+12,0,X+12,Y+12,16);g2.addColorStop(0,'rgba(60,200,140,.22)');g2.addColorStop(1,'rgba(60,200,140,0)');c.fillStyle=g2;c.fillRect(X,Y,T,T);
+  c.fillStyle='#3a3d43';for(let i=1;i<24;i+=2.4)c.fillRect(X+i,Y,.9,T);c.fillStyle='#2a2c31';for(let j=3;j<24;j+=6)c.fillRect(X,Y+j,T,.8);
+  c.fillStyle='rgba(255,255,255,.12)';for(let i=1;i<24;i+=2.4)c.fillRect(X+i,Y,.25,T);
+  c.fillStyle='#1c1d21';c.fillRect(X,Y,T,1.4);c.fillRect(X,Y,1.4,T);c.fillStyle='rgba(255,255,255,.1)';c.fillRect(X+1.4,Y+1.4,T,.3);
+  for(const[a,b2]of[[.7,.7],[12,.7],[.7,12]])IND_rivet(c,X+a,Y+b2,.6,1);}
+// ---- walls: paint(c,d,x0,y0,w,y1) ----
+function INDW_paint(c,d,x0,y0,w,y1){const h=y1-y0;c.save();c.beginPath();c.rect(x0,y0,w,h);c.clip();const k=d.k||0;
+  const glow=(a)=>{const q=c.createLinearGradient(0,y1,0,y0);q.addColorStop(0,`rgba(70,230,160,${a})`);q.addColorStop(.55,'rgba(70,230,160,0)');c.fillStyle=q;c.fillRect(x0,y0,w,h);};
+  const lamp=(x,y,col)=>{const q=c.createRadialGradient(x,y,0,x,y,4);q.addColorStop(0,col.replace('A',/170,30/.test(col)?'.4':'.55'));q.addColorStop(1,col.replace('A','0'));c.fillStyle=q;c.fillRect(x-4,y-4,8,8);c.fillStyle='#111';c.fillRect(x-1,y-1.1,2,2.2);c.fillStyle=col.replace('A','1');c.fillRect(x-.6,y-.7,1.2,1.4);};
+  const pipe=(yy,r,col)=>{c.fillStyle=IND_lg(c,0,yy-r,0,yy+r,[[0,'#1a1b1e'],[.3,col],[.55,'#9aa0a8'],[.75,col],[1,'#121315']]);c.fillRect(x0,yy-r,w,r*2);
+    for(let x=Math.floor(x0/30)*30+8;x<x0+w;x+=30){c.fillStyle=IND_lg(c,0,yy-r-.8,0,yy+r+.8,[[0,'#202226'],[.5,'#6a6f78'],[1,'#141518']]);c.fillRect(x,yy-r-.8,2,r*2+1.6);IND_rivet(c,x+1,yy-r-.1,.35,1);IND_rivet(c,x+1,yy+r+.1,.35,1);}};
+  if(k===0){// riveted panels, two pipes, green glow
+    c.fillStyle=IND_lg(c,0,y0,0,y1,[[0,'#16181b'],[1,'#25282d']]);c.fillRect(x0,y0,w,h);
+    const pw=12,ph=h/3;for(let x=Math.floor(x0/pw)*pw;x<x0+w;x+=pw)for(let r=0;r<3;r++){const yy=y0+r*ph,v=IND_h(x/pw,r,9);c.fillStyle=`rgba(${v>.5?'255,255,255':'0,0,0'},${.02+v*.03})`;c.fillRect(x+.5,yy+.5,pw-1,ph-1);
+      c.fillStyle='#08090a';c.fillRect(x,yy,pw,.5);c.fillRect(x,yy,.5,ph);c.fillStyle='rgba(255,255,255,.07)';c.fillRect(x+.5,yy+.5,pw-.5,.25);
+      for(const[a,b2]of[[1.4,1.4],[pw-1.4,1.4],[1.4,ph-1.4],[pw-1.4,ph-1.4]])IND_rivet(c,x+a,yy+b2,.45,1);}
+    IND_brush(c,x0,y0,w,h,3,.05);pipe(y0+h*.3,1.5,'#454950');pipe(y0+h*.42,1,'#3a5048');
+    for(let x=Math.floor(x0/36)*36+20;x<x0+w;x+=36)lamp(x,y0+h*.68,'rgba(80,255,170,A)');glow(.22);}
+  else if(k===1){// vertical ribbed plate with vertical pipes and a catwalk band at the top
+    c.fillStyle='#1b1d21';c.fillRect(x0,y0,w,h);for(let x=Math.floor(x0/3)*3;x<x0+w;x+=3){c.fillStyle=IND_lg(c,x,0,x+3,0,[[0,'#121316'],[.4,'#30333a'],[.7,'#24262b'],[1,'#101113']]);c.fillRect(x,y0,3,h);}
+    for(let x=Math.floor(x0/42)*42+12;x<x0+w;x+=42){for(const[dx,r,col]of[[0,1.6,'#3e4249'],[4.4,1,'#2f4a40']]){c.fillStyle=IND_lg(c,x+dx-r,0,x+dx+r,0,[[0,'#0e0f11'],[.35,col],[.55,'#8a9098'],[.8,col],[1,'#0e0f11']]);c.fillRect(x+dx-r,y0,r*2,h);
+      for(let yy=y0+h*.25;yy<y1;yy+=h*.33){c.fillStyle='#4a4e56';c.fillRect(x+dx-r-.6,yy,r*2+1.2,1.2);}}lamp(x+9,y0+h*.6,'rgba(80,255,170,A)');}
+    // catwalk grating & handrail near the top
+    const cy=y0+h*.2;c.fillStyle='#0c0d0f';c.fillRect(x0,cy,w,2.4);c.fillStyle='#3a3d43';for(let x=Math.floor(x0/1.6)*1.6;x<x0+w;x+=1.6)c.fillRect(x,cy+.3,.5,1.8);
+    c.fillStyle='#4a4e56';c.fillRect(x0,cy-4.4,w,.6);for(let x=Math.floor(x0/9)*9;x<x0+w;x+=9)c.fillRect(x,cy-4.4,.6,4.4);glow(.26);}
+  else{// big duct, vent grilles, hazard stripes along the bottom, amber lamps
+    c.fillStyle=IND_lg(c,0,y0,0,y1,[[0,'#17191c'],[1,'#22252a']]);c.fillRect(x0,y0,w,h);
+    for(let x=Math.floor(x0/16)*16;x<x0+w;x+=16){c.fillStyle='#0a0b0c';c.fillRect(x,y0,.5,h);for(const yy of[y0+1.2,y1-6])IND_rivet(c,x+1.4,yy,.4,1);}
+    const dy=y0+h*.18,dh=h*.22;c.fillStyle=IND_lg(c,0,dy,0,dy+dh,[[0,'#2a2d32'],[.25,'#5a5f68'],[.5,'#3a3e45'],[1,'#17181b']]);c.fillRect(x0,dy,w,dh);
+    for(let x=Math.floor(x0/20)*20;x<x0+w;x+=20){c.fillStyle='#16171a';c.fillRect(x,dy-.4,1.4,dh+.8);}
+    for(let x=Math.floor(x0/48)*48+30;x<x0+w;x+=48){c.fillStyle='#0b0c0e';c.fillRect(x,y0+h*.5,9,5);c.fillStyle='#3a3e45';for(let i=0;i<5;i++)c.fillRect(x+.6,y0+h*.5+.5+i*.95,7.8,.45);lamp(x-6,y0+h*.56,'rgba(170,30,34,A)');}
+    // hazard band
+    const hy=y1-4.6;c.fillStyle='#d8a826';c.fillRect(x0,hy,w,2.6);c.fillStyle='#141414';for(let x=Math.floor(x0/4)*4-4;x<x0+w;x+=4){c.beginPath();c.moveTo(x,hy+2.6);c.lineTo(x+2,hy);c.lineTo(x+4,hy);c.lineTo(x+2,hy+2.6);c.closePath();c.fill();}
+    c.fillStyle='rgba(255,255,255,.15)';c.fillRect(x0,hy,w,.3);glow(.16);}
+  c.restore();}
+
+FL_LB.push({n:'大判黒鉄板（リベット）',f:INDF_big},{n:'縞鋼板（リベット）',f:INDF_tread});
+FL_K.push({n:'大判黒鉄板（リベット）',f:INDF_big},{n:'縞鋼板（リベット）',f:INDF_tread});
+WP.push({n:'工場の鉄壁（配管とキャットウォーク）',c:'#1b1d21',p:'ind',k:1,wc:'#1c1e22',ws:'panel',cu:'#3a3e45'},
+ {n:'工場の鉄壁（ダクトと赤ランプ）',c:'#1d2024',p:'ind',k:2,wc:'#1a1c20',ws:'panel',cu:'#4a2a2c'});
+{const WPP=WP_paint;WP_paint=function(c,d,x0,y0,w,y1){if(d&&d.p==='ind'){INDW_paint(c,d,x0,y0,w,y1);return;}return WPP.apply(this,arguments);};}
+/* ---- v410/411: the wardrobe's whole finish can be changed (long-press, like the walls) — 30 materials: woods, colours, patterns; shared by the hero's and the housemate's wardrobes ---- */
+const WT_LIST=[
+ {n:'いつもの木目'},
+ {n:'オーク',k:'wood',a:'#c9a46e',b:'#a8824e'},{n:'ナラ',k:'wood',a:'#b98e5a',b:'#946a3a'},{n:'チーク',k:'wood',a:'#a8743e',b:'#7e5226'},{n:'ウォールナット',k:'wood',a:'#6e4a32',b:'#4a2e1c'},
+ {n:'チェリー',k:'wood',a:'#b0603e',b:'#86402a'},{n:'メープル',k:'wood',a:'#e2c9a0',b:'#c8aa7a'},{n:'ヒノキ',k:'wood',a:'#ead2a8',b:'#d4b484'},{n:'マホガニー',k:'wood',a:'#7e3626',b:'#561e14'},
+ {n:'黒檀',k:'wood',a:'#2e2622',b:'#151110'},{n:'パイン',k:'wood',a:'#e6c890',b:'#c89a5a',knot:1},{n:'ホワイトアッシュ',k:'wood',a:'#efe6d4',b:'#d6c8ac'},{n:'杉（柾目）',k:'masa',a:'#d8a878',b:'#a86e44'},
+ {n:'欅（玉杢）',k:'moku',a:'#b8844a',b:'#86582a'},{n:'ローズウッド',k:'wood',a:'#5a2e22',b:'#36160e'},{n:'バーチ',k:'wood',a:'#ecd8b4',b:'#d2b88a'},
+ {n:'黒（無地）',k:'paint',a:'#1c1c1e'},{n:'白',k:'paint',a:'#f4f2ec'},{n:'アイボリー',k:'paint',a:'#ece2c8'},{n:'グレー',k:'paint',a:'#8a8e94'},{n:'ネイビー',k:'paint',a:'#26324e'},
+ {n:'深緑',k:'paint',a:'#2e4a3a'},{n:'えんじ',k:'paint',a:'#7a2430'},{n:'くすみピンク',k:'paint',a:'#d4a4a4'},{n:'ミント',k:'paint',a:'#a8d4c4',hide:1},{n:'からし',k:'paint',a:'#c8a040',hide:1},
+ {n:'大理石（白）',k:'marble',a:'#f2f0ec',b:'#9aa0a8'},{n:'大理石（黒）',k:'marble',a:'#222326',b:'#c8c4bc'},{n:'寄木細工',k:'yose',a:'#e2c79a',b:'#8a5a34'},{n:'モザイクタイル',k:'tile',a:'#5aa4b4',b:'#e8dcc4'},{n:'黒漆に金の蒔絵',k:'maki',a:'#141212',b:'#d8b24a',hide:1},
+ {n:'鏡面ホワイト',k:'gloss',a:'#f6f6f3'},{n:'鏡面アイボリー',k:'gloss',a:'#efe5cc'},{n:'鏡面ライトグレー',k:'gloss',a:'#c4c9ce'},{n:'鏡面グレージュ',k:'gloss',a:'#b4a696'},{n:'鏡面ベビーピンク',k:'gloss',a:'#eec4c8'},
+ {n:'鏡面スカイブルー',k:'gloss',a:'#a4c8e2'},{n:'鏡面ネイビー',k:'gloss',a:'#1e2c4c'},{n:'鏡面ダークグリーン',k:'gloss',a:'#1e3c30'},{n:'鏡面ワインレッド',k:'gloss',a:'#6a1a28'},{n:'鏡面ブラウン',k:'gloss',a:'#5a3a28'},
+ {n:'ピアノブラック',k:'piano',a:'#0d0d10'}];
+const WT_h=(a,b,s)=>{let x=Math.sin(a*91.7+b*47.3+s*13.1)*43758.5453;return x-Math.floor(x);};
+// paint material m into the rect; edge=true for the board's front edge (darker, grain end)
+function WT_paint(c,m,x,y,w,h,edge){c.save();c.beginPath();c.rect(x,y,w,h);c.clip();const L=(c0,c1)=>{const q=c.createLinearGradient(x,y,x,y+h);q.addColorStop(0,c0);q.addColorStop(1,c1);return q;};
+  const dk=v=>shade(v,edge?-.22:0);
+  if(m.k==='wood'||m.k==='masa'||m.k==='moku'){c.fillStyle=L(dk(shade(m.a,.06)),dk(m.a));c.fillRect(x,y,w,h);
+    c.globalAlpha=.55;c.strokeStyle=dk(m.b);c.lineWidth=.3;
+    if(m.k==='masa'){for(let i=0;i<w;i+=.9+WT_h(i,1,3)*.6){c.beginPath();c.moveTo(x+i,y);c.lineTo(x+i+.2,y+h);c.stroke();}}
+    else{for(let j=0;j<h*1.3;j+=.7){const yy=y+j,amp=.25+WT_h(j,2,5)*.5;c.beginPath();c.moveTo(x,yy);for(let i=0;i<=w;i+=3)c.lineTo(x+i,yy+Math.sin(i*.18+j*1.7)*amp);c.globalAlpha=.25+WT_h(j,3,7)*.35;c.stroke();}}
+    if(m.k==='moku'){c.globalAlpha=.35;for(let q=0;q<5;q++){const cx=x+WT_h(q,4,9)*w,cy=y+WT_h(q,5,9)*h;for(let r=.5;r<2.6;r+=.6){c.beginPath();c.ellipse(cx,cy,r*1.6,r*.7,0,0,TAU);c.stroke();}}}
+    if(m.knot){c.globalAlpha=.6;for(let q=0;q<2;q++){const cx=x+(.25+q*.5)*w,cy=y+h*.5;c.fillStyle=dk(m.b);c.beginPath();c.ellipse(cx,cy,1.1,.55,0,0,TAU);c.fill();}}
+    c.globalAlpha=1;}
+  else if(m.k==='paint'){c.fillStyle=L(dk(shade(m.a,.08)),dk(shade(m.a,-.04)));c.fillRect(x,y,w,h);if(!edge){c.fillStyle='rgba(255,255,255,.12)';c.fillRect(x,y,w,h*.35);}}
+  else if(m.k==='marble'){c.fillStyle=L(dk(m.a),dk(shade(m.a,-.05)));c.fillRect(x,y,w,h);c.strokeStyle=m.b;c.globalAlpha=.45;c.lineWidth=.3;
+    for(let q=0;q<6;q++){let px=x+WT_h(q,1,21)*w,py=y-1;c.beginPath();c.moveTo(px,py);for(let s=0;s<8;s++){px+=(WT_h(q,s,22)-.3)*w*.12;py+=h/6;c.lineTo(px,py);}c.stroke();}c.globalAlpha=1;
+    if(!edge){c.fillStyle='rgba(255,255,255,.18)';c.fillRect(x,y,w,h*.3);}}
+  else if(m.k==='yose'){const cs=[m.a,m.b,shade(m.a,-.2),shade(m.b,.25)];const s=2.2;for(let j=0;j*s<h+s;j++)for(let i=0;i*s<w+s;i++){c.fillStyle=dk(cs[(i+j*2)%4]);c.beginPath();const px=x+i*s,py=y+j*s;
+      if((i+j)%2){c.moveTo(px,py);c.lineTo(px+s,py);c.lineTo(px+s/2,py+s);}else{c.moveTo(px,py+s);c.lineTo(px+s,py+s);c.lineTo(px+s/2,py);}c.closePath();c.fill();}c.strokeStyle='rgba(0,0,0,.12)';c.lineWidth=.15;c.strokeRect(x,y,w,h);}
+  else if(m.k==='tile'){c.fillStyle=dk(m.b);c.fillRect(x,y,w,h);const s=1.6,cs=[m.a,shade(m.a,.2),shade(m.a,-.15),'#e8c46a','#f4f2ec'];for(let j=0;j*s<h;j++)for(let i=0;i*s<w;i++){c.fillStyle=dk(cs[Math.floor(WT_h(i,j,31)*cs.length)]);c.fillRect(x+i*s+.15,y+j*s+.15,s-.3,s-.3);}}
+  else if(m.k==='gloss'||m.k==='piano'){const pa=m.k==='piano';c.fillStyle=L(dk(shade(m.a,pa?.1:.1)),dk(shade(m.a,pa?0:-.06)));c.fillRect(x,y,w,h);
+    if(!edge){// a mirror-like finish: the room faintly reflected, then crisp highlight streaks
+      const lum=parseInt(m.a.slice(1,3),16)*.3+parseInt(m.a.slice(3,5),16)*.59+parseInt(m.a.slice(5,7),16)*.11,hi=lum>150?.26:.15;
+      c.fillStyle=`rgba(255,255,255,${hi*.22})`;c.fillRect(x,y,w,h*.3);c.fillStyle=`rgba(0,0,0,${lum>150?.04:.12})`;c.fillRect(x,y+h*.62,w,h*.38);
+      c.fillStyle=`rgba(255,255,255,${hi})`;c.beginPath();c.moveTo(x+w*.12,y);c.lineTo(x+w*.3,y);c.lineTo(x+w*.06,y+h);c.lineTo(x-w*.12,y+h);c.closePath();c.fill();
+      c.fillStyle=`rgba(255,255,255,${hi*.45})`;c.beginPath();c.moveTo(x+w*.38,y);c.lineTo(x+w*.44,y);c.lineTo(x+w*.2,y+h);c.lineTo(x+w*.14,y+h);c.closePath();c.fill();
+      c.fillStyle=`rgba(255,255,255,${hi*.8})`;c.fillRect(x,y,w,.3);}}
+  else if(m.k==='maki'){c.fillStyle=L(dk('#2a2624'),dk(m.a));c.fillRect(x,y,w,h);if(!edge){c.fillStyle='rgba(255,255,255,.14)';c.fillRect(x,y,w,h*.3);
+      c.strokeStyle=m.b;c.lineWidth=.3;c.beginPath();c.moveTo(x+w*.08,y+h*.8);c.quadraticCurveTo(x+w*.4,y+h*.1,x+w*.75,y+h*.6);c.stroke();
+      for(let q=0;q<6;q++){const px=x+w*(.12+q*.13),py=y+h*(.35+WT_h(q,1,41)*.4);c.fillStyle=m.b;for(let a=0;a<5;a++){const an=a*TAU/5;c.beginPath();c.ellipse(px+Math.cos(an)*.45,py+Math.sin(an)*.3,.3,.22,0,0,TAU);c.fill();}}}
+    else{c.fillStyle=m.b;c.fillRect(x,y+h-.3,w,.3);}}
+  c.restore();}
+// the whole wardrobe takes the material: body colour from it, and every door / drawer panel painted with it
+function WT_body(m){if(m.k==='wood'||m.k==='masa'||m.k==='moku')return m.a;if(m.k==='maki')return '#221e1c';if(m.k==='yose')return m.b;if(m.k==='tile')return shade(m.b,-.08);return m.a;}
+function WT_draw(X,Y,Wd,Dp,L,t){const m=WT_LIST[L.wtop];const G0=grain,FR0=fillR;
+  if(m.k==='gloss'||m.k==='piano'){const pa=m.k==='piano',lt=parseInt(m.a.slice(1,3),16)>150;const map={'#c9a84a':pa?'#2a2a30':shade(m.a,lt?-.2:.22),'#e8c46a':pa?'#3a3a42':shade(m.a,lt?-.12:.32),'#fff4c8':pa?'#9a9aa8':shade(m.a,lt?.5:.6)};
+    fillR=function(c,col,...a){return FR0.call(this,c,map[col]||col,...a);};}
+  grain=function(x,y,w,h){try{g.save();g.globalAlpha=m.k==='paint'?.0:(m.k==='gloss'||m.k==='piano')?1:(m.k==='wood'||m.k==='masa'||m.k==='moku')?.75:.95;WT_paint(g,m,x,y,w,h,false);g.restore();
+    // keep the panel's soft light and shade on top of the material
+    g.fillStyle='rgba(255,255,255,.1)';g.fillRect(x,y,w,.6);g.fillStyle='rgba(0,0,0,.12)';g.fillRect(x,y+h-.6,w,.6);}catch(e){}};
+  try{dWardrobe(X,Y,Wd,Dp,L,t,WT_body(m));}finally{grain=G0;fillR=FR0;}
+  // a paint finish gets a gentle sheen; lacquer and marble a sharper one
+  if(m.k==='paint'||m.k==='maki'||m.k==='marble'||m.k==='gloss'||m.k==='piano'){g.fillStyle=`rgba(255,255,255,${m.k==='paint'?.06:m.k==='gloss'||m.k==='piano'?.06:.1})`;g.beginPath();g.moveTo(X+5,Y-28);g.lineTo(X+12,Y-28);g.lineTo(X+5,Y+18);g.lineTo(X-2,Y+18);g.closePath();g.save();g.beginPath();g.rect(X+1,Y-29,Wd-2,48);g.clip();g.fill();g.restore();}}
+for(const k of['wardrobe','wardrobe2']){const f=FT[k];if(!f)continue;const D0=f.draw;f.draw=function(X,Y,Wd,Dp,L,t){if(L&&L.wtop&&WT_LIST[L.wtop]&&WT_LIST[L.wtop].k){try{WT_draw(X,Y,Wd,Dp,L,t);return;}catch(e){}}return D0.apply(this,arguments);};}
+// the picker (shared machinery with the walls, tablecloths and bed covers)
+PAT_K.wardrobe='wtop';PAT_K.wardrobe2='wtop';
+{const PL=patList;patList=function(k){if(patType(k)==='wtop'){const ord={undefined:0,wood:1,masa:1,moku:1,paint:2,gloss:3,piano:4,marble:5,yose:5,tile:5,maki:5};return WT_LIST.map((o,i)=>({i,n:o.n,o})).filter(q=>!q.o.hide).sort((a,b)=>(ord[a.o.k]-ord[b.o.k])||(a.i-b.i)).map(q=>({i:q.i,n:q.n}));}return PL.apply(this,arguments);};}
+{const PC=patCur;patCur=function(k){if(patType(k)==='wtop'){const L=S.layout[k];return L&&L.wtop?L.wtop:0;}return PC.apply(this,arguments);};}
+{const PS=patSet;patSet=function(k,i){if(patType(k)==='wtop'){const L=S.layout[k];if(L){if(i)L.wtop=i;else delete L.wtop;}return;}return PS.apply(this,arguments);};}
+{const PN=patName;patName=function(k,i){if(patType(k)==='wtop')return(WT_LIST[i]||WT_LIST[0]).n;return PN.apply(this,arguments);};}
+{const PT=patThumb;patThumb=function(k,i,cw,ch){if(patType(k)!=='wtop')return PT.apply(this,arguments);const c2=document.createElement('canvas'),sc=2;c2.width=cw*sc;c2.height=ch*sc;const old=g,cx=c2.getContext('2d');cx.scale(sc,sc);g=cx;
+  try{g.fillStyle='#e9e1d2';g.fillRect(0,0,cw,ch);const L={...(S.layout[k]||{}),x:0,y:0,v:0,wtop:i};const s=ch/60;g.save();g.translate((cw-48*s)/2,33*s);g.scale(s,s);FT[k].draw(0,0,48,24,L,0);g.restore();}catch(e){}finally{g=old;}return c2;};}
+{const PO=patOpen;patOpen=function(k){const r=PO.apply(this,arguments);try{if(patType(k)==='wtop'){const h=$('patH');if(h)h.textContent=(k==='wardrobe2'?'同居人の':'')+'洋服ダンスの色・材質を選ぶ';}}catch(e){}return r;};}
+// long-press goes straight to the picker (the wardrobes cannot be put away anyway)
+{const RA=recycleAsk;recycleAsk=function(k,sc){try{if(sc==='in'&&(k==='wardrobe'||k==='wardrobe2')&&S.layout[k]){patOpen(k);return;}}catch(e){}return RA.apply(this,arguments);};}
+// the hero sometimes says something about a newly chosen board
+{const PA=patApply;patApply=function(k,i){const r=PA.apply(this,arguments);try{if(patType(k)==='wtop')S.wtopAt=Date.now();}catch(e){}return r;};}
+setInterval(()=>{try{for(const k of['wardrobe','wardrobe2']){const L=S&&S.layout&&S.layout[k];if(L&&L.wtop&&WT_LIST[L.wtop]&&WT_LIST[L.wtop].hide)delete L.wtop;}}catch(e){}},3000);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
