@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版416（2026/10/28 #266）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版418（2026/10/28 #268）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版416（2026/10/28 #266）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版418（2026/10/28 #268）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -21763,16 +21763,19 @@ function OC_drawSrc(c,im,sx,sy,sw,sh,dx,dy,dw,dh){const mir=c.getTransform().a<0
       const mir=c.getTransform().a<0,fh=w*.55,bk=w-fh;
       if(B)OC_drawSrc(c,B,mir?bx+bw*.55:bx,by,bw*.45,bh,x,y,bk+.6,h);
       if(F)OC_drawSrc(c,F,mir?bx:bx+bw*.55,by,bw*.45,bh,x+bk,y,fh,h);
-      const g2=c.createLinearGradient(x+bk-1.4,0,x+bk+1.4,0);g2.addColorStop(0,'rgba(0,0,0,0)');g2.addColorStop(.5,'rgba(0,0,0,.16)');g2.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=g2;c.fillRect(x,y,w,h);}}catch(_){}
+      }}catch(_){}
   c.restore();};}
 // sleeves: paint the picture's sleeve onto the arm's sleeve shape (upper part, then the lower part for long sleeves)
 function OC_slv(c,path,far,part,len,up){const u=OC_cur;if(!u)return;const im=OC_im(u.d==='up'?u.e.b:u.e.f);if(!im)return;const q=OC_SLV[u.e.sl==='long'?'long':'short'],tot=u.slv,f0=part?up/tot:0,f1=part?1:Math.min(1,up/tot);
-  c.save();path();c.clip();try{c.drawImage(im,q[0],q[1]+q[3]*f0,q[2],q[3]*(f1-f0),-2.4,-.2,4.8,len+.4);}catch(_){}if(far){c.fillStyle='rgba(0,0,0,.15)';c.fillRect(-2.6,-.4,5.2,len+.8);}c.restore();}
+  c.save();path();c.clip();try{const cap=2.5,sh=q[3]*(f1-f0),ex=sh*cap/Math.max(.5,len);c.drawImage(im,q[0],Math.max(0,q[1]+q[3]*f0-ex),q[2],sh+Math.min(ex,q[1]+q[3]*f0),-2.6,-cap,5.2,len+cap+.3);}catch(_){}if(far){c.fillStyle='rgba(0,0,0,.15)';c.fillRect(-2.6,-.4,5.2,len+.8);}c.restore();}
 try{const A1="if(slUp){c.fillStyle=scl;lim(bw0,slLo>0?bw1:bw1*.96,slUp);c.fill();",A2="if(slLo){c.fillStyle=scl;lim(bw1,bw1*.92,Math.min(slLo,LO));c.fill();";
   torso=BX_patch(torso,A1,A1,A1+"OC_slv(c,()=>lim(bw0,slLo>0?bw1:bw1*.96,slUp),far,0,slUp,slUp);");
-  torso=BX_patch(torso,A2,A2,A2+"OC_slv(c,()=>lim(bw1,bw1*.92,Math.min(slLo,LO)),far,1,Math.min(slLo,LO),UP);");}catch(e){console.warn('oc sleeve patch',e);}
+  torso=BX_patch(torso,A2,A2,A2+"OC_slv(c,()=>lim(bw1,bw1*.92,Math.min(slLo,LO)),far,1,Math.min(slLo,LO),UP);");
+  torso=BX_patch(torso,"lightS=BX_light(scl)","lightS=BX_light(scl)","lightS=BX_light(scl)||!!OC_cur");
+  torso=BX_patch(torso,"if(k==='tshirt'||k==='longsleeve'){if(front){","if(k==='tshirt'||k==='longsleeve'){if(front){","if((k==='tshirt'||k==='longsleeve')&&!OC_cur){if(front){");}catch(e){console.warn('oc sleeve patch',e);}
 {const TO=torso;torso=function(c,sp,of,d,st,o){const t=of&&!of.over&&of.top;if(t&&t.p==='oc'){const e=OC_get(t.oc);OC_cur=e?{e,d,col:COL(t.c),slv:t.k==='longsleeve'?7:3}:null;}else OC_cur=null;
   try{return TO.apply(this,arguments);}finally{OC_cur=null;}};}
+{const CS=CW_shade;CW_shade=function(c,bx,by0,bw,bh,col,d,shiny){if(!OC_cur)return CS.apply(this,arguments);c.strokeStyle=shade(col,-.45);c.globalAlpha=.55;c.lineWidth=.4;rr(c,bx+.2,by0+.2,bw-.4,bh-.4,3);c.stroke();c.globalAlpha=1;};}
 // ---- automatic changes and a short grace after choosing clothes by hand ----
 {const DC=dayClothes;dayClothes=function(){const o=DC.apply(this,arguments);try{const L=S&&S.oc||[];if(L.length&&!o.costume&&dseed(41)<.2){const e=L[Math.floor(dseed(42)*L.length)%L.length];o.top=OC_top(e);}}catch(e){}return o;};}
 {const OD=outfitDiff;outfitDiff=function(){try{const o=S.outfit;if(o&&o.userPick&&Date.now()-o.userPick<45*60e3&&o.top&&o.top.k!=='pajama')return false;}catch(e){}const r=OD.apply(this,arguments);try{const o=S.outfit,d=dayClothes();if(!r&&o&&o.top&&d.top&&(o.top.oc||null)!==(d.top.oc||null)&&!o.costume&&!d.costume&&o.top.k!=='pajama')return true;}catch(e){}return r;};}
@@ -21865,6 +21868,68 @@ setTimeout(()=>{try{const tabs=document.getElementById('tabs');if(!tabs||tabs.qu
   const ref=tabs.querySelector('[data-t="loc"]');tabs.insertBefore(b,ref||null);b.onclick=()=>selTab('oc');
   const dex=document.querySelector('#sheet .tp[data-p="dex"]');const sec=document.createElement('section');sec.className='tp';sec.dataset.p='oc';sec.hidden=true;sec.innerHTML='<div id="ocBody"></div>';(dex&&dex.parentNode||document.getElementById('sheet')).insertBefore(sec,dex?dex.nextSibling:null);}catch(e){}},0);
 {const ST=selTab;selTab=function(t){const r=ST.apply(this,arguments);if(t==='oc')setTimeout(renderOC,0);return r;};}
+/* ---- v418: the paddling pool, redrawn — three glossy inflatable rings with printed dots, clear water with a printed floor, moving caustics and ripples, a bobbing duck and a beach ball ---- */
+function POOL_lg(x0,y0,x1,y1,st){const q=g.createLinearGradient(x0,y0,x1,y1);for(const[o,c]of st)q.addColorStop(o,c);return q;}
+function POOL_ring(cx,cy,rx,ry,tube,col,lt,dk,dots,seed){
+  // a fat elliptical tube: body, shading, seam and highlight
+  g.fillStyle=POOL_lg(0,cy-ry-tube,0,cy+ry+tube,[[0,lt],[.38,col],[.72,col],[1,dk]]);g.beginPath();g.ellipse(cx,cy,rx+tube,ry+tube*.62,0,0,TAU);g.fill();
+  // darker band where the tube turns under at the front
+  g.save();g.beginPath();g.ellipse(cx,cy,rx+tube,ry+tube*.62,0,0,TAU);g.clip();g.fillStyle='rgba(0,0,0,.16)';g.beginPath();g.ellipse(cx,cy+tube*.55,rx+tube*.9,ry+tube*.35,0,0,Math.PI);g.fill();
+  // printed dots along the front of the tube
+  if(dots){g.fillStyle=dots;for(let i=0;i<14;i++){const a=.15+i/13*(Math.PI-.3),px=cx+Math.cos(a)*(rx+tube*.55),py=cy+Math.sin(a)*(ry+tube*.3)+.2,s=.55+.25*Math.sin(a);g.beginPath();g.ellipse(px,py,.8*s+.25,.55*s+.2,0,0,TAU);g.fill();}}
+  g.restore();
+  // weld seam and the glossy highlight running round the top of the tube
+  g.strokeStyle='rgba(0,0,0,.18)';g.lineWidth=.3;g.beginPath();g.ellipse(cx,cy+.3,rx+tube*.55,ry+tube*.32,0,.05*Math.PI,.95*Math.PI);g.stroke();
+  g.strokeStyle='rgba(255,255,255,.75)';g.lineWidth=.7;g.lineCap='round';g.beginPath();g.ellipse(cx,cy-tube*.35,rx+tube*.35,ry+tube*.2,0,.62*Math.PI,.98*Math.PI);g.stroke();
+  g.strokeStyle='rgba(255,255,255,.4)';g.lineWidth=.45;g.beginPath();g.ellipse(cx,cy-tube*.35,rx+tube*.35,ry+tube*.2,0,.08*Math.PI,.3*Math.PI);g.stroke();}
+function POOL_draw(X,Y,L,t){g.save();const cx=X+24,cy=Y+11.6,rx=19.4,ry=6.4,tube=2.6;t=t||0;
+  // shadow and a wet patch on the grass
+  fillE(g,'rgba(20,35,10,.26)',cx+1.4,cy+7.6,23.5,7.6);fillE(g,'rgba(30,60,40,.18)',cx-14,cy+7.6,6,1.6);fillE(g,'rgba(30,60,40,.14)',cx+16,cy+8,4,1.2);
+  // three rings, bottom to top
+  POOL_ring(cx,cy+4.8,rx,ry,tube,'#3f8fd8','#8cc6f2','#1f5a9a','rgba(255,255,255,.75)');
+  POOL_ring(cx,cy+1.8,rx,ry,tube,'#ef7fa8','#ffc2d6','#b8456c','rgba(255,255,255,.7)');
+  POOL_ring(cx,cy-1.2,rx,ry,tube,'#f6c836','#fff0a0','#c2901a',null);
+  // valve nub on the top ring
+  fillE(g,'#e0b020',cx+rx*.62,cy-1.2+ry*.72+1.2,.9,.6);fillE(g,'#fff4b0',cx+rx*.62-.2,cy-1.2+ry*.72+1,.35,.25);
+  // ---- water inside the top ring ----
+  const wy=cy-1.5,wrx=rx-1.1,wry=ry-.7;g.save();g.beginPath();g.ellipse(cx,wy,wrx,wry,0,0,TAU);g.clip();
+  g.fillStyle=POOL_lg(0,wy-wry,0,wy+wry,[[0,'#2e8fc8'],[.45,'#5cc0ea'],[1,'#9ae0f6']]);g.fillRect(cx-wrx,wy-wry,wrx*2,wry*2);
+  // the printed floor seen through the water: little fish and bubbles, wobbling
+  const wob=Math.sin(t*2.2)*.35;g.globalAlpha=.42;
+  for(const[fx,fy,c,s]of[[-8,1.6,'#f28a3a',1],[6,-1,'#ff6a8a',.85],[11,2.4,'#f2d23a',.75]]){const x=cx+fx+wob,y=wy+fy;g.fillStyle=c;g.beginPath();g.ellipse(x,y,1.8*s,.9*s,0,0,TAU);g.fill();g.beginPath();g.moveTo(x-1.6*s,y);g.lineTo(x-2.8*s,y-.8*s);g.lineTo(x-2.8*s,y+.8*s);g.closePath();g.fill();}
+  g.globalAlpha=1;
+  // inner wall: the far side of the ring casts a deeper band into the water
+  g.fillStyle=POOL_lg(0,wy-wry,0,wy-wry+3.4,[[0,'rgba(10,50,90,.45)'],[1,'rgba(10,50,90,0)']]);g.fillRect(cx-wrx,wy-wry,wrx*2,3.4);
+  // moving caustics
+  g.strokeStyle='rgba(255,255,255,.32)';g.lineWidth=.35;for(let i=0;i<9;i++){const yy=wy-wry+1.6+i*1.25,ph=t*1.6+i*1.3;g.beginPath();for(let x=-wrx;x<=wrx;x+=1.5){const y2=yy+Math.sin(x*.55+ph)*.45+Math.sin(x*.21-ph*.7)*.3;if(x===-wrx)g.moveTo(cx+x,y2);else g.lineTo(cx+x,y2);}g.stroke();}
+  // expanding ripples
+  for(let i=0;i<2;i++){const p=((t*.45+i*.5)%1),r=1+p*7;g.strokeStyle=`rgba(255,255,255,${.5*(1-p)})`;g.lineWidth=.35;g.beginPath();g.ellipse(cx-4+i*9,wy+.8-i*1.4,r,r*.34,0,0,TAU);g.stroke();}
+  // sky reflection and sparkles
+  g.fillStyle='rgba(255,255,255,.28)';g.beginPath();g.ellipse(cx-6+Math.sin(t*.8)*1.2,wy-2,6.5,1.1,-.08,0,TAU);g.fill();
+  for(let i=0;i<5;i++){const tw=(Math.sin(t*3+i*1.9)+1)/2;if(tw<.55)continue;const sx=cx-12+i*6+Math.sin(i*7)*2,sy=wy-1.6+Math.cos(i*5)*2.2;g.fillStyle=`rgba(255,255,255,${(tw-.55)*2})`;g.fillRect(sx-.9,sy-.12,1.8,.24);g.fillRect(sx-.12,sy-.6,.24,1.2);}
+  g.restore();
+  // inner lip of the top ring over the water edge (front)
+  g.strokeStyle='rgba(255,250,210,.7)';g.lineWidth=.5;g.beginPath();g.ellipse(cx,wy,wrx+.15,wry+.1,0,.08*Math.PI,.92*Math.PI);g.stroke();
+  g.strokeStyle='rgba(120,80,0,.35)';g.lineWidth=.4;g.beginPath();g.ellipse(cx,wy,wrx+.1,wry+.05,0,1.05*Math.PI,1.95*Math.PI);g.stroke();
+  // ---- floating duck ----
+  {const dx=cx+5+Math.sin(t*.5)*4,dy=wy-.6+Math.cos(t*.5)*1.2,b=Math.sin(t*2.6)*.35,f=Math.cos(t*.5)>0?1:-1;
+   fillE(g,'rgba(20,80,120,.3)',dx,dy+1.4,3.4,.8);g.strokeStyle='rgba(255,255,255,.45)';g.lineWidth=.3;g.beginPath();g.ellipse(dx,dy+1.3,4.2,1,0,0,TAU);g.stroke();
+   g.save();g.translate(dx,dy+b);g.scale(f,1);
+   g.fillStyle=POOL_lg(0,-2.6,0,1.4,[[0,'#ffe866'],[1,'#f2b81a']]);g.beginPath();g.ellipse(0,0,3,1.7,0,0,TAU);g.fill();g.beginPath();g.moveTo(-2.8,-.4);g.quadraticCurveTo(-3.8,-1.6,-3.2,-2);g.quadraticCurveTo(-2.4,-1,-1.8,-.9);g.fill();
+   g.fillStyle=POOL_lg(0,-4.6,0,-1.4,[[0,'#fff07a'],[1,'#f6c42a']]);g.beginPath();g.ellipse(1.6,-2.5,1.55,1.45,0,0,TAU);g.fill();
+   g.fillStyle='#f2862a';g.beginPath();g.moveTo(2.9,-2.6);g.quadraticCurveTo(4.4,-2.6,4.2,-2);g.quadraticCurveTo(3.4,-1.9,2.9,-2.1);g.closePath();g.fill();
+   fillE(g,'#2a2420',2.1,-2.9,.3,.34);fillE(g,'#fff',2,-3,.1,.1);fillE(g,'rgba(255,255,255,.55)',-1,-.9,1.4,.4,-.2);g.strokeStyle='rgba(190,120,0,.5)';g.lineWidth=.25;g.beginPath();g.moveTo(-1.6,-.2);g.quadraticCurveTo(-.4,.4,.8,-.1);g.stroke();
+   g.restore();}
+  // ---- beach ball on the grass ----
+  {const bx=cx+rx+3.6,by=cy+7.2,r=2.7,rot=t*.25;fillE(g,'rgba(20,35,10,.28)',bx+.6,by+r*.8,r*1.1,.8);
+   g.save();g.beginPath();g.arc(bx,by,r,0,TAU);g.clip();g.fillStyle='#f6f4ee';g.fillRect(bx-r,by-r,r*2,r*2);const cs=['#e8483a','#3a72d8','#f2c230'];
+   // gores between meridians; only the ones facing us are drawn
+   for(let k=0;k<6;k+=2){const a0=rot+k*Math.PI/3,a1=a0+Math.PI/3;if(Math.cos((a0+a1)/2)<-.2)continue;const x0=Math.sin(a0)*r,x1=Math.sin(a1)*r;g.fillStyle=cs[k/2];g.beginPath();g.moveTo(bx,by-r);g.quadraticCurveTo(bx+x0*1.3,by,bx,by+r);g.quadraticCurveTo(bx+x1*1.3,by,bx,by-r);g.fill();}
+   g.fillStyle=SZ.rg(bx-r*.4,by-r*.45,0,r*1.3,[[0,'rgba(255,255,255,.55)'],[.4,'rgba(255,255,255,0)'],[1,'rgba(0,0,0,.28)']]);g.fillRect(bx-r,by-r,r*2,r*2);g.restore();
+   g.strokeStyle='rgba(0,0,0,.2)';g.lineWidth=.25;g.beginPath();g.arc(bx,by,r,0,TAU);g.stroke();
+   fillE(g,'#f4f2ec',bx,by-r+.5,.5,.35);}
+  g.restore();}
+OFT.pool.draw=POOL_draw;
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
