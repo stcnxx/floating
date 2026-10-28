@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版400（2026/10/28 #250）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版404（2026/10/28 #254）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版400（2026/10/28 #250）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版404（2026/10/28 #254）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -16097,7 +16097,7 @@ COS.uchu.feet='#3f6fd0';
 function DEX_unlockAll(){if(!S)return 0;const D=S.dex=S.dex||{f:{},y:{},c:{}};D.f=D.f||{};D.y=D.y||{};D.c=D.c||{};const now0=Date.now();let n=0;const set=(o,k,v)=>{if(!o[k]){o[k]=v;n++;}};
   for(const k of Object.keys(FT))if(k!=='ksink')set(D.f,k,now0);for(const k of Object.keys(OFT))set(D.y,k,now0);
   for(const part of['top','bottom','shoes','hat'])for(const k in KN[part])if(k!=='none')set(D.c,part+':'+k,{c:'白',p:'plain',at:now0});
-  for(const k in COS)set(D.c,'cos:'+k,{at:now0});for(const k of GL_KEYS)set(D.c,'gl:'+k,{at:now0});SUNS.forEach((_,i)=>set(D.c,'sun:'+i,{at:now0}));NOSEG.forEach((_,i)=>set(D.c,'nose:'+i,{at:now0}));for(const k in MASK2)set(D.c,'mask:'+k,{at:now0});
+  for(const k in COS)set(D.c,'cos:'+k,{at:now0});SUNS.forEach((_,i)=>set(D.c,'sun:'+i,{at:now0}));NOSEG.forEach((_,i)=>set(D.c,'nose:'+i,{at:now0}));for(const k in MASK2)set(D.c,'mask:'+k,{at:now0});
   try{S.birds=S.birds||{};for(const b of BIRDS)if(!S.birds[b.k]){S.birds[b.k]=1;n++;}}catch(e){}
   save();return n;}
 setTimeout(()=>{try{const b=document.querySelector('#tabs button[data-t="try"]');if(!b)return;let taps=[];
@@ -16883,7 +16883,7 @@ function DEX_drinks(el){if(!document.getElementById('dexdkCss')){const st=docume
   for(const[cat,cn]of PREFCAT){const ds=DRINKS.filter(d=>drinkCat(d)===cat);if(!ds.length)continue;const drunk=ds.filter(d=>nt[d.n]).length,known=ds.filter(d=>nt[d.n]||rv[d.n]).length;
     // the heading itself opens / closes the list, so it is clear which kind it belongs to
     const det=document.createElement('details');det.className='dexdk';const sm=document.createElement('summary');
-    sm.innerHTML=`<span class="dexdk-a">▶</span><b>お酒：${cn}</b><small>${drunk} / ${ds.length}${known>drunk?'（名前だけ '+(known-drunk)+'）':''}</small>`;det.append(sm);
+    sm.innerHTML=`<span class="dexdk-a">▶</span><b>お酒：${cn}</b><small>${drunk} / ${ds.length}</small>`;det.append(sm);
     const gr=document.createElement('div');gr.className='dexg';det.append(gr);el.append(det);
     det.addEventListener('toggle',()=>{sm.querySelector('.dexdk-a').textContent=det.open?'▼':'▶';if(!det.open||gr.childElementCount)return;
       // drunk ones first (most often first), then the revealed ones, then the unknown
@@ -21307,6 +21307,49 @@ function TWL_draw(){for(const p of TWL.a){if(p.d>0)continue;const a=Math.min(1,p
   else{g.fillStyle=p.col;g.beginPath();g.moveTo(-1.9,0);g.quadraticCurveTo(0,-1.3,1.9,0);g.quadraticCurveTo(0,1.3,-1.9,0);g.fill();g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=.22;g.beginPath();g.moveTo(-1.7,0);g.lineTo(1.7,0);g.stroke();}
   g.restore();}}
 {const DP=drawParticles;drawParticles=function(){try{TWL_tick();if(C.scene==='out')TWL_draw();}catch(e){}return DP.apply(this,arguments);};}
+/* ---- v402: the picture book sorts eaten dishes and sweets into kinds (each kind opens and closes like the drinks) ---- */
+function DEX_foodCat(n){try{
+  if(ICE.some(x=>x[0]===n))return'アイス';if(SNK297.some(x=>x[0]===n))return'お菓子';if(SNK.some(x=>x[0]===n)||(SNKC[n]&&!SWEET.includes(n)))return'おつまみ・スナック';if(/柏餅|ちまき/.test(n)||SWEET.includes(n))return'スイーツ・和菓子';
+  const F=[['morn','朝ごはん'],['night','夜食'],['asianLunch','エスニック'],['pot','鍋もの'],['curry','カレー'],['bowl','丼もの'],['noodle','麺類'],['pasta','パスタ'],['main','おかず（主菜）'],['side','おかず（副菜・サラダ）'],['soup','汁もの・スープ'],['staple','ごはん・パン']];
+  for(const[k,c]of F)if(FOOD[k]&&FOOD[k].includes(n))return c;
+  const t=dishType(n);return{pot:'鍋もの',curry:'カレー',bowl:'丼もの',noodle:'麺類',pasta:'パスタ',soup:'汁もの・スープ',salad:'おかず（副菜・サラダ）',rice:'ごはん・パン',bread:'ごはん・パン',sushi:'おかず（主菜）',steak:'おかず（主菜）',plate:'おかず（主菜）'}[t]||'そのほか';}catch(e){return'そのほか';}}
+const DEX_FOODORD=['朝ごはん','ごはん・パン','汁もの・スープ','おかず（主菜）','おかず（副菜・サラダ）','丼もの','カレー','麺類','パスタ','鍋もの','エスニック','夜食','スイーツ・和菓子','お菓子','アイス','おつまみ・スナック','そのほか'];
+/* ---- v404: one rule for the whole picture book — every heading and every kind shows "have / total"; what the unlock reveals counts as had (full colour, no ？ boxes); drinks, set menus, dishes and soft drinks all open and close by kind ---- */
+function DEX_head(el,t,a,b){const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>${t}</h3><small>${a} / ${b}</small>`;el.append(h);}
+function DEX_kind(el,t,a,b,fill){const det=document.createElement('details');det.className='dexdk';const sm=document.createElement('summary');sm.innerHTML=`<span class="dexdk-a">▶</span><b>${t}</b><small>${a} / ${b}</small>`;det.append(sm);el.append(det);
+  const box=document.createElement('div');det.append(box);
+  det.addEventListener('toggle',()=>{sm.querySelector('.dexdk-a').textContent=det.open?'▼':'▶';if(!det.open||box.childElementCount)return;
+    if(!a){const p0=document.createElement('p');p0.className='dexnone';p0.textContent='まだありません';box.append(p0);return;}fill(box);});}
+function DEX_iconGrid(box,ks,icon,name,zoom){const gr=document.createElement('div');gr.className='dexg';gr.style.padding='6px 4px 8px';box.append(gr);
+  for(const k of ks){const it=document.createElement('div');it.className='dexi';it.append(icon(k));const sp=document.createElement('span');sp.textContent=name(k);it.append(sp);it.onclick=()=>zoom(k);gr.append(it);}}
+function DEX_chipList(box,ns){const w=document.createElement('div');w.className='dexs';w.style.padding='6px 6px 8px';box.append(w);for(const n of ns){const sp=document.createElement('span');sp.textContent=n;w.append(sp);}}
+let DEX_U=null;function DEX_univ(){if(!DEX_U){try{DEX_U=DEX_allFoods();}catch(e){DEX_U={f:[],d:[]};}}return DEX_U;}
+// お酒
+function DEX_alcohol(el){const nt=S.notes||{},rv=S.dexDrink||{},hv=d=>nt[d.n]||rv[d.n];DEX_head(el,'お酒',DRINKS.filter(hv).length,DRINKS.length);
+  for(const[cat,cn]of PREFCAT){const ds=DRINKS.filter(d=>drinkCat(d)===cat);if(!ds.length)continue;const got=ds.filter(hv).sort((a,b)=>((nt[b.n]&&nt[b.n].n)||0)-((nt[a.n]&&nt[a.n].n)||0));
+    DEX_kind(el,cn,got.length,ds.length,box=>DEX_iconGrid(box,got,d=>DEX_drinkIcon(d),d=>d.n,d=>{const o=nt[d.n];dexZoom(()=>DEX_drinkIcon(d),d.n,`${cn}${o?`　最高 ${o.s}点`:''}${d.say&&d.say[0]?'　「'+d.say[0]+'」':''}`);}));}}
+// セットメニュー
+function DEX_setmenus(el){const a1=S.dexSet||{},r1=S.dexSetR||{},a2=S.dexSM||{},r2=S.dexSMR||{};const at=Object.keys(AT2_SETS),sm=typeof SM_SETS==='object'?Object.keys(SM_SETS):[];
+  const h1=k=>a1[k]||r1[k],h2=k=>a2[k]||r2[k];DEX_head(el,'セットメニュー',at.filter(h1).length+sm.filter(h2).length,at.length+sm.length);
+  {const got=at.filter(h1).sort((a,b)=>(a1[b]||0)-(a1[a]||0));DEX_kind(el,'アフタヌーンティー',got.length,at.length,box=>DEX_iconGrid(box,got,DEX_setIcon,k=>AT2_SETS[k].n.replace(/（.*?）/,''),k=>{const st=AT2_SETS[k],nm=st.n.replace(/（.*?）/,''),when=(st.n.match(/（(.*?)）/)||[])[1]||'';dexZoom(()=>DEX_setIcon(k),'アフタヌーンティー「'+nm+'」',`セットメニュー　${when}`);}));}
+  if(sm.length)for(const cat of SM_CATS){const ks=sm.filter(k=>SM_SETS[k].cat===cat),got=ks.filter(h2).sort((a,b)=>(a2[b]||0)-(a2[a]||0));
+    DEX_kind(el,cat,got.length,ks.length,box=>DEX_iconGrid(box,got,SM_icon,k=>SM_SETS[k].n,k=>{const st=SM_SETS[k];dexZoom(()=>SM_icon(k),st.n,`セットメニュー　${cat}${st.month?'（'+st.month.join('・')+'月）':st.season?'（夏）':''}`);}));}}
+// 食べた料理・おやつ
+function DEX_foods(el){const ate=S.ate||{},rv=S.dexFood||{},hv=n=>ate[n]||rv[n];const all=[...new Set(DEX_univ().f.concat(Object.keys(ate),Object.keys(rv)))];
+  const by={};for(const n of all){const c=DEX_foodCat(n);(by[c]=by[c]||[]).push(n);}
+  DEX_head(el,'食べた料理・おやつ',all.filter(hv).length,all.length);
+  for(const c of DEX_FOODORD){const ns=by[c];if(!ns)continue;const got=ns.filter(hv).sort((a,b)=>(ate[b]||0)-(ate[a]||0));DEX_kind(el,c,got.length,ns.length,box=>DEX_chipList(box,got));}}
+// 飲んだ飲み物
+function DEX_softCat(n){try{if(GTEA.includes(n)||(/茶/.test(n)&&!/ミルクティー|紅茶/.test(n)))return'お茶';if(TEA.includes(n)||/ティー|チャイ|紅茶/.test(n))return'紅茶';
+  if(COFFEE.includes(n)||/コーヒー|カフェ|ラテ|エスプレッソ|カプチーノ|モカ/.test(n))return'コーヒー';if(JUICE.includes(n)||/ジュース|スムージー|ラッシー/.test(n))return'ジュース・スムージー';
+  if(BRANDD.some(x=>x[0]===n)||/ソーダ|サイダー|コーラ|炭酸/.test(n))return'炭酸・ソフトドリンク';}catch(e){}return'水・ミルクなど';}
+const DEX_SOFTORD=['お茶','紅茶','コーヒー','ジュース・スムージー','炭酸・ソフトドリンク','水・ミルクなど'];
+function DEX_softs(el){const dr=S.drank||{},rv=S.dexSoft||{},hv=n=>dr[n]||rv[n];const all=[...new Set(DEX_univ().d.concat(Object.keys(dr),Object.keys(rv)))];
+  const by={};for(const n of all){const c=DEX_softCat(n);(by[c]=by[c]||[]).push(n);}
+  DEX_head(el,'飲んだ飲み物',all.filter(hv).length,all.length);
+  for(const c of DEX_SOFTORD){const ns=by[c];if(!ns)continue;const got=ns.filter(hv).sort((a,b)=>(dr[b]||0)-(dr[a]||0));DEX_kind(el,c,got.length,ns.length,box=>DEX_chipList(box,got));}}
+{const DD0=DEX_drinks;DEX_drinks=function(el){try{DD0(document.createElement('div'));}catch(e){}// keeps the drink styles in place
+  DEX_alcohol(el);try{DEX_setmenus(el);}catch(e){}DEX_foods(el);DEX_softs(el);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -21459,14 +21502,14 @@ function renderDex(){const el=$('dexBody');if(!el||!S)return;dexSync();const D=S
   const ck=[];for(const part of['top','bottom','shoes','hat'])for(const k in KN[part])if(k!=='none')ck.push(part+':'+k);for(const k in COS)ck.push('cos:'+k);
   const PN={top:'トップス',bottom:'ボトムス',shoes:'くつ',hat:'ぼうし',cos:'衣装'};
   for(const part of['top','bottom','shoes','hat','cos']){const ks=ck.filter(k=>k.startsWith(part+':'));sec(`服：${PN[part]}`,ks,ks.filter(k=>D.c[k]),k=>clothIcon(k,D.c[k]),k=>{const kk=k.split(':')[1];return part==='cos'?COS[kk].n:KN[part][kk];});}
-  {const ks=[...GL_KEYS.map(k=>'gl:'+k),...SUNS.map((_,i)=>'sun:'+i),...NOSEG.map((_,i)=>'nose:'+i)];sec('服：メガネ',ks,ks.filter(k=>D.c[k]),ACC_icon,ACC_dexName);}
+  {const ks=[...SUNS.map((_,i)=>'sun:'+i),...NOSEG.map((_,i)=>'nose:'+i)];sec('服：サングラス・鼻メガネ',ks,ks.filter(k=>D.c[k]),ACC_icon,ACC_dexName);}
   {const ks=Object.keys(MASK2).map(k=>'mask:'+k);sec('服：お面',ks,ks.filter(k=>D.c[k]),ACC_icon,ACC_dexName);}
   {const ks=BIRDS.map(b=>b.k),B=S.birds||{};sec('島に来た鳥',ks,ks.filter(k=>B[k]),BD_icon,k=>BIRDK[k].n);}
   DEX_drinks(el);
-  const chips=(title,obj,rev)=>{obj=obj||{};const names=Object.keys(obj).sort((a,b)=>obj[b]-obj[a]),extra=Object.keys(rev||{}).filter(k=>!obj[k]);const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>${title}</h3><small>${names.length}種類${extra.length?'（名前だけ '+extra.length+'）':''}</small>`;el.append(h);
+  const chips=(title,obj,rev)=>{obj=obj||{};const names=Object.keys(obj).sort((a,b)=>obj[b]-obj[a]),extra=Object.keys(rev||{}).filter(k=>!obj[k]);const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>${title}</h3>`;el.append(h);
     if(!names.length&&!extra.length){const p=document.createElement('p');p.className='dexnone';p.textContent='まだありません';el.append(p);return;}const w=document.createElement('div');w.className='dexs';for(const n2 of names){const sp=document.createElement('span');sp.textContent=n2;w.append(sp);}
-    for(const n2 of extra){const sp=document.createElement('span');sp.textContent=n2;sp.style.opacity='.5';w.append(sp);}el.append(w);};
-  chips('食べた料理・おやつ',S.ate,S.dexFood);chips('飲んだ飲み物',S.drank,S.dexSoft);}
+    for(const n2 of extra){const sp=document.createElement('span');sp.textContent=n2;w.append(sp);}el.append(w);};
+  }
 /* ----- recycle (long-press without moving) ----- */
 const ESSENTIAL=new Set(['robovac','boombox','bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','bed2','wardrobe2','ksink']);
 let recyK=null;
