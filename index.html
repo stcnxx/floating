@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版436（2026/10/29 #286）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版438（2026/10/29 #288）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版436（2026/10/29 #286）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版438（2026/10/29 #288）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -22248,6 +22248,209 @@ function WC_dx(X,Y){try{const x=Math.round(X/T),y=Math.round(Y/T);return isWall(
 {const F=IN_face;IN_face=function(c,x,y,r,ft,nc){return F.call(this,c,x,y,r==='store'?'bed':r,ft,nc);};}
 {const F=floorTileC;floorTileC=function(c,r,x,y){return F.call(this,c,r==='store'?'bed':r,x,y);};}
 try{houseC.key='';}catch(e){}
+/* ========== v437 houseplants: high-quality redraw + tall plants ========== */
+const PL_lg=(x0,y0,x1,y1,st)=>{const q=g.createLinearGradient(x0,y0,x1,y1);for(const s of st)q.addColorStop(s[0],s[1]);return q;};
+const PL_rg=(x,y,r0,r1,st,x1,y1)=>{const q=g.createRadialGradient(x,y,r0,x1==null?x:x1,y1==null?y:y1,r1);for(const s of st)q.addColorStop(s[0],s[1]);return q;};
+const PL_h=(a,b,c)=>{let h=(a*374761393+b*668265263+(c||0)*2147483647)|0;h=(h^(h>>>13))*1274126177|0;return((h^(h>>>16))>>>0)/4294967296;};
+// --- pots ---------------------------------------------------------------
+const PL_POTS=[
+ {n:'白い陶器',k:'glaze',c:'#f1ede4'},{n:'テラコッタ',k:'terra',c:'#c8714a'},{n:'ブルーグレー',k:'glaze',c:'#5d7d98'},{n:'からし色',k:'glaze',c:'#d6a64a'},
+ {n:'コンクリート',k:'concrete',c:'#a7a39b'},{n:'ラタンかご',k:'basket',c:'#c9a46a'},{n:'黒マット',k:'matte',c:'#34363a'},{n:'グリーン釉',k:'glaze',c:'#6f9a7c'}];
+// pot: cx centre, by bottom, w top width, h height; returns soil y
+function PL_pot(cx,by,w,h,p){const k=p.k,c=p.c,tw=w/2,bw=w*.38,top=by-h;
+  // floor shadow
+  g.fillStyle=PL_rg(cx+1,by+.4,0,w*.62,[[0,'rgba(30,18,8,.34)'],[.7,'rgba(30,18,8,.12)'],[1,'rgba(30,18,8,0)']]);g.beginPath();g.ellipse(cx+1,by+.4,w*.62,w*.17,0,0,Math.PI*2);g.fill();
+  const body=()=>{g.beginPath();g.moveTo(cx-tw,top+1.2);g.bezierCurveTo(cx-tw+.2,top+h*.55,cx-bw-.6,by-1.6,cx-bw,by-.4);g.quadraticCurveTo(cx,by+.9,cx+bw,by-.4);g.bezierCurveTo(cx+bw+.6,by-1.6,cx+tw-.2,top+h*.55,cx+tw,top+1.2);g.closePath();};
+  if(k==='basket'){body();g.fillStyle=PL_lg(cx-tw,0,cx+tw,0,[[0,shade(c,-.32)],[.28,shade(c,.12)],[.6,c],[1,shade(c,-.42)]]);g.fill();
+    g.save();body();g.clip();
+    for(let r=0;r<h/1.25;r++){const yy=top+1.4+r*1.25;for(let i=-6;i<7;i++){const xx=cx+i*1.9+((r%2)?.95:0);g.fillStyle=`rgba(255,240,205,${.16+PL_h(i,r,3)*.14})`;g.beginPath();g.ellipse(xx,yy,.85,.42,0,0,Math.PI*2);g.fill();g.fillStyle='rgba(60,35,10,.22)';g.fillRect(xx+.8,yy-.5,.25,1);}}
+    g.restore();g.strokeStyle=shade(c,-.5);g.lineWidth=.3;body();g.stroke();
+    g.fillStyle=PL_lg(0,top-.4,0,top+2,[[0,shade(c,.25)],[1,shade(c,-.3)]]);rr(g,cx-tw-.5,top-.3,w+1,2.2,1.1);g.fill();
+    g.strokeStyle='rgba(70,40,15,.35)';g.lineWidth=.2;for(let i=0;i<13;i++){const xx=cx-tw+i*(w/12);g.beginPath();g.moveTo(xx,top-.2);g.lineTo(xx+.7,top+1.8);g.stroke();}
+    return top+.8;}
+  body();
+  if(k==='terra')g.fillStyle=PL_lg(cx-tw,0,cx+tw,0,[[0,shade(c,-.28)],[.22,shade(c,.14)],[.5,c],[1,shade(c,-.45)]]);
+  else if(k==='concrete')g.fillStyle=PL_lg(cx-tw,0,cx+tw,0,[[0,shade(c,-.25)],[.25,shade(c,.12)],[.55,c],[1,shade(c,-.4)]]);
+  else if(k==='matte')g.fillStyle=PL_lg(cx-tw,0,cx+tw,0,[[0,shade(c,.05)],[.3,shade(c,.28)],[.6,c],[1,shade(c,-.3)]]);
+  else g.fillStyle=PL_lg(cx-tw,0,cx+tw,0,[[0,shade(c,-.18)],[.18,shade(c,.32)],[.32,shade(c,.12)],[.62,c],[1,shade(c,-.42)]]);
+  g.fill();
+  g.save();body();g.clip();
+  // bottom shading + ambient
+  g.fillStyle=PL_lg(0,top,0,by,[[0,'rgba(0,0,0,0)'],[.7,'rgba(0,0,0,0)'],[1,'rgba(20,10,0,.22)']]);g.fillRect(cx-tw-1,top,w+2,h+1);
+  if(k==='terra'){for(let i=0;i<26;i++){g.fillStyle=`rgba(${PL_h(i,1,7)>.5?'255,220,190':'90,40,20'},${.08+PL_h(i,2,7)*.1})`;g.fillRect(cx-tw+PL_h(i,3,7)*w,top+PL_h(i,4,7)*h,.5,.4);}
+    g.fillStyle='rgba(255,255,255,.12)';g.fillRect(cx-tw,top+h*.62,w,.35);}
+  else if(k==='concrete'){for(let i=0;i<34;i++){g.fillStyle=`rgba(${PL_h(i,1,9)>.5?'255,255,255':'40,40,40'},${.1+PL_h(i,2,9)*.12})`;g.beginPath();g.arc(cx-tw+PL_h(i,3,9)*w,top+PL_h(i,4,9)*h,.22+PL_h(i,5,9)*.2,0,7);g.fill();}}
+  else if(k==='glaze'){g.fillStyle='rgba(255,255,255,.55)';rr(g,cx-tw*.62,top+2,.9,h*.62,.45);g.fill();g.fillStyle='rgba(255,255,255,.25)';rr(g,cx-tw*.4,top+2.4,.45,h*.4,.2);g.fill();
+    g.fillStyle='rgba(0,0,0,.08)';g.fillRect(cx-tw,by-2.2,w,2.2);}
+  else if(k==='matte'){g.fillStyle='rgba(255,255,255,.12)';rr(g,cx-tw*.6,top+2,1.2,h*.6,.6);g.fill();}
+  g.restore();g.strokeStyle='rgba(20,12,4,.35)';g.lineWidth=.25;body();g.stroke();
+  // rim
+  const rimC=k==='terra'?shade(c,.06):c;
+  g.fillStyle=PL_lg(cx-tw,0,cx+tw,0,[[0,shade(rimC,-.15)],[.2,shade(rimC,.35)],[.6,rimC],[1,shade(rimC,-.38)]]);rr(g,cx-tw-.55,top-.2,w+1.1,2.1,1);g.fill();
+  g.strokeStyle='rgba(20,12,4,.3)';g.lineWidth=.2;rr(g,cx-tw-.55,top-.2,w+1.1,2.1,1);g.stroke();
+  g.fillStyle='rgba(255,255,255,.35)';g.fillRect(cx-tw,top+.05,w,.3);
+  return top+.8;}
+function PL_soil(cx,sy,w,moss){g.fillStyle=PL_rg(cx,sy,0,w*.5,[[0,'#4a3020'],[1,'#2a1a10']]);g.beginPath();g.ellipse(cx,sy,w*.46,w*.12,0,0,Math.PI*2);g.fill();
+  for(let i=0;i<9;i++){g.fillStyle=moss&&i%3===0?'#6a8a3a':['#6b4a30','#8a6242','#3a2416'][i%3];g.beginPath();g.ellipse(cx-w*.36+PL_h(i,1,11)*w*.72,sy-.3+PL_h(i,2,11)*.6,.5,.25,0,0,7);g.fill();}}
+// --- leaf helpers -------------------------------------------------------
+// generic pointed leaf: base at (0,0) pointing +x; len, wid; light->dark colours
+function PL_leaf(x,y,ang,len,wid,c1,c2,o){o=o||{};g.save();g.translate(x,y);g.rotate(ang);const fold=o.fold||0;
+  g.beginPath();g.moveTo(0,0);g.bezierCurveTo(len*.25,-wid*1.05,len*.72,-wid*.85,len,0);g.bezierCurveTo(len*.72,wid*.85*(1-fold),len*.25,wid*1.05*(1-fold),0,0);g.closePath();
+  g.fillStyle=PL_lg(0,-wid,len*.3,wid,[[0,c1],[.55,shade(c2,.12)],[1,c2]]);g.fill();
+  if(o.edge){g.strokeStyle=o.edge;g.lineWidth=o.ew||.35;g.stroke();}
+  // dark half (lower side) for volume
+  g.save();g.clip();g.fillStyle='rgba(10,40,10,.18)';g.fillRect(0,0,len,wid*1.2);
+  if(o.vari){g.fillStyle=o.vari;for(let i=0;i<4;i++){g.beginPath();g.ellipse(len*(.25+i*.17),(i%2?-1:1)*wid*.35,len*.09,wid*.18,.5,0,7);g.fill();}}
+  g.restore();
+  g.strokeStyle=o.rib||'rgba(225,250,200,.55)';g.lineWidth=o.rw||.28;g.beginPath();g.moveTo(.3,0);g.quadraticCurveTo(len*.5,-wid*.06,len*.94,0);g.stroke();
+  if(o.veins){g.strokeStyle='rgba(225,250,200,.25)';g.lineWidth=.16;g.beginPath();for(let i=1;i<=o.veins;i++){const px=len*i/(o.veins+1.3);g.moveTo(px,-.05);g.lineTo(px+len*.12,-wid*.62);g.moveTo(px,.05);g.lineTo(px+len*.12,wid*.62*(1-fold));}g.stroke();}
+  g.fillStyle='rgba(255,255,255,.28)';g.beginPath();g.ellipse(len*.38,-wid*.38,len*.18,wid*.16,-.08,0,7);g.fill();
+  g.restore();}
+// monstera leaf: heart-ish with deep splits and holes
+function PL_monLeaf(x,y,ang,s,c1,c2){g.save();g.translate(x,y);g.rotate(ang);g.scale(s,s);
+  g.beginPath();g.moveTo(0,0);g.bezierCurveTo(1.4,-5.4,7.4,-6.2,10.2,-1.6);g.quadraticCurveTo(10.9,0,10.2,1.6);g.bezierCurveTo(7.4,6.2,1.4,5.4,0,0);g.closePath();
+  g.fillStyle=PL_lg(0,-6,4,6,[[0,c1],[.5,shade(c2,.15)],[1,c2]]);g.fill();g.save();g.clip();
+  g.fillStyle='rgba(8,36,10,.16)';g.fillRect(0,0,11,7);
+  // splits (cut to background by drawing with destination-out)
+  g.lineCap='round';
+  for(const[sx,sy,ex,ey]of[[2.6,-4.9,3.5,-1.9],[4.9,-5.6,5.6,-2.2],[7.2,-4.9,7.4,-1.8],[2.6,4.9,3.5,1.9],[4.9,5.6,5.7,2.1],[7.2,4.8,7.4,1.7]]){g.strokeStyle='#183a1a';g.lineWidth=.62;g.beginPath();g.moveTo(sx,sy*1.15);g.lineTo(ex,ey);g.stroke();g.strokeStyle='rgba(160,220,140,.45)';g.lineWidth=.16;g.beginPath();g.moveTo(sx+.35,sy*1.15);g.lineTo(ex+.35,ey);g.stroke();}
+  g.fillStyle='#183a1a';for(const[hx,hy]of[[4.0,-1.3],[6.3,1.25],[4.2,1.2],[6.2,-1.2]]){g.beginPath();g.ellipse(hx,hy,.6,.32,.3,0,7);g.fill();}
+  g.restore();
+  g.strokeStyle='rgba(225,250,205,.55)';g.lineWidth=.3;g.beginPath();g.moveTo(.3,0);g.quadraticCurveTo(5,-.2,9.8,0);g.stroke();
+  g.strokeStyle='rgba(225,250,205,.22)';g.lineWidth=.17;g.beginPath();for(let i=1;i<5;i++){const px=i*2;g.moveTo(px,0);g.lineTo(px+1,-4.4+i*.4);g.moveTo(px,0);g.lineTo(px+1,4.4-i*.4);}g.stroke();
+  g.fillStyle='rgba(255,255,255,.26)';g.beginPath();g.ellipse(3.6,-2.6,2.2,.8,-.25,0,7);g.fill();
+  g.restore();}
+function PL_stem(x0,y0,cx,cy,x1,y1,w,col){g.strokeStyle=col||'#3d6b2c';g.lineWidth=w;g.lineCap='round';g.beginPath();g.moveTo(x0,y0);g.quadraticCurveTo(cx,cy,x1,y1);g.stroke();
+  g.strokeStyle='rgba(200,240,170,.25)';g.lineWidth=w*.35;g.beginPath();g.moveTo(x0-w*.2,y0);g.quadraticCurveTo(cx-w*.2,cy,x1-w*.2,y1);g.stroke();}
+// --- small plants (1 tile, about 1.1 tiles tall) -------------------------
+// each: (cx, soil y, t)
+const PL_SMALL={
+ monstera:{n:'モンステラ',f(cx,sy,t){const sw=Math.sin(t*1.1)*.35;
+   const L=[[-9,-6,-2.8,.86],[9.4,-7.5,-.4,.88],[-6,-14,-2.25,.92],[6.5,-15,-.95,.95],[-1,-19,-1.7,.98],[2.5,-10,-1.2,.8]];
+   for(const[dx,dy]of L)PL_stem(cx+dx*.08,sy,cx+dx*.35,sy+dy*.55,cx+dx*.62+sw,sy+dy*.82,.55,'#41742f');
+   L.slice().sort((a,b)=>a[1]-b[1]).forEach(([dx,dy,a,s],i)=>PL_monLeaf(cx+dx*.62+sw,sy+dy*.82,a+Math.sin(t*1.3+i)*.03,s,'#86cc6c','#21592b'));}},
+ fern:{n:'ボストンファーン',f(cx,sy,t){const sw=Math.sin(t*1.2)*.35;
+   for(let i=0;i<13;i++){const a=-Math.PI/2+(i-6)*.27,len=10+(6-Math.abs(i-6))*1.4+PL_h(i,2,5)*2;const droop=Math.abs(i-6)*.9;
+     const ex=cx+Math.cos(a)*len+sw,ey=sy+Math.sin(a)*len*.78+droop*1.4,qx=cx+Math.cos(a)*len*.55,qy=sy+Math.sin(a)*len*.75-1.5;
+     PL_stem(cx,sy,qx,qy,ex,ey,.38,'#3f7a35');
+     for(let j=1;j<11;j++){const u=j/11,px=(1-u)*(1-u)*cx+2*u*(1-u)*qx+u*u*ex,py=(1-u)*(1-u)*sy+2*u*(1-u)*qy+u*u*ey;const ang=Math.atan2(2*(1-u)*(qy-sy)+2*u*(ey-qy),2*(1-u)*(qx-cx)+2*u*(ex-qx)),ll=2.6*(1-u*.55);
+       PL_leaf(px,py,ang-1.15,ll,.55,'#9bdc7c','#3c8a3f',{rib:'rgba(220,250,190,.3)',rw:.12});PL_leaf(px,py,ang+1.15,ll,.55,'#7ccc66','#2d6e2e',{rib:'rgba(220,250,190,.3)',rw:.12});}}}},
+ pothos:{n:'ポトス',f(cx,sy,t){const sw=Math.sin(t*1.0)*.3;
+   // trailing vines over the rim
+   for(const[dir,len]of[[-1,13],[1,11],[-1,8],[1,15]]){let px=cx+dir*3,py=sy;g.strokeStyle='#4f8a3a';g.lineWidth=.4;g.beginPath();g.moveTo(px,py);
+     const pts=[];for(let k=0;k<5;k++){px+=dir*(1.6-k*.15);py+=len/5;pts.push([px+sw*(k/5),py]);g.lineTo(px+sw*(k/5),py);}g.stroke();
+     pts.forEach(([x,y],k)=>PL_heart(x,y,dir*(.6+k*.2)+Math.PI/2,2.6-k*.25,k));}
+   // crown of heart leaves
+   const C=[[-5,-6,-2.6],[5,-7,-.5],[-2,-11,-2],[3,-12,-1.2],[0,-8,-1.6],[-6,-2,-3],[6,-3,.1]];
+   C.forEach(([dx,dy,a],i)=>{PL_stem(cx,sy,cx+dx*.4,sy+dy*.5,cx+dx+sw,sy+dy,.3,'#4f8a3a');PL_heart(cx+dx+sw,sy+dy,a,4.2,i);});}},
+ snake:{n:'サンスベリア',f(cx,sy,t){const B=[[-4.4,-.24,20],[-1.6,-.08,25],[1.4,.06,23],[4,.2,18],[-2.8,-.16,15],[2.8,.14,14],[0,0,19]];
+   B.forEach(([dx,lean,hh],i)=>{const bx=cx+dx,tx=bx+lean*hh*.5,ty=sy-hh,w=1.6+(i%2)*.4;g.beginPath();g.moveTo(bx-w,sy);g.quadraticCurveTo(bx-w*1.1+lean*4,sy-hh*.5,tx,ty);g.quadraticCurveTo(bx+w*1.1+lean*4,sy-hh*.5,bx+w,sy);g.closePath();
+     g.fillStyle=PL_lg(bx-w,0,bx+w,0,[[0,'#2f5a2a'],[.45,'#4e8a3e'],[1,'#1f4020']]);g.fill();
+     g.save();g.clip();for(let k=0;k<9;k++){const yy=sy-hh*(k+.5)/9;g.strokeStyle=`rgba(${k%2?'190,220,150':'20,50,20'},.35)`;g.lineWidth=.45;g.beginPath();g.moveTo(bx-w*1.2,yy+.4);g.quadraticCurveTo(bx,yy-.8,bx+w*1.2,yy+.3);g.stroke();}
+     g.strokeStyle='#d9cf6a';g.lineWidth=.55;g.beginPath();g.moveTo(bx-w,sy);g.quadraticCurveTo(bx-w*1.1+lean*4,sy-hh*.5,tx,ty);g.stroke();g.beginPath();g.moveTo(bx+w,sy);g.quadraticCurveTo(bx+w*1.1+lean*4,sy-hh*.5,tx,ty);g.stroke();
+     g.fillStyle='rgba(255,255,255,.18)';g.fillRect(bx-w*.4,sy-hh*.8,.4,hh*.7);g.restore();});}},
+};
+function PL_heart(x,y,ang,s,i){g.save();g.translate(x,y);g.rotate(ang);const c1=i%3===0?'#c9e27a':'#7cc45e',c2='#2e6a2c';
+  g.beginPath();g.moveTo(0,0);g.bezierCurveTo(-s*.15,-s*.55,s*.55,-s*.62,s,0);g.bezierCurveTo(s*.55,s*.62,-s*.15,s*.55,0,0);g.closePath();
+  g.fillStyle=PL_lg(0,-s*.5,s*.4,s*.5,[[0,c1],[1,c2]]);g.fill();
+  g.save();g.clip();g.fillStyle='rgba(250,245,200,.45)';g.beginPath();g.ellipse(s*.45,-s*.12,s*.22,s*.08,.4,0,7);g.fill();g.fillStyle='rgba(10,40,10,.15)';g.fillRect(0,0,s,s);g.restore();
+  g.strokeStyle='rgba(225,250,200,.45)';g.lineWidth=.18;g.beginPath();g.moveTo(.2,0);g.lineTo(s*.9,0);g.stroke();g.restore();}
+// --- tall plants (1 tile, about 2.3 tiles tall) --------------------------
+const PL_TALL={
+ umbellata:{n:'ウンベラータ',f(cx,sy,t){const sw=Math.sin(t*.9)*.5;
+   // slender trunk with a gentle bend
+   g.strokeStyle=PL_lg(cx-1,0,cx+1,0,[[0,'#7a6a52'],[.5,'#a8977a'],[1,'#5a4a38']]);g.lineWidth=1.3;g.lineCap='round';g.beginPath();g.moveTo(cx,sy);g.bezierCurveTo(cx+1.5,sy-14,cx-1.8,sy-26,cx+.5+sw*.4,sy-36);g.stroke();
+   for(const[bx,by,ex,ey]of[[0,-22,-6,-32],[.3,-27,7,-37],[-.5,-31,-4,-42],[.5,-35,3,-46]]){g.strokeStyle='#7d6c55';g.lineWidth=.6;g.beginPath();g.moveTo(cx+bx,sy+by);g.quadraticCurveTo(cx+(bx+ex)/2,sy+by-3,cx+ex+sw,sy+ey);g.stroke();}
+   const LV=[[-8,-30,2.4],[-10,-36,2.9],[-4,-41,2.2],[2,-47,1.6],[8,-41,.9],[9,-34,.3],[5,-29,.6],[-2,-35,2],[3,-38,1.2],[-6,-45,2.5],[6,-46,1.1],[0,-42,1.6]];
+   LV.forEach(([dx,dy,a],i)=>{const x=cx+dx+sw,y=sy+dy;g.save();g.translate(x,y);g.rotate(a+Math.PI/2+Math.sin(t*1.2+i)*.04);const s=5.6+PL_h(i,1,21)*1.4;
+     g.beginPath();g.moveTo(0,-s*.1);g.bezierCurveTo(-s*.95,-s*.95,-s*1.05,s*.55,0,s*.95);g.bezierCurveTo(s*1.05,s*.55,s*.95,-s*.95,0,-s*.1);g.closePath();
+     g.fillStyle=PL_lg(-s,-s,s,s,[[0,'#9ad86e'],[.5,'#5aa646'],[1,'#2b6a2a']]);g.fill();g.save();g.clip();g.fillStyle='rgba(10,40,10,.18)';g.fillRect(0,-s,s,2*s);
+     g.strokeStyle='rgba(230,250,200,.5)';g.lineWidth=.3;g.beginPath();g.moveTo(0,-s*.05);g.lineTo(0,s*.85);g.stroke();
+     g.strokeStyle='rgba(230,250,200,.25)';g.lineWidth=.18;g.beginPath();for(let k=1;k<4;k++){g.moveTo(0,s*k*.2);g.lineTo(-s*.6,s*(k*.2-.25));g.moveTo(0,s*k*.2);g.lineTo(s*.6,s*(k*.2-.25));}g.stroke();
+     g.fillStyle='rgba(255,255,255,.25)';g.beginPath();g.ellipse(-s*.35,-s*.15,s*.25,s*.12,-.6,0,7);g.fill();g.restore();g.restore();});}},
+ pachira:{n:'パキラ',f(cx,sy,t){const sw=Math.sin(t)*.45;
+   // braided trunk
+   for(let s=0;s<3;s++){g.strokeStyle=PL_lg(cx-2,0,cx+2,0,[[0,'#6e8048'],[.5,'#9aa86a'],[1,'#56653a']]);g.lineWidth=1.15;g.beginPath();for(let k=0;k<=24;k++){const yy=sy-k*1.2,xx=cx+Math.sin(k*.42+s*2.1)*1.1;k?g.lineTo(xx,yy):g.moveTo(xx,yy);}g.stroke();}
+   g.fillStyle='rgba(0,0,0,.12)';for(let k=0;k<8;k++)g.fillRect(cx-1.4,sy-3-k*3.4,2.8,.3);
+   const HD=[[-7,-34,-2.4],[7,-35,-.7],[0,-42,-1.57],[-9,-41,-2.1],[9,-42,-1],[-3,-47,-1.8],[4,-47,-1.3],[0,-31,-1.57]];
+   for(const[dx,dy,a]of HD){const x=cx+dx*.55+sw,y=sy+dy+6;PL_stem(cx+sw*.3,sy-28,cx+dx*.3,sy+dy+2,x+Math.cos(a)*2,y+Math.sin(a)*2,.35,'#577a33');
+     for(let k=0;k<5;k++){const la=a+(k-2)*.42;PL_leaf(x+Math.cos(a)*2,y+Math.sin(a)*2,la,5.4-Math.abs(k-2)*.6,1.4,'#8fd06a','#2c6c2a',{veins:3});}}}},
+ olive:{n:'オリーブの木',f(cx,sy,t){const sw=Math.sin(t*.8)*.5;
+   g.strokeStyle=PL_lg(cx-2,0,cx+2,0,[[0,'#5c5142'],[.5,'#8a7c66'],[1,'#463d32']]);g.lineWidth=1.6;g.lineCap='round';g.beginPath();g.moveTo(cx,sy);g.bezierCurveTo(cx-2,sy-10,cx+2.2,sy-18,cx-.3,sy-26);g.stroke();
+   const BR=[[-.3,-26,-9,-38],[-.3,-26,8,-40],[-.3,-26,-2,-48],[-.5,-24,-11,-30],[-.2,-25,10,-31]];
+   for(const[bx,by,ex,ey]of BR){g.strokeStyle='#6e6150';g.lineWidth=.7;g.beginPath();g.moveTo(cx+bx,sy+by);g.quadraticCurveTo(cx+(bx+ex)*.45,sy+(by+ey)*.5-2,cx+ex+sw,sy+ey);g.stroke();}
+   // airy clusters of narrow silver leaves
+   const CL=[[-9,-38],[8,-40],[-2,-48],[-11,-31],[10,-32],[-5,-43],[4,-45],[0,-36],[-7,-34],[6,-35]];
+   CL.forEach(([dx,dy],i)=>{for(let k=0;k<9;k++){const a=PL_h(i,k,31)*Math.PI*2,r=PL_h(k,i,32)*3.4;const x=cx+dx+sw+Math.cos(a)*r,y=sy+dy+Math.sin(a)*r*.8;
+     PL_leaf(x,y,a+.3,3.4,.55,k%3?'#a9c2a0':'#cfdcc6','#55705a',{rib:'rgba(240,250,235,.4)',rw:.12});}
+     if(i%3===0){g.fillStyle='#3b3d2a';g.beginPath();g.ellipse(cx+dx+sw+1,sy+dy+1.5,.55,.7,0,0,7);g.fill();g.fillStyle='rgba(255,255,255,.4)';g.fillRect(cx+dx+sw+.8,sy+dy+1.1,.2,.25);}});}},
+ strelitzia:{n:'ストレリチア',f(cx,sy,t){const sw=Math.sin(t*.9)*.5;
+   const P=[[-.5,-2.75,34],[.4,-1.9,38],[-.2,-2.3,44],[.2,-1.35,30],[-.4,-2.05,26],[.1,-1.65,41]];
+   P.forEach(([dx,a,len],i)=>{const ex=cx+Math.cos(a)*len*.42+sw,ey=sy+Math.sin(a)*len;
+     g.strokeStyle='#4a7a3a';g.lineWidth=.8;g.beginPath();g.moveTo(cx+dx,sy);g.quadraticCurveTo(cx+dx+Math.cos(a)*4,sy+Math.sin(a)*len*.5,ex,ey);g.stroke();
+     // paddle leaf at the top of each petiole
+     const la=a+(a<-1.57?-.25:.25);PL_leaf(ex,ey,la,13,3.3,'#7cbc6a','#24582e',{veins:6,edge:'rgba(20,50,20,.35)',ew:.25,fold:.15});});}},
+ areca:{n:'アレカヤシ',f(cx,sy,t){const sw=Math.sin(t*1.1)*.6;
+   const ST=[[-1.2,-1.75,40],[1,-1.4,44],[0,-1.6,48],[-2,-2.05,34],[2,-1.15,36]];
+   ST.forEach(([dx,a,len],si)=>{const bx=cx+dx;g.strokeStyle=PL_lg(bx-1,0,bx+1,0,[[0,'#8a9a4a'],[1,'#5a6a2a']]);g.lineWidth=.9;g.beginPath();g.moveTo(bx,sy);g.lineTo(bx+Math.cos(a)*len*.25,sy-len*.45);g.stroke();
+     const ox=bx+Math.cos(a)*len*.25,oy=sy-len*.45;
+     // arching frond
+     const ex=ox+Math.cos(a)*len*.5+sw,ey=oy+Math.sin(a)*len*.35+6,qx=ox+Math.cos(a)*len*.22,qy=oy-len*.32;
+     g.strokeStyle='#6a8a3a';g.lineWidth=.45;g.beginPath();g.moveTo(ox,oy);g.quadraticCurveTo(qx,qy,ex,ey);g.stroke();
+     for(let j=1;j<15;j++){const u=j/15,px=(1-u)*(1-u)*ox+2*u*(1-u)*qx+u*u*ex,py=(1-u)*(1-u)*oy+2*u*(1-u)*qy+u*u*ey;const ang=Math.atan2(2*(1-u)*(qy-oy)+2*u*(ey-qy),2*(1-u)*(qx-ox)+2*u*(ex-qx)),ll=5.2*(1-u*.5);
+       PL_leaf(px,py,ang-.75+.35,ll,.45,'#9bd46e','#3b7c34',{rib:'rgba(230,250,190,.35)',rw:.1});PL_leaf(px,py,ang+.75+.35,ll,.45,'#86c560','#2f6a2c',{rib:'rgba(230,250,190,.35)',rw:.1});}});}},
+};
+// one plant on a tile: X,Y tile origin (base at Y+20)
+function PL_draw(X,Y,kind,pot,t,tall){const cx=X+12,by=Y+20.5;const P=PL_POTS[pot%PL_POTS.length];
+  const w=tall?14:13.5,h=tall?10.5:10;
+  g.save();const sy=PL_pot(cx,by,w,h,P);PL_soil(cx,sy,w,kind==='snake');
+  const spec=(tall?PL_TALL:PL_SMALL)[kind],k=tall?1.12:1.38;g.translate(cx,sy);g.scale(k,k);g.translate(-cx,-sy);spec.f(cx,sy,t||0);g.restore();}
+// --- v437 glue: 観葉植物（小）/（大）, cached sprites, long-press picker ---
+const PLK_S=Object.keys(PL_SMALL),PLK_T=Object.keys(PL_TALL),PL_NP=PL_POTS.length,PL_OLDPOT=[1,0,2,3];
+const PL_isS=k=>/^plant(_\d+)?$/.test(k),PL_isT=k=>/^plantL(_\d+)?$/.test(k),PL_is=k=>PL_isS(k)||PL_isT(k);
+function PL_sel(k,L){const tall=PL_isT(k),ks=tall?PLK_T:PLK_S;L=L||{};let pk=L.pk,pp=L.pp;
+  if(pk==null||!ks.includes(pk)||pp==null){const v=(L.v||0)%4;const live=S&&S.layout&&S.layout[k]===L;
+    if(live&&S.plV437){pk=ks[Math.floor(Math.random()*ks.length)];pp=Math.floor(Math.random()*PL_NP);}
+    else{pk=tall?ks[v%ks.length]:(v%2?'fern':'monstera');pp=tall?(v*3)%PL_NP:PL_OLDPOT[v];}
+    if(live){L.pk=pk;L.pp=pp;}}
+  return{pk,pp:((pp%PL_NP)+PL_NP)%PL_NP,tall};}
+const PL_SPR={};
+function PL_sprite(tall,pk,pp){const sc=Z*Math.min((typeof DPR==='number'?DPR:1)||1,2),key=(tall?'T':'S')+pk+'|'+pp+'|'+sc;let e=PL_SPR[key];if(e)return e;
+  const x0=-27,y0=tall?-80:-50,w=54,h=(tall?80:50)+16;const cv=document.createElement('canvas');cv.width=Math.ceil(w*sc);cv.height=Math.ceil(h*sc);const c=cv.getContext('2d');
+  if(c){const old=g;g=c;try{c.scale(sc,sc);c.translate(-x0,-y0);PL_draw(-12,-20.5,pk,pp,0,tall);}catch(err){}finally{g=old;}}
+  e={cv,x0,y0,w,h};PL_SPR[key]=e;return e;}
+function PL_drawK(k){return function(X,Y,Wd,Dp,L,t){try{const s=PL_sel(k,L),sp=PL_sprite(s.tall,s.pk,s.pp);const cx=X+12,by=Y+20.5;
+  const sw=Math.sin((t||0)*1.05+((L&&L.x)||0)*1.7)*(s.tall?.014:.009);g.save();
+  // leaves stop at a side wall / the front wall instead of spilling over it
+  try{const tx=Math.round(X/T),ty=Math.round(Y/T),wl=isWall(tx-1,ty),wr=isWall(tx+1,ty),wb=isWall(tx,ty+1)&&!roomAt(tx,ty+2);
+    if(wl||wr||wb){g.beginPath();g.rect(wl?X:X-60,Y-240,(wl?0:60)+T+(wr?0:60),240+T+(wb?0:60));g.clip();g.translate(wr&&!wl?-1.5:wl&&!wr?1.5:0,0);}}catch(e){}
+  g.translate(cx,by);g.transform(1,0,sw,1,0,0);g.drawImage(sp.cv,sp.x0,sp.y0,sp.w,sp.h);g.restore();}catch(e){}};}
+// the small one keeps its key ("plant"); the large one is new
+FT.plant.n='観葉植物（小）';
+FT.plantL=F('観葉植物（大）',1,1,'free',FT.plant.rooms.slice(),{tall:1});
+try{ALLK.push('plantL');}catch(e){}try{NOSTORE.add('plantL');}catch(e){}
+{const fam=['plantL'];for(let i=2;i<=MC_MAX;i++){const key='plantL_'+i;MC_clone('plantL',key);fam.push(key);}RO_FAM.push(fam);RO_FAMN.plantL='観葉植物（大）';}
+try{RO_FAMN.plant='観葉植物（小）';}catch(e){}
+for(const k of Object.getOwnPropertyNames(FT)){if(!PL_is(k)||!FT[k])continue;FT[k].draw=PL_drawK(k);if(PL_isS(k))FT[k].n='観葉植物（小）';else FT[k].n='観葉植物（大）';PAT_K[k]='plant';}
+try{dPlant=FT.plant.draw;}catch(e){}
+// existing plants keep their look (shape + pot colour from before)
+function PL_mig(){try{if(!S||!S.layout||S.plV437)return;for(const k in S.layout){if(PL_is(k))PL_sel(k,S.layout[k]);}S.plV437=1;try{save();}catch(e){}}catch(e){}}
+setTimeout(PL_mig,400);setInterval(PL_mig,1000);
+// picker: every plant x every pot
+{const PLs=patList;patList=function(k){if(patType(k)!=='plant')return PLs.apply(this,arguments);const ks=PL_isT(k)?PLK_T:PLK_S,T2=PL_isT(k)?PL_TALL:PL_SMALL,o=[];
+  ks.forEach((pk,ki)=>PL_POTS.forEach((p,pi)=>o.push({i:ki*PL_NP+pi,n:`${T2[pk].n}・${p.n}`})));return o;};}
+{const PC=patCur;patCur=function(k){if(patType(k)!=='plant')return PC.apply(this,arguments);const s=PL_sel(k,S.layout[k]),ks=s.tall?PLK_T:PLK_S;return Math.max(0,ks.indexOf(s.pk))*PL_NP+s.pp;};}
+{const PS=patSet;patSet=function(k,i){if(patType(k)!=='plant')return PS.apply(this,arguments);const L=S.layout[k];if(!L)return;const ks=PL_isT(k)?PLK_T:PLK_S;L.pk=ks[Math.floor(i/PL_NP)]||ks[0];L.pp=i%PL_NP;};}
+{const PN=patName;patName=function(k,i){if(patType(k)!=='plant')return PN.apply(this,arguments);const ks=PL_isT(k)?PLK_T:PLK_S,T2=PL_isT(k)?PL_TALL:PL_SMALL,pk=ks[Math.floor(i/PL_NP)]||ks[0];return`${T2[pk].n}・${PL_POTS[i%PL_NP].n}`;};}
+{const PT=patThumb;patThumb=function(k,i,cw,ch){if(patType(k)!=='plant')return PT.apply(this,arguments);const c2=document.createElement('canvas'),s2=2;c2.width=cw*s2;c2.height=ch*s2;const x=c2.getContext('2d');
+  try{x.scale(s2,s2);x.fillStyle=PL_lg?'#efe6d6':'#eee';x.fillRect(0,0,cw,ch);x.fillStyle='#e2d3b8';x.fillRect(0,ch*.72,cw,ch*.28);
+    const tall=PL_isT(k),ks=tall?PLK_T:PLK_S,sp=PL_sprite(tall,ks[Math.floor(i/PL_NP)]||ks[0],i%PL_NP);const s=(ch-4)/(sp.h-4);
+    x.drawImage(sp.cv,cw/2+sp.x0*s,ch-6+sp.y0*s+0,sp.w*s,sp.h*s);}catch(e){}return c2;};}
+{const PO=patOpen;patOpen=function(k){const r=PO.apply(this,arguments);try{if(patType(k)==='plant'){const h=$('patH');if(h)h.textContent=(PL_isT(k)?'観葉植物（大）':'観葉植物（小）')+'の種類と鉢を選ぶ';}}catch(e){}return r;};}
+{const RA=recycleAsk;recycleAsk=function(k,sc){const r=RA.apply(this,arguments);try{if(sc==='in'&&PL_is(k)){const b=$('pmPat');if(b)b.textContent='🪴 種類と鉢を選びなおす';const h=$('pmH');if(h)h.textContent=`「${FT[k].n}」をどうする？`;}}catch(e){}return r;};}
+// watering: any of the plants
+{const W0=A.water;A.water=function(){try{if(!has('plant')){const k=['plantL'].concat(Object.getOwnPropertyNames(FT).filter(x=>PL_is(x)&&x!=='plant'&&x!=='plantL')).find(x=>has(x)&&S.layout[x]&&!S.layout[x].carry);
+  if(k)return[...goF(k),FN(()=>C.holding='can'),SAY('観葉植物にお水をあげよう'),W8(3.5),FN(()=>{C.holding=null;S.plantDay=now().toDateString();}),SAY(pick(['葉っぱがつやつやしてきた','大きく育ってね']))];}}catch(e){}return W0.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
