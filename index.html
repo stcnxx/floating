@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版423（2026/10/28 #273）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版436（2026/10/29 #286）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版423（2026/10/28 #273）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版436（2026/10/29 #286）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -378,7 +378,7 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
 'use strict';
 /* ========== basics ========== */
 const T=24,W=384,Z=2;let H=600;
-const XS=8,HW=20+XS,IN={w:HW,h:23},OG={w:24,h:28};
+const XS=8,YS=2,HW=20+XS,IN={w:HW,h:25},OG={w:24,h:28};
 const GW=sc=>sc==='out'?OG.w:IN.w,GH=sc=>sc==='out'?OG.h:IN.h;
 const $=id=>document.getElementById(id);
 const cv=$('cv');let g=cv.getContext('2d');
@@ -436,30 +436,31 @@ const NEED_LABEL={hunger:'おなか',energy:'元気',hygiene:'清潔',bladder:'�
 /* ========== house plan ========== */
 // top band: bedroom x1-10 / compact toilet x12-13 (y5-8) / compact bath x15-18 (y3-8) ; wall row y9 ; living x1-11 / kitchen x13-18 (y10-20)
 // living + bedroom were widened by XS columns (x=11..10+XS); everything east of them is shifted by XS
-function roomAt(x,y){if(x<1||x>HW-2||y<2||y>20)return null;if(x>10&&x<=10+XS)return y<=8?'bed':y===9?null:'liv';return roomAt0(x>10?x-XS:x,y);}
+function roomAt(x,y){if(x<1||x>HW-2||y<2||y>22)return null;if(x>10&&x<=10+XS)return y<=10?'bed':y===11?null:'liv';return roomAt0(x>10?x-XS:x,y);}
 function roomAt0(x,y){
-  if(y<=8){if(x<=10)return'bed';if(x===11)return y===3?'bed':null;if(x===12||x===13)return y>=5?'wc':y<=3?'store':null;if(x===14)return y===7?'dress':null;if(x>=15){if(y>=2&&y<=5)return'bath';if(y===6)return x===16?'bath':null;if(y>=7)return'dress';}return null;}
-  if(y===9){if(x===5)return'bed';if(x===17)return'dress';return null;}
-  if(x<=10)return'liv';if(x===11)return(y===14||y===15)?'liv':null;return'kit';
+  // v428: upper band is rows 2-10 (bedroom +2, storage +1 / toilet +1, bath +1 / dressing room +1), middle wall row 11, lower band rows 12-22
+  if(y<=10){if(x<=10)return'bed';if(x===11)return y===3?'bed':null;if(x===12||x===13)return y<=4?'store':y===5?null:'wc';if(x===14)return y===8?'dress':null;if(x>=15){if(y<=6)return'bath';if(y===7)return x===16?'bath':null;return'dress';}return null;}
+  if(y===11){if(x===5)return'bed';if(x===17)return'dress';return null;}
+  if(x<=10)return'liv';if(x===11)return(y===16||y===17)?'liv':null;return'kit';
 }
 const ROOM_NAME={bed:'寝室',wc:'トイレ',bath:'お風呂',dress:'脱衣所',liv:'リビング',kit:'キッチン'};
-const isHouseCell=(x,y)=>x>=0&&x<=HW-1&&y>=1&&y<=21;
+const isHouseCell=(x,y)=>x>=0&&x<=HW-1&&y>=1&&y<=23;
 const isWall=(x,y)=>isHouseCell(x,y)&&!roomAt(x,y);
-const isOuterWall=(x,y)=>isHouseCell(x,y)&&(x===0||x===HW-1||y===1||y===21);
-const IN_ENTRY={x:5,y:20};
+const isOuterWall=(x,y)=>isHouseCell(x,y)&&(x===0||x===HW-1||y===1||y===23);
+const IN_ENTRY={x:5,y:22};
 const SX=s=>{const[x,y]=s.split(',').map(Number);return(x>10?x+XS:x)+','+y;};
-const DOORCELL=new Set(['5,9','17,9','16,6','14,7','11,14','11,15','11,3'].map(SX));
-const DOORFLOOR=Object.fromEntries(Object.entries({'5,9':'bed','17,9':'dress','16,6':'bath','14,7':'dress','11,14':'liv','11,15':'liv','11,3':'bed'}).map(([k,v])=>[SX(k),v]));
-const KEEP=new Set(['5,8','5,10','16,5','16,7','13,7','15,7','17,8','17,10','10,14','10,15','12,14','12,15','5,20','5,19','4,20','6,20','12,3'].map(SX));KEEP.add((10+XS)+',3');
-const WINDOWS=[[3,1],[7,1],[10,1],[17,1],[0,5],[0,13],[0,17],[19,4],[19,7],[19,12],[19,17],[2,21],[9,21],[15,21],[17,21]].map(([x,y])=>[x>10?x+XS:x,y]).concat([[13,1],[17,1],[12,21],[16,21]]);
+const DOORCELL=new Set(['5,11','17,11','16,7','14,8','11,16','11,17','11,3'].map(SX));
+const DOORFLOOR=Object.fromEntries(Object.entries({'5,11':'bed','17,11':'dress','16,7':'bath','14,8':'dress','11,16':'liv','11,17':'liv','11,3':'bed'}).map(([k,v])=>[SX(k),v]));
+const KEEP=new Set(['5,10','5,12','16,6','16,8','13,8','15,8','17,10','17,12','10,16','10,17','12,16','12,17','5,22','5,21','4,22','6,22','12,3'].map(SX));KEEP.add((10+XS)+',3');
+const WINDOWS=[[3,1],[7,1],[10,1],[17,1],[0,5],[0,15],[0,19],[19,4],[19,8],[19,14],[19,19],[2,23],[9,23],[15,23],[17,23]].map(([x,y])=>[x>10?x+XS:x,y]).concat([[13,1],[17,1],[12,23],[16,23]]);
 const WINSET=new Set(WINDOWS.map(w=>w.join(',')));
 const DIRS=[[0,1],[1,0],[0,-1],[-1,0]];
 const WALLSPOTS=[];
-for(let y=1;y<=20;y++)for(let x=0;x<=HW-1;x++){
+for(let y=1;y<=22;y++)for(let x=0;x<=HW-1;x++){
   if(!isWall(x,y))continue;const r=roomAt(x,y+1);if(!r||DOORCELL.has(x+','+(y+1)))continue;
   if(WINSET.has(x+','+y)||DOORCELL.has((x-1)+','+y)||DOORCELL.has((x+1)+','+y))continue;WALLSPOTS.push({x,y,r});}
 // side walls: item hangs on the east face (room to the east) or the west face
-for(let y=2;y<=20;y++)for(let x=0;x<=HW-1;x++){if(!isWall(x,y)||roomAt(x,y+1)||WINSET.has(x+','+y)||DOORCELL.has(x+','+(y-1))||DOORCELL.has(x+','+(y+1)))continue;
+for(let y=2;y<=22;y++)for(let x=0;x<=HW-1;x++){if(!isWall(x,y)||roomAt(x,y+1)||WINSET.has(x+','+y)||DOORCELL.has(x+','+(y-1))||DOORCELL.has(x+','+(y+1)))continue;
   if(!isWall(x,y-1)&&!roomAt(x,y-1))continue;
   for(const[side,dx]of[['e',1],['w',-1]]){const r=roomAt(x+dx,y);if(!r||DOORCELL.has((x+dx)+','+y))continue;if(isWall(x,y-1)&&roomAt(x,y-1))continue;WALLSPOTS.push({x,y,r,side});}}
 const wkey=p=>p.x+','+p.y+(p.side||'');
@@ -775,7 +776,7 @@ const FT={
   stars:F('星座のポスター',1,1,'wall',['bed'],{draw:wStars}),
   mirror:F('丸い鏡',1,1,'wall',['bath','wc','bed','dress'],{draw:wMirror}),
   cork:F('コルクボード',1,1,'wall',['bed','kit'],{draw:wCork}),
-  bar:F('バーカウンター',2,1,'free',['liv','kit'],{use:'front',snap:L=>{const u=useTileFor('bar',L);return u?(u.d==='down'?{px:(u.x+.5)*T,py:u.y*T+17,pose:'stand',d:'down'}:{px:(u.x+.5)*T,py:u.y*T+12,pose:'sit',d:'up'}):null;},draw:dBar,parts:pBar}),
+  bar:F('バーカウンター',2,1,'free',['liv','kit'],{use:'front',snap:L=>{const u=useTileFor('bar',L);return u?(u.d==='down'?{px:(u.x+.5)*T,py:u.y*T+17,pose:'stand',d:'down'}:{px:(u.x+.5)*T,py:u.y*T+12-BS_SIT,pose:'sit',d:'up'}):null;},draw:dBar,parts:pBar}),
   liquor:F('酒の棚',2,1,'back',['liv','kit'],{tall:1,use:'front',draw:dLiquor}),
   radio:F('ラジオ',1,1,'back',['liv','bed','kit'],{use:'front',draw:dRadioF}),
   musicbox:F('オルゴール',1,1,'top',['bed','liv'],{draw:oMusicbox}),
@@ -1422,11 +1423,11 @@ function bubbleTick(){const bb=$('bubble');
   const tn=performance.now(),until=lastSayAt+typing.full.length/28*1000+(typing.link?9000:5200);
   if(tn>until){if(!bb.classList.contains('fade'))bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
   bb.hidden=false;bb.classList.remove('fade');
-  const cp=charPos(),hd=C.pose==='lie'?16:C.pose==='bath'?26:C.pose==='sit'?41:45;posBubble(bb,cp.cx,cp.by,hd);}
+  const cp=charPos(),hd=(C.pose==='lie'?16:C.pose==='bath'?26:C.pose==='sit'?41:45)*CH_SC;posBubble(bb,cp.cx,cp.by,hd);}
 /* show the speaker's name inside the bubble when the speaker is not visible on screen */
 function bubbleName(id,name,cx,by,h){const el=$(id);if(!el)return;const k=cv.clientWidth/W,sx=((cx-cam.x)*Z+W/2)*k,top=((by-h-cam.y)*Z+H/2)*k,bot=((by-cam.y)*Z+H/2)*k,sw=cv.clientWidth,sh=cv.clientHeight;
   const off=sx<4||sx>sw-4||bot<10||top>sh-10;const show=off&&!!name;if(el.parentNode&&el.parentNode.classList)el.parentNode.classList.toggle('offs',off);if(el.hidden===show){el.hidden=!show;}if(show&&el.textContent!==name)el.textContent=name;}
-function posBubble(bb,cx,by,hd){const k=cv.clientWidth/W,cp={cx,by};
+const CH_SC=1.1;function posBubble(bb,cx,by,hd){const k=cv.clientWidth/W,cp={cx,by};
   const sx=((cp.cx-cam.x)*Z+W/2)*k,sy=((cp.by-hd-cam.y)*Z+H/2)*k,bw=bb.offsetWidth,bh=bb.offsetHeight,sw=cv.clientWidth;
   let left=clamp(sx-bw/2,8,Math.max(8,sw-bw-8)),top=sy-bh-9,below=false;
   if(top<6){top=((cp.by+6-cam.y)*Z+H/2)*k+9;below=true;}
@@ -1513,20 +1514,28 @@ function refreshOcc(){OCC=occSet();}
 const walkIn=(x,y)=>!!roomAt(x,y)&&!OCC.has(x+','+y);
 function reachOcc(occ){const s0=IN_ENTRY.x+','+IN_ENTRY.y;if(occ.has(s0))return null;const seen=new Set([s0]),q=[[IN_ENTRY.x,IN_ENTRY.y]];
   while(q.length){const[x,y]=q.pop();for(const[dx,dy]of DIRS){const nx=x+dx,ny=y+dy,key=nx+','+ny;if(seen.has(key)||!roomAt(nx,ny)||occ.has(key))continue;seen.add(key);q.push([nx,ny]);}}
-  const o=new Set(occ);let free=0;for(let y=2;y<=20;y++)for(let x=1;x<=HW-2;x++){const kk=x+','+y;if(roomAt(x,y)&&!occ.has(kk)){if(seen.has(kk))free++;else o.add(kk);}}return free>=12?o:null;}
+  const o=new Set(occ);let free=0;for(let y=2;y<=22;y++)for(let x=1;x<=HW-2;x++){const kk=x+','+y;if(roomAt(x,y)&&!occ.has(kk)){if(seen.has(kk))free++;else o.add(kk);}}return free>=12?o:null;}
 function reachPk(occ){const o=reachOcc(occ);return o?o.size-occ.size:0;}
 function allReachable(occ){
-  let total=0;for(let y=2;y<=20;y++)for(let x=1;x<=HW-2;x++)if(roomAt(x,y)&&!occ.has(x+','+y))total++;
+  let total=0;for(let y=2;y<=22;y++)for(let x=1;x<=HW-2;x++)if(roomAt(x,y)&&!occ.has(x+','+y))total++;
   const s0=IN_ENTRY.x+','+IN_ENTRY.y;if(occ.has(s0))return false;
   const seen=new Set([s0]),q=[[IN_ENTRY.x,IN_ENTRY.y]];
   while(q.length){const[x,y]=q.pop();for(const[dx,dy]of DIRS){const nx=x+dx,ny=y+dy,key=nx+','+ny;if(seen.has(key)||!roomAt(nx,ny)||occ.has(key))continue;seen.add(key);q.push([nx,ny]);}}
   return seen.size===total;}
+const BS_DY=4,BS_SIT=6;/* v428: old (pre-extension) house rows -> new rows */
+function VH_map(x,y){const ox=(x>10&&x<=10+XS)?5:(x>10?x-XS:x);if(y>=9)return y+2;if(ox<=11)return y;if(ox===12||ox===13)return y<=3?y:y+1;if(ox===14)return y+1;return y<=5?y:y+1;}
+function VH_migrate(){if(!S)return;const mp=L=>{if(!L||typeof L.x!=='number'||typeof L.y!=='number'||L.on)return;
+    if(L.wall){if(L.side){const fx=L.x+(L.side==='e'?1:-1);L.y=VH_map(fx,L.y);}else L.y=VH_map(L.x,L.y+1)-1;}else L.y=VH_map(L.x,L.y);};
+  for(const k in S.layout||{})mp(S.layout[k]);if(S.delivery&&S.delivery.p)mp(S.delivery.p);
+  if(S.pos&&S.pos.sc==='in'&&typeof S.pos.y==='number')S.pos.y=VH_map(S.pos.x,S.pos.y);
+  try{houseC.key='';}catch(e){}}
+function WH_hid(x,y){try{return !!roomAt(x,y)&&isWall(x,y+1)&&!DOORCELL.has(x+','+(y+1))&&!!roomAt(x,y+2);}catch(e){return false;}}
 const barWall=p=>isWall(p.x,p.y-1)&&isWall(p.x+1,p.y-1);
 function useTileFor(k,p,occ){
   const f=FT[k];occ=occ||OCC;if(!p)return null;
   const ok=(x,y)=>!!roomAt(x,y)&&!occ.has(x+','+y);
   if(k==='bar'&&!p.on&&!p.wall){const fr=[[p.x,p.y+1],[p.x+1,p.y+1]].map(([x,y])=>({x,y,d:'up'})),bk=[[p.x,p.y-1],[p.x+1,p.y-1]].map(([x,y])=>({x,y,d:'down'}));
-    for(const q of(barWall(p)?fr:bk.concat(fr)))if(ok(q.x,q.y))return q;return null;}
+    for(const q of(barWall(p)?fr:fr.concat(bk)))if(ok(q.x,q.y))return q;return null;}
   if(p.on){const HL=S.layout[p.on];return HL?useTileFor(p.on,HL,occ):null;}
   if(k==='table'&&!p.wall){for(let y=p.y;y<p.y+f.h;y++)if(ok(p.x-1,y)&&ok(p.x+f.w,y))return{x:p.x-1,y,d:'right'};} // pick a row where two people can sit facing each other
   if(p.wall){if(p.side){const dx=p.side==='e'?1:-1,d=p.side==='e'?'left':'right';for(const[x,y]of[[p.x+dx,p.y],[p.x+dx,p.y+1],[p.x+dx,p.y-1],[p.x+2*dx,p.y]])if(ok(x,y))return{x,y,d};return null;}
@@ -1562,7 +1571,7 @@ function prefScore(k,x,y,w,h){
     case'nightstand':if(bed&&y>=bed.y&&y<bed.y+3&&(x===bed.x-1||x===bed.x+2))s+=9;s+=wallAdj;break;
     case'lamp':s+=wallAdj*1.5;if(sofa&&Math.abs(y-sofa.y)<=1&&(x===sofa.x-1||x===sofa.x+3))s+=7;break;
     case'hanger':{const d=Math.abs(x-IN_ENTRY.x)+Math.abs(y-IN_ENTRY.y);if(d<=4)s+=7;s+=wallAdj;break;}
-    case'sink':s+=(isWall(x,y-1)?6:0)+(isWall(x-1,y)||isWall(x+1,y)?5:0)-(y>=7?3:0);break;
+    case'sink':s+=(isWall(x,y-1)?6:0)+(isWall(x-1,y)||isWall(x+1,y)?5:0)-(y>=8?3:0);break;
     case'bed2':s+=roomAt(x,y)==='bed'?12:0;s+=(isWall(x,y-1)?4:0);break;
     case'bar':s+=(isWall(x,y-1)&&isWall(x+1,y-1)?(roomAt(x,y)==='liv'?2.2:1.2):0);break;
     case'table':case'kotatsu':s+=(wallAdj===0?3:0);break;
@@ -1587,10 +1596,10 @@ function placeFor(k,opt){
   const w=f.k==='top'?1:f.w,h=f.k==='top'?1:f.h;const usedW=f.tall?wallUsed():null,frontW=f.tall?wallFront():null;
   const clear=new Set();for(const kk of S.owned){const ff=FT[kk],LL=S.layout[kk];if(kk===k||!ff.keepClear||!LL||LL.carry)continue;for(let yy=LL.y;yy<LL.y+ff.h;yy++)for(let xx=LL.x;xx<LL.x+ff.w;xx++)clear.add(xx+','+yy);}
   const basePk=(()=>{const o=reachOcc(occ);return o?o.size-occ.size:0;})();
-  for(let y=2;y<=20;y++)for(let x=1;x<=HW-2;x++){
+  for(let y=2;y<=22;y++)for(let x=1;x<=HW-2;x++){
     const r=roomAt(x,y);if(!r||!f.rooms.includes(r))continue;
     let ok=true;
-    for(let yy=y;yy<y+h&&ok;yy++)for(let xx=x;xx<x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||DOORCELL.has(kk)||((f.k!=='floor'||f.keepClear)&&occ.has(kk))||(f.k!=='floor'&&(kk===cTile||clear.has(kk)))){ok=false;break;}}
+    for(let yy=y;yy<y+h&&ok;yy++)for(let xx=x;xx<x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||WH_hid(xx,yy)||DOORCELL.has(kk)||((f.k!=='floor'||f.keepClear)&&occ.has(kk))||(f.k!=='floor'&&(kk===cTile||clear.has(kk)))){ok=false;break;}}
     if(!ok)continue;
     if(f.k==='back'&&!opt.free&&!opt.noWall){for(let xx=x;xx<x+w;xx++)if(!isWall(xx,y-1)||(usedW&&usedW.has(xx+','+(y-1)))){ok=false;break;}if(!ok)continue;}
     if(frontW&&!opt.free){for(let yy=y;yy<y+h&&ok;yy++)for(let xx=x;xx<x+w;xx++)if(frontW.has(xx+','+yy)){ok=false;break;}if(!ok)continue;}
@@ -2200,7 +2209,7 @@ const A={
     let k=S.unstoreQ[0];if(!k){const old=S.stored.filter(e=>Date.now()-e.at>(e.user?3*3600e3:40*60e3));if(!old.length)return null;k=pick(old).k;}
     let target=null;
     return[{t:'go',sc:'in',dyn:()=>closetTile()},{t:'face',d:'up'},W8(1.4),FN(()=>{target=placeFor(k);if(!target){S.unstoreQ=S.unstoreQ.filter(x=>x!==k);return;}C.holding='box';}),
-      SAY(()=>target?pick(has('storerack')?[`納戸から${FT[k].n}を出そう`,`納戸にしまってた${FT[k].n}、ひさしぶり！`,`よいしょ…納戸から${FT[k].n}を出してきた`]:[`ひさしぶりに${FT[k].n}を出そう`,`${FT[k].n}、また飾ってみよう`,`しまってた${FT[k].n}、出してこよう`]):`${FT[k].n}を出したいけど、置く場所がないや`),
+      SAY(()=>target?pick(true?[`納戸から${FT[k].n}を出そう`,`納戸にしまってた${FT[k].n}、ひさしぶり！`,`よいしょ…納戸から${FT[k].n}を出してきた`]:[`ひさしぶりに${FT[k].n}を出そう`,`${FT[k].n}、また飾ってみよう`,`しまってた${FT[k].n}、出してこよう`]):`${FT[k].n}を出したいけど、置く場所がないや`),
       {t:'go',sc:'in',dyn:()=>{if(!target)return{x:C.tx,y:C.ty};const o2=new Set(OCC);for(const c of cellsOf(k,target))o2.add(c);return useTileFor(k,target,o2);}},
       FN(()=>{C.holding=null;if(!target)return;if(cellsOf(k,target).some(c=>OCC.has(c))){target=placeFor(k);if(!target)return;}
         S.layout[k]={...target};if(!S.owned.includes(k))S.owned.push(k);S.stored=S.stored.filter(e=>e.k!==k);S.unstoreQ=S.unstoreQ.filter(x=>x!==k);refreshOcc();sparkleAt(posCenter(k,target));emote('♪',2);save();}),
@@ -3951,7 +3960,7 @@ function dBar(X,Y,Wd,Dp,L,t){prism(X+1,Y+8,Wd-2,13,19,'#4a2e22',{top:'#8a5a3a',f
   const s=C.tableSet;if(s&&s.k==='bar'){const lx=L&&L.x!=null?L.x:Math.round(X/T),cx=clamp((C.tx|0)-lx,0,1);drawSet(s.pair?X+Wd/2:X+12+cx*T,Y-6,s);
     if(!s.pair&&s.mx!=null&&M&&M.drink&&M.busy){const mx=X+(s.mx-lx)*T+(s.mx-lx?16:8);if(M.holding==='glass')fillE(g,'#f3f1ea',mx,Y-4.6,1.4,.9);else drawGlass(g,mx,Y-4.4,M.drink,M.drinkLv);}}else{drawGlass(g,X+Wd-10,Y-5,{gl:'rocks',col:'rgba(0,0,0,0)'});}}
 function stoolAt(x,y){fillE(g,'rgba(0,0,0,.14)',x,y+14,5,1.6);g.fillStyle='#3d3d48';g.fillRect(x-.6,y+4,1.2,10);g.fillRect(x-3,y+11,6,.8);fillE(g,'#7a2a2a',x,y+3.4,4.4,2);fillE(g,'#9a3a3a',x,y+2.8,4.2,1.8);}
-function pBar(L){if(!barWall(L))return[];const ry=L.y+1,y=ry*T;const out=[];for(let i=0;i<2;i++){const x=(L.x+.5+i)*T;if(walkIn(L.x+i,ry))out.push({k:y+10,f:()=>stoolAt(x,y+2)});}return out;}
+function pBar(L){if(!L||L.carry)return[];const ry=L.y+1,y=ry*T;const out=[];for(let i=0;i<2;i++){const x=(L.x+.5+i)*T;if(walkIn(L.x+i,ry))out.push({k:y+10,f:()=>stoolAt(x,y+2)});}return out;}
 function dLiquor(X,Y,Wd,Dp,L,t){// tall, heavy glass-front liquor cabinet reaching the top of the wall
   const x0=X+2,w=Wd-4,top=Y-40,bot=Y+19,brass='#c9a24f',wd='#3a2416',wd2='#2a190e';
   fillR(g,'rgba(0,0,0,.25)',x0+1,bot-1,w,2.4,1);
@@ -4318,10 +4327,10 @@ function wallFaceC(c,x,y,r){const X=x*T,Y=y*T,fy=Y+6,fh=18;
   const sg=c.createLinearGradient(0,fy,0,fy+5);sg.addColorStop(0,'rgba(0,0,0,.18)');sg.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=sg;c.fillRect(X,fy,T+.6,5);}
 function buildHouse(){
   const sc=cacheScale(),Wp=IN.w*T,Hp=IN.h*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(Wp*sc);cv2.height=Math.ceil(Hp*sc);const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);
-  for(let y=1;y<=21;y++)for(let x=0;x<=HW-1;x++){const r=roomAt(x,y);if(r)floorTileC(c,DOORFLOOR[x+','+y]||r,x,y);}
+  for(let y=1;y<=23;y++)for(let x=0;x<=HW-1;x++){const r=roomAt(x,y);if(r)floorTileC(c,DOORFLOOR[x+','+y]||r,x,y);}
   for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(isWall(x-1,y)&&isWall(x+1,y)){c.fillStyle='#9a7a58';c.fillRect(x*T,y*T+9,T+.6,6);c.fillStyle='rgba(255,255,255,.18)';c.fillRect(x*T,y*T+9,T+.6,1.2);}}
   // ambient occlusion along walls
-  for(let y=2;y<=20;y++)for(let x=1;x<=HW-2;x++){if(!roomAt(x,y))continue;const X=x*T,Y=y*T;
+  for(let y=2;y<=22;y++)for(let x=1;x<=HW-2;x++){if(!roomAt(x,y))continue;const X=x*T,Y=y*T;
     if(isWall(x,y-1)){const gr=c.createLinearGradient(0,Y,0,Y+10);gr.addColorStop(0,'rgba(40,25,10,.22)');gr.addColorStop(1,'rgba(40,25,10,0)');c.fillStyle=gr;c.fillRect(X,Y,T+.6,10);}
     if(isWall(x-1,y)){const gr=c.createLinearGradient(X,0,X+6,0);gr.addColorStop(0,'rgba(40,25,10,.16)');gr.addColorStop(1,'rgba(40,25,10,0)');c.fillStyle=gr;c.fillRect(X,Y,6,T+.6);}
     if(isWall(x+1,y)){const gr=c.createLinearGradient(X+T,0,X+T-6,0);gr.addColorStop(0,'rgba(40,25,10,.16)');gr.addColorStop(1,'rgba(40,25,10,0)');c.fillStyle=gr;c.fillRect(X+T-6,Y,6,T+.6);}}
@@ -4332,7 +4341,7 @@ function buildHouse(){
   const wallTop=(X,Y,w,h,x,y,cc)=>{const c0=cc||c;c0.fillStyle=capTop;c0.fillRect(X,Y,w,h);
     for(let i=0;i<6;i++){const hx=hash(x*7+i,y*5,21),hy=hash(x*3,y*9+i,22);c0.fillStyle=`rgba(150,120,80,${.10+hx*.08})`;c0.fillRect(X+hx*(w-2),Y+hy*(h-1.5),1.4,1);}
     c0.fillStyle='rgba(255,255,255,.22)';c0.fillRect(X,Y,w,.8);};
-  for(let y=1;y<=21;y++)for(let x=0;x<=HW-1;x++){if(!isWall(x,y))continue;const X=x*T,Y=y*T,below=roomAt(x,y+1);
+  for(let y=1;y<=23;y++)for(let x=0;x<=HW-1;x++){if(!isWall(x,y))continue;const X=x*T,Y=y*T,below=roomAt(x,y+1);
     const wW=isWall(x-1,y),wE=isWall(x+1,y),wN=isWall(x,y-1)||y===1,wS=isWall(x,y+1);
     if(below){wallTop(X,Y,T+.6,6,x,y);c.fillStyle=beam;c.fillRect(X,Y+4,T+.6,2);c.fillStyle='rgba(255,220,170,.25)';c.fillRect(X,Y+4,T+.6,.6);
       wallFaceC(c,x,y,DOORCELL.has(x+','+(y+1))?(DOORFLOOR[x+','+(y+1)]==='bath'?'bath':DOORFLOOR[x+','+(y+1)]==='bed'?'bed':'liv'):below==='dress'?'liv':below);
@@ -4352,20 +4361,20 @@ function buildHouse(){
   for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(!(isWall(x-1,y)&&isWall(x+1,y)))continue;const X=x*T,Y=y*T;c.fillStyle='#6b4a33';c.fillRect(X-1,Y+4,3,20);c.fillRect(X+T-2,Y+4,3,20);c.fillRect(X-1,Y+3,T+2,2.4);
     c.fillStyle='rgba(255,220,170,.3)';c.fillRect(X,Y+4,.7,20);c.fillRect(X+T-1.3,Y+4,.7,20);}
   // entrance door (inside view: framed panel door with glass and step)
-  const ex=IN_ENTRY.x*T,ey=21*T;
+  const ex=IN_ENTRY.x*T,ey=23*T;
   c.fillStyle='#4e3420';c.fillRect(ex+1.5,ey,T-3,T+.6);c.fillStyle='#8a5a36';c.fillRect(ex+3,ey+2,T-6,T-1.4);
   const dg=c.createLinearGradient(ex,0,ex+T,0);dg.addColorStop(0,'rgba(255,255,255,.12)');dg.addColorStop(1,'rgba(0,0,0,.15)');c.fillStyle=dg;c.fillRect(ex+3,ey+2,T-6,T-1.4);
   c.fillStyle='#bfe0f2';rr(c,ex+6,ey+4,T-12,6,3);c.fill();c.fillStyle='rgba(255,255,255,.55)';c.fillRect(ex+7.5,ey+5,3,1);c.fillStyle='#6e4428';c.fillRect(ex+T/2-.4,ey+4,.8,6);
   for(const py of[ey+12,ey+17]){c.fillStyle='rgba(0,0,0,.16)';c.fillRect(ex+5,py,T-10,4);c.fillStyle='rgba(255,220,170,.25)';c.fillRect(ex+5,py+3.4,T-10,.6);}
   // exterior south face: lap siding, corner posts, stone foundation
-  for(let x=0;x<=HW-1;x++){const X=x*T,Y=22*T;
+  for(let x=0;x<=HW-1;x++){const X=x*T,Y=24*T;
     for(let k=0;k<4;k++){const yy=Y+k*3.5;c.fillStyle=shade('#e9dfc9',(hash(x,k,31)-.5)*.06-k*.015);c.fillRect(X,yy,T+.6,3.6);c.fillStyle='rgba(110,80,50,.28)';c.fillRect(X,yy+3,T+.6,.7);c.fillStyle='rgba(255,255,255,.35)';c.fillRect(X,yy,T+.6,.5);}
     c.fillStyle='rgba(0,0,0,.18)';c.fillRect(X,Y,T+.6,2);
     c.fillStyle='#8a6447';if(x===0)c.fillRect(X,Y,3,14);else if(x===HW-1)c.fillRect(X+T-3,Y,3,14);
     for(let k=0;k<3;k++){const sx=X+k*8+(x%2)*4;c.fillStyle=shade('#a9a294',(hash(x,k,33)-.5)*.2);rr(c,sx,Y+14,7.4,4,1.2);c.fill();}
     c.fillStyle='rgba(0,0,0,.2)';c.fillRect(X,Y+17.4,T+.6,.6);}
   // outer door face
-  {const dx=ex+3,dy=22*T,dw=T-6;c.fillStyle='#4e3420';c.fillRect(dx-1.5,dy,dw+3,14);c.fillStyle='#8a5a36';c.fillRect(dx,dy,dw,14);
+  {const dx=ex+3,dy=24*T,dw=T-6;c.fillStyle='#4e3420';c.fillRect(dx-1.5,dy,dw+3,14);c.fillStyle='#8a5a36';c.fillRect(dx,dy,dw,14);
    c.fillStyle='rgba(0,0,0,.18)';c.fillRect(dx+2,dy+2,dw-4,4);c.fillRect(dx+2,dy+8,dw-4,4.4);c.fillStyle='rgba(255,220,170,.25)';c.fillRect(dx+2,dy+5.6,dw-4,.5);
    {const dg2=c.createLinearGradient(dx,0,dx+dw,0);dg2.addColorStop(0,'rgba(255,255,255,.12)');dg2.addColorStop(1,'rgba(0,0,0,.15)');c.fillStyle=dg2;c.fillRect(dx,dy,dw,14);}
    /* the door's lower half: no second knob (the knob is on the upper half) */
@@ -4375,10 +4384,10 @@ function buildHouse(){
   c.fillStyle='#a49e92';c.fillRect(ex,IN_ENTRY.y*T+3,T,T-3);c.fillStyle='rgba(255,255,255,.2)';c.fillRect(ex,IN_ENTRY.y*T+3,T,1);c.fillStyle='#6b8f6a';rr(c,ex+3,IN_ENTRY.y*T+8,T-6,T-11,2);c.fill();
   houseC.cv=cv2;buildWallExt(sc,wallTop,capTop,beam,beamD);}
 /* ----- tall walls: the back-wall band is raised by WEXT px and drawn in depth order ----- */
-const WEXT=16;let WEXT_CELLS=[];
+const WEXT=40,WEXT0=16;let WEXT_CELLS=[];
 function buildWallExt(sc,wallTop,capTop,beam,beamD){const Wp=IN.w*T,Hp=IN.h*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(Wp*sc);cv2.height=Math.ceil(Hp*sc);const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);
   const cells=[];const st=(fn,X,Y)=>{c.save();c.translate(0,Y+24);c.scale(1,(18+WEXT)/18);c.translate(0,-(Y+24));fn();c.restore();};
-  for(let y=1;y<=21;y++)for(let x=0;x<=HW-1;x++){const X=x*T,Y=y*T,below=roomAt(x,y+1);
+  for(let y=1;y<=23;y++)for(let x=0;x<=HW-1;x++){const X=x*T,Y=y*T,below=roomAt(x,y+1);
     if(isWall(x,y)&&below){const wW=isWall(x-1,y),wE=isWall(x+1,y);cells.push([x,y]);
       c.save();c.beginPath();c.rect(X,Y-WEXT,T+.6,WEXT+24);c.clip();
       st(()=>wallFaceC(c,x,y,DOORCELL.has(x+','+(y+1))?(DOORFLOOR[x+','+(y+1)]==='bath'?'bath':DOORFLOOR[x+','+(y+1)]==='bed'?'bed':'liv'):below==='dress'?'liv':below),X,Y);
@@ -4403,7 +4412,7 @@ function drawWindows(t){const sc=skyColors(),k=wKind(),dl=daylight();
   winPools(k,dl);}
 function drawWinTop(x,t){drawWin1(x,1,t,skyColors(),wKind(),daylight());}
 function drawWin1(x,y,t,sc,k,dl){{const X=x*T,Y=y*T;let wx,wy,ww,wh;
-    if(y===1){wx=X+3;wy=Y-6;ww=18;wh=20;}else if(y===21){wx=X+3;wy=Y+9;ww=18;wh=6;}else{wx=X+8;wy=Y+3;ww=8;wh=18;}
+    if(y===1){wx=X+3;wy=Y-6-Math.round((WEXT-WEXT0)/3);ww=18;wh=20;}else if(y===23){wx=X+3;wy=Y+9;ww=18;wh=6;}else{wx=X+8;wy=Y+3;ww=8;wh=18;}
     fillR(g,'#f4efe4',wx-1.6,wy-1.6,ww+3.2,wh+3.2,1);const gr=g.createLinearGradient(0,wy,0,wy+wh);gr.addColorStop(0,sc.top);gr.addColorStop(1,sc.bot);g.fillStyle=gr;g.fillRect(wx,wy,ww,wh);
     if(dl<.3&&k==='clear'){g.fillStyle='rgba(255,255,255,.8)';g.fillRect(wx+3,wy+2,.6,.6);g.fillRect(wx+ww-4,wy+4,.6,.6);}
     g.fillStyle='rgba(255,255,255,.3)';g.fillRect(wx+1,wy+1,ww*.35,.8);
@@ -4594,7 +4603,7 @@ function buildAround(){isle.chunks=null;isle.cv=null;isle.key='';
   const sc=Z,X0=-8*T,Y0=-8*T,w=(IN.w+16)*T,h=(IN.h+16)*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(w*sc);cv2.height=Math.ceil(h*sc);
   const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);c.translate(-X0,-Y0);
   grassTex(c,X0,Y0,w,h,13);
-  {const cx=IN_ENTRY.x*T+12,w=38,top=22*T+16,d=13,fh=5,x=cx-w/2;
+  {const cx=IN_ENTRY.x*T+12,w=38,top=24*T+16,d=13,fh=5,x=cx-w/2;
    fillE(c,'rgba(20,30,10,.3)',cx+1.5,top+d+fh+1,w*.56,3.2);
    c.fillStyle=IN_lg(c,0,top+d,0,top+d+fh,[[0,'#9a9486'],[1,'#6f6a5f']]);rr(c,x,top+d-2,w,fh+2,1.8);c.fill();
    c.fillStyle=IN_lg(c,x,top,x+w,top+d,[[0,'#d6d1c4'],[.55,'#c3bdaf'],[1,'#aea899']]);rr(c,x,top,w,d,2.2);c.fill();
@@ -4608,7 +4617,7 @@ function buildAround(){isle.chunks=null;isle.cv=null;isle.key='';
 const groundKey=()=>season()+'|'+Math.round(snowCover*6)+'|'+DPR;
 function drawGroundAround(){const k=groundKey();if(around.key!==k||!around.cv){around.key=k;buildAround();}
   if(around.cv&&around.cv.width)g.drawImage(around.cv,around.x0,around.y0,around.w,around.h);
-  fillR(g,'rgba(0,0,0,.22)',-3,T-5,IN.w*T+8,21*T+19,6);
+  fillR(g,'rgba(0,0,0,.22)',-3,T-5,IN.w*T+8,23*T+19,6);
   for(const[bx,by]of[[-2,4],[21,7],[-2,14],[21,16],[10,24],[15,-1],[2,-1],[-3,9],[22,11],[-3,19]])drawBush(bx,by,0);}
 function drawIsland(t){
   const k=groundKey();if(isle.key!==k||!isle.cv){isle.key=k;buildIsle();}
@@ -4744,7 +4753,7 @@ function glowOut(){const dl=daylight();
 const houseLit=()=>C.scene==='in'&&!C.sleeping&&daylight()<.6;
 
 /* ========== render ========== */
-function charOpts(){return{...ACC_heroOpts(),hang:C.snap&&C.snap.hang||0,noOuter:C.scene!=='out',look:S.look,tipsy:!!(S.tipsyUntil&&Date.now()<S.tipsyUntil&&!C.sleeping),level:S.needs.energy/100,sleepy:C.sleeping,sp:S.species,outfit:S.outfit,dir:C.dir,moving:C.moving,frame:C.frame,ph:C.walkPh,pose:C.pose,holding:C.holding,trayC:C.trayC,taiso:C.taiso,scale:1,seed:S.born%7,floor:C.snap&&C.snap.floor,blanket:VAR.bed[((S.layout.bed&&S.layout.bed.v)||0)%4]};}
+function charOpts(){return{...ACC_heroOpts(),hang:C.snap&&C.snap.hang||0,noOuter:C.scene!=='out',look:S.look,tipsy:!!(S.tipsyUntil&&Date.now()<S.tipsyUntil&&!C.sleeping),level:S.needs.energy/100,sleepy:C.sleeping,sp:S.species,outfit:S.outfit,dir:C.dir,moving:C.moving,frame:C.frame,ph:C.walkPh,pose:C.pose,holding:C.holding,trayC:C.trayC,taiso:C.taiso,scale:CH_SC,seed:S.born%7,floor:C.snap&&C.snap.floor,blanket:VAR.bed[((S.layout.bed&&S.layout.bed.v)||0)%4]};}
 function charPos(){if(C.snap)return{cx:C.snap.px,by:C.snap.py};return{cx:C.px+T/2,by:C.py+T-2};}
 let liveDraw=false;
 function render(){liveDraw=true;try{render0();}finally{liveDraw=false;}}
@@ -4781,9 +4790,9 @@ function render0(){
   if(C.scene==='out')for(const d of DRONES)drawDrone(d,t);
   musTickEQ();drawDrag();drawParticles();drawMateTag();drawMainTag();drawVisitorTag();drawMusicTag();g.restore();
   if(C.scene==='out'){weatherOut(t);lightingOut(t);starsOut(t);}
-  else{g.save();g.beginPath();g.rect(0,0,W,H);g.rect((0-cam.x)*Z+W/2,(T-WEXT-2-cam.y)*Z+H/2,IN.w*T*Z,(21*T+16+WEXT)*Z);g.clip('evenodd');weatherOut(t);lightingOut(t);g.restore();lightingIn(t);}
+  else{g.save();g.beginPath();g.rect(0,0,W,H);g.rect((0-cam.x)*Z+W/2,(T-WEXT-2-cam.y)*Z+H/2,IN.w*T*Z,(23*T+16+WEXT)*Z);g.clip('evenodd');weatherOut(t);lightingOut(t);g.restore();lightingIn(t);}
   worldBegin();if(C.scene==='out')glowOut();else glowIn(t);
-  drawEmote(cp.cx,cp.by-(C.pose==='lie'?14:C.pose==='bath'?24:C.pose==='sit'?36:40));g.restore();
+  drawMateZ();drawEmote(cp.cx,cp.by-(C.pose==='lie'?14:C.pose==='bath'?24:C.pose==='sit'?36:40)*CH_SC);g.restore();
   if(wKind()==='thunder'&&flashT>0){g.fillStyle=`rgba(255,255,255,${flashT*(C.scene==='out'?3:1.5)})`;g.fillRect(0,0,W,H);}
   if(fadeT>0){g.fillStyle=`rgba(8,10,24,${clamp(fadeT/.45,0,1)})`;g.fillRect(0,0,W,H);}}
 
@@ -5477,7 +5486,7 @@ function drawDrone(d,t){const gx=(d.x+.5)*T,gy=(d.y+1)*T-3,x=gx+d.dx,y=gy-d.alt,
   if(big){const col=d.col||'#8fc8f2';if(d.alt<10){fillR(g,'#4d505a',x-13,y+1,2,Math.min(4,d.alt+1),.4);fillR(g,'#4d505a',x+11,y+1,2,Math.min(4,d.alt+1),.4);}
     fillR(g,shade(col,-.25),x-15,y-1,30,5,2.4);fillR(g,col,x-15,y-3,30,4,2);fillR(g,'rgba(255,255,255,.4)',x-13,y-2.6,26,.8);fillE(g,Math.sin(t*6)>0?'#ff6b6b':'#7a2a20',x+13,y+1,.9,.9);fillE(g,'#6bff9a',x-13,y+1,.9,.9);}
   else{fillR(g,'#e6e9ee',x-6,y-4,12,6,2.4);fillR(g,'#c9ced3',x-6,y,12,2,1);fillE(g,'#3d3d48',x,y-1,2,1.4);fillE(g,Math.sin(t*6)>0?'#3fd0e0':'#2a7a88',x+4.6,y-1.6,.7,.7);}
-  if(V&&V.ride===d)drawChar(g,x,y-2,{level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.dir,moving:false,frame:0,pose:'stand',scale:1,seed:V.seed,holding:V.gift&&!V.giftGiven?'gift':null,gift:V.gift});}
+  if(V&&V.ride===d)drawChar(g,x,y-2,{level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.dir,moving:false,frame:0,pose:'stand',scale:CH_SC,seed:V.seed,holding:V.gift&&!V.giftGiven?'gift':null,gift:V.gift});}
 const charAt=(x,y)=>C.scene==='out'&&C.tx===x&&C.ty===y&&!C.path.length;
 function sendDrone(kind){const dd=kind==='in'?S.delivery:S.yardDel;if(!dd)return;const cur=()=>kind==='in'?S.delivery:S.yardDel;
   launchDrone({x:dd.drop.x,y:dd.drop.y,cargo:1,hover:46,land:34,wait:()=>charAt(dd.drop.x,dd.drop.y),
@@ -5523,7 +5532,7 @@ function vBubbleTick(){const bb=$('bubble2');if(!bb)return;
   if(!S||!V||!vTyping.full||V.scene!==C.scene){bb.hidden=true;return;}
   const tn=performance.now(),until=vTyping.at+vTyping.full.length/28*1000+5200;
   if(tn>until){bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
-  bb.hidden=false;bb.classList.remove('fade');let vp=vPos();if(V.ride){const d=V.ride;vp={cx:(d.x+.5)*T+d.dx,by:(d.y+1)*T-5-d.alt};}bubbleName('bname2',V.name,vp.cx,vp.by,V.sit?30:42);posBubble(bb,vp.cx,vp.by,V.sit?41:45);avoidBubble(bb,[$('convo'),$('bubble')]);}
+  bb.hidden=false;bb.classList.remove('fade');let vp=vPos();if(V.ride){const d=V.ride;vp={cx:(d.x+.5)*T+d.dx,by:(d.y+1)*T-5-d.alt};}bubbleName('bname2',V.name,vp.cx,vp.by,(V.sit?30:42)*CH_SC);posBubble(bb,vp.cx,vp.by,(V.sit?41:45)*CH_SC);avoidBubble(bb,[$('convo'),$('bubble')]);}
 function vTypeTick(dt){if(vTyping.shown<vTyping.full.length){vTyping.t+=dt;const n=Math.floor(vTyping.t*28);if(n>vTyping.shown){vTyping.shown=Math.min(vTyping.full.length,n);$('text2').textContent=vTyping.full.slice(0,vTyping.shown);}}}
 function meetSpot(){const e=OUT.entry,c=[];
   for(let dy=2;dy<=5;dy++)for(let dx=-3;dx<=1;dx++){const x=e.x+dx,y=e.y+dy;if(walkOut(x,y)&&walkOut(x+1,y)&&walkOut(x+2,y)&&bfs('out',e.x,e.y,x,y))c.push({x,y,d:'right'});}
@@ -5559,16 +5568,16 @@ function visitTick(dt){if(!V)return;vTypeTick(dt);vMoveTick(dt);
 function vPos(){if(!V)return null;if(V.sit)return{cx:V.sit.px,by:V.sit.py};return{cx:V.px+T/2,by:V.py+T-2};}
 function drawVisitor(){if(!V||V.ride)return;const p=vPos();let hop=V.bob>0?Math.abs(Math.sin(V.bob*12))*2:0,hx=0;
   if(V.hop){const h=V.hop,k=Math.min(1,h.t/h.dur);hx=h.f.dx+(h.to.dx-h.f.dx)*k;hop=h.f.alt+(h.to.alt-h.f.alt)*k+Math.sin(Math.PI*k)*12;}
-  drawChar(g,p.cx+hx,p.by-hop,{sun:V.scene==='out'?ACC_sunFor(V.seed||3):null,hang:V.sit&&V.sit.hang||0,noOuter:V.scene!=='out',level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.sit?V.sit.d:V.dir,moving:V.moving&&!V.sit,ph:V.ph,frame:0,pose:V.sit?'sit':'stand',holding:V.gift&&!V.giftGiven?'gift':V.sit&&V.tea?'tea':V.sit&&V.drink?'glass':null,gift:V.gift,drink:V.drink,drinkLv:V.drinkLv,scale:1,seed:V.seed});}
+  drawChar(g,p.cx+hx,p.by-hop,{scale:CH_SC,sun:V.scene==='out'?ACC_sunFor(V.seed||3):null,hang:V.sit&&V.sit.hang||0,noOuter:V.scene!=='out',level:1,sp:V.sp,look:V.look,outfit:V.outfit,dir:V.sit?V.sit.d:V.dir,moving:V.moving&&!V.sit,ph:V.ph,frame:0,pose:V.sit?'sit':'stand',holding:V.gift&&!V.giftGiven?'gift':V.sit&&V.tea?'tea':V.sit&&V.drink?'glass':null,gift:V.gift,drink:V.drink,drinkLv:V.drinkLv,scale:1,seed:V.seed});}
 function pickSeats(){const ok=(x,y)=>walkIn(x,y)&&!!bfs('in',IN_ENTRY.x,IN_ENTRY.y,x,y);
   const lt=has('lowtable')&&S.layout.lowtable;if(lt&&ok(lt.x,lt.y+1)&&ok(lt.x+1,lt.y+1))return{a:{x:lt.x,y:lt.y+1,d:'up'},b:{x:lt.x+1,y:lt.y+1,d:'up'}};
   const tb=has('table')&&S.layout.table;if(tb&&ok(tb.x-1,tb.y)&&ok(tb.x+2,tb.y))return{a:{x:tb.x-1,y:tb.y,d:'right'},b:{x:tb.x+2,y:tb.y,d:'left'},chair:1};
   for(let i=0;i<60;i++){const r=randomTile('in','liv');if(ok(r.x,r.y)&&ok(r.x+1,r.y))return{a:{x:r.x,y:r.y,d:'right'},b:{x:r.x+1,y:r.y,d:'left'}};}return null;}
 function drinkSeats(){const ok=(x,y)=>walkIn(x,y)&&!!bfs('in',IN_ENTRY.x,IN_ENTRY.y,x,y);
-  const br=has('bar')&&S.layout.bar;if(br&&!br.carry&&barWall(br)&&ok(br.x,br.y+1)&&ok(br.x+1,br.y+1)&&Math.random()<.6)return{k:'bar',a:{x:br.x,y:br.y+1,d:'up'},b:{x:br.x+1,y:br.y+1,d:'up'}};
+  const br=has('bar')&&S.layout.bar;if(br&&!br.carry&&ok(br.x,br.y+1)&&ok(br.x+1,br.y+1)&&Math.random()<.6)return{k:'bar',a:{x:br.x,y:br.y+1,d:'up'},b:{x:br.x+1,y:br.y+1,d:'up'}};
   const tb=has('table')&&S.layout.table;if(tb&&!tb.carry&&ok(tb.x-1,tb.y)&&ok(tb.x+2,tb.y))return{k:'table',a:{x:tb.x-1,y:tb.y,d:'right'},b:{x:tb.x+2,y:tb.y,d:'left'},chair:1};
   const ps=pickSeats();return ps?{k:null,...ps}:null;}
-function seatSnap(q,k,ch){return k==='bar'?{px:(q.x+.5)*T,py:q.y*T+12,d:q.d}:{px:(q.x+.5)*T+(ch?(q.d==='left'?-3:q.d==='right'?3:0):0),py:q.y*T+(ch?12:19),d:q.d};}
+function seatSnap(q,k,ch){return k==='bar'?{px:(q.x+.5)*T,py:q.y*T+12-BS_SIT,d:q.d}:{px:(q.x+.5)*T+(ch?(q.d==='left'?-3:q.d==='right'?3:0):0),py:q.y*T+(ch?12:19),d:q.d};}
 function canDrinkTogether(){const h=hourNow();if(h>=5&&h<11)return false;if(!has('liquor')&&!has('fridge'))return false;return Math.random()<(h>=17||h<5?.6:.35);}
 function drinkTogetherSteps(m,P){let ds=null,d=null,RT=null,sn='ナッツ',src=has('liquor')?'liquor':'fridge';
   const waitV=()=>{let tk=0;return{t:'until',tick:dt=>{tk+=dt;},cond:()=>!V||vArrived()||tk>25};};
@@ -6154,7 +6163,7 @@ function mMoveTick(dt){if(!M||!M.goal)return;
   M.moving=true;M.ph=(M.ph+dt*TAU*1.75)%(TAU*64);}
 function mPos(){if(M.sit&&M.sit.bed&&S.layout.bed2){const L=S.layout.bed2;return{cx:(L.x+1)*T,by:L.y*T+7};}if(M.sit)return{cx:M.sit.px,by:M.sit.py};return{cx:M.px+T/2,by:M.py+T-2};}
 function drawMate(){if(!M)return;const p=mPos(),hop=M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0,b2=S.layout.bed2;
-  drawChar(g,p.cx,p.by-hop,{sun:ACC_mateSun(),fun:M.fun||null,hang:M.sit&&M.sit.hang||0,noOuter:M.scene!=='out',level:M.sleeping?.3:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:M.taiso!=null&&!M.moving?"down":M.sit?M.sit.d:M.dir,moving:M.moving&&!M.sit,ph:M.ph,frame:0,pose:M.sit?M.sit.pose||'sit':'stand',holding:M.holding,taiso:M.taiso,drink:M.drink,drinkLv:M.drinkLv,scale:1,seed:M.seed,sleepy:M.sleeping,blanket:VAR.bed[((b2&&b2.v)||0)%4],floor:M.sit&&M.sit.floor});}
+  drawChar(g,p.cx,p.by-hop,{sun:ACC_mateSun(),fun:M.fun||null,hang:M.sit&&M.sit.hang||0,noOuter:M.scene!=='out',level:M.sleeping?.3:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:M.taiso!=null&&!M.moving?"down":M.sit?M.sit.d:M.dir,moving:M.moving&&!M.sit,ph:M.ph,frame:0,pose:M.sit?M.sit.pose||'sit':'stand',holding:M.holding,taiso:M.taiso,drink:M.drink,drinkLv:M.drinkLv,scale:CH_SC,seed:M.seed,sleepy:M.sleeping,blanket:VAR.bed[((b2&&b2.v)||0)%4],floor:M.sit&&M.sit.floor});}
 /* someone sitting on the sofa is drawn after the seat but before the back panel (parts key Y+30) */
 function SOFA_K(){return(S.layout.sofa.y+1)*T+3;}
 function mateKey(){const p=mPos();if(M.sit&&M.sit.sofa&&S.layout.sofa)return SOFA_K()+.5;if(M.sit&&M.sit.pose==='lie'&&M.sit.bed&&S.layout.bed2)return(S.layout.bed2.y+3)*T+1;return p.by+(M.sit&&M.sit.over?40:0)+(M.sit&&C.snap?1:0);}
@@ -6163,16 +6172,17 @@ function drawNameTag(c,x,y,name,st){if(!name||st==='none')return;c.save();c.font
   if(st==='black'){c.strokeStyle='rgba(255,255,255,.9)';c.strokeText(name,x,y);c.fillStyle='#1e1830';}else{c.strokeStyle='rgba(30,20,50,.85)';c.strokeText(name,x,y);c.fillStyle='#fff';}c.fillText(name,x,y);c.restore();}
 function drawMainTag(){const st=tagStyle();if(st==='none')return;const p=charPos(),lie=C.pose==='lie',sitp=C.pose==='sit',bath=C.pose==='bath';
   const hat=S.outfit&&((S.outfit.hat&&S.outfit.hat.k!=='none')||S.outfit.costume),adj=S.species==='human'&&!bath?(lie?3:sitp?(hat?-2:2):hat?3:10):0;
-  g.save();if(C.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:bath?32:sitp?45:51)+adj,S.name,st);g.restore();}
-function drawVisitorTag(){if(!V)return;const st=tagStyle();if(st==='none')return;if(V.ride){const d=V.ride;if((d.sc||'out')!==C.scene)return;drawNameTag(g,(d.x+.5)*T+d.dx,(d.y+1)*T-5-d.alt-48,V.name,st);return;}if(V.scene!==C.scene)return;const p=vPos();if(!p)return;const sitp=!!V.sit,hat=V.outfit&&V.outfit.hat&&V.outfit.hat.k!=='none',adj=V.sp==='human'?(sitp?(hat?-2:2):hat?3:10):0;
-  drawNameTag(g,p.cx,p.by-(sitp?45:51)+adj-(V.bob>0?Math.abs(Math.sin(V.bob*12))*2:0),V.name,st);}
+  g.save();if(C.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-((lie?24:bath?32:sitp?45:51)-adj)*CH_SC,S.name,st);g.restore();}
+function drawVisitorTag(){if(!V)return;const st=tagStyle();if(st==='none')return;if(V.ride){const d=V.ride;if((d.sc||'out')!==C.scene)return;drawNameTag(g,(d.x+.5)*T+d.dx,(d.y+1)*T-5-d.alt-48*CH_SC,V.name,st);return;}if(V.scene!==C.scene)return;const p=vPos();if(!p)return;const sitp=!!V.sit,hat=V.outfit&&V.outfit.hat&&V.outfit.hat.k!=='none',adj=V.sp==='human'?(sitp?(hat?-2:2):hat?3:10):0;
+  drawNameTag(g,p.cx,p.by-((sitp?45:51)-adj)*CH_SC-(V.bob>0?Math.abs(Math.sin(V.bob*12))*2:0),V.name,st);}
+function drawMateZ(){try{if(!M||!S.mate||M.scene!==C.scene||!M.sleeping||(typeof SHP_busyM==='function'&&SHP_busyM()))return;const p=mPos(),lie=M.sit&&M.sit.pose==='lie';const t=performance.now()/1000+.37,top=p.by-(lie?14:40)*CH_SC;g.save();g.font='bold 11px "M PLUS Rounded 1c",sans-serif';g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<3;i++){const ph=(t/3.5+i/3)%1;g.globalAlpha=Math.min(1,ph*6)*(1-ph);g.fillText('z',p.cx+17+ph*9+Math.sin(t*1.1+i*2)*1.2,top-ph*14);}g.restore();}catch(e){}}
 function drawMateTag(){if(!M||!S.mate||M.scene!==C.scene)return;const p=mPos(),lie=M.sit&&M.sit.pose==='lie',sitp=M.sit&&!lie;
-  if(M.sleeping&&!(typeof SHP_busyM==='function'&&SHP_busyM())){const t=performance.now()/1000+.37,top=p.by-(lie?14:40);g.save();g.font='bold 11px "M PLUS Rounded 1c",sans-serif';g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<3;i++){const ph=(t/3.5+i/3)%1;g.globalAlpha=Math.min(1,ph*6)*(1-ph);g.fillText('z',p.cx+17+ph*9+Math.sin(t*1.1+i*2)*1.2,top-ph*14);}g.restore();}
+  if(false){const t=0,top=0;g.save();g.font='bold 11px "M PLUS Rounded 1c",sans-serif';g.textAlign='center';g.fillStyle='rgba(255,255,255,.9)';for(let i=0;i<3;i++){const ph=(t/3.5+i/3)%1;g.globalAlpha=Math.min(1,ph*6)*(1-ph);g.fillText('z',p.cx+17+ph*9+Math.sin(t*1.1+i*2)*1.2,top-ph*14);}g.restore();}
   const st=tagStyle();if(st==='none')return;
-  g.save();if(M.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-(lie?24:sitp?45:51)+(S.mate.sp==='human'?(lie?3:(M.outfit&&((M.outfit.hat&&M.outfit.hat.k!=='none')||M.outfit.costume)?(sitp?-2:3):(sitp?2:10))):0)-(M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0),S.mate.name,st);g.restore();}
+  g.save();if(M.sleeping)g.globalAlpha=.55;drawNameTag(g,p.cx,p.by-((lie?24:sitp?45:51)-(S.mate.sp==='human'?(lie?3:(M.outfit&&((M.outfit.hat&&M.outfit.hat.k!=='none')||M.outfit.costume)?(sitp?-2:3):(sitp?2:10))):0))*CH_SC-(M.bob>0?Math.abs(Math.sin(M.bob*12))*2:0),S.mate.name,st);g.restore();}
 function mBubbleTick(){const bb=$('bubble3');if(!bb)return;if(!S||!M||!mTyping.full||M.scene!==C.scene){bb.hidden=true;return;}
   const tn=performance.now(),until=mTyping.at+mTyping.full.length/28*1000+5200;if(tn>until){bb.classList.add('fade');if(tn>until+350)bb.hidden=true;return;}
-  bb.hidden=false;bb.classList.remove('fade');const p=mPos();bubbleName('bname3',S.mate&&S.mate.name,p.cx,p.by,M.sit?30:42);posBubble(bb,p.cx,p.by,M.sit?(M.sit.pose==='lie'?16:41):45);avoidBubble(bb,[$('convo'),$('bubble'),$('bubble2')]);}
+  bb.hidden=false;bb.classList.remove('fade');const p=mPos();bubbleName('bname3',S.mate&&S.mate.name,p.cx,p.by,(M.sit?30:42)*CH_SC);posBubble(bb,p.cx,p.by,(M.sit?(M.sit.pose==='lie'?16:41):45)*CH_SC);avoidBubble(bb,[$('convo'),$('bubble'),$('bubble2')]);}
 function mTypeTick(dt){if(mTyping.shown<mTyping.full.length){mTyping.t+=dt;const n=Math.floor(mTyping.t*28);if(n>mTyping.shown){mTyping.shown=Math.min(mTyping.full.length,n);$('text3').textContent=mTyping.full.slice(0,mTyping.shown);}}}
 const mateFree=()=>!!(S&&S.mate&&M&&!M.sleeping&&!M.busy);
 const mateHere=()=>!!(S&&S.mate&&M&&!M.sleeping);
@@ -6251,7 +6261,7 @@ function seatBeside(){const cand=[[1,0],[-1,0],[0,1],[0,-1]];for(const[dx,dy]of 
 function mateSeatFor(where){const L=S.layout[where];
   if(where==='sofa'){const sb=sofaB();if(sb)return sb;}
   if(where==='table'&&L){const qs=[{x:L.x-1,y:L.y,d:'right'},{x:L.x+2,y:L.y,d:'left'},{x:L.x-1,y:L.y+1,d:'right'},{x:L.x+2,y:L.y+1,d:'left'}];const cy=C.ty,cx=C.tx;qs.sort((a,b)=>((a.y===cy&&a.x!==cx)?0:1)-((b.y===cy&&b.x!==cx)?0:1));for(const q of qs)if(walkIn(q.x,q.y)&&!(q.x===C.tx&&q.y===C.ty)&&!(V&&V.scene==='in'&&((q.x===V.tx&&q.y===V.ty)||(V.goal&&q.x===V.goal.x&&q.y===V.goal.y)))){const sp=sitAtTile(q,true);return{tile:q,sit:{...sp,pose:'sit'}};}}
-  if(where==='bar'&&L){const bw=barWall(L),ry=bw?L.y+1:L.y-1;for(const x of[L.x,L.x+1])if(walkIn(x,ry)&&!(x===C.tx&&ry===C.ty))return{tile:{x,y:ry},sit:bw?{px:(x+.5)*T,py:ry*T+12,pose:'sit',d:'up'}:{px:(x+.5)*T,py:ry*T+17,pose:'stand',d:'down'}};}
+  if(where==='bar'&&L){const bw=barWall(L);for(const ry of(bw?[L.y+1]:[L.y+1,L.y-1]))for(const x of[L.x,L.x+1])if(walkIn(x,ry)&&!(x===C.tx&&ry===C.ty))return{tile:{x,y:ry},sit:ry===L.y+1?{px:(x+.5)*T,py:ry*T+12-BS_SIT,pose:'sit',d:'up'}:{px:(x+.5)*T,py:ry*T+17,pose:'stand',d:'down'}};}
   const b=seatBeside();if(b)return{tile:b,sit:{px:(b.x+.5)*T,py:b.y*T+19,pose:'sit',d:b.d,floor:true}};return null;}
 function mateJoinSteps(where,onSit,chance){let ms=null;return[FN(()=>{if(!mateHere()||!S.mate||(chance!=null&&Math.random()>chance))return;ms=mateSeatFor(where);if(!ms)return;mEngage();mGo('in',ms.tile.x,ms.tile.y);}),
   {t:'until',cond:()=>!ms||!M||mArrived(),tick:()=>{}},FN(()=>{if(!ms||!M)return;if(!mArrived()){mPlace('in',ms.tile.x,ms.tile.y);}M.goal=null;M.moving=false;M.sit=ms.sit;if(onSit)onSit(ms);})];}
@@ -7358,7 +7368,7 @@ FT.bar.draw=function(X,Y,Wd,Dp,L,t){g.save();const wn='#4a2c1c';
   /* nothing is left on the counter when nobody is drinking */
   g.restore();};
 dBar=FT.bar.draw;
-FT.bar.parts=function(L){if(!barWall(L))return[];const ry=L.y+1,y=ry*T;const out=[];for(let i=0;i<2;i++){const x=(L.x+.5+i)*T;if(walkIn(L.x+i,ry))out.push({k:y+10,f:()=>{g.save();A_barStool(x,y+2);g.restore();}});}return out;};
+FT.bar.parts=function(L){if(!L||L.carry||L.wall||L.on)return[];const ry=L.y+1,y=ry*T;const out=[];for(let i=0;i<2;i++){const x=(L.x+.5+i)*T;if(walkIn(L.x+i,ry))out.push({k:y+10-BS_SIT,f:()=>{g.save();A_barStool(x,y-BS_DY);g.restore();}});}return out;};
 pBar=FT.bar.parts;stoolAt=A_barStool;
 
 /* ---------- stool (スツール) ---------- */
@@ -10416,8 +10426,8 @@ function IN_endPost(c,X,y0,h,left){IN_woodV(c,left?X:X+T-2.2,y0,2.8,h,IN_BEAM);}
 function IN_doorFrame(c,x,y,headY){const X=x*T,Y=y*T;
   // jamb reveal shading inside the opening
   c.fillStyle='rgba(40,22,8,.18)';c.fillRect(X+2,headY+2.6,1.2,Y+24-headY-2.6);c.fillRect(X+T-3.2,headY+2.6,1.2,Y+24-headY-2.6);
-  for(const sx of[X-1,X+T-2]){c.fillStyle=IN_lg(c,sx,0,sx+3,0,[[0,'#8a6244'],[.35,'#74503a'],[1,'#4f3424']]);c.fillRect(sx,Y+4,3,20);
-    c.fillStyle='rgba(255,226,180,.35)';c.fillRect(sx+.5,Y+4,.45,17);c.fillStyle='rgba(30,15,5,.35)';c.fillRect(sx+2,Y+4,.35,17);
+  const jt=Math.min(Y+4,headY+2.4);for(const sx of[X-1,X+T-2]){c.fillStyle=IN_lg(c,sx,0,sx+3,0,[[0,'#8a6244'],[.35,'#74503a'],[1,'#4f3424']]);c.fillRect(sx,jt,3,Y+24-jt);
+    c.fillStyle='rgba(255,226,180,.35)';c.fillRect(sx+.5,jt,.45,Y+21-jt);c.fillStyle='rgba(30,15,5,.35)';c.fillRect(sx+2,jt,.35,Y+21-jt);
     // plinth block
     c.fillStyle=IN_lg(c,0,Y+20.6,0,Y+24,[[0,'#7d583d'],[1,'#4c3222']]);c.fillRect(sx-.3,Y+20.6,3.6,3.4);c.fillStyle='rgba(255,226,180,.3)';c.fillRect(sx-.3,Y+20.6,3.6,.4);}
   // head casing with a small cornice
@@ -10425,7 +10435,7 @@ function IN_doorFrame(c,x,y,headY){const X=x*T,Y=y*T;
   c.fillStyle='rgba(255,226,180,.4)';c.fillRect(X-1.6,headY,T+3.2,.45);c.fillStyle='rgba(30,15,5,.4)';c.fillRect(X-1,headY+2.8,T+2,.5);
   fillE(c,'rgba(255,226,180,.25)',X+T/2,headY+1.4,2.2,.5);}
 /* ---------- window overlays (frames cached; glass drawn per frame below them) ---------- */
-function IN_winGeom(x,y){const X=x*T,Y=y*T;if(y===1)return{wx:X+3,wy:Y-6,ww:18,wh:20};if(y===21)return{wx:X+6,wy:Y+5.5,ww:12,wh:8.5};return{wx:X+8,wy:Y+3,ww:8,wh:18};}
+function IN_winGeom(x,y){const X=x*T,Y=y*T;if(y===1)return{wx:X+3,wy:Y-6-Math.round((WEXT-WEXT0)/3),ww:18,wh:20};if(y===23)return{wx:X+6,wy:Y+5.5,ww:12,wh:8.5};return{wx:X+8,wy:Y+3,ww:8,wh:18};}
 function IN_curtain(c,wx,wy,wh,col){const top=wy-2.4,ty=wy+wh*.56,bot=wy+wh+.9;
   c.fillStyle='rgba(40,30,40,.13)';c.beginPath();c.moveTo(wx-2.6,top+1);c.lineTo(wx+3.6,top+1);c.quadraticCurveTo(wx+3,ty-3.5,wx+.6,ty+.6);c.quadraticCurveTo(wx+1.4,ty+3,wx+2.2,bot+.6);c.lineTo(wx-2.4,bot+.6);c.closePath();c.fill();
   c.beginPath();c.moveTo(wx-3.2,top);c.lineTo(wx+3,top);c.quadraticCurveTo(wx+2.4,ty-4,wx-.2,ty);c.quadraticCurveTo(wx+.5,ty+3,wx+1.2,bot);c.lineTo(wx-3.5,bot);c.quadraticCurveTo(wx-3.6,ty+2,wx-2.8,ty);c.quadraticCurveTo(wx-3.5,ty-4,wx-3.2,top);c.closePath();
@@ -10437,7 +10447,7 @@ function IN_curtain(c,wx,wy,wh,col){const top=wy-2.4,ty=wy+wh*.56,bot=wy+wh+.9;
   // tie-back with a tassel
   c.fillStyle='#c9a35a';c.fillRect(wx-3.4,ty-.7,4.1,1.3);c.fillStyle='rgba(255,240,190,.6)';c.fillRect(wx-3.4,ty-.7,4.1,.35);fillE(c,'#b48a45',wx-3.2,ty+1.6,.6,1.1);}
 function IN_winOverlay(c,x,y){const{wx,wy,ww,wh}=IN_winGeom(x,y),X=x*T,Y=y*T;
-  if(y===21){withG(c,()=>HOUSE_sideWin(wx+ww/2,wy,ww,wh,true));return;}
+  if(y===23){withG(c,()=>HOUSE_sideWin(wx+ww/2,wy,ww,wh,true));return;}
   const fr='#f5efe2';
   if(y===1){
     c.fillStyle='rgba(50,30,15,.16)';c.fillRect(wx-1.5,wy-1.2,ww+4.2,wh+3.8);
@@ -10471,7 +10481,7 @@ function IN_winOverlay(c,x,y){const{wx,wy,ww,wh}=IN_winGeom(x,y),X=x*T,Y=y*T;
     return;}
   // windows in the cut-through outer walls (seen from above)
   const vert=wh>ww; // side wall
-  const roomSide=y===21?'n':x===0?'e':'w';
+  const roomSide=y===23?'n':x===0?'e':'w';
   c.fillStyle='rgba(50,30,15,.2)';c.fillRect(wx-2.4,wy-2.4,ww+4.8,wh+4.8);
   c.fillStyle=IN_lg(c,wx-2,wy-2,wx+ww+2,wy+wh+2,[[0,'#fbf7ef'],[1,'#d6ccb9']]);c.fillRect(wx-1.8,wy-1.8,ww+3.6,wh+3.6);
   c.save();c.globalCompositeOperation='destination-out';c.fillStyle='#000';c.fillRect(wx,wy,ww,wh);c.restore();
@@ -10492,15 +10502,16 @@ function IN_beamE(c,X,y0,h){IN_woodV(c,X+T-3,y0,3,h,IN_BEAM);c.fillStyle='rgba(9
 /* ---------- the whole static interior ---------- */
 buildHouse=function(){
   const sc=cacheScale(),Wp=IN.w*T,Hp=IN.h*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(Wp*sc);cv2.height=Math.ceil(Hp*sc);const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);
-  for(let y=1;y<=21;y++)for(let x=0;x<=HW-1;x++){const r=roomAt(x,y);if(r)floorTileC(c,DOORFLOOR[x+','+y]||r,x,y);}
+  for(let y=1;y<=23;y++)for(let x=0;x<=HW-1;x++){const r=roomAt(x,y);if(r)floorTileC(c,DOORFLOOR[x+','+y]||r,x,y);}
   // door thresholds (saddles)
   for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(!(isWall(x-1,y)&&isWall(x+1,y)))continue;const X=x*T,Y=y*T;
+    if(WEXT>WEXT0)continue;/* v429: the taller doorways have no saddle across the floor */
     c.fillStyle='rgba(40,22,8,.2)';c.fillRect(X,Y+14.6,T+.6,1.2);
     c.fillStyle=IN_lg(c,0,Y+9,0,Y+15,[[0,'#b48c64'],[.5,'#9a7652'],[1,'#7d5b3d']]);c.fillRect(X,Y+9,T+.6,6);c.fillStyle='rgba(255,236,200,.4)';c.fillRect(X,Y+9,T+.6,.6);
     c.fillStyle='rgba(60,32,12,.2)';c.fillRect(X+2,Y+11.5,T-4,.35);c.fillRect(X+5,Y+13,T-9,.3);
     c.fillStyle=IN_lg(c,0,Y,0,Y+9,[[0,'rgba(40,22,8,.28)'],[1,'rgba(40,22,8,0)']]);c.fillRect(X,Y,T+.6,9);}
   // ambient occlusion along walls
-  for(let y=2;y<=20;y++)for(let x=1;x<=HW-2;x++){if(!roomAt(x,y))continue;const X=x*T,Y=y*T;
+  for(let y=2;y<=22;y++)for(let x=1;x<=HW-2;x++){if(!roomAt(x,y))continue;const X=x*T,Y=y*T;
     if(isWall(x,y-1)){c.fillStyle=IN_lg(c,0,Y,0,Y+12,[[0,'rgba(40,25,10,.26)'],[.35,'rgba(40,25,10,.1)'],[1,'rgba(40,25,10,0)']]);c.fillRect(X,Y,T+.6,12);}
     if(isWall(x-1,y)){c.fillStyle=IN_lg(c,X,0,X+7,0,[[0,'rgba(40,25,10,.2)'],[1,'rgba(40,25,10,0)']]);c.fillRect(X,Y,7,T+.6);}
     if(isWall(x+1,y)){c.fillStyle=IN_lg(c,X+T,0,X+T-7,0,[[0,'rgba(40,25,10,.16)'],[1,'rgba(40,25,10,0)']]);c.fillRect(X+T-7,Y,7,T+.6);}}
@@ -10508,11 +10519,11 @@ buildHouse=function(){
   for(let x=0;x<=HW-1;x++){const X=x*T;c.fillStyle=IN_lg(c,0,T-10,0,T,[[0,'#5d4b3a'],[1,'#3a2d22']]);c.fillRect(X,T-10,T+.6,10);
     c.fillStyle='rgba(255,230,190,.12)';c.fillRect(X,T-10,T+.6,1);c.fillStyle='rgba(0,0,0,.22)';c.fillRect(X+((x%3)*7)+3,T-8,.7,7);}
   const roomish=(x,y)=>!!roomAt(x,y);
-  for(let y=1;y<=21;y++)for(let x=0;x<=HW-1;x++){if(!isWall(x,y))continue;const X=x*T,Y=y*T,below=roomAt(x,y+1);
+  for(let y=1;y<=23;y++)for(let x=0;x<=HW-1;x++){if(!isWall(x,y))continue;const X=x*T,Y=y*T,below=roomAt(x,y+1);
     const wW=isWall(x-1,y),wE=isWall(x+1,y),wN=isWall(x,y-1)||y===1,wS=isWall(x,y+1);
-    if(below){const wW=isWall(x-1,y)||IN_fd(x-1,y),wE=isWall(x+1,y)||IN_fd(x+1,y);IN_cap(c,X,Y,x,y,wW,wE);IN_face(c,x,y,IN_faceRoom(x,y),Y+6);
+    if(below&&!DOORCELL.has(x+','+(y+1))){const wW=isWall(x-1,y)||IN_fd(x-1,y),wE=isWall(x+1,y)||IN_fd(x+1,y);IN_cap(c,X,Y,x,y,wW,wE);IN_face(c,x,y,IN_faceRoom(x,y),Y+6);
       if(!wW)IN_endPost(c,X,Y+6,18,true);if(!wE)IN_endPost(c,X,Y+6,18,false);continue;}
-    IN_top(c,X,Y,T+.6,T+.6,x,y);
+    IN_top(c,X,Y,roomAt(x+1,y)?T:T+.6,roomAt(x,y+1)?T:T+.6,x,y);/* v436: no sliver of wall-top spilling onto a floor next to it */
     // a neighbouring wall that shows its face (room below it) counts as room-side, so the timber edge runs on unbroken
     const faceAt=(xx,yy)=>isWall(xx,yy)&&!!roomAt(xx,yy+1);
     const rE=roomish(x+1,y)||faceAt(x+1,y),rWs=roomish(x-1,y)||faceAt(x-1,y),rN=roomish(x,y-1);
@@ -10531,17 +10542,17 @@ buildHouse=function(){
     if(rN&&rE)knot(X+T-3,Y);if(rN&&rWs)knot(X,Y);
     // crossbeam every few cells along long runs
     if(y!==21&&wW&&wE&&x%5===0){IN_woodV(c,X+10,Y,3,T+.6,IN_BEAM);}
-    if(y===21){c.fillStyle='rgba(40,25,10,.3)';c.fillRect(X,Y+T-.8,T+.6,.8);}
+    if(y===23){c.fillStyle='rgba(40,25,10,.3)';c.fillRect(X,Y+T-.8,T+.6,.8);}
   }
   // door frames
-  for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(!(isWall(x-1,y)&&isWall(x+1,y)))continue;IN_doorFrame(c,x,y,y*T+2.6);}
+  for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(!(isWall(x-1,y)&&isWall(x+1,y)))continue;IN_doorFrame(c,x,y,y*T+2.6-(WEXT-WEXT0));}
   // windows set into the cut-through outer walls
   for(const[x,y]of WINDOWS)if(y!==1)IN_winOverlay(c,x,y);
   // entrance door (inside view)
-  const ex=IN_ENTRY.x*T,ey=21*T;
+  const ex=IN_ENTRY.x*T,ey=23*T;
   /* the entrance door is drawn as one piece after the siding (see 'outer door face') */
   // exterior south face: lap siding, corner posts, stone foundation
-  for(let x=0;x<=HW-1;x++){const X=x*T,Y=22*T;
+  for(let x=0;x<=HW-1;x++){const X=x*T,Y=24*T;
     for(let k=0;k<4;k++){const yy=Y+k*3.5,base=shade('#ebe1cb',(hash(x,k,31)-.5)*.05-k*.015);
       c.fillStyle=IN_lg(c,0,yy,0,yy+3.6,[[0,shade(base,.06)],[1,shade(base,-.08)]]);c.fillRect(X,yy,T+.6,3.6);
       c.fillStyle='rgba(100,70,40,.34)';c.fillRect(X,yy+3,T+.6,.6);c.fillStyle='rgba(255,255,255,.45)';c.fillRect(X,yy,T+.6,.45);
@@ -10555,7 +10566,7 @@ buildHouse=function(){
       c.fillStyle='rgba(255,255,255,.3)';c.fillRect(sx+1,Y+14.5,4.6,.45);}
     c.fillStyle='rgba(0,0,0,.25)';c.fillRect(X,Y+17.4,T+.6,.6);}
   // outer door face
-  {const dx=ex+3,dy=22*T,dw=T-6,top=21*T+1,bot=dy+14;
+  {const dx=ex+3,dy=24*T,dw=T-6,top=23*T+1,bot=dy+14;
    withG(c,()=>HOUSE_door(ex+T/2,top,bot,false));
    c.fillStyle=IN_lg(c,0,dy+14,0,dy+18,[[0,'#ddd6c6'],[1,'#a9a292']]);c.fillRect(ex-2,dy+14,T+4,4);c.fillStyle='rgba(255,255,255,.45)';c.fillRect(ex-2,dy+14,T+4,.7);
    fillE(c,'#ffe08a',ex-1,dy+3,1.4,1.4);c.fillStyle='#3d2a20';c.fillRect(ex-2.2,dy+1,2.4,1);}
@@ -10568,26 +10579,28 @@ buildHouse=function(){
    for(const sx of[gx-1.6,gx+gw-.4]){c.fillStyle=IN_lg(c,sx,0,sx+2,0,[[0,'#a07a58'],[1,'#6a4a30']]);c.fillRect(sx,gy-1.6,2,gh+1.6);}}
   houseC.cv=cv2;buildWallExt(sc);};
 /* ----- the tall back-wall band (raised by WEXT, drawn in depth order) ----- */
-buildWallExt=function(sc){const Wp=IN.w*T,Hp=IN.h*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(Wp*sc);cv2.height=Math.ceil(Hp*sc);const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);
+buildWallExt=function(sc){const Wp=IN.w*T,Hp=IN.h*T,cv2=document.createElement('canvas');cv2.width=Math.ceil(Wp*sc);cv2.height=Math.ceil((Hp+WEXT)*sc);const c=cv2.getContext('2d');if(!c)return;c.scale(sc,sc);c.translate(0,WEXT);
   const cells=[];
-  for(let y=1;y<=21;y++)for(let x=0;x<=HW-1;x++){const X=x*T,Y=y*T,below=roomAt(x,y+1);
-    if(isWall(x,y)&&below){const wW=isWall(x-1,y)||IN_fd(x-1,y),wE=isWall(x+1,y)||IN_fd(x+1,y);cells.push([x,y]);
-      IN_face(c,x,y,IN_faceRoom(x,y),Y-WEXT+6);IN_cap(c,X,Y-WEXT,x,y,wW,wE);
-      if(!wW)IN_endPost(c,X,Y-WEXT+6,18+WEXT,true);if(!wE)IN_endPost(c,X,Y-WEXT+6,18+WEXT,false);
+  for(let y=1;y<=23;y++)for(let x=0;x<=HW-1;x++){const X=x*T,Y=y*T,below=roomAt(x,y+1);
+    if(isWall(x,y)&&below&&!DOORCELL.has(x+','+(y+1))){const wW=isWall(x-1,y)||IN_fd(x-1,y),wE=isWall(x+1,y)||IN_fd(x+1,y);cells.push([x,y]);
+      const sd=DOORCELL.has(x+','+(y+1)),E=sd?6:WEXT;// over a side doorway: the end face of the dividing wall, no cap line across it
+      IN_face(c,x,y,IN_faceRoom(x,y),Y-E+6,sd);if(!sd)IN_cap(c,X,Y-E,x,y,wW,wE);
+      if(!wW)IN_endPost(c,X,Y-E+6,18+E,true);if(!wE)IN_endPost(c,X,Y-E+6,18+E,false);
       if(y===1&&WINSET.has(x+',1'))IN_winOverlay(c,x,1);}
     else if(isWall(x,y)&&!below&&isWall(x,y+1)&&x>0&&x<HW-1&&((isWall(x-1,y)&&roomAt(x-1,y+1))||(isWall(x+1,y)&&roomAt(x+1,y+1)))){cells.push([x,y]);
       // raised top of a dividing wall where it meets the back wall
-      IN_top(c,X,Y-WEXT,T+.6,WEXT+24,x,y);
+      IN_top(c,X,Y-WEXT,roomAt(x+1,y)||roomAt(x+1,y+1)?T:T+.6,WEXT+24,x,y);
       c.fillStyle=IN_lg(c,0,Y-WEXT+6,0,Y+24,[[0,'rgba(60,40,20,.12)'],[1,'rgba(60,40,20,0)']]);c.fillRect(X,Y-WEXT+6,T+.6,WEXT+18);
       if(roomAt(x-1,y+1)||roomAt(x-1,y)||isWall(x-1,y))IN_beamW(c,X,Y-WEXT+6,WEXT+18);if(roomAt(x+1,y+1)||roomAt(x+1,y)||isWall(x+1,y))IN_beamE(c,X,Y-WEXT+6,WEXT+18);
       c.fillStyle='rgba(70,45,20,.35)';c.fillRect(X,Y-WEXT,T+.6,.5);IN_woodH(c,X,Y-WEXT+3.6,T+.6,2.6,IN_BEAM);
       c.fillStyle=IN_lg(c,X,Y-WEXT+3.6,X+3,Y-WEXT+6.2,[[0,'#8a6142'],[1,'#4a3020']]);c.fillRect(X,Y-WEXT+3.6,2.6,2.6);c.fillRect(X+T-2,Y-WEXT+3.6,2.6,2.6);}
     else if(isWall(x,y)&&!below&&(x===0||x===HW-1)&&((x===0&&isWall(1,y)&&roomAt(1,y+1))||(x===HW-1&&isWall(x-1,y)&&roomAt(x-1,y+1)))){cells.push([x,y]);
+      IN_top(c,X,Y-WEXT,roomAt(x+1,y)||roomAt(x+1,y+1)?T:T+.6,WEXT+24,x,y);if(y===1){c.fillStyle='rgba(70,45,20,.35)';c.fillRect(X,Y-WEXT,T+.6,.5);IN_woodH(c,X,Y-WEXT+3.6,T+.6,2.6,IN_BEAM);}c.fillStyle=IN_BEAMD;c.fillRect(x===0?X:X+T-3,Y-WEXT,3,WEXT+24);
       if(x===0)IN_beamE(c,X,Y-WEXT+6,WEXT+18);else IN_beamW(c,X,Y-WEXT+6,WEXT+18);}
-    else if(DOORCELL.has(x+','+y)&&isWall(x-1,y)&&isWall(x+1,y)){cells.push([x,y]);const r2=DOORFLOOR[x+','+y]==='bath'?'bath':(roomAt(x,y+1)||'liv');
-      c.save();c.beginPath();c.rect(X,Y-WEXT,T+.6,WEXT+3);c.clip();IN_face(c,x,y,r2,Y-WEXT+6);c.restore();
+    else if(DOORCELL.has(x+','+y)&&isWall(x-1,y)&&isWall(x+1,y)){cells.push([x,y]);const r2=roomAt(x,y+1)||'liv';
+      c.save();c.beginPath();c.rect(X,Y-WEXT,T+.6,WEXT0+3);c.clip();IN_face(c,x,y,r2,Y-WEXT+6);c.restore();
       IN_cap(c,X,Y-WEXT,x,y,true,true);}}
-  for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(!(isWall(x-1,y)&&isWall(x+1,y)))continue;IN_doorFrame(c,x,y,y*T+1.6);}
+  for(const d of DOORCELL){const[x,y]=d.split(',').map(Number);if(!(isWall(x-1,y)&&isWall(x+1,y)))continue;IN_doorFrame(c,x,y,y*T+1.6-(WEXT-WEXT0));}
   WEXT_CELLS=cells;houseC.ext=cv2;houseC.sc=sc;};
 /* ----- per frame: glass (sky + weather) under the cached frames ----- */
 function IN_vis(x,y){if(typeof cam==='undefined'||globalThis.IN_NOCULL)return true;const hw=W/(2*Z)+40,hh=H/(2*Z)+50;return Math.abs(x*T+12-cam.x)<hw&&Math.abs(y*T+6-cam.y)<hh;}
@@ -10609,7 +10622,7 @@ drawWindows=function(t){winPools(wKind(),daylight());};
 wallBandItems=function(items,t){if(!houseC.ext){const a=Object.values(WALLAT).flat();for(const k of a){const L=S.layout[k];items.push({k:(L.y)*T+.6,f:()=>drawWallItem(k,L,t)});}return;}const e=houseC.ext,sc=houseC.sc;
   for(const[x,y]of WEXT_CELLS)items.push({k:DOORCELL.has(x+','+y)?(y+1)*T-.5:y*T+.5,f:()=>{
     if(y===1&&WINSET.has(x+',1'))drawWinTop(x,t);
-    g.drawImage(e,(x*T-1)*sc,(y*T-WEXT)*sc,(T+2)*sc,(WEXT+24)*sc,x*T-1,y*T-WEXT,T+2,WEXT+24);}});
+    g.drawImage(e,(x*T-1)*sc,(y*T)*sc,(T+2)*sc,(WEXT+24)*sc,x*T-1,y*T-WEXT,T+2,WEXT+24);}});
   for(const kk in WALLAT){const[x,y]=kk.split(',').map(Number);items.push({k:y*T+.6,f:()=>drawBackWallAt(x,y,t)});}};
 /* ----- light pools on the floor: warm by day (split by the mullions), faint moonlight on clear nights ----- */
 winPools=function(k,dl){
@@ -10617,7 +10630,7 @@ winPools=function(k,dl){
   if(dl>.15){a=(k==='clear'?.2:.1)*dl;rgb=dk>.2?'255,206,150':'255,240,200';}
   else if(k==='clear'){a=.06;rgb='170,190,255';}else return;
   const col=al=>`rgba(${rgb},${al})`;
-  for(const[x,y]of WINDOWS){const X=x*T,Y=y*T;let quads;
+  for(const[x,y]of WINDOWS){const X=x*T,Y=y*T;let quads;if(typeof WINB==='function'&&WINB(x,y))continue;
     if(y===1){if(!IN_vis(x,y+1))continue;const y0=Y+T,y1=Y+T+34;quads=[[[X+3,y0],[X+11.4,y0],[X+16.4,y1],[X+4,y1]],[[X+12.6,y0],[X+21,y0],[X+28,y1],[X+17.6,y1]]];
       g.fillStyle=IN_lg(g,0,y0,0,y1,[[0,col(a)],[.6,col(a*.7)],[1,col(0)]]);}
     else if(x===0){if(!IN_vis(x,y))continue;const x0=X+T,x1=X+T+30;quads=[[[x0,Y+3],[x0,Y+11.4],[x1,Y+16],[x1,Y+8]],[[x0,Y+12.6],[x0,Y+21],[x1,Y+28],[x1,Y+17.2]]];
@@ -14842,7 +14855,7 @@ setTimeout(()=>{try{CAM_SC=null;camBtn();}catch(e){}},500);
  for(const n of['mBubbleTick','vBubbleTick']){const f=window[n]||eval(n);const w=function(){if(!MANOUT())return f();const sc=C.scene;C.scene=CAM_VIEW;try{f();}finally{C.scene=sc;}};if(n==='mBubbleTick')mBubbleTick=w;else vBubbleTick=w;}}
 /* ---- v248: manual camera keeps the indoor view while the hero is indoors; panning past the house walls switches to the island view ---- */
 let CAM_VIEW=null;
-const IN_RECT=()=>({x0:0,x1:IN.w*T,y0:T-8,y1:T-8+21*T+22});
+const IN_RECT=()=>({x0:0,x1:IN.w*T,y0:T-8,y1:T-8+23*T+22});
 const in2out=(x,y)=>{const h=OUT.house,r=IN_RECT();return{x:h.x*T+(x-r.x0)/(r.x1-r.x0)*h.w*T,y:h.y*T+(y-r.y0)/(r.y1-r.y0)*h.h*T};};
 MANOUT=()=>!!(S&&camManual()&&CAM_VIEW&&CAM_VIEW!==C.scene);
 function camExtV(){if(CAM_VIEW==='in'){const r=IN_RECT();return r;}return camExt('out');}
@@ -15144,7 +15157,7 @@ function patThumb(k,i,cw,ch){const c2=document.createElement('canvas'),sc=2;c2.w
     if(t==='cloth'){const s0=S.cloth;S.cloth=i;g.save();g.translate(8,10);g.scale(1.6,1.6);fillR(g,'#a97c55',-2,-2,(cw-16)/1.6+4,(ch-20)/1.6+4,2);drawCloth(0,0,(cw-16)/1.6,(ch-20)/1.6);g.restore();S.cloth=s0;}
     else if(t==='rug'){const f=FT[k],Wd=f.w*T,Dp=f.h*T,s=Math.min((cw+6)/Wd,(ch+8)/Dp);g.save();g.translate((cw-Wd*s)/2,(ch-Dp*s)/2);g.scale(s,s);RUG_draw(0,0,Wd,Dp,{...L,rug:i});g.restore();}
     else if(t==='bed'){const s=Math.min(cw/56,ch/104);g.save();g.translate((cw-48*s)/2,26*s);g.scale(s,s);const sp=C.pose,sk=C.snapK;C.pose='stand';C.snapK=null;try{(FT.bed.draw.__orig||FT.bed.draw)(0,0,48,72,{v:0,bcov:i},0,k==='bed2'?1:0);}finally{C.pose=sp;C.snapK=sk;}g.restore();}
-    else if(t==='wall'){const r=k.slice(5),m=S.wallp;S.wallp=Object.assign({},m||{},{[r]:i});const s=cw/(3*T);try{cx.save();cx.scale(s,s);cx.translate(0,-(T-WEXT+6));for(let x=0;x<3;x++)IN_face(cx,x,1,r,T-WEXT+6);cx.restore();}finally{S.wallp=m;}
+    else if(t==='wall'){const r=k.slice(5),m=S.wallp;S.wallp=Object.assign({},m||{},{[r]:i});const s=cw/(3*T);try{cx.save();cx.scale(s,s);cx.translate(0,-(T-WEXT0+6));for(let x=0;x<3;x++)IN_face(cx,x,1,r,T-WEXT0+6);cx.restore();}finally{S.wallp=m;}
       const cu=WP[i].cu||'#ccc';cx.fillStyle=cu;for(let q=0;q<3;q++){cx.fillStyle=shade(cu,q%2?-.12:.05);cx.fillRect(cw-12+q*3.6,2,3.6,ch*.62);}cx.fillStyle='rgba(0,0,0,.15)';cx.fillRect(cw-12,ch*.62+2,11,.8);}
     else{const LL={...L,x:0,y:0,cov:i};if(k==='sofaL'){const s=Math.min(cw/100,ch/66);g.save();g.translate((cw-96*s)/2,16*s);g.scale(s,s);dSofaL(0,0,96,48,LL);pSofaL(LL)[0].f();g.restore();}
       else{const s=cw/104;g.save();g.translate(4,ch/2-4*s);g.scale(s,s);dSofa2(0,0,96,24,LL);pSofa2(LL)[0].f();g.restore();}}}
@@ -15269,7 +15282,7 @@ A.bedswap=function(){if(S&&S.noDeco)return null;if(!has('bed')||!S.layout.bed||S
 /* long-press on a living-room or bedroom wall → wallpaper picker */
 (function(){let lp=null;
   const wallAt=e=>{if(!S||C.scene!=='in'||(typeof MANOUT==='function'&&MANOUT()))return null;const w=tapWorld(e),tx=Math.floor(w.x/T);
-    for(const ty of[Math.floor(w.y/T),Math.floor(w.y/T)+1]){if(!isWall(tx,ty)||DOORCELL.has(tx+','+(ty+1)))continue;const r=roomAt(tx,ty+1)||(DOORCELL.has(tx+','+(ty+1))?IN_faceRoom(tx,ty):null);if(r!=='liv'&&r!=='bed')continue;if(w.y>=ty*T-WEXT+6&&w.y<=ty*T+24)return r;}return null;};
+    for(const ty of[Math.floor(w.y/T),Math.floor(w.y/T)+1,Math.floor(w.y/T)+2]){if(!isWall(tx,ty)||DOORCELL.has(tx+','+(ty+1)))continue;const r=roomAt(tx,ty+1)||(DOORCELL.has(tx+','+(ty+1))?IN_faceRoom(tx,ty):null);if(r!=='liv'&&r!=='bed')continue;if(w.y>=ty*T-WEXT+6&&w.y<=ty*T+24)return r;}return null;};
   cv.addEventListener('pointerdown',e=>{if(lp){clearTimeout(lp.id);lp=null;}if(!S||fadeT>0||DRAG)return;try{if(dragTarget(e)||hitChar(e))return;}catch(_){return;}const r=wallAt(e);if(!r)return;
     const o={x:e.clientX,y:e.clientY,r};o.id=setTimeout(()=>{if(lp!==o)return;lp=null;if(DRAG)return;try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}clearTimeout(tapTimer);tapTimer=null;tapT=0;patOpen('wall:'+r);},520);lp=o;});
   cv.addEventListener('pointermove',e=>{if(lp&&Math.hypot(e.clientX-lp.x,e.clientY-lp.y)>10){clearTimeout(lp.id);lp=null;}});
@@ -15291,7 +15304,7 @@ for(const k of['sofa','sofa2','sofaL']){const f=FT[k];if(!f)continue;const D0=f.
   f.draw=function(X,Y,Wd,Dp,L,t){const cov=L.cov!=null?L.cov:(L.v||0)%4;FC_draw(k+':f',[cov,L.v||0].join(','),X,Y,-6,-26,Wd+12,Dp+44,()=>D0(X,Y,Wd,Dp,L,t));};
   if(P0)f.parts=function(L){const arr=P0(L);return arr.map((p,i)=>({k:p.k,f:()=>{const X=L.x*T,Y=L.y*T,cov=L.cov!=null?L.cov:(L.v||0)%4;FC_draw(k+':p'+i,[cov,L.v||0].join(','),X,Y,-6,-4,4*T+12,(FT[k].h)*T+40,p.f);}}));};}
 dSofa=FT.sofa.draw;
-for(const k of['rug','rug2']){const f=FT[k];if(!f||!f.draw)continue;const R0=f.draw.__orig||f.draw;f.draw=function(X,Y,Wd,Dp,L,t){let i=0;try{i=rugIdx(L);}catch(_){}FC_draw(k+':r',i+'|'+(L.v||0),X,Y,-2,-2,Wd+4,Dp+4,()=>R0(X,Y,Wd,Dp,L,t));};f.draw.__orig=R0;}
+for(const k of['rug','rug2']){const f=FT[k];if(!f||!f.draw)continue;const R0=f.draw.__orig||f.draw;f.draw=function(X,Y,Wd,Dp,L,t){let i=0;try{i=rugIdx(L);}catch(_){}FC_draw(k+':r',i+'|'+(L.v||0)+'|'+Wd+'x'+Dp,X,Y,-2,-2,Wd+4,Dp+4,()=>R0(X,Y,Wd,Dp,L,t));};f.draw.__orig=R0;}
 /* ---- v259: cordless stick cyclone vacuum (instead of the canister one) ---- */
 const VAC_PAL=[{b:'#2e3038',a:'#c8864a',a2:'#e8b47a',n:'カッパー'},{b:'#cdd2d9',a:'#4a6ad0',a2:'#8aa4f0',n:'ブルー'},{b:'#4a3e6a',a:'#c9ced6',a2:'#eef0f4',n:'ニッケル'}];
 // the stick vacuum drawn in local coordinates: floor head at (0,0), the wand going up to the body/handle at height H
@@ -15702,7 +15715,7 @@ function mateCleanUp(){if(!M)return;mRelease();const sinkU=()=>{const L=S.layout
 function validInWhy(k,p){try{const f=FT[k];const occ=occSet(new Set([k]));const nm=kk=>(FT[kk]&&FT[kk].n)||kk;
   if(p.wall)return '壁のその場所にはかけられないみたい';
   const w=p.ped?1:f.w,h=p.ped?1:f.h,r=roomAt(p.x,p.y);if(!r||!f.rooms.includes(r))return `${f.n}は、その部屋には置けないよ`;
-  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r)return '部屋からはみ出しちゃう';if(DOORCELL.has(kk))return 'ドアの通り道はふさげないよ';if(KEEP.has(kk))return '玄関の前は通れるようにあけておきたいな';if(f.k!=='floor'&&occ.has(kk))return 'ほかの家具と重なっちゃう';}
+  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r)return '部屋からはみ出しちゃう';if(WH_hid(xx,yy))return '壁のうしろになって見えないから、置けないよ';if(DOORCELL.has(kk))return 'ドアの通り道はふさげないよ';if(KEEP.has(kk))return '玄関の前は通れるようにあけておきたいな';if(f.k!=='floor'&&occ.has(kk))return 'ほかの家具と重なっちゃう';}
   if(f.tall){const usedW=wallUsed();for(let xx=p.x;xx<p.x+w;xx++)if(usedW.has(xx+','+(p.y-1)))return '背が高いから、壁の飾りや窓にかかっちゃう';const fw=wallFront();for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)if(fw.has(xx+','+yy))return '背が高いから、壁の飾りの前はふさげないよ';}
   const occ2=new Set(occ);for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)occ2.add(xx+','+yy);const occR=reachOcc(occ2);
   if(!occR)return '玄関から入れなくなっちゃう';if(occR.size-occ2.size>Math.max(12,reachPk(occ)))return '奥に入れない場所ができちゃう';
@@ -16401,7 +16414,7 @@ OKEYS.push('hulahoop');OBUY.push('hulahoop');
   DCH.apply(this,arguments);
   c.save();c.translate(Math.round(cx),Math.round(by));c.scale(sc,sc);try{HH_front(0,-11,t,'#ff5a9a');}catch(e){}c.restore();};}
 // mirror ball: light spots over its room, the room dims a little
-function MB_room(){const L=S.layout.mirrorball;if(!L||L.carry)return null;const r=roomAt(L.x,L.y);if(!r)return null;let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<24;y++)for(let x=0;x<HW;x++)if(roomAt(x,y)===r){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}return{x0,y0,x1,y1,L};}
+function MB_room(){const L=S.layout.mirrorball;if(!L||L.carry)return null;const r=roomAt(L.x,L.y);if(!r)return null;let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<26;y++)for(let x=0;x<HW;x++)if(roomAt(x,y)===r){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}return{x0,y0,x1,y1,L};}
 {const LI=lightingIn;lightingIn=function(t){LI.apply(this,arguments);try{if(MB_on()&&C.scene==='in'&&has('mirrorball')){const dl=daylight();g.fillStyle=`rgba(20,10,40,${dl<.5?.22:.08})`;g.fillRect(0,0,W,H);}}catch(e){}};}
 {const GI=glowIn;glowIn=function(t){GI.apply(this,arguments);try{if(!MB_on()||C.scene!=='in'||!has('mirrorball'))return;const R=MB_room();if(!R)return;const dl=daylight(),al=dl<.5?1:.45;
   const X0=R.x0*T,Y0=R.y0*T-8,X1=(R.x1+1)*T,Y1=(R.y1+1)*T,cx=(R.L.x+.5)*T,cy=R.L.y*T-3;g.save();g.beginPath();g.rect(X0,Y0,X1-X0,Y1-Y0);g.clip();g.globalCompositeOperation='lighter';
@@ -16904,7 +16917,7 @@ function DEX_allFoods(){const f=new Set(),d=new Set();try{for(const k in FOOD)if
 /* ---- v314: tatami laid by the rules (no point where four mats meet), per room; the picture book shows no counts ---- */
 const TAT_L={};
 function TAT_layout(r){if(TAT_L[r]!==undefined)return TAT_L[r];let res=null;try{
-  const cells=new Set();let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<=23;y++)for(let x=0;x<HW;x++){const k=DOORFLOOR[x+','+y]||roomAt(x,y);if(k===r){cells.add(x+','+y);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}}
+  const cells=new Set();let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<=25;y++)for(let x=0;x<HW;x++){const k=DOORFLOOR[x+','+y]||roomAt(x,y);if(k===r){cells.add(x+','+y);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}}
   if(!cells.size){TAT_L[r]=null;return null;}
   const W=x1-x0+1,H=y1-y0+1,id=new Int32Array(W*H).fill(-1),isC=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&cells.has((x+x0)+','+(y+y0));
   const at=(x,y)=>isC(x,y)?id[y*W+x]:-2;
@@ -17167,7 +17180,7 @@ function RO_order(st,yard){const k=st.k;
 FT.trainset.n='プラ鉄道模型';FT.mirrorball.n='卓上ミラーボール';
 FT.mirrorball.act.on=()=>{S.mbUntil=Date.now()+30e3;};
 // clip path made of the room's own floor cells (plus the wall face above its top row), so no light goes through a wall
-function MB_clip(r){const p=new Path2D();for(let y=0;y<24;y++)for(let x=0;x<HW;x++){if(roomAt(x,y)!==r)continue;p.rect(x*T,y*T,T+.5,T+.5);if(roomAt(x,y-1)!==r&&!DOORCELL.has(x+','+(y-1)))p.rect(x*T,y*T-(typeof WEXT==='number'?WEXT:14),T+.5,(typeof WEXT==='number'?WEXT:14)+.5);}return p;}
+function MB_clip(r){const p=new Path2D();for(let y=0;y<26;y++)for(let x=0;x<HW;x++){if(roomAt(x,y)!==r)continue;p.rect(x*T,y*T,T+.5,T+.5);if(roomAt(x,y-1)!==r&&!DOORCELL.has(x+','+(y-1)))p.rect(x*T,y*T-(typeof WEXT==='number'?WEXT:14),T+.5,(typeof WEXT==='number'?WEXT:14)+.5);}return p;}
 let MB_CK='',MB_CP=null;
 {const GI0=glowIn;glowIn=function(t){// draw everything else, but not the old spots: our own drawing below replaces them
   const on=MB_on();if(on){const u=S.mbUntil;S.mbUntil=0;try{GI0.apply(this,arguments);}finally{S.mbUntil=u;}}else GI0.apply(this,arguments);
@@ -17339,7 +17352,7 @@ function FXZ_for(id){try{if(id==='bubble'){if(C.scene!=='in'||C.moving||(C.path&
     if(rx1+8+p.bw<=sw-6)left=rx1+8;else if(rx0-8-p.bw>=6)left=rx0-8-p.bw;else{top=ry1+8;below=true;}}
   bb.classList.toggle('below',below);bb.style.transform=`translate(${Math.round(left)}px,${Math.round(top)}px)`;bb.style.setProperty('--tx',clamp(p.sx-left,16,p.bw-16)+'px');bb._pos={left,top,bw:p.bw,bh:p.bh,sx:p.sx};}catch(e){}return r;};}
 /* ---- v334: the hero undresses / dresses in the dressing room; while bare, a mosaic covers the body ---- */
-function NUDE_tile(){try{let best=null,bd=1e9,n=0,sx=0,sy=0;const cs=[];for(let y=0;y<24;y++)for(let x=0;x<HW;x++)if(roomAt(x,y)==='dress'){n++;sx+=x;sy+=y;if(walkIn(x,y)&&!OCC.has(x+','+y))cs.push({x,y});}
+function NUDE_tile(){try{let best=null,bd=1e9,n=0,sx=0,sy=0;const cs=[];for(let y=0;y<26;y++)for(let x=0;x<HW;x++)if(roomAt(x,y)==='dress'){n++;sx+=x;sy+=y;if(walkIn(x,y)&&!OCC.has(x+','+y))cs.push({x,y});}
   if(!cs.length)return null;const mx=sx/n,my=sy/n;for(const q of cs){const d=Math.abs(q.x-mx)+Math.abs(q.y-my)+(roomAt(q.x,q.y+1)!=='dress'?4:0);if(d<bd&&bfs('in',IN_ENTRY.x,IN_ENTRY.y,q.x,q.y)){bd=d;best=q;}}return best?{x:best.x,y:best.y,d:'down'}:null;}catch(e){return null;}}
 function NUDE_toDress(){const t=NUDE_tile();return t?[{t:'go',sc:'in',dyn:()=>NUDE_tile()||{x:C.tx,y:C.ty,d:'down'}},FN(()=>{C.dir='down';})]:[];}
 function NUDE_undress(){const t=NUDE_tile();return[...(t?NUDE_toDress():[]),SAY(pick(['服を脱いで…と','お湯がたまったし、入ろう','脱いだ服は洗濯かごへ'])),W8(1),FN(()=>{doron();}),W8(.45),FN(()=>{C.naked=true;}),W8(.5)];}
@@ -18687,7 +18700,7 @@ function MBD_level(){try{if(!S||C.scene!=='in'||!has('mirrorball'))return 0;cons
 /* ---- v347: a light switch for the whole house (by the living-room / kitchen doorway); after sunset: on/off, 5 colour temperatures, 3 brightness levels ---- */
 const LSW_T=[['昼白色','#eef3ff','185,205,255',.09],['温白色','#ffe9c8','60,40,10',.1],['電球色','#ffc890','110,55,0',.16]];
 const LSW_B=[['明るい',0],['ふつう',1],['暗め',2]];
-const LSW_P=(()=>{const[x,y]=SX('11,14').split(',').map(Number);return{x,y:y-1,dy:y};})();// the wall face above the doorway
+const LSW_P=(()=>{const[x,y]=SX('11,16').split(',').map(Number);return{x,y:y-1,dy:y};})();// the wall face above the doorway
 function LSW_st(){if(!S.light)S.light={on:true,temp:1,br:1,v:2};const L=S.light;if(L.v!==2){L.temp=[0,0,1,1,2][L.temp]??1;L.v=2;}return L;}
 function LSW_night(){const h=hourNow(),sr=ENV.sunrise??6,ss=ENV.sunset??17.5;return h>=ss||h<sr;}
 // the base lighting while awake after dark (called from lightingIn); returns true when it has drawn the room light
@@ -20205,7 +20218,7 @@ ALLK.push('planemodel','windcar','flowerrock','garakei');
 {const AL=admireLine;admireLine=function(k){const M3={planemodel:['飛行機の模型。いつか本物で遠くへ行きたいな','翼の先がきゅっと反ってて、かっこいい'],windcar:['ゼンマイカー、ぎりぎり巻いて…それっ！','ちっちゃくて丸くて、かわいい車'],flowerrock:['音楽をかけると、この花がおどるんだよね','にこにこしてる。こっちまで楽しくなる'],garakei:['なつかしいガラケー。パカッと開くのが気持ちいい','ストラップがじゃらじゃら、昔はこうだったな']};if(M3[k])return pick(M3[k]);return AL.apply(this,arguments);};}
 /* ---- v352: wide rooms get their tatami laid quickly by a running bond (half mats at alternate row ends), checked for four-corner meets ---- */
 {const TL=TAT_layout;TAT_layout=function(r){if(TAT_L[r]!==undefined)return TAT_L[r];try{
-  const cells=new Set();let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<=23;y++)for(let x=0;x<HW;x++){const k=DOORFLOOR[x+','+y]||roomAt(x,y);if(k===r){cells.add(x+','+y);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}}
+  const cells=new Set();let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<=25;y++)for(let x=0;x<HW;x++){const k=DOORFLOOR[x+','+y]||roomAt(x,y);if(k===r){cells.add(x+','+y);x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}}
   if(cells.size){const W=x1-x0+1,H=y1-y0+1;if(W*H>130){const id=new Int32Array(W*H).fill(-1),isC=(x,y)=>x>=0&&y>=0&&x<W&&y<H&&cells.has((x+x0)+','+(y+y0));let nid=0;
     for(let y=0;y<H;y++){let first=true;for(let x=0;x<W;x++){if(!isC(x,y)||id[y*W+x]>=0){if(!isC(x,y))first=true;continue;}const m=nid++;
       if(y%2===1&&first){id[y*W+x]=m;first=false;continue;}first=false;
@@ -20441,7 +20454,7 @@ WP.push(
 {const WPP=WP_paint;WP_paint=function(c,d,x0,y0,w,y1){if(d&&d.p==='isl'){ISL_paint(c,d.k,x0,y0,w,y1-y0,d.s||6,d.P);return;}return WPP.apply(this,arguments);};}
 // ---- Persian carpets: one big rug per room (borders along the walls, a central medallion, corner pieces, a patterned field) ----
 const PC_RB={};
-function PC_room(r){if(PC_RB[r])return PC_RB[r];let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<24;y++)for(let x=0;x<HW;x++)if(roomAt(x,y)===r&&!DOORCELL.has(x+','+y)){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}
+function PC_room(r){if(PC_RB[r])return PC_RB[r];let x0=99,y0=99,x1=-1,y1=-1;for(let y=0;y<26;y++)for(let x=0;x<HW;x++)if(roomAt(x,y)===r&&!DOORCELL.has(x+','+y)){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);}
   return PC_RB[r]=x1<0?null:{X:x0*T,Y:y0*T,W:(x1-x0+1)*T,H:(y1-y0+1)*T};}
 function PC_motif(c,m,x,y,s,D){// small repeat in the field
   if(m==='herati'){c.fillStyle=D.m1;c.beginPath();c.moveTo(x,y-s*.32);c.lineTo(x+s*.32,y);c.lineTo(x,y+s*.32);c.lineTo(x-s*.32,y);c.closePath();c.fill();c.fillStyle=D.m2;c.beginPath();c.arc(x,y,s*.1,0,TAU);c.fill();
@@ -20611,7 +20624,7 @@ function RUG_is(k){try{return RUG_FAM.includes(k);}catch(e){return k==='rug'||k=
 FT.rug2.w=4;FT.rug2.h=3;FT.rug2.n='ラグ（2枚目）';
 for(const k of RUG_FAM)FT[k].rooms=['liv','bed','kit'];
 for(let i=3;i<=24;i++){const k='rug'+i,f=Object.assign({},FT.rug2,{n:`ラグ（${i}枚目）`,rooms:['liv','bed','kit']});
-  f.draw=function(X,Y,Wd,Dp,L,t){let j=0;try{j=rugIdx(L);}catch(_){}FC_draw(k+':r',j+'|'+(L.v||0),X,Y,-2,-2,Wd+4,Dp+4,()=>RUG_draw(X,Y,Wd,Dp,L,t));};
+  f.draw=function(X,Y,Wd,Dp,L,t){let j=0;try{j=rugIdx(L);}catch(_){}FC_draw(k+':r',j+'|'+(L.v||0)+'|'+Wd+'x'+Dp,X,Y,-2,-2,Wd+4,Dp+4,()=>RUG_draw(X,Y,Wd,Dp,L,t));};
   Object.defineProperty(FT,k,{value:f,enumerable:false,configurable:true,writable:true});RUG_FAM.push(k);NOSTORE.add(k);}
 {const fam=RO_FAM.find(f=>f.includes('rug'));if(fam)for(const k of RUG_FAM)if(!fam.includes(k))fam.push(k);}
 // two rugs never lie on top of each other
@@ -20620,7 +20633,7 @@ function RUG_hit(k,p){const f=FT[k];for(const j of RUG_FAM){if(j===k||!has(j))co
 {const VI=validIn;validIn=function(k,p){if(RUG_is(k)&&p&&!p.wall&&!p.carry&&RUG_hit(k,p))return false;return VI.apply(this,arguments);};}
 {const VW=validInWhy;validInWhy=function(k,p){try{if(RUG_is(k)&&p&&!p.wall&&RUG_hit(k,p))return 'ほかのラグと重なっちゃう';}catch(e){}return VW.apply(this,arguments);};}
 {const PF=placeFor;placeFor=function(k,opt){if(!RUG_is(k))return PF.apply(this,arguments);const p=PF.apply(this,arguments);if(p&&!RUG_hit(k,p))return p;
-  try{const cand=[];for(let y=2;y<=20;y++)for(let x=1;x<=HW-2;x++){const q={x,y,v:Math.floor(Math.random()*4)};if(validIn(k,q))cand.push(q);}if(cand.length)return pick(cand);}catch(e){}return null;};}
+  try{const cand=[];for(let y=2;y<=22;y++)for(let x=1;x<=HW-2;x++){const q={x,y,v:Math.floor(Math.random()*4)};if(validIn(k,q))cand.push(q);}if(cand.length)return pick(cand);}catch(e){}return null;};}
 // re-order from the picture book: allowed while there is room for one more
 {const RS=RO_state;RO_state=function(k,yard){const r=RS.apply(this,arguments);try{if(!yard&&RUG_is(r.k||k)){if(r.kind==='order'&&r.more){let ok=true;try{ok=!!placeFor(r.k);}catch(e){}if(!ok)return{kind:'msg',msg:'部屋に置く場所がないので、これ以上は頼めません'};}
   if(r.kind==='msg'&&/そろっている/.test(r.msg))return{kind:'msg',msg:'部屋に置く場所がないので、これ以上は頼めません'};}}catch(e){}return r;};}
@@ -20665,7 +20678,7 @@ function RUP_draw(X,Y,Wd,Dp,L,im){const x=X+4,y=Y+5,w=Wd-8,h=Dp-10,m=L.uimg.m;
 function RUP_edge(src,cb){try{const im=new Image();im.onload=()=>{try{const c=document.createElement('canvas');c.width=8;c.height=8;const x=c.getContext('2d');x.drawImage(im,0,0,8,8);const d=x.getImageData(0,0,8,8).data;let r=0,g2=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];g2+=d[i+1];b+=d[i+2];}const n=d.length/4;
   cb('#'+[r,g2,b].map(v=>Math.round(v/n*.55).toString(16).padStart(2,'0')).join(''));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=src;}catch(e){cb(null);}}
 for(const k of RUG_FAM){const f=FT[k];if(!f)continue;const D0=f.draw;f.draw=function(X,Y,Wd,Dp,L,t){try{if(L&&L.uimg&&L.uimg.src){const im=RUP_im(L.uimg.src);
-  if(im){const u=L.uimg;FC_draw(k+':u',u.m+'|'+(u.edge||'')+'|'+(u.fr||'')+'|'+u.src.length+'|'+u.src.slice(-24),X,Y,-3,-3,Wd+6,Dp+6,()=>RUP_draw(X,Y,Wd,Dp,L,im));return;}}}catch(e){}return D0.apply(this,arguments);};}
+  if(im){const u=L.uimg;FC_draw(k+':u',u.m+'|'+(u.edge||'')+'|'+(u.fr||'')+'|'+u.src.length+'|'+u.src.slice(-24)+'|'+Wd+'x'+Dp,X,Y,-3,-3,Wd+6,Dp+6,()=>RUP_draw(X,Y,Wd,Dp,L,im));return;}}}catch(e){}return D0.apply(this,arguments);};}
 // rugs are not tap targets of their own (a tap on a rug is a tap on the floor) — the double-tap opens the rug menu
 function RUP_at(wx,wy){try{if(!S||C.scene!=='in')return null;const tx=Math.floor(wx/T),ty=Math.floor(wy/T);let hit=null;for(const k of S.owned){if(!RUG_is(k))continue;const L=S.layout[k],f=FT[k];if(!L||L.carry||L.wall)continue;if(tx>=L.x&&tx<L.x+f.w&&ty>=L.y&&ty<L.y+f.h)hit=k;}return hit;}catch(e){return null;}}
 /* v374: the rug menu opens from a long-press only (no double-tap) */
@@ -20712,10 +20725,10 @@ function RUP_load(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im
 RUP_pick=function(k,mode){let inp=document.getElementById('rupFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='rupFile';inp.hidden=true;document.body.appendChild(inp);}
   inp.onchange=()=>{const fl=inp.files&&inp.files[0];inp.value='';if(!fl)return;RUP_load(fl,src=>{if(!src){say('その画像は読み込めなかったみたい');return;}RUP_adjust(k,mode,src);});};inp.click();};
 function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov)return;const L=S.layout[k];if(!L)return;
-  const OW=mode==='tile'?96:264,OH=mode==='tile'?96:186,ar=OW/OH;
+  const OW=mode==='tile'?96:(typeof RSZ_ow==='function'?RSZ_ow(k):264),OH=mode==='tile'?96:186,ar=OW/OH;
   if(!document.getElementById('rupAdjSt')){const st=document.createElement('style');st.id='rupAdjSt';st.textContent='#rupOv .rpf{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#111;touch-action:none;cursor:grab;margin:4px 0 8px;box-shadow:0 0 0 2px rgba(255,211,107,.8)}#rupOv .rpf canvas{display:block;width:100%;height:100%}#rupOv .rpf .rpg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 33.3% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 66.6% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 33.3%/100% 1px no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 66.6%/100% 1px no-repeat}#rupOv .rptp{width:100%;aspect-ratio:88/62;border-radius:6px;margin:0 0 8px;background-repeat:repeat;background-size:20% auto;box-shadow:inset 0 0 0 3px rgba(120,60,60,.8)}#rupOv .rpa{display:flex;gap:8px}#rupOv .rpa button{flex:1}#rupOv .rpz{width:100%;margin:0 0 8px}';try{document.head.appendChild(st);}catch(_){}}
   ov.innerHTML=`<div class="card" role="dialog" aria-label="位置を調整"><h2>${mode==='tile'?'🔁 くり返し柄にする部分':'🖼 ラグに敷く部分'}</h2><p class="hint">ドラッグして位置を調整できます${mode==='tile'?'（四角の中がくり返しの1枚になります）':''}</p>
-    <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 8px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 縮小・拡大</span><input class="rpz" style="margin:0" type="range" min="30" max="300" value="100" aria-label="拡大"></div>${mode==='tile'?'<div class="rptp"></div>':'<div class="rpv rufp" style="width:100%;aspect-ratio:88/62;border-radius:6px;margin:0 0 8px;background-repeat:no-repeat;background-position:center"></div>'}<div class="rufw"></div>
+    <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 8px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 縮小・拡大</span><input class="rpz" style="margin:0" type="range" min="30" max="300" value="100" aria-label="拡大"></div>${mode==='tile'?'<div class="rptp"></div>':'<div class="rpv rufp" style="width:100%;aspect-ratio:${OW}/${OH};border-radius:6px;margin:0 0 8px;background-repeat:no-repeat;background-position:center"></div>'}<div class="rufw"></div>
     <div class="rpa"><button type="button" class="rpc">キャンセル</button><button type="button" class="primary rpok">決定</button></div></div>`;ov.hidden=false;
   const fr=ov.querySelector('.rpf'),cv2=fr.querySelector('canvas'),zs=ov.querySelector('.rpz'),tp=ov.querySelector('.rptp');
   const st={z:1,cx:.5,cy:.5};// centre of the view in image fractions
@@ -20726,7 +20739,7 @@ function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov
     const x=cv2.getContext('2d'),v=view();x.fillStyle='#fff';x.fillRect(0,0,w,h);ADJ_blit(x,src,v,w,h);};
   let tpT=0;let tpUp=()=>{if(!tp)return;clearTimeout(tpT);tpT=setTimeout(()=>{try{tp.style.backgroundImage=`url(${crop(96,96).toDataURL('image/jpeg',.8)})`;}catch(_){}},60);};
   const old=L.uimg&&L.uimg.m===mode?L.uimg.fr:undefined;let frSel=old!==undefined?old:(mode==='tile'?'auto':RUF_COLS[0][0]);const pp=ov.querySelector('.rufp');let ppT=0;
-  const ppUp=()=>{if(!pp)return;clearTimeout(ppT);ppT=setTimeout(()=>{try{const c=frSel==='none'?null:frSel;pp.style.backgroundImage=`url(${crop(176,124).toDataURL('image/jpeg',.8)})`;pp.style.backgroundColor=c||'transparent';pp.style.backgroundSize=c?'calc(100% - 12px) calc(100% - 12px)':'100% 100%';}catch(_){}},60);};
+  const ppUp=()=>{if(!pp)return;clearTimeout(ppT);ppT=setTimeout(()=>{try{const c=frSel==='none'?null:frSel;pp.style.backgroundImage=`url(${crop(Math.round(124*ar),124).toDataURL('image/jpeg',.8)})`;pp.style.backgroundColor=c||'transparent';pp.style.backgroundSize=c?'calc(100% - 12px) calc(100% - 12px)':'100% 100%';}catch(_){}},60);};
   RUF_row(ov.querySelector('.rufw'),mode,()=>frSel,v=>{frSel=v;tpUp();});
   const tpUp0=tpUp;tpUp=()=>{tpUp0();ppUp();if(tp)tp.style.boxShadow=frSel==='none'?'none':`inset 0 0 0 3px ${frSel==='auto'?'rgba(120,60,60,.8)':frSel}`;};
   draw();tpUp();requestAnimationFrame(()=>{draw();});
@@ -20824,14 +20837,14 @@ function FAN_k(){return has('fan')?'fan':has('bfan')?'bfan':null;}
 /* ---------- the mirror ---------- */
 const MIR_DIR={up:'down',down:'up',left:'left',right:'right'};
 function MIR_people(){const out=[];try{if(C.scene==='in'&&!C.naked&&!['lie','bath'].includes(C.pose)){const p=charPos();out.push({p,o:()=>({...charOpts(),dir:MIR_DIR[C.dir]||'down',floor:false})});}}catch(e){}
-  try{if(M&&S.mate&&M.scene==='in'&&!M.bath&&!M.sleeping&&!(M.sit&&['lie','bath'].includes(M.sit.pose))){const p=mPos();out.push({p,o:()=>({sun:null,fun:M.fun||null,hang:0,noOuter:true,level:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:MIR_DIR[M.sit?M.sit.d:M.dir]||'down',moving:M.moving&&!M.sit,ph:M.ph,frame:0,pose:M.sit?M.sit.pose||'sit':'stand',holding:M.holding,drink:M.drink,drinkLv:M.drinkLv,scale:1,seed:M.seed})});}}catch(e){}
+  try{if(M&&S.mate&&M.scene==='in'&&!M.bath&&!M.sleeping&&!(M.sit&&['lie','bath'].includes(M.sit.pose))){const p=mPos();out.push({p,o:()=>({sun:null,fun:M.fun||null,hang:0,noOuter:true,level:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:MIR_DIR[M.sit?M.sit.d:M.dir]||'down',moving:M.moving&&!M.sit,ph:M.ph,frame:0,pose:M.sit?M.sit.pose||'sit':'stand',holding:M.holding,drink:M.drink,drinkLv:M.drinkLv,scale:CH_SC,seed:M.seed})});}}catch(e){}
   return out;}
 // draw the room and whoever is in front into the glass rect gx,gy,gw,gh; mirror stands at world x mx, base line wy
 function MIR_reflect(gx,gy,gw,gh,mx,wy,o){o=o||{};const c=g;c.save();c.beginPath();c.rect(gx,gy,gw,gh);c.clip();
   const fl=o.floorAt!=null?o.floorAt:.62;c.fillStyle=B_lg(0,gy,0,gy+gh,[[0,'#ece5d8'],[fl-.01,'#e1d7c4'],[fl,'#cdb68f'],[1,'#b99f78']]);c.fillRect(gx,gy,gw,gh);
   c.fillStyle='rgba(110,80,40,.12)';for(let y=gy+gh*fl+3;y<gy+gh;y+=3.2)c.fillRect(gx,y,gw,.35);
   const ps=MIR_people().map(q=>({...q,d:(q.p.by-wy)/T,dx:q.p.cx-mx})).filter(q=>q.d>-.2&&q.d<(o.reach||3.2)&&Math.abs(q.dx)<(o.side||T*1.4)).sort((a,b)=>b.d-a.d);
-  for(const q of ps){const s=(o.sc||gh/48)*(1.12-q.d*.13),fx=gx+gw/2+q.dx*.55,fby=gy+gh*(o.feet||.97)-q.d*gh*.05;c.save();c.translate(fx,fby);c.scale(s,s);c.globalAlpha=.94;try{const op=q.o();drawChar(c,0,0,{...op,scale:1});}catch(e){}c.restore();}
+  for(const q of ps){const s=(o.sc||gh/48)*(1.12-q.d*.13),fx=gx+gw/2+q.dx*.55,fby=gy+gh*(o.feet||.97)-q.d*gh*.05;c.save();c.translate(fx,fby);c.scale(s,s);c.globalAlpha=.94;try{const op=q.o();drawChar(c,0,0,{...op,scale:CH_SC});}catch(e){}c.restore();}
   // glass tint + sheen
   c.fillStyle='rgba(190,220,235,.16)';c.fillRect(gx,gy,gw,gh);
   c.fillStyle='rgba(255,255,255,.42)';c.beginPath();c.moveTo(gx+gw*.12,gy+gh*.75);c.lineTo(gx+gw*.48,gy);c.lineTo(gx+gw*.66,gy);c.lineTo(gx+gw*.3,gy+gh*.75);c.fill();
@@ -20859,7 +20872,7 @@ function MIR_floor(L,t){const X=L.x*T,Y=L.y*T,cx=X+12,fw=14,fh=40,fx=cx-fw/2,fy=
 function SINK_reflect(){try{const L=S.layout.sink;if(!L||L.carry)return;const X=L.x*T,Y=L.y*T;
   const gx=X+3,gy=Y-24.6,gw=18,gh=17.6,wx=X+12,wy=Y+T;const ps=MIR_people().filter(q=>Math.abs(q.p.cx-wx)<T*.9&&q.p.by-wy>-4&&q.p.by-wy<T*1.6);if(!ps.length)return;
   g.save();g.beginPath();g.rect(gx,gy,gw,gh);g.clip();
-  for(const q of ps){const fx=gx+gw/2+(q.p.cx-wx)*.5;g.save();g.translate(fx,gy+gh+9);g.scale(.66,.66);g.globalAlpha=.9;try{drawChar(g,0,0,{...q.o(),scale:1});}catch(e){}g.restore();}
+  for(const q of ps){const fx=gx+gw/2+(q.p.cx-wx)*.5;g.save();g.translate(fx,gy+gh+9);g.scale(.66,.66);g.globalAlpha=.9;try{drawChar(g,0,0,{...q.o(),scale:CH_SC});}catch(e){}g.restore();}
   g.fillStyle='rgba(200,225,238,.2)';g.fillRect(gx,gy,gw,gh);g.fillStyle='rgba(255,255,255,.45)';g.beginPath();g.moveTo(X+5,Y-8);g.lineTo(X+10,Y-24);g.lineTo(X+12.6,Y-24);g.lineTo(X+7.6,Y-8);g.fill();
   fillR(g,'rgba(90,110,125,.3)',X+11.8,gy,.5,gh);g.restore();}catch(e){}}
 {const WB=wallBandItems;wallBandItems=function(items,t){const r=WB.apply(this,arguments);try{const L=S.layout.sink;if(C.scene==='in'&&L&&!L.carry)items.push({k:(L.y+1)*T+8,f:SINK_reflect});}catch(e){}return r;};}
@@ -22142,6 +22155,99 @@ SM_DRAW.fruits=function(cx,cy,eat,t){g.save();
     const took=Math.min(1,eat*3)*(eat<.95?1:0);if(took>.2){FR_straw(dx-1+s*.2,dy-.2,.8,.2*s);}if(took>.5)FR_kiwi(dx+1.2,dy+.3,.42);if(took>.75)FR_wmelon(dx-.2,dy+.5,.45,.1);
     const fx=cx+s*19.6,fy=cy-6.4;SW_glass(fx,fy,1,'#f4dc8a',.85*(1-eat*.8),t);if(eat<.9)FR_straw(fx+.6*s,fy-7.9,.55,s*.6);}
   g.restore();};
+/* ========== v427: tall walls — furniture hidden behind a back wall is moved out ========== */
+function WH_fix(){try{if(!S||!S.layout||!S.owned)return 0;let n=0;
+  for(const k of S.owned.slice()){const L=S.layout[k],f=FT[k];if(!L||!f||L.carry||L.wall||L.on)continue;if(DRAG&&DRAG.k===k)continue;const fw=L.ped?1:(f.w||1),fh=L.ped?1:(f.h||1);
+    let hit=false;for(let dy=0;dy<fh&&!hit;dy++)for(let dx=0;dx<fw;dx++)if(WH_hid(L.x+dx,L.y+dy)){hit=true;break;}
+    if(!hit)continue;let p=null;try{p=placeFor(k,{skip:new Set([k])});}catch(e){}
+    if(!p){try{p=KEEP_relaxed(()=>placeFor(k,{skip:new Set([k]),free:true}));}catch(e){}}
+    if(!p){try{const r0=f.rooms;f.rooms=['liv','bed','kit','dress','bath','wc','store'];try{p=placeFor(k,{skip:new Set([k])});}finally{f.rooms=r0;}}catch(e){}}
+    if(!p){try{const occ=occSet(new Set([k]));let best=null,bd=1e9;for(const rooms of[f.rooms||[],['liv','bed','kit','dress','bath','wc','store']]){for(let y=2;y<=22;y++)for(let x=1;x<=HW-2;x++){const r=roomAt(x,y);if(!r||!rooms.includes(r))continue;let ok=true;for(let yy=y;yy<y+fh&&ok;yy++)for(let xx=x;xx<x+fw;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||WH_hid(xx,yy)||DOORCELL.has(kk)||KEEP.has(kk)||(f.k!=='floor'&&occ.has(kk))){ok=false;break;}}if(!ok)continue;const d=Math.abs(x-L.x)+Math.abs(y-L.y);if(d<bd){bd=d;best={x,y,v:L.v||0};}}if(best)break;}if(best){p=best;if(L.ped)p.ped=1;}}catch(e){}}
+    if(p){if(L.v!=null&&p.v!=null)p.v=L.v;for(const kk of Object.keys(L))if(!['x','y','v','wall','on','slot','ped','side'].includes(kk)&&p[kk]==null)p[kk]=L[kk];S.layout[k]=p;n++;try{refreshOcc();}catch(e){}}}
+  const d=S.delivery;if(d&&d.p&&!d.p.wall&&!d.p.on&&FT[d.k]){const f=FT[d.k];let hit=false;for(let dy=0;dy<(f.h||1);dy++)for(let dx=0;dx<(f.w||1);dx++)if(WH_hid(d.p.x+dx,d.p.y+dy))hit=true;if(hit){try{const p=placeFor(d.k);if(p){d.p=p;n++;}}catch(e){}}}
+  if(n){try{save();}catch(e){}}return n;}catch(e){return 0;}}
+setInterval(()=>{try{if(S&&!(typeof PAUSED!=='undefined'&&PAUSED))WH_fix();}catch(e){}},4000);
+setTimeout(()=>{try{WH_fix();}catch(e){}},1500);
+/* ========== v429: furniture standing against a back wall sits flush to it (drawn a little further back) ========== */
+const BK_DY=10;
+// seats/beds that the housemate or the drink scenes position by hand stay where they are
+const BK_NO=new Set(['bed','bed2','sofa','table','bar','kotatsu','lowtable','armchair','beanbag','rocking','bath','toilet']);
+function BK_flushL(k,L){try{const f=FT[k];if(!f||!L||L.carry||L.wall||L.on||L.ped||f.k==='floor'||f.k==='wall'||BK_NO.has(String(k).replace(/_\d+$/,'')))return 0;
+  for(let x=L.x;x<L.x+(f.w||1);x++){if(!isWall(x,L.y-1)||DOORCELL.has(x+','+L.y)||DOORCELL.has(x+','+(L.y-1)))return 0;}return BK_DY;}catch(e){return 0;}}
+function BK_flush(k){return S&&S.layout?BK_flushL(k,S.layout[k]):0;}
+// separate parts (stools, benches) move back with their piece
+for(const k of Object.keys(FT)){const f=FT[k];if(!f||typeof f.parts!=='function'||BK_NO.has(k.replace(/_\d+$/,'')))continue;const P0=f.parts;
+  f.parts=function(L){const ps=P0.apply(this,arguments);try{const d=BK_flushL(k,L);if(d&&Array.isArray(ps))return ps.map(p=>p&&typeof p.f==='function'?Object.assign({},p,{f:()=>{g.save();g.translate(0,-d);try{p.f();}finally{g.restore();}}}):p);}catch(e){}return ps;};}
+// whoever sits at / lies on a flushed piece moves back with it
+for(const k of Object.keys(FT)){const f=FT[k];if(!f||typeof f.snap!=='function'||BK_NO.has(k.replace(/_\d+$/,'')))continue;const S0=f.snap;
+  f.snap=function(L){const sp=S0.apply(this,arguments);try{if(sp&&typeof sp.py==='number'&&BK_flushL(k,L))return Object.assign({},sp,{py:sp.py-BK_DY});}catch(e){}return sp;};}
+{const DF=drawFurnK;drawFurnK=function(k,t){const d=BK_flush(k);if(!d)return DF.apply(this,arguments);g.save();g.translate(0,-d);try{return DF.apply(this,arguments);}finally{g.restore();}};}
+/* ========== v431: rug sizes (2x2 … 5x5) from the long-press menu; the storeroom rack is withdrawn ========== */
+const RSZ_MIN=2,RSZ_MAX=5;
+// each rug key is one rug, so its size can follow its own layout entry
+for(const k of RUG_FAM){const f=FT[k];if(!f)continue;let bw=f.w,bh=f.h;
+  Object.defineProperty(f,'w',{get(){try{const L=S&&S.layout&&S.layout[k];if(L&&L.rw)return L.rw;}catch(e){}return bw;},set(v){bw=v;},configurable:true,enumerable:true});
+  Object.defineProperty(f,'h',{get(){try{const L=S&&S.layout&&S.layout[k];if(L&&L.rh)return L.rh;}catch(e){}return bh;},set(v){bh=v;},configurable:true,enumerable:true});}
+function RSZ_ar(k){const f=FT[k];return((f.w||4)*T-8)/((f.h||3)*T-10);}
+function RSZ_ow(k){return Math.max(60,Math.min(560,Math.round(186*RSZ_ar(k))));}
+// where a rug of w x h can lie, as close as possible to where it is now
+function RSZ_fit(k,w,h){const L=S.layout[k];if(!L)return null;const ow=L.rw,oh=L.rh,ox=L.x,oy=L.y;const cand=[];
+  for(let dy=-(h-1);dy<=2;dy++)for(let dx=-(w-1);dx<=2;dx++)cand.push([dx,dy]);cand.sort((a,b)=>(Math.abs(a[0])+Math.abs(a[1]))-(Math.abs(b[0])+Math.abs(b[1])));
+  let res=null;try{L.rw=w;L.rh=h;for(const[dx,dy]of cand){const q={x:ox+dx,y:oy+dy};L.x=q.x;L.y=q.y;let ok=false;try{ok=validIn(k,{...L});}catch(e){}if(ok){res=q;break;}}}
+  finally{L.x=ox;L.y=oy;if(ow)L.rw=ow;else delete L.rw;if(oh)L.rh=oh;else delete L.rh;}return res;}
+// a photo rug keeps the picture's proportions: fit to the height, centre it, trim or pad the sides
+function RSZ_reimg(k){try{const L=S.layout[k];if(!L||!L.uimg||L.uimg.m!=='photo')return;const u=L.uimg,base=u.base||u.src;const im=new Image();
+  im.onload=()=>{try{const OW=RSZ_ow(k),OH=186,c=document.createElement('canvas');c.width=OW;c.height=OH;const x=c.getContext('2d');
+    const fc=u.fr&&u.fr!=='none'?u.fr:'#ffffff';x.fillStyle=fc;x.fillRect(0,0,OW,OH);const s=OH/im.height,dw=im.width*s;x.drawImage(im,(OW-dw)/2,0,dw,OH);
+    const L2=S.layout[k];if(!L2||L2.uimg!==u)return;u.base=base;u.src=c.toDataURL('image/jpeg',.82);try{save();}catch(e){}}catch(e){}};im.src=base;}catch(e){}}
+function RSZ_apply(k,w,h){const L=S.layout[k];if(!L)return false;const q=RSZ_fit(k,w,h);if(!q)return false;L.rw=w;L.rh=h;L.x=q.x;L.y=q.y;
+  try{refreshOcc();}catch(e){}RSZ_reimg(k);try{save();}catch(e){}return true;}
+function RSZ_ui(k){let ov=document.getElementById('rszOv');if(!ov){const st=document.createElement('style');st.textContent='#rszOv .card{max-width:320px;padding:14px 14px 12px;text-align:center}#rszOv h2{margin:0 0 4px;font-size:16px}#rszOv .hint{margin:0 0 10px;font-size:12px;opacity:.8}#rszOv .rzr{display:flex;align-items:center;gap:6px;margin:0 0 8px}#rszOv .rzr b{width:2.6em;font-size:13px;text-align:left}#rszOv .rzr button{flex:1;padding:8px 0;height:auto;font-size:14px;border-radius:10px;border:2px solid transparent;background:rgba(255,255,255,.08);color:inherit}#rszOv .rzr button[aria-pressed=true]{border-color:#ffd36b;background:rgba(255,211,107,.2)}#rszOv .rzp{display:flex;justify-content:center;align-items:center;height:132px;margin:2px 0 8px}#rszOv .rzg{display:grid;gap:2px;padding:4px;border-radius:6px;background:rgba(255,255,255,.06)}#rszOv .rzg i{display:block;width:22px;height:22px;border-radius:3px;background:linear-gradient(135deg,#d8a87a,#b07850)}#rszOv .rzs{font-size:12.5px;min-height:1.4em;margin:0 0 10px}#rszOv .rzs.ng{color:#ff9b8a}#rszOv .rpa{display:flex;gap:8px}#rszOv .rpa button{flex:1}';document.head.append(st);
+    ov=document.createElement('div');ov.id='rszOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
+  const L=S.layout[k];if(!L)return;const f=FT[k];let w=f.w,h=f.h;const w0=w,h0=h;
+  const row=(lab,cls)=>`<div class="rzr"><b>${lab}</b>${[2,3,4,5].map(n=>`<button type="button" class="${cls}" data-n="${n}">${n}</button>`).join('')}</div>`;
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="ラグの大きさ"><h2>📐 ${f.n}の大きさ</h2><p class="hint">いまは 横${w0}×縦${h0}マス${L.uimg&&L.uimg.m==='photo'?'<br>写真は縦に合わせて、縦横の比率をそのまま敷き直します':''}</p>
+    ${row('横','rzw')}${row('縦','rzh')}<div class="rzp"><div class="rzg"></div></div><p class="rzs"></p><div class="rpa"><button type="button" class="rzc">キャンセル</button><button type="button" class="primary rzok">決定</button></div></div>`;
+  const grid=ov.querySelector('.rzg'),stEl=ov.querySelector('.rzs'),ok=ov.querySelector('.rzok');
+  const upd=()=>{ov.querySelectorAll('.rzw').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===w?'true':'false'));ov.querySelectorAll('.rzh').forEach(b=>b.setAttribute('aria-pressed',+b.dataset.n===h?'true':'false'));
+    grid.style.gridTemplateColumns=`repeat(${w},22px)`;grid.innerHTML='<i></i>'.repeat(w*h);
+    if(w===w0&&h===h0){stEl.textContent='いまと同じ大きさです';stEl.className='rzs';ok.disabled=true;return;}
+    const q=RSZ_fit(k,w,h);if(q){stEl.textContent=`横${w}×縦${h}マスにできます`+(q.x!==L.x||q.y!==L.y?'（少しずらして敷きます）':'');stEl.className='rzs';ok.disabled=false;}
+    else{stEl.textContent='その大きさだと、この部屋に敷ける場所がないみたい';stEl.className='rzs ng';ok.disabled=true;}};
+  ov.querySelectorAll('.rzw').forEach(b=>b.onclick=()=>{w=+b.dataset.n;upd();});ov.querySelectorAll('.rzh').forEach(b=>b.onclick=()=>{h=+b.dataset.n;upd();});
+  ov.querySelector('.rzc').onclick=()=>{ov.hidden=true;};
+  ok.onclick=()=>{if(RSZ_apply(k,w,h)){ov.hidden=true;try{const c=posCenter(k,S.layout[k]);puffAt({x:c.x,y:c.y+6});}catch(e){}try{queueSay(w*h>w0*h0?pick(['ラグを大きくしてみた！','広々したラグ、いいね']):pick(['ラグを小さくしてみた','ちょうどいい大きさになった']));}catch(e){}}else upd();};
+  upd();ov.hidden=false;}
+// the long-press menu of a rug gets "change the size"
+{const RA=recycleAsk;recycleAsk=function(k,sc){const r=RA.apply(this,arguments);try{const ov=document.getElementById('patMenu');if(ov){let row=document.getElementById('pmSizeRow');
+  if(!row){row=document.createElement('div');row.className='row2';row.id='pmSizeRow';row.style.marginTop='8px';row.innerHTML='<button id="pmSize" class="primary" type="button">📐 ラグの大きさを変える</button>';const ir=document.getElementById('pmImgRow');if(ir&&ir.parentNode)ir.parentNode.insertBefore(row,ir.nextSibling);else ov.querySelector('.card').appendChild(row);}
+  const isR=sc==='in'&&RUG_is(k)&&S.layout[k];row.hidden=!isR;if(isR)row.querySelector('#pmSize').onclick=()=>{ov.hidden=true;RSZ_ui(k);};}}catch(e){}return r;};}
+// the picture menu shows the preview in the rug's own proportions
+{const RU=RUP_ui;RUP_ui=function(k){const r=RU.apply(this,arguments);try{const v=document.querySelector('#rupOv .rpv');if(v&&FT[k])v.style.aspectRatio=((FT[k].w*T-8)/(FT[k].h*T-10)).toFixed(3);}catch(e){}return r;};}
+// storeroom rack: withdrawn (stored things still go in and out of the storeroom)
+{const i=ALLK.indexOf('storerack');if(i>=0)ALLK.splice(i,1);const pf=FT.storerack;if(pf){delete FT.storerack;Object.defineProperty(FT,'storerack',{value:pf,enumerable:false,configurable:true,writable:true});}}
+function SR_fix(){try{if(!S)return;S.storeV1=1;let ch=false;if((S.owned||[]).includes('storerack')){S.owned=S.owned.filter(x=>x!=='storerack');ch=true;}
+  if(S.layout&&S.layout.storerack){delete S.layout.storerack;ch=true;}if(S.stored&&S.stored.some(e=>e&&e.k==='storerack')){S.stored=S.stored.filter(e=>e&&e.k!=='storerack');ch=true;}
+  if(ch){try{refreshOcc();}catch(e){}try{save();}catch(e){}}}catch(e){}}
+setTimeout(SR_fix,300);setInterval(SR_fix,800);
+closetTile=function(){try{const xs=[12+XS,13+XS];for(const y of[2,3])for(const x of xs){if(roomAt(x,y)==='store'&&walkIn(x,y)&&!WH_hid(x,y))return{x,y};}
+  for(let y=2;y<=4;y++)for(const x of xs)if(roomAt(x,y)==='store'&&walkIn(x,y))return{x,y};}catch(e){}
+  const w=S.layout.wardrobe;if(has('wardrobe')&&w){const u=useTileFor('wardrobe',w);if(u)return u;}return randomTile('in','bed');};
+/* ========== v433: no sunlight on the floor through a window that has furniture standing right in front of it ========== */
+let WINB_c=null,WINB_t=0;
+function WINB(x,y){try{const n=performance.now();if(!WINB_c||n-WINB_t>500){WINB_t=n;WINB_c=new Set();for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||!L||L.carry||L.wall||L.on||f.k==='floor'||f.k==='wall')continue;
+      const w=L.ped?1:f.w,h=L.ped?1:f.h;for(let dy=0;dy<h;dy++)for(let dx=0;dx<w;dx++)WINB_c.add((L.x+dx)+','+(L.y+dy));}}
+  const fx=y===1?x:x===0?1:x===HW-1?HW-2:x,fy=y===1?2:y;return WINB_c.has(fx+','+fy);}catch(e){return false;}}
+/* ========== v434: the toilet is drawn a size larger (it looked small next to the people) ========== */
+const WC_SC=1.25;
+{const TD=FT.toilet.draw;FT.toilet.draw=function(X,Y,Wd,Dp,L){g.save();const bx=X+12,by=Y+17;g.translate(WC_dx(X,Y),0);g.translate(bx,by);g.scale(WC_SC,WC_SC);g.translate(-bx,-by);try{return TD.apply(this,arguments);}finally{g.restore();}};
+ const TS=FT.toilet.snap;FT.toilet.snap=function(L){const sp=TS.apply(this,arguments);try{if(sp&&typeof sp.py==='number'){const by=L.y*T+17;return Object.assign({},sp,{px:sp.px+WC_dx(L.x*T,L.y*T),py:by-(by-sp.py)*WC_SC});}}catch(e){}return sp;};}
+// the side control panel stays off the wall: nudge the bowl away from a wall on its right
+function WC_dx(X,Y){try{const x=Math.round(X/T),y=Math.round(Y/T);return isWall(x+1,y)?-1.8:0;}catch(e){return 0;}}
+/* ---- v435: the storeroom shares the bedroom's floor and wallpaper ---- */
+{const F=IN_face;IN_face=function(c,x,y,r,ft,nc){return F.call(this,c,x,y,r==='store'?'bed':r,ft,nc);};}
+{const F=floorTileC;floorTileC=function(c,r,x,y){return F.call(this,c,r==='store'?'bed':r,x,y);};}
+try{houseC.key='';}catch(e){}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -22167,7 +22273,7 @@ function tapTarget(wx,wy){const tx=Math.floor(wx/T),ty=Math.floor(wy/T),inR=(x,y
   if(C.scene==='in'){
     for(const k of S.owned){const L=S.layout[k];if(L&&L.wall&&!L.carry){const c=wallCenter(L);if(Math.abs(wx-c.x)<(L.side?8:10)&&Math.abs(wy-c.y)<11)return{t:'f',k};}}
     for(const yy of[ty,ty+1])for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!L||L.carry||L.wall||L.on||k==='rug'||k==='bathmat'||(typeof RUG_is==='function'&&RUG_is(k)))continue;if(yy!==ty&&!f.tall&&f.k!=='back'&&k!=='tv')continue;const w=L.ped?1:f.w,h=L.ped?1:f.h;if(inR(tx,yy,L.x,L.y,w,h))return{t:'f',k};}
-    if(tx===IN_ENTRY.x&&ty>=21&&ty<=22)return{t:'door'};
+    if(tx===IN_ENTRY.x&&ty>=23&&ty<=24)return{t:'door'};
     if(roomAt(tx,ty)&&walkIn(tx,ty))return{t:'floor',x:tx,y:ty};return null;}
   for(const k of yardList()){const p=S.yard[k],f=OFT[k];if(p.carry)continue;for(const yy of[ty,ty+1])if(inR(tx,yy,p.x,p.y,f.w,f.h))return{t:'yard',k};}
   for(const b of allBeds())if(inR(tx,ty,b.x,b.y,b.w,1))return{t:'bed',b};
@@ -22238,7 +22344,7 @@ function validIn(k,p){const f=FT[k];const occ=occSet(new Set([k]));
   if(f.k==='wall'&&!(canLean(k)&&leanOK(p.x,p.y)))return false;
   const w=p.ped?1:f.w,h=p.ped?1:f.h,r=roomAt(p.x,p.y);if(!r||!f.rooms.includes(r))return false;
   const ct=C.scene==='in'?C.tx+','+C.ty:'',vt=V&&V.scene==='in'?V.tx+','+V.ty:'',usedW=wallUsed();
-  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||DOORCELL.has(kk))return false;if(f.k!=='floor'&&occ.has(kk))return false;}/* the hero / visitor standing there just steps aside afterwards (seatFix) */
+  for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||WH_hid(xx,yy)||DOORCELL.has(kk))return false;if(f.k!=='floor'&&occ.has(kk))return false;}/* the hero / visitor standing there just steps aside afterwards (seatFix) */
   if(f.k==='floor')return true;
   // furniture that prefers the wall can still be moved anywhere by hand
   if(f.tall){for(let xx=p.x;xx<p.x+w;xx++)if(usedW.has(xx+','+(p.y-1)))return false;const fw=wallFront();for(let yy=p.y;yy<p.y+h;yy++)for(let xx=p.x;xx<p.x+w;xx++)if(fw.has(xx+','+yy))return false;}
@@ -22466,7 +22572,7 @@ $('bStart').onclick=()=>{chosen='human';if(!setupLook)setupLook=firstLook('m');s
 function startNew(look){setTimeout(()=>bgmDefaultInstall(),2500);M=null;
   const raw=$('nameIn').value.trim(),name=(!raw||(look&&raw===autoName&&!HN[look.g==='f'?'f':'m'].includes(raw)))?humanName(look?look.g:'m'):raw;
   try{localStorage.removeItem(OLDKEY);}catch(e){}
-  S={isle3:1,rugV2:1,rugV3:1,kitVer:2,hw:XS,shelfGiven:1,species:chosen,name,born:Date.now(),owned:[],layout:{},lampOn:false,wish:[],needs:{hunger:75,energy:85,hygiene:80,bladder:80,fun:70},outfit:simpleOutfit(),trend:null,bathDay:'',lastSeen:Date.now(),dseedK:Math.floor(Math.random()*9973),dressN:Math.floor(Math.random()*50)};if(look)S.look=look;
+  S={isle3:1,rugV2:1,rugV3:1,kitVer:2,hw:XS,vh:YS,shelfGiven:1,species:chosen,name,born:Date.now(),owned:[],layout:{},lampOn:false,wish:[],needs:{hunger:75,energy:85,hygiene:80,bladder:80,fun:70},outfit:simpleOutfit(),trend:null,bathDay:'',lastSeen:Date.now(),dseedK:Math.floor(Math.random()*9973),dressN:Math.floor(Math.random()*50)};if(look)S.look=look;
   C.scene='in';place(IN_ENTRY.x,IN_ENTRY.y-1);refreshOcc();
   S.yard={};S.xbeds=[];refreshOut();
   for(const k of['bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','boombox','bookshelf','robovac']){const p=placeFor(k);if(p){S.layout[k]=p;S.owned.push(k);refreshOcc();}}
@@ -22495,6 +22601,7 @@ function contGame(s){setTimeout(()=>bgmDefaultInstall(),2500);setTimeout(()=>{tr
   if(S.delivery&&(!S.delivery.k||!FT[S.delivery.k]))S.delivery=null;
   if(!S.layout||S.migrate){S.layout={};delete S.migrate;}
   if(S.hw!==XS){const d=XS-(S.hw||0);for(const k in S.layout||{}){const L=S.layout[k];if(L&&!L.on&&typeof L.x==='number'&&L.x>10)L.x+=d;}S.hw=XS;}
+  if(S.vh!==YS){try{VH_migrate();}catch(e){}S.vh=YS;}
   S.owned=(S.owned||[]).filter(k=>FT[k]);for(const k in S.layout){if(!FT[k]||!S.owned.includes(k))delete S.layout[k];else delete S.layout[k].carry;}
   for(const k in S.layout){const f=FT[k],L=S.layout[k];if(!f||!L)continue;let ok=true;
     if(L.wall)ok=WALLSPOTS.some(w=>sameSpot(w,L)&&f.rooms.includes(w.r));
