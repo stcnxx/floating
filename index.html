@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版404（2026/10/28 #254）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版408（2026/10/28 #258）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版404（2026/10/28 #254）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版408（2026/10/28 #258）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1690,10 +1690,10 @@ const SNKC={刺身:'#ef8f8f',冷奴:'#f6f3ea',枝豆:'#7fbf5c',焼き鳥:'#a8693
 function snackFor(d){const cat=drinkCat(d),base=SNACK[d.k]||[];const pool=base.concat(SNK.filter(x=>x[2].split(' ').includes(cat)||x[2].split(' ').includes(d.k)).map(x=>x[0]));return pick(pool.length?pool:['ミックスナッツ']);}
 const snackCol=n=>SNKC[n]||['#c49a6c','#e8c070','#d8a050','#f2d070'][n.length%4];
 const MEAL={morn:['トースト','おにぎり','目玉焼き','納豆ごはん','卵かけごはん','フレンチトースト','パンケーキ','ハムエッグ','グラノーラとヨーグルト','焼き鮭とお味噌汁','ホットサンド','ベーグルサンド','オートミール','スクランブルエッグ','エッグベネディクト','フルーツサンド','たまご雑炊','ピザトースト','しらすトースト','小倉トースト'],
- lunch:['ナポリタン','うどん','オムライス','焼きそば','チャーハン','醤油ラーメン','天ぷらそば','カルボナーラ','ペペロンチーノ','親子丼','牛丼','カツ丼','天丼','サンドイッチ','ガパオライス','ビビンバ','タコライス','ロコモコ','オムそば','明太子パスタ','きつねうどん','焼きうどん','ドリア','マカロニグラタン','ミートソーススパゲッティ','カレーうどん','味噌ラーメン','海鮮丼','ジャージャー麺','フォー'],
- dinner:['カレー','肉じゃが','焼き魚','ハンバーグ','豚の生姜焼き','唐揚げ','焼き餃子','麻婆豆腐','酢豚','エビチリ','回鍋肉','青椒肉絲','とんかつ','コロッケ','天ぷら','すき焼き','ぶり大根','サバの味噌煮','鶏の照り焼き','チキン南蛮','ロールキャベツ','ビーフストロガノフ','ラザニア','パエリア','アクアパッツァ','ステーキ','ローストビーフ','手巻き寿司','ちらし寿司','お好み焼き','たこ焼き','筑前煮','豚汁定食','八宝菜','春巻き','キーマカレー','ハヤシライス','カニクリームコロッケ','タンドリーチキン','ビーフシチュー','鶏むね肉のソテー','鮭のムニエル','アジフライ','ゴーヤチャンプルー','ハッシュドビーフ','クリームシチュー','煮込みハンバーグ','肉野菜炒め','豚キムチ','トンテキ'],
- cold:['おでん','寄せ鍋','シチュー','キムチ鍋','もつ鍋','しゃぶしゃぶ','豆乳鍋','ポトフ','グラタン','湯豆腐','水炊き','けんちん汁','白菜と豚バラのミルフィーユ鍋','ぶりしゃぶ','石狩鍋'],
- hot:['冷やし中華','そうめん','冷しゃぶ','冷製パスタ','夏野菜カレー','冷や汁','ビビン麺','冷やしたぬきうどん','ざるそば','冷やしトマトと冷奴'],
+ lunch:['ナポリタン','うどん','オムライス','焼きそば','チャーハン','醤油ラーメン','天ぷらそば','カルボナーラ','ペペロンチーノ','親子丼','牛丼','カツ丼','天丼','サンドイッチ','ガパオライス','タコライス','ロコモコ','オムそば','明太子パスタ','きつねうどん','焼きうどん','ドリア','マカロニグラタン','ミートソーススパゲッティ','カレーうどん','味噌ラーメン','海鮮丼','ジャージャー麺','フォー'],
+ dinner:['カレー','肉じゃが','焼き魚','ハンバーグ','豚の生姜焼き','唐揚げ','焼き餃子','麻婆豆腐','酢豚','エビチリ','回鍋肉','青椒肉絲','とんかつ','コロッケ','天ぷら','すき焼き','ぶり大根','サバの味噌煮','鶏の照り焼き','チキン南蛮','ロールキャベツ','ビーフストロガノフ','ラザニア','パエリア','アクアパッツァ','ステーキ','ローストビーフ','手巻き寿司','ちらし寿司','お好み焼き','たこ焼き','筑前煮','豚汁定食','八宝菜','春巻き','キーマカレー','ハヤシライス','カニクリームコロッケ','タンドリーチキン','ビーフシチュー','鶏むね肉のソテー','鮭のムニエル','アジフライ','ゴーヤチャンプルー','ハッシュドビーフ','クリームシチュー','煮込みハンバーグ','肉野菜炒め','トンテキ'],
+ cold:['おでん','寄せ鍋','シチュー','もつ鍋','しゃぶしゃぶ','豆乳鍋','ポトフ','グラタン','湯豆腐','水炊き','けんちん汁','白菜と豚バラのミルフィーユ鍋','ぶりしゃぶ','石狩鍋'],
+ hot:['冷やし中華','そうめん','冷しゃぶ','冷製パスタ','夏野菜カレー','冷や汁','冷やしたぬきうどん','ざるそば','冷やしトマトと冷奴'],
  spring:['たけのこご飯','春キャベツの回鍋肉','桜えびのかき揚げ','あさりの酒蒸し','菜の花のパスタ'],summer:['うな丼','とうもろこしご飯','夏野菜の揚げびたし','ゴーヤチャンプルー'],
  autumn:['きのこご飯','さんまの塩焼き','栗ご飯','きのこのクリームパスタ','鮭のちゃんちゃん焼き','焼きいも'],winter:['ブリの照り焼き','かぼちゃの煮物','鶏だんご鍋','牡蠣フライ']};
 const COOK=[[/鍋|しゃぶ|おでん|湯豆腐|水炊き/,['土鍋でぐつぐつ…','具材をたっぷり入れて…','いいだしが出てきた']],[/揚|唐揚げ|カツ|天ぷら|天丼|コロッケ|フライ|かき揚げ|春巻き|南蛮/,['油の温度はばっちり','カラッと揚げて…','じゅわ〜っていい音']],
@@ -1704,16 +1704,16 @@ function cookLine(m){for(const[re,a]of COOK)if(re.test(m))return pick(a);return 
 /* ===== meals v2 ===== */
 const FOOD={
  staple:['ごはん','玄米ごはん','雑穀ごはん','五目ごはん','炊き込みごはん','わかめごはん','しそごはん','麦ごはん','バゲット','ロールパン','クロワッサン','ナン','ジャスミンライス','栗ごはん','豆ごはん'],
- soup:['豆腐とわかめの味噌汁','なめこの味噌汁','豚汁','あさりの味噌汁','コンソメスープ','ミネストローネ','コーンポタージュ','オニオンスープ','中華スープ','わかめスープ','卵スープ','クラムチャウダー','かぼちゃのポタージュ','トムヤムクン','ユッケジャン','参鶏湯','けんちん汁','ボルシチ','ガスパチョ','すまし汁'],
- side:['グリーンサラダ','ポテトサラダ','シーザーサラダ','コールスロー','トマトサラダ','春雨サラダ','海藻サラダ','冷奴','きんぴらごぼう','ひじきの煮物','ほうれん草のおひたし','小松菜のナムル','もやしのナムル','キムチ','ソムタム','だし巻き玉子','茶碗蒸し','切り干し大根','かぼちゃの煮物','ゴーヤのおかか和え','たこときゅうりの酢の物','マカロニサラダ','ラタトゥイユ','ピクルス','白菜の浅漬け','カプレーゼ','生春巻き'],
- main:['ハンバーグ','ステーキ','豚の生姜焼き','鶏の唐揚げ','焼き鮭','サバの塩焼き','サバの味噌煮','ぶりの照り焼き','鶏の照り焼き','チキン南蛮','とんかつ','ヒレカツ','エビフライ','アジフライ','カキフライ','コロッケ','メンチカツ','天ぷら盛り合わせ','肉じゃが','筑前煮','ぶり大根','すき焼き','焼き餃子','水餃子','麻婆豆腐','麻婆なす','酢豚','エビチリ','エビマヨ','回鍋肉','青椒肉絲','八宝菜','春巻き','油淋鶏','棒棒鶏','よだれ鶏','ロールキャベツ','ビーフストロガノフ','鶏むね肉のソテー','鮭のムニエル','白身魚のフライ','ポークソテー','ローストチキン','ローストビーフ','ミートローフ','アクアパッツァ','チキンのトマト煮','煮込みハンバーグ','豆腐ハンバーグ','肉巻き野菜','厚揚げの煮物','ゴーヤチャンプルー','豚キムチ','トンテキ','鶏の竜田揚げ','ささみフライ','手羽先の甘辛焼き','つくね','焼き鳥盛り合わせ','かれいの煮付け','金目鯛の煮付け','刺身の盛り合わせ','たたききゅうりと牛しゃぶ','プルコギ','タッカルビ','サムギョプサル','チャプチェ','タンドリーチキン','サテ（焼き鳥串）','ルンダン','ヤムウンセン','ガイヤーン','鶏肉のカシューナッツ炒め','空心菜炒め'],
- bowl:['親子丼','牛丼','カツ丼','天丼','海鮮丼','ねぎとろ丼','鉄火丼','うな丼','そぼろ丼','中華丼','麻婆丼','豚丼','ロコモコ','タコライス','ガパオライス','ビビンバ','魯肉飯','カオマンガイ','ナシゴレン','チキンビリヤニ','オムライス','チャーハン','キムチチャーハン','ドリア','ハヤシライス'],
+ soup:['豆腐とわかめの味噌汁','なめこの味噌汁','豚汁','あさりの味噌汁','コンソメスープ','ミネストローネ','コーンポタージュ','オニオンスープ','中華スープ','わかめスープ','卵スープ','クラムチャウダー','かぼちゃのポタージュ','トムヤムクン','けんちん汁','ボルシチ','ガスパチョ','すまし汁'],
+ side:['グリーンサラダ','ポテトサラダ','シーザーサラダ','コールスロー','トマトサラダ','春雨サラダ','海藻サラダ','冷奴','きんぴらごぼう','ひじきの煮物','ほうれん草のおひたし','ソムタム','だし巻き玉子','茶碗蒸し','切り干し大根','かぼちゃの煮物','ゴーヤのおかか和え','たこときゅうりの酢の物','マカロニサラダ','ラタトゥイユ','ピクルス','白菜の浅漬け','カプレーゼ','生春巻き'],
+ main:['ハンバーグ','ステーキ','豚の生姜焼き','鶏の唐揚げ','焼き鮭','サバの塩焼き','サバの味噌煮','ぶりの照り焼き','鶏の照り焼き','チキン南蛮','とんかつ','ヒレカツ','エビフライ','アジフライ','カキフライ','コロッケ','メンチカツ','天ぷら盛り合わせ','肉じゃが','筑前煮','ぶり大根','すき焼き','焼き餃子','水餃子','麻婆豆腐','麻婆なす','酢豚','エビチリ','エビマヨ','回鍋肉','青椒肉絲','八宝菜','春巻き','油淋鶏','棒棒鶏','よだれ鶏','ロールキャベツ','ビーフストロガノフ','鶏むね肉のソテー','鮭のムニエル','白身魚のフライ','ポークソテー','ローストチキン','ローストビーフ','ミートローフ','アクアパッツァ','チキンのトマト煮','煮込みハンバーグ','豆腐ハンバーグ','肉巻き野菜','厚揚げの煮物','ゴーヤチャンプルー','トンテキ','鶏の竜田揚げ','ささみフライ','手羽先の甘辛焼き','つくね','焼き鳥盛り合わせ','かれいの煮付け','金目鯛の煮付け','刺身の盛り合わせ','たたききゅうりと牛しゃぶ','タンドリーチキン','サテ（焼き鳥串）','ルンダン','ヤムウンセン','ガイヤーン','鶏肉のカシューナッツ炒め','空心菜炒め'],
+ bowl:['親子丼','牛丼','カツ丼','天丼','海鮮丼','ねぎとろ丼','鉄火丼','うな丼','そぼろ丼','中華丼','麻婆丼','豚丼','ロコモコ','タコライス','ガパオライス','魯肉飯','カオマンガイ','ナシゴレン','チキンビリヤニ','オムライス','チャーハン','ドリア','ハヤシライス'],
  curry:['カレーライス','キーマカレー','グリーンカレー','レッドカレー','マッサマンカレー','バターチキンカレー','スープカレー','シーフードカレー','夏野菜カレー','カツカレー','ほうれん草カレー（サグカレー）'],
- noodle:['醤油ラーメン','味噌ラーメン','塩ラーメン','豚骨ラーメン','担々麺','冷やし中華','つけ麺','焼きそば','きつねうどん','天ぷらうどん','カレーうどん','焼きうどん','ざるそば','天ぷらそば','とろろそば','そうめん','にゅうめん','フォー','パッタイ','ラクサ','ミーゴレン','牛肉麺','ビーフン炒め','冷麺','ビビン麺','ジャージャー麺','ちゃんぽん','皿うどん'],
+ noodle:['醤油ラーメン','味噌ラーメン','塩ラーメン','豚骨ラーメン','担々麺','冷やし中華','つけ麺','焼きそば','きつねうどん','天ぷらうどん','カレーうどん','焼きうどん','ざるそば','天ぷらそば','とろろそば','そうめん','にゅうめん','フォー','パッタイ','ラクサ','ミーゴレン','牛肉麺','ビーフン炒め','ジャージャー麺','ちゃんぽん','皿うどん'],
  pasta:['ナポリタン','カルボナーラ','ペペロンチーノ','ミートソース','ボンゴレ','明太子パスタ','たらこパスタ','ジェノベーゼ','アラビアータ','きのこの和風パスタ','トマトクリームパスタ','ペスカトーレ','ラザニア','マカロニグラタン'],
- pot:['寄せ鍋','キムチ鍋','もつ鍋','しゃぶしゃぶ','豆乳鍋','水炊き','湯豆腐','おでん','石狩鍋','鶏だんご鍋','白菜と豚バラのミルフィーユ鍋','トマト鍋','カレー鍋','タイスキ','火鍋','プデチゲ','スンドゥブチゲ','ポトフ','クリームシチュー','ビーフシチュー'],
+ pot:['寄せ鍋','もつ鍋','しゃぶしゃぶ','豆乳鍋','水炊き','湯豆腐','おでん','石狩鍋','鶏だんご鍋','白菜と豚バラのミルフィーユ鍋','トマト鍋','カレー鍋','タイスキ','火鍋','ポトフ','クリームシチュー','ビーフシチュー'],
  morn:['トースト','バタートースト','ハニートースト','ピザトースト','しらすトースト','小倉トースト','フレンチトースト','ホットケーキ','パンケーキ','ワッフル','ベーグルサンド','ホットサンド','卵サンド','BLTサンド','おにぎり','鮭おにぎり','納豆ごはん','卵かけごはん','焼き魚定食','グラノーラとヨーグルト','オートミール','スクランブルエッグ','目玉焼き','ハムエッグ','オムレツ','エッグベネディクト','フルーツサンド','たまご雑炊','おかゆ','中華粥','バインミー','トーストとスープ','チーズトースト','シナモンロール','クロワッサンサンド','コーンフレーク','スムージーボウル','味噌汁とおにぎり','お茶漬け','ソーセージエッグ'],
- asianLunch:['生春巻きとフォー','バインミーセット','カオマンガイ','ガパオライス','パッタイ','トムヤムヌードル','ナシゴレン','ミーゴレン','ラクサ','ビビンバ','キンパ','トッポッキ','チヂミ','小籠包','焼売','魯肉飯','牛肉麺','担々麺','海南チキンライス','ビリヤニ','ナンとカレー','サモサ','ダルカレー','ロティ','チャプチェ丼'],
+ asianLunch:['生春巻きとフォー','バインミーセット','カオマンガイ','ガパオライス','パッタイ','トムヤムヌードル','ナシゴレン','ミーゴレン','ラクサ','小籠包','焼売','魯肉飯','牛肉麺','担々麺','海南チキンライス','ビリヤニ','ナンとカレー','サモサ','ダルカレー','ロティ'],
  night:['お茶漬け','カップラーメン','おにぎり','たまご雑炊','焼きおにぎり','にゅうめん','チーズトースト','インスタント焼きそば','湯豆腐','具だくさんスープ','バナナとヨーグルト','冷やしうどん','ホットミルクとクッキー','ゆで卵','クラッカーとチーズ']};
 const DISHC={rice:'#f6f3ea',bread:'#d9a860',soup:'#c8883a',salad:'#7fbf5c',plate:'#c8682a',bowl:'#d9a24a',curry:'#b8682a',noodle:'#e8c070',pasta:'#e86a3a',pot:'#d86a4a',steak:'#7a3a2a',sushi:'#e88a8a',cake:'#f2d6c0',snack:'#e8c070'};
 function dishType(n){if(/鍋|しゃぶ|おでん|湯豆腐|水炊き|タイスキ|火鍋|チゲ|ポトフ|シチュー/.test(n))return'pot';if(/カレー(?!うどん|鍋|パン)/.test(n)&&!/うどん/.test(n))return'curry';
@@ -1726,19 +1726,19 @@ const mkDish=n=>{const t=dishType(n);return{n,t,c:dishColor(n,t)};};
 function mealPlan(slot){const s=season(),t=tempNow(),r=Math.random(),P=a=>pick(a);let names;
   if(slot==='night')names=[P(FOOD.night)];
   else if(slot==='b'){names=r<.55?[P(FOOD.morn)]:r<.8?[P(FOOD.morn),P(FOOD.soup.filter(x=>/味噌汁|スープ|ポタージュ/.test(x)))]:[P(['ごはん','ごはん','雑穀ごはん']),P(['焼き鮭','だし巻き玉子','目玉焼き','納豆','焼きのり']),P(FOOD.soup.slice(0,4)),P(FOOD.side.slice(7,14))];}
-  else if(slot==='l'){const pool=[].concat(FOOD.noodle,FOOD.pasta,FOOD.bowl,FOOD.curry,FOOD.asianLunch);names=r<.7?[P(pool)]:[P(pool),P(FOOD.side)];if(t>=27&&Math.random()<.4)names=[P(['冷やし中華','そうめん','ざるそば','冷麺','ビビン麺','冷やしうどん','ガスパチョとパン'])];}
+  else if(slot==='l'){const pool=[].concat(FOOD.noodle,FOOD.pasta,FOOD.bowl,FOOD.curry,FOOD.asianLunch);names=r<.7?[P(pool)]:[P(pool),P(FOOD.side)];if(t>=27&&Math.random()<.4)names=[P(['冷やし中華','そうめん','ざるそば','冷やしうどん','ガスパチョとパン'])];}
   else{let mains=FOOD.main.slice();if(t<12&&Math.random()<.35)return finish([P(FOOD.pot),P(FOOD.side)]);
     if(r<.18)names=[P(FOOD.curry.concat(FOOD.bowl)),P(FOOD.side)];else if(r<.28)names=[P(FOOD.pasta),P(FOOD.side.filter(x=>/サラダ|カプレーゼ|ピクルス|ラタトゥイユ/.test(x))),P(['コンソメスープ','ミネストローネ','コーンポタージュ','オニオンスープ'])];
     else{const m=P(mains),west=/ハンバーグ|ステーキ|ソテー|ムニエル|ロースト|ミートローフ|アクアパッツァ|トマト煮|ストロガノフ|ロールキャベツ|フライ|コロッケ|カツ/.test(m),asian=/プルコギ|タッカルビ|サムギョプサル|チャプチェ|タンドリー|サテ|ルンダン|ヤムウンセン|ガイヤーン|カシューナッツ|空心菜|麻婆|酢豚|エビチリ|エビマヨ|回鍋肉|青椒肉絲|八宝菜|春巻き|油淋鶏|棒棒鶏|よだれ鶏|餃子/.test(m);
       const st=west&&Math.random()<.5?P(['バゲット','ロールパン','ごはん','クロワッサン']):asian&&Math.random()<.4?P(['ごはん','ジャスミンライス','ナン']):P(FOOD.staple.slice(0,8).concat(s==='autumn'?['栗ごはん']:s==='spring'?['豆ごはん']:[]));
-      const sp=west?P(['コンソメスープ','ミネストローネ','コーンポタージュ','オニオンスープ','クラムチャウダー','かぼちゃのポタージュ']):asian?P(['中華スープ','わかめスープ','卵スープ','トムヤムクン','ユッケジャン']):P(['豆腐とわかめの味噌汁','なめこの味噌汁','豚汁','あさりの味噌汁','けんちん汁','すまし汁']);
+      const sp=west?P(['コンソメスープ','ミネストローネ','コーンポタージュ','オニオンスープ','クラムチャウダー','かぼちゃのポタージュ']):asian?P(['中華スープ','わかめスープ','卵スープ','トムヤムクン']):P(['豆腐とわかめの味噌汁','なめこの味噌汁','豚汁','あさりの味噌汁','けんちん汁','すまし汁']);
       names=[st,m,sp,P(FOOD.side)];if(Math.random()<.25)names.pop();}}
   return finish(names);
   function finish(ns){const items=ns.map(mkDish);const md=mealDrink(slot,ns);items.push({n:md,t:'cup',cup:/ジュース|水|牛乳|ミルク(?!ティー)|ラッシー|アイス/.test(md)?'glass':/茶/.test(md)&&!/紅茶|ミルクティー/.test(md)?'yunomi':/コーヒー|カフェ/.test(md)?'mug':'teacup',c:/水$/.test(md)?'#d8eef8':/牛乳|ラッシー/.test(md)?'#f6f3ea':drinkCol(md)});const main=ns.find(n=>!/ごはん|パン|バゲット|ロール|クロワッサン|ナン|ライス$|汁|スープ|ポタージュ|サラダ/.test(n))||ns[0];return{name:ns.length>1?`${main}の${slot==='b'?'朝ごはん':slot==='l'?'ランチ':slot==='night'?'夜食':'定食'}`:ns[0],main,items,list:ns.join('・')};}}
 function mealDrink(slot,ns){const j=ns.join(''),asian=/フォー|パッタイ|カオマンガイ|ガパオ|ナシゴレン|ミーゴレン|ラクサ|トムヤム|ジャスミン|グリーンカレー|レッドカレー|マッサマン|バインミー|生春巻き|ソムタム|ヤムウンセン|ガイヤーン|サテ|ルンダン/.test(j),korea=/ビビンバ|キンパ|トッポッキ|チヂミ|プルコギ|タッカルビ|サムギョプサル|チャプチェ|冷麺|スンドゥブ|プデチゲ|ユッケジャン|参鶏湯|ビビン麺/.test(j),india=/ナン|ビリヤニ|バターチキン|サグ|タンドリー|ダル|サモサ|ロティ/.test(j),chinese=/麻婆|酢豚|エビチリ|回鍋肉|青椒肉絲|八宝菜|餃子|小籠包|焼売|担々|油淋鶏|棒棒鶏|よだれ鶏|魯肉飯|牛肉麺|春巻き|中華|火鍋/.test(j),west=/パン|バゲット|クロワッサン|パスタ|ナポリタン|カルボナーラ|ペペロンチーノ|ミートソース|ハンバーグ|ステーキ|ソテー|ムニエル|ポタージュ|コンソメ|ミネストローネ|シチュー|グラタン|ドリア|ラザニア|トースト|サンド|ベーグル|パンケーキ|ワッフル|オムレツ|エッグ/.test(j);
   if(slot==='b')return pick(west?['ブラックコーヒー','カフェオレ','オレンジジュース','牛乳','ダージリン','アールグレイ','カフェラテ']:['緑茶','ほうじ茶','麦茶','牛乳','オレンジジュース']);
   if(slot==='night')return pick(['ほうじ茶','麦茶','水','ホットミルク']);
-  if(india)return pick(['ラッシー','チャイ','水']);if(asian)return pick(['ジャスミン茶','アイスティー','水','ココナッツジュース']);if(korea)return pick(['麦茶','コーン茶','水']);if(chinese)return pick(['烏龍茶','ジャスミン茶','水']);
+  if(india)return pick(['ラッシー','チャイ','水']);if(asian)return pick(['ジャスミン茶','アイスティー','水','ココナッツジュース']);if(chinese)return pick(['烏龍茶','ジャスミン茶','水']);
   if(west)return pick(['水','アイスティー','炭酸水','オレンジジュース','アイスコーヒー']);return pick(['緑茶','ほうじ茶','麦茶','玄米茶','水']);}
 function mealSlot(){const h=hourNow();return h>=5&&h<10.5?'b':h>=10.5&&h<15?'l':h>=21.5||h<3?'night':'d';}
 const meal=()=>mealPlan(mealSlot()).main;
@@ -3533,7 +3533,6 @@ const DRINKS=[
  SC('大五郎（緑茶割り）',['大五郎の緑茶割り、さっぱり','コスパ最強の家飲み'],{bt:'pet4l',btc:'#e8d8a8',gl:'highball',col:'#c8d88a'}),
  SC('ガブガブくん（レモン割り）',['ガブガブくん、ガブガブいこう','レモンでさわやか！'],{bt:'pet4l',btc:'#e6eef6',gl:'highball',col:'#f6f2c0',lime:1}),
  SC('ガブガブくん（水割り）',['ガブガブくんの水割り、すいすい','大容量ってうれしい'],{bt:'pet4l',btc:'#e6eef6',gl:'highball',col:'#eef6fa'}),
- SC('鏡月（水割り）',['すっきりクセがない','韓国焼酎も飲みやすい'],{gl:'highball',btc:'#3fa86a',col:'#eef6fa'}),
  SC('宝焼酎 純（ソーダ割り）',['クリアな甲類、なんでも合う','チューハイの気分'],{gl:'highball',btc:'#e6e9ee',col:'#eef6fa'}),
  // ---- ビール ----
  {n:'アサヒスーパードライ',k:'beer',gl:'mug',col:'#f2c230',bt:'can',btc:'#c9ced3',say:['キレがある！ぷはーっ','のどごし最高！']},
@@ -11601,7 +11600,6 @@ EXTRA_DAILY.push(
  (me,mn)=>[['m','ちょっと料理、教えてくれない？'],['me','いいよ、何作りたい？'],['m',pick(['肉じゃが','だし巻き卵','グラタン','パスタ'])],['me','じゃあ一緒に作ろう']],
  (me,mn)=>[['me','今年の目標、決めた？'],['m','畑で十種類育てたい'],['me','いいね、手伝うよ'],['m','収穫したら料理してね']],
  (me,mn)=>[['m','今日はわたしが洗濯するね'],['me','じゃあわたしはお昼作る'],['m','いい分担だ']],
- (me,mn)=>[['me','キムチ鍋、辛すぎた？'],['m','ちょっとだけ…でもおいしい'],['me','牛乳飲む？'],['m','お願い']],
  (me,mn)=>[['m','ベンチのペンキ、はげてきたね'],['me','今度塗りなおそうか'],['m','何色にする？'],['me','明るい黄色がいいな']],
  (me,mn)=>[['me','ねえ、お茶にしよう'],['m','ちょうど休みたかった'],['me','ソファで待ってて'],['m','やったー']],
  (me,mn)=>[['m','栗、たくさんもらったよ'],['me','栗ごはんにしよう'],['m','皮むき、がんばろうね'],['me','二人でやれば早いよ']],
@@ -16153,7 +16151,7 @@ SNK.push(
  ['チーズフォンデュ','#f0d070','white red'],['シャルキュトリー盛り合わせ','#c85a4a','red rose bubbly'],['レーズンバター','#e8d8a0','sweet brandy whisky'],['パンナコッタ','#f6f0e0','sweet rose'],['白桃','#f6c8b0','rose sweet bubbly cocktail'],['生ハムといちじく','#b85a5a','red rose sweet'],
  ['たこわさ','#8ab060','sake shochu sour'],['なめろう','#c89070','sake shochu'],['酢の物','#a8c890','sake shochu'],['漬物の盛り合わせ','#d8c050','sake shochu'],['揚げ出し豆腐','#e8c890','sake shochu'],['焼きなす','#5a3a6a','sake shochu beer'],
  ['牛すじ煮込み','#8a5a3a','shochu sake sour'],['豚の角煮','#8a4a2a','shochu sake'],['地鶏の炭火焼き','#7a4a2a','shochu sour beer'],['島らっきょう','#e8e8c0','shochu'],['ゴーヤチャンプルー','#6a9a4a','shochu beer sour'],['明太子','#e85a4a','sake shochu beer'],
- ['冷やしトマト','#e84a3a','sour beer shochu'],['きゅうりの浅漬け','#6aa04a','sour shochu beer'],['チャンジャ','#c83a2a','sour shochu'],['キムチ','#d8402a','sour beer shochu'],['鶏皮ポン酢','#e8c090','sour shochu'],['燻製たまご','#c8904a','whisky shochu sake'],
+ ['冷やしトマト','#e84a3a','sour beer shochu'],['きゅうりの浅漬け','#6aa04a','sour shochu beer'],['チャンジャ','#c83a2a','sour shochu'],['鶏皮ポン酢','#e8c090','sour shochu'],['燻製たまご','#c8904a','whisky shochu sake'],
  ['スモークナッツ','#a8683a','whisky cocktail brandy'],['ベーコンの燻製','#b85a3a','whisky beer'],['オリーブとチーズのピンチョス','#8a9a3a','cocktail red white'],['トルティーヤチップス','#e8c060','cocktail beer sour'],['ポップコーン','#f6e8a0','cocktail beer sour'],['プレッツェル','#a8683a','beer cocktail'],
  ['オランジェット','#e88a2a','cocktail brandy sweet whisky'],['ミントチョコ','#7ad0b0','cocktail sweet'],['ライチ','#f6f0e8','cocktail rose sweet'],['マンゴー','#f0b030','cocktail sweet'],['クレームブリュレ','#e8b860','brandy sweet'],['栗の渋皮煮','#7a4a2a','brandy sake sweet'],
  ['フルーツケーキ','#a8683a','brandy whisky sweet'],['マロングラッセ','#c89060','brandy sweet'],['ブリーチーズ','#f6ecd0','brandy red white'],['スモークチーズ','#d8a050','whisky sake shochu beer'],['ナチョス','#e8b040','beer cocktail sour'],['焼き銀杏','#d8d070','sake shochu'],
@@ -20287,7 +20285,7 @@ function PB_ui(open){let ov=document.getElementById('pbOv');if(!ov&&!open)return
   ov.querySelector('.pbs').onclick=()=>{ov.hidden=true;ov._sel=null;try{ystoreDo('photoboard');}catch(e){}};}
 {const TP=tapPlan;tapPlan=function(tg){if(tg&&tg.t==='yard'&&tg.k==='photoboard'){try{PB_ui(true);}catch(e){}const q=yardFront('photoboard',S.yard.photoboard);return q?{n:'tapwalk',s:[{t:'go',sc:'out',x:q.x,y:q.y},{t:'face',d:q.d},SAY(pick(['どの写真を貼ろうかな','掲示板、にぎやかにしよう','思い出の写真、飾っちゃおう']))]}:null;}return TP.apply(this,arguments);};}
 // the board is delivered once right away (it can be stored / re-ordered like any garden thing)
-{const PBI=setInterval(()=>{try{if(!S)return;clearInterval(PBI);if(S.pbGiven)return;if(S.yard.photoboard||(S.ystored||[]).some(e=>e.k==='photoboard')){S.pbGiven=1;return;}
+{const PBI=setInterval(()=>{try{if(!S)return;clearInterval(PBI);if(S.pbGiven||true)return;if(S.yard.photoboard||(S.ystored||[]).some(e=>e.k==='photoboard')){S.pbGiven=1;return;}
   S.yardOrderQ=S.yardOrderQ||[];if(!S.yardOrderQ.includes('photoboard'))S.yardOrderQ.push('photoboard');S.pbGiven=1;save();}catch(e){}},4000);}
 {const DE=dragEnd;dragEnd=function(cancel){const d=DRAG;if(d&&d.sc==='out'&&d.k==='photoboard'&&!cancel&&d.cur.x===d.orig.x&&d.cur.y===d.orig.y){DRAG=null;dragEndAt=performance.now();S.yard.photoboard=d.orig;try{PB_ui(true);}catch(e){}return;}return DE.apply(this,arguments);};}
 /* ---- v357: the toilet lid stays closed unless someone is using it; dancing waves the arms while turning round; a nap on the sofa is taken lying down ---- */
@@ -20653,10 +20651,11 @@ function RUP_shrink(file,mode,cb){try{const rd=new FileReader();rd.onload=()=>{c
     im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
 function RUP_draw(X,Y,Wd,Dp,L,im){const x=X+4,y=Y+5,w=Wd-8,h=Dp-10,m=L.uimg.m;
   A_shadow(x+.5,y+1.5,w,h,.8);g.save();rr(g,x,y,w,h,3);g.clip();
-  if(m==='photo'){const b=3;g.fillStyle='#2c2a30';g.fillRect(x,y,w,h);g.drawImage(im,x+b,y+b,w-b*2,h-b*2);
-    g.strokeStyle='rgba(255,255,255,.45)';g.lineWidth=.45;g.strokeRect(x+b-.4,y+b-.4,w-b*2+.8,h-b*2+.8);}
+  const fr=L.uimg.fr;
+  if(m==='photo'){if(fr==='none')g.drawImage(im,x,y,w,h);else{const b=3,fc=fr||'#2c2a30';g.fillStyle=fc;g.fillRect(x,y,w,h);g.drawImage(im,x+b,y+b,w-b*2,h-b*2);
+    g.strokeStyle=RUF_light(fc)?'rgba(0,0,0,.22)':'rgba(255,255,255,.45)';g.lineWidth=.45;g.strokeRect(x+b-.4,y+b-.4,w-b*2+.8,h-b*2+.8);}}
   else{const s=18;for(let yy=y;yy<y+h;yy+=s)for(let xx=x;xx<x+w;xx+=s)g.drawImage(im,xx,yy,s+.15,s+.15);
-    const ec=L.uimg.edge||'#7a3a3a';g.strokeStyle=ec;g.lineWidth=2.4;rr(g,x+1.5,y+1.5,w-3,h-3,2);g.stroke();g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=.4;rr(g,x+3.1,y+3.1,w-6.2,h-6.2,1.4);g.stroke();}
+    if(fr!=='none'){const ec=fr&&fr!=='auto'?fr:(L.uimg.edge||'#7a3a3a');g.strokeStyle=ec;g.lineWidth=2.4;rr(g,x+1.5,y+1.5,w-3,h-3,2);g.stroke();g.strokeStyle=RUF_light(ec)?'rgba(0,0,0,.2)':'rgba(255,255,255,.55)';g.lineWidth=.4;rr(g,x+3.1,y+3.1,w-6.2,h-6.2,1.4);g.stroke();}}
   g.restore();
   try{A_texFill('rug',x,y,w,h,3);}catch(e){}
   g.save();g.fillStyle=A_lg(x,y,x+w,y+h,[[0,'rgba(255,255,255,.12)'],[.5,'rgba(255,255,255,0)'],[1,'rgba(0,0,0,.08)']]);rr(g,x,y,w,h,3);g.fill();
@@ -20666,7 +20665,7 @@ function RUP_draw(X,Y,Wd,Dp,L,im){const x=X+4,y=Y+5,w=Wd-8,h=Dp-10,m=L.uimg.m;
 function RUP_edge(src,cb){try{const im=new Image();im.onload=()=>{try{const c=document.createElement('canvas');c.width=8;c.height=8;const x=c.getContext('2d');x.drawImage(im,0,0,8,8);const d=x.getImageData(0,0,8,8).data;let r=0,g2=0,b=0;for(let i=0;i<d.length;i+=4){r+=d[i];g2+=d[i+1];b+=d[i+2];}const n=d.length/4;
   cb('#'+[r,g2,b].map(v=>Math.round(v/n*.55).toString(16).padStart(2,'0')).join(''));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=src;}catch(e){cb(null);}}
 for(const k of RUG_FAM){const f=FT[k];if(!f)continue;const D0=f.draw;f.draw=function(X,Y,Wd,Dp,L,t){try{if(L&&L.uimg&&L.uimg.src){const im=RUP_im(L.uimg.src);
-  if(im){const u=L.uimg;FC_draw(k+':u',u.m+'|'+(u.edge||'')+'|'+u.src.length+'|'+u.src.slice(-24),X,Y,-3,-3,Wd+6,Dp+6,()=>RUP_draw(X,Y,Wd,Dp,L,im));return;}}}catch(e){}return D0.apply(this,arguments);};}
+  if(im){const u=L.uimg;FC_draw(k+':u',u.m+'|'+(u.edge||'')+'|'+(u.fr||'')+'|'+u.src.length+'|'+u.src.slice(-24),X,Y,-3,-3,Wd+6,Dp+6,()=>RUP_draw(X,Y,Wd,Dp,L,im));return;}}}catch(e){}return D0.apply(this,arguments);};}
 // rugs are not tap targets of their own (a tap on a rug is a tap on the floor) — the double-tap opens the rug menu
 function RUP_at(wx,wy){try{if(!S||C.scene!=='in')return null;const tx=Math.floor(wx/T),ty=Math.floor(wy/T);let hit=null;for(const k of S.owned){if(!RUG_is(k))continue;const L=S.layout[k],f=FT[k];if(!L||L.carry||L.wall)continue;if(tx>=L.x&&tx<L.x+f.w&&ty>=L.y&&ty<L.y+f.h)hit=k;}return hit;}catch(e){return null;}}
 /* v374: the rug menu opens from a long-press only (no double-tap) */
@@ -20678,10 +20677,10 @@ function RUP_pick(k,mode){let inp=document.getElementById('rupFile');if(!inp){in
 function RUP_ui(k,open){let ov=document.getElementById('rupOv');if(!ov){const st=document.createElement('style');st.textContent=`#rupOv .card{max-width:320px;padding:14px 14px 12px;text-align:center}#rupOv h2{margin:0 0 4px;font-size:16px}#rupOv .hint{margin:0 0 10px;font-size:12px;opacity:.8}#rupOv .rpv{width:100%;aspect-ratio:88/62;border-radius:8px;background:rgba(255,255,255,.08) center/cover no-repeat;margin-bottom:10px;border:1px solid rgba(255,255,255,.2)}#rupOv .rpb{display:flex;flex-direction:column;gap:7px}#rupOv .rpb button{width:100%;padding:10px;font-size:14px;height:auto}#rupOv .rpo{display:flex;align-items:center;gap:12px;text-align:left;padding:10px 12px}#rupOv .rpo svg{flex:0 0 auto;width:88px;height:62px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}#rupOv .rpo span{display:flex;flex-direction:column;gap:4px}#rupOv .rpo b{font-size:14px}#rupOv .rpo small{font-size:11.5px;opacity:.8;font-weight:400;line-height:1.35}#rupOv .rpx{margin-top:10px;width:100%}`;try{document.head.appendChild(st);}catch(_){}
   ov=document.createElement('div');ov.id='rupOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
   const L=S.layout[k];if(!L){ov.hidden=true;return;}const u=L.uimg;
-  const pv=u?(u.m==='tile'?`background-image:url(${u.src});background-size:22% auto;background-repeat:repeat;outline:3px solid ${u.edge||'#7a3a3a'};outline-offset:-3px`:`background-image:url(${u.src})`):'';
+  const fc=u?RUF_col(u):'none';const pv=u?(u.m==='tile'?`background-image:url(${u.src});background-size:22% auto;background-repeat:repeat;`+(fc==='none'?'':`outline:3px solid ${fc};outline-offset:-3px`):`background-image:url(${u.src});`+(fc==='none'?'background-size:cover':`background-color:${fc};background-size:calc(100% - 10px) calc(100% - 10px);background-repeat:no-repeat;background-position:center`)):'';
   ov.innerHTML=`<div class="card" role="dialog" aria-label="ラグの柄"><h2>🧶 ${FT[k].n}の柄</h2><p class="hint">${u?(u.m==='photo'?'いまは写真1枚まるごとのラグ':'いまは画像のくり返し柄'):'いまは「'+rugName(rugIdx(L))+'」'}<br>画像はこの端末の中だけに保存されます</p>
-   ${u?`<div class="rpv" style="${pv}"></div>`:''}<div class="rpb"><button type="button" class="rpo" data-a="photo"><svg viewBox="0 0 88 62" width="88" height="62" aria-hidden="true"><rect x="1" y="1" width="86" height="60" rx="4" fill="#2c2a30"/><rect x="5" y="5" width="78" height="52" fill="#86c0ea"/><circle cx="66" cy="16" r="6" fill="#fff4c0"/><path d="M5 42 L30 18 L52 40 Z" fill="#5a6e8a"/><path d="M25 23 L30 18 L35 23 L30 25 Z" fill="#f4f6fa"/><rect x="5" y="40" width="78" height="17" fill="#5aa046"/><g fill="#f26a8a"><circle cx="14" cy="50" r="2"/><circle cx="40" cy="52" r="2"/><circle cx="66" cy="49" r="2"/></g><g fill="#f6d24a"><circle cx="27" cy="48" r="2"/><circle cx="53" cy="51" r="2"/><circle cx="76" cy="52" r="2"/></g><rect x="5" y="5" width="78" height="52" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".8"/><g stroke="#efe6d2" stroke-width=".8"><line x1="4" y1="0" x2="4" y2="-3" transform="translate(0,1)"/><line x1="4" y1="61" x2="4" y2="64" transform="translate(0,-1)"/><line x1="7" y1="0" x2="7" y2="-3" transform="translate(0,1)"/><line x1="7" y1="61" x2="7" y2="64" transform="translate(0,-1)"/><line x1="10" y1="0" x2="10" y2="-3" transform="translate(0,1)"/><line x1="10" y1="61" x2="10" y2="64" transform="translate(0,-1)"/><line x1="13" y1="0" x2="13" y2="-3" transform="translate(0,1)"/><line x1="13" y1="61" x2="13" y2="64" transform="translate(0,-1)"/><line x1="16" y1="0" x2="16" y2="-3" transform="translate(0,1)"/><line x1="16" y1="61" x2="16" y2="64" transform="translate(0,-1)"/><line x1="19" y1="0" x2="19" y2="-3" transform="translate(0,1)"/><line x1="19" y1="61" x2="19" y2="64" transform="translate(0,-1)"/><line x1="22" y1="0" x2="22" y2="-3" transform="translate(0,1)"/><line x1="22" y1="61" x2="22" y2="64" transform="translate(0,-1)"/><line x1="25" y1="0" x2="25" y2="-3" transform="translate(0,1)"/><line x1="25" y1="61" x2="25" y2="64" transform="translate(0,-1)"/><line x1="28" y1="0" x2="28" y2="-3" transform="translate(0,1)"/><line x1="28" y1="61" x2="28" y2="64" transform="translate(0,-1)"/><line x1="31" y1="0" x2="31" y2="-3" transform="translate(0,1)"/><line x1="31" y1="61" x2="31" y2="64" transform="translate(0,-1)"/><line x1="34" y1="0" x2="34" y2="-3" transform="translate(0,1)"/><line x1="34" y1="61" x2="34" y2="64" transform="translate(0,-1)"/><line x1="37" y1="0" x2="37" y2="-3" transform="translate(0,1)"/><line x1="37" y1="61" x2="37" y2="64" transform="translate(0,-1)"/><line x1="40" y1="0" x2="40" y2="-3" transform="translate(0,1)"/><line x1="40" y1="61" x2="40" y2="64" transform="translate(0,-1)"/><line x1="43" y1="0" x2="43" y2="-3" transform="translate(0,1)"/><line x1="43" y1="61" x2="43" y2="64" transform="translate(0,-1)"/><line x1="46" y1="0" x2="46" y2="-3" transform="translate(0,1)"/><line x1="46" y1="61" x2="46" y2="64" transform="translate(0,-1)"/><line x1="49" y1="0" x2="49" y2="-3" transform="translate(0,1)"/><line x1="49" y1="61" x2="49" y2="64" transform="translate(0,-1)"/><line x1="52" y1="0" x2="52" y2="-3" transform="translate(0,1)"/><line x1="52" y1="61" x2="52" y2="64" transform="translate(0,-1)"/><line x1="55" y1="0" x2="55" y2="-3" transform="translate(0,1)"/><line x1="55" y1="61" x2="55" y2="64" transform="translate(0,-1)"/><line x1="58" y1="0" x2="58" y2="-3" transform="translate(0,1)"/><line x1="58" y1="61" x2="58" y2="64" transform="translate(0,-1)"/><line x1="61" y1="0" x2="61" y2="-3" transform="translate(0,1)"/><line x1="61" y1="61" x2="61" y2="64" transform="translate(0,-1)"/><line x1="64" y1="0" x2="64" y2="-3" transform="translate(0,1)"/><line x1="64" y1="61" x2="64" y2="64" transform="translate(0,-1)"/><line x1="67" y1="0" x2="67" y2="-3" transform="translate(0,1)"/><line x1="67" y1="61" x2="67" y2="64" transform="translate(0,-1)"/><line x1="70" y1="0" x2="70" y2="-3" transform="translate(0,1)"/><line x1="70" y1="61" x2="70" y2="64" transform="translate(0,-1)"/><line x1="73" y1="0" x2="73" y2="-3" transform="translate(0,1)"/><line x1="73" y1="61" x2="73" y2="64" transform="translate(0,-1)"/><line x1="76" y1="0" x2="76" y2="-3" transform="translate(0,1)"/><line x1="76" y1="61" x2="76" y2="64" transform="translate(0,-1)"/><line x1="79" y1="0" x2="79" y2="-3" transform="translate(0,1)"/><line x1="79" y1="61" x2="79" y2="64" transform="translate(0,-1)"/><line x1="82" y1="0" x2="82" y2="-3" transform="translate(0,1)"/><line x1="82" y1="61" x2="82" y2="64" transform="translate(0,-1)"/><line x1="85" y1="0" x2="85" y2="-3" transform="translate(0,1)"/><line x1="85" y1="61" x2="85" y2="64" transform="translate(0,-1)"/></g></svg><span><b>写真を1枚まるごと敷く</b><small>好きな写真が、そのまま大きなラグになります</small></span></button><button type="button" class="rpo" data-a="tile"><svg viewBox="0 0 88 62" width="88" height="62" aria-hidden="true"><defs><clipPath id="rupcl"><rect x="1" y="1" width="86" height="60" rx="4"/></clipPath></defs><rect x="1" y="1" width="86" height="60" rx="4" fill="#f4ecdc"/><g clip-path="url(#rupcl)"><g transform="translate(4,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(4,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(4,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(4,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g></g><rect x="2.5" y="2.5" width="83" height="57" rx="3" fill="none" stroke="#8a3a4a" stroke-width="3"/><rect x="5.5" y="5.5" width="77" height="51" rx="2" fill="none" stroke="rgba(255,255,255,.7)" stroke-width=".6"/></svg><span><b>画像をくり返し柄にする</b><small>小さな画像を並べて、オリジナルの模様にします</small></span></button>${u?'<button type="button" data-a="reset">↩ 元の柄に戻す</button>':''}</div><button type="button" class="primary rpx">もどる</button></div>`;
-  ov.querySelectorAll('.rpb button').forEach(b=>b.onclick=()=>{const a=b.dataset.a;if(a==='reset'){delete L.uimg;save();say(`${rugName(rugIdx(L))}に戻したよ`);RUP_ui(k);return;}RUP_pick(k,a);});
+   ${u?`<div class="rpv" style="${pv}"></div>`:''}<div class="rpb"><button type="button" class="rpo" data-a="photo"><svg viewBox="0 0 88 62" width="88" height="62" aria-hidden="true"><rect x="1" y="1" width="86" height="60" rx="4" fill="#2c2a30"/><rect x="5" y="5" width="78" height="52" fill="#86c0ea"/><circle cx="66" cy="16" r="6" fill="#fff4c0"/><path d="M5 42 L30 18 L52 40 Z" fill="#5a6e8a"/><path d="M25 23 L30 18 L35 23 L30 25 Z" fill="#f4f6fa"/><rect x="5" y="40" width="78" height="17" fill="#5aa046"/><g fill="#f26a8a"><circle cx="14" cy="50" r="2"/><circle cx="40" cy="52" r="2"/><circle cx="66" cy="49" r="2"/></g><g fill="#f6d24a"><circle cx="27" cy="48" r="2"/><circle cx="53" cy="51" r="2"/><circle cx="76" cy="52" r="2"/></g><rect x="5" y="5" width="78" height="52" fill="none" stroke="rgba(255,255,255,.55)" stroke-width=".8"/><g stroke="#efe6d2" stroke-width=".8"><line x1="4" y1="0" x2="4" y2="-3" transform="translate(0,1)"/><line x1="4" y1="61" x2="4" y2="64" transform="translate(0,-1)"/><line x1="7" y1="0" x2="7" y2="-3" transform="translate(0,1)"/><line x1="7" y1="61" x2="7" y2="64" transform="translate(0,-1)"/><line x1="10" y1="0" x2="10" y2="-3" transform="translate(0,1)"/><line x1="10" y1="61" x2="10" y2="64" transform="translate(0,-1)"/><line x1="13" y1="0" x2="13" y2="-3" transform="translate(0,1)"/><line x1="13" y1="61" x2="13" y2="64" transform="translate(0,-1)"/><line x1="16" y1="0" x2="16" y2="-3" transform="translate(0,1)"/><line x1="16" y1="61" x2="16" y2="64" transform="translate(0,-1)"/><line x1="19" y1="0" x2="19" y2="-3" transform="translate(0,1)"/><line x1="19" y1="61" x2="19" y2="64" transform="translate(0,-1)"/><line x1="22" y1="0" x2="22" y2="-3" transform="translate(0,1)"/><line x1="22" y1="61" x2="22" y2="64" transform="translate(0,-1)"/><line x1="25" y1="0" x2="25" y2="-3" transform="translate(0,1)"/><line x1="25" y1="61" x2="25" y2="64" transform="translate(0,-1)"/><line x1="28" y1="0" x2="28" y2="-3" transform="translate(0,1)"/><line x1="28" y1="61" x2="28" y2="64" transform="translate(0,-1)"/><line x1="31" y1="0" x2="31" y2="-3" transform="translate(0,1)"/><line x1="31" y1="61" x2="31" y2="64" transform="translate(0,-1)"/><line x1="34" y1="0" x2="34" y2="-3" transform="translate(0,1)"/><line x1="34" y1="61" x2="34" y2="64" transform="translate(0,-1)"/><line x1="37" y1="0" x2="37" y2="-3" transform="translate(0,1)"/><line x1="37" y1="61" x2="37" y2="64" transform="translate(0,-1)"/><line x1="40" y1="0" x2="40" y2="-3" transform="translate(0,1)"/><line x1="40" y1="61" x2="40" y2="64" transform="translate(0,-1)"/><line x1="43" y1="0" x2="43" y2="-3" transform="translate(0,1)"/><line x1="43" y1="61" x2="43" y2="64" transform="translate(0,-1)"/><line x1="46" y1="0" x2="46" y2="-3" transform="translate(0,1)"/><line x1="46" y1="61" x2="46" y2="64" transform="translate(0,-1)"/><line x1="49" y1="0" x2="49" y2="-3" transform="translate(0,1)"/><line x1="49" y1="61" x2="49" y2="64" transform="translate(0,-1)"/><line x1="52" y1="0" x2="52" y2="-3" transform="translate(0,1)"/><line x1="52" y1="61" x2="52" y2="64" transform="translate(0,-1)"/><line x1="55" y1="0" x2="55" y2="-3" transform="translate(0,1)"/><line x1="55" y1="61" x2="55" y2="64" transform="translate(0,-1)"/><line x1="58" y1="0" x2="58" y2="-3" transform="translate(0,1)"/><line x1="58" y1="61" x2="58" y2="64" transform="translate(0,-1)"/><line x1="61" y1="0" x2="61" y2="-3" transform="translate(0,1)"/><line x1="61" y1="61" x2="61" y2="64" transform="translate(0,-1)"/><line x1="64" y1="0" x2="64" y2="-3" transform="translate(0,1)"/><line x1="64" y1="61" x2="64" y2="64" transform="translate(0,-1)"/><line x1="67" y1="0" x2="67" y2="-3" transform="translate(0,1)"/><line x1="67" y1="61" x2="67" y2="64" transform="translate(0,-1)"/><line x1="70" y1="0" x2="70" y2="-3" transform="translate(0,1)"/><line x1="70" y1="61" x2="70" y2="64" transform="translate(0,-1)"/><line x1="73" y1="0" x2="73" y2="-3" transform="translate(0,1)"/><line x1="73" y1="61" x2="73" y2="64" transform="translate(0,-1)"/><line x1="76" y1="0" x2="76" y2="-3" transform="translate(0,1)"/><line x1="76" y1="61" x2="76" y2="64" transform="translate(0,-1)"/><line x1="79" y1="0" x2="79" y2="-3" transform="translate(0,1)"/><line x1="79" y1="61" x2="79" y2="64" transform="translate(0,-1)"/><line x1="82" y1="0" x2="82" y2="-3" transform="translate(0,1)"/><line x1="82" y1="61" x2="82" y2="64" transform="translate(0,-1)"/><line x1="85" y1="0" x2="85" y2="-3" transform="translate(0,1)"/><line x1="85" y1="61" x2="85" y2="64" transform="translate(0,-1)"/></g></svg><span><b>写真を1枚まるごと敷く</b><small>好きな写真が、そのまま大きなラグになります</small></span></button><button type="button" class="rpo" data-a="tile"><svg viewBox="0 0 88 62" width="88" height="62" aria-hidden="true"><defs><clipPath id="rupcl"><rect x="1" y="1" width="86" height="60" rx="4"/></clipPath></defs><rect x="1" y="1" width="86" height="60" rx="4" fill="#f4ecdc"/><g clip-path="url(#rupcl)"><g transform="translate(4,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(4,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(4,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(4,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(20,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(36,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(52,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,4)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,20)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,36)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g><g transform="translate(68,52)"><circle cx="8" cy="8" r="5" fill="#e8708a"/><circle cx="8" cy="8" r="2" fill="#f6d24a"/><ellipse cx="1.5" cy="1.5" rx="2.2" ry="1" fill="#7ab06a" transform="rotate(35 1.5 1.5)"/></g></g><rect x="2.5" y="2.5" width="83" height="57" rx="3" fill="none" stroke="#8a3a4a" stroke-width="3"/><rect x="5.5" y="5.5" width="77" height="51" rx="2" fill="none" stroke="rgba(255,255,255,.7)" stroke-width=".6"/></svg><span><b>画像をくり返し柄にする</b><small>小さな画像を並べて、オリジナルの模様にします</small></span></button>${u?'<button type="button" data-a="frame">🖼 縁を変える</button>':''}${u?'<button type="button" data-a="reset">↩ 元の柄に戻す</button>':''}</div><button type="button" class="primary rpx">もどる</button></div>`;
+  ov.querySelectorAll('.rpb button').forEach(b=>b.onclick=()=>{const a=b.dataset.a;if(a==='frame'){RUF_ui(k);return;}if(a==='reset'){delete L.uimg;save();say(`${rugName(rugIdx(L))}に戻したよ`);RUP_ui(k);return;}RUP_pick(k,a);});
   ov.querySelector('.rpx').onclick=()=>{ov.hidden=true;try{recycleAsk(k,'in');}catch(_){}};ov.hidden=false;}
 // the hero's own pattern swaps leave picture rugs alone
 {const RS=A.rugswap;A.rugswap=function(){const hid=[];try{for(const k of RUG_FAM){const L=S.layout[k];if(L&&L.uimg&&has(k)){hid.push([k,L]);L.carry=1;}}}catch(e){}
@@ -20716,7 +20715,7 @@ function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov
   const OW=mode==='tile'?96:264,OH=mode==='tile'?96:186,ar=OW/OH;
   if(!document.getElementById('rupAdjSt')){const st=document.createElement('style');st.id='rupAdjSt';st.textContent='#rupOv .rpf{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#111;touch-action:none;cursor:grab;margin:4px 0 8px;box-shadow:0 0 0 2px rgba(255,211,107,.8)}#rupOv .rpf canvas{display:block;width:100%;height:100%}#rupOv .rpf .rpg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 33.3% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 66.6% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 33.3%/100% 1px no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 66.6%/100% 1px no-repeat}#rupOv .rptp{width:100%;aspect-ratio:88/62;border-radius:6px;margin:0 0 8px;background-repeat:repeat;background-size:20% auto;box-shadow:inset 0 0 0 3px rgba(120,60,60,.8)}#rupOv .rpa{display:flex;gap:8px}#rupOv .rpa button{flex:1}#rupOv .rpz{width:100%;margin:0 0 8px}';try{document.head.appendChild(st);}catch(_){}}
   ov.innerHTML=`<div class="card" role="dialog" aria-label="位置を調整"><h2>${mode==='tile'?'🔁 くり返し柄にする部分':'🖼 ラグに敷く部分'}</h2><p class="hint">ドラッグして位置を調整できます${mode==='tile'?'（四角の中がくり返しの1枚になります）':''}</p>
-    <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 8px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 拡大</span><input class="rpz" style="margin:0" type="range" min="100" max="300" value="100" aria-label="拡大"></div>${mode==='tile'?'<div class="rptp"></div>':''}
+    <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 8px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 拡大</span><input class="rpz" style="margin:0" type="range" min="100" max="300" value="100" aria-label="拡大"></div>${mode==='tile'?'<div class="rptp"></div>':'<div class="rpv rufp" style="width:100%;aspect-ratio:88/62;border-radius:6px;margin:0 0 8px;background-repeat:no-repeat;background-position:center"></div>'}<div class="rufw"></div>
     <div class="rpa"><button type="button" class="rpc">キャンセル</button><button type="button" class="primary rpok">決定</button></div></div>`;ov.hidden=false;
   const fr=ov.querySelector('.rpf'),cv2=fr.querySelector('canvas'),zs=ov.querySelector('.rpz'),tp=ov.querySelector('.rptp');
   const st={z:1,cx:.5,cy:.5};// centre of the view in image fractions
@@ -20725,7 +20724,11 @@ function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov
   const crop=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');const v=view();x.fillStyle='#fff';x.fillRect(0,0,w,h);x.drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,w,h);return c;};
   const draw=()=>{const r=fr.getBoundingClientRect(),d=Math.min(3,window.devicePixelRatio||1),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.width/ar*d));if(cv2.width!==w||cv2.height!==h){cv2.width=w;cv2.height=h;}
     const x=cv2.getContext('2d'),v=view();x.drawImage(src,v.sx,v.sy,v.vw,v.vh,0,0,w,h);};
-  let tpT=0;const tpUp=()=>{if(!tp)return;clearTimeout(tpT);tpT=setTimeout(()=>{try{tp.style.backgroundImage=`url(${crop(96,96).toDataURL('image/jpeg',.8)})`;}catch(_){}},60);};
+  let tpT=0;let tpUp=()=>{if(!tp)return;clearTimeout(tpT);tpT=setTimeout(()=>{try{tp.style.backgroundImage=`url(${crop(96,96).toDataURL('image/jpeg',.8)})`;}catch(_){}},60);};
+  const old=L.uimg&&L.uimg.m===mode?L.uimg.fr:undefined;let frSel=old!==undefined?old:(mode==='tile'?'auto':RUF_COLS[0][0]);const pp=ov.querySelector('.rufp');let ppT=0;
+  const ppUp=()=>{if(!pp)return;clearTimeout(ppT);ppT=setTimeout(()=>{try{const c=frSel==='none'?null:frSel;pp.style.backgroundImage=`url(${crop(176,124).toDataURL('image/jpeg',.8)})`;pp.style.backgroundColor=c||'transparent';pp.style.backgroundSize=c?'calc(100% - 12px) calc(100% - 12px)':'100% 100%';}catch(_){}},60);};
+  RUF_row(ov.querySelector('.rufw'),mode,()=>frSel,v=>{frSel=v;tpUp();});
+  const tpUp0=tpUp;tpUp=()=>{tpUp0();ppUp();if(tp)tp.style.boxShadow=frSel==='none'?'none':`inset 0 0 0 3px ${frSel==='auto'?'rgba(120,60,60,.8)':frSel}`;};
   draw();tpUp();requestAnimationFrame(()=>{draw();});
   let drag=null;fr.addEventListener('pointerdown',e=>{drag={x:e.clientX,y:e.clientY,cx:st.cx,cy:st.cy};try{fr.setPointerCapture(e.pointerId);}catch(_){}fr.style.cursor='grabbing';e.preventDefault();});
   fr.addEventListener('pointermove',e=>{if(!drag)return;const r=fr.getBoundingClientRect(),v=view(),px=v.vw/r.width;st.cx=drag.cx-(e.clientX-drag.x)*px/src.width;st.cy=drag.cy-(e.clientY-drag.y)*px/src.height;draw();});
@@ -20733,7 +20736,7 @@ function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov
   zs.oninput=()=>{st.z=(+zs.value)/100;draw();tpUp();};
   ov.querySelector('.rpc').onclick=()=>{RUP_ui(k);};
   ov.querySelector('.rpok').onclick=()=>{let url=null;try{url=crop(OW,OH).toDataURL('image/jpeg',.8);}catch(e){}if(!url){say('その画像は使えなかったみたい');return;}
-    const done=edge=>{L.uimg={m:mode,src:url};if(edge)L.uimg.edge=edge;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの画像を外してみて');}ov.hidden=true;
+    const done=edge=>{L.uimg={m:mode,src:url,fr:frSel};if(edge)L.uimg.edge=edge;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの画像を外してみて');}ov.hidden=true;
       queueSay(mode==='photo'?pick(['お気に入りの写真がラグになった！','写真のラグ、すてき','足元に思い出の写真']):pick(['オリジナル柄のラグ、できた！','くり返し柄にすると、ちゃんとラグっぽい','この柄、かわいい']));};
     if(mode==='tile')RUP_edge(url,done);else done(null);};}
 /* ---- v380: the yard photo board gets the same "drag to choose the part, then 適用" step ---- */
@@ -21350,6 +21353,192 @@ function DEX_softs(el){const dr=S.drank||{},rv=S.dexSoft||{},hv=n=>dr[n]||rv[n];
   for(const c of DEX_SOFTORD){const ns=by[c];if(!ns)continue;const got=ns.filter(hv).sort((a,b)=>(dr[b]||0)-(dr[a]||0));DEX_kind(el,c,got.length,ns.length,box=>DEX_chipList(box,got));}}
 {const DD0=DEX_drinks;DEX_drinks=function(el){try{DD0(document.createElement('div'));}catch(e){}// keeps the drink styles in place
   DEX_alcohol(el);try{DEX_setmenus(el);}catch(e){}DEX_foods(el);DEX_softs(el);};}
+/* ---- v405: picture rugs — choose whether they have a border and, if so, its colour (photo and repeated pattern alike); it can be changed later from the rug's menu ---- */
+const RUF_COLS=[['#2c2a30','墨'],['#f4efe4','生成り'],['#8a6a4a','茶'],['#7a3a3a','えんじ'],['#3a4a7a','紺'],['#4a6a3a','深緑'],['#b8923a','からし'],['#d88aa0','ピンク'],['#9aa4ae','グレー'],['#c8a24a','金']];
+function RUF_light(c){try{const h=c.replace('#','');const r=parseInt(h.slice(0,2),16),g2=parseInt(h.slice(2,4),16),b=parseInt(h.slice(4,6),16);return(r*.3+g2*.59+b*.11)>170;}catch(e){return false;}}
+function RUF_col(u){if(!u)return'none';const f=u.fr;if(f==='none')return'none';if(u.m==='tile')return f&&f!=='auto'?f:(u.edge||'#7a3a3a');return f||'#2c2a30';}
+function RUF_css(){if(document.getElementById('rufSt'))return;const st=document.createElement('style');st.id='rufSt';st.textContent='.rufr{margin:0 0 10px;text-align:left}.rufr .ruft{font-size:12px;opacity:.85;margin:0 0 5px}.rufr .rufs{display:flex;flex-wrap:wrap;gap:6px}.rufr button{width:30px;height:30px;min-height:0;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.25);font-size:10px;line-height:1;display:flex;align-items:center;justify-content:center;color:#fff;background:none}.rufr button.on{border-color:#ffd36b;box-shadow:0 0 0 2px rgba(255,211,107,.45)}.rufr button.nb{width:auto;border-radius:15px;padding:0 10px;font-size:12px;background:rgba(255,255,255,.08)}.rufr .rufn{font-size:11px;opacity:.75;margin-top:4px;min-height:14px}';try{document.head.appendChild(st);}catch(_){}}
+function RUF_row(box,mode,get,set){if(!box)return;RUF_css();box.className='rufr';
+  const opts=[['none','縁なし']].concat(mode==='tile'?[['auto','おまかせ']]:[]).concat(RUF_COLS);
+  box.innerHTML=`<div class="ruft">縁</div><div class="rufs"></div><div class="rufn"></div>`;const row=box.querySelector('.rufs'),nm=box.querySelector('.rufn');
+  const paint=()=>{const v=get();row.querySelectorAll('button').forEach(b=>b.classList.toggle('on',b.dataset.v===v));const o=opts.find(o=>o[0]===v);nm.textContent=o?(o[0].startsWith('#')?'縁の色：'+o[1]:o[1]):'';};
+  for(const[v,n]of opts){const b=document.createElement('button');b.type='button';b.dataset.v=v;b.setAttribute('aria-label',n);if(v.startsWith('#'))b.style.background=v;else{b.className='nb';b.textContent=n;}b.onclick=()=>{set(v);paint();};row.append(b);}
+  paint();}
+// change only the border of the picture already on the rug
+function RUF_ui(k){const ov=document.getElementById('rupOv');const L=S.layout[k];if(!ov||!L||!L.uimg)return;const u=L.uimg;let sel=u.fr!==undefined?u.fr:(u.m==='tile'?'auto':'#2c2a30');
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="ラグの縁"><h2>🖼 ${FT[k].n}の縁</h2><p class="hint">縁をつけるかどうかと、色を選べます</p><div class="rpv rufp"></div><div class="rufw"></div>
+   <div class="rpa" style="display:flex;gap:8px"><button type="button" class="rpc" style="flex:1">キャンセル</button><button type="button" class="primary rpok" style="flex:1">決定</button></div></div>`;ov.hidden=false;
+  const pv=ov.querySelector('.rufp');const show=()=>{const c=RUF_col({...u,fr:sel});pv.style.cssText=(u.m==='tile'?`background-image:url(${u.src});background-size:22% auto;background-repeat:repeat;`:`background-image:url(${u.src});background-size:cover;`)+(c==='none'?'':`box-shadow:inset 0 0 0 ${u.m==='tile'?3:5}px ${c};`);
+    if(u.m==='photo'&&c!=='none'){pv.style.backgroundSize='calc(100% - 10px) calc(100% - 10px)';pv.style.backgroundPosition='center';pv.style.backgroundRepeat='no-repeat';pv.style.backgroundColor=c;}};
+  RUF_row(ov.querySelector('.rufw'),u.m,()=>sel,v=>{sel=v;show();});show();
+  ov.querySelector('.rpc').onclick=()=>RUP_ui(k);
+  ov.querySelector('.rpok').onclick=()=>{u.fr=sel;try{save();}catch(e){}ov.hidden=true;queueSay(sel==='none'?pick(['縁なしで、すっきり','縁を外してみた']):pick(['縁の色を変えてみた','いい色の縁になった！']));};}
+/* ---- v406: no Korean dishes or drinks anywhere — also cleared from the eating / drinking records ---- */
+const KR_FOOD=/ビビンバ|ビビン麺|ナムル|キムチ|冷麺|ユッケジャン|参鶏湯|プルコギ|プデチゲ|トッポッキ|チャプチェ|チヂミ|タッカルビ|スンドゥブ|サムギョプサル|キンパ|コーン茶|鏡月/;
+function KR_scrub(){try{if(!S)return;for(const f of['ate','dexFood','drank','dexSoft','notes','dexDrink']){const o=S[f];if(o&&typeof o==='object')for(const k of Object.keys(o))if(KR_FOOD.test(k))delete o[k];}}catch(e){}}
+setInterval(KR_scrub,3000);
+/* ---- v407: the wall mirror runs from floor to ceiling; the dressing table gets a large square three-panel mirror that reflects like the full-length mirror; finer floor cushions and rounder bean bags ---- */
+// wall mirror: the wall face runs from about Y+6.6 (under the ceiling trim) down to the floor at about Y+35
+function MIR_wall(X,Y,L,t){const fw=13,fh=27.6,fx=X+12-fw/2,fy=Y+7.2;MIR_frame(fx,fy,fw,fh);
+  try{const wx=(L&&typeof L.x==='number')?(L.x+.5)*T:null,wy=(L&&typeof L.y==='number')?(L.y+1)*T:null;if(wx!=null&&L.wall)MIR_reflect(fx+1.4,fy+1.4,fw-2.8,fh-2.8,wx,wy,{feet:.97,sc:(fh-2.8)/38,floorAt:.62});
+    else MIR_reflect(fx+1.4,fy+1.4,fw-2.8,fh-2.8,-9999,-9999,{floorAt:.62});}catch(e){}
+  g.strokeStyle='rgba(30,20,10,.45)';g.lineWidth=.3;g.strokeRect(fx+1.4,fy+1.4,fw-2.8,fh-2.8);
+  // the foot of the frame rests on the floor
+  fillR(g,'rgba(0,0,0,.18)',fx-.4,fy+fh-.2,fw+.8,.8,.3);}
+FT.mirror.draw=MIR_wall;
+// the leaning (on the floor) version keeps its own drawing; the picture-book icon uses a box Y..Y+21, so squeeze it there
+{const FI=furnIcon;furnIcon=function(k){if(k!=='mirror')return FI.apply(this,arguments);return dexIcon(x=>withG(x,()=>{x.translate(28,4);x.scale(1.45,1.45);x.translate(-12,-7);MIR_wall(0,0,null,0);}));};}
+/* ---- dressing table with a three-panel mirror ---- */
+function DR_wood(x,y,w,h,r){const c=g;c.fillStyle=B_lg(x,y,x+w,y+h,[[0,'#8a5a36'],[.35,'#6a4226'],[.7,'#5a361e'],[1,'#3e2412']]);rr(c,x,y,w,h,r||.6);c.fill();}
+function DR_dresser(X,Y,Wd,Dp,L,t){g.save();const wc='#7a4a2a',lt='#a8724a',dk='#40240f';B_sh(X+12,Y+21,11.4,2.5,.34);
+  const mxW=L&&typeof L.x==='number'?(L.x+.5)*T:-9999,wyW=L&&typeof L.y==='number'?(L.y+1)*T:-9999;
+  const top=Y-30.5,bot=Y-6.6,cw=12.4,cx=X+12,cx0=cx-cw/2,cx1=cx+cw/2;
+  // ---- side wings (angled toward the viewer: the outer edge comes forward, so it sits a little lower) ----
+  const wing=(s)=>{g.save();const hx=s<0?cx0:cx1;g.translate(hx,0);g.transform(1,.3*s,0,1,0,0);// shear: the outer edge comes forward (lower)
+    const ww=5.4,x0=s<0?-ww:0;
+    // frame
+    g.fillStyle=B_lg(x0,0,x0+ww,0,s<0?[[0,dk],[.5,wc],[1,lt]]:[[0,lt],[.5,wc],[1,dk]]);rr(g,x0,top+.6,ww,bot-top-.6,.6);g.fill();
+    // glass with its own reflection (the person seen a little from the side)
+    const gx=x0+.9,gy=top+1.5,gw=ww-1.8,gh=bot-top-2.4;
+    try{MIR_reflect(gx,gy,gw,gh,mxW-s*T*.7,wyW,{feet:1.55,sc:gh/27,floorAt:.88,reach:2.4,side:T*1.6});}catch(e){}
+    g.fillStyle=`rgba(${s<0?'255,255,255,.10':'0,0,0,.08'})`;g.fillRect(gx,gy,gw,gh);
+    g.strokeStyle='rgba(20,10,4,.5)';g.lineWidth=.3;g.strokeRect(gx,gy,gw,gh);
+    g.strokeStyle='rgba(255,220,170,.35)';g.lineWidth=.25;rr(g,x0+.25,top+.85,ww-.5,bot-top-1.1,.5);g.stroke();
+    g.restore();};
+  // shadow of the mirror on the wall
+  fillR(g,'rgba(0,0,0,.12)',cx0-4.6,top+1.4,cw+9.6,bot-top,1);
+  wing(-1);wing(1);
+  // ---- centre panel ----
+  g.fillStyle=B_lg(cx0,0,cx1,0,[[0,dk],[.18,wc],[.5,lt],[.82,wc],[1,dk]]);rr(g,cx0-.4,top-.6,cw+.8,bot-top+.6,.8);g.fill();
+  // carved top rail
+  g.fillStyle=B_lg(0,top-2.4,0,top,[[0,lt],[1,wc]]);g.beginPath();g.moveTo(cx0-.6,top);g.lineTo(cx0+1.2,top-1.4);g.quadraticCurveTo(cx,top-3.2,cx1-1.2,top-1.4);g.lineTo(cx1+.6,top);g.closePath();g.fill();
+  g.strokeStyle='rgba(255,230,190,.4)';g.lineWidth=.25;g.beginPath();g.moveTo(cx0+1.4,top-1.2);g.quadraticCurveTo(cx,top-2.8,cx1-1.4,top-1.2);g.stroke();
+  fillE(g,'#d8b24a',cx,top-1.6,1,.7);fillE(g,'#fff0b0',cx-.3,top-1.8,.35,.25);
+  {const gx=cx0+1.1,gy=top+.9,gw=cw-2.2,gh=bot-top-2;
+   try{MIR_reflect(gx,gy,gw,gh,mxW,wyW,{feet:1.5,sc:gh/27,floorAt:.88,reach:2.4,side:T*1.4});}catch(e){}
+   g.strokeStyle='rgba(20,10,4,.55)';g.lineWidth=.35;g.strokeRect(gx,gy,gw,gh);
+   g.strokeStyle='rgba(255,226,180,.45)';g.lineWidth=.3;rr(g,cx0+.3,top-.2,cw-.6,bot-top-.2,.6);g.stroke();}
+  // brass hinges
+  for(const hx of[cx0,cx1])for(const hy of[top+3,bot-4]){fillR(g,'#c8a040',hx-.55,hy,1.1,2.2,.3);fillR(g,'#fff0b0',hx-.35,hy+.3,.3,1.4);}
+  // mirror base board
+  DR_wood(cx0-5.6,bot-.3,cw+11.2,1.6,.5);fillR(g,'rgba(255,230,190,.35)',cx0-5.2,bot-.2,cw+10.4,.3);
+  // ---- table top (Y-5..Y+8) ----
+  g.fillStyle=B_lg(0,Y-5,0,Y+8,[[0,'#9a6a44'],[.4,'#8a5a36'],[1,'#6a4226']]);rr(g,X+2.2,Y-5,19.6,13,1.4);g.fill();
+  g.strokeStyle='rgba(40,20,8,.18)';g.lineWidth=.25;for(let i=0;i<5;i++){g.beginPath();g.moveTo(X+3,Y-3.6+i*2.6);g.quadraticCurveTo(X+12,Y-4.2+i*2.6,X+21,Y-3.2+i*2.6);g.stroke();}
+  g.fillStyle='rgba(255,255,255,.16)';g.beginPath();g.moveTo(X+4,Y-4.4);g.lineTo(X+9,Y-4.4);g.lineTo(X+6.4,Y+6.6);g.lineTo(X+2.8,Y+6.6);g.closePath();g.fill();
+  // reflection of the mirror base on the glossy top
+  fillR(g,'rgba(60,30,12,.18)',cx0-4.6,Y-4.6,cw+9.2,1.2,.4);
+  // cosmetics on a lace doily (left; the slot item sits at x+15)
+  fillE(g,'rgba(255,255,255,.88)',X+7.6,Y+.8,4,1.6);g.strokeStyle='rgba(255,255,255,.9)';g.lineWidth=.3;g.setLineDash([.5,.5]);ell(g,X+7.6,Y+.8,4.6,2);g.stroke();g.setLineDash([]);
+  fillR(g,B_lg(X+5,0,X+7.6,0,[[0,'#f6b8cc'],[1,'#d07090']]),X+5,Y-3.2,2.6,4,1);fillR(g,'#e8c46a',X+5.6,Y-4.2,1.4,1.2,.3);fillR(g,'rgba(255,255,255,.7)',X+5.4,Y-2.6,.5,2.6);
+  fillR(g,'rgba(180,220,240,.9)',X+8.4,Y-2.2,2.2,3,.8);fillR(g,'#3f6fd1',X+8.9,Y-3,1.2,.9,.3);fillE(g,'#d9483b',X+11,Y+.8,.9,.4);
+  // ---- drawers body ----
+  g.fillStyle=B_lg(X+2.2,0,X+21.8,0,[[0,dk],[.08,wc],[.5,'#8a5634'],[.92,wc],[1,dk]]);rr(g,X+2.2,Y+7.6,19.6,13,1);g.fill();fillR(g,dk,X+2.2,Y+7.4,19.6,.8);
+  for(let i=0;i<2;i++){const dy=Y+8.8+i*5.7;g.fillStyle=B_lg(0,dy,0,dy+5,[[0,'#94603c'],[1,'#7a4a2a']]);rr(g,X+3.4,dy,17.2,5,.5);g.fill();
+    g.strokeStyle='rgba(255,220,170,.3)';g.lineWidth=.25;rr(g,X+3.6,dy+.2,16.8,4.6,.4);g.stroke();fillR(g,'rgba(0,0,0,.2)',X+3.4,dy+4.6,17.2,.4);
+    // brass bail handle
+    g.strokeStyle='#c8a040';g.lineWidth=.45;g.beginPath();g.moveTo(X+10.2,dy+2);g.quadraticCurveTo(X+12,dy+3.6,X+13.8,dy+2);g.stroke();fillE(g,'#d8b24a',X+10.2,dy+2,.45,.45);fillE(g,'#d8b24a',X+13.8,dy+2,.45,.45);}
+  // turned legs
+  for(const lx of[X+3,X+19.4]){g.fillStyle=B_lg(lx,0,lx+1.6,0,[[0,wc],[1,dk]]);rr(g,lx,Y+20.4,1.6,1.4,.5);g.fill();}
+  g.strokeStyle='rgba(30,14,4,.35)';g.lineWidth=.3;rr(g,X+2.2,Y-5,19.6,26.6,1.2);g.stroke();
+  g.restore();}
+FT.dresser.draw=DR_dresser;try{dDresser=DR_dresser;}catch(e){}
+/* ---- floor cushion (座布団): plump square with a gusset, a centre tuft and corner tassels ---- */
+const ZB_COL=[['#9a2f38','#c84a52','#6a1a22','sama'],['#2f4878','#4a6aa0','#1a2a50','shima'],['#6a7a3a','#8a9c52','#46521e','asa'],['#8a5a36','#b07a4e','#5a361c','plain']];
+function ZB_draw(X,Y,Wd,Dp,L){g.save();const[col,lt,dk,pat]=ZB_COL[(L&&L.v||0)%ZB_COL.length];const x=X+3.2,y=Y+3.6,w=17.6,h=14.2,gh=2.2;
+  A_shadow(X+3.6,Y+6.4,17,14.4,1.25);
+  // gusset (front thickness)
+  const sides=()=>{g.beginPath();g.moveTo(x+1.2,y+h-1);g.quadraticCurveTo(x-.8,y+h+gh*.4,x+1.8,y+h+gh);g.quadraticCurveTo(x+w/2,y+h+gh+.9,x+w-1.8,y+h+gh);g.quadraticCurveTo(x+w+.8,y+h+gh*.4,x+w-1.2,y+h-1);g.closePath();};
+  sides();g.fillStyle=B_lg(0,y+h-1,0,y+h+gh+.8,[[0,col],[1,dk]]);g.fill();
+  // the puffy top face
+  const topP=()=>{g.beginPath();g.moveTo(x+1.4,y+.2);g.quadraticCurveTo(x+w/2,y-1,x+w-1.4,y+.2);g.quadraticCurveTo(x+w+1.1,y+h/2,x+w-1.2,y+h);g.quadraticCurveTo(x+w/2,y+h+1.2,x+1.2,y+h);g.quadraticCurveTo(x-1.1,y+h/2,x+1.4,y+.2);g.closePath();};
+  topP();g.fillStyle=A_rg(x+w*.4,y+h*.38,.5,w*.78,[[0,lt],[.55,col],[1,shade(col,-.18)]]);g.fill();
+  g.save();topP();g.clip();
+  // woven pattern
+  if(pat==='shima'){g.strokeStyle='rgba(255,255,255,.16)';g.lineWidth=.55;for(let i=-2;i<w+2;i+=2.2){g.beginPath();g.moveTo(x+i,y-2);g.quadraticCurveTo(x+i+.4,y+h/2,x+i,y+h+2);g.stroke();}g.strokeStyle='rgba(0,0,0,.1)';g.lineWidth=.3;for(let i=-1;i<w+2;i+=2.2){g.beginPath();g.moveTo(x+i,y-2);g.lineTo(x+i,y+h+2);g.stroke();}}
+  else if(pat==='sama'){g.fillStyle='rgba(255,236,220,.2)';for(let r=0;r<7;r++)for(let c=0;c<9;c++){const px=x+.6+c*2.1+(r%2)*1.05,py=y+.8+r*2.1;g.beginPath();g.arc(px,py,.7,Math.PI,0);g.lineTo(px+.7,py+.3);g.lineTo(px-.7,py+.3);g.fill();}}
+  else if(pat==='asa'){g.strokeStyle='rgba(255,255,230,.18)';g.lineWidth=.25;for(let r=0;r<4;r++)for(let c=0;c<5;c++){const px=x+1.8+c*3.6+(r%2)*1.8,py=y+1.6+r*3.6;for(let a=0;a<6;a++){const an=a*Math.PI/3;g.beginPath();g.moveTo(px,py);g.lineTo(px+Math.cos(an)*1.8,py+Math.sin(an)*1.8);g.stroke();}}}
+  else{g.fillStyle='rgba(255,255,255,.06)';for(let i=0;i<60;i++)g.fillRect(x+hash(i,1,41)*w,y+hash(i,2,41)*h,.4,.4);}
+  // quilting puff: soft ridges toward the edges, darker toward the tuft
+  g.fillStyle=A_rg(x+w/2,y+h/2,.3,4.6,[[0,'rgba(0,0,0,.22)'],[1,'rgba(0,0,0,0)']]);g.fillRect(x,y,w,h);
+  g.strokeStyle='rgba(0,0,0,.12)';g.lineWidth=.35;for(const[a,b]of[[[x+w/2,y+h/2],[x+2,y+1.4]],[[x+w/2,y+h/2],[x+w-2,y+1.4]],[[x+w/2,y+h/2],[x+2,y+h-1.4]],[[x+w/2,y+h/2],[x+w-2,y+h-1.4]]]){g.beginPath();g.moveTo(a[0],a[1]);g.quadraticCurveTo((a[0]+b[0])/2+.8,(a[1]+b[1])/2-.6,b[0],b[1]);g.stroke();}
+  g.fillStyle='rgba(255,255,255,.22)';g.beginPath();g.ellipse(x+w*.3,y+h*.26,w*.2,h*.1,-.3,0,TAU);g.fill();
+  g.restore();
+  // piping along the edge
+  g.strokeStyle=shade(col,-.32);g.lineWidth=.5;topP();g.stroke();g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=.25;g.beginPath();g.moveTo(x+1.6,y+.6);g.quadraticCurveTo(x+w/2,y-.5,x+w-1.6,y+.6);g.stroke();
+  // centre tuft (三方とじ)
+  const tx=x+w/2,ty=y+h/2;fillE(g,'rgba(0,0,0,.18)',tx,ty+.3,1.8,1.3);g.strokeStyle='#f4e8c8';g.lineWidth=.55;g.lineCap='round';g.beginPath();for(let a=0;a<3;a++){const an=-Math.PI/2+a*TAU/3;g.moveTo(tx,ty);g.lineTo(tx+Math.cos(an)*1.7,ty+Math.sin(an)*1.4);}g.stroke();fillE(g,'#f4e8c8',tx,ty,.45,.4);
+  // corner tassels (房)
+  for(const[cx,cy,dx,dy]of[[x+1.4,y+.4,-1,-1],[x+w-1.4,y+.4,1,-1],[x+1.2,y+h,-1,1],[x+w-1.2,y+h,1,1]]){g.strokeStyle='#c8a040';g.lineWidth=.4;g.beginPath();for(const[ex,ey]of[[1.6,1.2],[1.9,.5],[.7,1.8]]){g.moveTo(cx,cy);g.lineTo(cx+dx*ex,cy+dy*ey);}g.stroke();fillE(g,'#e0c060',cx,cy,.55,.5);}
+  g.restore();}
+FT.cushion.draw=ZB_draw;try{dCushion=ZB_draw;}catch(e){}
+/* ---- bean bags: soft rounded shapes ---- */
+function BB_body(cx,base,rw,rh,col,occ,seed){const lt=shade(col,.34),md=shade(col,-.1),dk=shade(col,-.34);
+  // body: a plump dome, slightly flattened where it meets the floor
+  const P=()=>{g.beginPath();g.moveTo(cx-rw*.82,base);g.bezierCurveTo(cx-rw*1.08,base-rh*.18,cx-rw*1.04,base-rh*.82,cx-rw*.52,base-rh*.98);g.bezierCurveTo(cx-rw*.2,base-rh*1.08,cx+rw*.22,base-rh*1.08,cx+rw*.54,base-rh*.97);g.bezierCurveTo(cx+rw*1.05,base-rh*.8,cx+rw*1.08,base-rh*.18,cx+rw*.82,base);g.bezierCurveTo(cx+rw*.4,base+rh*.1,cx-rw*.4,base+rh*.1,cx-rw*.82,base);g.closePath();};
+  P();g.fillStyle=A_rg(cx-rw*.36,base-rh*.74,.5,rw*1.5,[[0,lt],[.45,col],[.85,md],[1,dk]]);g.fill();
+  g.save();P();g.clip();
+  // fabric weave
+  g.fillStyle='rgba(255,255,255,.07)';for(let i=0;i<Math.round(rw*rh*.9);i++)g.fillRect(cx-rw+hash(i,1,seed)*rw*2,base-rh*1.1+hash(i,2,seed)*rh*1.2,.45,.45);
+  // a soft piping seam running round the lower body
+  g.strokeStyle='rgba(0,0,0,.18)';g.lineWidth=.45;g.beginPath();g.moveTo(cx-rw*1.02,base-rh*.36);g.bezierCurveTo(cx-rw*.6,base-rh*.12,cx+rw*.6,base-rh*.12,cx+rw*1.02,base-rh*.36);g.stroke();
+  g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=.3;g.beginPath();g.moveTo(cx-rw*1.02,base-rh*.4);g.bezierCurveTo(cx-rw*.6,base-rh*.17,cx+rw*.6,base-rh*.17,cx+rw*1.02,base-rh*.4);g.stroke();
+  // gentle wrinkles radiating from the hollow
+  g.strokeStyle='rgba(0,0,0,.1)';g.lineWidth=.4;for(const[s,k2]of[[-1,.9],[1,.85],[-1,.5],[1,.55]]){g.beginPath();g.moveTo(cx+s*rw*.42,base-rh*(.62+(k2-.7)*.2));g.quadraticCurveTo(cx+s*rw*.62,base-rh*(.7+(k2-.7)*.3),cx+s*rw*.78,base-rh*(.58+(k2-.7)*.6));g.stroke();}
+  // the soft dent where you sink in (deeper when someone sits)
+  const dw=rw*.52,dh=rh*.2,dy=base-rh*.62+(occ?rh*.06:0);g.fillStyle=A_rg(cx+rw*.04,dy,.3,dw,[[0,`rgba(0,0,0,${occ?.3:.2})`],[1,'rgba(0,0,0,0)']]);g.beginPath();g.ellipse(cx+rw*.04,dy,dw,dh*(occ?1.25:1),0,0,TAU);g.fill();
+  g.strokeStyle='rgba(255,255,255,.26)';g.lineWidth=.45;g.beginPath();g.ellipse(cx+rw*.04,dy+dh*.35,dw*.95,dh*1.05,0,.25,Math.PI-.25);g.stroke();
+  // creases where the fabric gathers
+  g.strokeStyle='rgba(0,0,0,.14)';g.lineWidth=.35;for(const s of[-1,1]){g.beginPath();g.moveTo(cx+s*rw*.62,base-rh*.25);g.quadraticCurveTo(cx+s*rw*.48,base-rh*.12,cx+s*rw*.36,base-rh*.02);g.stroke();}
+  // highlight
+  g.fillStyle='rgba(255,255,255,.3)';g.beginPath();g.ellipse(cx-rw*.42,base-rh*.82,rw*.22,rh*.09,-.35,0,TAU);g.fill();
+  g.fillStyle='rgba(0,0,0,.14)';g.beginPath();g.ellipse(cx,base-rh*.04,rw*.8,rh*.08,0,0,TAU);g.fill();
+  g.restore();
+  g.strokeStyle=shade(col,-.42);g.lineWidth=.45;P();g.stroke();}
+FT.beanbag.draw=function(X,Y,Wd,Dp,L){g.save();const col=['#e0874b','#6fa392','#8a9ad6','#e08a9a'][(L&&L.v||0)%4];A_oval(X+12,Y+20.4,11.6,3,.28);
+  const occ=(C.snapK==='beanbag'&&C.scene==='in')||(M&&M.seatK==='beanbag');BB_body(X+12,Y+20.2,10.4,16,col,occ,7);
+  // little carry loop on top
+  g.strokeStyle=shade(col,-.4);g.lineWidth=.7;g.beginPath();g.moveTo(X+10.6,Y+4.6);g.quadraticCurveTo(X+12,Y+2.6,X+13.4,Y+4.6);g.stroke();
+  g.restore();};
+try{dBeanbag=FT.beanbag.draw;}catch(e){}
+function YG_draw(X,Y,Wd,Dp,L,t){const k=YOGIK.find(q=>S.layout[q]===L)||'yogibo',[,col]=yogiCol(k,L);g.save();const cx=X+Wd/2,base=Y+Dp-2.4,occ=(C.snapK===k&&C.scene==='in')||(M&&M.seatK===k);
+  B_sh(cx,base+.6,Wd*.48,4.6,.34);BB_body(cx,base,Wd*.45,15.6,col,occ,k.length+11);
+  // fabric handle tab on the side
+  fillR(g,shade(col,-.45),cx+Wd*.4,base-7.4,2.2,3.2,.8);fillR(g,'rgba(255,255,255,.22)',cx+Wd*.4+.3,base-7.2,.4,2.6,.2);
+  g.restore();}
+for(const k of YOGIK)if(FT[k])FT[k].draw=YG_draw;try{dYogi=YG_draw;}catch(e){}
+/* ---- v408: indoors, everything except the starting furniture can be had in any number the rooms can hold (more copies are ordered from the picture book) ---- */
+const MC_INIT=new Set(['bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','boombox','bookshelf','robovac','bed2','wardrobe2','ksink']);
+const MC_MAX=24;
+function MC_base(k){return typeof k==='string'?k.replace(/_\d+$/,''):k;}
+function MC_clone(base,key){if(FT[key])return;Object.defineProperty(FT,key,{value:Object.assign({},FT[base]),enumerable:false,configurable:true,writable:true});
+  try{if(PAT_K[base])PAT_K[key]=PAT_K[base];}catch(e){}try{if(NOSTORE.has(base))NOSTORE.add(key);}catch(e){}try{if(KITCHENWARE.has(base))KITCHENWARE.add(key);}catch(e){}}
+(function(){
+  // families that already exist (sofas, rugs, love robots, collection shelves, bean bags) grow to the same size
+  try{if(!RO_FAM.some(f=>f.includes('yogibo')))RO_FAM.push(YOGIK);RO_FAMN.yogibo='ビーズクッション（大）';}catch(e){}
+  for(const fam of RO_FAM){const base=fam[0];let i=2;while(fam.length<MC_MAX){const key=base+'_'+i++;if(fam.includes(key))continue;MC_clone(base,key);fam.push(key);if(fam===YOGIK){}else if(base==='yogibo')YOGIK.push(key);}
+    if(base.startsWith('collect'))for(const k of fam)if(!CR_KEYS.includes(k))CR_KEYS.push(k);}
+  // everything else
+  const inFam=new Set([].concat(...RO_FAM));
+  for(const base of Object.keys(FT)){const f=FT[base];if(!f||f.fix||MC_INIT.has(base)||inFam.has(base))continue;const fam=[base];for(let i=2;i<=MC_MAX;i++){const key=base+'_'+i;MC_clone(base,key);fam.push(key);}RO_FAM.push(fam);RO_FAMN[base]=f.n;}
+})();
+setTimeout(()=>{try{for(const fam of RO_FAM){const b=fam[0];if(TMAP[b]!=null)for(const k of fam)if(TMAP[k]==null)TMAP[k]=TMAP[b];}}catch(e){}},0);
+// wording in the picture book: "one more" instead of a counter word
+{const RS=RO_state;RO_state=function(k,yard){const r=RS.apply(this,arguments);try{if(!yard&&r&&r.kind==='msg'&&/そろっているので/.test(r.msg))r.msg='これ以上は置けるところがありません';}catch(e){}return r;};}
+{const DZ=dexZoom;dexZoom=function(mk,nm,cat,key){const r=DZ.apply(this,arguments);try{const m=document.querySelector('#dexZoom .dzro');if(m&&/^もう1台頼めます/.test(m.textContent))m.textContent='もう1つ頼めます（スペースがあるかぎり、いくつでも置けます）';}catch(e){}return r;};}
+// copies behave like the original for the special drawings keyed by name
+{const DL=drawLean;drawLean=function(k,L,t){if(MC_base(k)==='mirror'&&k!=='mirror'){MIR_floor(L,t);return;}return DL.apply(this,arguments);};}
+/* ---- garden: the shrubs can be moved (long-press and drag, like other garden things); they cannot be put away or recycled ---- */
+const BU_ORIG=OUT.bushes.slice();
+for(let i=0;i<BU_ORIG.length;i++)Object.defineProperty(OFT,'bush'+(i+1),{value:{n:'植え込み',w:1,h:1,draw:(X,Y,p,t)=>drawBush(Math.round(X/T),Math.round(Y/T),t)},enumerable:false,configurable:true,writable:true});
+for(const[x,y]of BU_ORIG)OUTBLOCK.delete(x+','+y);
+OUT.bushes=[];
+function BU_is(k){return typeof k==='string'&&/^bush\d+$/.test(k);}
+setInterval(()=>{try{if(!S||!S.yard||S.bushV)return;S.bushV=1;BU_ORIG.forEach(([x,y],i)=>{const k='bush'+(i+1);if(!S.yard[k])S.yard[k]={x,y};});refreshOut();save();}catch(e){}},700);
+{const RA=recycleAsk;recycleAsk=function(k,sc){if(sc!=='in'&&BU_is(k)){say(pick(['植え込みは長押しして動かせるよ','植え込みは庭の一部。場所を変えるだけにしよう']));return;}return RA.apply(this,arguments);};}
+{const YM=A.yardmove;A.yardmove=function(){const keep={};for(const k of Object.keys(S.yard||{}))if(BU_is(k)){keep[k]=S.yard[k];delete S.yard[k];}try{return YM.apply(this,arguments);}finally{Object.assign(S.yard,keep);}};}
+/* ---- the photo board is no longer sent automatically at the start ---- */
+setTimeout(()=>{try{if(S&&!S.pbAutoOff){S.pbAutoOff=1;S.pbGiven=1;if(!S.yard.photoboard&&!(S.yardDel&&S.yardDel.k==='photoboard'))S.yardOrderQ=(S.yardOrderQ||[]).filter(k=>k!=='photoboard');}}catch(e){}},0);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
