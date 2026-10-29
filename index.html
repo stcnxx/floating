@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 469（2026/10/30）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 472（2026/10/30）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 469（2026/10/30）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 472（2026/10/30）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -23289,10 +23289,12 @@ FT.himekuri=F('日めくりカレンダー',1,1,'wall',['liv','kit','bed','wc'],
   // today's sheet
   fillR(g,'#fffdf7',x,y+2.8,w,h-2.8,.5);fillR(g,'rgba(0,0,0,.06)',x,y+h-1,w,1);
   g.textAlign='center';g.textBaseline='middle';
-  g.fillStyle=col;g.font='600 2.2px "Zen Maru Gothic",sans-serif';g.fillText(`${d.getFullYear()}年 ${d.getMonth()+1}月`,X+12,y+4.6);
-  g.font='800 8.4px "Zen Maru Gothic",sans-serif';g.fillText(String(d.getDate()),X+12,y+10.2);
-  g.font='700 2.4px "Zen Maru Gothic",sans-serif';g.fillText(['日','月','火','水','木','金','土'][wd]+'曜日',X+12,y+15.6);
-  if(hol){g.font='700 2px "Zen Maru Gothic",sans-serif';g.fillText(hol.length>7?hol.slice(0,7):hol,X+12,y+18.9);}
+  g.fillStyle=col;g.font='600 2.1px "Zen Maru Gothic",sans-serif';g.fillText(`${d.getFullYear()}年 ${d.getMonth()+1}月`,X+12,y+4.4);
+  g.font='800 7.6px "Zen Maru Gothic",sans-serif';g.fillText(String(d.getDate()),X+12,y+9.3);
+  g.font='700 2.2px "Zen Maru Gothic",sans-serif';g.fillText(['日','月','火','水','木','金','土'][wd]+'曜日',X+12,y+13.5);
+  {const an=hol||(typeof annivOf==='function'&&annivOf(d))||'';if(an){g.font='700 1.45px "Zen Maru Gothic",sans-serif';g.fillStyle=hol?col:'#5a4a3a';g.fillText(an.length>9?an.slice(0,9):an,X+12,y+15.5);}}
+  {const ls=HK_of(d);g.fillStyle='rgba(60,50,40,.85)';g.font='600 1.25px "Zen Maru Gothic",sans-serif';const t1=ls.k[0];g.fillText(t1.length>11?t1.slice(0,11):t1,X+12,y+18.1);if(t1.length>11)g.fillText(t1.slice(11,22),X+12,y+19.6);
+    fillR(g,'rgba(200,60,50,.55)',x+3,y+17.05,w-6,.13);}
   g.restore();}});
 try{ALLK.push('himekuri');}catch(e){}
 {const fam=['himekuri'];for(let i=2;i<=MC_MAX;i++){const key='himekuri_'+i;MC_clone('himekuri',key);fam.push(key);}RO_FAM.push(fam);RO_FAMN.himekuri=FT.himekuri.n;}
@@ -23327,7 +23329,7 @@ function PF_menu(k){let ov=$('pfMenu');if(!ov){ov=document.createElement('div');
 let PF_skip=false;
 {const RA=recycleAsk;recycleAsk=function(k,sc){if(!PF_skip&&sc==='in'&&MC_base(k)==='pframe'&&S.layout[k]){PF_menu(k);return;}return RA.apply(this,arguments);};}
 // double-tap the world map: it opens large (the hero still goes over to look)
-{const TP=tapPlan;tapPlan=function(tg){const r=TP.apply(this,arguments);try{if(tg&&tg.t==='f'&&MC_base(tg.k)==='worldmap')setTimeout(()=>WM_ui(),60);}catch(e){}return r;};}
+{const TP=tapPlan;tapPlan=function(tg){const r=TP.apply(this,arguments);try{if(tg&&tg.t==='f'&&MC_base(tg.k)==='himekuri')setTimeout(()=>HK_ui(),60);}catch(e){}return r;};}
 /* --- national holidays: the Japanese flag by the front door --- */
 function FLAG_on(){try{return !!holidayOf(now());}catch(e){return false;}}
 // bx,by: the bracket on the wall; dir -1 = pole leaning to the left; up = pole rises (outdoor view) or reaches toward us (indoor view)
@@ -23373,10 +23375,10 @@ let TAP_FORCE=null,TAP_PZ=false;
 {const QS=queueSay;queueSay=function(...a){if(TAP_PZ){PZ_after.push({fn:()=>queueSay(...a),delay:0});return;}return QS.apply(this,a);};}
 {const TG=tapGo;tapGo=function(e){if(!S)return;
   // the basement seen from upstairs: only what needs no resident (the world map; the light switch is handled already)
-  if(BV.on&&BFL===0){try{const w=tapWorld(e);const k=BV_with(()=>{const tg=tapTarget(w.x,w.y);return tg&&tg.t==='f'?tg.k:null;});if(k&&MC_base(k)==='worldmap')WM_ui();}catch(_){}return;}
+  if(BV.on&&BFL===0){try{const w=tapWorld(e);const k=BV_with(()=>{const tg=tapTarget(w.x,w.y);return tg&&tg.t==='f'?tg.k:null;});if(k&&MC_base(k)==='himekuri')HK_ui();}catch(_){}return;}
   if(!PAUSED)return TG.apply(this,arguments);
   // paused (also the manual camera): open panels at once, let the resident's plan wait
-  try{const w=tapWorld(e),tg=TAP_FORCE||tapTarget(w.x,w.y);if(tg&&tg.t==='f'&&MC_base(tg.k)==='worldmap')WM_ui();}catch(_){}
+  try{const w=tapWorld(e),tg=TAP_FORCE||tapTarget(w.x,w.y);if(tg&&tg.t==='f'&&MC_base(tg.k)==='himekuri')HK_ui();}catch(_){}
   const was=PAUSED;PAUSED=false;TAP_PZ=true;try{return TG.apply(this,arguments);}finally{PAUSED=was;TAP_PZ=false;}};}
 // double-tap while looking at the other place (hero indoors, view outdoors or the reverse)
 (function(){const host=cv.parentNode||document;let lt=0,lx=0,ly=0;
@@ -23769,6 +23771,57 @@ WM_ui=function(){let ov=$('wmOv');if(!ov){ov=document.createElement('div');ov.id
     requestAnimationFrame(draw);};requestAnimationFrame(draw);};
 // a saved non-default choice is prepared in the background after loading
 setTimeout(()=>{try{if(S){const{id,ctr}=WMP_cur();if(!WMP_isDefault(id,ctr))WMP_render(id,ctr);}}catch(e){}},2500);
+/* ---- v470: the world map opens with a long-press (not a double-tap); the tear-off calendar gets a daily lesson and aim, and a double-tap shows the page large ---- */
+const HK_KYO=[['急がば回れ','急ぐときほど、確実な道を選ぶほうが結局早い'],['石の上にも三年','つらくても続けていれば、いつか実を結ぶ'],['継続は力なり','少しずつでも続けることが、大きな力になる'],['七転び八起き','何度失敗しても、そのたびに立ち上がればいい'],['笑う門には福来たる','いつも笑顔でいる家には、自然と幸せがやってくる'],
+ ['早起きは三文の徳','朝早く起きると、なにかしら良いことがある'],['塵も積もれば山となる','小さなことも、積み重ねれば大きなものになる'],['案ずるより産むが易し','心配するより、やってみると案外かんたん'],['情けは人のためならず','人に親切にすれば、めぐりめぐって自分に返ってくる'],['雨降って地固まる','もめごとのあとは、かえって関係がよくなる'],
+ ['備えあれば憂いなし','準備しておけば、いざというときも安心'],['百聞は一見に如かず','何度も聞くより、一度自分の目で見るほうがよくわかる'],['善は急げ','良いと思ったことは、迷わずすぐにやろう'],['千里の道も一歩から','大きなことも、まずは目の前の一歩から'],['腹八分目に医者いらず','食べすぎなければ、体はいつも元気'],
+ ['好きこそものの上手なれ','好きなことは、自然と上手になっていく'],['能ある鷹は爪を隠す','本当に実力がある人は、それを見せびらかさない'],['失敗は成功のもと','失敗から学べば、次の成功につながる'],['時は金なり','時間はお金と同じくらい大切なもの'],['一期一会','今日の出会いは一生に一度。大切にしよう'],
+ ['温故知新','昔のことを学ぶと、新しい発見がある'],['初心忘るべからず','はじめたときの気持ちを、いつまでも大切に'],['住めば都','どんな場所も、住みなれれば心地よい'],['実るほど頭を垂れる稲穂かな','えらくなるほど、謙虚な人でいよう'],['井の中の蛙大海を知らず','狭い世界にとどまらず、外にも目を向けよう'],
+ ['為せば成る','やろうと思って取り組めば、きっとできる'],['光陰矢の如し','月日がたつのは、とても早い'],['一石二鳥','ひとつのことで、ふたつの得をする'],['残り物には福がある','あとに残ったものに、思わぬ幸運がある'],['三人寄れば文殊の知恵','ひとりで悩まず、みんなで考えればよい知恵が出る'],
+ ['果報は寝て待て','やることをやったら、あとはのんびり待とう'],['類は友を呼ぶ','似た者どうしは、自然と集まる'],['論より証拠','あれこれ言うより、やってみせるのがいちばん'],['二兎を追う者は一兎をも得ず','欲ばりすぎると、どちらも手に入らない'],['転ばぬ先の杖','失敗しないよう、前もって用心しよう'],
+ ['人のふり見て我がふり直せ','人のよいところも悪いところも、自分を見直すきっかけに'],['聞くは一時の恥、聞かぬは一生の恥','わからないことは、その場で聞いてしまおう'],['和を以て貴しとなす','みんなで仲よくすることが、なにより大切'],['旅は道連れ世は情け','人生も旅も、思いやりの心でいこう'],['袖振り合うも多生の縁','ちょっとした出会いにも、深い縁がある'],
+ ['芸は身を助く','身につけたことは、いつか自分を助けてくれる'],['寝る子は育つ','よく眠ると、心も体も元気に育つ'],['花より団子','見た目より、実のあるものを大切に'],['蒔かぬ種は生えぬ','なにもしなければ、なにも始まらない'],['桃栗三年柿八年','実を結ぶまでには、それなりの時間がかかる'],
+ ['渡る世間に鬼はなし','世の中には、親切な人がたくさんいる'],['以心伝心','言葉にしなくても、心は通じ合う'],['足るを知る','いまあるものに満足できる人は、心がゆたか'],['一日一善','一日にひとつ、良いことをしよう'],['日々是好日','どんな日も、かけがえのない良い日'],
+ ['禍を転じて福と為す','悪いできごとも、工夫しだいで良いことに変えられる'],['朝の来ない夜はない','つらいときも、いつか必ず明るい日がくる'],['仏の顔も三度まで','やさしい人にも、甘えすぎないように'],['口は災いの元','言葉は、ひと呼吸おいてから口にしよう'],['郷に入っては郷に従え','その土地のやり方を大切にしよう'],
+ ['亀の甲より年の功','長く生きた人の経験には、学ぶことが多い'],['一年の計は元旦にあり','何ごとも、はじめに計画を立てよう'],['思い立ったが吉日','やろうと思った日が、いちばんの始めどき'],['笑顔は最高の化粧','にっこり笑えば、だれでもすてきに見える'],['よく学び、よく遊べ','学ぶときも遊ぶときも、思いきり楽しもう']];
+const HK_MEA=['今日は「ありがとう」を5回言おう','部屋をひとつだけ片づけよう','早寝早起きを心がけよう','水をいつもより1杯多く飲もう','だれかに手紙かメッセージを送ろう','空を見上げて、深呼吸しよう','新しい料理に挑戦してみよう','10分だけ散歩しよう','好きな本を数ページ読もう','背すじをのばして過ごそう',
+ '今日いちばん楽しかったことを日記に書こう','知らない言葉をひとつ調べよう','野菜をたっぷり食べよう','笑顔であいさつしよう','引き出しをひとつ整理しよう','ストレッチで体をほぐそう','家族や友だちの話をじっくり聞こう','いつもと違う道を歩いてみよう','花や植物に水をあげよう','ていねいにお茶をいれてみよう',
+ '寝る前にスマホを早めに置こう','好きな音楽を1曲じっくり聴こう','ゆっくり湯船につかろう','「いいね」と思ったことをメモしよう','使わない物をひとつ手放そう','窓をあけて空気を入れかえよう','あと回しにしていたことをひとつ片づけよう','ほめ言葉をひとつ贈ろう','小さな目標をひとつ達成しよう','ゆっくりよく噛んで食べよう',
+ '靴をそろえて脱ごう','5分間だけ瞑想してみよう','季節のものを味わおう','明日の準備を今日のうちにしよう','写真を1枚撮ってみよう','昔の友だちを思い出してみよう','お気に入りの服で過ごそう','鏡の自分に「おつかれさま」と言おう','ひとつだけ新しいことを覚えよう','いつもより10分早く家を出よう',
+ '使った物は元の場所に戻そう','夜空の月を見てみよう','ゆっくり深呼吸を3回しよう','苦手なことにひとつだけ挑戦しよう','だれかの役に立つことをしよう','テレビを消して静かな時間をつくろう','お気に入りの場所を掃除しよう','好きなことに没頭する時間をつくろう','今日の天気を楽しもう','「まあいいか」と気楽にいこう',
+ '机の上をすっきりさせよう','体にやさしい朝ごはんを食べよう','家計簿やメモを見直そう','鼻歌を歌いながら家事をしよう','大切な人に「元気？」と聞いてみよう','ゆっくり歩いて景色を楽しもう','早めにお風呂に入ろう','おいしいコーヒーか紅茶で一息つこう','今日がんばった自分をほめよう','明日の楽しみをひとつ決めよう'];
+function HK_doy(d){const s=new Date(d.getFullYear(),0,1);return Math.floor((new Date(d.getFullYear(),d.getMonth(),d.getDate())-s)/86400000);}
+function HK_of(d){const n=HK_doy(d)+d.getFullYear()*7;return{k:HK_KYO[(n*7)%HK_KYO.length],m:HK_MEA[(n*11+3)%HK_MEA.length]};}
+function HK_ui(){let ov=$('hkOv');if(!ov){ov=document.createElement('div');ov.id='hkOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});
+    const st=document.createElement('style');st.textContent='#hkOv .card{max-width:340px;width:92vw;padding:0;overflow:hidden;background:#fffdf7;color:#2a2622;border:none}#hkOv .hkbind{height:22px;background:linear-gradient(#9a6a44,#7a4e2e);position:relative}#hkOv .hkbind:after{content:"";position:absolute;left:50%;top:6px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:#e8e2d4;box-shadow:inset 0 0 0 3px #4a3020}#hkOv .hkp{padding:12px 18px 16px;text-align:center}#hkOv .hkym{font-size:15px;font-weight:700;letter-spacing:.1em}#hkOv .hkd{font-size:96px;font-weight:800;line-height:1;margin:2px 0}#hkOv .hkw{font-size:18px;font-weight:700}#hkOv .hkh{font-size:14px;font-weight:700;margin:6px 0 0}#hkOv .hka{font-size:13px;margin:4px 0 0;color:#5a4a3a}#hkOv .hkbox{margin:12px 0 0;padding:10px 12px;border-top:1px solid #e0d6c4;text-align:left}#hkOv .hkbox small{display:block;font-size:11px;font-weight:700;color:#b04030;letter-spacing:.1em}#hkOv .hkbox b{display:block;font-size:17px;margin:2px 0}#hkOv .hkbox span{font-size:12.5px;color:#5a4a3a;line-height:1.6}#hkOv .hkx{margin:12px 0 0;width:100%}';document.head.append(st);}
+  const d=now(),wd=d.getDay(),hol=holidayOf(d),an=typeof annivOf==='function'?annivOf(d):null,col=hol||wd===0?'#d42a24':wd===6?'#2456c8':'#2a2622',ls=HK_of(d);
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="日めくりカレンダー"><div class="hkbind"></div><div class="hkp" style="color:${col}"><div class="hkym">${d.getFullYear()}年 ${d.getMonth()+1}月</div><div class="hkd">${d.getDate()}</div><div class="hkw">${['日','月','火','水','木','金','土'][wd]}曜日</div>${hol?`<div class="hkh">${esc(hol)}</div>`:''}${an?`<div class="hka">今日は「${esc(an)}」</div>`:''}
+    <div class="hkbox"><small>今日の教訓</small><b>${esc(ls.k[0])}</b><span>${esc(ls.k[1])}</span></div><div class="hkbox"><small>今日のめあて</small><b style="font-size:15px">${esc(ls.m)}</b></div><button type="button" class="primary hkx">とじる</button></div></div>`;
+  ov.querySelector('.hkx').onclick=()=>{ov.hidden=true;};ov.hidden=false;}
+// world map: a long-press (released without moving) opens the large map; storing / recycling is from a button there
+let WM_skip=false;
+{const RA=recycleAsk;recycleAsk=function(k,sc){if(!WM_skip&&sc==='in'&&MC_base(k)==='worldmap'&&S.layout[k]){WM_ui(k);return;}return RA.apply(this,arguments);};}
+{const WU=WM_ui;WM_ui=function(k){WU.apply(this,arguments);try{const ov=$('wmOv'),x=ov&&ov.querySelector('.wmx');if(!x)return;const key=k||S.owned.find(q=>MC_base(q)==='worldmap'&&S.layout[q]&&!S.layout[q].carry);if(!key)return;
+  const b=document.createElement('button');b.type='button';b.textContent=BFL===0?'地下に移動・しまう・リサイクル':'しまう・リサイクル';b.style.cssText='margin:0 0 0 8px;font-size:12px';x.after(b);b.onclick=()=>{ov.hidden=true;WM_skip=true;try{recycleAsk(key,'in');}finally{WM_skip=false;}};}catch(e){}};}
+/* ---- v471: the calendar shows a single "今日のひとこと" (200 sayings, proverbs and aims mixed); the same one never comes back within 200 days ---- */
+const HK_ONE=[...HK_KYO.map(x=>x[0]),...HK_MEA,
+ '果報は寝て待て、でもまずは種まきから','雨の日には雨の日の楽しみがある','今日の自分に、花まるをあげよう','ゆっくり行く者が、遠くまで行く','明日は明日の風が吹く','人生、楽ありゃ苦もあるさ','小さな幸せを数えてみよう','ありがとうは魔法の言葉','おいしいものは、ゆっくり味わおう','ひと休みも仕事のうち',
+ '本日も晴天なり','たまには空っぽの時間をつくろう','迷ったら、ワクワクするほうへ','できたことを数えよう','昨日より、ちょっとだけやさしく','肩の力をぬいていこう','急がず、休まず','やってみなけりゃわからない','好きなものは、好きと言おう','まずは深呼吸から',
+ '三日坊主でも、また始めればいい','手を動かせば、心も動く','木を見て森も見よう','雨のあとには虹が出る','十人十色','負けるが勝ち','腹が減っては戦はできぬ','明るい声で「おはよう」を','身の丈に合った一歩を','花は咲く時を知っている',
+ 'あわてる乞食はもらいが少ない','かわいい子には旅をさせよ','鉄は熱いうちに打て','魚心あれば水心','待てば海路の日和あり','棚からぼたもちは、棚を作った人に落ちる','早寝早起き病知らず','言わぬが花','柳に雪折れなし','水は方円の器に随う',
+ '今日という日は、残りの人生の最初の日','ゆずり合えば、道は広がる','楽しいことは、分けると増える','ひと手間が、おいしさのひみつ','季節の風を感じよう','自分のペースで大丈夫','背伸びより、深呼吸','笑う角には福来る、泣く角にも福来る','きれいな部屋は、きれいな心','忘れ物はないかな？',
+ '「おかえり」と言える場所を大切に','窓をあけると、気持ちも晴れる','焦らず、腐らず、あきらめず','たまにはごほうびを','ひとつずつ、ていねいに','続けた日数が、自信になる','今日も一日おつかれさま','心に余白を','知らないことは、伸びしろ','元気があれば、なんでもできる',
+ '縁の下の力持ちに感謝を','雨垂れ石を穿つ','虎穴に入らずんば虎子を得ず','少年老い易く学成り難し','覆水盆に返らず、だから今を大切に','木の実は熟してから落ちる','いい音楽は、いい一日のはじまり','今日のごはんは何にしよう','お日さまに当たると元気が出る','眠れない夜は、温かいミルクを',
+ '朝ごはんは一日のエンジン','自分をいちばんの友だちに','人と比べず、昨日の自分と比べよう','やさしさは、めぐりめぐる','しっかり食べて、しっかり眠ろう','心配ごとの九割は起こらない','一歩引くと、よく見える','笑顔の練習をしてみよう','行き詰まったら、外の空気を','今日の空は、今日だけのもの'];
+// a fixed shuffled order of the 200 sayings; consecutive days walk through it, so nothing repeats within 200 days
+const HK_ORD=(()=>{const n=HK_ONE.length,a=[...Array(n).keys()];let s=20261030;const r=()=>{s=(s*1103515245+12345)&0x7fffffff;return s/0x7fffffff;};for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;})();
+function HK_one(d){const day=Math.floor(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate())/86400000);return HK_ONE[HK_ORD[((day%HK_ONE.length)+HK_ONE.length)%HK_ONE.length]];}
+HK_of=function(d){const t=HK_one(d);return{k:[t,''],m:t};};
+{const HU=HK_ui;HK_ui=function(){HU.apply(this,arguments);try{const ov=$('hkOv'),bx=ov.querySelectorAll('.hkbox');if(!bx.length)return;const t=HK_one(now());bx[0].innerHTML=`<small>今日のひとこと</small><b>${esc(t)}</b>`;for(let i=1;i<bx.length;i++)bx[i].remove();}catch(e){}};}
+/* ---- v472: homes started before this get the world map and the tear-off calendar once (they are now starting furniture) ---- */
+setInterval(()=>{try{if(!S||S.initWM2||BFL!==0||!S.owned||!S.owned.length)return;S.initWM2=1;let ch=false;
+  for(const k of['worldmap','himekuri']){if(S.owned.some(q=>MC_base(q)===k)||isStored(k)||(S.delivery&&S.delivery.k===k)||(S.wish||[]).includes(k))continue;const p=placeFor(k);if(p){S.layout[k]=p;S.owned.push(k);refreshOcc();ch=true;}}
+  if(ch){try{dexSync();}catch(e){}save();}}catch(e){}},2000);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -24096,7 +24149,7 @@ function startNew(look){setTimeout(()=>bgmDefaultInstall(),2500);M=null;
   S={isle3:1,rugV2:1,rugV3:1,kitVer:2,hw:XS,vh:YS,shelfGiven:1,species:chosen,name,born:Date.now(),owned:[],layout:{},lampOn:false,wish:[],needs:{hunger:75,energy:85,hygiene:80,bladder:80,fun:70},outfit:simpleOutfit(),trend:null,bathDay:'',lastSeen:Date.now(),dseedK:Math.floor(Math.random()*9973),dressN:Math.floor(Math.random()*50)};if(look)S.look=look;
   C.scene='in';place(IN_ENTRY.x,IN_ENTRY.y-1);refreshOcc();
   S.yard={};S.xbeds=[];refreshOut();
-  for(const k of['bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','boombox','bookshelf','robovac']){const p=placeFor(k);if(p){S.layout[k]=p;S.owned.push(k);refreshOcc();}}
+  for(const k of['bed','wardrobe','tv','bath','toilet','handwash','washer','sink','stove','fridge','counter','microwave','table','liquor','boombox','bookshelf','robovac','worldmap','himekuri']){const p=placeFor(k);if(p){S.layout[k]=p;S.owned.push(k);refreshOcc();}}
   wearDay(false);gearFor('in');C.steps=[];C.idleT=3;C.sleeping=false;unsnap();
   $('setup').hidden=true;save();updateHUD();updateRoom();
   say(`はじめまして、${name}です！最低限の家具はそろってるから、あとは少しずつ好きなものを増やしていくね`);
