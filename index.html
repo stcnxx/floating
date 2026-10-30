@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 475（2026/10/30）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 476（2026/10/30）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 475（2026/10/30）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 476（2026/10/30）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24051,6 +24051,26 @@ function MT_near(){try{S.mtNearLog=S.mtNearLog||[];const now0=Date.now();S.mtNea
   if(Math.random()<.6)return mateSelfLine();
   const used=new Set(S.mtNearLog.map(e=>e.t));let cand=MT_NEAR.filter(t=>!used.has(t));if(S.mtNearDay===new Date().toDateString())cand=cand.filter(t=>!/なんとなく来ちゃった/.test(t));if(!cand.length)return mateSelfLine();
   const t=pick(cand);if(/なんとなく来ちゃった/.test(t))S.mtNearDay=new Date().toDateString();S.mtNearLog.push({t,at:now0});return t;}catch(e){return mateSelfLine();}}
+/* ---- v476: the woman's 「ボリュームカール」 is replaced by 「ぽっちり付き」: shaggy hair, a cowlick sticking up, and a high side tuft tied with two red balls ---- */
+HSTY.f[32]=['ぽっちり付き','full','spiky',5,5,.9,'pocchiri'];
+let CUR_DIR=null;
+{const DC=drawChar;drawChar=function(c,cx,by,o){const sv=CUR_DIR;CUR_DIR=o&&o.dir||null;try{return DC.apply(this,arguments);}finally{CUR_DIR=sv;}};}
+function POC_tuft(c,L,d,phase){const P=hPal(L),t=performance.now()/1000;let tx,ty,ex,ey,sd;
+  if(d==='right'){tx=-HR-.2;ty=HCY-4.6;ex=tx-3.4;ey=ty+5.6;sd=-1;}else{const side=d==='up'?-1:1;tx=side*(HR+.2);ty=HCY-4.4;ex=side*(HR+4.6);ey=HCY+.8;sd=side;}
+  if(phase==='tail'){const sw=Math.sin(t*2)*.3;hLock(c,tx,ty,ex+sw,ey,3.4,sd*.9,P.dd);hLock(c,tx,ty,ex+sw-sd*.7,ey+.8,2.4,sd*.5,P.col);hLock(c,tx+sd*.2,ty+.4,ex+sw+sd*.8,ey-.4,1.4,sd*.7,P.dk);hLock(c,tx,ty,ex+sw-sd*1.4,ey+.2,1.1,-sd*.3,P.dk);
+    c.strokeStyle=P.hl;c.globalAlpha=.4;c.lineWidth=.3;c.beginPath();c.moveTo(tx,ty+.3);c.quadraticCurveTo((tx+ex)/2+sd*.6,(ty+ey)/2,ex,ey-.4);c.stroke();c.globalAlpha=1;return;}
+  fillE(c,'#7a1a14',tx,ty+.2,.9,.5);
+  for(const[ox,oy]of[[-.95*sd,-.55],[.8*sd,.55]]){const x=tx+ox,y=ty+oy;fillE(c,'rgba(0,0,0,.25)',x+.2,y+.3,1.05,1.05);const gr=c.createRadialGradient(x-.35,y-.4,.1,x,y,1.1);gr.addColorStop(0,'#ff8a7a');gr.addColorStop(.45,'#e0302a');gr.addColorStop(1,'#9a1410');c.fillStyle=gr;c.beginPath();c.arc(x,y,1.05,0,TAU);c.fill();fillE(c,'rgba(255,255,255,.85)',x-.38,y-.42,.3,.22);}}
+// the cowlick: a few locks springing up from the top (the wearer's right side)
+function POC_cowlick(c,L,d){const P=hPal(L),top=HCY-HR-1;let base,dirs;
+  if(d==='down'){base=[-HR*.5,top+1.6];dirs=[[-HR*.95,top-2.6],[-HR*.45,top-3.4],[-HR*1.25,top-.2],[-HR*.05,top-2.2]];}
+  else if(d==='up'){base=[HR*.5,top+1.6];dirs=[[HR*.95,top-2.6],[HR*.45,top-3.4],[HR*1.25,top-.2],[HR*.05,top-2.2]];}
+  else{base=[-HR*.1,top+1.2];dirs=[[-HR*.5,top-2.8],[HR*.1,top-3.2],[-HR*.85,top-1],[HR*.45,top-2.1]];}
+  dirs.forEach(([x,y],i)=>{hLock(c,base[0],base[1],x,y,i===1?2.2:1.8,(i%2?.5:-.5),i%2?P.col:P.dk);});
+  c.strokeStyle=P.hl;c.globalAlpha=.45;c.lineWidth=.3;c.beginPath();c.moveTo(base[0],base[1]);c.quadraticCurveTo((base[0]+dirs[1][0])/2+.4,(base[1]+dirs[1][1])/2,dirs[1][0],dirs[1][1]+.4);c.stroke();c.globalAlpha=1;}
+{const HF=humanHairFront;humanHairFront=function(c,L,d,t){const r=HF.apply(this,arguments);try{if(!HOOD_NOW&&L&&L.g==='f'&&(L.hair%40)===32){POC_cowlick(c,L,d);
+    // the tuft is on the wearer's left: hidden when looking to the right (seen from the right side)
+    if(!(d==='right'&&CUR_DIR==='right')){POC_tuft(c,L,d,'tail');POC_tuft(c,L,d,'ball');}}}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
