@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 473（2026/10/30）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 475（2026/10/30）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 473（2026/10/30）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 475（2026/10/30）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1349,7 +1349,7 @@ function pickOuter(n){const t=tempNow(),se=season(),h=i=>dseed(40+(n||0)*7+i),pk
   const tr=S&&S.trend&&Date.now()-S.trend.at<36*3600e3?S.trend:null;let k;
   if(tr&&tr.item&&tr.item.slot==='top'&&CW_OUTER.has(tr.item.k)&&!n)k=tr.item.k;
   else k=pk(t<5?['down','down','peacoat','coat','ma1']:t<10?['peacoat','coat','down','ma1','stadium']:t<15?(se==='spring'?['coat','denimjk','stadium','ma1','denimjk']:se==='winter'?['peacoat','coat','stadium','ma1']:['stadium','ma1','denimjk','peacoat','coat']):t<18?['denimjk','stadium','ma1','denimjk',null]:['denimjk',null,null],1);
-  if(!k)return null;const C0={down:PAL[se].concat(['黒','紺','ベージュ','カーキ']),coat:['ベージュ','茶色','グレー','紺','黒','カーキ'],peacoat:['紺','ネイビー','黒','チャコール','グレー'],ma1:['オリーブ','カーキ','黒','紺','モスグリーン'],stadium:['紺','黒','えんじ','緑','ボルドー','ネイビー'],denimjk:['水色','青','インディゴ','紺']}[k];
+  if(!k)return null;const C0={down:PAL[se].concat(['黒','紺','ベージュ','カーキ']),coat:['ベージュ','茶色','グレー','紺','黒','カーキ'],peacoat:['紺','紺','チャコールグレー'],ma1:['ミリタリーグリーン'],stadium:['紺','黒','えんじ','緑','ボルドー','ネイビー'],denimjk:['水色','青','インディゴ','紺']}[k];
   return{k,c:tr&&tr.color&&!n&&k!=='denimjk'?tr.color:pk(C0,2),c2:k==='stadium'?pk(['アイボリー','白','グレー','アイボリー'],3):null};}
 function normOutfit(o){if(o&&o.top&&CW_OUTER.has(o.top.k))o.top={k:tempNow()<12?'sweater':'longsleeve',c:o.top.c,p:'plain'};return o;}
 /* clothes by gender: 'f' = women's, 'm' = men's, anything not listed = unisex */
@@ -6208,7 +6208,7 @@ function chooseMateAct(){const h=hourNow(),s=[];
     return st;}}
   const tO=S.mate.out||'mid',tN=S.mate.near||'mid';
   if(Math.random()<(tN==='near'?.35:tN==='far'?0:.1)&&!C.sleeping){const sc=C.scene,cand=[];for(let dy=-2;dy<=2;dy++)for(let dx=-2;dx<=2;dx++){const x=C.tx+dx,y=C.ty+dy;if(Math.abs(dx)+Math.abs(dy)<2)continue;if(sc==='in'?walkIn(x,y):walkOut(x,y))cand.push({x,y});}
-    if(cand.length){const q=pick(cand);return[{t:'go',sc,x:q.x,y:q.y},{t:'say',text:()=>(Math.random()<.5?pick(['なにしてるの？','となり、いい？','ここにいよっと','ふふ、なんとなく来ちゃった']):mateSelfLine())},{t:'wait',s:rnd(12,25)}];}}
+    if(cand.length){const q=pick(cand);return[{t:'go',sc,x:q.x,y:q.y},{t:'say',text:()=>MT_near()},{t:'wait',s:rnd(12,25)}];}}
   if(tN==='far'&&Math.random()<.5){const myR=C.scene==='in'?roomAt(C.tx,C.ty):'out';const rooms=['liv','kit','bed'].filter(r2=>r2!==myR);if(C.scene==='in'&&daylight()>.25&&!badOut()&&Math.random()<.35){const t2=randomTile('out');if(t2)return[{t:'say',text:pick(['ちょっと外に出てくるね','ひとりで散歩してくる'])},{t:'go',sc:'out',x:t2.x,y:t2.y},{t:'wait',s:rnd(15,30)},{t:'go',sc:'in',x:IN_ENTRY.x,y:IN_ENTRY.y-1}];}
     const t3=randomTile('in',pick(rooms));if(t3)return[{t:'go',sc:'in',x:t3.x,y:t3.y},{t:'wait',s:rnd(10,20)},{t:'say',text:()=>mateSelfLine()}];}
   let r=Math.random();const outW=tO==='out'?.45:tO==='in'?.04:.2;if(r<outW&&daylight()>.25&&!badOut())r=.5;else if(r>=.42&&r<.62)r=tO==='out'?.5:.3;
@@ -23832,6 +23832,9 @@ function KT_blob(x0,y0,x1,y1,r,amp,bulge,ph){const pts=[],N=96,w=x1-x0,h=y1-y0,p
   g.beginPath();for(let i=0;i<=N;i++){const a=pts[i%N],b=pts[(i+1)%N],m=[(a[0]+b[0])/2,(a[1]+b[1])/2];if(!i)g.moveTo(m[0],m[1]);else g.quadraticCurveTo(a[0],a[1],m[0],m[1]);}g.closePath();}
 {const KD=FT.kotatsu.draw;const KT_new=function(X,Y,Wd,Dp,L){const cold=season()==='winter'||tempNow()<15;if(!cold)return KD.apply(this,arguments);
   g.save();const col=['#c0587a','#5f7fa8','#c9884f','#6f9a5f'][(L.v||0)%4],lt=shade(col,.28),dk=shade(col,-.3),cx=X+Wd/2,cy=Y+Dp/2-2;
+  if(!KT_FL.has(L))KT_spread(X,Y,Wd,Dp,L);
+  KT_raised(X,Y,Wd,Dp,L,col,lt);g.restore();};
+function KT_spread(X,Y,Wd,Dp,L){g.save();const col=['#c0587a','#5f7fa8','#c9884f','#6f9a5f'][(L.v||0)%4],dk=shade(col,-.3),cx=X+Wd/2,cy=Y+Dp/2-2;
   // soft shadow of the spread futon
   g.fillStyle='rgba(45,28,12,.14)';KT_blob(X-9,Y-2,X+Wd+9,Y+Dp+9,9,.5,1.6,1);g.fill();
   // the futon spread on the floor (puffy corners, wavy hem)
@@ -23847,6 +23850,10 @@ function KT_blob(x0,y0,x1,y1,r,amp,bulge,ph){const pts=[],N=96,w=x1-x0,h=y1-y0,p
   g.restore();
   // contrasting border band along the hem
   g.save();g.lineJoin='round';KT_blob(X-6.6,Y-1.8,X+Wd+6.6,Y+Dp+4.8,7,.28,1.5,0);g.strokeStyle=dk;g.lineWidth=2;g.stroke();g.strokeStyle='rgba(255,236,200,.55)';g.lineWidth=.35;KT_blob(X-5.2,Y-.6,X+Wd+5.2,Y+Dp+3.6,6,.25,1.3,0);g.stroke();g.restore();
+  // tassels at the front corners, lying on the spread
+  for(const tx of[X-2,X+Wd+2]){fillR(g,'#e8c46a',tx-.6,Y+Dp+1,1.2,3.6,.5);fillE(g,'#c9a24f',tx,Y+Dp+.8,1,.8);}
+  g.restore();}
+function KT_raised(X,Y,Wd,Dp,L,col,lt){
   // the front of the futon hanging from the table edge down to the floor, with folds
   {const t0=Y+Dp-12.5,b0=Y+Dp-1.5;g.beginPath();g.moveTo(X+2,t0);g.lineTo(X+Wd-2,t0);g.quadraticCurveTo(X+Wd+1.5,t0+4,X+Wd+3,b0);
     for(let i=6;i>=0;i--){const xx=X-3+i*(Wd+6)/6;g.quadraticCurveTo(xx+(Wd+6)/12,b0+1.4,xx,b0);}g.quadraticCurveTo(X-1.5,t0+4,X+2,t0);g.closePath();
@@ -23856,8 +23863,6 @@ function KT_blob(x0,y0,x1,y1,r,amp,bulge,ph){const pts=[],N=96,w=x1-x0,h=y1-y0,p
     g.restore();}
   // futon top showing around the board (it rises over the table)
   {const m=2.2;g.fillStyle=A_lg(X,Y,X+Wd,Y+Dp,[[0,lt],[1,col]]);rr(g,X+m,Y+m-1,Wd-2*m,Dp-12.5-m+1,5);g.fill();g.strokeStyle='rgba(0,0,0,.12)';g.lineWidth=.5;rr(g,X+m,Y+m-1,Wd-2*m,Dp-12.5-m+1,5);g.stroke();}
-  // tassels at the front corners, lying on the spread
-  for(const tx of[X-2,X+Wd+2]){fillR(g,'#e8c46a',tx-.6,Y+Dp+1,1.2,3.6,.5);fillE(g,'#c9a24f',tx,Y+Dp+.8,1,.8);}
   // board (same as before)
   const tp='#c99464',bi=5,bt=Y+3,bx=X+bi,bw=Wd-2*bi,bh=Y+Dp-13.6-bt;
   A_shadow(bx,Y+Dp-12,bw,3,1.2);
@@ -23867,9 +23872,185 @@ function KT_blob(x0,y0,x1,y1,r,amp,bulge,ph){const pts=[],N=96,w=x1-x0,h=y1-y0,p
   g.strokeStyle='rgba(70,40,15,.35)';g.lineWidth=.6;rr(g,bx+1.6,bt+1.6,bw-3.2,bh-3.2,1.4);g.stroke();
   g.fillStyle='rgba(255,255,255,.18)';g.beginPath();g.moveTo(bx+4,bt+1.4);g.lineTo(bx+16,bt+1.4);g.lineTo(bx+10,bt+11);g.lineTo(bx+2,bt+11);g.closePath();g.fill();
   A_outline(bx,bt,bw,Y+Dp-9.6-bt,2,.42);
-  A_mikanBowl(X+Wd/2,Y+Dp/2-5);
-  g.restore();};
-  for(const k of Object.getOwnPropertyNames(FT)){if(MC_base(k)==='kotatsu'&&FT[k])FT[k].draw=KT_new;}try{dKotatsu=KT_new;}catch(e){}}
+  A_mikanBowl(X+Wd/2,Y+Dp/2-5);}
+  KT_SP=KT_spread;for(const k of Object.getOwnPropertyNames(FT)){if(MC_base(k)==='kotatsu'&&FT[k])FT[k].draw=KT_new;}try{dKotatsu=KT_new;}catch(e){}}
+var KT_SP;
+// the spread part lies on the floor: it is drawn with the floor things (under people sitting around it); the table part is drawn as before
+const KT_FL=new Set();
+{const DF=drawFloorItems;drawFloorItems=function(t){const r=DF.apply(this,arguments);KT_FL.clear();try{if(season()==='winter'||tempNow()<15)for(const k of S.owned){if(MC_base(k)!=='kotatsu')continue;const f=FT[k],L=S.layout[k];if(!f||!L||L.carry||L.on)continue;KT_SP(L.x*T,L.y*T,f.w*T,f.h*T,L);KT_FL.add(L);}}catch(e){console.warn('KT',e);}return r;};}
+/* ========== v475: clothes and costumes overhaul ========== */
+COLORS['チャコールグレー']='#4a4d55';COLORS['ミリタリーグリーン']='#4f5a36';
+// --- peacoat: navy or charcoal grey; MA-1: military green (old saves are corrected as they are drawn) ---
+const CL_ALLOW={peacoat:['紺','チャコールグレー'],ma1:['ミリタリーグリーン']};
+function CL_fix(o){if(!o)return;for(const p of['top','outer']){const it=o[p];if(!it||!CL_ALLOW[it.k])continue;if(!CL_ALLOW[it.k].includes(it.c))it.c=it.k==='peacoat'&&/チャコール|グレー|黒/.test(it.c||'')?'チャコールグレー':CL_ALLOW[it.k][0];}}
+// --- sleepwear: pajama types and yukata are worn as {k:'pajama', pt:...} so everything that knows pajamas keeps working ---
+const YK=[['朝顔','#2a3a6b','#e8c44a','asagao'],['金魚','#f4f2ec','#d9483b','kingyo'],['花火','#1f2a4a','#f2a0b8','hanabi'],['桔梗','#b8a8e8','#5a3a8a','kikyo'],['とんぼ','#8cc8ec','#2a3a6b','tonbo'],['縞','#4a5468','#2c2c33','shima'],['麻の葉','#33407a','#c9b48a','asanoha'],['撫子','#f2b8c8','#c8304a','nadeshiko']];
+const PJT={pj_pull:'かぶりパジャマ',pj_fluffy:'もこもこパジャマ',pj_negli:'ネグリジェ',pj_jinbei:'甚平'};
+for(const k in PJT)KN.top[k]=PJT[k];YK.forEach((y,i)=>{KN.top['yk'+i]=`浴衣（${y[0]}）`;});
+const SLP_PT=id=>id.startsWith('pj_')?id.slice(3):/^yk\d$/.test(id)?id:null;
+// --- draw helpers ---
+function YK_motif(c,m,x0,y0,w,h,base){c.save();
+  const H=(i,s)=>hash(i,s,77);
+  if(m==='shima'){c.fillStyle='rgba(220,225,235,.55)';for(let x=x0;x<x0+w;x+=1.6)c.fillRect(x,y0,.45,h);}
+  else if(m==='asanoha'){c.strokeStyle='rgba(230,235,250,.5)';c.lineWidth=.22;for(let yy=y0;yy<y0+h;yy+=2.4)for(let xx=x0+((yy/2.4)%2?1.2:0);xx<x0+w;xx+=2.4){c.beginPath();for(let a=0;a<6;a++){c.moveTo(xx,yy);c.lineTo(xx+Math.cos(a*Math.PI/3)*1.1,yy+Math.sin(a*Math.PI/3)*1.1);}c.stroke();}}
+  else{const n=Math.round(w*h/9);for(let i=0;i<n;i++){const px=x0+H(i,1)*w,py=y0+H(i,2)*h;
+    if(m==='asagao'){const cl=i%2?'#f4f2ec':'#8cb8f0';for(let k=0;k<5;k++){const a=k*TAU/5;fillE(c,cl,px+Math.cos(a)*.55,py+Math.sin(a)*.55,.5,.5);}fillE(c,'#f8f4c0',px,py,.25,.25);}
+    else if(m==='kingyo'){fillE(c,'#e04030',px,py,.8,.5);c.fillStyle='#e04030';c.beginPath();c.moveTo(px-.6,py);c.lineTo(px-1.5,py-.6);c.lineTo(px-1.3,py+.7);c.closePath();c.fill();fillE(c,'#ffffff',px+.4,py-.15,.12,.12);if(i%3===0)fillE(c,'rgba(120,180,220,.6)',px+1.4,py-1,.3,.3);}
+    else if(m==='hanabi'){const cl=['#f2a0b8','#f2d24a','#8cd8f0'][i%3];c.strokeStyle=cl;c.lineWidth=.2;c.beginPath();for(let k=0;k<8;k++){const a=k*TAU/8;c.moveTo(px+Math.cos(a)*.3,py+Math.sin(a)*.3);c.lineTo(px+Math.cos(a)*1.1,py+Math.sin(a)*1.1);}c.stroke();}
+    else if(m==='kikyo'){for(let k=0;k<5;k++){const a=k*TAU/5-Math.PI/2;fillE(c,'#6a4aa8',px+Math.cos(a)*.5,py+Math.sin(a)*.5,.42,.32,a);}fillE(c,'#f4f2ec',px,py,.18,.18);}
+    else if(m==='tonbo'){c.strokeStyle='#2a3a6b';c.lineWidth=.25;c.beginPath();c.moveTo(px,py-.9);c.lineTo(px,py+1);c.stroke();fillE(c,'rgba(255,255,255,.75)',px-.6,py-.3,.6,.22,-.3);fillE(c,'rgba(255,255,255,.75)',px+.6,py-.3,.6,.22,.3);}
+    else if(m==='nadeshiko'){for(let k=0;k<5;k++){const a=k*TAU/5;fillE(c,'#e0506e',px+Math.cos(a)*.45,py+Math.sin(a)*.45,.38,.38);}fillE(c,'#ffffff',px,py,.18,.18);}}}
+  c.restore();}
+function SLP_overlay(c,top,d,o){const pt=top.pt,side=d==='right',back=d==='up',front=d==='down';const bwd=o.sp==='human'&&o.look?({s:-2,n:0,l:3}[o.look.body]||0):0;
+  const bx=(side?-5:-6.5)-bwd/2*(side?.6:1),bw=(side?10:13)+bwd*(side?.6:1),by0=-15,bh=10;
+  if(/^yk\d$/.test(pt)){const y=YK[+pt.slice(2)],base=y[1],obi=y[2],m=y[3];c.save();
+    // robe: from the shoulders to the ankles, a little narrower at the hem
+    const top0=side?-5.6:by0-.3,hem=-1.6;c.beginPath();if(side){c.moveTo(bx-.2,top0);c.lineTo(bx+bw+.2,top0);c.lineTo(bx+bw-.4,hem);c.lineTo(bx+.4,hem);}else{c.moveTo(bx,by0+1.6);c.quadraticCurveTo(bx,top0,bx+3,top0);c.lineTo(bx+bw-3,top0);c.quadraticCurveTo(bx+bw,top0,bx+bw,by0+1.6);c.lineTo(bx+bw-.4,hem);c.lineTo(bx+.4,hem);}c.closePath();
+    c.fillStyle=base;c.fill();c.save();c.clip();YK_motif(c,m,bx-1,top0-1,bw+2,hem-top0+2,base);c.fillStyle=CW_lg(c,bx,0,bx+bw,0,[[0,'rgba(255,255,255,.12)'],[.6,'rgba(0,0,0,0)'],[1,'rgba(0,0,0,.18)']]);c.fillRect(bx-1,top0-1,bw+2,hem-top0+2);
+    c.strokeStyle='rgba(0,0,0,.14)';c.lineWidth=.3;c.beginPath();for(const fx of side?[bx+3,bx+6.5]:[-3.6,2.8]){c.moveTo(fx,-5);c.lineTo(fx+(side?.2:fx>0?.5:-.5),hem);}c.stroke();c.restore();
+    if(front){// collar: left over right, with the white under-collar
+      c.strokeStyle='#f4f2ec';c.lineWidth=.8;c.beginPath();c.moveTo(-2.6,by0-.2);c.lineTo(.6,by0+4.6);c.stroke();
+      c.strokeStyle=shade(base,-.35);c.lineWidth=1.3;c.beginPath();c.moveTo(3,by0-.4);c.lineTo(-1.6,by0+5.2);c.stroke();c.beginPath();c.moveTo(-3.2,by0-.2);c.lineTo(-.4,by0+3.4);c.stroke();
+      c.strokeStyle='rgba(0,0,0,.18)';c.lineWidth=.3;c.beginPath();c.moveTo(-1.6,by0+7.6);c.lineTo(-2.2,hem);c.stroke();}
+    if(back){c.strokeStyle=shade(base,-.35);c.lineWidth=1.2;c.beginPath();c.arc(0,by0-1.2,2.6,.15*Math.PI,.85*Math.PI);c.stroke();c.strokeStyle='rgba(0,0,0,.15)';c.lineWidth=.3;c.beginPath();c.moveTo(0,by0+1);c.lineTo(0,hem);c.stroke();}
+    // obi (sash) and its bow at the back
+    const oy=by0+5.2,oh=2.6;if(!side){fillR(c,obi,bx-.1,oy,bw+.2,oh,.5);fillR(c,'rgba(255,255,255,.25)',bx,oy+.3,bw,.4);fillR(c,'rgba(0,0,0,.18)',bx,oy+oh-.5,bw,.5);
+        if(front)fillR(c,shade(obi,.35),-3.4,oy+1,6.8,.5,.2);
+        if(back){fillE(c,shade(obi,-.12),-2.6,oy+1,2.6,1.7,.3);fillE(c,shade(obi,-.12),2.6,oy+1,2.6,1.7,-.3);fillR(c,obi,-1,oy-.2,2,3,.6);fillR(c,shade(obi,-.2),-1.8,oy+2,1.4,3.2,.5);fillR(c,shade(obi,-.2),.4,oy+2,1.4,3.6,.5);}}
+    else{fillE(c,shade(obi,-.12),bx-1.2,oy+1,1.6,1.8);fillR(c,obi,bx-1.4,oy+1.6,1.3,3.4,.5);}
+    c.restore();return;}
+  if(pt==='negli'){const col=COL(top.c);c.save();c.beginPath();c.moveTo(bx+.6,-6.2);c.lineTo(bx+bw-.6,-6.2);c.lineTo(bx+bw+1.6,-1.8);c.lineTo(bx-1.6,-1.8);c.closePath();c.fillStyle=col;c.fill();c.save();c.clip();patternFill(c,{top:top},bx-2,-6.4,bw+4,5,d);c.fillStyle=CW_lg(c,0,-6.2,0,-1.8,[[0,'rgba(0,0,0,.1)'],[1,'rgba(255,255,255,.1)']]);c.fillRect(bx-2,-6.4,bw+4,5);
+      c.strokeStyle='rgba(0,0,0,.12)';c.lineWidth=.3;c.beginPath();for(let i=1;i<5;i++){const fx=bx+i*bw/5;c.moveTo(fx,-6);c.lineTo(fx+(fx<0?-.8:.8),-1.8);}c.stroke();c.restore();
+    c.fillStyle='#fbfaf6';for(let i=0;i<=8;i++){const lx=bx-1.6+i*(bw+3.2)/8;c.beginPath();c.arc(lx,-1.9,.75,0,Math.PI);c.fill();}
+    if(front){fillE(c,'#f4f2ec',-1,by0+2.2,.9,.5,.4);fillE(c,'#f4f2ec',1,by0+2.2,.9,.5,-.4);fillE(c,shade(col,-.25),0,by0+2.2,.4,.4);c.strokeStyle='#fbfaf6';c.lineWidth=.6;c.beginPath();c.arc(0,by0-.6,3,.15*Math.PI,.85*Math.PI);c.stroke();}
+    c.restore();return;}
+  if(pt==='jinbei'){const col=COL(top.c);c.save();if(front){c.strokeStyle=shade(col,-.4);c.lineWidth=1;c.beginPath();c.moveTo(3,by0-.3);c.lineTo(-2,by0+6);c.moveTo(-3,by0-.3);c.lineTo(-.6,by0+3.4);c.stroke();
+      c.strokeStyle='#f4f2ec';c.lineWidth=.35;c.beginPath();c.moveTo(-1.4,by0+5.2);c.lineTo(-3.2,by0+5.8);c.moveTo(-1.4,by0+5.2);c.lineTo(-2.8,by0+6.8);c.stroke();}
+    c.strokeStyle='rgba(255,255,255,.35)';c.lineWidth=.25;c.setLineDash([.6,.5]);c.beginPath();c.moveTo(bx+.6,by0+bh-.8);c.lineTo(bx+bw-.6,by0+bh-.8);c.stroke();c.setLineDash([]);c.restore();return;}
+  if(pt==='fluffy'){const col=COL(top.c);c.save();rr(c,bx,by0,bw,bh,3.2);c.clip();for(let i=0;i<70;i++){const px=bx+hash(i,4,91)*bw,py=by0+hash(i,5,91)*bh;fillE(c,'rgba(255,255,255,.28)',px,py,.55,.55);}c.restore();
+    if(front){fillE(c,shade(col,.2),0,by0-.2,3.4,1.5);for(let i=0;i<3;i++)fillE(c,'#ffffff',0,by0+3+i*2.2,.45,.45);}
+    if(back){fillE(c,shade(col,.12),0,by0-.4,4,2.6);for(const s of[-1,1])fillE(c,shade(col,.12),s*3,by0-2.4,1.3,1.3);}
+    return;}}
+{const TO=torso;torso=function(c,sp,of,d,st,o){const top=of&&!of.over&&of.top;if(!top||top.k!=='pajama'||!top.pt)return TO.apply(this,arguments);
+  const sub={pull:'sweatshirt',fluffy:'sweatshirt',negli:'blouse',jinbei:'tshirt'}[top.pt]||'longsleeve',yk=/^yk\d$/.test(top.pt);
+  const t2={...top,k:sub};if(yk){const y=YK[+top.pt.slice(2)];t2.c=y[1];t2.p='plain';}
+  const r=TO.call(this,c,sp,{...of,top:t2},d,st,o);try{SLP_overlay(c,top,d,o);}catch(e){}return r;};}
+// dex: icons and "着る" for the sleepwear entries
+{const CI=clothIcon;clothIcon=function(key,info){const[part,k]=key.split(':'),pt=part==='top'&&SLP_PT(k);if(!pt)return CI.apply(this,arguments);
+  const of=simpleOutfitFull();of.top={k:'pajama',pt,c:(info&&info.c)||'水色',p:'plain'};of.bottom={k:pt==='jinbei'?'shorts':'pjpants',c:of.top.c,p:'plain'};of.shoes={k:'socks',c:'白'};
+  return dexIcon(x=>{try{drawChar(x,28,54,{sp:'human',look:(S.species==='human'&&S.look)||firstLook(),outfit:of,dir:'down',pose:'stand',scale:1.05,seed:1});return true;}catch(e){return false;}});};}
+function SLP_wear(o,pt,c){if(/^yk\d$/.test(pt))c=YK[+pt.slice(2)][1];o.top={k:'pajama',pt,c:c||'水色',p:'plain'};o.bottom={k:pt==='jinbei'?'shorts':'pjpants',c:/^yk/.test(pt)?YK[+pt.slice(2)][1]:(c||'水色'),p:'plain'};delete o.costume;delete o.outer;}
+// register what is worn
+setInterval(()=>{try{if(!S||!S.dex)return;S.dex.c=S.dex.c||{};for(const o of[S.outfit,M&&M.outfit]){const t=o&&o.top;if(!t||t.k!=='pajama'||!t.pt)continue;const key='top:'+(/^yk/.test(t.pt)?t.pt:'pj_'+t.pt);if(!S.dex.c[key])S.dex.c[key]={c:t.c,p:'plain',at:Date.now()};}}catch(e){}},3000);
+// bedtime: classic pajamas, other pajama types, and yukata
+{const WP=wearPajama;wearPajama=function(fx){try{const t=tempNow(),f=S.look&&S.look.g==='f',r=Math.random();let pt=null,col=null;
+    if(r<.42)return WP.apply(this,arguments);
+    const pool=[['pull',2],['fluffy',t<15?3:.6],['jinbei',t>=22?3:0],['yk',t>=18?3:1.2]];if(f)pool.push(['negli',2]);let tw=0;for(const p of pool)tw+=p[1];let q=Math.random()*tw;for(const p of pool){q-=p[1];if(q<=0){pt=p[0];break;}}if(!pt)pt='pull';
+    if(pt==='yk')pt='yk'+Math.floor(Math.random()*8);col=/^yk/.test(pt)?null:pick(pt==='negli'?['ピンク','ラベンダー','白','水色','ミント']:pt==='jinbei'?['紺','グレー','えんじ','モスグリーン','水色']:['水色','ピンク','ミント','ラベンダー','グレー','紺','サーモン','ベージュ']);
+    SLP_wear(S.outfit,pt,col);gearFor('in');if(fx!==false)doron();}catch(e){return WP.apply(this,arguments);}};}
+// --- choosing the colour when wearing something from the picture book ---
+const CL_GEN=['白','黒','グレー','チャコールグレー','紺','青','水色','赤','ボルドー','ピンク','オレンジ','黄色','緑','カーキ','ベージュ','茶色','紫','ミント'];
+function CL_pal(p,id){if(CL_ALLOW[id])return CL_ALLOW[id];if(p==='top'&&/^yk\d$/.test(id))return[];if(['jeans','djeans','denimjk'].includes(id))return['水色','青','インディゴ','紺'];if(p==='top'&&id.startsWith('pj_'))return['水色','ピンク','ミント','ラベンダー','グレー','紺','サーモン','ベージュ','白'];if(p==='hat'&&id==='straw')return['赤','青','黒','紺','緑','ピンク'];return CL_GEN;}
+function CL_ui(key,done){let ov=$('clOv');if(!ov){ov=document.createElement('div');ov.id='clOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});
+    const st=document.createElement('style');st.textContent='#clOv .card{max-width:340px}#clOv .clg{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:10px 0}#clOv .clg button{aspect-ratio:1;border-radius:50%;padding:0;border:2px solid rgba(255,255,255,.35);min-height:0}#clOv .clg button[aria-pressed=true]{outline:3px solid #ffd36b;outline-offset:1px}#clOv .cln{font-size:13px;text-align:center;margin:0 0 8px;opacity:.85}#clOv canvas{display:block;margin:0 auto;width:120px;height:120px}';document.head.append(st);}
+  const[p,id]=key.split(':'),pal=CL_pal(p,id),info=((S.dex&&S.dex.c)||{})[key]||{};let sel=pal.includes(info.c)?info.c:pal[0];
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="色をえらぶ"><h2 style="font-size:17px">「${esc(KN[p][id])}」の色</h2><canvas width="240" height="240"></canvas><div class="clg"></div><p class="cln"></p><div class="row2"><button type="button" class="clx">キャンセル</button><button type="button" class="primary clok">この色で着る</button></div></div>`;
+  const gr=ov.querySelector('.clg'),cv2=ov.querySelector('canvas'),nm=ov.querySelector('.cln');
+  const prev=()=>{const x=cv2.getContext('2d');x.setTransform(2,0,0,2,0,0);x.clearRect(0,0,120,120);const of={...(S.outfit||simpleOutfitFull())};delete of.costume;delete of.outer;if(p==='top'&&id.startsWith('pj_')){SLP_wear(of,id.slice(3),sel);}else of[p]={k:id,c:sel,p:(of[p]&&of[p].k===id&&of[p].p)||info.p||'plain'};
+    try{drawChar(x,60,112,{sp:S.species||'human',look:S.look,outfit:of,dir:'down',pose:'stand',scale:2.4,seed:1});}catch(e){}nm.textContent=sel;};
+  for(const cl of pal){const b=document.createElement('button');b.type='button';b.style.background=COL(cl);b.setAttribute('aria-label',cl);b.setAttribute('aria-pressed',cl===sel);b.onclick=()=>{sel=cl;gr.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b));prev();};gr.append(b);}
+  ov.querySelector('.clx').onclick=()=>{ov.hidden=true;};ov.querySelector('.clok').onclick=()=>{ov.hidden=true;done(sel);};ov.hidden=false;prev();}
+{const DW=DEX_wear;DEX_wear=function(key){try{const[p,id]=key.split(':');if(['top','bottom','shoes','hat'].includes(p)&&id&&id!=='none'&&!C.sleeping){const pal=CL_pal(p,id),pt=p==='top'&&SLP_PT(id);
+    const go=col=>{S.dex=S.dex||{};S.dex.c=S.dex.c||{};S.dex.c[key]={...(S.dex.c[key]||{}),c:col||(S.dex.c[key]||{}).c};
+      if(pt){SLP_wear(S.outfit=S.outfit||{},pt,col);S.outfit.userPick=Date.now();try{gearFor(C.scene);}catch(e){}try{puffAt({x:charPos().cx,y:charPos().by-16},C.scene);}catch(e){}say(pick([`${KN.top[id]}に着がえたよ`,`${KN.top[id]}、どうかな？`]));save();return;}
+      if(p==='top'&&CW_OUTER.has(id)){const o=S.outfit=S.outfit||{};delete o.costume;o.outerPick={k:id,c:col,until:Date.now()+8*3600e3};o.outer={k:id,c:col,c2:id==='stadium'?'アイボリー':undefined};o.userPick=Date.now();try{gearFor(C.scene);}catch(e){}try{puffAt({x:charPos().cx,y:charPos().by-16},C.scene);}catch(e){}
+        say(pick([`${KN.top[id]}、出かけるときに着ていくね`,`${col}の${KN.top[id]}、外に出るときに着よう`]));save();return;}
+      DW.call(this,key);};
+    if(pal.length>1){CL_ui(key,go);return;}go(pal[0]||null);return;}}catch(e){}return DW.apply(this,arguments);};}
+// --- straw hat: a proper crown with the band only round the front, no floating ring ---
+{const HO=hatOf;hatOf=function(c,sp,of,d){if(!(of.hat&&of.hat.k==='straw'))return HO.apply(this,arguments);const S6=SPEC[sp]||SPEC.cloud,y=S6.top,w=S6.hw,col=COL(of.hat.c);c.save();
+  // brim
+  E(c,'#b8984e',0,y+3.9,w*1.4,3.7);E(c,'#e2c47e',0,y+3.4,w*1.36,3.3);c.strokeStyle='rgba(150,115,50,.35)';c.lineWidth=.2;c.beginPath();for(let i=0;i<24;i++){const a=i/24*TAU;c.moveTo(Math.cos(a)*w*.75,y+3.4+Math.sin(a)*1.8);c.lineTo(Math.cos(a)*w*1.32,y+3.4+Math.sin(a)*3.2);}c.stroke();
+  c.strokeStyle='rgba(150,115,50,.5)';c.lineWidth=.3;c.beginPath();c.ellipse(0,y+3.4,w*1.3,3.15,0,0,TAU);c.stroke();
+  // crown
+  const cw=w*.72,path=()=>{c.beginPath();c.moveTo(-cw,y+3.3);c.lineTo(-cw*.97,y-.4);c.quadraticCurveTo(-cw*.92,y-4,0,y-4.1);c.quadraticCurveTo(cw*.92,y-4,cw*.97,y-.4);c.lineTo(cw,y+3.3);c.quadraticCurveTo(0,y+4.9,-cw,y+3.3);c.closePath();};
+  path();c.fillStyle=CW_lg(c,-cw,0,cw,0,[[0,'#f0d896'],[.5,'#e6c87e'],[1,'#c8a456']]);c.fill();
+  c.save();path();c.clip();c.strokeStyle='rgba(150,115,50,.3)';c.lineWidth=.22;for(let yy=y-3.6;yy<y+4;yy+=.9){c.beginPath();c.moveTo(-cw,yy+1);c.quadraticCurveTo(0,yy+2,cw,yy+1);c.stroke();}
+  // band (front half only)
+  c.fillStyle=col;c.beginPath();c.moveTo(-cw*1.02,y+.9);c.quadraticCurveTo(0,y+2.6,cw*1.02,y+.9);c.lineTo(cw*1.02,y+3.3);c.quadraticCurveTo(0,y+4.9,-cw*1.02,y+3.3);c.closePath();c.fill();
+  c.fillStyle='rgba(255,255,255,.25)';c.beginPath();c.moveTo(-cw,y+1.1);c.quadraticCurveTo(0,y+2.8,cw,y+1.1);c.lineTo(cw,y+1.5);c.quadraticCurveTo(0,y+3.2,-cw,y+1.5);c.closePath();c.fill();c.restore();
+  E(c,'rgba(255,255,255,.25)',-cw*.45,y-1.8,cw*.25,1.3);c.restore();};}
+// --- costumes ---
+// astronaut costume withdrawn
+{const ac=COS.astro;delete COS.astro;}
+function COS_purge(){try{if(!S)return;for(const o of[S.outfit,M&&M.outfit,S.mate&&S.mate.outfit])if(o&&o.costume&&!COS[o.costume])o.costume=null;if(S.dex&&S.dex.c&&S.dex.c['cos:astro'])delete S.dex.c['cos:astro'];}catch(e){}}setInterval(COS_purge,1500);
+// hoods that really cover the head (only the face shows), and costumes that hide the hair completely
+const HOODS={bear:'#8a5a3b',cat:'#9aa0a8',rabbit:'#f3f1ea',dino:'#5fae4f',penguin:'#2c2c33',panda:'#f3f1ea',frog:'#4fae5f',chick:'#f6d14a',ninja:'#2a3a6b'};
+const NOHAIR=new Set(['teddy','knight','uchu','jacko','paul']);
+let HOOD_NOW=false;
+{const HF=humanHairFront;humanHairFront=function(){if(HOOD_NOW)return;return HF.apply(this,arguments);};}
+function HOOD_shape(c,d,ninja){const ey=HCY+.6;c.beginPath();c.ellipse(0,HCY-.2,HR+1.5,HR+1.9,0,0,TAU);
+  if(d==='up')return;
+  if(ninja){if(d==='down'){c.rect(-5.4,ey-1.9,10.8,3.4);}else{c.rect(.6,ey-1.9,9.6,3.4);}return;}
+  if(d==='down')c.ellipse(0,HCY+1.5,HR-1.15,HR-1.05,0,0,TAU);else c.ellipse(4.5,HCY+1.5,HR-3.2,HR-1.2,0,0,TAU);}
+let CUR_COS=null;
+{const HH=humanHead;humanHead=function(c,o){const k=CUR_COS,col=k&&HOODS[k];
+  if(!col){if(k&&NOHAIR.has(k)){HOOD_NOW=true;try{return HH.apply(this,arguments);}finally{HOOD_NOW=false;}}return HH.apply(this,arguments);}
+  const d=o.dir||(o.back?'up':'down'),ninja=k==='ninja';
+  // the back of the hood, behind the head and down onto the shoulders
+  c.save();E(c,shade(col,-.22),0,HCY+.4,HR+1.6,HR+2.1);RR(c,shade(col,-.18),-HR+.4,HCY+3,2*HR-.8,7.4,3);c.restore();
+  HOOD_NOW=true;let r;try{r=HH.apply(this,arguments);}finally{HOOD_NOW=false;}
+  // the hood itself, with the face opening
+  c.save();c.beginPath();c.ellipse(0,HCY-.2,HR+1.5,HR+1.9,0,0,TAU);c.clip();HOOD_shape(c,d,ninja);
+  const gr=c.createLinearGradient(0,HCY-HR-2,0,HCY+HR+2);gr.addColorStop(0,shade(col,.14));gr.addColorStop(.55,col);gr.addColorStop(1,shade(col,-.2));c.fillStyle=gr;c.fill('evenodd');
+  if(d!=='up'){c.strokeStyle='rgba(0,0,0,.22)';c.lineWidth=.6;c.beginPath();if(ninja){if(d==='down')c.rect(-5.4,ey0(),10.8,3.4);else c.rect(.6,ey0(),9.6,3.4);}else if(d==='down')c.ellipse(0,HCY+1.5,HR-1.15,HR-1.05,0,0,TAU);else c.ellipse(4.5,HCY+1.5,HR-3.2,HR-1.2,0,0,TAU);c.stroke();
+    c.strokeStyle='rgba(255,255,255,.18)';c.lineWidth=.5;c.beginPath();if(!ninja){if(d==='down')c.ellipse(0,HCY+1.5,HR-.3,HR-.2,0,Math.PI*1.1,Math.PI*1.9);else c.ellipse(4.5,HCY+1.5,HR-2.4,HR-.4,0,Math.PI*1.1,Math.PI*1.9);c.stroke();}}
+  else{c.strokeStyle='rgba(0,0,0,.15)';c.lineWidth=.4;c.beginPath();c.moveTo(0,HCY-HR-1.6);c.lineTo(0,HCY+HR+1.4);c.stroke();}
+  c.restore();
+  if(ninja){// forehead plate and a short knot at the back
+    if(d==='down')RR(c,'#c9ced3',-2.2,HCY-6.2,4.4,2.2,.5);else if(d==='right')RR(c,'#c9ced3',4.6,HCY-6.2,2.8,2.2,.5);
+    if(d!=='down'){const kx=d==='up'?0:-HR-.6;fillE(c,shade(col,-.25),kx,HCY-4,1.3,1.1);c.strokeStyle=shade(col,-.1);c.lineWidth=1;c.lineCap='round';c.beginPath();c.moveTo(kx,HCY-3.6);c.quadraticCurveTo(kx-(d==='up'?1.2:1.6),HCY-1,kx-(d==='up'?1.6:2.4),HCY+1.2);c.moveTo(kx,HCY-3.6);c.quadraticCurveTo(kx+(d==='up'?1.2:-.4),HCY-1,kx+(d==='up'?1.6:-.8),HCY+1.6);c.stroke();}}
+  return r;};}
+function ey0(){return HCY+.6-1.9;}
+COS.ninja.head=()=>{};
+// ghost: a white kimono with the triangular headband (no face printed on the body)
+COS.ghost.front=(c,d)=>{if(d==='down'){c.strokeStyle='#c8ccd6';c.lineWidth=.8;c.beginPath();c.moveTo(2.8,-15.2);c.lineTo(-1.6,-9.8);c.moveTo(-2.8,-15.2);c.lineTo(-.6,-12.6);c.stroke();}};
+COS.ghost.head=(c,y,w,d)=>{const by=HCY-4.6;c.save();
+  if(d==='down'){RR(c,'#f8f9fc',-HR-.2,by,2*HR+.4,1.5,.6);c.strokeStyle='rgba(120,130,150,.5)';c.lineWidth=.25;c.strokeRect(-HR-.2,by,2*HR+.4,1.5);c.fillStyle='#ffffff';c.beginPath();c.moveTo(0,by-4.6);c.lineTo(-2.6,by+1.2);c.lineTo(2.6,by+1.2);c.closePath();c.fill();c.strokeStyle='rgba(120,130,150,.6)';c.lineWidth=.3;c.stroke();}
+  else if(d==='right'){RR(c,'#f8f9fc',-HR-.2,by,2*HR+.4,1.5,.6);c.fillStyle='#ffffff';c.beginPath();c.moveTo(HR-.2,by-4.2);c.lineTo(HR-1.4,by+1.2);c.lineTo(HR+.5,by+1.2);c.closePath();c.fill();c.strokeStyle='rgba(120,130,150,.6)';c.lineWidth=.3;c.stroke();fillE(c,'#f8f9fc',-HR-.4,by+.8,.9,.8);}
+  else{RR(c,'#f8f9fc',-HR-.2,by,2*HR+.4,1.5,.6);fillE(c,'#f8f9fc',0,by+.8,1,.8);c.strokeStyle='#f8f9fc';c.lineWidth=.6;c.beginPath();c.moveTo(0,by+1);c.lineTo(-.8,by+3.4);c.moveTo(0,by+1);c.lineTo(.9,by+3.2);c.stroke();}
+  c.restore();};
+// --- outfits are tidied before they are drawn ---
+{const DC=drawChar;drawChar=function(c,cx,by,o){try{if(o&&o.outfit)CL_fix(o.outfit);if(o&&o.outfit&&o.outfit.costume&&!COS[o.outfit.costume])o.outfit={...o.outfit,costume:null};}catch(e){}const sv=CUR_COS;CUR_COS=(o&&o.outfit&&o.outfit.costume)||null;try{return DC.apply(this,arguments);}finally{CUR_COS=sv;}};}
+// --- spring rocker: elephant ---
+{const SD=SR_draw;SR_draw=function(kind,X,Y,t){if(kind!=='elephant')return SD.apply(this,arguments);const k='spring_elephant',on=C.act==='yardplay'&&C.snapK==='y:'+k||(M&&M.sit&&M.sit.ride===k),rock=on?Math.sin(t*5.2)*.22:Math.sin(t*.7)*.02,cx=X+12;
+  SR_base(X,Y);SR_spring(cx,Y+19,Y+9,rock);g.save();g.translate(cx+Math.sin(rock)*1.8,Y+8.5);g.rotate(rock);
+  const b='#9ab0c8',bd='#6a809a',bl='#c8d6e4';
+  for(const lx of[-5,-2.4,3,5.4]){fillR(g,bd,lx-1.2,-1.6,2.5,3.6,1);fillR(g,'#e8eef4',lx-1.2,1.4,2.5,.7,.35);}
+  g.fillStyle=GD_rg(g,-2,-5,.5,0,-2,8.6,[[0,bl],[.65,b],[1,bd]]);g.beginPath();g.ellipse(0,-2.8,7.8,4.3,0,0,TAU);g.fill();
+  g.strokeStyle=bd;g.lineWidth=.8;g.lineCap='round';g.beginPath();g.moveTo(-7.4,-3.4);g.quadraticCurveTo(-9.4,-3,-9.2,-.8);g.stroke();fillE(g,'#4a5a6e',-9.2,-.6,.6,.7);
+  // saddle blanket
+  g.fillStyle='#d9483b';g.beginPath();g.moveTo(-3.6,-6.8);g.lineTo(2,-6.8);g.lineTo(2.6,-1.6);g.lineTo(-4.2,-1.6);g.closePath();g.fill();g.fillStyle='#f2c230';for(let i=0;i<5;i++)fillE(g,'#f2c230',-3.8+i*1.6,-1.6,.5,.5);
+  // head, big ear, trunk
+  g.fillStyle=GD_rg(g,4,-8,.3,4.4,-6.6,5.2,[[0,'#d8e2ec'],[.55,b],[1,bd]]);g.beginPath();g.ellipse(4.4,-6.8,3.6,4.8,-.25,0,TAU);g.fill();fillE(g,'rgba(232,184,196,.7)',3.9,-6.8,2,3.2,-.25);
+  g.fillStyle=GD_rg(g,7.6,-9.4,.4,8.4,-6.8,5.2,[[0,bl],[.7,b],[1,bd]]);g.beginPath();g.arc(8.4,-6.8,4.4,0,TAU);g.fill();
+  g.fillStyle=GD_rg(g,6.6,-7,.2,6.8,-6.8,2.6,[[0,'#d8e2ec'],[1,b]]);g.beginPath();g.ellipse(6.4,-6.6,1.8,2.8,-.25,0,TAU);g.fill();g.strokeStyle=bd;g.lineWidth=.3;g.beginPath();g.ellipse(6.4,-6.6,1.8,2.8,-.25,-1.2,2);g.stroke();
+  g.strokeStyle=b;g.lineWidth=2.4;g.lineCap='round';g.beginPath();g.moveTo(11.4,-5.8);g.quadraticCurveTo(14.2,-4.4,12.8,-1.4);g.quadraticCurveTo(12.4,.2,13.8,.6);g.stroke();g.strokeStyle=bd;g.lineWidth=.3;for(let i=0;i<4;i++){g.beginPath();g.arc(12.8,-3.6+i*1.2,1.1,-.3,1.2);g.stroke();}
+  fillE(g,'#f6f2e8',11.2,-3.6,1,.45,.6);
+  fillE(g,'#1c1c22',9.6,-8,.7,.85);fillE(g,'#fff',9.8,-8.3,.24,.26);g.strokeStyle='#1c1c22';g.lineWidth=.3;g.beginPath();g.moveTo(9,-9.3);g.lineTo(10.2,-9.5);g.stroke();
+  SR_gloss(-2.4,-5.4,3,1);SR_gloss(6.8,-9.4,1.4,.7);SR_handle(7.6,-11.6);SR_foot(-1,1.2);g.restore();};}
+{const k='spring_elephant';OFT[k]={n:'スプリング遊具（ゾウ）',w:1,h:1,draw:(X,Y,L,t)=>SR_draw('elephant',X,Y,t),act:{sit:1,snap:L=>({px:L.x*T+8,py:L.y*T+9,pose:'sit',d:'right',over:true}),swing:1,say:['ゾウさん、パオーン！','ゆらゆら、ぞうさんの背中','お鼻が長いね〜'],s:9}};if(!OKEYS.includes(k))OKEYS.push(k);if(!OBUY.includes(k))OBUY.push(k);}
+// --- halloween jack-o'-lantern in the yard: 30% larger ---
+{const f=OFT.halloween;if(f&&!f._big){const D=f.draw;f._big=1;f.draw=function(X,Y,L,t){g.save();g.translate(X+12,Y+20);g.scale(1.3,1.3);g.translate(-(X+12),-(Y+20));try{return D.apply(this,arguments);}finally{g.restore();}};}}
+
+// a coat chosen in the picture book is worn whenever going out (for 8 hours)
+{const GF=gearFor;gearFor=function(scene){const r=GF.apply(this,arguments);try{const o=S&&S.outfit,pk=o&&o.outerPick;if(pk&&Date.now()<pk.until&&!o.costume&&!(o.top&&o.top.k==='pajama'))o.outer={k:pk.k,c:pk.c,c2:pk.k==='stadium'?'アイボリー':undefined};}catch(e){}return r;};}
+/* ---- v475: the housemate coming over says something different each time, and only now and then ---- */
+const MT_NEAR=['なにしてるの？','となり、いい？','ここにいよっと','ちょっと休憩','いい天気だね','なに見てるの？','おじゃましまーす','ここ、落ち着くね','ひと息つこうかな','今日はなにしてた？','ちょっとだけここにいるね','お茶、いれようか？','このへん、日当たりいいね','なんか楽しそうだね','手伝えることある？','いっしょにいてもいい？','ぼーっとしに来た','ふふ、なんとなく来ちゃった'];
+function MT_near(){try{S.mtNearLog=S.mtNearLog||[];const now0=Date.now();S.mtNearLog=S.mtNearLog.filter(e=>now0-e.at<6*3600e3);
+  if(Math.random()<.6)return mateSelfLine();
+  const used=new Set(S.mtNearLog.map(e=>e.t));let cand=MT_NEAR.filter(t=>!used.has(t));if(S.mtNearDay===new Date().toDateString())cand=cand.filter(t=>!/なんとなく来ちゃった/.test(t));if(!cand.length)return mateSelfLine();
+  const t=pick(cand);if(/なんとなく来ちゃった/.test(t))S.mtNearDay=new Date().toDateString();S.mtNearLog.push({t,at:now0});return t;}catch(e){return mateSelfLine();}}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
