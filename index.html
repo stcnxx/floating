@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 481（2026/10/30）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 486（2026/10/30）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 481（2026/10/30）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 486（2026/10/30）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2253,9 +2253,9 @@ function chooseActivity(){
   if(n.hunger<30&&(watching()||n.hunger<12)){const md0=S.mealDone||{};if(md0[mealSlot()]!==today)add('eat',90-n.hunger);else if(Date.now()-(S.oyatsuAt||0)>90*60e3)add('oyatsu',60-n.hunger);}
   {const md=S.mealDone||{},win={b:[6,10.5],l:[11,15],d:[17.5,21.5]},wt=watching();for(const k in win){const[a,b2]=win[k];if(h>=a&&h<b2&&md[k]!==today&&mealSlot()===k){if(wt&&h>=a+.5)add('eat',160);else if(h>=b2-.5)add('eat',120);}}
     if(wt&&(h>=22||h<1)&&md.night!==today&&hash(now().getDate(),now().getMonth(),77)<.2&&mealSlot()==='night')add('eat',45);
-    if(h>=14.5&&h<16.5&&S.oyatsuDay!==today&&hash(now().getDate(),now().getMonth(),78)<.75)add('oyatsu',70);else if(h>=10&&h<21&&Date.now()-(S.oyatsuAt||0)>3*3600e3)add('oyatsu',4);}
+    if(h>=14.5&&h<16.5&&S.oyatsuDay!==today&&hash(now().getDate(),now().getMonth(),78)<.75)add('oyatsu',70);}
   if(has('radio')&&S.taisoDay!==today&&h>=6.3&&h<9&&!sleepTime(0))add('taiso',watching()?120:40);
-  if(!sleepTime(0)&&Date.now()-(S.nibbleAt||S.born||0)>150*60e3){const o=['oyatsu','oyatsu'];if(has('lowtable'))o.push('tea');if(h>=11&&(S.drinkDay!==today||(S.drinkN||0)<4)&&Date.now()-(S.drinkAt||0)>120*60e3)o.push('drink');add(pick(o),150);}
+  if(!sleepTime(0)&&Date.now()-(S.nibbleAt||S.born||0)>300*60e3){const o=['oyatsu','oyatsu'];if(has('lowtable'))o.push('tea');if(h>=11&&(S.drinkDay!==today||(S.drinkN||0)<2)&&Date.now()-(S.drinkAt||0)>180*60e3)o.push('drink');add(pick(o),40);}
   if((h>=19.5&&S.bathDay!==today)||(n.hygiene<20&&S.bathDay!==today)||n.hygiene<6)add('bath',h>=19.5?55:60);
   if(!night&&Date.now()-(S.dressAt||S.born)>(S.dressGap||2*3600e3)&&!C.sleeping){S.dressN=(S.dressN||0)+1;S.dressAt=Date.now();S.dressGap=rnd(1.2,3)*3600e3;S.dressMood=1;}
   if(!night&&outfitDiff())add('change',58);
@@ -2278,7 +2278,7 @@ function chooseActivity(){
     add('exercise',has('bike')?(n.energy>50?8:2):1.2);
     if(tmp<15)add('kotatsu',has('kotatsu')?16:3);
     if(has('tv'))add('game',h>=15&&h<22?9:5);
-    if((S.drinkDay!==today||(S.drinkN||0)<4)&&h>=11&&Date.now()-(S.drinkAt||0)>120*60e3)add('drink',h>=17?(has('bar')?26:20):h>=12&&h<15?12:8);
+    if((S.drinkDay!==today||(S.drinkN||0)<2)&&h>=11&&Date.now()-(S.drinkAt||0)>180*60e3)add('drink',h>=17?(has('bar')?26:20):h>=12&&h<15?12:8);
     if(ENV.news.length)add('newscheck',7);
     if(mateFree()&&Date.now()-(S.chatAt||0)>5*60e3)add('chat',16);
     add('radio',has('radio')?(hourNow()<10||hourNow()>=21?14:9):2);add('relax',has('cushion')?5:1);add('play',has('toybox')?6:1.2);
@@ -24167,6 +24167,84 @@ FT.stereo.k='free';delete FT.stereo.tall;
         queueSay(`${f.n}が届いたよ。一階には置く場所がないから、地下室に置いておいたね`);try{dexSync();}catch(e){}save();return;}}}}catch(e){}return S0.apply(this,arguments);};}
 // the stereo also tries the relaxed rules before giving up (it may stand in front of a wall piece or near the walkway edge)
 {const PF=placeFor;placeFor=function(k,opt){const r=PF.apply(this,arguments);if(r||MC_base(k)!=='stereo')return r;try{const o={...(opt||{}),free:true};let q=PF.call(this,k,o);if(!q&&typeof KEEP_relaxed==='function')q=KEEP_relaxed(()=>PF.call(this,k,o));return q||null;}catch(e){return null;}};}
+/* ---- v482: clothes worn more evenly: gender-fit replacements vary from outfit to outfit, the housemate's clothes really change, costumes do not repeat soon ---- */
+fitGender=function(o,look){const g=look&&(look.g==='m'||look.g==='f')?look.g:null;if(!o||!g||o.top&&o.top.k==='pajama')return o;const t=tempNow(),h=i=>hash(now().getDate()+((S&&S.dressN)||0)*13,(look.face||0)*31+(look.hair||0)+i*7,i+3);const pk=(a,i)=>a[Math.floor(h(i)*a.length)%a.length];
+  if(o.top&&!wearOK('top',o.top.k,g))o.top={...o.top,k:g==='m'?(t>=21?pk(['tshirt','polo','longsleeve','aloha','tank'],1):pk(['longsleeve','sweatshirt','hoodie','sweater','turtle','cardigan'],1)):(t>=21?pk(['blouse','tshirt','polo','tank'],1):pk(['blouse','longsleeve','cardigan','sweater','turtle'],1))};
+  if(o.top&&o.top.p&&!wearOK('pat',o.top.p,g))o.top={...o.top,p:pk(['plain','stripe','check','border'],2)};
+  if(o.bottom&&!wearOK('bottom',o.bottom.k,g))o.bottom={...o.bottom,k:g==='m'?(t>=25?pk(['shorts','cargo','pants'],3):pk(['pants','jeans','cargo','jogger','djeans'],3)):(t>=25?pk(['skirt','culottes','shorts'],3):pk(['jeans','longskirt','pants','skirt','culottes'],3))};
+  if(o.bottom&&o.bottom.p&&!wearOK('pat',o.bottom.p,g))o.bottom={...o.bottom,p:'plain'};
+  return o;};
+{const MO=mateOutfit;mateOutfit=function(){const o=MO.apply(this,arguments);try{const sv=S.dressN,st=S.trend;S.dressN=7000+(S.mDressN||0)*5+((S.mate&&S.mate.name)||'x').charCodeAt(0);S.trend=null;const sl=S.look,ssp=S.species;if(S.mate&&S.mate.sp==='human'&&S.mate.look){S.look=S.mate.look;S.species='human';}
+    try{const d=dayClothes();if(d&&d.top&&d.bottom){o.top=d.top;o.bottom=d.bottom;}}finally{S.dressN=sv;S.trend=st;S.look=sl;S.species=ssp;}fitGender(o,S.mate&&S.mate.sp==='human'?S.mate.look:null);}catch(e){}return o;};}
+{const CP=cosPick;cosPick=function(n){let k=CP.apply(this,arguments);try{const rec=(S&&S.cosRecent)||[];for(let i=1;i<20&&rec.includes(k);i++)k=CP.call(this,(n||0)+i*11);if(S){S.cosRecent=[k,...rec.filter(x=>x!==k)].slice(0,8);}}catch(e){}return k;};}
+
+try{for(let i=COSK.length-1;i>=0;i--)if(!COS[COSK[i]])COSK.splice(i,1);}catch(e){}
+/* ---- v483: a daily rhythm for clothes — both put on one (non-seasonal) costume once a day at a random time, change clothes in the morning, afternoon and evening, and wear sleepwear in bed ---- */
+const COS_SEASONAL=new Set(['santa','snowman','pumpkin','jacko','ghost']);
+const DP_day=()=>{const d=now();return d.getFullYear()+'-'+d.getMonth()+'-'+d.getDate();};
+const DP_min=()=>{const d=now();return d.getHours()*60+d.getMinutes()+d.getSeconds()/60;};
+const DP_r=(a,b)=>a+Math.random()*(b-a);
+function DP_cosKey(who){const pool=Object.keys(COS).filter(k=>!COS_SEASONAL.has(k));const key='cosRec_'+who,rec=S[key]||[];let c=pool.filter(k=>!rec.includes(k));if(!c.length)c=pool;const k=pick(c);S[key]=[k,...rec].slice(0,Math.max(1,Math.min(14,pool.length-2)));return k;}
+function DP_season(){const m=now().getMonth()+1;return m===10?['pumpkin','jacko','ghost']:m===12?['santa','snowman']:(m===1||m===2)?['snowman']:[];}
+function DP_plan(who){S.dplan=S.dplan||{};let p=S.dplan[who];const td=DP_day();
+  if(!p||p.day!==td){p={day:td,aft:DP_r(12.5*60,14.5*60),eve:DP_r(17.5*60,19.5*60),cos:DP_r(10*60,19.5*60),len:DP_r(30,60),key:DP_cosKey(who),done:{}};
+    if(who==='m'&&S.dplan.h&&S.dplan.h.day===td&&S.dplan.h.key===p.key)for(let i=0;i<6&&p.key===S.dplan.h.key;i++)p.key=DP_cosKey(who);
+    const sp=DP_season().filter(k=>COS[k]);if(sp.length&&Math.random()<.5){p.skey=pick(sp);p.scos=DP_r(15*60,19*60);if(Math.abs(p.scos-p.cos)<90)p.scos=p.cos<p.scos?Math.min(20.5*60,p.cos+120):Math.max(10*60,p.cos-120);}
+    S.dplan[who]=p;}return p;}
+function DP_cosNow(who){try{const p=DP_plan(who),m=DP_min();if(m>=p.cos&&m<p.cos+p.len)return p.key;if(p.skey&&m>=p.scos&&m<p.scos+40)return p.skey;}catch(e){}return null;}
+// the hero: dayClothes gives today's costume only inside its window (no more random costume days)
+{const DC=dayClothes;dayClothes=function(){const o=DC.apply(this,arguments);try{if(DC_MATE)return o;o.costume=(!C.sleeping&&DP_cosNow('h'))||null;}catch(e){}return o;};}
+let DC_MATE=false;
+{const MO=mateOutfit;mateOutfit=function(){DC_MATE=true;let o;try{o=MO.apply(this,arguments);}finally{DC_MATE=false;}try{o.costume=(M&&!M.sleeping&&DP_cosNow('m'))||null;}catch(e){}return o;};}
+// the housemate's sleepwear
+function MP_pj(){const o={...(M.outfit||{})};delete o.costume;delete o.outer;const f=S.mate&&S.mate.look&&S.mate.look.g==='f',t=tempNow();
+  if(Math.random()<.4){const d=pick(PJ_SET);o.top={k:'pajama',c:d.c,p:d.p};o.bottom={k:'pjpants',c:d.c,p:d.p==='check'?'check':'plain'};}
+  else{const pool=['pull','pull',t<15?'fluffy':'pull',t>=22?'jinbei':'yk'+Math.floor(Math.random()*8),'yk'+Math.floor(Math.random()*8)];if(f)pool.push('negli');const pt=pick(pool);
+    SLP_wear(o,pt,/^yk/.test(pt)?null:pick(pt==='negli'?['ピンク','ラベンダー','白','水色','ミント']:pt==='jinbei'?['紺','グレー','えんじ','モスグリーン','水色']:['水色','ピンク','ミント','ラベンダー','グレー','紺','サーモン','ベージュ']));}
+  o.shoes={k:'socks',c:'白'};o.hat={k:'none'};return o;}
+setInterval(()=>{try{if(!S||!S.outfit)return;const m=DP_min(),n=Date.now();
+  // hero: no random mood changes; changes at the planned times (and in/out of the costume)
+  S.dressAt=n;S.dressGap=6*3600e3;const ph=DP_plan('h');
+  if(!C.sleeping&&!(S.outfit.top&&S.outfit.top.k==='pajama')){for(const s of['aft','eve'])if(!ph.done[s]&&m>=ph[s]&&!DP_cosNow('h')){ph.done[s]=1;S.dressN=(S.dressN||0)+1;S.dressMood=1;}}
+  if(S.outfit.costume)S.cosLen=999*60e3;
+  // housemate
+  if(typeof M==='undefined'||!M||!S.mate)return;const pm=DP_plan('m');S.mCosLen=999*60e3;
+  if(M.sleeping){if(!(M.outfit&&M.outfit.top&&M.outfit.top.k==='pajama')){M.outfit=MP_pj();S.mPjOn=1;save();}return;}
+  if(M.outfit&&M.outfit.top&&M.outfit.top.k==='pajama'&&S.mPjOn&&!sleepTime(1)){S.mPjOn=0;S.mDressN=(S.mDressN||0)+1;M.outfit=mateOutfit();try{puffAt(mPos());}catch(e){}save();return;}
+  let due=false;for(const s of['aft','eve'])if(!pm.done[s]&&m>=pm[s]&&!DP_cosNow('m')){pm.done[s]=1;S.mDressN=(S.mDressN||0)+1;due=true;}
+  if((DP_cosNow('m')||null)!==((M.outfit&&M.outfit.costume)||null))due=true;
+  if(due){S.mDressAt=1;S.mDressGap=1;}else{S.mDressAt=n;S.mDressGap=6*3600e3;}}catch(e){}},2000);
+/* ---- v486: clothes the player picks (図鑑「着る」/ original clothes) stay on until the wardrobe is double-tapped or it is time for sleepwear; the hero's wardrobe → the hero changes, the housemate's wardrobe → the housemate goes and changes (the hero stays put) ---- */
+let TAP_REAL=false,H_TAPCHG=false;
+{const TG=tapGo;tapGo=function(){TAP_REAL=true;try{return TG.apply(this,arguments);}finally{TAP_REAL=false;}};}
+const HL_cp=o=>JSON.parse(JSON.stringify(o||null));
+function HL_on(){try{return!!(S&&S.hLock&&S.outfit&&!(S.outfit.top&&S.outfit.top.k==='pajama'));}catch(e){return false;}}
+function ML_on(){try{return!!(S&&S.mLock&&typeof M!=='undefined'&&M&&M.outfit&&!(M.outfit.top&&M.outfit.top.k==='pajama'));}catch(e){return false;}}
+// take the snapshot once the pick has been applied (the colour picker answers later, so watch userPick)
+setInterval(()=>{try{if(!S||!S.outfit)return;const o=S.outfit;
+  if(o.userPick&&o.userPick!==S.hLockPk){S.hLockPk=o.userPick;if(o.top&&o.top.k!=='pajama')S.hLock={top:HL_cp(o.top),bottom:HL_cp(o.bottom),costume:o.costume||null,outer:HL_cp(o.outer),outerPick:HL_cp(o.outerPick)};}
+  if(S.hLock&&o.top&&o.top.k==='pajama')delete S.hLock;
+  if(S.mLock&&typeof M!=='undefined'&&M&&(M.sleeping||M.outfit&&M.outfit.top&&M.outfit.top.k==='pajama'))delete S.mLock;}catch(e){}},700);
+{const OD=outfitDiff;outfitDiff=function(){if(HL_on())return false;return OD.apply(this,arguments);};}
+{const FG=fitGender;fitGender=function(o){try{if(o&&S&&o===S.outfit&&HL_on())return o;if(o&&typeof M!=='undefined'&&M&&o===M.outfit&&ML_on())return o;}catch(e){}return FG.apply(this,arguments);};}
+// after a bath (or anything else that puts on the day clothes) the picked clothes come back
+{const WD=wearDay;wearDay=function(fx){try{if(HL_on()&&!H_TAPCHG){const L=S.hLock,o=S.outfit;o.top=HL_cp(L.top);o.bottom=HL_cp(L.bottom);o.costume=L.costume||null;if(L.outerPick)o.outerPick=HL_cp(L.outerPick);gearFor(C.scene);if(fx!==false)doron();return;}}catch(e){}return WD.apply(this,arguments);};}
+{const WP=wearPajama;wearPajama=function(){try{delete S.hLock;}catch(e){}return WP.apply(this,arguments);};}
+{const CH=A.change;A.change=function(){if(HL_on()&&!H_TAPCHG)return null;return CH.apply(this,arguments);};}
+// the housemate: original clothes worn by the housemate stay on too
+{const OW=OC_wear;OC_wear=function(who){const r=OW.apply(this,arguments);try{if((who==='mate'||who==='both')&&typeof M!=='undefined'&&M&&!M.sleeping)S.mLock=1;}catch(e){}return r;};}
+{const MW=CD_mateWants;CD_mateWants=function(){if(ML_on())return null;return MW.apply(this,arguments);};}
+function ML_change(){const cur=JSON.stringify([M.outfit&&M.outfit.top,M.outfit&&M.outfit.bottom,(M.outfit&&M.outfit.costume)||null]);let o=null;
+  for(let i=0;i<12;i++){S.mDressN=(S.mDressN||0)+1;o=mateOutfit();if(JSON.stringify([o.top,o.bottom,o.costume||null])!==cur)break;}M.outfit=o;}
+{const CM=chooseMateAct;chooseMateAct=function(){try{if(S.mTapDress&&M&&!M.sleeping&&!M.bath){S.mTapDress=0;delete S.mLock;const n=Date.now();S.mDressAt=n;S.mDressGap=rnd(1.5,3.5)*3600e3;
+    const st=[];if(has('wardrobe2')&&U('wardrobe2'))st.push({t:'go',sc:'in',dyn:()=>U('wardrobe2')},{t:'wait',s:1.2});
+    st.push({t:'fn',f:()=>{try{ML_change();puffAt(mPos());save();}catch(e){}}},{t:'say',text:()=>M.outfit&&M.outfit.costume&&COS[M.outfit.costume]?pick([`${COS[M.outfit.costume].n}になってみた！`,`じゃーん、${COS[M.outfit.costume].n}！`]):pick(['お着がえ完了！','この服、どうかな？','気分を変えて着がえてみた'])});
+    return st;}}catch(e){}return CM.apply(this,arguments);};}
+{const TP=tapPlan;tapPlan=function(tg){try{if(TAP_REAL&&tg&&tg.t==='f'&&S.layout[tg.k]){const b=MC_base(tg.k);
+    if((b==='wardrobe'||b==='dresser')&&!C.sleeping){delete S.hLock;H_TAPCHG=true;try{const cur=JSON.stringify([S.outfit.top,S.outfit.bottom,S.outfit.costume||null]);for(let i=0;i<12;i++){S.dressN=(S.dressN||0)+1;const d=dayClothes();if(JSON.stringify([d.top,d.bottom,d.costume||null])!==cur)break;}S.dressMood=1;
+      const st=A.change();if(st)return{n:'change',s:st};}finally{H_TAPCHG=false;}}
+    if(b==='wardrobe2'){if(typeof M!=='undefined'&&M&&S.mate){if(M.sleeping||M.bath){if(!msgBusy())say(M.sleeping?`${S.mate.name}は寝てるみたい`:`${S.mate.name}はお風呂中みたい`);}
+        else{S.mTapDress=1;M.steps=[];M.idle=0;}}return null;}}}catch(e){}return TP.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
