@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 486（2026/10/30）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 487（2026/10/30）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 486（2026/10/30）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 487（2026/10/30）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24135,7 +24135,7 @@ function MUS_switch(dev){if(!S||MUS_dev()===dev)return;S.musicBy=S.musicBy||{};c
   try{if(S.music&&S.music.on)musLoad(S.music.idx||0,S.music.pos||0);}catch(e){}save();}
 let MUS_REQ=null;
 {const MT=musTap;musTap=function(){const dev=MUS_REQ||'boombox';MUS_REQ=null;MUS_switch(dev);return MT.apply(this,arguments);};}
-{const RA=recycleAsk;recycleAsk=function(k,sc){if(sc==='in'&&MC_base(k)==='stereo'&&S.layout[k]){MUS_REQ='stereo';musTap();return;}return RA.apply(this,arguments);};}
+{const RA=recycleAsk;recycleAsk=function(k,sc){if(sc==='in'&&MC_base(k)==='stereo'&&S.layout[k]&&!AUD_skip){MUS_REQ='stereo';musTap();return;}return RA.apply(this,arguments);};}
 {const RB=renderBGM;renderBGM=function(){const r=RB.apply(this,arguments);try{const el=$('bgmBody');if(!el||!S)return r;const dev=MUS_dev(),both=has('stereo')&&has('boombox');
   const h=document.createElement('div');h.className='bgmdev';h.innerHTML=`<p class="note" style="text-align:left;margin:0 0 6px">🎵 <b>${dev==='stereo'?'ステレオ':'ラジカセ'}</b>で流す曲の設定です${both?'（ラジカセとステレオは、それぞれ別の曲をセットできます。鳴るのは選んでいるほう）':''}</p>${both?`<div class="seg" style="margin:0 0 10px"><button type="button" data-dev="boombox" aria-pressed="${dev==='boombox'}">📻 ラジカセ</button><button type="button" data-dev="stereo" aria-pressed="${dev==='stereo'}">🔊 ステレオ</button></div>`:''}`;
   el.prepend(h);h.querySelectorAll('[data-dev]').forEach(b=>b.onclick=()=>{MUS_switch(b.dataset.dev);setTimeout(renderBGM,200);});}catch(e){}return r;};}
@@ -24245,6 +24245,44 @@ function ML_change(){const cur=JSON.stringify([M.outfit&&M.outfit.top,M.outfit&&
       const st=A.change();if(st)return{n:'change',s:st};}finally{H_TAPCHG=false;}}
     if(b==='wardrobe2'){if(typeof M!=='undefined'&&M&&S.mate){if(M.sleeping||M.bath){if(!msgBusy())say(M.sleeping?`${S.mate.name}は寝てるみたい`:`${S.mate.name}はお風呂中みたい`);}
         else{S.mTapDress=1;M.steps=[];M.idle=0;}}return null;}}}catch(e){}return TP.apply(this,arguments);};}
+/* ---- v487: one piece of furniture that is already blocked no longer makes every spot "no room": a new piece only has to keep usable what is usable now ---- */
+let PF_RELAX=null;
+{const AU=allUsable;allUsable=function(occ,skipK){if(!PF_RELAX)return AU.apply(this,arguments);for(const kk of PF_RELAX){if(kk===skipK)continue;const L=S.layout[kk];if(!L||L.carry)continue;if(!useTileFor(kk,L,occ))return false;}return true;};}
+{const PF=placeFor;placeFor=function(k,opt){const r=PF.apply(this,arguments);if(r||PF_RELAX)return r;
+  try{const occ=(opt&&opt.occ)||occSet(opt&&opt.skip),o0=reachOcc(occ)||new Set(),ok=[];let blocked=0;
+    for(const kk of S.owned){if(kk===k)continue;const L=S.layout[kk];if(!L||L.carry)continue;if(useTileFor(kk,L,o0))ok.push(kk);else blocked++;}
+    if(!blocked)return r;PF_RELAX=ok;try{return PF.apply(this,arguments)||null;}finally{PF_RELAX=null;}}catch(e){PF_RELAX=null;return r;}};}
+// a piece standing in the basement can be carried back up to the first floor (long-press → 一階に移動)
+function BF_upSpot(k){if(BFL!==1)return null;let q=null;BF_swapData();BFL=0;BF_geo();BF_rooms();try{q=placeFor(k);}catch(e){q=null;}finally{BFL=1;BF_geo();BF_rooms();BF_swapData();}return q;}
+function BF_moveUp(k){const L=S.layout[k],f=FT[k];if(!L||!f||BFL!==1)return;const q=BF_upSpot(k);
+  if(!q){say(pick([`一階に${f.n}を置ける場所がないみたい…`,'一階がいっぱいで、もう置けないや']));emote('?',1.2);return;}
+  const c=posCenter(k,L);try{if(C.snapK===k)abort();else if(C.steps&&C.steps.length&&JSON.stringify(C.steps.slice(0,6)).includes(k))abort();}catch(e){}if(typeof M!=='undefined'&&M&&!M.sleeping&&M.seatK===k){M.steps=[];M.sit=null;M.seatK=null;M.busy=false;M.idle=1;}
+  const B=S.bf||(S.bf={owned:[],layout:{}});B.owned=B.owned||[];B.layout=B.layout||{};
+  const tops=S.owned.filter(o=>S.layout[o]&&S.layout[o].on===k);
+  for(const o of tops){B.layout[o]={...S.layout[o]};delete B.layout[o].carry;B.owned.push(o);delete S.layout[o];}
+  S.owned=S.owned.filter(x=>x!==k&&!tops.includes(x));delete S.layout[k];B.owned.push(k);B.layout[k]=q;
+  if(S.userPlaced)delete S.userPlaced[k];try{refreshOcc();}catch(e){}try{lbSync();}catch(e){}puffAt(c);
+  say(pick([`${f.n}を一階に運んだよ`,`${f.n}、一階に移動！`]));try{todayLog('move',{n:f.n});}catch(e){}save();}
+(function(){const ov=$('recy'),b=$('recyB1');if(!ov||!b)return;
+  new MutationObserver(()=>{if(ov.hidden)return;try{const inn=recyK&&recyK.sc==='in',row=$('recyB1Row');b.textContent=BFL===1?'一階に移動':'地下に移動';if(row)row.hidden=!inn;
+    const t=$('recyT');if(t&&inn&&BFL===1&&!t.dataset.bf1){t.dataset.bf1=1;t.textContent=t.textContent.replace('どうしますか？','どうしますか？　一階に移動すると、一階の空いている場所に置かれます。');}}catch(e){}}).observe(ov,{attributes:true,attributeFilter:['hidden']});
+  new MutationObserver(()=>{if(ov.hidden){const t=$('recyT');if(t)delete t.dataset.bf1;}}).observe(ov,{attributes:true,attributeFilter:['hidden']});
+  b.onclick=()=>{ov.hidden=true;const r=recyK;recyK=null;if(r&&r.sc==='in'){if(BFL===1)BF_moveUp(r.k);else BF_moveDown(r.k);}};})();
+
+
+/* ---- v487: long-pressing the boombox or the stereo asks first: change the music, or put away / recycle / move between floors ---- */
+var AUD_skip=false;
+function AUD_menu(k){const base=MC_base(k),n=FT[k].n;let ov=$('audMenu');if(!ov){ov=document.createElement('div');ov.id='audMenu';ov.className='overlay center';
+    ov.innerHTML='<div class="card" role="dialog" aria-labelledby="amH" style="max-width:300px"><h2 style="font-size:18px" id="amH"></h2><div class="row2"><button id="amMus" class="primary" type="button">🎵 曲を変える</button></div><div class="row2" style="margin-top:8px"><button id="amEtc" type="button"></button></div><div class="row2" style="margin-top:8px"><button id="amNo" type="button">キャンセル</button></div></div>';document.body.append(ov);
+    ov.querySelector('#amNo').onclick=()=>{ov.hidden=true;};ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
+  ov.querySelector('#amH').textContent=`「${n}」をどうする？`;
+  ov.querySelector('#amMus').onclick=()=>{ov.hidden=true;MUS_REQ=base==='stereo'?'stereo':'boombox';musTap();};
+  const etc=ov.querySelector('#amEtc'),ess=ESSENTIAL.has(k),mv=BFL===1?'一階に移動':'地下に移動';let note=ov.querySelector('#amNote');
+  if(!note){note=document.createElement('p');note.id='amNote';note.className='note';note.style.cssText='text-align:left;margin:8px 0 0;font-size:12px';etc.parentNode.after(note);}
+  note.hidden=!ess;note.textContent=ess?`${n}は暮らしに欠かせないので、しまう・リサイクルはできません（ほかの階へは運べます）`:'';
+  etc.textContent=ess?mv:mv+'・しまう・リサイクル';
+  etc.onclick=()=>{ov.hidden=true;if(ess){if(BFL===1)BF_moveUp(k);else BF_moveDown(k);return;}AUD_skip=true;try{recycleAsk(k,'in');}finally{AUD_skip=false;}};ov.hidden=false;}
+{const RA=recycleAsk;recycleAsk=function(k,sc){try{if(!AUD_skip&&sc==='in'&&S.layout[k]&&['stereo','boombox'].includes(MC_base(k))){AUD_menu(k);return;}}catch(e){}return RA.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -24426,7 +24464,7 @@ function recycleDo(k,sc){const n=(sc==='in'?FT:OFT)[k].n;
   say(pick([`${n}、リサイクルに出したよ。今までありがとう`,`${n}とはお別れ。次の誰かの役に立ってね`,`${n}をリサイクルへ。部屋がすっきりした！`]));}
 function dragEnd(cancel){const d=DRAG;DRAG=null;dragEndAt=performance.now();if(!d)return;
   const same=d.cur.x===d.orig.x&&d.cur.y===d.orig.y&&d.cur.side===d.orig.side;
-  if(!cancel&&same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;if(d.sc==='in'&&d.k==='boombox'){musTap();return;}recycleAsk(d.k,d.sc);return;}
+  if(!cancel&&same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;if(d.sc==='in'&&MC_base(d.k)==='boombox'){recycleAsk(d.k,'in');return;}recycleAsk(d.k,d.sc);return;}
   if(cancel||!d.ok||same){if(d.sc==='in')S.layout[d.k]=d.orig;else S.yard[d.k]=d.orig;if(!same&&!cancel)say(pick(['そこには置けないみたい','うーん、そこはむずかしいかも','通れなくなっちゃうから、そこはダメかな']));return;}
   if(d.sc==='in'){refreshOcc();sparkleAt(posCenter(d.k,d.cur));}else{refreshOut();sparkOut((d.cur.x+OFT[d.k].w/2)*T,d.cur.y*T+8);}
   S.userPlaced=S.userPlaced||{};S.userPlaced[d.k]=Date.now();todayLog('move',{n:(d.sc==='in'?FT:OFT)[d.k].n});
