@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 476（2026/10/30）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 478（2026/10/30）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 476（2026/10/30）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 478（2026/10/30）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24071,6 +24071,84 @@ function POC_cowlick(c,L,d){const P=hPal(L),top=HCY-HR-1;let base,dirs;
 {const HF=humanHairFront;humanHairFront=function(c,L,d,t){const r=HF.apply(this,arguments);try{if(!HOOD_NOW&&L&&L.g==='f'&&(L.hair%40)===32){POC_cowlick(c,L,d);
     // the tuft is on the wearer's left: hidden when looking to the right (seen from the right side)
     if(!(d==='right'&&CUR_DIR==='right')){POC_tuft(c,L,d,'tail');POC_tuft(c,L,d,'ball');}}}catch(e){}return r;};}
+function AU_lg(g,x0,y0,x1,y1,st){const q=g.createLinearGradient(x0,y0,x1,y1);st.forEach(([o,c])=>q.addColorStop(o,c));return q;}
+function AU_rg(g,x,y,r0,r1,st){const q=g.createRadialGradient(x,y,r0,x,y,r1);st.forEach(([o,c])=>q.addColorStop(o,c));return q;}
+function AU_rr(g,x,y,w,h,r){g.beginPath();g.roundRect?g.roundRect(x,y,w,h,r):g.rect(x,y,w,h);}
+function AU_box(g,x,y,w,h,r,fill){AU_rr(g,x,y,w,h,r);g.fillStyle=fill;g.fill();}
+function AU_line(g,x0,y0,x1,y1,col,w){g.strokeStyle=col;g.lineWidth=w;g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.stroke();}
+function AU_circ(g,x,y,r,fill){g.beginPath();g.arc(x,y,r,0,TAU);g.fillStyle=fill;g.fill();}
+function AU_wood(g,x,y,w,h,base,seed){AU_box(g,x,y,w,h,1,AU_lg(g,x,0,x+w,0,[[0,shade(base,-.12)],[.5,base],[1,shade(base,-.2)]]));g.save();AU_rr(g,x,y,w,h,1);g.clip();g.strokeStyle='rgba(60,30,10,.18)';g.lineWidth=.35;for(let i=0;i<w/1.6;i++){const xx=x+i*1.6+Math.sin(i*1.7+seed)*.6;g.beginPath();g.moveTo(xx,y);g.bezierCurveTo(xx+1.2,y+h*.3,xx-1.2,y+h*.7,xx+.4,y+h);g.stroke();}g.restore();}
+function AU_knob(g,x,y,r,metal){AU_circ(g,x+.3,y+.4,r,'rgba(0,0,0,.35)');AU_circ(g,x,y,r,AU_rg(g,x-r*.3,y-r*.4,r*.1,r*1.2,metal?[[0,'#ffffff'],[.4,'#c8ccd2'],[1,'#7a7e86']]:[[0,'#6a6a72'],[.5,'#2a2a30'],[1,'#0e0e12']]));g.strokeStyle=metal?'rgba(255,255,255,.5)':'rgba(255,255,255,.15)';g.lineWidth=.25;for(let a=0;a<TAU;a+=TAU/24){g.beginPath();g.moveTo(x+Math.cos(a)*r*.6,y+Math.sin(a)*r*.6);g.lineTo(x+Math.cos(a)*r*.92,y+Math.sin(a)*r*.92);g.stroke();}AU_line(g,x,y,x+r*.55,y-r*.55,metal?'#333':'#ddd',.4);}
+function AU_btns(g,x,y,n,w,col){for(let i=0;i<n;i++)AU_box(g,x+i*(w+.6),y,w,1.2,.3,col);}
+function AU_spkWood(g,x,y,w,h){AU_wood(g,x,y,w,h,'#8a5a32',x*.7);AU_box(g,x+.9,y+.9,w-1.8,h-1.8,1,AU_lg(g,x,0,x+w,0,[[0,'#7a4a26'],[.5,'#946238'],[1,'#6a3e1e']]));
+  g.save();AU_rr(g,x+.9,y+.9,w-1.8,h-1.8,1);g.clip();g.strokeStyle='rgba(60,30,10,.16)';g.lineWidth=.3;for(let i=0;i<w;i+=1.5){g.beginPath();g.moveTo(x+i,y);g.bezierCurveTo(x+i+1,y+h*.3,x+i-1,y+h*.7,x+i+.3,y+h);g.stroke();}g.restore();
+  const cx=x+w/2,drv=(cy,r,cone)=>{AU_circ(g,cx+.3,cy+.5,r*1.08,'rgba(30,15,5,.45)');AU_circ(g,cx,cy,r*1.08,AU_rg(g,cx-r*.3,cy-r*.4,.2,r*1.1,[[0,'#ffffff'],[.45,'#c8ccd2'],[1,'#7a7e86']]));
+    AU_circ(g,cx,cy,r*.9,'#1a1612');AU_circ(g,cx,cy,r*.84,AU_rg(g,cx-r*.2,cy-r*.25,.4,r*.85,[[0,cone[0]],[.75,cone[1]],[1,cone[2]]]));g.strokeStyle='rgba(255,255,255,.1)';g.lineWidth=.3;g.beginPath();g.arc(cx,cy,r*.62,0,TAU);g.stroke();
+    AU_circ(g,cx,cy,r*.28,AU_rg(g,cx-r*.08,cy-r*.1,.1,r*.3,[[0,'#e8eaee'],[1,'#8a9098']]));for(let a=0;a<4;a++){const an=a*TAU/4+.7;AU_circ(g,cx+Math.cos(an)*r*.98,cy+Math.sin(an)*r*.98,.3,'#3a3a3e');}};
+  drv(y+h*.16,w*.13,['#ffffff','#c8ccd2','#6a6e76']);
+  drv(y+h*.38,w*.23,['#5a5048','#2a241e','#14100c']);
+  drv(y+h*.7,w*.36,['#5a5048','#2a241e','#14100c']);
+  AU_box(g,x+w*.3,y+h-3.6,w*.4,1.3,.3,AU_lg(g,0,y+h-3.6,0,y+h-2.3,[[0,'#f0f2f4'],[1,'#9aa0a8']]));
+  // bass port
+  g.fillStyle='#0e0a06';g.beginPath();g.ellipse(cx,y+h-6.6,w*.18,.9,0,0,TAU);g.fill();}
+function AU_silverUnit(g,x,y,w,h){AU_box(g,x,y,w,h,.4,AU_lg(g,0,y,0,y+h,[[0,'#f4f6f8'],[.15,'#d4d8dc'],[.85,'#b8bec6'],[1,'#8a9098']]));g.save();AU_rr(g,x,y,w,h,.4);g.clip();g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=.12;for(let xx=x;xx<x+w;xx+=.5){g.beginPath();g.moveTo(xx,y);g.lineTo(xx,y+h);g.stroke();}g.restore();AU_line(g,x+.3,y+.25,x+w-.3,y+.25,'rgba(255,255,255,.7)',.25);
+  // rack-mount side screws
+  for(const sx of[x+.9,x+w-.9])for(const sy of[y+1.2,y+h-1.2])AU_circ(g,sx,sy,.3,'#7a7e86');}
+function AU_rackB2(g,x,y,w,h){AU_wood(g,x,y,w,h,'#7a4a26',3);AU_box(g,x+1.4,y+17,w-2.8,h-20,.6,'#24160c');
+  // turntable, seen from the front: AU_wood plinth, silver strip, platter + record on top, tonearm, smoked dust cover
+  const py=y+5.6;g.fillStyle='rgba(40,40,46,.28)';AU_rr(g,x+.8,y+.4,w-1.6,py-y+2,1);g.fill();g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=.3;AU_rr(g,x+.8,y+.4,w-1.6,py-y+2,1);g.stroke();
+  AU_box(g,x+w*.14,py-.4,w*.56,1.2,.3,AU_lg(g,0,py-.4,0,py+.8,[[0,'#c8ccd2'],[1,'#7a7e86']]));AU_box(g,x+w*.16,py-1.1,w*.52,.8,.3,'#141416');
+  g.strokeStyle='#e8eaee';g.lineWidth=.45;g.beginPath();g.moveTo(x+w-3.6,py+1.4);g.lineTo(x+w-3.6,py-2.6);g.lineTo(x+w*.6,py-1.4);g.stroke();AU_circ(g,x+w-3.6,py-2.6,.8,'#b8bec6');AU_box(g,x+w*.58,py-1.8,1.6,.8,.2,'#2a2a2e');
+  AU_wood(g,x+.6,py+1.2,w-1.2,8,'#9a6a3a',7);AU_box(g,x+.6,py+8.6,w-1.2,1.6,.4,AU_lg(g,0,py+8.6,0,py+10.2,[[0,'#e8eaee'],[1,'#8a9098']]));
+  AU_box(g,x+3,py+3.4,8,2,.4,AU_lg(g,0,py+3.4,0,py+5.4,[[0,'#e8eaee'],[1,'#9aa0a8']]));g.fillStyle='#2a2a2e';g.font='bold 1.3px sans-serif';
+  for(let i=0;i<2;i++){AU_circ(g,x+w-9+i*3.2,py+4.4,1,AU_rg(g,x+w-9.3+i*3.2,py+4,.1,1.1,[[0,'#ffffff'],[1,'#8a9098']]));}AU_circ(g,x+13.6,py+4.4,.45,'#ff4a3a');
+  let yy=y+18.2;const unit=(hh,f)=>{AU_silverUnit(g,x+1.8,yy,w-3.6,hh);f(x+1.8,yy,w-3.6,hh);yy+=hh+.7;};
+  unit(6,(ux,uy,uw)=>{// tuner: dial scale with ticks, needle and signal meter (no lettering)
+    AU_box(g,ux+2,uy+1.2,uw*.62,3.4,.3,'#0a1820');g.strokeStyle='rgba(140,210,255,.8)';g.lineWidth=.15;for(let i=0;i<=24;i++){const tx=ux+2.6+i*(uw*.62-1.2)/24;g.beginPath();g.moveTo(tx,uy+1.6);g.lineTo(tx,uy+(i%4?2.2:2.7));g.stroke();g.beginPath();g.moveTo(tx,uy+4.2);g.lineTo(tx,uy+(i%4?3.6:3.1));g.stroke();}
+    AU_line(g,ux+2+uw*.37,uy+1.4,ux+2+uw*.37,uy+4.4,'#ff4a3a',.3);AU_knob(g,ux+uw-3.4,uy+3,2.1,true);for(let i=0;i<5;i++)AU_box(g,ux+uw*.7+i*.8,uy+4.2-i*.5,.5,.6+i*.5,.1,i<3?'#4cd88a':'#2a3a30');});
+  unit(9,(ux,uy,uw)=>{// amplifier with two blue VU meters
+    for(const s of[0,1]){const mx=ux+2+s*7.4;AU_box(g,mx,uy+1.2,6.6,4.4,.4,'#1a2a4a');AU_box(g,mx+.4,uy+1.6,5.8,3.6,.3,AU_rg(g,mx+3.3,uy+4.4,.5,5,[[0,'#bfe4ff'],[1,'#4a8ad8']]));g.strokeStyle='#1a1a24';g.lineWidth=.2;g.beginPath();g.arc(mx+3.3,uy+5.4,3,Math.PI*1.2,Math.PI*1.8);g.stroke();{const an=-1.1-s*.3+AU_VU(s);AU_line(g,mx+3.3,uy+5.2,mx+3.3+Math.cos(an)*2.8,uy+5.2+Math.sin(an)*2.8,'#c8302a',.25);};}
+    AU_knob(g,ux+uw-4.2,uy+4.4,3,true);AU_knob(g,ux+4,uy+7.4,.9,true);AU_knob(g,ux+7,uy+7.4,.9,true);AU_knob(g,ux+10,uy+7.4,.9,true);AU_knob(g,ux+19,uy+6.8,1.1,true);});
+  unit(7,(ux,uy,uw)=>{// double cassette deck
+    for(const s of[0,1]){const cx=ux+1.6+s*(uw/2-.4);AU_box(g,cx,uy+.9,uw/2-2.4,4.2,.4,'#2a2a2e');AU_box(g,cx+.8,uy+1.6,uw/2-4,2.2,.3,'rgba(180,200,220,.35)');AU_circ(g,cx+uw*.11,uy+2.7,.7,'#eee');AU_circ(g,cx+uw*.29,uy+2.7,.7,'#eee');AU_btns(g,cx+.2,uy+5.5,5,1.3,'#e8eaee');}});
+  unit(5,(ux,uy,uw)=>{// CD player
+    AU_box(g,ux+2,uy+1.6,uw*.5,1.2,.3,'#2a2a2e');AU_box(g,ux+uw*.6,uy+1.1,uw*.18,2.4,.3,'#0a1820');for(let i=0;i<4;i++)AU_box(g,ux+uw*.62+i*1.1,uy+1.7,.7,1.2,.1,'#7ad8ff');AU_btns(g,ux+uw*.82,uy+1.8,3,1.2,'#e8eaee');});
+  // record storage below: LP sleeves standing in a row
+  const ly=yy+1.2,lh=y+h-3-ly;if(lh>4){const cols=['#c8402a','#2a5a9a','#e8c040','#1a1a1e','#f2f0e8','#6a3a8a','#2a8a5a','#e87a2a','#3a3a40','#c8c8cc','#8a2a3a','#4a7ac8','#d8b080','#1a3a6a','#e8e0d0','#a83a6a'];
+    const n=Math.floor((w-4.4)/1.62);for(let i=0;i<n;i++){const sx=x+2.2+i*1.62,cl=cols[(i*7)%cols.length];AU_box(g,sx,ly+lh*.08+(i%3)*.15,1.45,lh*.92-(i%3)*.15,.15,AU_lg(g,sx,0,sx+1.45,0,[[0,shade(cl,.15)],[1,shade(cl,-.25)]]));}
+    AU_fillE2(g,x+w/2,ly+lh,w*.4,.4);}
+  AU_box(g,x+1,y+h-2.6,w-2,1.6,.4,'#3a2010');}
+function AU_fillE2(g,x,y,rx,ry){g.fillStyle='rgba(0,0,0,.25)';g.beginPath();g.ellipse(x,y,rx,ry,0,0,TAU);g.fill();}
+/* ---- v477: stereo (大型オーディオ): 3 tiles wide, any room; long-press opens its own BGM settings, separate from the boombox ---- */
+function AU_VU(s){try{if(S&&S.musDev==='stereo'&&MUS.playing){const t=performance.now()/1000;return-(MUS.lvl||.5)*.9+Math.sin(t*9+s*2)*.18+.45;}}catch(e){}return 0;}
+FT.stereo=F('ステレオ',3,1,'free',['liv','bed'],{draw:function(X,Y,Wd,Dp,L,t){g.save();const s=.755;g.translate(X+.5,Y+Dp-73*s);g.scale(s,s);
+  g.fillStyle='rgba(40,25,10,.22)';g.beginPath();g.ellipse(47,72.5,48,2.6,0,0,TAU);g.fill();AU_spkWood(g,0,16,25,56);AU_rackB2(g,27,0,40,72);AU_spkWood(g,69,16,25,56);
+  if(S&&S.musDev==='stereo'&&MUS.playing){const p=(Math.sin(t*5)+1)/2;g.fillStyle=`rgba(255,120,60,${.4+p*.4})`;g.beginPath();g.arc(27+14.3,5.6+4.4,.5,0,TAU);g.fill();
+    for(const sx of[12.5,81.5]){const k=1+Math.abs(Math.sin(t*8))*.03;g.save();g.translate(sx,16+56*.7);g.scale(k,k);g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=.4;g.beginPath();g.arc(0,0,9.6,0,TAU);g.stroke();g.restore();}}
+  g.restore();}});
+try{ALLK.push('stereo');}catch(e){}
+// --- two music sources: the boombox and the stereo each keep their own playlist ---
+function MUS_dev(){return(S&&S.musDev)||'boombox';}
+function MUS_switch(dev){if(!S||MUS_dev()===dev)return;S.musicBy=S.musicBy||{};const cur=MUS_dev();try{musPause();}catch(e){}
+  S.musicBy[cur]=S.music||null;S.music=S.musicBy[dev]||null;S.musDev=dev;
+  try{if(MUS.audio){MUS.audio.pause();MUS.audio.removeAttribute('src');MUS.audio.load();}}catch(e){}MUS.playing=false;MUS.title='';MUS.pend=false;
+  try{if(S.music&&S.music.on)musLoad(S.music.idx||0,S.music.pos||0);}catch(e){}save();}
+let MUS_REQ=null;
+{const MT=musTap;musTap=function(){const dev=MUS_REQ||'boombox';MUS_REQ=null;MUS_switch(dev);return MT.apply(this,arguments);};}
+{const RA=recycleAsk;recycleAsk=function(k,sc){if(sc==='in'&&MC_base(k)==='stereo'&&S.layout[k]){MUS_REQ='stereo';musTap();return;}return RA.apply(this,arguments);};}
+{const RB=renderBGM;renderBGM=function(){const r=RB.apply(this,arguments);try{const el=$('bgmBody');if(!el||!S)return r;const dev=MUS_dev(),both=has('stereo')&&has('boombox');
+  const h=document.createElement('div');h.className='bgmdev';h.innerHTML=`<p class="note" style="text-align:left;margin:0 0 6px">🎵 <b>${dev==='stereo'?'ステレオ':'ラジカセ'}</b>で流す曲の設定です${both?'（ラジカセとステレオは、それぞれ別の曲をセットできます。鳴るのは選んでいるほう）':''}</p>${both?`<div class="seg" style="margin:0 0 10px"><button type="button" data-dev="boombox" aria-pressed="${dev==='boombox'}">📻 ラジカセ</button><button type="button" data-dev="stereo" aria-pressed="${dev==='stereo'}">🔊 ステレオ</button></div>`:''}`;
+  el.prepend(h);h.querySelectorAll('[data-dev]').forEach(b=>b.onclick=()=>{MUS_switch(b.dataset.dev);setTimeout(renderBGM,200);});}catch(e){}return r;};}
+// the "♪ title" tag floats over whichever device is playing
+{const DM=drawMusicTag;drawMusicTag=function(){if(MUS_dev()!=='stereo')return DM.apply(this,arguments);const k=S.owned.find(q=>MC_base(q)==='stereo'&&S.layout[q]&&!S.layout[q].carry);if(!k)return;const L=S.layout[k];
+  const own=S.owned.includes('boombox'),sv=S.layout.boombox;if(!own)S.owned.push('boombox');S.layout.boombox={x:L.x+.5,y:L.y-1.1,v:0};try{return DM.apply(this,arguments);}finally{S.layout.boombox=sv;if(!own)S.owned=S.owned.filter(q=>q!=='boombox');}};}
+// listening to music goes to the stereo when that is the one playing
+{const AM=A.music;A.music=function(){if(MUS_dev()==='stereo'&&has('stereo')){let tk=0;return[...goF('stereo'),W8(1),SAY(MUS.playing?pick(['ステレオでじっくり聴こう♪','いい音…低音がしびれる','レコードの時代の音って、あったかい']):pick(['ステレオ、今日は静かだな','たまにはレコードでもかけようかな'])),W8(14,dt=>{need('fun',2.8)(dt);tk+=dt;if(tk>1.8){tk=0;try{emit('stereo','note',1,14);}catch(e){}}})];}return AM.apply(this,arguments);};}
+{const CL=comfortLine;comfortLine=function(k){if(MC_base(k)==='stereo')return pick(['大きなステレオで音楽を聴きたいな','レコードもカセットも聴けるステレオがほしい','昔ながらのコンポ、かっこいいよね。頼んでみよう']);return CL.apply(this,arguments);};}
+/* ---- v478: the boombox and the stereo on different floors each play their own music: you hear the one on the floor you are on ---- */
+function MUS_floorDev(){const hb=has('boombox'),hs=S.owned.some(q=>MC_base(q)==='stereo'&&S.layout[q]&&!S.layout[q].carry);return hb&&!hs?'boombox':hs&&!hb?'stereo':null;}
+setInterval(()=>{try{if(!S)return;const d=MUS_floorDev();if(d&&MUS_dev()!==d){MUS_switch(d);try{if(!$('sheet').hidden)renderBGM();}catch(e){}}}catch(e){}},700);
+{const RB=renderBGM;renderBGM=function(){const r=RB.apply(this,arguments);try{const h=document.querySelector('#bgmBody .bgmdev p');if(h&&MUS_floorDev()){const other=MUS_dev()==='stereo'?'ラジカセ':'ステレオ';h.innerHTML=`🎵 <b>${MUS_dev()==='stereo'?'ステレオ':'ラジカセ'}</b>で流す曲の設定です（${other}は別の階にあるので、${other}の階に行くと${other}の曲が聞こえます。それぞれの曲は、その階でこのタブを開くと設定できます）`;}}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
