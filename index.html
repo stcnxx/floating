@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 511（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 513（2026/10/31）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 511（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 513（2026/10/31）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24596,6 +24596,52 @@ let WS_lastPlace=null;setInterval(()=>{try{if(!S)return;const p=(ENV.parts||[]).
 {const WF=warnFetch;warnFetch=async function(){if(WS_scope()==='city'){let city=null;try{city=await WS_city();}catch(e){}
     if(!city){WS_STATE='今いる市区町村を調べています（分かるまで気象情報は表示しません）';try{if(S&&S.wsKey!=='unknown'){S.wsKey='unknown';S.warnSet=[];}}catch(e){}return{pref:'',codes:[],headline:'',time:null};}}
   return WF.apply(this,arguments);};}
+/* ---- v512: less walking about: a shorter stroll with longer stops, a shorter vacuuming round, ぶらぶら often becomes a rest on the sofa (or another comfy seat), and a little more standing still between things ---- */
+{const W=A.walk;A.walk=function(){const st=W.apply(this,arguments);if(!st)return st;let n=0;const out=[];
+  for(let i=0;i<st.length;i++){const s=st[i];if(s&&s.t==='go'&&s.sc==='out'&&st[i+1]&&st[i+1].t==='wait'){n++;if(n>2&&n<=4){i++;continue;}}out.push(s);}
+  for(const s of out)if(s&&s.t==='wait')s.s=s.s*1.8;return out;};}
+{const CL=A.clean;A.clean=function(){const st=CL.apply(this,arguments);if(!st)return st;let n=0;const out=[];
+  for(let i=0;i<st.length;i++){const s=st[i];if(s&&s.t==='go'&&s.sc==='in'&&s.dyn&&st[i+1]&&st[i+1].t==='wait'&&st[i+1].s<1){n++;if(n>3){i++;continue;}}out.push(s);}return out;};}
+const REST_SEATS=['sofa','sofaL','armchair','beanbag','rocking','kotatsu'];
+function REST_steps(){const ks=REST_SEATS.filter(k=>has(k)&&FT[k]&&snapOf(k)&&S.layout[k]&&!S.layout[k].carry&&!(typeof M!=='undefined'&&M&&M.seatK===k&&k!=='sofa'));if(!ks.length)return null;
+  const k=ks.includes('sofa')&&Math.random()<.6?'sofa':pick(ks),nm=k==='sofa'||k==='sofaL'?'ソファ':FT[k].n;
+  const lines=[`${nm}でちょっとひと休み`,`${nm}でごろごろしよう`,'ふう、ちょっとくつろごう','座ってぼーっとする時間も大事','スマホでも見ようかな'];
+  return[...goF(k),snapF(k),SAY(pick(lines)),W8(rnd(25,45),need('energy',.4)),SAY(()=>pick(['のんびりできた','ふあ〜、落ちつく','いい休憩になった','さて、そろそろ動こうかな'])),W8(rnd(8,16),need('fun',1))];}
+A.wander=function(){if(C.scene==='in'&&Math.random()<.65){const r=REST_steps();if(r)return r;}return[{t:'go',sc:'in',dyn:()=>randomTile('in')},W8(rnd(4,8))];};
+{const CA=chooseActivity;chooseActivity=function(){const r=CA.apply(this,arguments);try{if(C.idleT<2.5)C.idleT=rnd(2.5,5);}catch(e){}return r;};}
+/* ---- v513: lying on the rug (awake, on the back, one arm under the head), and even less walking ---- */
+function RUG_key(){try{return S.owned.find(k=>RUG_is(k)&&S.layout[k]&&!S.layout[k].carry&&roomAt(S.layout[k].x,S.layout[k].y)!=='kit');}catch(e){return null;}}
+function RUG_box(k){const L=S.layout[k],f=FT[k];const w=L.rw||f.w,h=L.rh||f.h;return{x:L.x,y:L.y,w,h};}
+// the figure lying on its back along the rug: head on the left, feet to the right
+function RUGLIE_draw(c,sp0,of,o){const sp=(o&&o.sp)||sp0;const cs=of&&of.costume&&COS[of.costume];const top=cs?cs.suit:COL((of&&of.top&&of.top.c)||'水色'),bot=cs?(cs.legs||cs.suit):COL((of&&of.bottom&&of.bottom.c)||'紺'),skin=(SPEC[sp]||SPEC.cloud).fur||'#f3c8a4',sock=cs?(cs.feet||'#f4efe8'):COL((of&&of.shoes&&of.shoes.c)||'白');
+  const t=performance.now()/1000,br=Math.sin(t*1.1)*.35;
+  fillE(c,'rgba(0,0,0,.12)',24,1.2,24,3);
+  // legs: one straight, one with the knee up
+  fillR(c,shade(bot,-.08),27,-6.2,15,3.6,1.6);fillE(c,sock,43.4,-4.6,2.3,2);
+  c.fillStyle=bot;c.beginPath();c.moveTo(27,-8.6);c.lineTo(33,-14.5);c.lineTo(36,-13.2);c.lineTo(31.5,-7.6);c.closePath();c.fill();c.beginPath();c.moveTo(33,-14.5);c.lineTo(38.5,-8.2);c.lineTo(36,-7.2);c.lineTo(32,-12);c.closePath();c.fill();fillE(c,sock,39.6,-7.3,2.2,1.8);
+  // the body
+  fillR(c,shade(top,-.12),11,-10.5-br,17.5,9.5+br,3.6);fillR(c,top,11,-11.2-br,17.5,8.6+br,3.6);fillR(c,'rgba(255,255,255,.16)',13,-10.6-br,13,1.6,.8);
+  // the arm along the body and the arm behind the head
+  fillR(c,shade(top,-.18),15,-4.4,10,2.6,1.3);fillE(c,skin,25.6,-3.1,1.4,1.3);
+  c.fillStyle=shade(top,-.1);c.beginPath();c.moveTo(12,-10.5);c.lineTo(6,-16.5);c.lineTo(8.4,-17.6);c.lineTo(14,-11.8);c.closePath();c.fill();fillE(c,skin,6.2,-15.4,1.4,1.4);
+  // the head, face up, resting on the hand
+  c.save();c.translate(3.2,4.6);c.rotate(-.28);c.scale(.78,.78);(HEADS[sp]||HEADS.cloud)(c,{sleep:false,level:o&&o.level,look:o&&o.look});c.restore();}
+{const LY=lying;lying=function(c,sp,of,o){if(o&&o.rugLie)return RUGLIE_draw(c,sp,of,o);return LY.apply(this,arguments);};}
+{const CO=charOpts;charOpts=function(){const o=CO.apply(this,arguments);try{if(C.pose==='lie'&&C.snapK&&RUG_is(C.snapK)){o.rugLie=1;o.pose='lie';o.floor=1;}}catch(e){}return o;};}
+function RUGLIE_steps(){const k=RUG_key();if(!k)return null;const b=RUG_box(k),tx=Math.floor(b.x+b.w/2),ty=Math.floor(b.y+b.h/2);if(!walkIn(tx,ty))return null;
+  const px=(b.x+b.w/2)*T-24,py=(b.y+b.h/2)*T+8;
+  return[{t:'go',sc:'in',x:tx,y:ty},{t:'snap',k,dyn:()=>({px,py,pose:'lie',d:'down'})},SAY(pick(['ラグの上でごろーん','ふかふかのラグ、気持ちいい','ちょっと寝転がっちゃおう','天井を見ながらぼーっとする時間'])),W8(rnd(40,70),need('energy',.5)),SAY(()=>pick(['ふう、いい気分','寝ちゃいそうだった','よし、起きよう'])),W8(rnd(4,8))];}
+// rest: lie on the rug sometimes, sit on the sofa (or another seat) otherwise; ぶらぶら becomes a rest more often; the stroll visits one spot; a bit more standing still
+A.wander=function(){if(C.scene==='in'&&Math.random()<.85){const rug=RUG_key()&&Math.random()<.45?RUGLIE_steps():null;if(rug)return rug;const r=REST_steps();if(r)return r;const r2=RUGLIE_steps();if(r2)return r2;}return[{t:'go',sc:'in',dyn:()=>randomTile('in')},W8(rnd(5,9))];};
+{const W=A.walk;A.walk=function(){const st=W.apply(this,arguments);if(!st)return st;let n=0;const out=[];
+  for(let i=0;i<st.length;i++){const s=st[i];if(s&&s.t==='go'&&s.sc==='out'&&st[i+1]&&st[i+1].t==='wait'){n++;if(n>1){i++;continue;}}out.push(s);}return out;};}
+{const CA=chooseActivity;chooseActivity=function(){const r=CA.apply(this,arguments);try{if(C.idleT<4)C.idleT=rnd(4,7);}catch(e){}return r;};}
+// whatever they do, they do it a little longer once they are there (so less of the day is spent walking between things); the vacuuming round visits two spots
+{const CA=chooseActivity;chooseActivity=function(){const r=CA.apply(this,arguments);try{if(!['sleep','nap','bath','toilet','visit','setup','yardsetup','elevator'].includes(C.act))for(const s of C.steps||[])if(s&&s.t==='wait'&&typeof s.s==='number'&&s.s>=.8)s.s*=1.4;}catch(e){}return r;};}
+{const CL=A.clean;A.clean=function(){const st=CL.apply(this,arguments);if(!st)return st;let n=0;const out=[];
+  for(let i=0;i<st.length;i++){const s=st[i];if(s&&s.t==='go'&&s.sc==='in'&&s.dyn&&st[i+1]&&st[i+1].t==='wait'&&st[i+1].s<1){n++;if(n>2){i++;continue;}}out.push(s);}return out;};}
+// some of the strolls become a rest indoors instead
+{const CA=chooseActivity;chooseActivity=function(){const r=CA.apply(this,arguments);try{if(C.act==='walk'&&C.scene==='in'&&Math.random()<.4){const st=(RUG_key()&&Math.random()<.4?RUGLIE_steps():null)||REST_steps();if(st){C.act='wander';C.steps=st;}}}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
