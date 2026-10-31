@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 513（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 516（2026/10/31）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 513（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 516（2026/10/31）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24642,6 +24642,28 @@ A.wander=function(){if(C.scene==='in'&&Math.random()<.85){const rug=RUG_key()&&M
   for(let i=0;i<st.length;i++){const s=st[i];if(s&&s.t==='go'&&s.sc==='in'&&s.dyn&&st[i+1]&&st[i+1].t==='wait'&&st[i+1].s<1){n++;if(n>2){i++;continue;}}out.push(s);}return out;};}
 // some of the strolls become a rest indoors instead
 {const CA=chooseActivity;chooseActivity=function(){const r=CA.apply(this,arguments);try{if(C.act==='walk'&&C.scene==='in'&&Math.random()<.4){const st=(RUG_key()&&Math.random()<.4?RUGLIE_steps():null)||REST_steps();if(st){C.act='wander';C.steps=st;}}}catch(e){}return r;};}
+/* ---- v514: lying on the rug = the front picture laid down sideways (案A, on the back): head–body–legs or legs–body–head, chosen at random each time ---- */
+let RUG_NOSH=false;
+{const FE=fillE;fillE=function(c,col){if(RUG_NOSH&&col==='rgba(0,0,0,.22)')return;return FE.apply(this,arguments);};}
+RUGLIE_draw=function(c,spec,of,o){const rot=(o&&o.rugRot)||1;
+  // a flat shadow under the whole body
+  c.fillStyle='rgba(0,0,0,.16)';c.beginPath();c.ellipse(0,-2,19,5.2,0,0,TAU);c.fill();
+  c.save();c.translate(0,-4);c.rotate(rot*Math.PI/2);c.translate(0,15.5);RUG_NOSH=true;
+  try{drawChar(c,0,0,{...o,pose:'stand',dir:'down',moving:false,rugLie:0,floor:0,scale:1,seed:'rug'});}finally{RUG_NOSH=false;}c.restore();};
+RUGLIE_steps=function(){const k=RUG_key();if(!k)return null;const b=RUG_box(k),tx=Math.floor(b.x+b.w/2),ty=Math.floor(b.y+b.h/2);if(!walkIn(tx,ty))return null;
+  const px=(b.x+b.w/2)*T,py=(b.y+b.h/2)*T+6,rot=Math.random()<.5?-1:1;
+  return[{t:'go',sc:'in',x:tx,y:ty},{t:'snap',k,dyn:()=>({px,py,pose:'lie',d:'down',rugRot:rot})},FN(()=>{if(C.snap)C.snap.rugRot=rot;}),SAY(pick(['ラグの上でごろーん','ふかふかのラグ、気持ちいい','ちょっと寝転がっちゃおう','天井を見ながらぼーっとする時間','横になるとすごい楽！'])),W8(rnd(40,70),need('energy',.5)),SAY(()=>pick(['ふう、いい気分','寝ちゃいそうだった','よし、起きよう','横になるとすごい楽！'])),W8(rnd(4,8))];};
+{const CO=charOpts;charOpts=function(){const o=CO.apply(this,arguments);try{if(o.rugLie)o.rugRot=(C.snap&&C.snap.rugRot)||1;}catch(e){}return o;};}
+/* ---- v516: 30 things to say when lying down on the rug (not the same one twice in a row) ---- */
+const RUGLIE_LINES=['ラグの上でごろーん','ふかふかのラグ、気持ちいい','ちょっと寝転がっちゃおう','天井を見ながらぼーっとする時間','横になるとすごい楽！',
+  'あ〜、背中がのびる〜','このまま溶けちゃいそう','大の字になりたい気分','床のひんやり感とラグのふわふわ、ちょうどいい','ごろごろするのって最高',
+  '何も考えない時間、大事','天井の木目、意外とおもしろい','ちょっとだけ…ほんとにちょっとだけ休憩','ラグ、いい手ざわり','腰が喜んでる気がする',
+  '寝転ぶと、部屋がいつもとちがって見える','このラグ、選んでよかった','ふう…体がふっと軽くなる','今日もよくがんばった、えらい','誰も見てないし、だらーんとしちゃお',
+  'ここ、島でいちばん落ちつく場所かも','雲の上でごろごろ…ぜいたくだなあ','目を閉じたら、風の音が聞こえる','ちょっと横になるだけで元気が戻る','このまま本でも読もうかな…いや、やめとこ',
+  'ラグの模様、数えてたら眠くなりそう','肩の力が抜けていく〜','ごろんってするの、子どもの頃から好き','あったかいラグって、しあわせの味がする','五分だけ、五分だけ…'];
+let RUGLIE_LAST=null;
+function RUGLIE_say(){let l=pick(RUGLIE_LINES);for(let i=0;i<5&&l===RUGLIE_LAST;i++)l=pick(RUGLIE_LINES);RUGLIE_LAST=l;return l;}
+{const RS=RUGLIE_steps;RUGLIE_steps=function(){const st=RS.apply(this,arguments);if(!st)return st;try{const i=st.findIndex(s=>s&&s.t==='say');if(i>=0)st[i]=SAY(()=>RUGLIE_say());}catch(e){}return st;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
