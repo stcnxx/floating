@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 507（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 511（2026/10/31）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 507（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 511（2026/10/31）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24548,6 +24548,54 @@ setInterval(()=>{try{if(!S)return;FUN_guard(C,'h');if(typeof M!=='undefined'&&M)
 {const DW=DEX_wear;DEX_wear=function(key){try{const p=String(key).split(':')[0];if(['mask','nose','sun','gl'].includes(p)&&COS_hides('h')&&!C.sleeping){say(pick(['いまは衣装を着てるから、小物はつけられないよ','衣装の上からだと見えないから、あとでつけるね']));return;}}catch(e){}return DW.apply(this,arguments);};}
 // the 「着ている服」 list: nothing hidden under the costume
 {const WR=WEAR_rows;WEAR_rows=function(who){const r=WR.apply(this,arguments);try{if(COS_hides(who==='hero'?'h':'m'))return r.filter(x=>!['お面','小物','サングラス','メガネ'].includes(x[0]));}catch(e){}return r;};}
+/* ---- v508: small indoor things (小物 on shelves and tables) are wished for about as often as there are of them: they had been crowded out by later special picks ---- */
+{const NC=nextComfort;nextComfort=function(){const r=NC.apply(this,arguments);try{if(!S||(r&&ESS.includes(r)))return r;if(typeof freeSlots==='function'&&freeSlots()<=0)return r;
+  const pend=x=>has(x)||isStored(x)||(S.wish||[]).includes(x)||(S.delivery&&S.delivery.k===x)||(S.noRoom||[]).includes(x);
+  const tops=ALLK.filter(k=>FT[k]&&FT[k].k==='top'&&!KITCHENWARE.has(k)&&!pend(k)&&!(k==='lbot2'&&!has('lbot1')));if(!tops.length)return r;
+  if(r&&FT[r]&&FT[r].k==='top')return r;if(Math.random()<.22)return pick(tops);}catch(e){}return r;};}
+/* ---- v509: one timetable for everything the hero wants: indoor things and garden pieces share one slot, chosen in proportion to how many kinds are still missing; the next wish comes 6 hours (real time, saved; time away counts) after the last one, never more than one at a time ---- */
+const WU_GAP=6*3600e3;
+// the old separate clocks are stopped (indoor: on-screen time, garden: every 40–80 min)
+setInterval(()=>{try{comfortT=1e9;}catch(e){}},1000);
+{const YT=yardTick;yardTick=function(dt){try{if(S&&!S.yardDel)S.yardNextAt=Date.now()+1e10;}catch(e){}return YT.apply(this,arguments);};}
+function WU_inRest(){return BF_asStored(()=>ALLK.filter(k=>FT[k]&&!(k==='lbot2'&&!has('lbot1'))&&!has(k)&&!isStored(k)&&!(S.noRoom||[]).includes(k)&&!(S.delivery&&S.delivery.k===k)));}
+function WU_yRest(){return OBUY.filter(k=>OFT[k]&&!S.yard[k]&&!(S.ystored||[]).some(e=>e.k===k)&&!(S.yardDel&&S.yardDel.k===k));}
+function WU_choose(){const inR=WU_inRest(),yR=WU_yRest(),ess=inR.some(k=>ESS.includes(k)),tot=inR.length+yR.length;if(!tot)return null;
+  if(!ess&&yR.length&&Math.random()<yR.length/tot)return{yard:(typeof YARD_PRI!=='undefined'&&YARD_PRI.find(x=>yR.includes(x)))||pick(yR)};
+  const nx=nextComfort();return nx?{in:nx}:(yR.length?{yard:pick(yR)}:null);}
+function WU_tick(){try{if(!S||C.sleeping)return;S.yard=S.yard||{};const n=Date.now();
+  if(S.wishAt==null){S.wishAt=n-(S.born||n)<3600e3?n-WU_GAP+10*60e3:n;save();}
+  // a garden piece already chosen comes by drone in the daytime
+  if(S.yardWant){const k=S.yardWant;if(S.yard[k]||!OFT[k]){S.yardWant=null;return;}
+    if(!S.yardDel&&sunOpen(null,.15)&&n-(S.delivAt||0)>5*60e3){const f=OFT[k],p=placeOut(f.w,f.h);
+      if(!p){S.yardWant=null;if(!S.yardFullAt||n-S.yardFullAt>6*3600e3){S.yardFullAt=n;queueSay(pick(['庭に新しいものを置く場所がないや…','庭がいっぱいで、新しい置物が置けないなあ']));}save();return;}
+      S.yardDel={k,p,stage:'air',drop:dropSpot(2)};S.delivAt=n;S.yardWant=null;refreshOut();sendDrone('yard');save();}
+    return;}
+  if((S.wish&&S.wish.length)||S.yardDel||S.delivery)return;
+  const ess=WU_inRest().some(k=>ESS.includes(k));if(!ess&&n-S.wishAt<WU_GAP)return;
+  const ch=WU_choose();S.wishAt=n;if(!ch){save();return;}
+  if(ch.yard){S.yardWant=ch.yard;queueSay(pick([`庭に${OFT[ch.yard].n}があったらいいな`,`${OFT[ch.yard].n}、庭に置いてみたいな`,`次は庭に${OFT[ch.yard].n}がほしいな`]));}
+  else{want(ch.in);queueSay(comfortLine(ch.in));}save();}catch(e){}}
+setInterval(WU_tick,15000);
+/* ---- v510: 「今いるところ」 warnings: fetched again as soon as the place is known / changes; until the city is known the prefecture's main area (e.g. 東京地方, not the islands) is used; the settings say which area is shown ---- */
+let WS_STATE='';
+{const WF=warnFetch;warnFetch=async function(){const r=await WF.apply(this,arguments);try{if(WS_scope()!=='city'||r.city){WS_STATE=r.city?`${r.city}の発表を表示しています`:`${prefKey()}全体の発表を表示しています`;return r;}
+    // the city is not known (yet): use the first, main area of the prefecture instead of everything (islands etc.)
+    const A=await JMA_area(),office=JMA_OFFICE[prefKey()],o=A&&A.offices&&A.offices[office],c10=o&&o.children&&o.children[0];const nm=c10&&A.class10s&&A.class10s[c10]&&A.class10s[c10].name;if(!c10||!nm)return r;
+    const j=await bosaiJSON(`https://www.jma.go.jp/bosai/warning/data/warning/${office}.json`);const act=new Set();
+    for(const at of(j&&j.areaTypes)||[])for(const a of(at&&at.areas)||[]){if(a.code!==c10)continue;for(const w of(a.warnings||[]))if(w&&w.code&&w.status&&!/解除|なし/.test(w.status)&&WARN_NAME[w.code])act.add(w.code);}
+    const hl=(j&&j.headlineText)||'';WS_STATE=`今いる市区町村がまだ分からないので、${nm}の発表を表示しています`;
+    try{const k='c10:'+c10;if(S&&S.wsKey!==k){S.wsKey=k;S.warnSet=[];}}catch(e){}
+    return{pref:nm,codes:[...act].sort(),headline:act.size&&hl.includes(nm)?hl:'',time:j&&j.reportDatetime};}catch(e){return r;}};}
+// the place became known or changed: look again right away
+let WS_lastPlace=null;setInterval(()=>{try{if(!S)return;const p=(ENV.parts||[]).join('|');if(p===WS_lastPlace)return;const first=WS_lastPlace===null;WS_lastPlace=p;if(first)return;if(S.wsCity&&S.wsCity.key&&!S.wsCity.key.endsWith(p.split('|').slice(1).join('|')))S.wsCity=null;if(BOSAI.warn)warnPoll();}catch(e){}},3000);
+// settings: say which area is being shown
+{const WL=WS_label;WS_label=function(){WL.apply(this,arguments);try{const s=$('wsScope');if(!s)return;let h=$('wsHint');if(!h){h=document.createElement('p');h.id='wsHint';h.className='hint';h.style.cssText='margin:4px 0 0;font-size:11px';s.after(h);}h.textContent=WS_STATE;}catch(e){}};}
+/* ---- v511: on start the previous warnings / delays / typhoons are forgotten; while the city is not known yet nothing is shown ---- */
+{const CG=contGame;contGame=function(s){try{if(s){s.warnSet=[];s.trainSeen=[];s.tcSeen={};s.wsKey=null;s.trKey=null;s.wsCity=null;}}catch(e){}try{ENV.warn=null;ENV.trains=null;ENV.typhoons=null;const b=$('bosaiBar');if(b){b.dataset.t='';b.dataset.m='';b.textContent='';b.hidden=true;}const q=$('quake');if(q)q.hidden=true;}catch(e){}return CG.apply(this,arguments);};}
+{const WF=warnFetch;warnFetch=async function(){if(WS_scope()==='city'){let city=null;try{city=await WS_city();}catch(e){}
+    if(!city){WS_STATE='今いる市区町村を調べています（分かるまで気象情報は表示しません）';try{if(S&&S.wsKey!=='unknown'){S.wsKey='unknown';S.warnSet=[];}}catch(e){}return{pref:'',codes:[],headline:'',time:null};}}
+  return WF.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
