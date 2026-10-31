@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 502（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 505（2026/10/31）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 502（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 505（2026/10/31）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24403,6 +24403,126 @@ function HOLI_get(){try{if(!S)return null;const pool=(HOLI_pool()||[]).filter(k=
 {const DN=DP_cosNow;DP_cosNow=function(who){const h=HOLI_get();if(h&&!(who==='h'?h.hOff:h.mOff))return who==='h'?h.h:h.m;return DN.apply(this,arguments);};}
 // the wardrobe: whoever's wardrobe is double-tapped is free of the day's costume from then on
 {const TP=tapPlan;tapPlan=function(tg){try{if(TAP_REAL&&tg&&tg.t==='f'&&S.layout[tg.k]){const b=MC_base(tg.k),h=HOLI_get();if(h){if((b==='wardrobe'||b==='dresser')&&!C.sleeping)h.hOff=true;if(b==='wardrobe2'&&typeof M!=='undefined'&&M&&!M.sleeping&&!M.bath)h.mOff=true;}}}catch(e){}return TP.apply(this,arguments);};}
+/* ---- v503: event costumes: the old おばけ is now 日本のおばけ; new for Halloween: 西洋のおばけ (a white sheet) and ドラキュラ; new for Christmas: トナカイ and プレゼントの箱 ---- */
+COS.ghost.n='日本のおばけ';
+// a western ghost: one white sheet over the head and the whole body, two dark eyes
+COS.wghost={n:'西洋のおばけ',suit:'#f7f8fb',hand:'#f7f8fb',feet:'#f7f8fb',legs:'#f7f8fb',sheet:1,
+  front:(c,d)=>{if(d==='up')return;c.fillStyle='rgba(180,190,210,.35)';c.beginPath();c.moveTo(-2,-14);c.quadraticCurveTo(-3,-8,-1.6,-2);c.lineTo(-.6,-2);c.quadraticCurveTo(-1.8,-8,-1,-14);c.fill();},
+  overHead:(c,S6,d)=>{const w=S6.hw,cy=HCY-.6,rx=w*1.18,ry=HR+2.4,t=performance.now()/1000;
+    const g0=c.createLinearGradient(0,cy-ry,0,cy+ry+6);g0.addColorStop(0,'#ffffff');g0.addColorStop(1,'#e2e6ef');c.fillStyle=g0;
+    c.beginPath();c.moveTo(-rx,cy+2);c.bezierCurveTo(-rx,cy-ry*1.25,rx,cy-ry*1.25,rx,cy+2);c.bezierCurveTo(rx+.6,cy+ry*.8,rx*.9,cy+ry+3,rx*.75,cy+ry+5.5);
+    // the sheet hangs down over the shoulders with a wavy edge
+    for(let i=0;i<=6;i++){const x=rx*.75-i*(rx*1.5/6),yy=cy+ry+5.5+(i%2?1.4:0)+Math.sin(t*2+i)*.3;c.lineTo(x,yy);}
+    c.bezierCurveTo(-rx*.9,cy+ry+3,-rx-.6,cy+ry*.8,-rx,cy+2);c.closePath();c.fill();c.strokeStyle='rgba(150,160,185,.5)';c.lineWidth=.35;c.stroke();
+    c.fillStyle='rgba(170,180,205,.28)';c.beginPath();c.ellipse(-rx*.45,cy+ry*.6,rx*.2,ry*.5,.15,0,TAU);c.fill();
+    if(d==='up')return;const ex=d==='down'?0:3.4,sp=d==='down'?2.6:1.9;
+    for(const s of(d==='down'?[-1,1]:[-1,1])){const x=ex+s*sp;if(d!=='down'&&s<0&&false)continue;c.fillStyle='#2a2630';c.beginPath();c.ellipse(x,cy+.6,d==='down'?1.15:.95,1.7,0,0,TAU);c.fill();c.fillStyle='rgba(255,255,255,.7)';c.beginPath();c.ellipse(x-.35,cy-.1,.3,.4,0,0,TAU);c.fill();}
+    c.fillStyle='#2a2630';c.beginPath();c.ellipse(ex,cy+4.2,d==='down'?1.2:.9,1.4,0,0,TAU);c.fill();}};
+// Dracula: black suit and cape with a red lining and a tall collar, a white shirt with a red jewel
+COS.dracula={n:'ドラキュラ',suit:'#1f1d26',hand:'#f3f1ea',feet:'#151318',legs:'#1f1d26',
+  front:(c,d)=>{if(d==='up')return;const s=d==='down'?0:(d==='right'?1:-1);
+    c.fillStyle='#f3f1ea';c.beginPath();c.moveTo(-2.6+s*1.6,-15);c.lineTo(2.6+s*1.6,-15);c.lineTo(.0+s*1.6,-7.5);c.closePath();c.fill();
+    c.fillStyle='#8a1426';c.beginPath();c.moveTo(-1.3+s*1.6,-14.6);c.lineTo(1.3+s*1.6,-14.6);c.lineTo(s*1.6,-13.2);c.closePath();c.fill();
+    E(c,'#c81e3a',s*1.6,-12,1,1.1);E(c,'#e2b33c',s*1.6,-12,1.35,1.45);E(c,'#c81e3a',s*1.6,-12,.85,.95);E(c,'rgba(255,255,255,.6)',s*1.6-.3,-12.3,.25,.3);},
+  back:(c,d,t)=>{const lin='#9a1428',cl='#141218',sw=Math.sin(t*2)*.6;
+    if(d==='up'){c.fillStyle=cl;c.beginPath();c.moveTo(-8,-15.5);c.lineTo(8,-15.5);c.lineTo(9.5+sw,1);c.lineTo(-9.5+sw,1);c.closePath();c.fill();
+      for(const s of[-1,1]){c.fillStyle=cl;c.beginPath();c.moveTo(s*7.4,-15.5);c.lineTo(s*9.6,-24);c.lineTo(s*4,-16.5);c.closePath();c.fill();}return;}
+    // tall collar standing up behind the head, red inside
+    for(const s of[-1,1]){if(d==='right'&&s>0)continue;const k=d==='right'?.75:1;c.fillStyle=cl;c.beginPath();c.moveTo(s*4*k,-15.5);c.lineTo(s*10.4*k,-26.5);c.lineTo(s*8*k,-15.8);c.closePath();c.fill();
+      c.fillStyle=lin;c.beginPath();c.moveTo(s*4.8*k,-15.6);c.lineTo(s*9.6*k,-24.8);c.lineTo(s*7.4*k,-16);c.closePath();c.fill();}
+    if(d==='right'){c.fillStyle=cl;c.beginPath();c.moveTo(-1,-15);c.lineTo(-10-sw,1);c.lineTo(-1,1);c.closePath();c.fill();c.fillStyle=lin;c.beginPath();c.moveTo(-1.6,-13);c.lineTo(-8.6-sw,0);c.lineTo(-2,0);c.closePath();c.fill();}
+    else{for(const s of[-1,1]){c.fillStyle=lin;c.beginPath();c.moveTo(s*6.4,-15);c.lineTo(s*9.4,1);c.lineTo(s*6,1);c.closePath();c.fill();}}},
+  head:(c,y,w,d)=>{if(d==='up')return;// two little fangs
+    const fx=d==='down'?0:3.6,fy=HCY+4.2;c.fillStyle='#ffffff';for(const s of(d==='down'?[-1,1]:[1])){const x=fx+s*.9;c.beginPath();c.moveTo(x-.45,fy);c.lineTo(x+.45,fy);c.lineTo(x,fy+1.3);c.closePath();c.fill();}}};
+// a reindeer: a brown hood with antlers and ears, a red nose
+HOODS.reindeer='#8a5a3b';
+COS.reindeer={n:'トナカイ',suit:'#8a5a3b',belly:'#e8d2b0',hand:'#5a3a24',feet:'#3a2618',legs:'#7a4e33',
+  front:(c,d)=>{if(d==='up')return;const s=d==='down'?0:(d==='right'?1.6:-1.6);RR(c,'#c8302a',-5.6+s,-15.2,11.2-Math.abs(s),1.5,.6);E(c,'#e2b33c',s,-13.4,1.1,1.1);E(c,'#f6d860',s-.3,-13.7,.35,.35);},
+  back:(c,d)=>{if(d==='down')return;E(c,'#e8d2b0',d==='up'?0:-5.6,-4,1.6,1.4);},
+  head:(c,y,w,d)=>{const ant=(x,dir)=>{c.strokeStyle='#8a6440';c.lineWidth=1.1;c.lineCap='round';c.beginPath();c.moveTo(x,y+2.2);c.quadraticCurveTo(x+dir*1.8,y-2.5,x+dir*3.4,y-5.4);c.moveTo(x+dir*1.1,y-.6);c.lineTo(x+dir*3.6,y-1.4);c.moveTo(x+dir*2.3,y-3.2);c.lineTo(x+dir*1.2,y-5.6);c.stroke();};
+    if(d==='right'){ant(-1.2,-1);ant(1.6,1);E(c,'#7a4e33',-4.8,y+5.4,1.4,2.6,-.6);}
+    else{ant(-w*.42,-1);ant(w*.42,1);for(const s of[-1,1])E(c,'#7a4e33',s*(w+.4),y+6,2.7,1.3,s*.35);}
+    if(d==='up')return;const nx=d==='down'?0:HR-.2,ny=HCY+2.4;E(c,'#b8141e',nx,ny,1.45,1.25);E(c,'#ff5a5a',nx-.35,ny-.35,.45,.35);}};
+// a present: the body is a box tied with a ribbon, a big bow on the head
+COS.giftbox={n:'プレゼントの箱',suit:'#d63a48',hand:'#f3f1ea',feet:'#2c2c33',legs:'#2c2c33',
+  front:(c,d)=>{const side=d==='right'||d==='left';const x0=side?-6.2:-8.4,wd=side?12.4:16.8,y0=-16.4,ht=16.6;
+    c.fillStyle='rgba(0,0,0,.18)';c.fillRect(x0+.6,y0+.8,wd,ht);c.fillStyle='#d63a48';c.fillRect(x0,y0,wd,ht);
+    c.fillStyle='rgba(255,255,255,.12)';for(let i=0;i<4;i++)for(let j=0;j<4;j++)if((i+j)%2===0){c.beginPath();c.arc(x0+wd*(i+.5)/4,y0+ht*(j+.5)/4,.9,0,TAU);c.fill();}
+    c.fillStyle='#b02a38';c.fillRect(x0,y0,wd,1.4);c.strokeStyle='rgba(0,0,0,.25)';c.lineWidth=.3;c.strokeRect(x0,y0,wd,ht);
+    const rx=d==='up'?0:side?(d==='right'?2.2:-2.2):0;c.fillStyle='#f2c230';c.fillRect(rx-1.2,y0,2.4,ht);c.fillRect(x0,y0+ht*.42,wd,2.4);
+    c.fillStyle='rgba(255,255,255,.35)';c.fillRect(rx-1.2,y0,.6,ht);},
+  head:(c,y,w,d)=>{const by=y-.6,col='#f2c230',dk='#c8962a';const loop=(s,sx)=>{c.fillStyle=col;c.beginPath();c.moveTo(0,by+1.2);c.bezierCurveTo(s*2*sx,by-3.6,s*6.2*sx,by-3.8,s*5.6*sx,by+.6);c.bezierCurveTo(s*5.2*sx,by+2.6,s*2.4*sx,by+2.4,0,by+1.2);c.fill();
+      c.strokeStyle=dk;c.lineWidth=.35;c.stroke();c.strokeStyle='rgba(160,110,20,.6)';c.beginPath();c.moveTo(s*.8*sx,by+.8);c.quadraticCurveTo(s*3.4*sx,by-1.6,s*4.6*sx,by+.4);c.stroke();};
+    const sx=d==='right'?.55:1;for(const s of[-1,1])loop(s,sx);
+    for(const s of[-1,1]){c.fillStyle=dk;c.beginPath();c.moveTo(s*.4*sx,by+1.6);c.lineTo(s*2.6*sx,by+5.4);c.lineTo(s*1.4*sx,by+5.2);c.lineTo(s*.2*sx,by+2);c.closePath();c.fill();}
+    E(c,col,0,by+1.2,1.5*Math.max(sx,.8),1.3);E(c,'rgba(255,255,255,.4)',-.4,by+.8,.5,.35);}};
+// they belong to the events
+for(const k of['wghost','dracula','reindeer','giftbox'])COS_SEASONAL.add(k);
+NOHAIR.add('wghost');
+DP_season=function(){const m=now().getMonth()+1;return m===10?['pumpkin','jacko','ghost','wghost','dracula']:m===12?['santa','snowman','reindeer','giftbox']:(m===1||m===2)?['snowman']:[];};
+HOLI_pool=function(){const d=now(),m=d.getMonth()+1,day=d.getDate();if(m===10&&day===31)return['pumpkin','jacko','ghost','wghost','dracula'];if(m===12&&(day===24||day===25))return['santa','snowman','reindeer','giftbox'];return null;};
+// on the event days they may change between the event's costumes: one for the morning, one for the afternoon, one for the evening
+HOLI_get=function(){try{if(!S)return null;const pool=(HOLI_pool()||[]).filter(k=>COS[k]);if(!pool.length)return null;const td=DP_day();let h=S.holi;
+  if(!h||h.day!==td||!h.seg){const sh=a=>{const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;};
+    const A=sh(pool);let B=sh(pool);for(let t=0;t<40;t++){if([0,1,2].every(i=>B[i%B.length]!==A[i%A.length]))break;B=sh(pool);}const seg={};
+    ['day','aft','eve'].forEach((p,i)=>{seg['h'+p]=A[i%A.length];seg['m'+p]=B[i%B.length];});
+    h=S.holi={day:td,seg,h:seg.hday,m:seg.mday,hOff:h&&h.day===td?h.hOff:false,mOff:h&&h.day===td?h.mOff:false};}
+  return h;}catch(e){return null;}};
+function HOLI_now(who){const h=HOLI_get();if(!h||(who==='h'?h.hOff:h.mOff))return null;let p='day';try{const pl=DP_plan(who),m=DP_min();p=m>=pl.eve?'eve':m>=pl.aft?'aft':'day';}catch(e){}return h.seg[who+p]||h[who];}
+{const DN=DP_cosNow;DP_cosNow=function(who){const k=HOLI_now(who);if(k)return k;return DN.apply(this,arguments);};}
+// the housemate goes to change as soon as the event costume for this part of the day is a different one
+setInterval(()=>{try{if(!S||typeof M==='undefined'||!M||!S.mate||M.sleeping||M.bath)return;const k=HOLI_now('m');if(!k)return;if((M.outfit&&M.outfit.costume)===k||S.mTapDress)return;if(M.outfit&&M.outfit.top&&M.outfit.top.k==='pajama')return;
+  S.mTapDress=1;if(!M.steps.length)M.idle=0;}catch(e){}},3000);
+/* ---- v504: weather warnings for where you are: by default only the city / ward you are in (気象庁の市区町村ごとの発表), or the whole prefecture as before ---- */
+function WS_scope(){try{return localStorage.getItem('fuyuchi-warnscope')||'city';}catch(e){return'city';}}
+let JMA_AREA=null,JMA_AREA_P=null;
+async function JMA_area(){if(JMA_AREA)return JMA_AREA;if(!JMA_AREA_P)JMA_AREA_P=bosaiJSON('https://www.jma.go.jp/bosai/common/const/area.json').then(a=>{JMA_AREA=a;return a;}).catch(e=>{JMA_AREA_P=null;throw e;});return JMA_AREA_P;}
+// the 気象庁 city code for the place the island floats over (港区 → 1310300 …)
+async function WS_city(){const office=JMA_OFFICE[prefKey()];const parts=(ENV.parts||[]).slice(1).filter(Boolean);if(!office||!parts.length)return null;
+  const key=office+'|'+parts.join('|');if(S&&S.wsCity&&S.wsCity.key===key)return S.wsCity;
+  const A=await JMA_area(),c20=A&&A.class20s;if(!c20)return null;const pre=office.slice(0,2);const names=[];for(let i=0;i<parts.length;i++){names.push(parts[i]);if(i+1<parts.length)names.push(parts[i]+parts[i+1]);}
+  let hit=null;for(const nm of names.slice().sort((a,b)=>b.length-a.length)){for(const code in c20){if(code.slice(0,2)!==pre)continue;const n=c20[code].name;if(n===nm||n===nm.replace(/(市|区|町|村)$/,'')+(nm.match(/(市|区|町|村)$/)||[''])[0]){hit={code,name:n};break;}}if(hit)break;}
+  if(!hit)return null;let p=c20[hit.code].parent,c10='';try{const c15=A.class15s&&A.class15s[p];const p10=c15?c15.parent:p;c10=(A.class10s&&A.class10s[p10]&&A.class10s[p10].name)||'';}catch(e){}
+  const r={key,code:hit.code,name:hit.name,c10};if(S)S.wsCity=r;return r;}
+{const WF=warnFetch;warnFetch=async function(){let city=null;if(WS_scope()==='city'){try{city=await WS_city();}catch(e){}}
+  // switching between a city and the whole prefecture is not 「解除」: start the comparison afresh
+  try{const k=city?city.code:'pref:'+prefKey();if(S&&S.wsKey!==k){S.wsKey=k;S.warnSet=[];}}catch(e){}
+  if(!city)return WF.apply(this,arguments);
+  const pk=prefKey(),code=JMA_OFFICE[pk];const j=await bosaiJSON(`https://www.jma.go.jp/bosai/warning/data/warning/${code}.json`);
+  const act=new Set();for(const at of(j&&j.areaTypes)||[])for(const a of(at&&at.areas)||[]){if(a.code!==city.code)continue;for(const w of(a.warnings||[]))if(w&&w.code&&w.status&&!/解除|なし/.test(w.status)&&WARN_NAME[w.code])act.add(w.code);}
+  const hl=(j&&j.headlineText)||'',mine=act.size&&(hl.includes(city.name)||(city.c10&&hl.includes(city.c10)));
+  return{pref:city.name,codes:[...act].sort(),headline:mine?hl:'',time:j&&j.reportDatetime,city:city.name};};}
+// settings: which area to show
+setTimeout(()=>{try{const w=$('bsWarn');if(!w||$('wsScope'))return;const lb=w.closest('label')||w.parentNode;const d=document.createElement('div');d.className='field';d.style.margin='2px 0 6px 22px';
+  const nm=(S&&S.wsCity&&S.wsCity.name)||ENV.city||'今いる市区町村';
+  d.innerHTML=`<label for="wsScope" style="font-size:12px">警報・注意報の範囲</label><select id="wsScope"><option value="city">今いるところ（${esc(nm)}）だけ</option><option value="pref">都道府県全体（${esc(prefKey())}）</option></select>`;lb.after(d);
+  const sel=$('wsScope');sel.value=WS_scope();sel.onchange=()=>{try{localStorage.setItem('fuyuchi-warnscope',sel.value);}catch(_){}if(S){S.warnSet=[];}ENV.warn=null;warnPoll();};}catch(e){}},2500);
+function WS_label(){try{const s=$('wsScope');if(!s)return;const nm=(S&&S.wsCity&&S.wsCity.name)||((ENV.parts||[])[1])||ENV.city||'今いる市区町村';s.options[0].textContent=`今いるところ（${nm}）だけ`;s.options[1].textContent=`都道府県全体（${prefKey()}）`;s.value=WS_scope();}catch(e){}}
+{const OS=openSheet;openSheet=function(){const r=OS.apply(this,arguments);WS_label();return r;};}
+{const WP=warnPoll;warnPoll=async function(){const r=await WP.apply(this,arguments);WS_label();return r;};}
+/* ---- v505: train delays for where you are: the lines of the stations near the island's spot (HeartRails Express), or the whole region as before; 「見たい路線」 still wins ---- */
+function TRN_scope(){try{return localStorage.getItem('fuyuchi-trainscope')||'near';}catch(e){return'near';}}
+const TRN_KM=3;
+function TRN_dist(s){const m=String(s||'').match(/([\d.]+)\s*(k?m)/);if(!m)return 0;return m[2]==='km'?+m[1]*1000:+m[1];}
+async function TRN_near(){const lat=ENV.lat,lon=ENV.lon;if(lat==null||lon==null)return null;const key=lat.toFixed(3)+','+lon.toFixed(3);
+  if(S&&S.trNear&&S.trNear.key===key&&Date.now()-S.trNear.at<7*86400e3)return S.trNear;
+  const j=await bosaiJSON(`https://express.heartrails.com/api/json?method=getStations&x=${lon}&y=${lat}`);const st=(j&&j.response&&j.response.station)||[];if(!st.length)return null;
+  let near=st.filter(s=>TRN_dist(s.distance)<=TRN_KM*1000);if(!near.length)near=st.slice(0,3);
+  const lines=[...new Set(near.map(s=>s.line).filter(Boolean))],stations=[...new Set(near.map(s=>s.name))];const r={key,at:Date.now(),lines,stations};if(S)S.trNear=r;return r;}
+// does a delayed line (name / company from the delay list) run through one of the nearby lines?
+function TRN_norm(t){return String(t||'').replace(/\s/g,'').replace(/^(JR|ＪＲ)/,'').replace(/(旅客鉄道株式会社|株式会社|（株）)/g,'');}
+function TRN_match(r,lines){const n=TRN_norm(r.name).replace(/^(JR|東京メトロ|都営|京王|小田急|東急|西武|東武|京急|京成|相鉄)/,'');if(n.length<2)return false;
+  return lines.some(L=>{const l=TRN_norm(L);return l.includes(n)||n.includes(l);});}
+{const TP=trainPick;trainPick=function(list){if(trainMine().length||TRN_scope()!=='near')return TP.apply(this,arguments);const N=S&&S.trNear;if(!N||!N.lines||!N.lines.length)return TP.apply(this,arguments);
+  return list.filter(r=>TRN_match(r,N.lines));};}
+{const TPo=trainPoll;trainPoll=async function(){if(S&&BOSAI.train&&TRN_scope()==='near'&&!trainMine().length){try{await TRN_near();}catch(e){}}
+  try{const k=trainMine().length?'mine':TRN_scope()==='near'&&S.trNear?'near:'+S.trNear.key:'area';if(S&&S.trKey!==k){S.trKey=k;S.trainSeen=[];}}catch(e){}const r=await TPo.apply(this,arguments);TRN_label();return r;};}
+// settings
+function TRN_label(){try{const s=$('trScope');if(!s)return;const N=S&&S.trNear;s.options[0].textContent='近くの駅を通る路線だけ';s.value=TRN_scope();const h=$('trNearHint');if(h)h.textContent=TRN_scope()==='near'?(N&&N.lines&&N.lines.length?`近くの路線（${TRN_KM}km以内の駅：${N.stations.slice(0,6).join('・')}${N.stations.length>6?' ほか':''}）：${N.lines.join('・')}`:'近くの駅を調べています…（調べられないときは地域全体の路線になります）'):'';}catch(e){}}
+setTimeout(()=>{try{const t=$('bsTrain');if(!t||$('trScope'))return;const lb=t.closest('label')||t.parentNode;const d=document.createElement('div');d.className='field';d.style.margin='2px 0 6px 22px';
+  d.innerHTML=`<label for="trScope" style="font-size:12px">運行情報の範囲</label><select id="trScope"><option value="near">近くの駅を通る路線だけ</option><option value="area">住んでいる地域の路線すべて</option></select><p class="hint" id="trNearHint" style="margin:4px 0 0;font-size:11px"></p>`;lb.after(d);
+  const sel=$('trScope');sel.onchange=()=>{try{localStorage.setItem('fuyuchi-trainscope',sel.value);}catch(_){}if(S)S.trainSeen=[];TRN_label();trainPoll();};TRN_label();}catch(e){}},2600);
+{const OS=openSheet;openSheet=function(){const r=OS.apply(this,arguments);TRN_label();return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
