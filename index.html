@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 516（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 517（2026/10/31）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 516（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 517（2026/10/31）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24664,6 +24664,16 @@ const RUGLIE_LINES=['ラグの上でごろーん','ふかふかのラグ、気�
 let RUGLIE_LAST=null;
 function RUGLIE_say(){let l=pick(RUGLIE_LINES);for(let i=0;i<5&&l===RUGLIE_LAST;i++)l=pick(RUGLIE_LINES);RUGLIE_LAST=l;return l;}
 {const RS=RUGLIE_steps;RUGLIE_steps=function(){const st=RS.apply(this,arguments);if(!st)return st;try{const i=st.findIndex(s=>s&&s.t==='say');if(i>=0)st[i]=SAY(()=>RUGLIE_say());}catch(e){}return st;};}
+/* ---- v517: the LoveBots and the robot vacuum go round someone lying on the floor (on the rug, or a futon on the floor) instead of over them ---- */
+function LIE_cells(){const out=new Set();try{if(!S)return out;
+  const addBody=(px,py,rug)=>{if(rug){const y=Math.floor((py-5)/T);for(let x=Math.floor((px-21)/T);x<=Math.floor((px+21)/T);x++)out.add(x+','+y);}else{const x=Math.floor(px/T),y=Math.floor((py-12)/T);out.add(x+','+y);out.add(x+','+(y+1));}};
+  if(C.scene==='in'&&C.pose==='lie'&&C.snap){if(C.snapK&&RUG_is(C.snapK))addBody(C.snap.px,C.snap.py,true);else if(C.snap.floor&&C.snapK!=='sofa'&&C.snapK!=='bed')addBody(C.snap.px,C.snap.py,false);}
+  if(typeof M!=='undefined'&&M&&M.scene==='in'&&M.sit&&M.sit.pose==='lie'&&M.sit.floor&&!M.sit.bed)addBody(M.sit.px,M.sit.py,!!M.sit.rug);}catch(e){}return out;}
+{const LA=LB_avoidCells;LB_avoidCells=function(){const r=LA.apply(this,arguments);try{for(const c of LIE_cells())r.push(c);}catch(e){}return r;};}
+{const RT=rvTick;rvTick=function(dt){const added=[];try{if(S&&RV.ph==='clean'){const L=LIE_cells();for(const c of L)if(!OCC.has(c)){OCC.add(c);added.push(c);}
+    // a planned route over the person is thrown away and planned again around them
+    if(added.length&&RV.path&&RV.path.some(([x,y])=>added.includes(x+','+y))){const here=RV.path[0];RV.path=added.includes(here[0]+','+here[1])?[]:[here];}}}catch(e){}
+  try{return RT.apply(this,arguments);}finally{for(const c of added)OCC.delete(c);}};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
