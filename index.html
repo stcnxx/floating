@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 501（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 502（2026/10/31）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 501（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 502（2026/10/31）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24396,6 +24396,13 @@ setInterval(()=>{try{const sh=$('sheet');if(!S||!sh||sh.hidden)return;
     c.save();c.beginPath();c.ellipse(fx+.15,y+.05,r*.32,r*.92,0,0,TAU);c.fillStyle=ACC_lensFill(c,lens,fx,y,r);c.fill();c.strokeStyle=col;c.lineWidth=Math.max(.3,lw*.8);c.stroke();c.restore();
     c.strokeStyle=col;c.lineWidth=Math.max(.3,lw*.8);c.lineCap='round';c.beginPath();c.moveTo(x+r*.92,y-r*.2);c.quadraticCurveTo((x+r+fx)/2,y-r*.55,fx-.05,y-r*.25);c.stroke();
     c.restore();}catch(e){}};}
+/* ---- v502: on 10/31 and 12/24・25 the hero and the housemate wear a seasonal costume from waking until bedtime (they change into it if they are not in it); a double-tap on their wardrobe lets them change into something else for the rest of the day ---- */
+function HOLI_pool(){const d=now(),m=d.getMonth()+1,day=d.getDate();if(m===10&&day===31)return['pumpkin','jacko','ghost'];if(m===12&&(day===24||day===25))return['santa','snowman'];return null;}
+function HOLI_get(){try{if(!S)return null;const pool=(HOLI_pool()||[]).filter(k=>COS[k]);if(!pool.length)return null;const td=DP_day();let h=S.holi;
+  if(!h||h.day!==td){const a=pick(pool);let b=pick(pool);for(let i=0;i<8&&b===a&&pool.length>1;i++)b=pick(pool);h=S.holi={day:td,h:a,m:b,hOff:false,mOff:false};}return h;}catch(e){return null;}}
+{const DN=DP_cosNow;DP_cosNow=function(who){const h=HOLI_get();if(h&&!(who==='h'?h.hOff:h.mOff))return who==='h'?h.h:h.m;return DN.apply(this,arguments);};}
+// the wardrobe: whoever's wardrobe is double-tapped is free of the day's costume from then on
+{const TP=tapPlan;tapPlan=function(tg){try{if(TAP_REAL&&tg&&tg.t==='f'&&S.layout[tg.k]){const b=MC_base(tg.k),h=HOLI_get();if(h){if((b==='wardrobe'||b==='dresser')&&!C.sleeping)h.hOff=true;if(b==='wardrobe2'&&typeof M!=='undefined'&&M&&!M.sleeping&&!M.bath)h.mOff=true;}}}catch(e){}return TP.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
