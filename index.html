@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 521（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 522（2026/11/01）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 521（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 522（2026/11/01）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24989,7 +24989,11 @@ function PET_walkB(x,sp,st,H){const{part,fl,E,curlsIn}=H,t=st.t||0,ph=st.ph||0,c
 /* ===== v519: pets — life indoors ===== */
 let PET=null,PET_lastScene=null,PET_tapUp=false;const PET_SC=.8;
 const PET_V={dog:['わん！','わふっ','くぅ〜ん','わんわん','わぅ？','ふすっ'],cat:['にゃ〜','にゃっ','みゃう','にゃ？','ごろごろ…','んにゃ']};
-function PET_on(){return !!(S&&S.pet&&S.pet.on&&PET_SP[S.pet.kind]);}
+/* v522: pets exist only after the picture book has been opened (triple-tap) */
+function DEX_full(){try{const D=S.dex||{},f=D.f||{},c=D.c||{};for(const k of Object.keys(FT))if(k!=='ksink'&&!f[k])return false;for(const k in COS)if(!c['cos:'+k])return false;for(const k in MASK2)if(!c['mask:'+k])return false;return true;}catch(e){return false;}}
+function PET_unl(){return !!(S&&S.dexAll);}
+function PET_check(){if(!S||!S.pet||S.dexAll)return;if(DEX_full()){S.dexAll=true;save();return;}delete S.pet;PET=null;save();}
+function PET_on(){return !!(S&&S.dexAll&&S.pet&&S.pet.on&&PET_SP[S.pet.kind]);}
 function PET_sp(){return PET_SP[S.pet.kind];}
 function PET_name(){return(S.pet&&S.pet.name)||PET_sp().def;}
 function PET_nearFree(x,y,r){r=r||1;const c=[];for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(!dx&&!dy)continue;const nx=x+dx,ny=y+dy;if(walkIn(nx,ny)&&!(nx===C.tx&&ny===C.ty))c.push({x:nx,y:ny});}return c.length?pick(c):null;}
@@ -25008,7 +25012,7 @@ function PET_bedSpot(){const bu=has('bed')&&U('bed'),ref=bu||{x:C.tx,y:C.ty};let
   for(let r=1;r<=4&&!best;r++){let c=[];for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(Math.max(Math.abs(dx),Math.abs(dy))!==r)continue;const x=ref.x+dx,y=ref.y+dy;if(walkIn(x,y)&&!(bu&&x===bu.x&&y===bu.y)&&bfs('in',PET.tx,PET.ty,x,y))c.push({x,y});}if(c.length)best=pick(c);}
   return best||{x:PET.tx,y:PET.ty};}
 function PET_faceHero(){const p=PET;if(C.scene!=='in')return;const dx=C.px-p.px;if(Math.abs(dx)>2)p.dir=dx>0?1:-1;}
-function PET_tick(dt){const p=PET_sync();if(!p)return;const sp=PET_sp(),cat=!!sp.cat;p.tt+=dt;
+function PET_tick(dt){PET_check();const p=PET_sync();if(!p)return;const sp=PET_sp(),cat=!!sp.cat;p.tt+=dt;
   // blinking, ear twitches, head tilt, grooming
   p.blinkT-=dt;if(p.blink>0)p.blink-=dt;if(p.blinkT<=0){p.blink=.15;p.blinkT=rnd(2.5,6.5);}
   p.earCD-=dt;if(p.earT>0)p.earT=Math.max(0,p.earT-dt*4);if(p.earCD<=0){p.earT=1;p.earCD=rnd(4,11);}
@@ -25083,9 +25087,10 @@ document.addEventListener('pointerdown',e=>{if(e.target!==cv||!S||PAUSED)return;
   if(!C.sleeping&&!msgBusy()&&Math.random()<.6)queueSay(p.pose==='curl'?pick([`しーっ、${n}が寝てるよ`,`${n}、ぐっすりだね`]):pick([`${n}、よしよし`,`${n}、かわいいね〜`,`なでなで…${n}、ふわふわ`,`${n}、ごきげんだね`]));},true);
 document.addEventListener('pointerup',e=>{if(!PET_tapUp)return;PET_tapUp=false;if(e.target===cv)e.stopPropagation();},true);
 /* settings in the 主人公 tab */
-function PET_ui(){const sec=document.querySelector('section.tp[data-p="st"]');if(!sec||!S)return;let box=$('petBox');if(!box){box=document.createElement('div');box.id='petBox';sec.appendChild(box);}
+function PET_ui(){const sec=document.querySelector('section.tp[data-p="dex"]');if(!sec||!S)return;PET_check();if(!S.dexAll&&DEX_full())S.dexAll=true;let box=$('petBox');if(!box){box=document.createElement('div');box.id='petBox';box.style.cssText='margin:0 0 12px;padding-bottom:10px;border-bottom:1px solid rgba(255,255,255,.14)';sec.insertBefore(box,sec.firstChild);}
+  box.hidden=!S.dexAll;if(!S.dexAll){box.innerHTML='';return;}
   const P=S.pet||{on:false,kind:'shiba'},kinds=[['shiba','豆柴'],['poodle','トイプードル'],['mike','三毛猫'],['white','白猫']];
-  box.innerHTML=`<h3>ペット</h3><label class="hopt"><input type="checkbox" id="petOn"${P.on?' checked':''}> 家の中でペットを飼う</label>
+  box.innerHTML=`<h3 style="margin-top:4px">ペット</h3><label class="hopt"><input type="checkbox" id="petOn"${P.on?' checked':''}> 家の中でペットを飼う</label>
   <div class="petPick" style="display:flex;gap:6px;margin:8px 0;flex-wrap:wrap">${kinds.map(([k,n])=>`<button type="button" class="petK" data-pk="${k}" aria-pressed="${P.kind===k}" style="flex:1 1 22%;min-width:70px;padding:4px 2px;border-radius:10px;border:2px solid ${P.kind===k?'var(--lantern,#ffd36b)':'transparent'};background:rgba(255,255,255,${P.kind===k?.16:.07});color:inherit;font-size:11px;white-space:nowrap;letter-spacing:-.5px"><canvas width="132" height="120" data-pc="${k}" style="width:66px;height:60px;display:block;margin:0 auto"></canvas>${n}<br><small style="opacity:.7">${k==='shiba'||k==='poodle'?'犬':'猫'}</small></button>`).join('')}</div>
   <div class="field"><label for="petName">名前</label><input type="text" id="petName" maxlength="8" autocomplete="off" value="${(P.name||PET_SP[P.kind].def).replace(/"/g,'&quot;')}"></div>
   <p class="hint">ペットは家の中で暮らします。座ったりお昼寝したりして、主人公が寝るときはいっしょに眠ります（寝床はラグの上、ラグがなければ床）。タップするとなでられます。</p>`;
@@ -25107,6 +25112,13 @@ function YG_skyGo(){if(!S||!S.yard||!S.yard.yagura||SKYV.open)return;SKYV.free=!
  document.addEventListener('pointerdown',e=>{if(e.target===cv)YPD={x:e.clientX,y:e.clientY,t:performance.now()};},true);
  document.addEventListener('pointerup',e=>{if(e.target!==cv||!YPD)return;const pd=YPD;YPD=null;if(Math.hypot(e.clientX-pd.x,e.clientY-pd.y)>10||performance.now()-pd.t>450)return;if(!hitYG(e)){YDT.t=0;return;}const tn=performance.now();
    if(tn-YDT.t<450&&Math.hypot(e.clientX-YDT.x,e.clientY-YDT.y)<36){YDT.t=0;e.stopPropagation();try{placeTap.t=0;if(DRAG)dragEnd(true);}catch(_){}try{YG_skyGo();}catch(_){}return;}YDT={t:tn,x:e.clientX,y:e.clientY};},true);}
+{const DU=DEX_unlockAll;DEX_unlockAll=function(){const n=DU.apply(this,arguments);try{if(S){S.dexAll=true;save();PET_ui();}}catch(e){}return n;};}
+/* base lines that assume there is no pet in the house */
+function PET_fixLine(t){if(typeof t!=='string'||!PET_on())return t;const n=PET_name();
+  if(t.indexOf('…うち、ペット飼ってないよね？')>=0)return t.replace('…うち、ペット飼ってないよね？',`…${n}は、ずっと向こうで寝てたはずなんだけど`);
+  if(t==='ペット、飼ってみたいな')return`うちの${n}にも会わせたいな`;return t;}
+{const S0=say;say=function(t){arguments[0]=PET_fixLine(t);return S0.apply(this,arguments);};}
+{const M0=msay;msay=function(t){arguments[0]=PET_fixLine(t);return M0.apply(this,arguments);};}
 /* v519: the ground-floor light switch sits higher on the wall */
 const LSW_FDY=-9;
 {const LD=LSW_draw;LSW_draw=function(t){if(BFL===1)return LD.apply(this,arguments);g.save();g.translate(0,LSW_FDY);try{return LD.apply(this,arguments);}finally{g.restore();}};}
