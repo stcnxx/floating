@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 506（2026/10/31）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 507（2026/10/31）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 506（2026/10/31）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 507（2026/10/31）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -24535,6 +24535,19 @@ tcFetch=async function(){const L=await bosaiJSON('https://www.jma.go.jp/bosai/ty
     // tcScan may have read a small number from elsewhere; only a real typhoon number is shown, never the TC serial
     const here=[ENV.lat||35.68,ENV.lon||139.76];out.push({id,no:no||null,name:acc.name,p:acc.p,w:acc.w,km:acc.pos?Math.round(kmTo(here,acc.pos)):null});}
   return out;};
+/* ---- v507: no small accessories (masks, funny glasses, sunglasses, glasses) while a costume covers the head: they would not show anyway ---- */
+function COS_hides(who){try{const o=who==='h'?S&&S.outfit:(typeof M!=='undefined'&&M&&M.outfit);const k=o&&o.costume,cs=k&&COS[k];return!!(cs&&(cs.head||cs.overHead||HOODS[k]||NOHAIR.has(k)));}catch(e){return false;}}
+function FUN_guard(obj,who){if(!obj||obj.__funG)return;let v=obj.fun||null;try{delete obj.fun;}catch(e){}
+  Object.defineProperty(obj,'fun',{configurable:true,enumerable:true,get(){return v;},set(x){v=x&&COS_hides(who)?null:x;}});obj.__funG=1;}
+setInterval(()=>{try{if(!S)return;FUN_guard(C,'h');if(typeof M!=='undefined'&&M)FUN_guard(M,'m');
+  if(COS_hides('h')){if(C.fun)C.fun=null;C.funPend=null;C.sunWear=null;}if(typeof M!=='undefined'&&M&&COS_hides('m')&&M.fun)M.fun=null;}catch(e){}},400);
+{const HS=ACC_heroSun;ACC_heroSun=function(){if(COS_hides('h'))return null;return HS.apply(this,arguments);};}
+{const MS=ACC_mateSun;ACC_mateSun=function(){if(COS_hides('m'))return null;return MS.apply(this,arguments);};}
+{const FM=A.funmask;if(FM)A.funmask=function(){if(COS_hides('h'))return null;return FM.apply(this,arguments);};}
+// wearing one from the picture book while in a costume: say so instead
+{const DW=DEX_wear;DEX_wear=function(key){try{const p=String(key).split(':')[0];if(['mask','nose','sun','gl'].includes(p)&&COS_hides('h')&&!C.sleeping){say(pick(['いまは衣装を着てるから、小物はつけられないよ','衣装の上からだと見えないから、あとでつけるね']));return;}}catch(e){}return DW.apply(this,arguments);};}
+// the 「着ている服」 list: nothing hidden under the costume
+{const WR=WEAR_rows;WEAR_rows=function(who){const r=WR.apply(this,arguments);try{if(COS_hides(who==='hero'?'h':'m'))return r.filter(x=>!['お面','小物','サングラス','メガネ'].includes(x[0]));}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
