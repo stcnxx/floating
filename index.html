@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 535（2026/11/01）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 537（2026/11/01）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 535（2026/11/01）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 537（2026/11/01）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2254,7 +2254,7 @@ function chooseActivity(){
     if(wt&&(h>=22||h<1)&&md.night!==today&&hash(now().getDate(),now().getMonth(),77)<.2&&mealSlot()==='night')add('eat',45);
     if(h>=14.5&&h<16.5&&S.oyatsuDay!==today&&hash(now().getDate(),now().getMonth(),78)<.75)add('oyatsu',70);}
   if(has('radio')&&S.taisoDay!==today&&h>=6.3&&h<9&&!sleepTime(0))add('taiso',watching()?120:40);
-  if(!sleepTime(0)&&h>=9&&Date.now()-(S.nibbleAt||S.born||0)>300*60e3){const o=['oyatsu','oyatsu'];if(has('lowtable'))o.push('tea');if(h>=11&&(h>=17||(typeof DR_day==='function'&&DR_day()))&&(S.drinkDay!==today||(S.drinkN||0)<2)&&Date.now()-(S.drinkAt||0)>180*60e3)o.push('drink');add(pick(o),40);}
+  if(!sleepTime(0)&&h>=9&&Date.now()-(S.nibbleAt||S.born||0)>300*60e3){const o=['oyatsu','oyatsu'];if(has('lowtable'))o.push('tea');if(h>=11&&(h>=17||(typeof DR_day==='function'&&DR_day()))&&(S.drinkDay!==today||(S.drinkN||0)<3)&&Date.now()-(S.drinkAt||0)>120*60e3)o.push('drink');add(pick(o),40);}
   if((h>=19.5&&S.bathDay!==today)||(n.hygiene<20&&S.bathDay!==today)||n.hygiene<6)add('bath',h>=19.5?55:60);
   if(!night&&Date.now()-(S.dressAt||S.born)>(S.dressGap||2*3600e3)&&!C.sleeping){S.dressN=(S.dressN||0)+1;S.dressAt=Date.now();S.dressGap=rnd(1.2,3)*3600e3;S.dressMood=1;}
   if(!night&&outfitDiff())add('change',58);
@@ -2277,7 +2277,7 @@ function chooseActivity(){
     add('exercise',has('bike')?(n.energy>50?8:2):1.2);
     if(tmp<15)add('kotatsu',has('kotatsu')?16:3);
     if(has('tv'))add('game',h>=15&&h<22?9:5);
-    if((S.drinkDay!==today||(S.drinkN||0)<2)&&h>=11&&Date.now()-(S.drinkAt||0)>180*60e3)add('drink',h>=17?(has('bar')?26:20):(typeof DR_day==='function'&&DR_day())?(h>=12&&h<15?6:3):0);
+    if((S.drinkDay!==today||(S.drinkN||0)<3)&&h>=11&&Date.now()-(S.drinkAt||0)>120*60e3)add('drink',h>=17?(has('bar')?32:25):(typeof DR_day==='function'&&DR_day())?(h>=12&&h<15?8:4):0);
     if(ENV.news.length)add('newscheck',7);
     if(mateFree()&&Date.now()-(S.chatAt||0)>(typeof CHF_gap==='function'?CHF_gap():5*60e3))add('chat',typeof CHF_w==='function'?CHF_w():16);
     add('radio',has('radio')?(hourNow()<10||hourNow()>=21?14:9):2);add('relax',has('cushion')?5:1);add('play',has('toybox')?6:1.2);
@@ -25588,6 +25588,12 @@ function MEAL_pending(){try{const h=hourNow(),today=now().toDateString(),md=S.me
     const urgent=p.left<1.2||C.act==='tvshow';if(urgent||Math.random()<.35){const st=A.eat();if(st){C.act='eat';C.steps=st;}}}}catch(e){}return r;};}
 // v535: if every other housemate topic is switched off, 思い出話 still comes up (instead of no conversation at all)
 {const CL=chatLines;chatLines=function(){const L=CL.apply(this,arguments);if(L||!M||talkMul('m:retro')<=0)return L;try{return vtalkLines(retroPick(RETRO_DUO),{me:S.name,m:mName(),v:''});}catch(e){return L;}};}
+/* v536: tea at most 15 times a day (the hero picks something else once that's used up) */
+const TEA_MAX=15;
+function TEA_n(){const d=now().toDateString();if(S.teaDay!==d){S.teaDay=d;S.teaN=0;}return S.teaN||0;}
+{const CA=chooseActivity;chooseActivity=function(){let r=CA.apply(this,arguments);try{if(C.act==='tea'){if(TEA_n()>=TEA_MAX){for(let i=0;i<4&&C.act==='tea';i++)r=CA.apply(this,arguments);if(C.act==='tea'){C.act='wander';C.steps=A.wander();}}if(C.act==='tea')S.teaN=TEA_n()+1;}}catch(e){}return r;};}
+/* v537: daytime drinks on any day (still at most one before the evening, so there is room left for the evening) */
+DR_day=function(){try{const today=now().toDateString();return!(S.drinkDay===today&&(S.drinkN||0)>=1);}catch(e){return false;}};
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
