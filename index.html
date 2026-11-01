@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 527（2026/11/01）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 530（2026/11/01）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 527（2026/11/01）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 530（2026/11/01）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -2967,7 +2967,7 @@ function drawSky(t){
   const dl=daylight(),k=wKind();
   if(dl<.5&&(k==='clear'||k==='cloudy')&&C.scene!=='out'){const a=(1-dl*2)*(k==='clear'?1:.35);for(const s of STARS){g.globalAlpha=a*(.45+.55*Math.abs(Math.sin(t*.8+s.p)));g.fillStyle='#fff';g.fillRect(s.x,s.y,s.r,s.r);}g.globalAlpha=1;}
   const cloudA=k==='clear'?.55:k==='cloudy'||k==='fog'?.85:.7;const cc=dl>.4?'255,255,255':dl>.1?'255,214,190':'140,155,200';
-  for(const cl of CLOUDS){const x=(((cl.x+t*cl.v-cam.x*.25)%(W*1.4))+W*1.4)%(W*1.4)-W*.2;g.fillStyle=`rgba(${cc},${cloudA*(dl>.1?1:.5)})`;for(let i=0;i<4;i++){ell(g,x+i*11*cl.s,cl.y+Math.sin(i*1.7)*4,14*cl.s,8*cl.s);g.fill();}}
+  if(typeof CLD_draw==='function')CLD_draw(t,cloudA,dl);
 }
 const GRASS={
   spring:{base:['#7fbf5c','#a6d87a'],blade:['#5a9a40','#c4e89a'],accent:['#f4c6d6','#ffffff','#f6e27a']},
@@ -4623,7 +4623,7 @@ function drawIsland(t){
   const k=groundKey();if(isle.key!==k||!isle.cv){isle.key=k;buildIsle();}
   if(isle.chunks){const vw=W/Z+8,vh=H/Z+8,x0=cam.x-vw/2,y0=cam.y-vh/2,x1=cam.x+vw/2,y1=cam.y+vh/2;
     for(const q of isle.chunks)if(q.x<x1&&q.x+q.w>x0&&q.y<y1&&q.y+q.h>y0)g.drawImage(q.cv,q.x,q.y,q.w+.3,q.h+.3);}
-  for(const[fx,fy,r]of[[3.4,26.5,8],[20.6,27,6],[8,29.5,5],[16,30.4,4]]){const y=fy*T+Math.sin(t*.8+fx)*3;fillE(g,'rgba(0,0,0,.12)',fx*T+2,y+r+5,r,r*.3);fillE(g,'#5a3f2c',fx*T,y+4,r,r*.9);fillE(g,'#6b4a33',fx*T,y+2,r,r*.7);fillE(g,'#86b55a',fx*T,y-1,r*.95,r*.45);}
+  if(typeof ISLT_draw==='function')ISLT_draw(t);
   drawPond(t);{const p=OUT.pond,pcx=(p.x+p.w/2)*T,pcy=(p.y+p.h/2)*T;
   if(badOut()||wKind()==='snow'){g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=.7;for(let i=0;i<5;i++){const ph=(t*.9+i*.21)%1;g.globalAlpha=1-ph;ell(g,pcx-16+i*8,pcy-5+((i*5)%10),ph*5,ph*2.4);g.stroke();}g.globalAlpha=1;}}}
 function drawHouse(lit){
@@ -25342,6 +25342,93 @@ FL_K.push({n:'オークのフローリング（幅広）',f:(c,X,Y)=>FL_planks(c
 {const RI=rugIdx;rugIdx=function(L){if(L&&L.rug===JR_BASE+JRUGS.length)L.rug=null;return RI.apply(this,arguments);};}
 {const o=FL_LB.find(o=>o.n==='グレイッシュ幅広フローリング');if(o)o.hide=1;}
 {let FLP_S=null;const UP=update;update=function(dt){UP.apply(this,arguments);if(S&&FLP_S!==S){FLP_S=S;try{FLP_fix();}catch(e){}}};}
+/* v528: a larger wall world map — it takes the wall spots on both sides of its own */
+const WM_BIG={W:56,H:33.5,cy:15.5};
+function WM_nb(L){return[(L.x-1)+','+L.y,(L.x+1)+','+L.y];}
+function WM_bigOK(k,L){try{if(!L||!L.wall||L.side)return false;const nb=WM_nb(L);for(const q of S.owned){if(q===k)continue;const M=S.layout[q];if(M&&M.wall&&!M.carry&&nb.includes(wkey(M)))return false;}return true;}catch(e){return false;}}
+for(const k of Object.getOwnPropertyNames(FT)){if(MC_base(k)!=='worldmap'||!FT[k])continue;const D0=FT[k].draw;FT[k].draw=function(X,Y,L,t){if(!WM_bigOK(k,L))return D0.apply(this,arguments);
+  g.save();const MW=WM_BIG.W,MH=WM_BIG.H;const[x,y,w,h]=C2_.frame(12-MW/2,WM_BIG.cy-MH/2,MW,MH,2,'#5a3e28');
+  const pic=WMP_pic()||(WM_IMG.complete&&WM_IMG.naturalWidth?WM_IMG:null);if(pic){g.imageSmoothingEnabled=true;try{g.imageSmoothingQuality='high';}catch(_){}g.drawImage(pic,x,y,w,h);}else{g.fillStyle='#a8d0ea';g.fillRect(x,y,w,h);}
+  const p=WM_here(),q=pic===WM_IMG&&!WMP_isDefault(WMP_cur().id,WMP_cur().ctr)?WM_xy(p.lat,p.lon,w,h):WMP_pos(p.lat,p.lon,w,h);if(q){fillE(g,'rgba(255,255,255,.9)',x+q.x,y+q.y,1.3,1.3);fillE(g,'#e0302a',x+q.x,y+q.y,.9,.9);}
+  g.fillStyle='rgba(255,255,255,.12)';g.beginPath();g.moveTo(x,y+h);g.lineTo(x+w*.3,y);g.lineTo(x+w*.36,y);g.lineTo(x+w*.06,y+h);g.fill();
+  C2_.finish(x-2,y-2,w+4,h+4);g.restore();};}
+// the spots beside a big map count as used, so nothing else is hung there; and a map only goes where both neighbours are free wall spots
+{const WU=wallUsed;wallUsed=function(exceptK){const u=WU.apply(this,arguments);try{for(const k of S.owned){if(k===exceptK||MC_base(k)!=='worldmap')continue;const L=S.layout[k];if(L&&L.wall&&!L.carry&&!L.side&&WM_bigOK(k,L))for(const n of WM_nb(L))u.add(n);}}catch(e){}return u;};}
+function WM_place(k){try{const f=FT[k],used=wallUsed(k),spots=new Map(WALLSPOTS.filter(s=>!s.side).map(s=>[wkey(s),s]));let best=null,bs=-1e9;
+  for(const sp of WALLSPOTS){if(sp.side||!f.rooms.includes(sp.r)||used.has(wkey(sp))||spotTall(sp))continue;const nb=[(sp.x-1)+','+sp.y,(sp.x+1)+','+sp.y];
+    if(!nb.every(n=>spots.has(n)&&spots.get(n).r===sp.r&&!used.has(n)))continue;const q={wall:1,x:sp.x,y:sp.y,v:0};if(!useTileFor(k,q,OCC))continue;const sc=Math.random()*3-(nb.some(n=>spotTall(spots.get(n)))?2:0);if(sc>bs){bs=sc;best=q;}}
+  return best;}catch(e){return null;}}
+{const PF=placeFor;placeFor=function(k){if(MC_base(k)==='worldmap'&&!(arguments[1]&&arguments[1].not)){const q=WM_place(k);if(q){const L0=S.layout[k];if(L0&&L0.v!=null)q.v=L0.v;return q;}}return PF.apply(this,arguments);};}
+// existing saves: a map squeezed between other wall items moves to a roomier spot when there is one
+{let WMS=null;const UP=update;update=function(dt){UP.apply(this,arguments);if(!S||WMS===S)return;WMS=S;try{for(const k of S.owned){if(MC_base(k)!=='worldmap')continue;const L=S.layout[k];if(!L||!L.wall||L.carry||L.side||WM_bigOK(k,L))continue;const q=WM_place(k);if(q){q.v=L.v;S.layout[k]=q;save();}}}catch(e){}};}
+// tap area follows the bigger map
+{const TT=tapTarget;tapTarget=function(wx,wy){try{if(C.scene==='in'&&!TAP_FORCE)for(const k of S.owned){const L=S.layout[k];if(MC_base(k)!=='worldmap'||!L||!L.wall||L.carry||L.side||!WM_bigOK(k,L))continue;const c=wallCenter(L),cy=c.y+1-11+(WM_BIG.cy-12.5);
+  if(Math.abs(wx-c.x)<WM_BIG.W/2+2&&Math.abs(wy-cy)<WM_BIG.H/2+2)return{t:'f',k};}}catch(e){}return TT.apply(this,arguments);};}
+/* ===== v529: soft, shaded cumulus clouds and detailed little floating islets ===== */
+const CLD_C={};
+function CLD_tint(dl,k){const grey=k==='cloudy'||k==='fog'||k==='rain'||k==='thunder'||k==='snow';
+  if(dl>.4)return grey?'dayg':'day';if(dl>.1)return'dusk';return'night';}
+const CLD_PAL={day:{base:'#ffffff',hi:'#ffffff',sh:'rgba(150,170,202,.62)',rim:'rgba(255,255,255,.9)'},dayg:{base:'#eef1f5',hi:'#ffffff',sh:'rgba(110,122,142,.7)',rim:'rgba(255,255,255,.6)'},
+  dusk:{base:'#ffe6d6',hi:'#fff6ea',sh:'rgba(196,120,138,.6)',rim:'rgba(255,214,170,.9)'},night:{base:'#7f8ebc',hi:'rgba(150,164,206,.3)',sh:'rgba(30,38,78,.62)',rim:'rgba(170,186,230,.5)'}};
+function CLD_sprite(seed,tint,big){const key=seed+'|'+tint+'|'+big;if(CLD_C[key])return CLD_C[key];
+  const P=CLD_PAL[tint],sc=Math.min(2.5,window.devicePixelRatio||1),W0=big?150:110,H0=big?66:46,cv=document.createElement('canvas');cv.width=Math.ceil(W0*sc);cv.height=Math.ceil(H0*sc);const c=cv.getContext('2d');c.scale(sc,sc);
+  const hs=(a,b)=>hash(a,b,300+seed),base=H0*.78,puffs=[];const n=big?9:7;
+  for(let i=0;i<n;i++){const t=i/(n-1),cx=W0*(.16+t*.68)+(hs(i,1)-.5)*6,hump=Math.sin(t*Math.PI),r=(big?11:8)+hump*(big?13:10)*(.7+hs(i,2)*.5);puffs.push([cx,base-r*.55-hump*(big?6:4),r]);}
+  for(let i=0;i<3;i++)puffs.push([W0*(.3+hs(i,5)*.4),base-(big?24:17)-hs(i,6)*6,(big?10:7)+hs(i,7)*5]);
+  for(let i=0;i<5;i++)puffs.push([W0*(.24+i*.13),base-4,(big?7:5)+hs(i,9)*3]);
+  const shape=()=>{c.beginPath();for(const[x,y,r]of puffs){c.moveTo(x+r,y);c.arc(x,y,r,0,Math.PI*2);}c.moveTo(W0*.2,base-6);c.ellipse(W0*.5,base-5,W0*.32,5,0,0,Math.PI*2);};
+  c.save();
+  try{c.filter='blur(.8px)';}catch(e){}c.fillStyle=P.base;shape();c.fill();try{c.filter='none';}catch(e){}
+  c.globalCompositeOperation='source-atop';
+  // per-puff highlight from the upper left
+  for(const[x,y,r]of puffs){const q=c.createRadialGradient(x-r*.35,y-r*.45,r*.05,x,y,r*1.05);q.addColorStop(0,P.hi);q.addColorStop(.55,'rgba(255,255,255,0)');c.fillStyle=q;c.fillRect(x-r,y-r,r*2,r*2);}
+  // underside shadow and soft inner folds
+  const g2=c.createLinearGradient(0,base-(big?40:28),0,base);g2.addColorStop(0,'rgba(0,0,0,0)');g2.addColorStop(.55,P.sh.replace(/[\d.]+\)$/,'0.25)'));g2.addColorStop(1,P.sh);c.fillStyle=g2;c.fillRect(0,0,W0,H0);
+  for(const[x,y,r]of puffs){const q=c.createRadialGradient(x+r*.35,y+r*.55,r*.1,x+r*.3,y+r*.5,r*.9);q.addColorStop(0,P.sh.replace(/[\d.]+\)$/,'0.1)'));q.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=q;c.fillRect(x-r,y-r,r*2.2,r*2.2);}
+  // soft fade along the flat underside
+  c.globalCompositeOperation='destination-out';const fd=c.createLinearGradient(0,base-3,0,base+4);fd.addColorStop(0,'rgba(0,0,0,0)');fd.addColorStop(1,'rgba(0,0,0,1)');c.fillStyle=fd;c.fillRect(0,base-3,W0,H0);
+  c.restore();
+  const ks=Object.keys(CLD_C);if(ks.length>60)delete CLD_C[ks[0]];return CLD_C[key]={cv,W0,H0};}
+const CLD_FAR=Array.from({length:7},(_,i)=>({x:hash(i,15,3)*W*1.4,y:hash(i,16,3)*1100,s:hash(i,17,3)*.4+.35,v:hash(i,18,3)*3+1.5}));
+function CLD_draw(t,cloudA,dl){const k=wKind(),tint=CLD_tint(dl,k),a0=cloudA*(dl>.1?1:.6);
+  for(const[list,big,par,af]of[[CLD_FAR,false,.12,.55],[CLOUDS,true,.25,1]])list.forEach((cl,i)=>{const sp=CLD_sprite(i%6+(big?0:10),tint,big),w=sp.W0*cl.s*(big?.62:1),h=sp.H0*cl.s*(big?.62:1);
+    const x=(((cl.x+t*cl.v-cam.x*par)%(W*1.4))+W*1.4)%(W*1.4)-W*.2;g.globalAlpha=Math.min(1,a0*af*(big?1.25:1));g.drawImage(sp.cv,x-w*.15,cl.y-h*.7,w,h);});
+  g.globalAlpha=1;}
+
+/* ---- little floating islets below the island ---- */
+const ISLT_C={};
+function ISLT_sprite(r,seed,season0){const sc=Math.min(cacheScale(),2.5),key=r+'|'+seed+'|'+season0+'|'+sc;if(ISLT_C[key])return ISLT_C[key];
+  const W0=r*3.2,H0=r*4.1,ox=W0/2,oy=r*1.55,cv=document.createElement('canvas');cv.width=Math.ceil(W0*sc);cv.height=Math.ceil(H0*sc);const c=cv.getContext('2d');c.scale(sc,sc);c.translate(ox,oy);
+  const hs=(a,b)=>hash(a,b,500+seed),P=GRASS[season0]||GRASS.summer,TAUx=Math.PI*2;
+  // rocky underside: a jagged inverted cone
+  const pts=[];const N=9;for(let k=0;k<=N;k++){const u=k/N;pts.push([-r*(1-Math.pow(u,1.25))*(1+(hs(k,1)-.5)*.16)-(k%2?r*.05:0),r*.12+u*r*2.05+(hs(k,2)-.5)*r*.12]);}
+  for(let k=N;k>=0;k--){const u=k/N;pts.push([r*(1-Math.pow(u,1.25))*(1+(hs(k,3)-.5)*.16)+(k%2?r*.05:0),r*.12+u*r*2.05*(.94+hs(k,4)*.08)+(hs(k,5)-.5)*r*.1]);}
+  const body=()=>{c.beginPath();pts.forEach((p,k)=>k?c.lineTo(p[0],p[1]):c.moveTo(p[0],p[1]));c.closePath();};
+  body();let gr=c.createLinearGradient(0,0,0,r*2.2);gr.addColorStop(0,'#8a6442');gr.addColorStop(.35,'#6a4a32');gr.addColorStop(.75,'#4a3426');gr.addColorStop(1,'#2e2119');c.fillStyle=gr;c.fill();
+  c.save();body();c.clip();
+  // strata bands
+  for(let b=0;b<7;b++){const y=r*(.35+b*.27);c.fillStyle=b%2?'rgba(255,220,170,.08)':'rgba(30,15,5,.12)';c.beginPath();c.moveTo(-r*1.2,y);for(let x=-r*1.2;x<=r*1.2;x+=r*.2)c.lineTo(x,y+Math.sin(x*1.3+b+seed)*r*.05);c.lineTo(r*1.2,y+r*.16);c.lineTo(-r*1.2,y+r*.16);c.closePath();c.fill();}
+  // rocks and pebbles
+  for(let k=0;k<Math.round(r*2.2);k++){const x=(hs(k,7)-.5)*r*1.6,y=r*(.3+hs(k,8)*1.5),rr=r*(.05+hs(k,9)*.09);c.fillStyle='rgba(0,0,0,.25)';c.beginPath();c.ellipse(x+rr*.25,y+rr*.3,rr,rr*.75,0,0,TAUx);c.fill();
+    c.fillStyle=['#9a8f80','#b3a896','#7f7466'][k%3];c.beginPath();c.ellipse(x,y,rr,rr*.75,0,0,TAUx);c.fill();c.fillStyle='rgba(255,255,255,.35)';c.beginPath();c.ellipse(x-rr*.3,y-rr*.3,rr*.35,rr*.2,0,0,TAUx);c.fill();}
+  // side light: lit from the left
+  gr=c.createLinearGradient(-r,0,r,0);gr.addColorStop(0,'rgba(255,235,200,.22)');gr.addColorStop(.5,'rgba(0,0,0,0)');gr.addColorStop(1,'rgba(10,5,20,.35)');c.fillStyle=gr;c.fillRect(-r*1.3,0,r*2.6,r*2.4);
+  c.restore();
+  // hanging roots and a vine
+  c.lineCap='round';for(let k=0;k<4;k++){const x=(hs(k,11)-.5)*r*1.1,y0=r*(.4+hs(k,12)*.5),L=r*(.5+hs(k,13)*.7);c.strokeStyle=k===3?'#4f8a3a':'rgba(70,48,30,.85)';c.lineWidth=k===3?r*.05:r*.035;c.beginPath();c.moveTo(x,y0);c.bezierCurveTo(x+r*.1,y0+L*.4,x-r*.12,y0+L*.7,x+r*.04,y0+L);c.stroke();
+    if(k===3)for(let q=1;q<4;q++){c.fillStyle='#5fa24a';c.beginPath();c.ellipse(x+(q%2?r*.06:-r*.06),y0+L*q/4,r*.06,r*.03,q,0,TAUx);c.fill();}}
+  // soil lip and grassy top
+  c.fillStyle='#5a3f2c';c.beginPath();c.ellipse(0,r*.14,r*1.02,r*.44,0,0,TAUx);c.fill();
+  gr=c.createLinearGradient(0,-r*.42,0,r*.42);gr.addColorStop(0,shade(P.base[1],.12));gr.addColorStop(1,shade(P.base[0],-.05));c.fillStyle=gr;c.beginPath();c.ellipse(0,0,r,r*.42,0,0,TAUx);c.fill();
+  // grass hanging over the rim
+  for(let k=0;k<Math.round(r*4);k++){const a=Math.PI*(.05+hs(k,21)*.9),x=Math.cos(a)*r*.98,y=Math.sin(a)*r*.4;c.strokeStyle=k%2?P.blade[0]:P.blade[1];c.lineWidth=r*.035;c.beginPath();c.moveTo(x,y-r*.05);c.quadraticCurveTo(x+Math.cos(a)*r*.08,y+r*.1,x+Math.cos(a)*r*.12,y+r*.18+hs(k,22)*r*.1);c.stroke();}
+  // tufts on top
+  for(let k=0;k<Math.round(r*3);k++){const x=(hs(k,31)-.5)*r*1.6,y=(hs(k,32)-.5)*r*.6,l=r*(.08+hs(k,33)*.1);c.strokeStyle=k%3?P.blade[0]:P.blade[1];c.lineWidth=r*.03;c.beginPath();c.moveTo(x,y);c.lineTo(x+(hs(k,34)-.5)*l,y-l);c.stroke();}
+  // (no trees or bushes on the distant islets — just grass)
+  if(season0==='winter'){const sg=c.createLinearGradient(0,-r*.35,0,r*.3);sg.addColorStop(0,'rgba(255,255,255,.85)');sg.addColorStop(1,'rgba(200,214,236,.7)');c.fillStyle=sg;c.beginPath();c.ellipse(0,-r*.02,r*.86,r*.32,0,0,TAUx);c.fill();for(let k=0;k<6;k++){c.fillStyle='rgba(255,255,255,.9)';c.beginPath();c.ellipse((hs(k,61)-.5)*r*1.5,r*(.2+hs(k,62)*.1),r*.08,r*.05,0,0,TAUx);c.fill();}}
+  const ks=Object.keys(ISLT_C);if(ks.length>24)delete ISLT_C[ks[0]];return ISLT_C[key]={cv,W0,H0,ox,oy};}
+function ISLT_draw(t){const s0=season();[[3.0,27.6,13,1],[20.8,28.2,10,2],[8.2,31.6,8,3],[15.8,32.6,7,4]].forEach(([fx,fy,r,sd])=>{const y=fy*T+Math.sin(t*.8+fx)*3,x=fx*T,sp=ISLT_sprite(r,sd,s0);
+  g.save();g.translate(x,y);g.rotate(Math.sin(t*.5+fx)*.02);g.drawImage(sp.cv,-sp.ox,-sp.oy,sp.W0,sp.H0);g.restore();});}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
