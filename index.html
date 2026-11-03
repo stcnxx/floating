@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 552（2026/11/03）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 554（2026/11/03）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 552（2026/11/03）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 554（2026/11/03）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -6811,8 +6811,8 @@ function lbTick(dt){if(!S)return;lbSync();if(!LB.length)return;const night=sleep
     if(night){const u=U(b.k);if(u&&!(b.tx===u.x&&b.ty===u.y))lbGo(b,u.x,u.y);b.mode='rest';b.dir='down';continue;}
     const other=LB.find(o=>o!==b),r=Math.random();
     if(other&&r<.18){const q=lbNear(other.tx,other.ty);if(q){lbGo(b,q.x,q.y);b.mode='meet';b.meet=other;continue;}}
-    if(r<.5&&C.scene==='in'){const q=lbNear(C.tx,C.ty);if(q){lbGo(b,q.x,q.y);b.mode='follow';continue;}}
-    if(r<.62&&M&&S.mate&&M.scene==='in'&&!M.sleeping){const q=lbNear(M.tx,M.ty);if(q){lbGo(b,q.x,q.y);b.mode='followM';continue;}}
+    if(r<.36&&C.scene==='in'){const q=lbNear(C.tx,C.ty);if(q){lbGo(b,q.x,q.y);b.mode='follow';continue;}}
+    if(r<.44&&M&&S.mate&&M.scene==='in'&&!M.sleeping){const q=lbNear(M.tx,M.ty);if(q){lbGo(b,q.x,q.y);b.mode='followM';continue;}}
     if(r<.8){b.mode='idle';b.dir=pick(['down','left','right','down']);continue;}
     const rt=randomTile('in',pick(['liv','liv','kit','bed']));if(rt){lbGo(b,rt.x,rt.y);b.mode='wander';}}
   // meeting: face each other and chirp
@@ -25114,8 +25114,16 @@ function NP_mark(){try{if(S&&C.sleeping&&!C.napping&&sleepTime(0)){const k=NP_ke
 {const UP=update;update=function(dt){UP.apply(this,arguments);NP_mark();};}
 /* v523: LoveBots go back onto their charging nests when the hero goes to bed */
 function LB_bedtime(){return !!(S&&C.sleeping&&!C.napping);}
-{const LT=lbTick;lbTick=function(dt){const r=LT.apply(this,arguments);try{if(S&&LB.length){const bed=LB_bedtime();
-  for(const b of LB){const u=U(b.k),L=S.layout[b.k];if(!u||!L||L.carry){b.dockT=0;continue;}
+/* v554: during the day each LoveBot now and then goes back to its nest and charges for a while */
+const LB_CHG=['じゅうでんちゅう…','ぴこ…ぴこ…','すこしやすむね','ふぁ〜…'];
+function LB_chargeTick(b,dt,bed){if(bed){b.charge=0;return;}
+  if(!b.charge){b.chgCD=(b.chgCD==null?rnd(240,900):b.chgCD)-dt;if(b.chgCD<=0){b.charge=1;b.chgLeft=rnd(150,420);b.path=[];b.mode='rest';try{lbChirp(b,'じゅうでんしてくるね');}catch(e){}}return;}
+  if((b.dockT||0)>=.3){b.chgLeft-=dt;if(Math.random()<dt*.04)try{lbChirp(b,pick(LB_CHG));}catch(e){}
+    if(b.chgLeft<=0){b.charge=0;b.chgCD=rnd(900,1800);b.t=rnd(1,3);try{lbChirp(b,pick(['まんたん！','げんき100%','ぴかーん！']));}catch(e){}
+      if(C.scene==='in'&&!msgBusy()&&Math.random()<.35)queueSay(pick(['ラブロボ、充電おわったみたい','ラブロボ、元気になったね']));}}}
+{const LT=lbTick;lbTick=function(dt){const r=LT.apply(this,arguments);try{if(S&&LB.length){const bed0=LB_bedtime();
+  for(const b of LB){const u=U(b.k),L=S.layout[b.k];if(!u||!L||L.carry){b.dockT=0;b.charge=0;continue;}LB_chargeTick(b,dt,bed0);const bed=bed0||!!b.charge;if(b.charge)b.t=Math.max(b.t||0,3);
+    if(bed&&(b.dockT||0)>=.3){b.mode='rest';b.path=[];b.tx=u.x;b.ty=u.y;b.px=u.x*T;b.py=u.y*T;b.dockT=Math.min(1,b.dockT+dt*1.3);b.dir='down';continue;}
     if(bed){b.mode='rest';if(!b.path.length&&!(b.tx===u.x&&b.ty===u.y)){const add=[];try{for(const c of LB_avoidCells())if(!OCC.has(c)&&c!==u.x+','+u.y){OCC.add(c);add.push(c);}lbGo(b,u.x,u.y);}finally{for(const c of add)OCC.delete(c);}}
       if(!b.path.length&&b.tx===u.x&&b.ty===u.y){b.dockT=Math.min(1,(b.dockT||0)+dt*1.3);b.dir='down';}}
     else if(b.dockT>0)b.dockT=Math.max(0,b.dockT-dt*1.6);}}}catch(e){}return r;};}
