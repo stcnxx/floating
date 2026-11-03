@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 556（2026/11/03）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 559（2026/11/03）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 556（2026/11/03）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 559（2026/11/03）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -26523,6 +26523,69 @@ function LTV_label(){const el=$('devb');if(!el||el.hidden||!S||(typeof BFL!=='un
 (function(){const st=document.createElement('style');st.textContent='#devb.ltvLab .tail{display:none!important}';document.head.append(st);})();
 {const U6=update;update=function(dt){const r=U6.apply(this,arguments);try{if(!camManual()&&LTV_label()){const R=LTV_rect(),el=$('devb'),k=cv.clientWidth/W,lh=Math.ceil(el.offsetHeight/(k*Z));
   const need=R.top-6-lh-Math.ceil(16/(k*Z)),lim=Math.round(need+H/(2*Z));if(cam.y>lim)cam.y=lim;}}catch(e){}return r;};}
+/* v557: the info panel also steps aside when the TV label belongs to the housemate (or a visitor) watching TV — not only when the hero watches */
+{const HA=hudAvoid;hudAvoid=function(){const r=HA.apply(this,arguments);try{const hud=$('hud');if(!hud||!S||hudPos()!=='tr'||!LTV_label()||/bottom/.test(hud.className))return r;
+  const hr0=hud.getBoundingClientRect(),pr=(hud.offsetParent||document.body).getBoundingClientRect(),top=pr.top+8,m=6,hr={l:hr0.left-m,r:hr0.right+m,t:top-m,b:top+hr0.height+m};
+  const hit=q=>q&&q.right>hr.l&&q.left<hr.r&&q.bottom>hr.t&&q.top<hr.b;let down=hit($('devb').getBoundingClientRect());
+  if(!down){const R=LTV_rect(),cr=cv.getBoundingClientRect(),k=cv.clientWidth/W,sx=w=>cr.left+((w-cam.x)*Z+W/2)*k,sy=w=>cr.top+((w-cam.y)*Z+H/2)*k;down=hit({left:sx(R.x0),right:sx(R.x1),top:sy(R.top),bottom:sy(R.L.y*T+1)});}
+  if(down){hud.className='glass hud bottom';hudMode='B';}}catch(e){}return r;};}
+/* ===== v558: what the hero wants next — no more "new item" priority slots: every missing thing has the same chance;
+   and a kind (tables, Jingdezhen jars, clocks, statues …) that came recently is skipped for the next few wishes ===== */
+function WG_group(k){const f=FT[k];if(!f)return k;const n=f.n||'';
+  if(/^cr_/.test(k))return'craft';if((typeof TBL303!=='undefined'&&TBL303.includes(k))||/テーブル/.test(n))return'table';if(/景徳鎮/.test(n))return'jdz';if(/時計/.test(n))return'clock';
+  if(f.art||/ミニチュア|屏風|ルーベンス/.test(n))return'art';if(/像|置物/.test(n))return'statue';if(/ソファ/.test(n))return'sofa';if(/ラグ/.test(n))return'rug';
+  if(/植物|鉢|盆栽|サボテン|ハーブ|テラリウム|寄せ植え/.test(n))return'plant';if(/クッション|座布団/.test(n))return'cushion';if(/棚|シェルフ|ラック/.test(n))return'shelf';
+  if(/ランプ|ライト|照明/.test(n))return'lamp';if(/おもちゃ|模型|パズル|ぬいぐるみ|テディ/.test(n))return'toy';if(/テレビ|ステレオ|ラジ|オーディオ|ジュークボックス|レコード/.test(n))return'av';
+  return f.k+':'+k;}
+function WG_recent(){return(S&&S.wishHist||[]).slice(-3);}
+nextComfort=function(){return BF_asStored(()=>{try{const no=S.noRoom||[];
+  const pend=x=>has(x)||isStored(x)||(S.wish||[]).includes(x)||(S.delivery&&S.delivery.k===x)||no.includes(x);
+  let rest=ALLK.filter(k=>FT[k]&&!pend(k)&&!(k==='lbot2'&&!has('lbot1'))&&!(k==='sofa2'&&!has('sofa'))&&!(k==='yogibo2'&&!has('yogibo'))&&!(k==='yogibo3'&&!has('yogibo2')));
+  if(!rest.length)return null;
+  const e=rest.find(k=>ESS.includes(k));if(e)return e;
+  // small ornaments need a free shelf / table spot; when every spot is taken, a new collection shelf comes first
+  const free=freeSlots();if(free<=0){rest=rest.filter(k=>FT[k].k!=='top'||(typeof KITCHENWARE!=='undefined'&&KITCHENWARE.has(k)));
+    try{const ck=(typeof CR_nextKey==='function')?CR_nextKey():null;if(ck&&!pend(ck)&&FT[ck])return ck;}catch(_){}}
+  if(!rest.length)return null;
+  const rec=new Set(WG_recent());const fresh=rest.filter(k=>!rec.has(WG_group(k)));
+  return pick(fresh.length?fresh:rest);}catch(err){return null;}});};
+{const W0=want;want=function(k){const had=(S.wish||[]).includes(k);const r=W0.apply(this,arguments);try{if(FT[k]&&!had&&(S.wish||[]).includes(k)){S.wishHist=(S.wishHist||[]).concat(WG_group(k)).slice(-8);}}catch(e){}return r;};}
+// the garden: also pick evenly (no fixed priority list), and skip a kind of garden piece that came just before
+{const WC=WU_choose;WU_choose=function(){try{const inR=WU_inRest(),yR=WU_yRest(),ess=inR.some(k=>ESS.includes(k)),tot=inR.length+yR.length;if(!tot)return null;
+  if(!ess&&yR.length&&Math.random()<yR.length/tot){const last=(S.yardHist||[]).slice(-2),gy=k=>((OFT[k]&&OFT[k].n)||k).replace(/（.*）|\(.*\)/g,'').slice(0,3);const fr=yR.filter(k=>!last.includes(gy(k)));const k=pick(fr.length?fr:yR);S.yardHist=(S.yardHist||[]).concat(gy(k)).slice(-6);return{yard:k};}
+  const nx=nextComfort();return nx?{in:nx}:(yR.length?{yard:pick(yR)}:null);}catch(e){return WC.apply(this,arguments);}};}
+/* ===== v559: 住居 tab — the same icon tiles as the picture book; stored things open a small icon menu to take them out ===== */
+function HOME_render(){const el=$('homeBody');if(!el||!S)return;el.innerHTML='';
+  const sec=(title,ks,icon,name,onTap,badge)=>{const h=document.createElement('div');h.className='dexh';h.innerHTML=`<h3>${title}</h3><small>${ks.length}点</small>`;el.append(h);
+    if(!ks.length){const p=document.createElement('p');p.className='dexnone';p.textContent='なし';el.append(p);return;}
+    const gr=document.createElement('div');gr.className='dexg';const srt=ks.slice().sort((a,b)=>{try{return NM_cmp(name(a),name(b));}catch(e){return 0;}});
+    for(const k of srt){const d=document.createElement('div');d.className='dexi';try{d.append(icon(k));}catch(e){}const s2=document.createElement('span');s2.textContent=name(k);d.append(s2);
+      const bd=badge&&badge(k);if(bd){d.style.position='relative';const b=document.createElement('em');b.textContent=bd;b.style.cssText='position:absolute;top:2px;right:2px;font-style:normal;font-size:9px;padding:1px 4px;border-radius:6px;background:var(--lantern,#ffd36b);color:#3a2a10;font-weight:700';d.append(b);}
+      d.onclick=()=>onTap(k,d);gr.append(d);}el.append(gr);};
+  const zoomF=(icon,name,title)=>k=>{try{dexZoom(()=>icon(k),name(k),title,k);}catch(e){}};
+  const own=S.owned.filter(k=>FT[k]);const isF=k=>(!['wall','top'].includes(FT[k].k)||KITCHENWARE.has(k))&&!FT[k].art,fn=k=>FT[k].n;
+  const groups=[['リビングの家具',k=>FT[k].rooms[0]==='liv'],['寝室の家具',k=>FT[k].rooms[0]==='bed'],['キッチンの家具・用品',k=>FT[k].rooms[0]==='kit'],['水まわりの家具',k=>['bath','wc','dress'].includes(FT[k].rooms[0])]];
+  const used=new Set();for(const[t,f]of groups){const ks=own.filter(k=>isF(k)&&f(k)&&!used.has(k));ks.forEach(k=>used.add(k));sec(t,ks,furnIcon,fn,zoomF(furnIcon,fn,t));}
+  {const ks=own.filter(k=>isF(k)&&!used.has(k));if(ks.length)sec('そのほかの家具',ks,furnIcon,fn,zoomF(furnIcon,fn,'そのほかの家具'));}
+  {const ks=own.filter(k=>FT[k].art);if(ks.length)sec('名画・美術品',ks,furnIcon,k=>FT[k].n.replace('（ミニチュア）',''),zoomF(furnIcon,fn,'名画・美術品'));}
+  {const ks=own.filter(k=>FT[k].k==='wall'&&!FT[k].art);sec('壁の飾り',ks,furnIcon,fn,zoomF(furnIcon,fn,'壁の飾り'));}
+  {const ks=own.filter(k=>FT[k].k==='top'&&!KITCHENWARE.has(k));sec('小物',ks,furnIcon,fn,zoomF(furnIcon,fn,'小物'));}
+  if(S.delivery){const p=document.createElement('p');p.className='dexnone';p.textContent='📦 なにかが届いたみたい';el.append(p);}
+  const yd=yardList().filter(k=>OFT[k]),yn=k=>OFT[k].n;sec(`庭のもの（花壇 ${allBeds().length}つ）`,yd,yardIcon,yn,zoomF(yardIcon,yn,'庭のもの'));
+  if(S.yardDel){const p=document.createElement('p');p.className='dexnone';p.textContent='📦 庭に置くものが届いてる';el.append(p);}
+  const st=(S.stored||[]).map(e=>e.k).filter(k=>FT[k]),ys=(S.ystored||[]).map(e=>e.k).filter(k=>OFT[k]);
+  sec('しまってあるもの',st,furnIcon,fn,k=>HOME_takeOut(k,false),k=>(S.unstoreQ||[]).includes(k)?'出す予定':'');
+  sec('しまってある庭のもの',ys,yardIcon,yn,k=>HOME_takeOut(k,true),k=>(S.yunstoreQ||[]).includes(k)?'出す予定':'');
+  if(st.length||ys.length){const p=document.createElement('p');p.className='dexnone';p.style.fontSize='11px';p.textContent='しまってあるものはタップすると、出してくるようにお願いできます';el.append(p);}}
+function HOME_takeOut(k,yard){let ov=$('takeOv');if(!ov){ov=document.createElement('div');ov.id='takeOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});
+    const st=document.createElement('style');st.textContent='#takeOv .card{max-width:280px;padding:16px 14px 12px;text-align:center}#takeOv .ti canvas{width:96px;height:96px}#takeOv h2{margin:6px 0 2px;font-size:16px}#takeOv p{margin:0 0 12px;font-size:12px;opacity:.8}#takeOv .rpa{display:flex;gap:8px}#takeOv .rpa button{flex:1}';document.head.append(st);}
+  const q=yard?(S.yunstoreQ=S.yunstoreQ||[]):(S.unstoreQ=S.unstoreQ||[]),n=yard?OFT[k].n:FT[k].n,on=q.includes(k);
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="${n}"><div class="ti"></div><h2>${n}</h2><p>${on?'出す予定になっています':yard?'しまってある庭のもの':'しまってあるもの'}</p><div class="rpa"><button type="button" class="tkNo">${on?'出すのをやめる':'キャンセル'}</button><button type="button" class="primary tkYes"${on?' disabled':''}>${yard?'庭に出してくる':'出してくる'}</button></div></div>`;
+  try{ov.querySelector('.ti').append(yard?yardIcon(k):furnIcon(k));}catch(e){}
+  ov.querySelector('.tkNo').onclick=()=>{if(on){const i=q.indexOf(k);if(i>=0)q.splice(i,1);save();HOME_render();}ov.hidden=true;};
+  ov.querySelector('.tkYes').onclick=()=>{if(!q.includes(k)){q.push(k);save();say(yard?`${n}、庭に出してくるね`:pick([`${n}、出してくるね`,`わかった、${n}を出そう`]));}ov.hidden=true;HOME_render();};
+  ov.hidden=false;}
+{const RS=renderSheet;renderSheet=function(){const r=RS.apply(this,arguments);try{HOME_render();}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
