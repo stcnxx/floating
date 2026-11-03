@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 548（2026/11/03）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 550（2026/11/03）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 548（2026/11/03）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 550（2026/11/03）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -692,7 +692,7 @@ const FT={
   lbot2:F('ラブロボ（2体目）',1,1,'free',['liv','bed','kit'],{draw:(X,Y,Wd,Dp,L)=>dLBNest(X,Y,Wd,Dp,L)}),
   robovac:F('ロボット掃除機',1,1,'back',['liv','kit','bed'],{use:'front',draw:(X,Y)=>dRoboDock(X,Y)}),
   bed2:F('同居人のベッド',2,3,'free',['bed','liv'],{use:'side',draw:(X,Y,Wd,Dp,L,t)=>dBed(X,Y,Wd,Dp,L,t,1)}),
-  tv:F('テレビ',2,1,'back',['liv'],{tall:1,use:'front',draw:dTV}),
+  tv:F('テレビ',3,1,'back',['liv'],{tall:1,use:'front',draw:dTV}),
   toilet:F('トイレ',1,1,'back',['wc'],{use:'front',snap:L=>({px:(L.x+.5)*T,py:L.y*T+11,pose:'sit',d:'down',over:true}),draw:dToilet}),
   fridge:F('冷蔵庫',1,1,'back',['kit'],{fix:1,tall:1,use:'front',draw:dFridge}),
   bath:F('浴槽',3,2,'back',['bath'],{use:'front',snap:L=>({px:(L.x+1.5)*T,py:L.y*T+30,pose:'bath',over:true}),draw:dBath}),
@@ -3415,7 +3415,7 @@ function drawTVContent(sx,sy,sw,sh,t){const x=sx+1.6,y=sy+1.6,w=sw-3.2,h=sh-3.2;
   const sc=g.createLinearGradient(x,y,x+w,y+h);sc.addColorStop(0,'rgba(255,255,255,.12)');sc.addColorStop(.5,'rgba(255,255,255,0)');g.fillStyle=sc;g.fillRect(x,y,w,h);g.restore();}
 function dTV(X,Y,Wd,Dp,L,t){
   prism(X+3,Y+9,Wd-6,12,12,'#5a4e62',{top:'#6d607a'});g.fillStyle='rgba(0,0,0,.22)';g.fillRect(X+Wd/2-.4,Y+11,.8,8);knob(X+Wd/2-6,Y+15,'#cbb89a');knob(X+Wd/2+6,Y+15,'#cbb89a');
-  const sw=44,sh=28,sx=X+Wd/2-sw/2,sy=Y-27;
+  const sw=66,sh=41,sx=X+Wd/2-sw/2,sy=Y-40;
   fillR(g,'#26232c',X+Wd/2-6,Y-1,12,3,1);fillR(g,'#26232c',X+Wd/2-1.4,Y-3,2.8,3);fillR(g,'#1b1a20',sx,sy,sw,sh,2.5);fillR(g,'rgba(255,255,255,.08)',sx+.6,sy+.4,sw-1.2,.8,.4);
   const on=(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
   if(on)drawTVContent(sx,sy,sw,sh,t);
@@ -7133,7 +7133,7 @@ FT.tv.draw=function(X,Y,Wd,Dp,L,t){g.save();const wn='#6b4329';
   // soundbar
   fillR(g,'rgba(0,0,0,.25)',X+Wd/2-11,Y+3.8,22,1.2,.6);fillR(g,A_lg(0,Y+1.6,0,Y+4.6,[[0,'#3a3d45'],[1,'#1b1d22']]),X+Wd/2-11,Y+1.6,22,2.8,1.2);g.fillStyle='rgba(255,255,255,.08)';for(let i=0;i<20;i++)g.fillRect(X+Wd/2-10+i*1.02,Y+2.6,.5,1.2);fillR(g,'rgba(255,255,255,.25)',X+Wd/2-10,Y+1.75,20,.35);
   // TV: pedestal + slim body
-  const sw=44,sh=28,sx=X+Wd/2-sw/2,sy=Y-27;
+  const sw=66,sh=41,sx=X+Wd/2-sw/2,sy=Y-40;
   fillE(g,'rgba(0,0,0,.25)',X+Wd/2,Y+.8,7,1.2);fillR(g,A_lg(0,Y-.6,0,Y+1.4,[[0,'#4a4d55'],[1,'#1b1d22']]),X+Wd/2-6.5,Y-.6,13,1.8,.8);fillR(g,'#2a2c32',X+Wd/2-1.6,Y-3,3.2,3,.4);
   fillR(g,'rgba(0,0,0,.25)',sx+.8,sy+1,sw,sh,2);
   fillR(g,A_lg(sx,sy,sx+sw,sy+sh,[[0,'#3a3d45'],[.5,'#17181c'],[1,'#26282e']]),sx-.3,sy-.3,sw+.6,sh+.6,2.2);
@@ -26502,6 +26502,23 @@ function PETO_drawAt(p){if(p.climb){const ox=p.px,oy=p.py;p.px=p.climb.x-T/2;p.p
   const L=p.climb?[`${n}、木の上でくつろいでる`,`${n}、そこから何が見えるの？`]:p.pose==='curl'?[`${n}、草の上で寝ちゃった`,`${n}、日なたで気持ちよさそう`]:p.zoom?(kd==='dog'?(PETO_snow()?[`${n}、雪で大はしゃぎ！`,`${n}、雪の上を走りまわってる`]:[`${n}、元気いっぱいに走ってる`,`${n}、待って〜！`]):kd==='neko'?[`${n}、外でもドタバタしてる`,`${n}、走るの意外と速い…`]:[`${n}、狩りの練習かな`]):
     kd==='dog'?[`${n}、なにかにおう？`,`${n}、外が好きだね`,`${n}、庭のパトロールおつかれさま`]:kd==='neko'?[`${n}、散歩中？`,`${n}、またなにか言ってる`,`${n}、庭でもマイペースだね`]:[`${n}、ちょうちょ追いかけてる？`,`${n}、庭の見回り？`];
   queueSay(pick(L));}catch(e){}};}
+
+/* ===== v549: the pet door seen from inside (the front door in the indoor view); it swings when a pet goes through ===== */
+function PETD_draw(dcx,dB,k){const w=8.4,h=7;
+  g.fillStyle='#4a2e1a';rr(g,dcx-w/2-.7,dB-h-.7,w+1.4,h+.7,1.6);g.fill();g.fillStyle='#2a1a10';rr(g,dcx-w/2,dB-h,w,h,1.3);g.fill();
+  g.save();g.translate(dcx,dB-h);g.scale(1,1-Math.abs(k)*.75);g.fillStyle=SZ.lg(-w/2,0,w/2,0,[[0,'#b07a50'],[.5,'#946038'],[1,'#74482a']]);rr(g,-w/2+.5,.4,w-1,h-.8,1);g.fill();
+  g.fillStyle='rgba(255,230,190,.35)';g.fillRect(-w/2+1,.8,w-2,.35);g.fillStyle='rgba(40,20,8,.35)';g.fillRect(-w/2+1,h-1.6,w-2,.4);g.restore();
+  fillR(g,'#c9a24a',dcx-1.6,dB-h-.3,3.2,.6,.3);}
+{const HD=HOUSE_door;HOUSE_door=function(dcx,fT,dB,night){const r=HD.apply(this,arguments);try{PETD_draw(dcx,dB,0);}catch(e){}return r;};}
+{const PI1=PET_items;PET_items=function(items){PI1.apply(this,arguments);try{if(C.scene==='in'&&BFL===0&&PETO.doorT>0){const dcx=IN_ENTRY.x*T+T/2,dB=24*T+14;items.push({k:dB+.5,f:()=>PETD_draw(dcx,dB,Math.sin(Math.min(1,PETO.doorT/.6)*Math.PI)*PETO.doorDir)});}}catch(e){}};}
+
+/* ===== v550: the living-room TV is 3 tiles wide now — make room for it in older saves (once) ===== */
+function TV3_ok(x,y,occ){const r=roomAt(x,y);if(r!=='liv')return false;for(let xx=x;xx<x+3;xx++){const kk=xx+','+y;if(roomAt(xx,y)!==r||occ.has(kk)||(typeof KEEP!=='undefined'&&KEEP.has(kk))||(typeof DOORCELL!=='undefined'&&DOORCELL.has(kk)))return false;}return true;}
+function TV3_fix(){if(!S||S.tv3||!S.layout)return;const L=S.layout.tv;if(!L||L.carry||L.wall){S.tv3=1;return;}
+  try{const occ=occSet(new Set(['tv']));if(!TV3_ok(L.x,L.y,occ)){if(TV3_ok(L.x-1,L.y,occ))L.x-=1;else{const q=placeFor('tv',{skip:new Set(['tv']),v:L.v});if(q){S.layout.tv={...L,...q};}}}refreshOcc();}catch(e){}
+  S.tv3=1;save();}
+{const SN=startNew;startNew=function(){const r=SN.apply(this,arguments);try{if(S)S.tv3=1;}catch(e){}return r;};}
+{const CG=contGame;contGame=function(){const r=CG.apply(this,arguments);try{TV3_fix();}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
