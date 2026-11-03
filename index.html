@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 547（2026/11/03）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 548（2026/11/03）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 547（2026/11/03）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 548（2026/11/03）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -4768,9 +4768,9 @@ function render0(){
   if(V&&V.scene===C.scene&&!V.ride){const vp=vPos();items.push({k:V.sit&&V.sit.sofa&&S.layout.sofa?SOFA_K()+.7:SIDE_K(vp.by+(V.sit&&C.snap?1:0),V.sit?(V.sit.sofa?null:V.sit.d):V.dir,vp.cx,vp.by),f:drawVisitor});}
   if(M&&S.mate&&M.scene===C.scene)items.push({k:mateKey(),f:drawMate});
   if(C.scene==='in')for(const b of LB)items.push({k:b.dockT>.5&&S.layout[b.k]?(S.layout[b.k].y+1)*T+.5:b.py+T-3,f:()=>drawLBot(b)});
-  if(C.scene==='in'&&typeof PET_items==='function')PET_items(items);
+  if(typeof PET_items==='function')PET_items(items);
   if(C.scene==='in'&&has('robovac')&&RV.ph!=='dock')items.push({k:RV.y+T-6,f:()=>drawRobo(RV.x+T/2,RV.y+T-6,true)});
-  items.push({k:C.scene==='in'&&C.snap&&C.snap.zk!=null&&C.pose==='lie'?C.snap.zk:C.scene==='out'&&C.snapK==='y:yagura'&&S.yard&&S.yard.yagura?YG_KEY()+(C.snap&&C.snap.climb?.9:.4):C.scene==='in'&&C.pose==='lie'&&C.snapK==='bed'&&S.layout.bed?(S.layout.bed.y+3)*T+1:C.scene==='in'&&C.snapK==='sofa'&&C.snap&&S.layout.sofa?SOFA_K():SIDE_K(cp.by+(C.snap&&C.snap.over?40:0),SIDE_D(),cp.cx,cp.by),f:()=>drawChar(g,cp.cx,cp.by,charOpts())});
+  items.push({k:C.scene==='in'&&C.snap&&C.snap.zk!=null&&C.pose==='lie'?C.snap.zk:C.scene==='out'&&C.snapK==='y:yagura'&&S.yard&&S.yard.yagura?YG_KEY()+(C.snap&&C.snap.climb?.9:.4):C.scene==='in'&&C.pose==='lie'&&C.snapK==='bed'&&S.layout.bed?(S.layout.bed.y+3)*T+1:C.scene==='in'&&C.pose==='sit'&&C.snap&&C.snapK!=='sofa'&&SOFA_keyAt(C.snap.px,C.snap.py)!=null?SOFA_keyAt(C.snap.px,C.snap.py):C.scene==='in'&&C.snapK==='sofa'&&C.snap&&S.layout.sofa?SOFA_K():SIDE_K(cp.by+(C.snap&&C.snap.over?40:0),SIDE_D(),cp.cx,cp.by),f:()=>drawChar(g,cp.cx,cp.by,charOpts())});
   if(C.scene==='out'){
     drawIsland(t);
     OUT.trees.forEach(tr=>items.push({k:tr.y*T+21,f:()=>drawTree(tr,t)}));
@@ -6219,7 +6219,7 @@ function chooseMateAct(){const h=hourNow(),s=[];
   if(r<.42&&has('bookshelf')){const u=U('bookshelf');if(u)return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'fn',f:()=>{M.holding='book';M._rd=pick([...BOOKS,...MANGA,...MAGS]);}},{t:'say',text:()=>{const it=M._rd;return it.mag?`『${it.t}』、読もうっと`:it.manga?`${it.a}の『${it.t}』の続き、読もうっと`:`${it.a}の『${it.t}』、続き読もうっと`;}},{t:'wait',s:rnd(8,14)},{t:'say',text:()=>{const it=M._rd;return pick(it.mag?(MAGMID[it.k]||MAGMID.zc):(BKMID[it.k]||BKMID.jm));}},{t:'wait',s:rnd(6,12)},{t:'fn',f:()=>{M.holding=null;}}];}
   if(r<.62&&daylight()>.25&&!badOut()){const pts=[];for(let i=0;i<3;i++){const t2=randomTile('out');if(t2)pts.push(t2);}const bn=OUT.bench,sv=[{t:'say',text:pick(['ちょっと庭に出てくるね','外の空気吸ってこよう','お散歩してくるね','庭の様子、見てくる'])}];
     for(const q of pts)sv.push({t:'go',sc:'out',x:q.x,y:q.y},{t:'wait',s:rnd(4,9)},{t:'say',text:()=>pick(['いい風〜','花が咲いてる','空が近いなあ','雲が足もとを流れてく','鳥の声がする','ここからの景色、好き',season()==='autumn'?'葉っぱの色がきれい':season()==='winter'?'空気が冷たくて気持ちいい':season()==='summer'?'日差しが強いね':'あったかいね'])});
-    if(Math.random()<.5)sv.push({t:'go',sc:'out',x:bn.x,y:bn.y-1},{t:'fn',f:()=>{M.sit={px:(bn.x+.5)*T,py:bn.y*T+14,pose:'sit',d:'down',over:true,hang:6};}},{t:'say',text:'ベンチでひと休み'},{t:'wait',s:rnd(12,24)},{t:'fn',f:()=>{M.sit=null;}});
+    if(Math.random()<.5)sv.push({t:'go',sc:'out',x:bn.x+1,y:bn.y-1},{t:'fn',f:()=>{M.sit={px:(bn.x+1.5)*T,py:bn.y*T+14,pose:'sit',d:'down',over:true,hang:6};}},{t:'say',text:'ベンチでひと休み'},{t:'wait',s:rnd(12,24)},{t:'fn',f:()=>{M.sit=null;}});
     sv.push({t:'go',sc:'in',x:IN_ENTRY.x,y:IN_ENTRY.y-1});return sv;}
   if(r<.56&&has('toilet')){const u=U('toilet');if(u)return[{t:'go',sc:'in',x:u.x,y:u.y},{t:'wait',s:4},{t:'go',sc:'in',dyn:()=>U('handwash')||U('sink')},{t:'water',k:has('handwash')?'handwash':'sink'},{t:'wait',s:2}];}
   if(r<.64&&(C.act==='tv'||C.act==='tvshow')&&C.snap){const sb=C.snapK==='sofa'?sofaB():null;const st=sb?{k:'sofa2',u:sb.tile}:mSeatTile();if(st){const sit=sb?sb.sit:sitAtTile(st.u,false);return[{t:'go',sc:'in',x:st.u.x,y:st.u.y},{t:'fn',f:()=>{M.sit={...sit,pose:'sit',d:'up'};}},{t:'say',text:()=>C.tvNow?`『${short(C.tvNow.title,16)}』、面白いね`:'なに見てるの？'},{t:'wait',s:20},{t:'fn',f:()=>{M.sit=null;}}];}}
@@ -26372,6 +26372,136 @@ function ISLE4_shift(S0){const D=2,sh=q=>{if(q&&typeof q.x==='number'&&typeof q.
 {const CG=contGame;contGame=function(s){const r=CG.apply(this,arguments);try{if(S&&!S.isle4){ISLE4_shift(S);
     try{BEDPOS_S=null;bedPosApply();}catch(e){}try{if(C.scene==='out')place(C.tx+2,C.ty+2);}catch(e){}try{if(M&&M.scene==='out'){M.tx+=2;M.ty+=2;M.px+=2*T;M.py+=2*T;M.path=[];}}catch(e){}
     try{refreshOut();}catch(e){}save();}}catch(e){}return r;};}
+
+
+/* ===== v548: (1) people sitting on the second sofa / L-shaped sofa are drawn on the seat, in front of the back cushions ===== */
+function SOFA_keyAt(px,py){try{for(const k of['sofa','sofa2','sofaL']){if(!has(k))continue;const L=S.layout[k];if(!L||L.carry)continue;const f=FT[k];
+    if(px>=L.x*T-2&&px<=(L.x+f.w)*T+2&&py>=L.y*T-8&&py<=(L.y+f.h)*T+12)return(L.y+f.h)*T+3;}}catch(e){}return null;}
+{const MK=mateKey;mateKey=function(){try{if(M&&M.sit&&M.sit.pose==='sit'&&M.scene==='in'){const k=SOFA_keyAt(M.sit.px,M.sit.py);if(k!=null)return k+.5;}}catch(e){}return MK.apply(this,arguments);};}
+
+/* ===== v548: (2) the garden bench seats two, sits near the south end of the island and can be moved (long-press and drag) ===== */
+function BENCH2_draw(X,Y){const sn=snowCover>.15?1:0,W=46;
+  const e=YD_sprite('bench2|'+sn,52,30,3,8,c=>{const IR='#3a3632',IRL='#5e5850';
+    fillE(c,'rgba(15,30,10,.28)',W/2+.5,20.6,W/2+1.5,2.8);
+    for(const px of[2.2,W/2-.8,W-3.4]){c.fillStyle=GD_lg(c,px,0,px+1.6,0,[[0,IRL],[1,IR]]);c.fillRect(px,-6.5,1.6,20);}
+    for(let i=0;i<3;i++){const sy=-5.6+i*3.3;c.fillStyle=GD_lg(c,0,sy,0,sy+2.6,[[0,'#c8915c'],[.5,'#ad7646'],[1,'#7e5230']]);rr(c,1,sy,W-1.6,2.6,.8);c.fill();
+      c.strokeStyle='rgba(80,45,20,.35)';c.lineWidth=.15;c.beginPath();c.moveTo(2,sy+1);c.bezierCurveTo(12,sy+1.5,26,sy+.6,W-2,sy+1.2);c.stroke();fillR(c,'rgba(255,235,200,.35)',1.6,sy+.2,W-3,.35,.15);
+      for(const bx of[3,W/2,W-2.6])CW_btn(c,bx,sy+1.3,.3,'#8d929a');}
+    for(const[ax,dir]of[[.4,1],[W-.4,-1]]){c.strokeStyle=IR;c.lineWidth=1.3;c.lineCap='round';c.beginPath();c.moveTo(ax,9.5);c.bezierCurveTo(ax-dir*1.4,6,ax+dir*.2,3.4,ax+dir*2.2,3.6);c.stroke();
+      c.lineWidth=.8;c.beginPath();c.arc(ax+dir*2,4.8,1.1,0,TAU);c.stroke();}
+    // centre armrest dividing the two seats
+    c.strokeStyle=IR;c.lineWidth=1.1;c.beginPath();c.moveTo(W/2,9.4);c.quadraticCurveTo(W/2,5,W/2+.2,4.2);c.stroke();
+    for(let i=0;i<3;i++){const sy=5.6+i*2.3;c.fillStyle=GD_lg(c,0,sy,0,sy+1.6,[[0,'#d6a06a'],[1,'#a06a3c']]);rr(c,.6,sy,W-1.2,2,.6);c.fill();c.fillStyle='rgba(60,30,10,.35)';c.fillRect(1,sy+2,W-2,.3);}
+    c.fillStyle=GD_lg(c,0,14.3,0,16.3,[[0,'#9a663a'],[1,'#6e4524']]);rr(c,.4,14.3,W-.8,2,.6);c.fill();fillR(c,'rgba(255,230,190,.3)',1,14.4,W-2,.3);
+    for(const[lx,dir]of[[2.4,1],[W/2,0],[W-2.4,-1]]){c.strokeStyle=IR;c.lineWidth=1.5;c.lineCap='round';c.beginPath();c.moveTo(lx,15.5);c.bezierCurveTo(lx+dir*.6,17.6,lx-dir*.6,18.8,lx-dir*.4,20.2);c.stroke();fillE(c,IR,lx-dir*.5,20.3,1.3,.5);}
+    if(sn){for(const yy of[-5.8,5.4])fillR(c,'rgba(250,252,255,.9)',1.2,yy-.5,W-2.4,1.1,.5);}});
+  YD_put(e,X,Y);}
+Object.defineProperty(OFT,'bench2',{value:{n:'ベンチ',w:2,h:1,draw:(X,Y,p,t)=>BENCH2_draw(X,Y)},enumerable:false,configurable:true,writable:true});
+{const DP0=drawProps;drawProps=function(kind,obj){if(kind==='bench')return;return DP0(kind,obj);};}
+const BENCH_OLD={x:OUT.bench.x,y:OUT.bench.y};OUTBLOCK.delete(BENCH_OLD.x+','+BENCH_OLD.y);
+function BENCH_spot(){// a free 2x1 spot near the south end of the island, with walkable tiles above it to sit down from
+  const PS=new Set(PATH.map(q=>q[0]+','+q[1])),occ=new Set(OUTOCC),cx=OG.w/2;try{for(const k of yardList()){if(k==='bench2')continue;for(const c of yardCells(k,S.yard[k]))occ.add(c);}}catch(e){}
+  const ok=(x,y)=>inIsle(x,y)&&!OUTBLOCK.has(x+','+y)&&!PS.has(x+','+y)&&!occ.has(x+','+y);
+  const c=[];for(let y=OG.h-2;y>=OG.h-9;y--)for(let x=1;x<OG.w-2;x++){if(!ok(x,y)||!ok(x+1,y)||!ok(x,y-1)||!ok(x+1,y-1))continue;if(!inIsle(x,y+1)||!inIsle(x+1,y+1))continue;c.push({x,y,s:Math.abs(x+1-cx)*1.2-y*2});}
+  c.sort((a,b)=>a.s-b.s);return c[0]||null;}
+function BENCH_sync(){if(!S||!S.yard)return;if(!S.yard.bench2){const q=BENCH_spot()||{x:BENCH_OLD.x,y:BENCH_OLD.y};S.yard.bench2={x:q.x,y:q.y};try{refreshOut();}catch(e){}save();}
+  const p=S.yard.bench2;if(!p.carry){OUT.bench.x=p.x;OUT.bench.y=p.y;}}
+setInterval(()=>{try{BENCH_sync();}catch(e){}},500);
+{const UP=update;update=function(dt){try{BENCH_sync();}catch(e){}return UP.apply(this,arguments);};}
+{const RA=recycleAsk;recycleAsk=function(k,sc){if(sc!=='in'&&k==='bench2'){say(pick(['ベンチは長押しして動かせるよ','ベンチは庭の一部。場所を変えるだけにしよう']));return;}return RA.apply(this,arguments);};}
+{const YM=A.yardmove;A.yardmove=function(){const keep=S.yard&&S.yard.bench2;if(keep)delete S.yard.bench2;try{return YM.apply(this,arguments);}finally{if(keep)S.yard.bench2=keep;}};}
+
+/* ===== v548: (3) a pet door in the front door; pets go out when it is not raining ===== */
+const PETO={doorT:0,doorDir:1};
+function PETO_weatherOK(){try{const k=wKind();return k!=='rain'&&k!=='thunder';}catch(e){return true;}}
+function PETO_canOut(){try{return PETO_weatherOK()&&daylight()>.22&&!C.sleeping;}catch(e){return false;}}
+function PETO_kind(){const sp=PET_sp();return sp.neko?'neko':sp.dog?'dog':'cat';}
+function PETO_snow(){try{return wKind()==='snow'||snowCover>.15;}catch(e){return false;}}
+// the flap at the bottom of the front door (outside)
+{const DH=drawHouse;drawHouse=function(lit){const r=DH.apply(this,arguments);try{const x0=EXH.x*T,y0=EXH.y*T,dcx=x0+EX_DOOR,dB=y0+4*T-6+T+6-3.5,w=8.4,h=7;
+  g.fillStyle='#4a2e1a';rr(g,dcx-w/2-.7,dB-h-.7,w+1.4,h+.7,1.6);g.fill();
+  const k=PETO.doorT>0?Math.sin(Math.min(1,PETO.doorT/.6)*Math.PI)*PETO.doorDir:0;
+  g.fillStyle='#2a1a10';rr(g,dcx-w/2,dB-h,w,h,1.3);g.fill();
+  g.save();g.translate(dcx,dB-h);g.scale(1,1-Math.abs(k)*.75);g.fillStyle=SZ.lg(-w/2,0,w/2,0,[[0,'#b07a50'],[.5,'#946038'],[1,'#74482a']]);rr(g,-w/2+.5,.4,w-1,h-.8,1);g.fill();
+  g.fillStyle='rgba(255,230,190,.35)';g.fillRect(-w/2+1,.8,w-2,.35);g.fillStyle='rgba(40,20,8,.35)';g.fillRect(-w/2+1,h-1.6,w-2,.4);g.restore();
+  fillR(g,'#c9a24a',dcx-1.6,dB-h-.3,3.2,.6,.3);}catch(e){}return r;};}
+function PETO_go(x,y,run){const p=PET;if(p.tx===x&&p.ty===y){p.path=[];return true;}const path=bfs('out',p.tx,p.ty,x,y);if(!path)return false;if(p.px!==p.tx*T||p.py!==p.ty*T)path.unshift([p.tx,p.ty]);p.path=path;p.run=!!run;return true;}
+function PETO_free(x,y,r){r=r||1;const c=[];for(let dy=-r;dy<=r;dy++)for(let dx=-r;dx<=r;dx++){if(!dx&&!dy)continue;const nx=x+dx,ny=y+dy;if(walkOut(nx,ny)&&!(C.scene==='out'&&nx===C.tx&&ny===C.ty))c.push({x:nx,y:ny});}return c.length?pick(c):null;}
+function PETO_exit(){const p=PET;p.scene='out';p.path=[];const e=OUT.entry;const q=walkOut(e.x,e.y)?{x:e.x,y:e.y}:(PETO_free(e.x,e.y,1)||{x:e.x,y:e.y+1});p.tx=q.x;p.ty=q.y;p.px=q.x*T;p.py=q.y*T;p.face='down';p.pose='walk';
+  p.mode='idle';p.t=.4;p.zoom=false;p.run=false;p.lie=null;p.climb=null;p.ride=false;p.outT=rnd(150,420);PETO.doorT=.6;PETO.doorDir=1;
+  const q2=PETO_free(p.tx,p.ty+1,1);if(q2)PETO_go(q2.x,q2.y,false);
+  if(PETO_kind()==='dog'&&PETO_snow())setTimeout(()=>{if(PET&&PET.scene==='out')PET_chirp('わんわん！');},700);}
+function PETO_enter(){const p=PET;p.scene='in';p.path=[];p.climb=null;p.lie=null;p.zoom=false;p.run=false;const x=IN_ENTRY.x,y=IN_ENTRY.y-1;const q=walkIn(x,y)?{x,y}:(PET_nearFree(x,y,1)||randomTile('in','liv'));
+  p.tx=q.x;p.ty=q.y;p.px=q.x*T;p.py=q.y*T;p.face='up';p.pose='stand';p.mode='idle';p.t=rnd(2,4);PETO.doorT=.6;PETO.doorDir=-1;p.outCD=rnd(90,240);}
+// indoors: now and then head for the door and go out
+{const PD=PET_decide;PET_decide=function(){try{const p=PET;if(p&&p.scene!=='out'&&PETO_canOut()&&!(p.outCD>0)){const kd=PETO_kind(),pr=kd==='dog'?(PETO_snow()?.5:.24):kd==='neko'?.2:.18;
+    if(Math.random()<pr){const x=IN_ENTRY.x,y=IN_ENTRY.y-1;if(PET_go(x,y,kd==='dog')){p.mode='toDoorIn';p.lie=null;if(!p.path.length)PETO_exit();return;}}}}catch(e){}return PD.apply(this,arguments);};}
+{const PA=PET_arrive;PET_arrive=function(){try{if(PET&&PET.mode==='toDoorIn'){if(PETO_canOut())PETO_exit();else{PET.mode='idle';PET.pose='sit';PET.t=rnd(3,6);}return;}}catch(e){}return PA.apply(this,arguments);};}
+// outdoor lines
+const PETO_V={dog:['わんわん！','くんくん…','わふっ♪','わおーん','はっはっ'],dogSnow:['わんわん！','わふわふっ！','はっはっ♪','わおーん！'],cat:['にゃっ','みゃ〜','にゃにゃ？','ごろごろ…','にゃーん']};
+const PETO_NEKO=['ええ風やなあ','草の匂い、たまらんわ','ちょっと散歩でもしよか','ワシ、日なたぼっこ担当や','この島、ええとこやで','雲がえらい近いのう','ここで昼寝したら最高やで','虫がおるやんけ','鳥がうるさいのう','空が広いなあ','ワシの縄張り、見回りや','土の上はええなあ','外の空気はうまいのう','落ち葉ふかふかやん','ちょっと遠くまで行ってみよか'];
+function PETO_line(){const kd=PETO_kind();if(kd==='dog')return pick(PETO_snow()?PETO_V.dogSnow:PETO_V.dog);if(kd==='cat')return pick(PETO_V.cat);
+  try{const k=wKind(),s=season();if(Math.random()<.3){if(PETO_snow())return pick(['さぶっ！雪やんけ','雪の上、足が冷たいわ','雪だるまでも作ったろか']);if(k==='clear')return pick(['お日さん、気持ちええなあ','ぽかぽかやで']);if(k==='cloudy')return'曇っとるけど外はええのう';if(s==='autumn')return pick(['落ち葉ふかふかやん','紅葉きれいやなあ']);if(s==='spring')return pick(['桜、ええなあ','花見したいのう']);}}catch(e){}
+  return pick(PETO_NEKO);}
+{const PC=PET_chirp;PET_chirp=function(tx){const p=PET;if(!p||p.scene!=='out')return PC.apply(this,arguments);const kd=PETO_kind();
+  let t=tx;if(kd==='neko'){t=p.heart>1.2?pick(NEKO_TAP):p.pose==='curl'?pick(NEKO_SLEEP):p.zoom?pick(NEKO_RUN):PETO_line();}else if(!t)t=PETO_line();
+  p.say={text:t,until:performance.now()+(kd==='neko'?3200:2300)};};}
+function PETO_decide(){const p=PET,kd=PETO_kind(),snow=PETO_snow(),heroOut=C.scene==='out'&&!C.sleeping;p.lie=null;p.groom=0;p.wag=0;
+  const W=kd==='dog'?[['run',snow?.6:.34],['wander',.2],['sniff',.16],['sit',.1],['follow',heroOut?.16:0],['lie',snow?0:.07]]:
+    kd==='cat'?[['climb',.26],['wander',.2],['sit',.15],['groom',.12],['lie',.15],['run',.07],['follow',heroOut?.05:0]]:
+    [['stroll',.3],['run',.15],['lie',.2],['sit',.13],['stand',.1],['follow',heroOut?.1:0]];
+  let r=Math.random()*W.reduce((a,b)=>a+b[1],0),k='sit';for(const[n,v]of W){if((r-=v)<0){k=n;break;}}
+  if(k==='follow'){const q=PETO_free(C.tx,C.ty,1)||PETO_free(C.tx,C.ty,2);if(q&&PETO_go(q.x,q.y,true)){p.mode='follow';if(!p.path.length)PETO_arrive();return;}k='sit';}
+  if(k==='run'){const n=kd==='dog'?2+Math.floor(Math.random()*3):1+Math.floor(Math.random()*2);const q=randomTile('out');if(q&&Math.abs(q.x-p.tx)+Math.abs(q.y-p.ty)>=4&&PETO_go(q.x,q.y,true)&&p.path.length){p.mode='zoom';p.zoom=true;p.zoomN=n;if(Math.random()<.6)PET_chirp();return;}k='wander';}
+  if(k==='stroll'){p.strollN=2+Math.floor(Math.random()*3);k='wander';}
+  if(k==='wander'){const q=randomTile('out');if(q&&PETO_go(q.x,q.y,false)){p.mode='wander';if(!p.path.length)PETO_arrive();return;}k='sit';}
+  if(k==='climb'){const trs=OUT.trees.filter(t=>!t.pine&&walkOut(t.x,t.y+1));const tr=trs.length?trs.slice().sort((a,b)=>(Math.abs(a.x-p.tx)+Math.abs(a.y-p.ty))-(Math.abs(b.x-p.tx)+Math.abs(b.y-p.ty)))[Math.floor(Math.random()*Math.min(3,trs.length))]:null;
+    if(tr&&PETO_go(tr.x,tr.y+1,false)){p.mode='toTree';p.tree=tr;if(!p.path.length)PETO_arrive();return;}k='sit';}
+  if(k==='sniff'){p.mode='idle';p.pose='stand';p.face=Math.random()<.5?'side':'down';p.t=rnd(4,8);p.sniff=1;if(Math.random()<.6)PET_chirp('くんくん…');return;}
+  if(k==='groom'){p.mode='idle';p.pose='sit';p.face='side';p.groom=rnd(6,10);p.t=p.groom+2;return;}
+  if(k==='lie'){p.mode='idle';p.t=rnd(25,60);if(kd==='neko'){p.pose='curl';p.lie={px:p.px+T/2,py:p.py+T-8,rot:Math.random()<.5?1:-1,zk:p.py+T-4};if(Math.random()<.5)setTimeout(()=>{if(PET&&PET.pose==='curl')PET_chirp();},500);}else{p.pose=Math.random()<.5?'curl':'lie';}return;}
+  if(k==='stand'){p.mode='idle';p.pose='stand';p.face='down';p.t=rnd(5,10);return;}
+  p.mode='idle';p.pose='sit';p.face=kd==='neko'?'down':'side';p.t=rnd(8,16);}
+function PETO_arrive(){const p=PET,kd=PETO_kind();p.run=false;
+  if(p.mode==='toDoorOut'){PETO_enter();return;}
+  if(p.mode==='zoom'){if(p.zoomN>0){p.zoomN--;const q=randomTile('out');if(q&&PETO_go(q.x,q.y,true)&&p.path.length){p.zoom=true;return;}}p.zoom=false;p.mode='idle';p.pose='stand';p.face='side';p.t=rnd(2,4);if(kd==='dog'){p.pantT=6;if(Math.random()<.5)PET_chirp();}return;}
+  p.zoom=false;
+  if(p.mode==='wander'&&p.strollN>0){p.strollN--;const q=randomTile('out');if(q&&PETO_go(q.x,q.y,false)&&p.path.length)return;}
+  if(p.mode==='toTree'&&p.tree){const tr=p.tree;p.climb={x:tr.x*T+12+rnd(-7,7),y:tr.y*T+20-27-rnd(0,6),k:tr.y*T+21+.6};p.pose=Math.random()<.6?'lie':'sit';p.face='side';p.dir=Math.random()<.5?1:-1;p.mode='climb';p.t=rnd(25,55);
+    if(Math.random()<.6)setTimeout(()=>PET_chirp('にゃっ'),300);if(C.scene==='out'&&!msgBusy()&&Math.random()<.5)setTimeout(()=>queueSay(pick([`${PET_name()}、木に登ってる！`,`${PET_name()}、降りられる？`,`${PET_name()}、高いところ好きだね`])),1200);return;}
+  if(p.mode==='follow'){p.pose='sit';p.face='down';p.t=rnd(8,16);p.wag=kd==='dog'?1:0;p.mode='near';if(Math.random()<.5)setTimeout(()=>PET_chirp(),400);return;}
+  p.mode='idle';p.pose=kd==='neko'?'stand':'sit';p.face=kd==='neko'?'down':'side';p.t=rnd(3,7);}
+function PETO_tick(dt){const p=PET,sp=PET_sp(),kd=PETO_kind();p.tt+=dt;if(PETO.doorT>0)PETO.doorT-=dt;
+  p.blinkT-=dt;if(p.blink>0)p.blink-=dt;if(p.blinkT<=0){p.blink=.15;p.blinkT=rnd(2.5,6.5);}
+  p.earCD-=dt;if(p.earT>0)p.earT=Math.max(0,p.earT-dt*4);if(p.earCD<=0){p.earT=1;p.earCD=rnd(4,11);}if(p.heart>0)p.heart-=dt;if(p.pantT>0)p.pantT-=dt;
+  p.outT=(p.outT||0)-dt;
+  // time to come home: rain, dusk, the hero going to bed, or simply had enough
+  if(p.mode!=='toDoorOut'&&(!PETO_canOut()||p.outT<=0)){p.climb=null;p.lie=null;p.zoom=false;const e=OUT.entry;if(PETO_go(e.x,e.y,!PETO_weatherOK())){p.mode='toDoorOut';if(!PETO_weatherOK()&&Math.random()<.6)PET_chirp(kd==='neko'?'雨やんけ！はよ入ろ':kd==='dog'?'くぅ〜ん':'にゃっ！');if(!p.path.length){PETO_enter();return;}}else{PETO_enter();return;}}
+  if(p.path.length){const[nx,ny]=p.path[0],gx=nx*T,gy=ny*T,dx=gx-p.px,dy=gy-p.py,dist=Math.hypot(dx,dy),v=SPEED*T/3*(p.zoom?(kd==='dog'?2.1:1.9):p.run?1.3:.72)*dt;
+    if(dist<=v){p.px=gx;p.py=gy;p.tx=nx;p.ty=ny;p.path.shift();}else if(Math.abs(dx)>.01){p.dir=dx>0?1:-1;p.face='side';p.px+=Math.sign(dx)*Math.min(v,Math.abs(dx));}else{p.face=dy>0?'down':'up';p.px=gx;p.py+=Math.sign(dy)*Math.min(v,Math.abs(dy));}
+    p.pose='walk';p.ph+=dt*(p.zoom?21:p.run?17:11);p.groom=0;p.wag=kd==='dog'&&(p.run||p.zoom)?1:0;
+    if(p.zoom&&Math.random()<dt*(kd==='dog'&&PETO_snow()?10:5))particles.push({sc:'out',x:p.px+T/2+rnd(-4,4),y:p.py+T-4+rnd(-1,1),vx:rnd(-8,8),vy:rnd(-9,-3),life:.5,max:.5,type:'spark'});
+    if(!p.path.length)PETO_arrive();return;}
+  if(p.groom>0)p.groom-=dt;if(p.wag>0&&p.mode!=='near')p.wag=Math.max(0,p.wag-dt*.15);
+  p.sayT-=dt;if(p.sayT<=0){p.sayT=kd==='neko'?rnd(18,40):rnd(12,30);if(p.pose==='curl'&&kd!=='neko'){if(Math.random()<.3)PET_chirp(sp.dog?'すぴー…':'すやすや…');}else PET_chirp();}
+  p.t-=dt;if(p.t>0)return;
+  if(p.mode==='climb'){const tr=p.tree;p.climb=null;p.pose='stand';if(tr){p.tx=tr.x;p.ty=tr.y+1;p.px=p.tx*T;p.py=p.ty*T;}if(Math.random()<.6)PET_chirp('にゃっ');}
+  p.sniff=0;PETO_decide();}
+{const PT=PET_tick;PET_tick=function(dt){try{if(PET&&PET_on()&&PET.scene==='out'){PETO_tick(dt);return;}}catch(e){}if(PETO.doorT>0)PETO.doorT-=dt;if(PET&&PET.outCD>0)PET.outCD-=dt;return PT.apply(this,arguments);};}
+// drawing outdoors (and on a tree branch)
+function PETO_drawAt(p){if(p.climb){const ox=p.px,oy=p.py;p.px=p.climb.x-T/2;p.py=p.climb.y-T+4;try{PET_drawAt(p);}finally{p.px=ox;p.py=oy;}return;}PET_drawAt(p);}
+{const PI0=PET_items;PET_items=function(items){if(!PET||!PET_on())return;const p=PET;if(p.scene==='out'){if(C.scene!=='out')return;
+    const k=p.climb?p.climb.k:(p.pose==='curl'&&p.lie)?p.lie.zk+.4:p.py+T-4;items.push({k,f:()=>{if(NEKO_is())NEKO_drawAt(p);else PETO_drawAt(p);}});return;}
+  if(C.scene!=='in')return;return PI0.apply(this,arguments);};}
+{const PH=PET_hit;PET_hit=function(e){try{const p=PET;if(p&&PET_on()&&p.scene==='out'){if(typeof dispScene==='function'&&dispScene()!=='out')return false;const w=tapWorld(e);let cx=p.px+T/2,cy=p.py+T-4-(NEKO_is()?12:7);
+      if(p.climb){cx=p.climb.x;cy=p.climb.y-6;}else if(p.pose==='curl'&&p.lie){cx=p.lie.px;cy=p.lie.py;}return Math.hypot((w.x-cx)/(NEKO_is()?13:11),(w.y-cy)/(NEKO_is()?15:10))<1;}}catch(_){}return PH.apply(this,arguments);};}
+{const PF=PET_faceHero;PET_faceHero=function(){const p=PET;if(p&&p.scene==='out'){if(C.scene!=='out')return;const dx=C.px-p.px;if(Math.abs(dx)>2)p.dir=dx>0?1:-1;return;}return PF.apply(this,arguments);};}
+{const LC=LIE_cells;LIE_cells=function(){const r=LC.apply(this,arguments);try{if(PET&&PET.scene==='out')r.delete(PET.tx+','+PET.ty);}catch(e){}return r;};}
+// the hero (outdoors) talks about the pet playing outside
+{const UP=update;update=function(dt){UP.apply(this,arguments);try{const p=PET;if(!S||PAUSED||!p||!PET_on()||p.scene!=='out'||C.scene!=='out'||C.sleeping||msgBusy())return;if(Math.random()>dt*.004)return;const n=PET_name(),kd=PETO_kind();
+  const L=p.climb?[`${n}、木の上でくつろいでる`,`${n}、そこから何が見えるの？`]:p.pose==='curl'?[`${n}、草の上で寝ちゃった`,`${n}、日なたで気持ちよさそう`]:p.zoom?(kd==='dog'?(PETO_snow()?[`${n}、雪で大はしゃぎ！`,`${n}、雪の上を走りまわってる`]:[`${n}、元気いっぱいに走ってる`,`${n}、待って〜！`]):kd==='neko'?[`${n}、外でもドタバタしてる`,`${n}、走るの意外と速い…`]:[`${n}、狩りの練習かな`]):
+    kd==='dog'?[`${n}、なにかにおう？`,`${n}、外が好きだね`,`${n}、庭のパトロールおつかれさま`]:kd==='neko'?[`${n}、散歩中？`,`${n}、またなにか言ってる`,`${n}、庭でもマイペースだね`]:[`${n}、ちょうちょ追いかけてる？`,`${n}、庭の見回り？`];
+  queueSay(pick(L));}catch(e){}};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -26405,7 +26535,7 @@ function tapTarget(wx,wy){const tx=Math.floor(wx/T),ty=Math.floor(wy/T),inR=(x,y
   if(inR(tx,ty,v.x,v.y,v.w,v.h))return{t:'act',a:'harvest'};
   if(inR(tx,ty,o.x,o.y,o.w,o.h+1))return{t:'house'};
   if(inR(tx,ty,pd.x,pd.y,pd.w,pd.h))return{t:'pond'};
-  if((tx===bn.x&&(ty===bn.y||ty===bn.y-1)))return{t:'act',a:'bench'};
+  if(((tx===bn.x||tx===bn.x+1)&&(ty===bn.y||ty===bn.y-1)))return{t:'act',a:'bench'};
   if(tx===mb.x&&(ty===mb.y||ty===mb.y-1))return{t:'act',a:'mail'};
   for(const q of OUT.scopes)if((tx===q.x||tx===q.x+(q.d==='left'?1:-1))&&ty===q.y)return{t:'act',a:'scope',q};
   for(const tr of OUT.trees)if(tx===tr.x&&(ty===tr.y||ty===tr.y-1))return tr.fruit?{t:'act',a:'pick'}:{t:'tree',tr};
