@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 550（2026/11/03）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 552（2026/11/03）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 550（2026/11/03）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 552（2026/11/03）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -10163,36 +10163,9 @@ function EX_paint(lit){
   // ---- windows ----
   EX_WINS.forEach((wx,i)=>{g.save();g.translate(x0+wx,wy+4.5);g.scale(EX_WS,EX_WS);g.translate(-(x0+wx)-7,-(wy+4.5));EX_window(x0+wx,wy,lit,dark,se,i*3+1);g.restore();});
 
-  // ---- door ----
-  const fT=wy+3.2,dB=wy+wh-3.5,rO=11.4,rI=9,cyA=fT+rO; // arch centre
-  g.fillStyle='rgba(30,20,10,.3)';g.beginPath();g.moveTo(dcx-rO-.8,dB+.5);g.lineTo(dcx-rO-.8,cyA);g.arc(dcx,cyA,rO+.8,Math.PI,0);g.lineTo(dcx+rO+.8,dB+.5);g.closePath();g.fill();
-  // stone arch frame
-  g.fillStyle=SZ.lg(dcx-rO,fT,dcx+rO,dB,[[0,'#ece4d2'],[1,'#b9ae98']]);g.beginPath();g.moveTo(dcx-rO,dB);g.lineTo(dcx-rO,cyA);g.arc(dcx,cyA,rO,Math.PI,0);g.lineTo(dcx+rO,dB);g.closePath();g.fill();
-  g.strokeStyle='rgba(90,75,60,.45)';g.lineWidth=.4;g.beginPath();for(let i=1;i<7;i++){const a=Math.PI+i/7*Math.PI;g.moveTo(dcx+Math.cos(a)*rI,cyA+Math.sin(a)*rI);g.lineTo(dcx+Math.cos(a)*rO,cyA+Math.sin(a)*rO);}
-  for(const s of[-1,1])for(let yy=cyA+3.4;yy<dB;yy+=3.6){g.moveTo(dcx+s*rI,yy);g.lineTo(dcx+s*rO,yy);}g.stroke();
-  fillR(g,'#f4ecdc',dcx-1.8,fT-.6,3.6,3.2,.6);fillR(g,'rgba(90,75,60,.35)',dcx-1.8,fT+2.2,3.6,.4); // keystone
-  // door leaf
-  const doorPath=()=>{g.beginPath();g.moveTo(dcx-rI,dB);g.lineTo(dcx-rI,cyA);g.arc(dcx,cyA,rI,Math.PI,0);g.lineTo(dcx+rI,dB);g.closePath();};
-  doorPath();g.fillStyle=SZ.lg(dcx-rI,0,dcx+rI,0,[[0,'#a46c45'],[.5,'#8a5733'],[1,'#6a3f24']]);g.fill();
-  g.save();doorPath();g.clip();
-  g.strokeStyle='rgba(50,25,10,.5)';g.lineWidth=.45;g.beginPath();for(const px of[-4.5,0,4.5]){g.moveTo(dcx+px,fT);g.lineTo(dcx+px,dB);}g.stroke();
-  g.strokeStyle='rgba(255,220,180,.18)';g.lineWidth=.35;g.beginPath();for(const px of[-4.1,.4,4.9]){g.moveTo(dcx+px,fT);g.lineTo(dcx+px,dB);}g.stroke();
-  g.strokeStyle='rgba(60,30,12,.18)';g.lineWidth=.3;g.beginPath();for(let i=0;i<8;i++){const px=dcx-8+i*2.2+hash(i,1,77);g.moveTo(px,fT+2);g.bezierCurveTo(px+.5,fT+8,px-.5,fT+14,px+.2,dB);}g.stroke();
-  g.fillStyle=SZ.lg(0,fT,0,fT+6,[[0,'rgba(20,10,5,.45)'],[1,'rgba(20,10,5,0)']]);g.fillRect(dcx-rI,fT,rI*2,6);
-  // iron straps + studs
-  for(const sy of[cyA+4.6,dB-3.2]){fillR(g,'#2e2a2c',dcx-rI,sy-.8,rI*1.55,1.6,.6);fillE(g,'#2e2a2c',dcx-rI+rI*1.55,sy,1.2,1.2);fillR(g,'rgba(255,255,255,.18)',dcx-rI,sy-.8,rI*1.5,.4);
-    for(let k=0;k<4;k++){fillE(g,'#1e1a1c',dcx-rI+2+k*3.6,sy,.45,.45);fillE(g,'rgba(255,255,255,.4)',dcx-rI+1.85+k*3.6,sy-.2,.18,.18);}}
-  g.restore();
-  // round door window
-  const gy=cyA-1.2,glow=night;
-  fillE(g,'#3e2a1c',dcx,gy,3.9,3.9);fillE(g,glow?'#ffd889':'#a9d3ea',dcx,gy,3.1,3.1);
-  if(glow)fillE(g,'rgba(255,250,215,.7)',dcx-.4,gy-.3,1.6,1.6);else fillE(g,'rgba(40,70,100,.35)',dcx+.6,gy+.8,2.2,1.8);
-  fillR(g,'#5a3a24',dcx-.35,gy-3.1,.7,6.2);fillR(g,'#5a3a24',dcx-3.1,gy-.35,6.2,.7);
-  fillE(g,'rgba(255,255,255,.6)',dcx-1.6,gy-1.6,.9,.5,-.7);
-  // handle + keyhole + knocker
-  fillE(g,'rgba(0,0,0,.3)',dcx+6.2,dB-6.4,1.4,1.4);fillE(g,'#d4a83a',dcx+6,dB-6.8,1.3,1.3);fillE(g,'#fff1b0',dcx+5.6,dB-7.2,.45,.45);
-  fillE(g,'#1e1a1c',dcx+6,dB-4.6,.35,.5);
-  g.strokeStyle='#c9a24f';g.lineWidth=.55;g.beginPath();g.arc(dcx,gy+6,1.3,.2,Math.PI-.2);g.stroke();fillE(g,'#c9a24f',dcx,gy+4.7,.5,.5);
+  // ---- door (same design as the indoor view, scaled) ----
+  const fT=wy+3.2,dB=wy+wh-3.5,rO=11.4,rI=9,cyA=fT+rO;
+  {const H=dB-(wy+6),k=H/EXD_H;g.save();g.translate(dcx,dB);g.scale(k,k);HOUSE_door(0,-EXD_H,0,night);g.restore();}
   // step + mat
   fillR(g,'rgba(20,20,10,.3)',dx-4.2,wy+wh-1.4,dw+9.4,5.4,1.8);
   fillR(g,SZ.lg(0,wy+wh-2,0,wy+wh+2.4,[[0,'#ded7c6'],[.5,'#c4bcaa'],[1,'#968e7e']]),dx-4.6,wy+wh-2.2,dw+9.2,4.6,1.6);
@@ -10796,6 +10769,7 @@ function switchTo(act,steps){const keep={tableSet:C.tableSet,drinkNow:C.drinkNow
 
 
 /* ===== shared house parts: the same front door and windows inside and outside ===== */
+const EXD_H=37;
 function HOUSE_door(dcx,fT,dB,night){const rO=11.4,rI=9,cyA=fT+rO;
   g.fillStyle='rgba(30,20,10,.3)';g.beginPath();g.moveTo(dcx-rO-.8,dB+.5);g.lineTo(dcx-rO-.8,cyA);g.arc(dcx,cyA,rO+.8,Math.PI,0);g.lineTo(dcx+rO+.8,dB+.5);g.closePath();g.fill();
   g.fillStyle=SZ.lg(dcx-rO,fT,dcx+rO,dB,[[0,'#ece4d2'],[1,'#b9ae98']]);g.beginPath();g.moveTo(dcx-rO,dB);g.lineTo(dcx-rO,cyA);g.arc(dcx,cyA,rO,Math.PI,0);g.lineTo(dcx+rO,dB);g.closePath();g.fill();
@@ -22187,7 +22161,7 @@ for(const k of Object.keys(FT)){const f=FT[k];if(!f||typeof f.snap!=='function'|
   f.snap=function(L){const sp=S0.apply(this,arguments);try{if(sp&&typeof sp.py==='number'&&BK_flushL(k,L))return Object.assign({},sp,{py:sp.py-BK_DY});}catch(e){}return sp;};}
 {const DF=drawFurnK;drawFurnK=function(k,t){const d=BK_flush(k);if(!d)return DF.apply(this,arguments);g.save();g.translate(0,-d);try{return DF.apply(this,arguments);}finally{g.restore();}};}
 /* ========== v431: rug sizes (2x2 … 6x6) from the long-press menu; the storeroom rack is withdrawn ========== */
-const RSZ_MIN=2,RSZ_MAX=6;
+const RSZ_MIN=2,RSZ_MAX=8;
 // each rug key is one rug, so its size can follow its own layout entry
 for(const k of RUG_FAM){const f=FT[k];if(!f)continue;let bw=f.w,bh=f.h;
   Object.defineProperty(f,'w',{get(){try{const L=S&&S.layout&&S.layout[k];if(L&&L.rw)return L.rw;}catch(e){}return bw;},set(v){bw=v;},configurable:true,enumerable:true});
@@ -22209,7 +22183,7 @@ function RSZ_apply(k,w,h){const L=S.layout[k];if(!L)return false;const q=RSZ_fit
 function RSZ_ui(k){let ov=document.getElementById('rszOv');if(!ov){const st=document.createElement('style');st.textContent='#rszOv .card{max-width:320px;padding:14px 14px 12px;text-align:center}#rszOv h2{margin:0 0 4px;font-size:16px}#rszOv .hint{margin:0 0 10px;font-size:12px;opacity:.8}#rszOv .rzr{display:flex;align-items:center;gap:6px;margin:0 0 8px}#rszOv .rzr b{width:2.6em;font-size:13px;text-align:left}#rszOv .rzr button{flex:1;padding:8px 0;height:auto;font-size:14px;border-radius:10px;border:2px solid transparent;background:rgba(255,255,255,.08);color:inherit}#rszOv .rzr button[aria-pressed=true]{border-color:#ffd36b;background:rgba(255,211,107,.2)}#rszOv .rzp{display:flex;justify-content:center;align-items:center;height:132px;margin:2px 0 8px}#rszOv .rzg{display:grid;gap:2px;padding:4px;border-radius:6px;background:rgba(255,255,255,.06)}#rszOv .rzg i{display:block;width:18px;height:18px;border-radius:3px;background:linear-gradient(135deg,#d8a87a,#b07850)}#rszOv .rzs{font-size:12.5px;min-height:1.4em;margin:0 0 10px}#rszOv .rzs.ng{color:#ff9b8a}#rszOv .rpa{display:flex;gap:8px}#rszOv .rpa button{flex:1}';document.head.append(st);
     ov=document.createElement('div');ov.id='rszOv';ov.className='overlay center';ov.hidden=true;document.body.appendChild(ov);ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
   const L=S.layout[k];if(!L)return;const f=FT[k];let w=f.w,h=f.h;const w0=w,h0=h;
-  const row=(lab,cls)=>`<div class="rzr"><b>${lab}</b>${[2,3,4,5,6].map(n=>`<button type="button" class="${cls}" data-n="${n}">${n}</button>`).join('')}</div>`;
+  const row=(lab,cls)=>`<div class="rzr"><b>${lab}</b>${[2,3,4,5,6,7,8].map(n=>`<button type="button" class="${cls}" data-n="${n}">${n}</button>`).join('')}</div>`;
   ov.innerHTML=`<div class="card" role="dialog" aria-label="ラグの大きさ"><h2>📐 ${f.n}の大きさ</h2><p class="hint">いまは 横${w0}×縦${h0}マス${L.uimg&&L.uimg.m==='photo'?'<br>写真は縦に合わせて、縦横の比率をそのまま敷き直します':''}</p>
     ${row('横','rzw')}${row('縦','rzh')}<div class="rzp"><div class="rzg"></div></div><p class="rzs"></p><div class="rpa"><button type="button" class="rzc">キャンセル</button><button type="button" class="primary rzok">決定</button></div></div>`;
   const grid=ov.querySelector('.rzg'),stEl=ov.querySelector('.rzs'),ok=ov.querySelector('.rzok');
@@ -23357,10 +23331,10 @@ function FLAG_draw(bx,by,up,t,sc){g.save();g.translate(bx,by);g.scale(sc||1,sc||
 
 // the picture frame stands larger on the floor: a sturdy easel
 {const DL=drawLean;drawLean=function(k,L,t){if(MC_base(k)!=='pframe')return DL.apply(this,arguments);const f=FT[k],X=L.x*T,Y=L.y*T,wall=isWall(L.x,L.y-1);
-  if(wall){fillE(g,'rgba(0,0,0,.22)',X+12,Y+15,14,2.2);g.save();g.translate(X+12,Y+15);g.scale(1.02,.95);g.transform(1,0,-.05,1,0,0);g.translate(-12,-31.5);f.draw(0,0,L,t);g.restore();return;}
+  if(wall){fillE(g,'rgba(0,0,0,.22)',X+12,Y+15,14,2.2);g.save();g.translate(X+12,Y+18);g.scale(1.2,1.2);g.transform(1,0,-.05,1,0,0);g.translate(-12,-31.5);f.draw(0,0,L,t);g.restore();return;}
   fillE(g,'rgba(0,0,0,.22)',X+12,Y+17,11,2.4);g.strokeStyle='#6a4a2c';g.lineWidth=1.4;g.lineCap='round';g.beginPath();g.moveTo(X+12,Y-28);g.lineTo(X+3,Y+17);g.moveTo(X+12,Y-28);g.lineTo(X+21,Y+17);g.moveTo(X+12,Y-24);g.lineTo(X+13.8,Y+14);g.stroke();
   g.strokeStyle='#9a7048';g.lineWidth=2;g.beginPath();g.moveTo(X+2.4,Y+12.5);g.lineTo(X+21.6,Y+12.5);g.stroke();
-  g.save();g.translate(X+12,Y+12);g.scale(1.05,1.05);g.translate(-12,-31.5);f.draw(0,0,L,t);g.restore();};}
+  g.save();g.translate(X+12,Y+12);g.scale(1.2,1.2);g.translate(-12,-31.5);f.draw(0,0,L,t);g.restore();};}
 
 /* ---- v458: bigger world map and picture frame; double-tap / long-press work the same everywhere (ground floor, basement, garden, manual camera, paused); every wall item may stand on the floor, and one with no wall space left is set on the floor; speech: cleared by the manual camera, frozen (and resumed) by the pause ---- */
 // every wall item can stand on the floor: the side-wall drawing is kept under another name so the floor test lets it through
@@ -25348,7 +25322,7 @@ FL_K.push({n:'オークのフローリング（幅広）',f:(c,X,Y)=>FL_planks(c
 /* v528: a larger wall world map — it takes the wall spots on both sides of its own */
 const WM_BIG={W:56,H:33.5,cy:15.5};
 function WM_nb(L){return[(L.x-1)+','+L.y,(L.x+1)+','+L.y];}
-function WM_bigOK(k,L){try{if(!L||!L.wall||L.side)return false;const nb=WM_nb(L);for(const q of S.owned){if(q===k)continue;const M=S.layout[q];if(M&&M.wall&&!M.carry&&nb.includes(wkey(M)))return false;}return true;}catch(e){return false;}}
+function WM_bigOK(k,L){try{if(L&&!L.wall&&!L.side&&!L.carry)return true;if(!L||!L.wall||L.side)return false;{const r=roomAt(L.x,L.y+1);if(!r||roomAt(L.x-1,L.y+1)!==r||roomAt(L.x+1,L.y+1)!==r)return false;}const nb=WM_nb(L);for(const q of S.owned){if(q===k)continue;const M=S.layout[q];if(M&&M.wall&&!M.carry&&nb.includes(wkey(M)))return false;}return true;}catch(e){return false;}}
 for(const k of Object.getOwnPropertyNames(FT)){if(MC_base(k)!=='worldmap'||!FT[k])continue;const D0=FT[k].draw;FT[k].draw=function(X,Y,L,t){if(!WM_bigOK(k,L))return D0.apply(this,arguments);
   g.save();const MW=WM_BIG.W,MH=WM_BIG.H;const[x,y,w,h]=C2_.frame(12-MW/2,WM_BIG.cy-MH/2,MW,MH,2,'#5a3e28');
   const pic=WMP_pic()||(WM_IMG.complete&&WM_IMG.naturalWidth?WM_IMG:null);if(pic){g.imageSmoothingEnabled=true;try{g.imageSmoothingQuality='high';}catch(_){}g.drawImage(pic,x,y,w,h);}else{g.fillStyle='#a8d0ea';g.fillRect(x,y,w,h);}
@@ -26418,7 +26392,7 @@ function PETO_canOut(){try{return PETO_weatherOK()&&daylight()>.22&&!C.sleeping;
 function PETO_kind(){const sp=PET_sp();return sp.neko?'neko':sp.dog?'dog':'cat';}
 function PETO_snow(){try{return wKind()==='snow'||snowCover>.15;}catch(e){return false;}}
 // the flap at the bottom of the front door (outside)
-{const DH=drawHouse;drawHouse=function(lit){const r=DH.apply(this,arguments);try{const x0=EXH.x*T,y0=EXH.y*T,dcx=x0+EX_DOOR,dB=y0+4*T-6+T+6-3.5,w=8.4,h=7;
+{const DH=drawHouse;drawHouse=function(lit){const r=DH.apply(this,arguments);try{if(!(PETO.doorT>0))return r;const x0=EXH.x*T,y0=EXH.y*T,dcx=x0+EX_DOOR,dB=y0+4*T-6+T+6-3.5,kk=(dB-(y0+4*T-6+6))/EXD_H,w=8.4*kk,h=7*kk;
   g.fillStyle='#4a2e1a';rr(g,dcx-w/2-.7,dB-h-.7,w+1.4,h+.7,1.6);g.fill();
   const k=PETO.doorT>0?Math.sin(Math.min(1,PETO.doorT/.6)*Math.PI)*PETO.doorDir:0;
   g.fillStyle='#2a1a10';rr(g,dcx-w/2,dB-h,w,h,1.3);g.fill();
@@ -26519,6 +26493,20 @@ function TV3_fix(){if(!S||S.tv3||!S.layout)return;const L=S.layout.tv;if(!L||L.c
   S.tv3=1;save();}
 {const SN=startNew;startNew=function(){const r=SN.apply(this,arguments);try{if(S)S.tv3=1;}catch(e){}return r;};}
 {const CG=contGame;contGame=function(){const r=CG.apply(this,arguments);try{TV3_fix();}catch(e){}return r;};}
+
+/* ===== v552: wall pictures set down on the floor are drawn at the same size as on the wall (1.2x); the large world map stays large;
+   a wide wall picture never shows in front of a tall piece of furniture standing next to it ===== */
+{const DL=drawLean;drawLean=function(k,L,t){const f=FT[k],b=MC_base(k);if(!f||b==='mirror'||b==='pframe'||f.sideDraw2)return DL.apply(this,arguments);
+  const X=L.x*T,Y=L.y*T,SC=1.2,big=b==='worldmap'&&WM_bigOK(k,L),ay=big?32.5:21;
+  if(!isWall(L.x,L.y-1)){// easel(s)
+    const bar=big?Y+10.5:Y+11.5,easel=(cx,top)=>{g.strokeStyle='#7a5638';g.lineWidth=1.3;g.lineCap='round';g.beginPath();g.moveTo(cx,top);g.lineTo(cx-7,Y+16);g.moveTo(cx,top);g.lineTo(cx+7,Y+16);g.moveTo(cx,top+2);g.lineTo(cx+1.5,Y+13);g.stroke();};
+    if(big){fillE(g,'rgba(0,0,0,.2)',X+12,Y+16,34,2.6);easel(X-10,Y-24);easel(X+34,Y-24);g.strokeStyle='#a97c55';g.lineWidth=1.6;g.beginPath();g.moveTo(X-18,bar);g.lineTo(X+42,bar);g.stroke();}
+    else{fillE(g,'rgba(0,0,0,.2)',X+12,Y+16,10,2.3);easel(X+12,Y-20);g.strokeStyle='#a97c55';g.lineWidth=1.6;g.beginPath();g.moveTo(X+3.5,bar);g.lineTo(X+20.5,bar);g.stroke();}
+    g.save();g.translate(X+12,bar-.5);g.scale(SC,SC);g.translate(-12,-ay);f.draw(0,0,L,t);g.restore();return;}
+  fillE(g,'rgba(0,0,0,.2)',X+12,Y+17.5,big?33:10,2);g.save();g.translate(X+12,Y+18);g.scale(SC,SC);g.transform(1,0,-.06,1,0,0);g.translate(-12,-ay);f.draw(0,0,L,t);g.restore();};}
+function WALL_tallNb(k,L){const out=[];try{for(const k2 of S.owned){const f2=FT[k2],L2=S.layout[k2];if(!f2||!f2.tall||!L2||L2.carry||L2.wall||L2.on||f2.k==='wall')continue;const w=L2.ped?1:f2.w,h=L2.ped?1:f2.h;
+  if(L.y+1<L2.y||L.y+1>=L2.y+h)continue;if(L.x>=L2.x&&L.x<L2.x+w)continue;if(L2.x+w-1<L.x-2||L2.x>L.x+2)continue;out.push(k2);}}catch(e){}return out;}
+{const DW=drawWallItem;drawWallItem=function(k,L,t){const r=DW.apply(this,arguments);try{if(L&&L.wall&&!L.side&&wallCover(L)!==null){for(const k2 of WALL_tallNb(k,L)){drawFurnK(k2,t);const f2=FT[k2],L2=S.layout[k2];if(f2.parts&&!L2.ped)for(const p of f2.parts(L2))p.f();}}}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
