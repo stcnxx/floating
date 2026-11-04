@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 563（2026/11/05）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 564（2026/11/05）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 563（2026/11/05）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 564（2026/11/05）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -20209,7 +20209,7 @@ ALLK.push('planemodel','windcar','flowerrock','garakei');
 function TOP_base(L){const HL=S.layout[L.on];if(!HL||HL.carry)return null;const f=FT[L.on];if(!f||!f.slots||!f.slots[L.slot])return null;const sl=f.slots[L.slot];return{x:HL.x*T+sl[0],y:HL.y*T+sl[1]};}
 function TOP_at(wx,wy){if(!S||C.scene!=='in')return null;let best=null,bd=1e9;for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='top'||!L||!L.on||L.carry)continue;const b=TOP_base(L);if(!b)continue;
   if(Math.abs(wx-b.x)<5.6&&wy>b.y-12.5&&wy<b.y+2){const d=Math.hypot(wx-b.x,wy-(b.y-5));if(d<bd){bd=d;best=k;}}}return best;}
-function TOP_slotNear(k,wx,wy){const f=FT[k];let best=null,bd=9;const used=new Set();for(const kk of S.owned){const L=S.layout[kk];if(L&&L.on&&kk!==k)used.add(L.on+'#'+L.slot);}if(S.delivery&&S.delivery.p&&S.delivery.p.on)used.add(S.delivery.p.on+'#'+S.delivery.p.slot);
+function TOP_slotNear(k,wx,wy){const f=FT[k];let best=null,bd=15;const used=new Set();for(const kk of S.owned){const L=S.layout[kk];if(L&&L.on&&kk!==k)used.add(L.on+'#'+L.slot);}if(S.delivery&&S.delivery.p&&S.delivery.p.on)used.add(S.delivery.p.on+'#'+S.delivery.p.slot);
   for(const hk of S.owned){const hf=FT[hk],HL=S.layout[hk];if(!hf||!hf.slots||!HL||HL.carry||HL.on||HL.wall||hk===k)continue;if(!f.rooms.includes(roomAt(HL.x,HL.y)))continue;
     hf.slots.forEach((sl,i)=>{if(used.has(hk+'#'+i))return;const bx=HL.x*T+sl[0],by=HL.y*T+sl[1];const d=Math.hypot(wx-bx,(wy-(by-4))*1.2);if(d<bd){bd=d;best={on:hk,slot:i};}});}return best;}
 {const DT=dragTarget;dragTarget=function(e){try{if(S&&C.scene==='in'&&!(typeof MANOUT==='function'&&MANOUT())){const w=tapWorld(e),k=TOP_at(w.x,w.y);if(k)return{k,sc:'in',w,top:1};}}catch(_){}const r=DT.apply(this,arguments);try{if(r&&r.sc==='in'&&FT[r.k]&&FT[r.k].k==='top')r.top=1;}catch(_){}return r;};}
@@ -26603,6 +26603,10 @@ function HOME_takeOut(k,yard){let ov=$('takeOv');if(!ov){ov=document.createEleme
 /* v563: every small ornament (小物) can stand in the living room, the bedroom and the kitchen */
 function TOP_rooms(){try{for(const k of Object.keys(FT)){const f=FT[k];if(!f||f.k!=='top'||f._r3)continue;const r=new Set(f.rooms||[]);for(const x of['liv','bed','kit'])r.add(x);f.rooms=[...r];f._r3=1;}}catch(e){}}
 TOP_rooms();setInterval(TOP_rooms,2000);
+
+/* v564: small things on shelves / tables are easier to grab — a bigger touch area around each one (about 1.7x wide, 1.5x tall), the nearest wins */
+TOP_at=function(wx,wy){if(!S||C.scene!=='in')return null;let best=null,bd=1e9;for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='top'||!L||!L.on||L.carry)continue;const b=TOP_base(L);if(!b)continue;
+  if(Math.abs(wx-b.x)<9.5&&wy>b.y-19&&wy<b.y+4){const d=Math.hypot(wx-b.x,(wy-(b.y-6))*.8);if(d<bd){bd=d;best=k;}}}return best;};
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
