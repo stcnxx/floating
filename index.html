@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 564（2026/11/05）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 565（2026/11/05）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 564（2026/11/05）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 565（2026/11/05）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -26607,6 +26607,242 @@ TOP_rooms();setInterval(TOP_rooms,2000);
 /* v564: small things on shelves / tables are easier to grab — a bigger touch area around each one (about 1.7x wide, 1.5x tall), the nearest wins */
 TOP_at=function(wx,wy){if(!S||C.scene!=='in')return null;let best=null,bd=1e9;for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='top'||!L||!L.on||L.carry)continue;const b=TOP_base(L);if(!b)continue;
   if(Math.abs(wx-b.x)<9.5&&wy>b.y-19&&wy<b.y+4){const d=Math.hypot(wx-b.x,(wy-(b.y-6))*.8);if(d<bd){bd=d;best=k;}}}return best;};
+/* v565 proposals: (A) the aquarium sits on its cabinet with a visible water surface on top; (B) a large いけす with sea creatures */
+// (A) improved aquarium: draw the cabinet, then the old tank moved forward onto the top of the cabinet, then the top face (water seen from above)
+function AQ2_draw(X,Y,Wd,Dp,L,t,D0){const P0=prism;
+  // cabinet: a little deeper so the tank has a top to stand on
+  prism(X+2,Y+9,Wd-4,13,12,WOOD.dk,{top:WOOD.md});
+  const dy=6,ax=X+4,aw=Wd-8,ay=Y-21+dy,bot=ay+21,dep=6;
+  // soft contact shadow of the tank on the cabinet top
+  fillR(g,'rgba(0,0,0,.18)',ax-1,bot-1,aw+2,2.6,1);
+  // top face behind the front glass: rim + water seen from above
+  g.save();const tg=g.createLinearGradient(0,ay-dep-2,0,ay);tg.addColorStop(0,'#2a2c33');tg.addColorStop(1,'#3a3d47');fillR(g,tg,ax-.6,ay-dep-2.2,aw+1.2,dep+2.4,1.2);
+  const wg=g.createLinearGradient(0,ay-dep,0,ay);wg.addColorStop(0,'rgba(120,200,230,.85)');wg.addColorStop(1,'rgba(170,232,250,.9)');g.fillStyle=wg;rr(g,ax+.8,ay-dep-.8,aw-1.6,dep+.6,.8);g.fill();
+  g.save();rr(g,ax+.8,ay-dep-.8,aw-1.6,dep+.6,.8);g.clip();g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=.3;for(let i=0;i<4;i++){const yy=ay-dep+.6+i*1.5;g.beginPath();for(let x=0;x<=aw;x+=2)g[x?'lineTo':'moveTo'](ax+x,yy+Math.sin(x*.45+t*2+i)*.35);g.stroke();}
+  // fish backs seen from above (faint)
+  for(let i=0;i<2;i++){const fx=ax+aw/2+Math.sin(t*.4+i*2)*(aw/2-6);fillE(g,i?'rgba(240,150,60,.45)':'rgba(255,220,90,.4)',fx,ay-dep/2+i,1.6,.6);}
+  // the lamp hood along the back edge
+  fillR(g,'#1e2026',ax-.6,ay-dep-2.6,aw+1.2,1.8,.8);fillR(g,'rgba(255,240,200,.7)',ax+aw*.25,ay-dep-1.2,aw*.5,.45,.2);g.restore();g.restore();
+  // the old tank body drawn forward (its own cabinet is skipped)
+  prism=function(){};try{g.save();g.translate(0,dy);D0(X,Y,Wd,Dp,L,t);g.restore();}finally{prism=P0;}
+  // front glass edge highlight + bottom trim sitting on the cabinet
+  fillR(g,'#24262d',ax-.6,bot-.6,aw+1.2,1.8,.6);fillR(g,'rgba(255,255,255,.25)',ax,bot-.6,aw,.35);}
+
+// (B) いけす (large sea-water tank): 3 tiles wide
+function IKS_draw(X,Y,Wd,Dp,L,t){const ST='#b9c0c8';
+  // stainless cabinet with a door panel and a chiller vent
+  prism(X+1,Y+9,Wd-2,13,13,'#9aa3ad',{top:'#c9d0d7',r:1.5});
+  g.strokeStyle='rgba(60,70,80,.45)';g.lineWidth=.4;for(const px of[X+Wd/3,X+Wd*2/3]){g.beginPath();g.moveTo(px,Y+11);g.lineTo(px,Y+21);g.stroke();}
+  for(let i=0;i<5;i++)fillR(g,'rgba(40,48,56,.55)',X+Wd*2/3+4,Y+13+i*1.4,Wd/3-8,.5);fillR(g,'#d7dde3',X+Wd/3-3,Y+15,1.2,3,.4);fillR(g,'rgba(255,255,255,.35)',X+2,Y+10.2,Wd-4,.5);
+  const ax=X+3,aw=Wd-6,ah=24,bot=Y+8,ay=bot-ah,dep=10;
+  fillR(g,'rgba(0,0,0,.2)',ax-1,bot-1,aw+2,2.6,1);
+  // top face: wide water surface seen from above, stainless rim, aeration pipe
+  fillR(g,'#7d868f',ax-1,ay-dep-1.6,aw+2,dep+1.8,1.2);fillR(g,'#c4cbd2',ax-1,ay-dep-1.6,aw+2,.8,.4);
+  const sg=g.createLinearGradient(0,ay-dep,0,ay);sg.addColorStop(0,'rgba(60,140,170,.92)');sg.addColorStop(1,'rgba(120,196,220,.95)');g.fillStyle=sg;rr(g,ax+.6,ay-dep-.6,aw-1.2,dep+.4,.8);g.fill();
+  g.save();rr(g,ax+.6,ay-dep-.6,aw-1.2,dep+.4,.8);g.clip();
+  // ripples + foam from the aerator
+  g.strokeStyle='rgba(255,255,255,.5)';g.lineWidth=.3;for(let i=0;i<6;i++){const yy=ay-dep+.8+i*1.6;g.beginPath();for(let x=0;x<=aw;x+=2)g[x?'lineTo':'moveTo'](ax+x,yy+Math.sin(x*.35+t*2.4+i)*.4);g.stroke();}
+  for(let i=0;i<14;i++){const fx=ax+aw-9+Math.sin(t*3+i)*3+(i%4)*1.2,fy=ay-dep/2+Math.cos(t*2.6+i)*2;fillE(g,'rgba(255,255,255,.6)',fx,fy,.6+((i*7)%3)*.2,.4);}
+  // the sea bream's back seen from above
+  {const fx=ax+aw/2+Math.sin(t*.35)*(aw/2-10);fillE(g,'rgba(230,110,120,.5)',fx,ay-dep*.45,3,.9);}
+  g.restore();
+  fillR(g,'#9aa3ad',ax+aw-12,ay-dep-2.4,1.2,4,.4);fillR(g,'#6e7781',ax+aw-15,ay-dep-2.6,8,1,.4);// air pipe
+  // front glass: water
+  g.save();rr(g,ax,ay,aw,ah,1);g.clip();
+  const wg=g.createLinearGradient(0,ay,0,bot);wg.addColorStop(0,'rgba(120,196,220,.75)');wg.addColorStop(.6,'rgba(50,130,170,.82)');wg.addColorStop(1,'rgba(25,80,120,.9)');g.fillStyle=wg;g.fillRect(ax,ay,aw,ah);
+  g.fillStyle='rgba(10,50,80,.2)';g.fillRect(ax,ay+4,aw,ah-4);
+  // light caustics
+  g.globalCompositeOperation='lighter';for(let i=0;i<5;i++){const rx=ax+((i*15+t*2)%(aw+12))-6;g.fillStyle=`rgba(255,255,255,${.05+.03*Math.sin(t+i)})`;g.beginPath();g.moveTo(rx,ay+1);g.lineTo(rx+4,ay+1);g.lineTo(rx+8,bot-3);g.lineTo(rx+2,bot-3);g.closePath();g.fill();}g.globalCompositeOperation='source-over';
+  // gravel + rocks
+  g.fillStyle='#8f8a80';g.beginPath();g.moveTo(ax,bot-2.6);for(let x=0;x<=aw;x+=3)g.lineTo(ax+x,bot-2.6-Math.sin(x*.7)*.4);g.lineTo(ax+aw,bot);g.lineTo(ax,bot);g.closePath();g.fill();
+  for(let i=0;i<30;i++)fillE(g,['#a9a397','#6f6b64','#c7c0b2','#5c5852'][i%4],ax+1+((i*37)%(aw-2)),bot-.6-((i*13)%5)*.4,.7,.42);
+  fillE(g,'#5e5a55',ax+aw*.2,bot-3.4,5,3);fillE(g,'#77726b',ax+aw*.2-.8,bot-4.4,3.8,1.8);fillE(g,'#55524c',ax+aw*.78,bot-3,4,2.6);fillE(g,'rgba(255,255,255,.18)',ax+aw*.2-2,bot-5,1.6,.5);
+  // shrimp (kuruma-ebi): walks on the gravel, now and then flicks backwards
+  {const ph=t*.18,sx=ax+aw*.55+Math.sin(ph)*aw*.3,dir=Math.cos(ph)>=0?1:-1,sy=bot-3.2;IKS_shrimp(sx,sy,dir,t);}
+  // crab: sidesteps along the bottom
+  {const cx=ax+aw*.35+Math.sin(t*.25)*aw*.22,cy=bot-2.4;IKS_crab(cx,cy,t);}
+  // sea bream: slow wide laps
+  {const ph=t*.22,fx=ax+aw/2+Math.sin(ph)*(aw/2-9),dir=Math.cos(ph)>=0?1:-1,fy=ay+9+Math.sin(t*.9)*1.2;IKS_tai(fx,fy,dir,t);}
+  // hamachi: quicker laps, a little lower
+  {const ph=t*.3+3,fx=ax+aw/2+Math.sin(ph)*(aw/2-9),dir=Math.cos(ph)>=0?1:-1,fy=ay+12.5+Math.sin(t*1.1+1)*1.4;IKS_hamachi(fx,fy,dir,t);}
+  // fugu: hovers, puffs up now and then
+  {const ph=t*.3+2,fx=ax+aw*.5+Math.sin(ph)*(aw*.32),dir=Math.cos(ph)>=0?1:-1,fy=ay+15+Math.sin(t*1.3)*1.5,puff=Math.max(0,Math.sin(t*.35))**8;IKS_fugu(fx,fy,dir,t,puff);}
+  // bubbles from the air stone
+  for(let i=0;i<8;i++){const ph=((t*.5+i/8)%1),by=bot-3-ph*(ah-5),bx=ax+aw-12+Math.sin(t*3+i)*.8,r=.45+ph*.7;g.strokeStyle='rgba(255,255,255,.7)';g.lineWidth=.35;ell(g,bx,by,r,r);g.stroke();}
+  // abalone stuck to the front glass (we see its foot), creeping very slowly
+  {const ph=t*.035,abx=ax+aw*.18+((Math.sin(ph)+1)/2)*aw*.62,aby=ay+ah*.42+Math.sin(ph*1.7)*3;IKS_awabi(abx,aby,t);}
+  // glass reflections
+  g.fillStyle='rgba(255,255,255,.14)';g.beginPath();g.moveTo(ax+5,ay+1);g.lineTo(ax+11,ay+1);g.lineTo(ax+4,bot-3);g.lineTo(ax+1,bot-3);g.closePath();g.fill();
+  g.restore();
+  // stainless frame
+  g.strokeStyle='#aeb6be';g.lineWidth=1.1;rr(g,ax,ay,aw,ah,1);g.stroke();g.strokeStyle='rgba(255,255,255,.55)';g.lineWidth=.35;g.beginPath();g.moveTo(ax+.6,ay+.6);g.lineTo(ax+aw-.6,ay+.6);g.stroke();
+  fillR(g,'#8d959e',ax-1,bot-.4,aw+2,1.8,.5);
+}
+/* v565b: higher-quality いけす creatures (head faces +x) */
+function IKS_tai(x,y,dir,t){g.save();g.translate(x,y);g.scale(dir*1.15,1.15);const w=Math.sin(t*5)*.35;
+  const body=()=>{g.beginPath();g.moveTo(6.4,.2);g.bezierCurveTo(5.8,-2.6,3.2,-4.6,-.6,-4.4);g.bezierCurveTo(-3.6,-4,-5.6,-2,-6.4,-.4);g.lineTo(-6.6,.4);g.bezierCurveTo(-5.4,1.8,-3,2.9,0,3);g.bezierCurveTo(3.4,3,5.6,2,6.4,.2);g.closePath();};
+  // tail (forked, dark edge)
+  g.fillStyle='#d9586a';g.beginPath();g.moveTo(-6,0);g.quadraticCurveTo(-8,-1.4,-9.6,-3.4+w);g.quadraticCurveTo(-9,-1,-8.4,0);g.quadraticCurveTo(-9,1,-9.6,3.2+w);g.quadraticCurveTo(-8,1.4,-6,0);g.fill();
+  g.strokeStyle='#3a4a6a';g.lineWidth=.3;g.beginPath();g.moveTo(-9.6,-3.4+w);g.quadraticCurveTo(-9,-1,-8.4,0);g.quadraticCurveTo(-9,1,-9.6,3.2+w);g.stroke();
+  // dorsal fin with spines
+  g.fillStyle='rgba(226,100,118,.7)';g.beginPath();g.moveTo(3.2,-3.8);for(let i=0;i<=10;i++){const xx=3.2-i*.85,yy=-4.1-Math.sin(i/10*Math.PI)*1.1-(i<4?.3:0);g.lineTo(xx,yy);g.lineTo(xx-.45,yy+.45);}g.lineTo(-5.4,-2.4);g.closePath();g.fill();
+  g.strokeStyle='rgba(150,40,60,.7)';g.lineWidth=.15;for(let i=0;i<=10;i++){const xx=3.2-i*.85;g.beginPath();g.moveTo(xx,-4+Math.abs(i-4)*.06);g.lineTo(xx,-4.1-Math.sin(i/10*Math.PI)*1.1-(i<4?.3:0));g.stroke();}
+  // anal fin
+  g.fillStyle='rgba(240,150,160,.85)';g.beginPath();g.moveTo(-1.4,2.8);g.lineTo(-3,4.2);g.lineTo(-4.8,2.2);g.closePath();g.fill();
+  // body: red back, pink flank, silvery belly
+  body();const gr=g.createLinearGradient(0,-4.4,0,3);gr.addColorStop(0,'#c9364f');gr.addColorStop(.35,'#ee6f7c');gr.addColorStop(.7,'#f8b6b0');gr.addColorStop(1,'#fff0ea');g.fillStyle=gr;g.fill();
+  g.save();body();g.clip();
+  // scale net
+  g.strokeStyle='rgba(160,40,60,.12)';g.lineWidth=.12;for(let r=-4;r<3;r+=.9)for(let c=-6;c<5;c+=.9){g.beginPath();g.arc(c+(Math.round(r/.9)%2?.45:0),r,.5,0,Math.PI);g.stroke();}
+  // famous blue spots
+  for(let i=0;i<22;i++){const xx=-4.6+((i*37)%95)/10,yy=-3.2+((i*53)%40)/10*.8;fillE(g,'rgba(90,190,255,.85)',xx,yy,.24,.24);}
+  // sheen
+  fillE(g,'rgba(255,255,255,.35)',0,-1.6,4.5,.6,-.05);
+  // gill cover + head shade
+  g.strokeStyle='rgba(130,30,45,.55)';g.lineWidth=.3;g.beginPath();g.moveTo(3.2,-3.4);g.quadraticCurveTo(1.6,-.4,3,2.4);g.stroke();
+  fillE(g,'rgba(180,40,60,.25)',5,-1.6,1.6,1.6);g.restore();
+  // pectoral fin
+  g.fillStyle='rgba(250,170,170,.85)';g.beginPath();g.moveTo(2.4,.4);g.quadraticCurveTo(.4,-.2+Math.sin(t*6)*.4,-.4,1.4);g.quadraticCurveTo(1,1.6,2.4,.4);g.fill();
+  // mouth + eye
+  g.strokeStyle='#8a2234';g.lineWidth=.3;g.beginPath();g.moveTo(6.4,.4);g.lineTo(5.4,.9);g.stroke();
+  fillE(g,'#f6d070',4.2,-1.9,.95,.95);fillE(g,'#141414',4.3,-1.9,.6,.6);fillE(g,'#fff',4.5,-2.15,.2,.2);
+  g.strokeStyle='rgba(90,20,30,.6)';g.lineWidth=.15;g.beginPath();g.moveTo(-.6,-4.4);g.bezierCurveTo(-3.6,-4,-5.6,-2,-6.4,-.4);g.stroke();
+  g.restore();}
+
+function IKS_fugu(x,y,dir,t,p){g.save();g.translate(x,y);g.scale(dir,1);const s=1+p*.55;g.scale(s,s);const fl=Math.sin(t*9)*.35;
+  // tail
+  g.fillStyle='#5a5440';g.beginPath();g.moveTo(-3.6,0);g.quadraticCurveTo(-5,-1.8+fl,-6,-1.4+fl);g.quadraticCurveTo(-5.5,0,-6,1.4+fl);g.quadraticCurveTo(-5,1.8+fl,-3.6,0);g.fill();
+  // dorsal & anal fins (small, near tail)
+  g.fillStyle='#4a4636';g.beginPath();g.moveTo(-1.8,-2.6-p*.6);g.lineTo(-3.2,-3.6-p*.6+fl*.5);g.lineTo(-3.4,-2.2-p*.4);g.closePath();g.fill();
+  g.fillStyle='#e8e2c8';g.beginPath();g.moveTo(-1.8,2.6+p*.6);g.lineTo(-3.2,3.4+p*.6-fl*.5);g.lineTo(-3.4,2+p*.4);g.closePath();g.fill();
+  // body
+  const ry=2.8+p*1.2,rx=4.2+p*.2;const body=()=>{g.beginPath();g.moveTo(rx,0);g.bezierCurveTo(rx,-ry*.9,-rx*.4,-ry*1.05,-rx*.9,-ry*.4);g.quadraticCurveTo(-rx,0,-rx*.9,ry*.4);g.bezierCurveTo(-rx*.4,ry*1.05,rx,ry*.9,rx,0);g.closePath();};
+  body();const gr=g.createLinearGradient(0,-ry,0,ry);gr.addColorStop(0,'#3f3c30');gr.addColorStop(.45,'#7d765a');gr.addColorStop(.52,'#f7f4ea');gr.addColorStop(1,'#ffffff');g.fillStyle=gr;g.fill();
+  g.save();body();g.clip();
+  // fine dark mottling on the back
+  for(let i=0;i<26;i++){const xx=-3.4+((i*29)%70)/10,yy=-ry*.85+((i*17)%30)/10*ry/4;fillE(g,'rgba(25,22,16,.55)',xx,yy,.28+((i*7)%3)*.08,.22);}
+  // the big black spot ringed white (torafugu mark)
+  fillE(g,'#fff',-.6,.2,1.5,1.25);fillE(g,'#151515',-.6,.2,1.15,.95);
+  // belly sheen
+  fillE(g,'rgba(255,255,255,.6)',.6,ry*.55,2.4,.5);
+  if(p>.15){g.strokeStyle='rgba(120,110,80,.5)';g.lineWidth=.12;for(let i=0;i<40;i++){const a=(i*2.4)%6.28,rr2=.5+((i*13)%10)/10*.45;const px=Math.cos(a)*rx*rr2,py=Math.sin(a)*ry*rr2;g.beginPath();g.moveTo(px,py);g.lineTo(px+.25,py-.3);g.stroke();}}
+  g.restore();
+  // pectoral fin (fluttering, yellowish)
+  g.fillStyle='rgba(225,200,110,.9)';g.beginPath();g.moveTo(1.4,-.2);g.quadraticCurveTo(.2,-1.4+fl,-.2,-.2);g.quadraticCurveTo(.2,.9-fl,1.4,.2);g.fill();
+  // eye (raised, green-gold) + beak mouth
+  fillE(g,'#3a3a2a',2.2,-1.3-p*.3,1.05,.95);fillE(g,'#c8c070',2.2,-1.3-p*.3,.8,.75);fillE(g,'#111',2.3,-1.3-p*.3,.45,.5);fillE(g,'#fff',2.45,-1.5-p*.3,.15,.15);
+  fillR(g,'#f2ead0',rx-.5,-.35,.9,.7,.3);g.strokeStyle='#8a8060';g.lineWidth=.1;g.beginPath();g.moveTo(rx-.4,0);g.lineTo(rx+.4,0);g.stroke();
+  g.restore();}
+
+function IKS_crab(x,y,t){g.save();g.translate(x,y);g.scale(1.25,1.25);const k=Math.sin(t*6)*.45;g.lineCap='round';g.lineJoin='round';
+  // walking legs: 3 jointed pairs + paddle legs at back
+  for(const s of[-1,1])for(let i=0;i<3;i++){const ph=(i%2?k:-k)*s,x0=s*(1.6+i*.15),y0=-.9+i*.45,x1=s*(3.4+i*.35),y1=-2+i*.55+ph,x2=s*(4.6+i*.35),y2=.9+i*.15;
+    g.strokeStyle='#9a3420';g.lineWidth=.6;g.beginPath();g.moveTo(x0,y0);g.lineTo(x1,y1);g.lineTo(x2,y2);g.stroke();g.strokeStyle='#e0784e';g.lineWidth=.22;g.beginPath();g.moveTo(x0,y0-.1);g.lineTo(x1,y1-.15);g.stroke();
+    g.strokeStyle='#f0d0a8';g.lineWidth=.2;g.beginPath();g.moveTo(x2,y2);g.lineTo(x2+s*.25,y2+.35);g.stroke();}
+  for(const s of[-1,1]){g.strokeStyle='#9a3420';g.lineWidth=.55;g.beginPath();g.moveTo(s*1.2,.2);g.lineTo(s*2.4,.9-k*s*.3);g.stroke();fillE(g,'#c85a38',s*2.9,1.1-k*s*.3,.8,.35,s*.5);}
+  // claws (chelae): arm, palm, fingers
+  for(const s of[-1,1]){const op=.25+Math.max(0,Math.sin(t*1.7+s))*.5;
+    g.strokeStyle='#a83a22';g.lineWidth=.8;g.beginPath();g.moveTo(s*1.6,-1.6);g.lineTo(s*2.6,-3);g.stroke();
+    g.save();g.translate(s*3,-3.6);g.rotate(s*-.5);
+    const pg=g.createLinearGradient(0,-1,0,1);pg.addColorStop(0,'#f08058');pg.addColorStop(1,'#a83a22');g.fillStyle=pg;ell(g,0,0,1.1,.85);g.fill();
+    g.fillStyle='#c84a2c';g.beginPath();g.moveTo(.4*s,-.5);g.quadraticCurveTo(1.6*s,-1.4-op,2.2*s,-1.6-op);g.quadraticCurveTo(1.4*s,-.4,.6*s,0);g.fill();
+    g.beginPath();g.moveTo(.6*s,.1);g.quadraticCurveTo(1.6*s,-.2+op*.3,2.1*s,-.6);g.quadraticCurveTo(1.4*s,.5,.5*s,.6);g.fill();
+    fillE(g,'#2a1a14',2.1*s,-1.55-op,.18,.15);fillE(g,'#2a1a14',2*s,-.62,.18,.15);fillE(g,'rgba(255,255,255,.35)',-.2*s,-.35,.5,.2);g.restore();}
+  // carapace: wide hexagon with lateral spines
+  const cp=()=>{g.beginPath();g.moveTo(-3.3,-1.6);g.lineTo(-1.6,-2.8);g.lineTo(1.6,-2.8);g.lineTo(3.3,-1.6);g.lineTo(2.4,.5);g.quadraticCurveTo(0,1.3,-2.4,.5);g.closePath();};
+  cp();const gr=g.createLinearGradient(0,-2.8,0,1);gr.addColorStop(0,'#ec7a4c');gr.addColorStop(.6,'#c4482a');gr.addColorStop(1,'#8a2c18');g.fillStyle=gr;g.fill();
+  g.strokeStyle='#7a2614';g.lineWidth=.2;g.stroke();
+  g.fillStyle='#c4482a';for(const s of[-1,1]){g.beginPath();g.moveTo(s*3.1,-1.9);g.lineTo(s*4.1,-1.9);g.lineTo(s*3.2,-1.3);g.closePath();g.fill();for(let i=0;i<3;i++){g.beginPath();g.moveTo(s*(2+i*.4),-2.6+i*.3);g.lineTo(s*(2.3+i*.4),-3+i*.3);g.lineTo(s*(2.5+i*.4),-2.4+i*.3);g.fill();}}
+  // grooves and bumps on the shell
+  g.save();cp();g.clip();g.strokeStyle='rgba(110,30,15,.5)';g.lineWidth=.15;g.beginPath();g.moveTo(-1,-1.2);g.quadraticCurveTo(0,-.6,1,-1.2);g.moveTo(-1.8,-.2);g.quadraticCurveTo(0,.6,1.8,-.2);g.stroke();
+  for(let i=0;i<10;i++)fillE(g,'rgba(255,190,150,.35)',-2.2+((i*19)%45)/10,-2.2+((i*7)%22)/10,.2,.15);fillE(g,'rgba(255,255,255,.3)',-.8,-2,1.4,.35);g.restore();
+  // eyes on stalks
+  for(const s of[-1,1]){g.strokeStyle='#a83a22';g.lineWidth=.3;g.beginPath();g.moveTo(s*.5,-2.7);g.lineTo(s*.7,-3.5);g.stroke();fillE(g,'#141414',s*.75,-3.6,.3,.3);fillE(g,'#fff',s*.68,-3.7,.1,.1);}
+  g.restore();}
+
+// 伊勢海老 (spiny lobster): thick spiny antennae, spiny carapace, segmented tail, fan
+function IKS_shrimp(x,y,dir,t){g.save();g.translate(x,y);g.scale(dir*1.2,1.5);const k=Math.sin(t*1.6)*.5;g.lineCap='round';
+  // big antennae: thick spiny bases, then whips sweeping back over the body
+  for(const [s,o] of[[1,0],[-1,.6]]){const bx=4.6,by=-1.4+o*.2;
+    g.strokeStyle=o?'#7a2a1a':'#9a3a22';g.lineWidth=.9;g.beginPath();g.moveTo(bx,by);g.lineTo(bx+2.6,by-1.8+o);g.stroke();
+    g.strokeStyle='#f0c070';g.lineWidth=.12;for(let i=0;i<5;i++){const px=bx+i*.55,py=by-i*.38+o*i*.2;g.beginPath();g.moveTo(px,py-.3);g.lineTo(px+.1,py-.75);g.stroke();}
+    g.strokeStyle=o?'#7a2a1a':'#a84428';g.lineWidth=.35;g.beginPath();g.moveTo(bx+2.6,by-1.8+o);g.bezierCurveTo(bx+5.4,by-3.4+o+k*.5,bx+8,by-4.4+o+k,bx+10-o*1.5,by-2.6+k*1.3+o*1.4);g.stroke();
+    g.lineWidth=.18;g.beginPath();g.moveTo(bx+10-o*1.5,by-2.6+k*1.3+o*1.4);g.quadraticCurveTo(bx+12,by-1.4+o,bx+13-o,by+.4+k+o);g.stroke();}
+  // small antennules (white-banded)
+  g.strokeStyle='#e8d0b0';g.lineWidth=.14;g.beginPath();g.moveTo(4.8,-.6);g.quadraticCurveTo(6.4,-.6,7.4,-1.4+k*.3);g.moveTo(4.8,-.5);g.quadraticCurveTo(6.6,0,7.6,-.4-k*.3);g.stroke();
+  // walking legs (banded)
+  for(let i=0;i<5;i++){const xx=3.4-i*1.05,sw=Math.sin(t*3+i)*.25;g.strokeStyle='#8a3018';g.lineWidth=.32;g.beginPath();g.moveTo(xx,.6);g.lineTo(xx+.5+sw,1.5);g.lineTo(xx+.2+sw,2.4);g.stroke();g.strokeStyle='#f0c070';g.lineWidth=.32;g.beginPath();g.moveTo(xx+.42+sw,1.3);g.lineTo(xx+.48+sw,1.6);g.stroke();}
+  // tail fan
+  const tf=Math.sin(t*1.2)*.15;g.save();g.translate(-6.6,.2);g.rotate(tf);
+  g.fillStyle='#9a3a22';for(const a of[-.7,-.25,.25,.7]){g.save();g.rotate(a);g.beginPath();g.moveTo(0,0);g.quadraticCurveTo(-1.2,-.6,-2.2,-.2);g.quadraticCurveTo(-1.4,.5,0,0);g.fill();g.restore();}
+  g.strokeStyle='rgba(240,200,120,.7)';g.lineWidth=.12;for(const a of[-.7,-.25,.25,.7]){g.save();g.rotate(a);g.beginPath();g.moveTo(-1.9,-.2);g.lineTo(-2.2,-.2);g.stroke();g.restore();}g.restore();
+  // abdomen segments (curving slightly down)
+  for(let i=0;i<6;i++){const sx=-.4-i*1.05,sy=.05+i*.05,h=1.55-i*.12;const sg=g.createLinearGradient(0,sy-h,0,sy+h*.6);sg.addColorStop(0,'#c45a34');sg.addColorStop(.5,'#8e2c1a');sg.addColorStop(1,'#5e1c10');g.fillStyle=sg;rr(g,sx-1.15,sy-h,1.25,h*1.6,.5);g.fill();
+    g.fillStyle='rgba(240,200,120,.8)';g.fillRect(sx-1.1,sy+h*.35,1.1,.18);fillE(g,'rgba(255,220,180,.3)',sx-.5,sy-h*.6,.4,.15);}
+  // carapace (cephalothorax) with spines
+  const cp=()=>{g.beginPath();g.moveTo(5,-.4);g.quadraticCurveTo(4.6,-2.2,2,-2.2);g.lineTo(-.4,-1.8);g.lineTo(-.6,.9);g.lineTo(2,1.2);g.quadraticCurveTo(4.4,1.1,5,-.4);g.closePath();};
+  cp();const gr=g.createLinearGradient(0,-2.2,0,1.2);gr.addColorStop(0,'#d06a3e');gr.addColorStop(.45,'#9a3420');gr.addColorStop(1,'#5a1a0e');g.fillStyle=gr;g.fill();
+  g.save();cp();g.clip();g.strokeStyle='rgba(60,15,8,.5)';g.lineWidth=.15;g.beginPath();g.moveTo(2.6,-2.2);g.quadraticCurveTo(2.2,-.4,2.6,1.2);g.stroke();
+  for(let i=0;i<14;i++)fillE(g,'rgba(255,210,150,.45)',.2+((i*23)%45)/10,-1.8+((i*11)%25)/10,.16,.16);fillE(g,'rgba(255,255,255,.25)',2.4,-1.5,1.8,.3);g.restore();
+  g.fillStyle='#b24a2a';for(let i=0;i<6;i++){const sx=.4+i*.75,sy=-2.15-(i>3?(i-3)*.05:0);g.beginPath();g.moveTo(sx-.25,sy+.15);g.lineTo(sx,sy-.55);g.lineTo(sx+.25,sy+.15);g.fill();}
+  // eye horns + eye
+  g.beginPath();g.moveTo(4,-1.9);g.lineTo(4.9,-3);g.lineTo(4.5,-1.7);g.fill();fillE(g,'#141414',4.5,-1.5,.4,.36);fillE(g,'#fff',4.6,-1.62,.12,.12);
+  g.restore();}
+
+// abalone stuck on the glass: foot + mantle fringe + shell rim with respiratory holes
+function IKS_awabi(x,y,t){g.save();g.translate(x,y);g.rotate(Math.sin(t*.05)*.3-.2);const pulse=1+Math.sin(t*.8)*.03;g.scale(pulse*1.1,1.1/pulse);
+  // shell rim behind (brown-green, rough) with a row of holes
+  const sg=g.createRadialGradient(1,-1,1,0,0,5.6);sg.addColorStop(0,'#7a8060');sg.addColorStop(1,'#4a5038');g.fillStyle=sg;ell(g,0,0,5.6,3.9);g.fill();
+  g.strokeStyle='rgba(30,35,20,.6)';g.lineWidth=.2;ell(g,0,0,5.6,3.9);g.stroke();
+  for(let i=0;i<6;i++){const a=-2.6+i*.32;fillE(g,'#2a2c22',Math.cos(a)*5.05,Math.sin(a)*3.45,.28,.22);fillE(g,'rgba(200,200,170,.4)',Math.cos(a)*5.05+.1,Math.sin(a)*3.45-.1,.12,.08);}
+  // mantle fringe: dark green-black with tentacles
+  g.fillStyle='#2e3626';ell(g,0,0,4.9,3.35);g.fill();
+  g.strokeStyle='#3c4632';g.lineWidth=.22;for(let i=0;i<30;i++){const a=i/30*Math.PI*2,r1=4.3,r2=5.2+Math.sin(t*2+i*1.7)*.35;g.beginPath();g.moveTo(Math.cos(a)*r1,Math.sin(a)*r1*.69);g.quadraticCurveTo(Math.cos(a+.08)*(r1+r2)/2,Math.sin(a+.08)*(r1+r2)/2*.69,Math.cos(a)*r2,Math.sin(a)*r2*.69);g.stroke();}
+  // ruffled epipodium edge
+  g.strokeStyle='#5a6448';g.lineWidth=.3;g.beginPath();for(let i=0;i<=48;i++){const a=i/48*Math.PI*2,r=4.25+Math.sin(i*1.9+t)*.12;g[i?'lineTo':'moveTo'](Math.cos(a)*r,Math.sin(a)*r*.69);}g.stroke();
+  // the muscular foot pressed on the glass
+  const gr=g.createRadialGradient(-.8,-.6,.3,0,0,4);gr.addColorStop(0,'#f6ead0');gr.addColorStop(.6,'#e0caa0');gr.addColorStop(1,'#b09068');g.fillStyle=gr;ell(g,0,0,3.9,2.65);g.fill();
+  // creeping waves across the sole
+  g.save();ell(g,0,0,3.9,2.65);g.clip();g.strokeStyle='rgba(160,120,80,.35)';g.lineWidth=.35;for(let i=0;i<5;i++){const xx=-4+((i*1.8+t*.6)%9);g.beginPath();g.moveTo(xx,-3);g.quadraticCurveTo(xx+.6,0,xx,3);g.stroke();}
+  g.strokeStyle='rgba(150,110,70,.3)';g.lineWidth=.12;for(let i=0;i<3;i++){ell(g,0,0,1.1+i*.9,.75+i*.6);g.stroke();}g.restore();
+  // head end: mouth + small tentacles
+  fillE(g,'#d8b890',3.5,0,.8,.65);g.strokeStyle='#4a5038';g.lineWidth=.2;g.beginPath();g.moveTo(4,-.4);g.lineTo(4.9,-.9);g.moveTo(4,.4);g.lineTo(4.9,.9);g.stroke();
+  fillE(g,'rgba(255,255,255,.4)',-1.4,-1,1.1,.45);g.restore();}
+// ハマチ (young yellowtail): torpedo body, blue-green back, silver belly, yellow stripe, yellow forked tail
+function IKS_hamachi(x,y,dir,t){g.save();g.translate(x,y);g.scale(dir*1.15,1.15);const w=Math.sin(t*6)*.4;
+  g.fillStyle='#e8c430';g.beginPath();g.moveTo(-6.4,0);g.quadraticCurveTo(-8,-.8,-9.6,-3+w);g.quadraticCurveTo(-8.8,-.6,-8.2,0);g.quadraticCurveTo(-8.8,.6,-9.6,3+w);g.quadraticCurveTo(-8,.8,-6.4,0);g.fill();
+  g.strokeStyle='rgba(150,120,20,.6)';g.lineWidth=.15;for(const s of[-1,1]){g.beginPath();g.moveTo(-6.8,0);g.lineTo(-9.2,s*2.6+w);g.stroke();}
+  // dorsal fins (low first, long second) + small anal fin, all yellowish
+  g.fillStyle='rgba(120,150,120,.8)';g.beginPath();g.moveTo(2,-2.1);g.lineTo(1.2,-2.9);g.lineTo(.2,-2.4);g.closePath();g.fill();
+  g.fillStyle='rgba(220,200,90,.75)';g.beginPath();g.moveTo(0,-2.3);g.quadraticCurveTo(-1,-3.3,-2,-2.6);g.lineTo(-5.4,-1.1);g.lineTo(-5,-.9);g.closePath();g.fill();
+  g.beginPath();g.moveTo(-1.2,1.9);g.quadraticCurveTo(-2.4,2.8,-3,2.1);g.lineTo(-5.4,1);g.lineTo(-5,.8);g.closePath();g.fill();
+  const body=()=>{g.beginPath();g.moveTo(6.6,.1);g.bezierCurveTo(5.8,-1.9,3,-2.6,0,-2.5);g.bezierCurveTo(-3,-2.3,-5.4,-1.2,-6.8,-.2);g.lineTo(-6.8,.2);g.bezierCurveTo(-5.4,1.1,-3,2.1,0,2.2);g.bezierCurveTo(3,2.2,5.6,1.6,6.6,.1);g.closePath();};
+  body();const gr=g.createLinearGradient(0,-2.5,0,2.2);gr.addColorStop(0,'#2a5a78');gr.addColorStop(.3,'#4e8aa0');gr.addColorStop(.48,'#b8d0d4');gr.addColorStop(.62,'#eef3f2');gr.addColorStop(1,'#ffffff');g.fillStyle=gr;g.fill();
+  g.save();body();g.clip();
+  // the yellow stripe from the eye to the tail
+  g.strokeStyle='rgba(240,200,40,.9)';g.lineWidth=.7;g.beginPath();g.moveTo(5,-.6);g.quadraticCurveTo(0,-.2,-6.8,0);g.stroke();
+  g.strokeStyle='rgba(255,240,150,.6)';g.lineWidth=.2;g.beginPath();g.moveTo(5,-.85);g.quadraticCurveTo(0,-.45,-6.8,-.25);g.stroke();
+  // metallic sheen + fine scales
+  fillE(g,'rgba(255,255,255,.4)',.5,-1.4,4.6,.35,-.03);g.strokeStyle='rgba(30,70,100,.18)';g.lineWidth=.1;for(let r=-2.2;r<-.8;r+=.6)for(let c=-5;c<4;c+=.7){g.beginPath();g.arc(c,r,.35,0,Math.PI);g.stroke();}
+  g.strokeStyle='rgba(40,70,90,.45)';g.lineWidth=.25;g.beginPath();g.moveTo(3.8,-1.9);g.quadraticCurveTo(2.8,0,3.6,1.8);g.stroke();
+  g.restore();
+  // pectoral fin
+  g.fillStyle='rgba(230,215,140,.85)';g.beginPath();g.moveTo(2.8,.3);g.quadraticCurveTo(1,-.2+Math.sin(t*7)*.3,0,.9);g.quadraticCurveTo(1.4,1.1,2.8,.3);g.fill();
+  // mouth + eye
+  g.strokeStyle='#2a4050';g.lineWidth=.25;g.beginPath();g.moveTo(6.6,.2);g.lineTo(5.5,.5);g.stroke();
+  fillE(g,'#e8e0c0',4.9,-.7,.75,.75);fillE(g,'#141414',5,-.7,.48,.48);fillE(g,'#fff',5.15,-.9,.16,.16);g.restore();}
+
+/* v565: the aquarium now sits in the middle of its cabinet (with its water surface seen from above); a new big いけす */
+{const D0=dAquarium;FT.aquarium.draw=function(X,Y,Wd,Dp,L,t){AQ2_draw(X,Y,Wd,Dp,L,t,D0);};}
+FT.ikesu=F('いけす',3,1,'back',['liv','kit'],{tall:1,use:'front',draw:IKS_draw});
+try{ALLK.push('ikesu');}catch(e){}
+// feeding the fish: either tank works; with both, pick one
+{const F0=A.fish;A.fish=function(){try{const hi=has('ikesu'),ha=has('aquarium');if(hi&&(!ha||Math.random()<.5)){
+  return[...goF('ikesu'),SAY(pick(['いけすの魚にえさをあげよう','鯛もハマチも元気かな','アワビ、今日もガラスに張り付いてる'])),W8(3,dt=>{if(Math.random()<dt*6)emit('ikesu','flake',1,14);}),FN(()=>{S.fishDay=now().toDateString();}),SAY(pick(['フグがふくらんだ！','伊勢海老、立派だなあ','カニが横歩きしてる','みんな元気に泳いでる']))];}}catch(e){}return F0.apply(this,arguments);};}
+try{TMAP.ikesu='fish';}catch(e){}
+{const G0=glowIn;glowIn=function(t){G0.apply(this,arguments);try{if(daylight()<.5&&has('ikesu')){const c=itemCenter('ikesu');g.globalCompositeOperation='lighter';const r=52,gr=g.createRadialGradient(c.x,c.y-10,0,c.x,c.y-10,r);gr.addColorStop(0,'rgba(110,180,255,.14)');gr.addColorStop(1,'rgba(110,180,255,0)');g.fillStyle=gr;g.fillRect(c.x-r,c.y-10-r,r*2,r*2);g.globalCompositeOperation='source-over';}}catch(e){}};}
+// the いけす is big: when no wall stretch is free, it may stand out in the room (like the stereo)
+{const PF=placeFor;placeFor=function(k,opt){const r=PF.apply(this,arguments);if(r||k!=='ikesu')return r;try{const o={...(opt||{}),free:true};let q=PF.call(this,k,o);if(!q&&typeof KEEP_relaxed==='function')q=KEEP_relaxed(()=>PF.call(this,k,o));return q||null;}catch(e){return null;}};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
