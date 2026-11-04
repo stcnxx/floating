@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 565（2026/11/05）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 566（2026/11/05）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 565（2026/11/05）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 566（2026/11/05）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -15270,7 +15270,7 @@ A.bedswap=function(){if(S&&S.noDeco)return null;if(!has('bed')||!S.layout.bed||S
   window.addEventListener('pointerup',e=>{if(fired&&performance.now()-fired<4000&&e.target===cv){fired=0;e.stopImmediatePropagation();e.stopPropagation();}},true);})();
 /* ---- v258: bake beds and sofas (whose covers can change) into small cached images instead of redrawing every frame ---- */
 const FCC=new Map();
-function FC_draw(id,key,X,Y,bx,by,bw,bh,fn){const sc=Math.max(2,cacheScale()),full=key+'|'+sc+'|'+X+','+Y;let e=FCC.get(id);
+function FC_draw(id,key,X,Y,bx,by,bw,bh,fn){const sc=Math.max(2,String(id).endsWith(':u')?Z*Math.min(DPR||1,3):cacheScale()),full=key+'|'+sc+'|'+X+','+Y;let e=FCC.get(id);
   if(!e||e.key!==full){const cv2=(e&&e.cv)||document.createElement('canvas');cv2.width=Math.ceil(bw*sc);cv2.height=Math.ceil(bh*sc);const c=cv2.getContext('2d');c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,cv2.width,cv2.height);
     const old=g;g=c;try{g.setTransform(sc,0,0,sc,0,0);g.translate(-(X+bx),-(Y+by));fn();}catch(err){g=old;return fn();}finally{g=old;}e={key:full,cv:cv2};FCC.set(id,e);}
   g.drawImage(e.cv,X+bx,Y+by,bw,bh);}
@@ -20640,7 +20640,7 @@ function RUP_im(src){if(!src)return null;let im=RUP_IM[src];if(im)return im.comp
 function RUP_shrink(file,mode,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const W2=mode==='tile'?96:264,H2=mode==='tile'?96:186,c=document.createElement('canvas');c.width=W2;c.height=H2;const x=c.getContext('2d');
     const s=Math.max(W2/im.width,H2/im.height),dw=im.width*s,dh=im.height*s;x.fillStyle='#ffffff';x.fillRect(0,0,W2,H2);x.drawImage(im,(W2-dw)/2,(H2-dh)/2,dw,dh);cb(c.toDataURL('image/jpeg',.78));}catch(e){cb(null);}};
     im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
-function RUP_draw(X,Y,Wd,Dp,L,im){const x=X+4,y=Y+5,w=Wd-8,h=Dp-10,m=L.uimg.m;
+function RUP_draw(X,Y,Wd,Dp,L,im){const x=X+4,y=Y+5,w=Wd-8,h=Dp-10,m=L.uimg.m;g.imageSmoothingEnabled=true;try{g.imageSmoothingQuality='high';}catch(_){}
   A_shadow(x+.5,y+1.5,w,h,.8);g.save();rr(g,x,y,w,h,3);g.clip();
   const fr=L.uimg.fr;
   if(m==='photo'){if(fr==='none')g.drawImage(im,x,y,w,h);else{const b=3,fc=fr||'#2c2a30';g.fillStyle=fc;g.fillRect(x,y,w,h);g.drawImage(im,x+b,y+b,w-b*2,h-b*2);
@@ -20699,11 +20699,11 @@ function BD_bub(b,text,dur,fix){const n=performance.now();b.bub={text,until:n+du
 {const BI=BD_items;BD_items=function(items,t){BI.apply(this,arguments);try{const n=performance.now();for(const b of BD){const u=b.bub;if(!u||n>u.until)continue;
   const sz=b.d.sz*1.25,x=u.x!=null?u.x:b.x,y=(u.y!=null?u.y:b.y)-(b.d.k==='hakucho'?26:11*sz+3);items.push({k:100000,f:()=>PL_bubble(x,y,u.text)});}}catch(e){}};}
 /* ---- v379: after choosing a picture for a rug, drag it to choose which part shows, then "適用" ---- */
-function RUP_load(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const M2=1000,s=Math.min(1,M2/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c);}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
+function RUP_load(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const M2=2400,s=Math.min(1,M2/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=Math.max(1,Math.round(im.width*s));c.height=Math.max(1,Math.round(im.height*s));c.getContext('2d').drawImage(im,0,0,c.width,c.height);cb(c);}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
 RUP_pick=function(k,mode){let inp=document.getElementById('rupFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='rupFile';inp.hidden=true;document.body.appendChild(inp);}
   inp.onchange=()=>{const fl=inp.files&&inp.files[0];inp.value='';if(!fl)return;RUP_load(fl,src=>{if(!src){say('その画像は読み込めなかったみたい');return;}RUP_adjust(k,mode,src);});};inp.click();};
 function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov)return;const L=S.layout[k];if(!L)return;
-  const OW=mode==='tile'?96:(typeof RSZ_ow==='function'?RSZ_ow(k):264),OH=mode==='tile'?96:186,ar=OW/OH;
+  const OW=mode==='tile'?192:(typeof RSZ_ow==='function'?RSZ_ow(k):264),OH=mode==='tile'?192:RSZ_oh(k),ar=OW/OH;
   if(!document.getElementById('rupAdjSt')){const st=document.createElement('style');st.id='rupAdjSt';st.textContent='#rupOv .rpf{position:relative;width:100%;border-radius:8px;overflow:hidden;background:#111;touch-action:none;cursor:grab;margin:4px 0 8px;box-shadow:0 0 0 2px rgba(255,211,107,.8)}#rupOv .rpf canvas{display:block;width:100%;height:100%}#rupOv .rpf .rpg{position:absolute;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 33.3% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 66.6% 0/1px 100% no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 33.3%/100% 1px no-repeat,linear-gradient(rgba(255,255,255,.18),rgba(255,255,255,.18)) 0 66.6%/100% 1px no-repeat}#rupOv .rptp{width:100%;aspect-ratio:88/62;border-radius:6px;margin:0 0 8px;background-repeat:repeat;background-size:20% auto;box-shadow:inset 0 0 0 3px rgba(120,60,60,.8)}#rupOv .rpa{display:flex;gap:8px}#rupOv .rpa button{flex:1}#rupOv .rpz{width:100%;margin:0 0 8px}';try{document.head.appendChild(st);}catch(_){}}
   ov.innerHTML=`<div class="card" role="dialog" aria-label="位置を調整"><h2>${mode==='tile'?'🔁 くり返し柄にする部分':'🖼 ラグに敷く部分'}</h2><p class="hint">ドラッグして位置を調整できます${mode==='tile'?'（四角の中がくり返しの1枚になります）':''}</p>
     <div class="rpf" style="aspect-ratio:${OW}/${OH}"><canvas></canvas><div class="rpg"></div></div><div style="display:flex;align-items:center;gap:8px;margin:0 0 8px"><span style="font-size:12px;opacity:.8;white-space:nowrap">🔍 縮小・拡大</span><input class="rpz" style="margin:0" type="range" min="30" max="300" value="100" aria-label="拡大"></div>${mode==='tile'?'<div class="rptp"></div>':`<div class="rpv rufp" style="width:100%;aspect-ratio:${OW}/${OH};border-radius:6px;margin:0 0 8px;background-repeat:no-repeat;background-position:center"></div>`}<div class="rufw"></div>
@@ -20726,7 +20726,7 @@ function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov
   const up=()=>{if(!drag)return;drag=null;fr.style.cursor='grab';tpUp();};fr.addEventListener('pointerup',up);fr.addEventListener('pointercancel',up);
   zs.oninput=()=>{st.z=(+zs.value)/100;draw();tpUp();};
   ov.querySelector('.rpc').onclick=()=>{RUP_ui(k);};
-  ov.querySelector('.rpok').onclick=()=>{let url=null;try{url=crop(OW,OH).toDataURL('image/jpeg',.8);}catch(e){}if(!url){say('その画像は使えなかったみたい');return;}
+  ov.querySelector('.rpok').onclick=()=>{let url=null;try{url=crop(OW,OH).toDataURL('image/jpeg',.86);}catch(e){}if(!url){say('その画像は使えなかったみたい');return;}
     const done=edge=>{L.uimg={m:mode,src:url,fr:frSel};if(edge)L.uimg.edge=edge;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの画像を外してみて');}ov.hidden=true;
       queueSay(mode==='photo'?pick(['お気に入りの写真がラグになった！','写真のラグ、すてき','足元に思い出の写真']):pick(['オリジナル柄のラグ、できた！','くり返し柄にすると、ちゃんとラグっぽい','この柄、かわいい']));};
     if(mode==='tile')RUP_edge(url,done);else done(null);};}
@@ -22167,7 +22167,8 @@ for(const k of RUG_FAM){const f=FT[k];if(!f)continue;let bw=f.w,bh=f.h;
   Object.defineProperty(f,'w',{get(){try{const L=S&&S.layout&&S.layout[k];if(L&&L.rw)return L.rw;}catch(e){}return bw;},set(v){bw=v;},configurable:true,enumerable:true});
   Object.defineProperty(f,'h',{get(){try{const L=S&&S.layout&&S.layout[k];if(L&&L.rh)return L.rh;}catch(e){}return bh;},set(v){bh=v;},configurable:true,enumerable:true});}
 function RSZ_ar(k){const f=FT[k];return((f.w||4)*T-8)/((f.h||3)*T-10);}
-function RSZ_ow(k){return Math.max(60,Math.min(560,Math.round(186*RSZ_ar(k))));}
+function RSZ_oh(k){const f=FT[k];return Math.max(186,Math.min(1100,Math.round(((f.h||3)*T-10)*6)));}
+function RSZ_ow(k){return Math.max(60,Math.min(1800,Math.round(RSZ_oh(k)*RSZ_ar(k))));}
 // where a rug of w x h can lie, as close as possible to where it is now
 function RSZ_fit(k,w,h){const L=S.layout[k];if(!L)return null;const ow=L.rw,oh=L.rh,ox=L.x,oy=L.y;const cand=[];
   for(let dy=-(h-1);dy<=2;dy++)for(let dx=-(w-1);dx<=2;dx++)cand.push([dx,dy]);cand.sort((a,b)=>(Math.abs(a[0])+Math.abs(a[1]))-(Math.abs(b[0])+Math.abs(b[1])));
@@ -22175,9 +22176,9 @@ function RSZ_fit(k,w,h){const L=S.layout[k];if(!L)return null;const ow=L.rw,oh=L
   finally{L.x=ox;L.y=oy;if(ow)L.rw=ow;else delete L.rw;if(oh)L.rh=oh;else delete L.rh;}return res;}
 // a photo rug keeps the picture's proportions: fit to the height, centre it, trim or pad the sides
 function RSZ_reimg(k){try{const L=S.layout[k];if(!L||!L.uimg||L.uimg.m!=='photo')return;const u=L.uimg,base=u.base||u.src;const im=new Image();
-  im.onload=()=>{try{const OW=RSZ_ow(k),OH=186,c=document.createElement('canvas');c.width=OW;c.height=OH;const x=c.getContext('2d');
+  im.onload=()=>{try{const OW=RSZ_ow(k),OH=RSZ_oh(k),c=document.createElement('canvas');c.width=OW;c.height=OH;const x=c.getContext('2d');
     const fc=u.fr&&u.fr!=='none'?u.fr:'#ffffff';x.fillStyle=fc;x.fillRect(0,0,OW,OH);const s=OH/im.height,dw=im.width*s;x.drawImage(im,(OW-dw)/2,0,dw,OH);
-    const L2=S.layout[k];if(!L2||L2.uimg!==u)return;u.base=base;u.src=c.toDataURL('image/jpeg',.82);try{save();}catch(e){}}catch(e){}};im.src=base;}catch(e){}}
+    const L2=S.layout[k];if(!L2||L2.uimg!==u)return;u.base=base;u.src=c.toDataURL('image/jpeg',.86);try{save();}catch(e){}}catch(e){}};im.src=base;}catch(e){}}
 function RSZ_apply(k,w,h){const L=S.layout[k];if(!L)return false;const q=RSZ_fit(k,w,h);if(!q)return false;L.rw=w;L.rh=h;L.x=q.x;L.y=q.y;
   try{refreshOcc();}catch(e){}RSZ_reimg(k);try{save();}catch(e){}return true;}
 function RSZ_ui(k){let ov=document.getElementById('rszOv');if(!ov){const st=document.createElement('style');st.textContent='#rszOv .card{max-width:320px;padding:14px 14px 12px;text-align:center}#rszOv h2{margin:0 0 4px;font-size:16px}#rszOv .hint{margin:0 0 10px;font-size:12px;opacity:.8}#rszOv .rzr{display:flex;align-items:center;gap:6px;margin:0 0 8px}#rszOv .rzr b{width:2.6em;font-size:13px;text-align:left}#rszOv .rzr button{flex:1;padding:8px 0;height:auto;font-size:14px;border-radius:10px;border:2px solid transparent;background:rgba(255,255,255,.08);color:inherit}#rszOv .rzr button[aria-pressed=true]{border-color:#ffd36b;background:rgba(255,211,107,.2)}#rszOv .rzp{display:flex;justify-content:center;align-items:center;height:132px;margin:2px 0 8px}#rszOv .rzg{display:grid;gap:2px;padding:4px;border-radius:6px;background:rgba(255,255,255,.06)}#rszOv .rzg i{display:block;width:18px;height:18px;border-radius:3px;background:linear-gradient(135deg,#d8a87a,#b07850)}#rszOv .rzs{font-size:12.5px;min-height:1.4em;margin:0 0 10px}#rszOv .rzs.ng{color:#ff9b8a}#rszOv .rpa{display:flex;gap:8px}#rszOv .rpa button{flex:1}';document.head.append(st);
