@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 571（2026/11/05）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 573（2026/11/05）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 571（2026/11/05）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 573（2026/11/05）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -26956,15 +26956,18 @@ function WALL_coverKs(L){const out=[];try{for(const k2 of S.owned){const f2=FT[k
 function WALL_occupied(k2){try{const L2=S.layout[k2],f2=FT[k2],w=L2.ped?1:f2.w,h=L2.ped?1:f2.h,x0=L2.x*T,y0=L2.y*T,x1=x0+w*T,y1=y0+h*T,inR=(px,py)=>px>=x0-2&&px<=x1+2&&py>=y0-2&&py<=y1+2;
   if(C.scene==='in'&&(C.snapK===k2||inR(C.px+12,C.py+12)))return true;if(typeof M!=='undefined'&&M&&M.scene==='in'&&M.px!=null&&inR(M.px+12,M.py+12))return true;
   if(typeof PET!=='undefined'&&PET&&PET.px!=null&&PET.scene!=='out'&&inR(PET.px,PET.py))return true;}catch(e){return true;}return false;}
+// v573: the tall-neighbour redraw (v552) also moves out of the picture's drawing into this separate step — nothing is ever redrawn inside drawWallItem
+const WALL_tallNb0=WALL_tallNb;WALL_tallNb=function(){return[];};
 // v571: done as its own draw step right after the picture (not inside the picture's drawing, where the picture's own scaling and the drag preview leaked into it)
 {const DWS=drawWallItems;drawWallItems=function(t,items){const r=DWS.apply(this,arguments);try{if(C.scene!=='in')return r;for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='wall'||!L||L.carry||!L.wall||L.side)continue;const ck=wallCover(L);if(ck===null)continue;
-  items.push({k:ck+2.6,f:()=>{try{for(const k2 of WALL_coverKs(L)){const L2=S.layout[k2];if(!L2||L2.carry||WALL_occupied(k2))continue;g.save();try{drawFurnK(k2,t);const f2=FT[k2];if(f2.parts&&!L2.ped)for(const p of f2.parts(L2))p.f();}finally{g.restore();}}}catch(e){}}});}}catch(e){}return r;};}
+  items.push({k:ck+2.6,f:()=>{try{for(const k2 of [...new Set(WALL_coverKs(L).concat(WALL_tallNb0(k,L)))]){const L2=S.layout[k2];if(!L2||L2.carry||WALL_occupied(k2))continue;g.save();try{drawFurnK(k2,t);const f2=FT[k2];if(f2.parts&&!L2.ped)for(const p of f2.parts(L2))p.f();}finally{g.restore();}}}catch(e){}}});}}catch(e){}return r;};}
 
 /* v569/570: wide pictures (photo frame, island painting, garland, wall shelf) are always drawn to fit one tile, so neighbours never overlap and the size never jumps */
 const WW_W={pframe:33.3,islandart:27,garland:28.8,wshelf:25};
 function WW_nb(k,L,wall){try{for(const k2 of S.owned){if(k2===k)continue;const f2=FT[k2],L2=S.layout[k2];if(!f2||f2.k!=='wall'||!L2||L2.carry||L2.side)continue;if(!!L2.wall!==wall)continue;if(L2.y===L.y&&Math.abs(L2.x-L.x)===1)return true;}}catch(e){}return false;}
 function WW_s(k){const w=WW_W[MC_base(k)];return w?Math.min(1,23/w):1;}
-{const DW=drawWallItem;drawWallItem=function(k,L,t){const s=WW_s(k);if(s>=1||!L||!L.wall||L.side||S.layout[k]!==L)return DW.apply(this,arguments);const c=wallCenter(L);g.save();g.translate(c.x,c.y);g.scale(s,s);g.translate(-c.x,-c.y);try{return DW.apply(this,arguments);}finally{g.restore();}};}
+// v572: only the picture itself is scaled (its own draw), so furniture redrawn around it is never shrunk
+{const DW=drawWallItem;drawWallItem=function(k,L,t){const s=WW_s(k);if(s>=1||!L||!L.wall||L.side||S.layout[k]!==L)return DW.apply(this,arguments);const f=FT[k],d0=f.draw;f.draw=function(){g.save();g.translate(12,13.5);g.scale(s,s);g.translate(-12,-13.5);try{return d0.apply(this,arguments);}finally{g.restore();}};try{return DW.apply(this,arguments);}finally{f.draw=d0;}};}
 {const DL=drawLean;drawLean=function(k,L,t){const s=WW_s(k);if(s>=1||!L||S.layout[k]!==L)return DL.apply(this,arguments);const px=L.x*T+12,py=L.y*T+15;g.save();g.translate(px,py);g.scale(s,s);g.translate(-px,-py);try{return DL.apply(this,arguments);}finally{g.restore();}};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
