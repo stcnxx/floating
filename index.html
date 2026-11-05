@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 573（2026/11/05）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 575（2026/11/05）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 573（2026/11/05）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 575（2026/11/05）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -7410,8 +7410,6 @@ dCushion=FT.cushion.draw;
 /* ---------- rug (ラグ) ---------- */
 FT.rug.draw=function(X,Y,Wd,Dp,L){g.save();const v=(L.v||0)%4,[c1,c2]=VAR.rug[v],x=X+4,y=Y+5,w=Wd-8,h=Dp-10,dk=shade(c1,-.25);
   A_shadow(x+.5,y+1.5,w,h,.8);
-  // fringe (top & bottom)
-  g.strokeStyle=shade(c2,-.06);g.lineWidth=.55;g.lineCap='round';g.beginPath();for(let i=1.2;i<w-.6;i+=1.8){const j=hash(i*10|0,v,7)*.8;g.moveTo(x+i,y);g.lineTo(x+i+(j-.4),y-2.4-j*.4);g.moveTo(x+i,y+h);g.lineTo(x+i+(.4-j),y+h+2.4+j*.4);}g.stroke();
   // field
   A_fill(A_lg(x,y,x+w*.6,y+h*1.2,[[0,shade(c1,.1)],[1,shade(c1,-.1)]]),x,y,w,h,3);
   // borders
@@ -12928,7 +12926,7 @@ function RUG_paint(c,i,w,h){const L=(x0,y0,x1,y1,st)=>{const q=c.createLinearGra
   const R=(x,y,ww,hh,r)=>{c.beginPath();if(c.roundRect)c.roundRect(x,y,ww,hh,r);else c.rect(x,y,ww,hh);};
   const E=(x,y,rx,ry,col,a)=>{c.fillStyle=col;c.beginPath();c.ellipse(x,y,rx,ry,a||0,0,TAU);c.fill();};
   const dia=(x,y,rx,ry,col)=>{c.fillStyle=col;c.beginPath();c.moveTo(x,y-ry);c.lineTo(x+rx,y);c.lineTo(x,y+ry);c.lineTo(x-rx,y);c.closePath();c.fill();};
-  const fringe=col=>{c.strokeStyle=col;c.lineWidth=.5;c.lineCap='round';c.beginPath();for(let x=1.4;x<w-.6;x+=1.7){const j=hash(x*10|0,i,7)*.8;c.moveTo(x,0);c.lineTo(x+(j-.4),-2.4-j*.4);c.moveTo(x,h);c.lineTo(x+(.4-j),h+2.4+j*.4);}c.stroke();};
+  const fringe=()=>{};// ラグの房（フリンジ）は描かない
   let shape='rect';
   if(i>=RUGS.length){// ---------- Persian ----------
     const P=PERSIAN[i-RUGS.length][1],[f,b,iv,gd,gr]=P,k=i-RUGS.length;fringe('#f2ead8');
@@ -13120,8 +13118,8 @@ function LBM(c,v,d,col,t,o){o=o||{};const eyeC=o.rest?'rgba(150,200,255,.5)':'#9
   const hx=0,hy=by-H-.6,HW=1.95,HH=4.6;c.fillStyle=GD_lg(c,-HW,0,HW,0,[[0,'#4a4a56'],[.35,'#2f2f38'],[1,'#1e1e24']]);c.fillRect(hx-HW,hy-HH,HW*2,HH);c.beginPath();c.arc(hx,hy-HH,HW,Math.PI,0);c.fill();c.fillStyle='rgba(255,255,255,.22)';c.fillRect(hx-HW+.4,hy-HH,.5,HH-.3);
   if(d!=='up'){const lx=d==='left'?-.7:d==='right'?.7:0;c.fillStyle='#151520';c.beginPath();c.arc(lx,hy-HH-.1,1.15,0,TAU);c.fill();c.fillStyle=o.rest?'#5a6a88':'#6fd8ff';c.beginPath();c.arc(lx,hy-HH-.1,.65,0,TAU);c.fill();c.fillStyle='#fff';c.beginPath();c.arc(lx-.3,hy-HH-.45,.2,0,TAU);c.fill();}
   // face
-  const ey=by-8.2;if(d==='down'){fillR(c,'#3a3a4a',-4.3,ey-1.7,8.6,3.4,1.6);c.fillStyle=eyeC;for(const x of[-1.8,1.8]){c.beginPath();if(o.blink)c.rect(x-.8,ey-.15,1.6,.35);else c.ellipse(x,ey,.75,.8,0,0,TAU);c.fill();}c.fillStyle='rgba(255,160,180,.5)';for(const x of[-3.7,3.7]){c.beginPath();c.ellipse(x,ey+2.6,1,.5,0,0,TAU);c.fill();}}
-  else if(side){fillR(c,'#3a3a4a',s>0?1:-5.2,ey-1.7,4.2,3.4,1.5);if(!o.blink){c.fillStyle=eyeC;c.beginPath();c.ellipse(s*3.4,ey,.6,.8,0,0,TAU);c.fill();}}
+  const ey=by-8.2;if(d==='down'){fillR(c,'#3a3a4a',-4.3,ey-1.7,8.6,3.4,1.6);for(const x of[-1.8,1.8])LBE_draw(c,x,ey,o);c.fillStyle='rgba(255,160,180,.5)';for(const x of[-3.7,3.7]){c.beginPath();c.ellipse(x,ey+2.6,1,.5,0,0,TAU);c.fill();}}
+  else if(side){fillR(c,'#3a3a4a',s>0?1:-5.2,ey-1.7,4.2,3.4,1.5);if(!o.blink)LBE_draw(c,s*3.3,ey,o,.8);}
   else{c.fillStyle=shade(col,-.08);c.beginPath();c.ellipse(0,by-6,3.2,3,0,0,TAU);c.fill();c.fillStyle='#f2a0b0';c.beginPath();c.arc(0,by-3,.8,0,TAU);c.fill();}}
 
 drawLBot=function(b){const[cn,col]=lbColOf(b.k),x=b.px+T/2,y=b.py+T-3,d=b.dir,t=b.ph,bob=b.moving?Math.abs(Math.sin(t*6))*.5:Math.sin(t*2)*.25;
@@ -26969,6 +26967,258 @@ function WW_s(k){const w=WW_W[MC_base(k)];return w?Math.min(1,23/w):1;}
 // v572: only the picture itself is scaled (its own draw), so furniture redrawn around it is never shrunk
 {const DW=drawWallItem;drawWallItem=function(k,L,t){const s=WW_s(k);if(s>=1||!L||!L.wall||L.side||S.layout[k]!==L)return DW.apply(this,arguments);const f=FT[k],d0=f.draw;f.draw=function(){g.save();g.translate(12,13.5);g.scale(s,s);g.translate(-12,-13.5);try{return d0.apply(this,arguments);}finally{g.restore();}};try{return DW.apply(this,arguments);}finally{f.draw=d0;}};}
 {const DL=drawLean;drawLean=function(k,L,t){const s=WW_s(k);if(s>=1||!L||S.layout[k]!==L)return DL.apply(this,arguments);const px=L.x*T+12,py=L.y*T+15;g.save();g.translate(px,py);g.scale(s,s);g.translate(-px,-py);try{return DL.apply(this,arguments);}finally{g.restore();}};}
+
+/* ===== v574: speech sanity — no "what's for dinner" after dinner, no holiday talk after the holiday, the bulb line much rarer; the hand-washing bubble no longer jumps ===== */
+// meals: lines about an upcoming meal are skipped once that meal has been eaten today
+const SPK_MEAL=[['b',/(朝ごはん|朝ご飯|朝食)[^。！]*?(なに|何|作|支度|準備|まだ|楽しみ|食べよう|にしよう|しなきゃ|しよう)/],
+ ['l',/(お昼|ランチ|昼ごはん|昼ご飯|昼食)[^。！]*?(なに|何|作|支度|準備|まだ|楽しみ|食べよう|にしよう|しなきゃ|しよう)/],
+ ['d',/(晩ごはん|晩ご飯|夕ごはん|夕ご飯|夕飯|夕食|夜ごはん|夜ご飯|今夜のメニュー|今夜のごはん|今晩のおかず|今夜のおかず)[^。！]*?(なに|何|作|支度|準備|まだ|楽しみ|食べよう|にしよう|しなきゃ|しよう)/]];
+function SPK_mealOK(tx){try{const today=now().toDateString(),md=S&&S.mealDone||{};for(const[k,re]of SPK_MEAL)if(re.test(tx)&&md[k]===today)return false;}catch(e){}return true;}
+// holidays / seasonal days: only from three weeks before up to the day itself
+function SPK_evDates(y){const H=holidaysOf(y),o={};for(const k in H){const n=H[k];if(n==='振替休日'||n==='国民の休日')continue;const[m,d]=k.split('/').map(Number);o[n]=new Date(y,m-1,d);}
+  const nthSun=(m,n)=>{const f=new Date(y,m-1,1).getDay();return 1+((7-f)%7)+(n-1)*7;};
+  Object.assign(o,{'ハロウィン':new Date(y,9,31),'クリスマス':new Date(y,11,25),'大晦日':new Date(y,11,31),'七夕':new Date(y,6,7),'ひなまつり':new Date(y,2,3),'節分':new Date(y,1,3),'バレンタイン':new Date(y,1,14),'ホワイトデー':new Date(y,2,14),
+    'いい夫婦の日':new Date(y,10,22),'七五三':new Date(y,10,15),'冬至':new Date(y,11,22),'母の日':new Date(y,4,nthSun(5,2)),'父の日':new Date(y,5,nthSun(6,3)),'こどもの日':new Date(y,4,5)});return o;}
+function SPK_evOK(tx){try{const n=now(),t0=new Date(n.getFullYear(),n.getMonth(),n.getDate()).getTime(),DAY=864e5;let seen=false,ok=false;
+  for(const y of[n.getFullYear(),n.getFullYear()+1]){const E=SPK_evDates(y);for(const nm in E){if(!tx.includes(nm))continue;seen=true;const d=E[nm].getTime();if(t0<=d&&t0>=d-21*DAY)ok=true;}}
+  return!seen||ok;}catch(e){return true;}}
+function SPK_ok(tx){return typeof tx!=='string'||(SPK_mealOK(tx)&&SPK_evOK(tx));}
+{const S0=say;say=function(text){if(typeof text==='string'&&!SPK_ok(text))return;return S0.apply(this,arguments);};}
+{const M0=msay;msay=function(text){if(typeof text==='string'&&!SPK_ok(text))return;return M0.apply(this,arguments);};}
+// idle talk: pick again when the line would be stale, and the "light bulb" line only rarely
+{const TL=talkLine;talkLine=function(){let v=TL.apply(this,arguments);for(let i=0;i<8;i++){const tx=typeof v==='string'?v:v&&v.t;if(typeof tx!=='string')break;
+  if(!SPK_ok(tx)||(tx.includes('電球')&&Math.random()<.85)){v=TL.apply(this,arguments);continue;}break;}return v;};}
+// the hero's bubble: decide "keep clear of the thing being used" as soon as the hero has arrived, and keep that until the hero walks off — no jumping up and down
+let FXZ_st=null;
+{const F0=FXZ_for;FXZ_for=function(id){if(id!=='bubble')return F0.apply(this,arguments);try{if(C.scene!=='in'||C.sleeping||(C.snap&&C.pose==='bath')){FXZ_st=null;return null;}
+  if(C.path&&C.path.length){FXZ_st=null;return null;}const key=C.tx+','+C.ty;
+  if(C.steps&&C.steps.length){const z=FXZ_rect(C.tx,C.ty,C.dir,'c');if(z){FXZ_st={key,z};return z;}}
+  if(FXZ_st&&FXZ_st.key===key)return FXZ_st.z;FXZ_st=null;}catch(e){}return null;};}
+// …and if the hero walks off while that line is still showing, the bubble keeps the same height relative to the hero instead of dropping down to the head
+let SPK_n=0,SPK_off=null;
+{const S1=say;say=function(){SPK_n++;SPK_off=null;return S1.apply(this,arguments);};}
+{const PB=posBubble;posBubble=function(bb,cx,by,hd){const r=PB.apply(this,arguments);try{if(!bb||bb.id!=='bubble'||!bb._pos)return r;const k=cv.clientWidth/W,sy=((by-hd-cam.y)*Z+H/2)*k,p=bb._pos;
+  if(FXZ_for('bubble')){SPK_off={n:SPK_n,o:p.top-sy};return r;}
+  if(SPK_off&&SPK_off.n===SPK_n){const sh=cv.clientHeight;let top=sy+SPK_off.o;if(top<6)top=6;if(top>sh-p.bh-56)top=Math.max(6,sh-p.bh-56);p.top=top;bb.style.transform=`translate(${Math.round(p.left)}px,${Math.round(top)}px)`;}}catch(e){}return r;};}
+
+/* ===== v575: talk about yojijukugo (four-character idioms) and proverbs — 100 monologue lines and 100 chats with the housemate ===== */
+const KTW_SOLO=`
+「一期一会」って、この島での毎日にもあてはまるなあ
+「七転び八起き」。転んだ数より、起きた数がひとつ多いのがいいね
+「石の上にも三年」かあ。三年すわったら、石もあったまりそう
+「急がば回れ」。近道しようとして迷うの、よくあるよね
+「塵も積もれば山となる」。貯金箱、ちょっとずつ入れよう
+「笑う門には福来る」。今日もたくさん笑おうっと
+「継続は力なり」。毎日の日記、えらいぞわたし
+「花より団子」…正直、団子のほうが気になる
+「早起きは三文の徳」。三文って、今だといくらくらいなんだろう
+「猿も木から落ちる」。上手な人だって失敗するもんね
+「棚からぼたもち」、落ちてこないかなあ
+「十人十色」。好きなものがみんな違うから面白い
+「温故知新」。古いものを調べると、新しい発見があるんだって
+「腹八分目に医者いらず」…おかわりはやめておこう
+「雨降って地固まる」。けんかのあとって、仲よくなれたりするよね
+「百聞は一見にしかず」。聞くより見たほうが早いね
+「千里の道も一歩から」。まずは一歩、立ち上がろう
+「起承転結」って、四コマ漫画でよく聞くね
+「異口同音」。みんな同じことを言うときってあるよね
+「一石二鳥」。洗濯しながら日なたぼっこ、これぞ一石二鳥
+「案ずるより産むが易し」。やってみたら意外とかんたんだったりする
+「光陰矢の如し」。今年もあっという間だなあ
+「能ある鷹は爪を隠す」。かっこいい生き方だな
+「二兎を追う者は一兎をも得ず」。欲ばりすぎ注意だね
+「残り物には福がある」。最後のひとつ、もらっちゃおう
+「灯台下暗し」。メガネ、頭の上にあった…
+「一日一善」。今日は何をしようかな
+「晴耕雨読」。晴れたら畑、雨なら読書。理想の暮らし
+「自業自得」…夜ふかしした次の日の眠さはこれだね
+「単刀直入」に言うと、おなかすいた
+「以心伝心」。言わなくても伝わる仲って、いいよね
+「一生懸命」って、もとは「一所懸命」なんだって
+「臨機応変」。予定どおりにいかない日もあるさ
+「四苦八苦」しながら、組み立て家具をつくったことがある
+「試行錯誤」。うまくいくまで、何回でもやってみよう
+「三日坊主」にならないように、ゆるく続けよう
+「有言実行」。言ったからには、やるぞ
+「一喜一憂」しすぎないのが大事なのかも
+「大器晩成」。ゆっくり育つ人もいるんだよね
+「適材適所」。家具も置き場所がしっくりくると落ちつく
+「起死回生」の逆転ホームラン、見てみたい
+「無我夢中」になれることがあるって、しあわせ
+「五里霧中」…今日の空みたいに、先が見えないときもある
+「一網打尽」。部屋のほこりも一網打尽にしたい
+「威風堂々」。大きな木って、そんな感じがする
+「春夏秋冬」、どの季節にもいいところがあるね
+「花鳥風月」。自然の美しさを楽しむ心、大事にしたい
+「明鏡止水」。静かな水みたいな心でいたいな
+「天真爛漫」な人といると、こっちまで元気になる
+「切磋琢磨」できる友だちがいるといいね
+「才色兼備」って、ほめ言葉の最上級かも
+「優柔不断」…ごはんのメニュー、まだ決まらない
+「本末転倒」。休むための準備で疲れちゃうの、あるある
+「一心不乱」に掃除すると、気分もすっきり
+「一挙両得」。散歩で運動も気分転換もできちゃう
+「付和雷同」しないで、自分で考えるのも大事
+「捲土重来」。失敗しても、また来ればいいんだ
+「温厚篤実」な人って、そばにいると安心する
+「七転八倒」…足の小指、ぶつけたときがまさにそれ
+「八方美人」って、ちょっと損な役回りかもね
+「馬の耳に念仏」。わたしの小言も、たぶんそうなってる
+「猫に小判」。でも猫は、小判より鰹節のほうがいいよね
+「豚に真珠」。価値がわかる人に渡したいね
+「犬も歩けば棒に当たる」。出かけると何かいいことあるかも
+「猫の手も借りたい」くらい忙しい日、たまにある
+「鬼に金棒」。得意なことに道具がそろうと強いね
+「河童の川流れ」。名人でも失敗はあるんだね
+「月とすっぽん」。どっちも丸いのにね
+「瓢箪から駒」。思わぬところから本当のことが出てくる
+「餅は餅屋」。むずかしいことは得意な人に聞こう
+「良薬は口に苦し」。いいアドバイスほど、耳が痛い
+「蛙の子は蛙」。親子って、似てくるもんだね
+「井の中の蛙大海を知らず」。でも、空の深さは知ってたらしいよ
+「出る杭は打たれる」。でも出すぎた杭は打たれないんだって
+「三人寄れば文殊の知恵」。みんなで考えると、いい案が出る
+「聞くは一時の恥、聞かぬは一生の恥」。わからないことは聞こう
+「備えあれば憂いなし」。防災グッズ、確認しておこう
+「習うより慣れよ」。料理もそうかもしれない
+「好きこそ物の上手なれ」。好きなことは自然と上手になる
+「住めば都」。この浮遊島も、すっかり都だな
+「旅は道連れ世は情け」。いい言葉だなあ
+「縁の下の力持ち」。目立たないけど大事な人、いるよね
+「一寸先は闇」。だからこそ、今を楽しもう
+「二度あることは三度ある」。またコップ倒しそう…気をつけよ
+「三度目の正直」。次こそうまくいく
+「果報は寝て待て」。…でも寝すぎはよくないか
+「待てば海路の日和あり」。あせらず待とう
+「急いては事を仕損じる」。ゆっくりいこう
+「人の振り見て我が振り直せ」。気をつけよっと
+「情けは人のためならず」。親切はめぐりめぐって自分に返ってくる
+「類は友を呼ぶ」。似た者どうしって、自然と集まるね
+「立つ鳥跡を濁さず」。使った場所はきれいにしておこう
+「言わぬが花」。言わないほうがいいことも、あるね
+「隣の芝生は青い」。でもうちの庭も、なかなかだよ
+「覆水盆に返らず」。こぼしたお茶、ふこう…
+「郷に入っては郷に従え」。この島には、この島のルールがある
+「十人寄れば十国の者」。いろんな人がいるから楽しい
+「明日は明日の風が吹く」。今日はもう、のんびりしよう
+「一を聞いて十を知る」。そんな人になりたいなあ
+「虎穴に入らずんば虎子を得ず」。たまには思い切りも大事
+`.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+const KTW_DUO=`
+m:ねえ{me}、「一期一会」って言葉、好き？|p:好き。毎日の出会いを大事にしようって思える|m:茶道から来た言葉なんだって|p:一回一回のお茶会を、一生に一度と思って開くんだね
+m:「七転び八起き」って、計算合わなくない？|p:最初に立ってるから、八回起きるんだよ|m:なるほど！スタートが立ってるのか|p:何回転んでも、また立てばいいってことだね
+m:「石の上にも三年」って、本当に三年すわるの？|p:たとえだよ。冷たい石も三年すわればあたたまるって|m:がまんして続けると、いいことあるんだね|p:でも、三年は長いなあ
+m:「急がば回れ」って、どこから来た言葉か知ってる？|p:琵琶湖の話らしいよ|m:船より、回り道の陸のほうが確実だったんだって|p:近道が一番とはかぎらないね
+m:{me}は「花より団子」派？|p:正直、団子派かな|m:わたしも！お花見はほぼ食べに行ってる|p:でも、お花を見ながら食べる団子は格別だよね
+m:「猿も木から落ちる」って、似た言葉ほかにもあるよね|p:「弘法にも筆の誤り」とか|m:「河童の川流れ」も！|p:名人でも失敗はあるってことか。ちょっと安心する
+m:「棚からぼたもち」、最近あった？|p:ないなあ。{m}は？|m:昨日、ポケットから千円出てきた！|p:それは立派な棚ぼただね
+m:「早起きは三文の徳」の三文って、いくらくらい？|p:今だと百円もしないくらいらしいよ|m:えっ、そんなに少ないの！？|p:ちょっとの得でも、毎日だと大きいってことかな
+m:「十人十色」と「十人寄れば十国の者」、似てるね|p:どっちも、人はそれぞれってことだね|m:好みがちがうから面白いんだよね|p:わたしたちも、好きな食べ物けっこう違うしね
+m:「温故知新」って、どういう意味だっけ？|p:古いことを学んで、新しいことを知るって意味|m:論語の言葉なんだよね|p:昔話から学べること、意外と多いよね
+m:「腹八分目」って、なかなか守れないよね|p:おいしいとつい食べすぎちゃう|m:「腹八分目に医者いらず」って言うもんね|p:今日の晩ごはんは、八分目でいこう
+m:「雨降って地固まる」って、いい言葉だね|p:けんかのあと、かえって仲よくなるやつだね|m:わたしたちも、そうだったかも|p:ふふ、あったね、そんなこと
+m:「百聞は一見にしかず」って言うけどさ|p:うん|m:写真より、実物の景色ってやっぱりすごいよね|p:この島からの眺めも、写真じゃ伝わらないもんね
+m:「千里の道も一歩から」って、大事だよね|p:何か始めたいことあるの？|m:ストレッチ、毎日やろうかなって|p:じゃあ今日が一歩目だね
+m:「起承転結」で一日をまとめると、どうなる？|p:起きる、ごはん、昼寝、また寝る|m:転がないじゃん！|p:昼寝で寝返りは打ってるよ
+m:「一石二鳥」なこと、何か思いつく？|p:散歩しながら、庭の花の水やりとか|m:いいね！運動と家事がいっぺんに|p:ついでに日なたぼっこもできたら一石三鳥
+m:「案ずるより産むが易し」って、本当だね|p:何かあったの？|m:苦手だった電話、かけてみたらすぐ終わった|p:やる前が一番こわいんだよね
+m:「光陰矢の如し」、今年も早かったなあ|p:ほんとに。もうこんな季節なんだね|m:子どもの頃の一年は長かったのにね|p:大人になると、時間が早く感じるっていうよね
+m:「能ある鷹は爪を隠す」って、{me}のこと？|p:え、なんで？|m:料理、じつはすごく上手なのに言わないじゃん|p:ほめても何も出ないよ…おやつくらいしか
+m:「二兎を追う者は一兎をも得ず」って耳が痛い|p:何を追ってるの？|m:ダイエットとスイーツ…|p:それはどっちも捕まえられないね
+m:「残り物には福がある」って、最後の一個もらっていい？|p:ずるい！じゃんけんしよう|m:じゃあ勝ったほうが福ね|p:負けても半分こしようね
+m:「灯台下暗し」って、今まさにそれ|p:どうしたの？|m:メガネ探してたら、頭の上にあった|p:あるある。わたしもスマホ持ったまま探したことある
+m:「晴耕雨読」って、理想の暮らしだよね|p:晴れたら庭仕事、雨なら読書|m:この島だと、本当にできちゃうね|p:今日はどっちの日かな
+m:「以心伝心」って、わたしたちもできてる？|p:じゃあ今、何考えてるか当ててみて|m:…おやつ食べたい？|p:正解！以心伝心だね
+m:「一生懸命」って、もとは「一所懸命」なんだって|p:一つの所を命がけで守る、って意味だっけ|m:そう、武士の言葉なんだって|p:今は「一生」のほうがよく使うね
+m:「三日坊主」になったこと、ある？|p:日記で何回も…|m:わたしは早起きで何回も|p:でも、また始めればいいんだよ。三日坊主も十回やれば一か月
+m:「一喜一憂」しちゃうタイプ？|p:天気予報で一喜一憂してる|m:晴れマークでよろこんで、雨でがっかり|p:でも雨の日も、それはそれで楽しいよね
+m:「大器晩成」って、いい言葉だよね|p:ゆっくりでも、大きく育つってことだね|m:わたしもまだ、晩成の途中ってことにしよう|p:わたしも途中、途中
+m:「適材適所」って、家具にも言えるよね|p:わかる。置き場所が決まると、急にしっくりくる|m:あのソファも、窓のそばに移したらよくなった|p:ものにも居場所があるんだね
+m:「無我夢中」になったこと、最近ある？|p:昨日のパズル、気づいたら夜中だった|m:それ、無我夢中だね|p:楽しいことって、時間を忘れるよね
+m:「五里霧中」ってどういう意味？|p:霧の中で迷って、先が見えない状態だよ|m:五里って、けっこう遠いよね|p:20キロくらいかな。それは迷うね
+m:「花鳥風月」って、きれいな言葉だよね|p:自然の美しさのことだね|m:この島、花も鳥も風も月もそろってる|p:ぜいたくな暮らしだね、わたしたち
+m:「明鏡止水」ってどんな意味？|p:くもりのない鏡と、静かな水|m:心が澄んで落ちついてる状態なんだって|p:お風呂上がりのわたし、まさにそれ
+m:「天真爛漫」って、{me}っぽいよね|p:え、そう？|m:いつも楽しそうだもん|p:それは{m}といるからかもね
+m:「切磋琢磨」って、もとは宝石をみがく言葉なんだって|p:へえ、知らなかった|m:骨や石を切ってみがくことらしいよ|p:友だちどうしで高め合うって意味に、ぴったりだね
+m:「優柔不断」って、わたしのこと？|p:お昼のメニューで30分悩んでたもんね|m:だって全部おいしそうなんだもん|p:じゃあ、次からわたしが決めてあげる
+m:「本末転倒」なこと、しちゃった|p:なになに？|m:片付けしようとして、昔のアルバム見てた|p:それ、片付けあるあるだね
+m:「一心不乱」に掃除してたら、汗かいた|p:おつかれさま。部屋、ぴかぴかだね|m:途中から楽しくなっちゃって|p:掃除って、ハマると止まらないよね
+m:「付和雷同」って、どういう意味だっけ？|p:自分の考えがなくて、人に合わせちゃうこと|m:雷が鳴ると、ものが一緒に響くからなんだって|p:自分の意見も大事にしたいね
+m:「捲土重来」ってかっこいい言葉だね|p:一度負けても、勢いを取りもどして来ることだよね|m:土を巻き上げてくるイメージなんだって|p:失敗しても、またやればいいんだね
+m:「七転八倒」って、「七転び八起き」と似てるけど違うんだよね|p:そう、七転八倒は苦しんでのたうち回ること|m:足の小指ぶつけたときのアレか|p:まさにそれ。字は似てるのにね
+m:「八方美人」って、悪い意味なの？|p:誰にでもいい顔をするって、ちょっと悪い意味かな|m:みんなに優しいのは、いいことなのにね|p:ほどほどが大事ってことかもね
+m:「馬の耳に念仏」と「猫に小判」、似てるよね|p:「豚に真珠」も同じ仲間だね|m:動物のことわざ、多いなあ|p:昔から、動物は身近だったんだね
+m:「犬も歩けば棒に当たる」って、いい意味？悪い意味？|p:もとは、出しゃばると災難にあうって意味|m:今は、出歩けばいいことがあるって意味でも使うよね|p:どっちの意味でも使えるの、面白いね
+m:「猫の手も借りたい」って言うけど|p:うん|m:実際に猫が手伝ってくれたら、かえって大変そう|p:書類の上で寝ちゃいそうだもんね
+m:「鬼に金棒」って、強そうだね|p:強い鬼が、さらに武器を持つってことだもんね|m:{me}に包丁、みたいな？|p:料理の話ならうれしいけど、なんかこわいよ
+m:「月とすっぽん」って、なんですっぽんなの？|p:どっちも丸いけど、全然ちがうからだって|m:すっぽん、ちょっとかわいそう|p:すっぽん鍋はおいしいのにね
+m:「瓢箪から駒」って、どういうこと？|p:瓢箪から馬が出てくるくらい、ありえないことが起きること|m:冗談が本当になっちゃうとか？|p:そうそう、そういうときにも使うよ
+m:「餅は餅屋」って、そのとおりだよね|p:何かあったの？|m:自分で髪切ったら、ガタガタになった|p:それは美容院に行こう…
+m:「良薬は口に苦し」、最近感じた？|p:{m}に「夜ふかししすぎ」って言われたとき|m:あれは、心配して言ったんだよ|p:わかってる。ありがとうね
+m:「蛙の子は蛙」って、{me}も親に似てる？|p:笑い方がそっくりって言われる|m:わたしは、くしゃみが母と同じ|p:そういうところ、似るよね
+m:「井の中の蛙大海を知らず」って、続きがあるの知ってる？|p:「されど空の深さを知る」だっけ？|m:そう！後から日本でつけ足されたらしいよ|p:狭い場所でも、深く知れることがあるんだね
+m:「出る杭は打たれる」って、ちょっとさみしい言葉だね|p:でも「出すぎた杭は打たれない」って続きもあるよ|m:なるほど、思いきり出ちゃえばいいのか|p:中途半端が一番打たれるのかもね
+m:「三人寄れば文殊の知恵」って、文殊って誰？|p:知恵の仏さまだよ|m:ふつうの人でも、三人集まれば仏さま並みってこと？|p:そう。みんなで考えるって大事だね
+m:「聞くは一時の恥」って、本当にそうだね|p:わからないこと、聞けてる？|m:じつは、リモコンの録画のしかた、まだわからない|p:今、教えるよ。一時の恥ですむね
+m:「備えあれば憂いなし」だよね|p:防災グッズ、点検した？|m:懐中電灯の電池、切れてた…|p:今のうちに替えておこう
+m:「習うより慣れよ」って、料理もそうだよね|p:レシピ読むより、作ってみたほうが早い|m:失敗もいい経験だよね|p:この前の焦げたクッキーも、いい経験だった
+m:「好きこそ物の上手なれ」って、{me}のゲームのことだね|p:好きだから、つい練習しちゃう|m:わたしも好きなこと、もっと見つけたいな|p:一緒に探そうよ
+m:「住めば都」って、この島のことみたいだね|p:最初は空の上ってびっくりしたけど|m:今は、ここが一番落ちつく|p:わかる。もう都だね
+m:「縁の下の力持ち」って、いい言葉だね|p:目立たないところで支えてくれる人のことだね|m:ロボット掃除機も、縁の下の力持ちだよ|p:ほんとだ、毎日ありがとうって言っておこう
+m:「一寸先は闇」って、ちょっとこわいね|p:でも「一寸先は光」って言いかえる人もいるよ|m:そっちのほうが好き！|p:先はわからないから、楽しみでもあるね
+m:「二度あることは三度ある」と「三度目の正直」って、矛盾してない？|p:たしかに…|m:どっちを信じればいいの？|p:うまくいかないときは「三度目の正直」を信じよう
+m:「果報は寝て待て」って、寝てていいの？|p:やることやったら、あとは落ちついて待とうって意味だよ|m:じゃあ、わたしはもう寝て待つ|p:まだ何もやってないでしょ
+m:「急いては事を仕損じる」って、今日のわたし|p:どうしたの？|m:急いでお茶入れたら、こぼした|p:ふいたら、ゆっくりもう一杯いれよう
+m:「人の振り見て我が振り直せ」って、むずかしいね|p:人のことはよく見えるのにね|m:自分のことは、なかなか気づかない|p:おたがいに教えあえばいいよ
+m:「情けは人のためならず」って、意味まちがえやすいよね|p:人のためにならないって思ってた人、多いらしい|m:本当は、親切は自分に返ってくるって意味だよね|p:うん。だから親切はどんどんしよう
+m:「類は友を呼ぶ」って、わたしたちのこと？|p:のんびり好きどうしだもんね|m:たしかに、休みの日は一日中ゴロゴロしてる|p:似た者どうしで、気楽でいいよね
+m:「立つ鳥跡を濁さず」って、きれいな言葉だね|p:水鳥が飛び立ったあと、水がにごらないんだよね|m:わたしも、使ったあとは片付けよう|p:じゃあ、さっきのお菓子の袋から…
+m:「言わぬが花」ってあるよね|p:全部言わないほうが、いいこともあるよね|m:プレゼントの中身とかね|p:それはたしかに、言わないほうが楽しい
+m:「隣の芝生は青い」って、思うことある？|p:たまにね。でも、うちの庭も好き|m:うちの芝生も、けっこう青いよ|p:じゃあ、隣からもうらやましがられてるかもね
+m:「覆水盆に返らず」って、お茶こぼしたときに思った|p:もとは夫婦の話なんだって|m:えっ、そうなの？|p:一度別れたら元にはもどらないって。こぼしたお茶はふけばいいけどね
+m:「郷に入っては郷に従え」だよね|p:この島のルールって何かな|m:空を見上げてのんびりすること？|p:それなら、もう完ぺきに従ってるね
+m:「明日は明日の風が吹く」って、気が楽になるね|p:くよくよしても、しかたないもんね|m:今日はもう、ゆっくりしよう|p:明日のことは、明日の風にまかせよう
+m:「一を聞いて十を知る」って、すごいね|p:{m}は、一を聞いて三くらいは知るよね|m:それ、ほめてる？|p:もちろん。三でも十分すごいよ
+m:「虎穴に入らずんば虎子を得ず」って、勇気がいるね|p:思いきって挑戦しないと、大きなものは手に入らないってことだね|m:新しい料理に挑戦しようかな|p:虎の子、楽しみにしてる
+m:「笑う門には福来る」だよね|p:{m}がいると、よく笑うから福が来そう|m:じゃあ、今日もたくさん笑おう|p:うちは福だらけになるね
+m:「継続は力なり」って、何か続けてること、ある？|p:毎日、植物に水をあげてる|m:えらい！だから元気に育ってるんだね|p:小さなことでも、続けると力になるね
+m:「塵も積もれば山となる」って本当だね|p:何か積もったの？|m:小銭貯金、数えたら一万円こえてた！|p:すごい！それで何か、おいしいもの食べよう
+m:「十年一昔」って言うけど、十年前のこと覚えてる？|p:けっこう覚えてるよ|m:流行ってた歌とか、すぐ思い出せる|p:十年って、昔っていうほどでもない気がするね
+m:「一日一善」、今日は何かした？|p:{m}にお茶いれた|m:それ、毎日してくれてるよね|p:じゃあ毎日、一善達成だ
+m:「単刀直入」に聞くけど|p:な、なに？|m:冷蔵庫のプリン、食べた？|p:……ごめん、食べた
+m:「自画自賛」しちゃっていい？|p:どうぞどうぞ|m:今日のオムレツ、天才的にふわふわだった|p:たしかに、あれは自画自賛していいよ
+m:「一長一短」ってあるよね|p:なんでも、いいところと悪いところがあるよね|m:夏は暑いけど、アイスがおいしい|p:冬は寒いけど、こたつがある。どっちも好き
+m:「十中八九」ってどれくらい？|p:十のうち八か九、だいたい確実ってこと|m:じゃあ明日晴れるのは十中八九？|p:天気予報を見てみよう
+m:「半信半疑」になるときってある？|p:「このお菓子、カロリーゼロ」って聞いたとき|m:それはぜったいゼロじゃないよ|p:だよね、半信半疑どころか全疑だね
+m:「言語道断」って、強い言葉だね|p:もとは、言葉では言い表せない深い真理って意味なんだって|m:えっ、悪い意味じゃなかったの？|p:仏教の言葉で、今とは意味が変わったんだって
+m:「油断大敵」って、本当だよね|p:何かあった？|m:ちょっと目を離したら、お鍋がふきこぼれた|p:料理中は油断大敵だね
+m:「心機一転」して、模様替えしない？|p:いいね！気分が変わりそう|m:カーテンの色から変えてみよう|p:新しい季節にぴったりだね
+m:「一触即発」ってどういう意味？|p:ちょっとふれただけで、爆発しそうな状態|m:おなかがすいたときの{me}みたい|p:そ、そこまでじゃないよ…たぶん
+m:「我田引水」ってことわざ、知ってる？|p:自分の田んぼにだけ水を引くこと、だよね|m:自分に都合のいいように話すことだって|p:おやつを多めに取るのも、我田引水かな
+m:「東奔西走」ってしてる人、忙しそう|p:あっちこっち走り回ることだよね|m:わたしたちは、のんびり島ぐらしでよかった|p:たまに庭を東奔西走するくらいだね
+m:「臥薪嘗胆」って読める？|p:がしんしょうたん、だよね|m:薪の上に寝て、苦い肝をなめるんだって|p:目標のためにがまんする話だけど、痛そう…
+m:「呉越同舟」って、仲の悪い人が同じ船に乗ることだよね|p:でも、嵐が来たら協力するんだって|m:いざというときは、手を取り合えるんだね|p:いい話だね。わたしたちは最初から仲いいけど
+m:「朝三暮四」の話、知ってる？|p:猿にどんぐりをあげる話だよね|m:朝三つ夕方四つだと怒って、朝四つ夕方三つだと喜んだんだって|p:合計は同じなのにね。でも気持ち、ちょっとわかる
+m:「蛇足」ってことわざの話、知ってる？|p:蛇の絵に足を描いて、負けちゃう話でしょ|m:よけいなことをすると、だいなしになるんだね|p:ラーメンのトッピングも、のせすぎ注意だね
+m:「漁夫の利」ってどんな話？|p:鳥と貝がけんかしてる間に、漁師が両方とっちゃう話|m:けんかしてると、ほかの人が得しちゃうんだね|p:だから、なかよくしよう
+m:「五十歩百歩」って、どっちがましなの？|p:どっちも逃げたことには変わらないって話だよ|m:わたしの朝寝坊と{me}の朝寝坊みたいな？|p:たしかに、五十歩百歩だね…
+m:「矛盾」ってことば、ことわざから来てるんだよね|p:何でも突き通す矛と、何でも防ぐ盾の話|m:じゃあその矛で、その盾を突いたら？|p:答えられなくなっちゃったんだよね
+m:「杞憂」って言葉、知ってる？|p:空が落ちてこないか心配した人の話だよね|m:わたしたち、空に住んでるけどね|p:たしかに…でも、落ちる心配はなさそうだよ
+m:「四面楚歌」ってどんな状況？|p:まわりが全部敵になっちゃうこと|m:ゲームでときどきなるやつだ|p:そういうときは、いったん休憩しよう
+m:「画竜点睛」って、最後の仕上げのことだよね|p:竜の絵に目を入れたら、飛んでいっちゃう話|m:ラブロボの目も、かわいくなったよね|p:あれぞ画竜点睛だね
+`.trim().split('\n').map(l=>l.trim()).filter(Boolean);
+TALKCAT.push(['t:koto','ことわざ・四字熟語']);MTALKCAT.push(['m:koto','ことわざ・四字熟語']);
+let KTW_RECENT=[];
+function ktwPick(arr){const fresh=arr.filter(x=>!KTW_RECENT.includes(x));const l=pick(fresh.length?fresh:arr);KTW_RECENT.push(l);if(KTW_RECENT.length>80)KTW_RECENT.shift();return l;}
+{const TL=talkLine;talkLine=function(){try{const w=1.0*talkMul('t:koto');if(S&&w>0&&Math.random()<w/(w+9))return ktwPick(KTW_SOLO);}catch(e){}return TL.apply(this,arguments);};}
+{const CL=chatLines;chatLines=function(){try{const w=.12*talkMul('m:koto');if(M&&w>0&&Math.random()<w/(w+.9))return vtalkLines(ktwPick(KTW_DUO),{me:S.name,m:mName(),v:''});}catch(e){}return CL.apply(this,arguments);};}
+
+/* ===== v575: LoveBot eyes — big black pupils in a light-blue ring with two sparkles (design A) ===== */
+function LBE_draw(c,x,y,o,sc){sc=sc||1;if(o.blink){c.fillStyle=o.rest?'rgba(150,200,255,.5)':'#9fe8ff';c.beginPath();c.rect(x-1.04*sc,y-.18,2.08*sc,.42);c.fill();return;}
+  c.save();c.globalAlpha=o.rest?.55:1;c.translate(x,y);c.scale(sc,1);
+  c.fillStyle='#7fe0ff';c.beginPath();c.ellipse(0,0,1.12,1.25,0,0,TAU);c.fill();
+  const g2=c.createRadialGradient(0,.25,.1,0,0,1);g2.addColorStop(0,'#1d2a44');g2.addColorStop(1,'#05070c');c.fillStyle=g2;c.beginPath();c.ellipse(0,.08,.86,1.02,0,0,TAU);c.fill();
+  c.fillStyle='#fff';c.beginPath();c.ellipse(-.36,-.42,.34,.38,0,0,TAU);c.fill();c.beginPath();c.arc(.34,.42,.15,0,TAU);c.fill();c.restore();}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
