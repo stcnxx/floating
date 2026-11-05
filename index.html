@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 580（2026/11/06）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 583（2026/11/06）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 580（2026/11/06）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 583（2026/11/06）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -27301,6 +27301,97 @@ function SR_otterGrip(far){const x=6.9,y=-4.6;
 {const PF=placeFor;placeFor=function(k,opt){const r=PF.apply(this,arguments);try{const f=FT[k];if(r||!f||f.k!=='back'||f.fix||(opt&&(opt.free||opt.noFree)))return r;const o={...(opt||{}),free:true};let q=PF.call(this,k,o);if(!q&&typeof KEEP_relaxed==='function')q=KEEP_relaxed(()=>PF.call(this,k,o));return q||null;}catch(e){return r||null;}};}
 // things already marked "no room" get another chance now
 setTimeout(()=>{try{if(S&&Array.isArray(S.noRoom)&&S.noRoom.length){S.noRoom=S.noRoom.filter(k=>{const f=FT[k];if(!f||f.k!=='back')return true;try{return !placeFor(k);}catch(e){return true;}});save();}}catch(e){}},2500);
+
+/* ===== v581: conifers redrawn — a dense fir: tiered drooping boughs built from many needle sprays, light from the upper left, deep shade inside, a visible trunk at the base, snow lying on each tier ===== */
+const PN_h=(a,b,c)=>{const x=Math.sin(a*127.1+b*311.7+c*74.7)*43758.5453;return x-Math.floor(x);};
+function PN_draw(c,ox,oy,seed,snow){
+  const D='#123d26',M='#1f5a36',Mm='#2c7044',L='#4f9a5e',LL='#86c584',B='#0b2a1a';
+  const top=oy-54,base=oy-5,H=base-top;
+  // trunk peeking out under the lowest tier
+  const tg=c.createLinearGradient(ox-3,0,ox+3,0);tg.addColorStop(0,'#7a5232');tg.addColorStop(.5,'#5c3c22');tg.addColorStop(1,'#33200f');c.fillStyle=tg;c.fillRect(ox-2.4,base-6,4.8,8);
+  c.strokeStyle='rgba(30,15,5,.45)';c.lineWidth=.35;for(let i=0;i<3;i++){c.beginPath();c.moveTo(ox-1.4+i*1.3,base-5);c.lineTo(ox-1.2+i*1.3,base+1.5);c.stroke();}
+  // dark inner silhouette (gives depth between the tiers)
+  c.fillStyle=B;c.beginPath();c.moveTo(ox,top+4);c.lineTo(ox+12,base-5);c.quadraticCurveTo(ox,base-2,ox-12,base-5);c.closePath();c.fill();
+  const N=6;
+  // a bough: tapering spray from the stem out to a drooping tip, needle hatching inside, clipped to its own shape
+  const bough=(x0,y0,len,ang,droop,wid,lit,sd)=>{const tx=x0+Math.cos(ang)*len,ty=y0+Math.sin(ang)*len+droop,mx=x0+Math.cos(ang)*len*.55,my=y0+Math.sin(ang)*len*.55-wid*.2;
+    const nx=-Math.sin(ang),ny=Math.cos(ang);const P=()=>{c.beginPath();c.moveTo(x0-nx*wid*.3,y0-ny*wid*.6);c.quadraticCurveTo(mx-nx*wid,my-ny*wid,tx,ty);c.quadraticCurveTo(mx+nx*wid*.9,my+ny*wid*1.1,x0+nx*wid*.3,y0+ny*wid*.4);c.closePath();};
+    const gr=c.createLinearGradient(x0,y0-wid,tx,ty+wid);if(lit){gr.addColorStop(0,M);gr.addColorStop(.5,Mm);gr.addColorStop(1,L);}else{gr.addColorStop(0,D);gr.addColorStop(.6,M);gr.addColorStop(1,Mm);}
+    P();c.fillStyle=gr;c.fill();c.save();P();c.clip();c.lineCap='round';
+    for(let k=0;k<16;k++){const u=k/15,px=x0+(tx-x0)*u,py=y0+(ty-y0)*u*u*.8+(ty-y0)*u*.2;c.strokeStyle=lit?(k%3?L:LL):(k%3?Mm:M);c.globalAlpha=.65;c.lineWidth=.32;
+      c.beginPath();c.moveTo(px,py);c.lineTo(px-nx*wid*1.3+Math.cos(ang)*.8,py-ny*wid*1.3+1.4);c.moveTo(px,py);c.lineTo(px+nx*wid*1.3+Math.cos(ang)*.8,py+ny*wid*1.3+1.2);c.stroke();}
+    c.globalAlpha=1;c.restore();
+    c.strokeStyle='rgba(8,30,16,.55)';c.lineWidth=.3;c.beginPath();c.moveTo(x0,y0);c.quadraticCurveTo(mx,my+wid*.3,tx,ty);c.stroke();};
+  for(let i=N-1;i>=0;i--){
+    const f=i/(N-1),ty=base-f*(H-12)-2,w=(1-f)*15+4.5,sd=seed*7+i;
+    c.fillStyle='rgba(5,22,12,.55)';c.beginPath();c.ellipse(ox+1,ty+1.2,w*.9,2.4,0,0,TAU);c.fill();
+    const n=4+Math.round((1-f)*3);
+    // back boughs (in shade), then front ones (lit on the left)
+    for(let pass=0;pass<2;pass++)for(let k=0;k<n;k++){const side=k%2?1:-1,u=(Math.floor(k/2)+.5)/Math.ceil(n/2),ang=side>0?(-.05+u*.55+(pass?.15:0)):(Math.PI+.05-u*.55-(pass?.15:0)),len=w*(.75+PN_h(sd,k,pass)*.3)*(1-u*.25),
+      lit=pass===1&&side<0||pass===1&&u<.3;bough(ox+side*.4,ty-6.5-(1-u)*1.6+pass*1.2,len,ang,2.4+PN_h(sd,k,9)*1.6,1.7+(1-f)*.6,lit,sd+k);}
+    // the tier's upper "shoulder" so the tiers read as cones
+    const gr=c.createLinearGradient(ox-w*.6,0,ox+w*.6,0);gr.addColorStop(0,L);gr.addColorStop(.5,Mm);gr.addColorStop(1,D);c.fillStyle=gr;c.beginPath();c.moveTo(ox,ty-11.5+f*1.5);c.quadraticCurveTo(ox+w*.35,ty-7,ox+w*.55,ty-4.5);c.quadraticCurveTo(ox,ty-6,ox-w*.55,ty-4.5);c.quadraticCurveTo(ox-w*.35,ty-7,ox,ty-11.5+f*1.5);c.fill();
+    for(let k=0;k<7;k++){const u=k/6-.5;c.strokeStyle=u<0?LL:M;c.globalAlpha=.6;c.lineWidth=.3;c.beginPath();c.moveTo(ox+u*w*.2,ty-9.5+f);c.lineTo(ox+u*w*.9,ty-5);c.stroke();}c.globalAlpha=1;
+    if(snow>.15){const al=Math.min(.95,snow+.15);for(let k=0;k<7;k++){const u=k/6*2-1,sx=ox+u*w*.62,sy=ty-6.2+Math.abs(u)*2.6-(1-Math.abs(u))*1.8;c.fillStyle=`rgba(255,255,255,${al})`;c.beginPath();c.ellipse(sx,sy,w*.17+.6,1.1+(1-Math.abs(u))*.6,u*.5,0,TAU);c.fill();}
+      c.fillStyle='rgba(170,195,230,.5)';for(let k=0;k<3;k++){const u=.2+k*.25;c.beginPath();c.ellipse(ox+u*w*.6,ty-5.6+u*2,w*.12,.35,u*.5,0,TAU);c.fill();}}}
+  // leader at the very top
+  c.strokeStyle=M;c.lineWidth=.9;c.beginPath();c.moveTo(ox,top+6);c.lineTo(ox+.2,top-1.5);c.stroke();c.strokeStyle=L;c.lineWidth=.35;c.beginPath();c.moveTo(ox-.2,top+5);c.lineTo(ox,top-1);c.stroke();
+  // overall light from the upper left, shade at the lower right
+  const sh=c.createLinearGradient(ox-18,top,ox+18,base);sh.addColorStop(0,'rgba(255,255,220,.10)');sh.addColorStop(.55,'rgba(0,0,0,0)');sh.addColorStop(1,'rgba(0,15,8,.34)');
+  c.save();c.globalCompositeOperation='source-atop';c.fillStyle=sh;c.fillRect(ox-22,top-4,44,H+12);c.restore();}
+{const CC=canopyCanvas;canopyCanvas=function(tr,cn,s){if(!tr||!tr.pine)return CC.apply(this,arguments);
+  const key='P2'+tr.x+'_'+tr.y+'|'+Math.round(snowCover*5)+'|'+DPR,id=tr.x+','+tr.y;if(treeC[id]&&treeC[id].key===key)return treeC[id];
+  const sc=Z*Math.min(DPR||1,3),Wc=84,Hc=84,ox=42,oy=74,cv2=document.createElement('canvas');cv2.width=Math.ceil(Wc*sc);cv2.height=Math.ceil(Hc*sc);const c=cv2.getContext('2d');c.scale(sc,sc);
+  try{PN_draw(c,ox,oy,tr.x*13+tr.y,snowCover);}catch(e){}
+  const o={cv:cv2,key,ox,oy,w:Wc,h:Hc};treeC[id]=o;return o;};}
+
+/* ===== v582: conifers redrawn again — no flat bough plates; drooping needle tufts build the cone, thin sprigs only at the tier edges; the lit left half mirrored so the tree is symmetric ===== */
+let PN_drawC;
+PN_drawC=function(c,ox,oy,seed,snow){
+  const D='#123d26',M='#1f5a36',Mm='#2c7044',L='#4f9a5e',LL='#86c584';
+  const top=oy-54,base=oy-5,H=base-top;
+  const tg=c.createLinearGradient(ox-3,0,ox+3,0);tg.addColorStop(0,'#7a5232');tg.addColorStop(.5,'#5c3c22');tg.addColorStop(1,'#33200f');
+  // soft dark core (only a hint of depth, no hard wedges)
+  const cg=c.createLinearGradient(0,top,0,base);cg.addColorStop(0,'rgba(18,58,36,.0)');cg.addColorStop(.2,'rgba(40,100,62,.75)');cg.addColorStop(1,'rgba(34,88,54,.8)');c.fillStyle=cg;c.beginPath();c.moveTo(ox,top+6);c.quadraticCurveTo(ox+6,top+H*.5,ox+10,base-4);c.quadraticCurveTo(ox,base-1,ox-10,base-4);c.quadraticCurveTo(ox-6,top+H*.5,ox,top+6);c.fill();
+  // one spray: a tapering bough with a midrib and needles, clipped to itself
+  const spray=(x0,y0,len,ang,droop,wid,tone,sd)=>{const tx=x0+Math.cos(ang)*len,ty=y0+Math.sin(ang)*len+droop,mx=x0+Math.cos(ang)*len*.55,my=y0+Math.sin(ang)*len*.55+droop*.25;
+    const nx=-Math.sin(ang),ny=Math.cos(ang);const P=()=>{c.beginPath();c.moveTo(x0-nx*wid*.35,y0-ny*wid*.35);c.quadraticCurveTo(mx-nx*wid,my-ny*wid,tx,ty);c.quadraticCurveTo(mx+nx*wid,my+ny*wid,x0+nx*wid*.35,y0+ny*wid*.35);c.closePath();};
+    const cols=[[D,M,Mm],[M,Mm,L],[Mm,L,LL]][tone];const gr=c.createLinearGradient(x0,y0,tx,ty);gr.addColorStop(0,cols[0]);gr.addColorStop(.6,cols[1]);gr.addColorStop(1,cols[2]);
+    P();c.fillStyle=gr;c.fill();c.save();P();c.clip();c.lineCap='round';c.lineWidth=.28;
+    for(let k=0;k<12;k++){const u=k/11,px=x0+(tx-x0)*u,py=y0+(ty-y0)*u+droop*.15*Math.sin(u*Math.PI);c.strokeStyle=k%3?cols[2]:cols[1];c.globalAlpha=.7;
+      c.beginPath();c.moveTo(px,py);c.lineTo(px-nx*wid*1.2+Math.cos(ang)*.9,py-ny*wid*1.2+.9);c.moveTo(px,py);c.lineTo(px+nx*wid*1.2+Math.cos(ang)*.9,py+ny*wid*1.2+.9);c.stroke();}
+    c.globalAlpha=1;c.restore();};
+  // a tuft: branch tips pointing toward us, seen end-on — a drooping rounded clump of needles
+  // a tuft: a drooping fan of needles — rounded top, fringed lower edge, needles fanning down from a point near the top
+  const tuft=(x,y,rw,rh,tone,sd)=>{const cols=[[D,M,Mm],[M,Mm,L],[Mm,L,LL]][tone];
+    const gr=c.createLinearGradient(x-rw,y-rh,x+rw*.6,y+rh);gr.addColorStop(0,cols[2]);gr.addColorStop(.55,cols[1]);gr.addColorStop(1,cols[0]);
+    c.fillStyle=gr;c.beginPath();c.moveTo(x-rw,y);c.bezierCurveTo(x-rw,y-rh*1.1,x+rw,y-rh*1.1,x+rw,y);
+    const n=7;for(let k=0;k<=n;k++){const u=k/n,xx=x+rw-u*2*rw,yy=y+rh*(.25+.6*Math.sin(u*Math.PI))+(k%2?rh*.35:0);c.lineTo(xx,yy);}c.closePath();c.fill();
+    c.lineCap='round';c.lineWidth=.22;const px=x-rw*.1,py=y-rh*.6;
+    for(let k=0;k<9;k++){const a=Math.PI*(.18+k/8*.64)+(PN_h(sd,k,7)-.5)*.1,l=rh*(1.3+PN_h(sd,k,8)*.5);c.strokeStyle=k<3?cols[2]:k>6?cols[0]:cols[1];c.globalAlpha=.8;c.beginPath();c.moveTo(px+Math.cos(a)*rh*.3,py+Math.sin(a)*rh*.3);c.lineTo(px+Math.cos(a)*l*1.1,py+Math.sin(a)*l);c.stroke();}
+    c.globalAlpha=1;};
+  const N=7;
+  for(let i=N-1;i>=0;i--){const f=i/(N-1),ty=base-2-f*(H-9),w=(1-f)*16.5+3.4,sd=seed*7+i;
+    c.fillStyle='rgba(8,30,16,.35)';c.beginPath();c.ellipse(ox+1,ty+.8,w*.82,1.7,0,0,TAU);c.fill();
+    const n=4+Math.round((1-f)*4);
+    if(true){// only short, thin sprigs at the very edge of each tier (gives a needle-y outline)
+      for(const sg of[-1,1])for(let k=0;k<3;k++){const ang=sg>0?(.25+k*.18):(Math.PI-.25-k*.18),len=3.2+(1-f)*2+PN_h(sd,k,30+sg)*1.2;spray(ox+sg*w*(.55-k*.08),ty-5.2+k*1.3,len,ang,1+PN_h(sd,k,31)*.8,.75,sg<0?2:0,sd+k*7+sg);}}
+    const RW=false?[.38,.6,.86]:[.36,.62,.9];for(let row=0;row<3;row++){const nt=Math.max(2,Math.round(w*RW[row]*2/2.4));for(let k=0;k<nt;k++){const u=nt===1?0:(k+(row%2?.5:0))/(nt-(row%2?0:1))*2-1;if(Math.abs(u)>1)continue;
+      const x=ox+u*w*RW[row]+(PN_h(sd,k,9+row)-.5)*.9,y=ty-[5.6,3.6,1.4][row]+Math.abs(u)*(row===2?2.2:1.4)+PN_h(sd,k,10+row)*.7,tone=u>.3?0:2;tuft(x,y,(1.3+(1-f)*.5)*(.85+PN_h(sd,k,12)*.35)*(row===2&&false?1.35:1),(1.3+(1-f)*.3)*(row===2&&false?1.25:1),tone,sd+k*3+row*50);}}
+    tuft(ox+(PN_h(sd,1,13)-.5)*.6,ty-4.4,1.5+(1-f)*.4,1.5,2,sd+99);tuft(ox+.3,ty-7,1.2,1.2,2,sd+98);
+    if(snow>.15){const al=Math.min(.95,snow+.15);for(let k=0;k<7;k++){const u=k/6*2-1,sx=ox+u*w*.6,sy=ty-6.6+Math.abs(u)*2.4;c.fillStyle=`rgba(255,255,255,${al})`;c.beginPath();c.ellipse(sx,sy,w*.16+.6,1+(1-Math.abs(u))*.5,u*.5,0,TAU);c.fill();}
+      c.fillStyle='rgba(170,195,230,.5)';for(let k=0;k<3;k++){const u=.2+k*.25;c.beginPath();c.ellipse(ox+u*w*.6,ty-6+u*2,w*.12,.35,u*.5,0,TAU);c.fill();}}}
+  // the top: a narrow cone of small tufts ending in a soft point (no stick)
+  for(const[dy,rw,dx]of[[7.2,1.5,-.8],[7,1.4,.9],[4.9,1.25,0],[3,.95,0]])tuft(ox+dx,top+dy,rw,1.3,2,seed+dy+dx);
+  c.fillStyle=L;c.beginPath();c.moveTo(ox-.8,top+2.4);c.quadraticCurveTo(ox-.3,top,ox,top-.6);c.quadraticCurveTo(ox+.3,top,ox+.8,top+2.4);c.closePath();c.fill();
+  if(snow>.15){c.fillStyle='rgba(255,255,255,.9)';c.beginPath();c.ellipse(ox,top+3.6,1.5,.8,0,0,TAU);c.fill();}
+  const sh=c.createLinearGradient(ox-18,top,ox+18,base);sh.addColorStop(0,'rgba(255,255,220,.10)');sh.addColorStop(.55,'rgba(0,0,0,0)');sh.addColorStop(1,'rgba(0,15,8,.3)');
+  c.save();c.globalCompositeOperation='source-atop';c.fillStyle=sh;c.fillRect(ox-22,top-4,44,H+12);c.restore();};
+
+
+PN_draw=function(c,ox,oy,seed,snow){PN_drawC(c,ox,oy,seed,snow);try{const cv=c.canvas,m=c.getTransform(),px=Math.round(m.e+ox*m.a);c.save();c.setTransform(1,0,0,1,0,0);
+  c.clearRect(px,0,cv.width-px,cv.height);c.translate(px*2,0);c.scale(-1,1);c.drawImage(cv,0,0,px,cv.height,0,0,px,cv.height);c.restore();}catch(e){}};
+for(const k in treeC)delete treeC[k];
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
