@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 575（2026/11/05）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 579（2026/11/05）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 575（2026/11/05）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 579（2026/11/05）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -4431,7 +4431,7 @@ function winPools(k,dl){
       else if(x===0){g.moveTo(X+T,Y+3);g.lineTo(X+T,Y+21);g.lineTo(X+T+30,Y+28);g.lineTo(X+T+30,Y+8);}
       else if(x===HW-1){g.moveTo(X,Y+3);g.lineTo(X,Y+21);g.lineTo(X-30,Y+28);g.lineTo(X-30,Y+8);}else continue;
       g.closePath();g.fill();}}}
-function drawFloorItems(t){for(const k of S.owned){const f=FT[k],L=S.layout[k];if(f.k!=='floor'||!L||L.carry)continue;f.draw(L.x*T,L.y*T,f.w*T,f.h*T,L,t);}}
+function drawFloorItems(t){const ks=[];for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||f.k!=='floor'||!L||L.carry)continue;ks.push(k);}const isR=k=>{try{return typeof RUG_is==='function'?RUG_is(k):/^rug/.test(k);}catch(e){return false;}};ks.sort((a,b)=>{const ra=isR(a),rb=isR(b);if(ra!==rb)return ra?-1:1;if(ra)return FT[b].w*FT[b].h-FT[a].w*FT[a].h;return 0;});for(const k of ks){const f=FT[k],L=S.layout[k];f.draw(L.x*T,L.y*T,f.w*T,f.h*T,L,t);}}
 function wallCover(L){let key=null;for(const k2 of S.owned){const f2=FT[k2],L2=S.layout[k2];if(!L2||L2.carry||L2.wall||L2.on||f2.k==='floor'||f2.k==='wall')continue;const w=L2.ped?1:f2.w,h=L2.ped?1:f2.h;
   if(L.x>=L2.x&&L.x<L2.x+w&&L.y+1>=L2.y&&L.y+1<L2.y+h){const kk=(L2.y+h)*T;if(key===null||kk>key)key=kk;}}return key;}
 function drawWallItem(k,L,t){const f=FT[k],c=wallCenter(L);g.save();
@@ -27219,6 +27219,83 @@ function LBE_draw(c,x,y,o,sc){sc=sc||1;if(o.blink){c.fillStyle=o.rest?'rgba(150,
   c.fillStyle='#7fe0ff';c.beginPath();c.ellipse(0,0,1.12,1.25,0,0,TAU);c.fill();
   const g2=c.createRadialGradient(0,.25,.1,0,0,1);g2.addColorStop(0,'#1d2a44');g2.addColorStop(1,'#05070c');c.fillStyle=g2;c.beginPath();c.ellipse(0,.08,.86,1.02,0,0,TAU);c.fill();
   c.fillStyle='#fff';c.beginPath();c.ellipse(-.36,-.42,.34,.38,0,0,TAU);c.fill();c.beginPath();c.arc(.34,.42,.15,0,TAU);c.fill();c.restore();}
+
+/* ===== v576: original clothes for the housemate really stay on — every later "put on the day clothes" for the housemate keeps the picked top
+   (before, the evening change / after-bath change / a change already due put the usual clothes straight back on); asleep → worn on waking ===== */
+{const OW=OC_wear;OC_wear=function(who,id){const r=OW.apply(this,arguments);try{if((who==='mate'||who==='both')&&typeof M!=='undefined'&&M){const e=OC_get(id);if(e){
+  if(M.sleeping){S.mOcPend=id;if(!C.sleeping)PZ_later(()=>say(`${S.mate.name}は寝てるから、起きたら「${e.n}」を着てもらうね`),who==='both'?1600:0);}
+  else{S.mLock=1;S.mLockTop=JSON.parse(JSON.stringify(M.outfit.top||OC_top(e)));M.outfit={...M.outfit,outer:null,over:null};S.mDressAt=Date.now();S.mDressGap=6*3600e3;}save();}}}catch(e){}return r;};}
+{const MO=mateOutfit;mateOutfit=function(){const o=MO.apply(this,arguments);try{if(typeof M!=='undefined'&&M&&!M.sleeping){
+  if(S.mOcPend){const e=OC_get(S.mOcPend);delete S.mOcPend;if(e){S.mLock=1;S.mLockTop=OC_top(e);}}
+  if(S.mLock&&S.mLockTop&&S.mLockTop.p==='oc'&&OC_get(S.mLockTop.oc)){o.top=JSON.parse(JSON.stringify(S.mLockTop));o.costume=null;o.outer=null;o.over=null;}}}catch(e){}return o;};}
+setInterval(()=>{try{if(S&&!S.mLock&&S.mLockTop)delete S.mLockTop;}catch(e){}},1500);
+/* v577: a bib bottom (サロペット) would hide the original top — swap it for jeans while an original top is worn (hero and housemate) */
+const OC_noBib=o=>{try{if(o&&o.bottom&&o.bottom.k==='overalls')o.bottom={k:'jeans',c:o.bottom.c||'紺',p:'plain'};}catch(e){}return o;};
+{const OW=OC_wear;OC_wear=function(who,id){const r=OW.apply(this,arguments);try{if((who==='hero'||who==='both')&&!C.sleeping&&S.outfit&&S.outfit.top&&S.outfit.top.p==='oc'){OC_noBib(S.outfit);try{gearFor(C.scene);}catch(_){}}
+  if((who==='mate'||who==='both')&&typeof M!=='undefined'&&M&&!M.sleeping&&M.outfit&&M.outfit.top&&M.outfit.top.p==='oc'){M.outfit={...M.outfit};OC_noBib(M.outfit);}save();}catch(e){}return r;};}
+{const MO=mateOutfit;mateOutfit=function(){const o=MO.apply(this,arguments);try{if(o&&o.top&&o.top.p==='oc')OC_noBib(o);}catch(e){}return o;};}
+{const WD=wearDay;wearDay=function(){const r=WD.apply(this,arguments);try{if(S.outfit&&S.outfit.top&&S.outfit.top.p==='oc')OC_noBib(S.outfit);}catch(e){}return r;};}
+setInterval(()=>{try{if(S&&S.hLock&&S.hLock.top&&S.hLock.top.p==='oc')OC_noBib(S.hLock);}catch(e){}},1000);
+/* v577: pets do not talk about sunshine at night, nor about the next meal once it has been eaten */
+{const P0=SPK_MEAL;P0.push(['d',/(晩飯|晩めし|夕飯|晩ご飯)[^。！]*?(ちゃうか|まだか|まだかいな|食いたい|食わして)/],['l',/(昼飯|昼めし)[^。！]*?(ちゃうか|まだか|食いたい)/],['b',/(朝飯|朝めし)[^。！]*?(ちゃうか|まだか|食いたい)/]);}
+const PET_badLine=t=>typeof t==='string'&&((/日差し|日なた|ひなた|まぶし|お日さま|日光/.test(t)&&daylight()<.5)||!SPK_ok(t));
+{const PC=PET_chirp;PET_chirp=function(tx){try{if(PET_badLine(tx)){let alt=null;if(typeof NEKO_is==='function'&&NEKO_is()&&typeof NEKO_line==='function'){for(let i=0;i<8;i++){const c=NEKO_line();if(!PET_badLine(c)){alt=c;break;}}}if(!alt)return;tx=alt;}}catch(e){}return PC.call(this,tx);};}
+{const PC=PET_chirp;PET_chirp=function(){const r=PC.apply(this,arguments);try{if(PET&&PET.say&&PET_badLine(PET.say.text)){let alt=null;if(typeof NEKO_is==='function'&&NEKO_is()){for(let i=0;i<10;i++){const c=NEKO_line();if(!PET_badLine(c)){alt=c;break;}}}if(alt)PET.say.text=alt;else PET.say=null;}}catch(e){}return r;};}
+
+/* ===== v578: spring rocker 'sea otter' — floating on its back, face up to the sky (profile from the side), a clam on its chest, grip bars on both sides of the neck ===== */
+// --- spring rocker: sea otter floating on its back, face turned up to the sky, a clam held on its chest ---
+function SR_otterBody(t,hold){
+  const b='#8a5a38',bd='#5e3a22',bl='#b07a50',fc='#eadcc4',fcd='#c9b08e';
+  // tail (flat, paddle-like) at the left, tipped slightly up
+  g.fillStyle=GD_rg(g,-10,-3,.3,-10,-2.4,3.4,[[0,bl],[1,bd]]);g.beginPath();g.moveTo(-7.4,-1.4);g.quadraticCurveTo(-11.6,-1.2,-12.4,-3.6);g.quadraticCurveTo(-11,-4.6,-7.2,-4);g.closePath();g.fill();
+  // hind feet sticking up near the tail: small, round, webbed
+  for(const [fx,a] of [[-6.4,-.3],[-4.6,-.05]]){g.save();g.translate(fx,-5.2);g.rotate(a);g.fillStyle=GD_rg(g,0,-1.6,.2,0,-1,2,[[0,'#7a5232'],[1,'#3e2616']]);g.beginPath();g.moveTo(-.6,.5);g.quadraticCurveTo(-1.4,-1.4,-.9,-2.2);g.quadraticCurveTo(0,-2.7,.9,-2.2);g.quadraticCurveTo(1.4,-1.4,.6,.5);g.closePath();g.fill();
+    g.strokeStyle='rgba(20,10,5,.45)';g.lineWidth=.13;g.beginPath();g.moveTo(-.35,-2.1);g.lineTo(-.15,.1);g.moveTo(.35,-2.1);g.lineTo(.15,.1);g.stroke();g.restore();}
+  // body: long and plump, darker underside (water side), paler belly on top
+  g.fillStyle=GD_rg(g,-1,-6,.5,0,-2.6,9.4,[[0,bl],[.6,b],[1,bd]]);g.beginPath();g.ellipse(-.4,-2.6,8.6,4.1,0,0,TAU);g.fill();
+  g.fillStyle='rgba(214,170,120,.55)';g.beginPath();g.ellipse(.2,-4.6,6.4,1.9,0,0,TAU);g.fill();
+  // fur texture
+  g.strokeStyle='rgba(60,35,18,.35)';g.lineWidth=.18;for(let i=0;i<14;i++){const x=-7+i*1.05,y=-1.4+Math.sin(i*1.7)*.8;g.beginPath();g.moveTo(x,y);g.lineTo(x+.35,y+.8);g.stroke();}
+  // head at the right, seen in profile: the face looks straight up at the sky (crown to the right, chin toward the chest, muzzle and nose pointing up)
+  const HP=()=>{g.beginPath();g.moveTo(6.4,-3.6);g.bezierCurveTo(5.9,-5.4,5.9,-7.6,6.5,-8.7);g.bezierCurveTo(6.8,-9.6,7.2,-10.4,7.9,-10.5);g.bezierCurveTo(8.7,-10.6,9.2,-10.1,9.6,-9.6);
+    g.bezierCurveTo(10.4,-9.4,12.1,-8.6,12.6,-6.6);g.bezierCurveTo(13,-4.8,12.6,-2.6,10.8,-1.7);g.bezierCurveTo(9.4,-1.1,7.4,-1.6,6.4,-3.6);g.closePath();};
+  HP();g.fillStyle=GD_rg(g,10.4,-6.6,.3,9.6,-5,4.6,[[0,bl],[.7,b],[1,bd]]);g.fill();
+  g.save();HP();g.clip();g.fillStyle=GD_rg(g,7.6,-8.6,.2,7.8,-7.4,3.4,[[0,'#fffaf0'],[.7,fc],[1,fcd]]);g.beginPath();g.ellipse(7.6,-7.6,2.6,3.4,.25,0,TAU);g.fill();g.restore();
+  g.strokeStyle='rgba(60,35,18,.35)';g.lineWidth=.2;HP();g.stroke();
+  // nose at the tip, pointing up
+  fillE(g,'#1c120c',8,-10.25,.85,.5,.1);fillE(g,'rgba(255,255,255,.6)',7.75,-10.4,.28,.12);
+  // mouth along the chin side of the muzzle: a little smile
+  g.strokeStyle='#2a1a10';g.lineWidth=.3;g.lineCap='round';g.beginPath();g.moveTo(7.5,-9.8);g.lineTo(7.05,-9.25);g.quadraticCurveTo(6.75,-8.65,7.3,-8.45);g.stroke();
+  for(let i=0;i<4;i++)fillE(g,'rgba(120,90,60,.55)',7.85+(i%2)*.5,-9.45+Math.floor(i/2)*.5,.08,.08);
+  // eye on the side of the head, below the bridge of the nose: a closed happy arc
+  g.lineWidth=.42;g.beginPath();g.arc(9.5,-8,.65,Math.PI*1.1,Math.PI*1.9);g.stroke();
+  fillE(g,'rgba(240,140,140,.5)',8.9,-6.9,.8,.42);
+  // ear at the back of the head
+  fillE(g,bd,11.6,-5.9,.85,.75);fillE(g,'#3a2414',11.65,-5.85,.42,.36);
+  // whiskers fanning from the muzzle
+  g.strokeStyle='rgba(255,255,255,.9)';g.lineWidth=.13;for(const[x1,y1]of[[5.3,-10.6],[5.2,-9.6],[10.2,-11.6],[10.8,-10.7]]){g.beginPath();g.moveTo(8.1,-9.4);g.lineTo(x1,y1);g.stroke();}
+  // front paws on the chest, holding a clam
+  if(hold!==false){g.save();g.translate(3.4,-7.3);g.rotate(Math.sin(t*1.3)*.06);
+    g.fillStyle=GD_rg(g,-.4,-.8,.1,0,0,1.8,[[0,'#fbfaf4'],[.6,'#e6d6c0'],[1,'#b8a080']]);g.beginPath();g.ellipse(0,-.2,1.7,1.2,0,Math.PI,0);g.lineTo(1.7,.2);g.lineTo(-1.7,.2);g.closePath();g.fill();
+    g.strokeStyle='rgba(140,110,80,.6)';g.lineWidth=.14;for(let i=-2;i<=2;i++){g.beginPath();g.moveTo(0,.2);g.lineTo(i*.7,-1.1+Math.abs(i)*.15);g.stroke();}g.restore();}
+  for(const px of[2,4.7]){g.fillStyle='#4e301c';g.beginPath();g.ellipse(px,-6.6,1,.75,px<3.4?.5:-.5,0,TAU);g.fill();fillE(g,'rgba(255,255,255,.25)',px-.2,-6.9,.4,.2);}
+  // gloss
+  SR_gloss(-2.6,-5.6,3,.9);}
+{const SD=SR_draw;SR_draw=function(kind,X,Y,t){if(kind!=='otter')return SD.apply(this,arguments);const k='spring_otter',on=C.act==='yardplay'&&C.snapK==='y:'+k||(M&&M.sit&&M.sit.ride===k),rock=on?Math.sin(t*5.2)*.22:Math.sin(t*.7)*.02,cx=X+12;
+  SR_base(X,Y);SR_spring(cx,Y+19,Y+9,rock);g.save();g.translate(cx+Math.sin(rock)*1.8,Y+8.5);g.rotate(rock);
+  SR_otterGrip(true);SR_otterBody(t);SR_otterGrip(false);SR_foot(-1,1.2);g.restore();};}
+
+// grips: short gold bars sticking out to both sides of the neck; from the side the near one shows as a round end, the far one peeks out behind
+function SR_otterGrip(far){const x=6.9,y=-4.6;
+  if(far)return;
+  // the near grip seen end-on: a short gold bar coming toward us, its round end with a highlight
+  fillE(g,'rgba(60,35,18,.35)',x+.25,y+.35,1.25,1.05);
+  g.fillStyle=GD_rg(g,x-.1,y,.1,x,y,1.3,[[0,'#c9920f'],[.75,'#e0aa14'],[1,'#a87808']]);g.beginPath();g.ellipse(x,y,1.2,1.0,0,0,TAU);g.fill();
+  g.fillStyle=GD_rg(g,x-.35,y-.35,.05,x-.1,y-.1,.9,[[0,'#fff6c0'],[.6,'#f2c230'],[1,'#d8a414']]);g.beginPath();g.ellipse(x-.12,y-.1,.82,.68,0,0,TAU);g.fill();
+  fillE(g,'rgba(255,255,255,.75)',x-.42,y-.38,.28,.16);}
+{const k='spring_otter';OFT[k]={n:'スプリング遊具（ラッコ）',w:1,h:1,draw:(X,Y,L,t)=>SR_draw('otter',X,Y,t),act:{sit:1,snap:L=>({px:L.x*T+8,py:L.y*T+9,pose:'sit',d:'right',over:true}),swing:1,say:['ラッコさんとぷかぷか〜','ぼよん、ぼよん…波に揺られてるみたい','ラッコさん、空を見上げてごきげんだね'],s:9}};if(!OKEYS.includes(k))OKEYS.push(k);if(!OBUY.includes(k))OBUY.push(k);}
+/* v578: talk sliders — 「思い出話」 (which has its own detail button) always last in both lists */
+{const mv=(A,k)=>{const i=A.findIndex(e=>e[0]===k);if(i>=0&&i<A.length-1){const e=A.splice(i,1)[0];A.push(e);}};mv(TALKCAT,'t:retro');mv(MTALKCAT,'m:retro');}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
