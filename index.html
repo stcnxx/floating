@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 566（2026/11/05）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 569（2026/11/05）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 566（2026/11/05）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 569（2026/11/05）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -15432,7 +15432,7 @@ const mMediaOn=k=>!!(typeof M!=='undefined'&&M&&M.media&&M.media.k===k&&M.sit&&!
 setInterval(()=>{try{if(M&&M.media&&(!M.sit||M.sleeping||M.scene!=='in'||Date.now()-M.media.at>4*60e3))M.media=null;}catch(e){}},1000);
 /* ---- v272: wallpaper 「襖絵（竹林豹虎図）」 — gold-leaf sliding doors with bamboo and tigers, a carved transom above ---- */
 WP.push({n:'襖絵（竹林と虎）',c:'#d6ad52',p:'fusuma',wc:'#2a1a12',ws:'plain',cu:'#c9a24a'});
-const FSM={im:null,S:8,PW:24,PH:22};
+const FSM={im:null,S:16,PW:24,PH:22};
 // tiger in a 14-unit design space, facing right, ground at y=0
 function FSM_tiger(c,x,y,sz,dir,pose,pat,seed){c.save();c.translate(x,y);c.scale(dir*sz/14,sz/14);
   const fur='#d79a42',furL='#ecc070',furD='#a8682a',belly='#f2ecdc',ink='#2a180c',line='rgba(70,40,15,.85)';
@@ -15559,7 +15559,7 @@ function FSM_img(){if(FSM.im)return FSM.im;const S2=FSM.S,PW=FSM.PW,PH=FSM.PH,Wt
   c.fillStyle=IN_lg(c,0,rb,0,ng,[[0,'#4a2c1c'],[1,'#24140c']]);c.fillRect(X,rb,W1,ng-rb);c.fillStyle='rgba(255,220,160,.3)';c.fillRect(X,rb,W1,.3);
   if(p===1||p===2){const kx=p===1?X+T-.2:X+.2;c.fillStyle='#d9b45a';c.beginPath();c.ellipse(kx,rb+.9,1.4,.75,0,0,TAU);c.fill();c.fillStyle='#8a6a2a';c.beginPath();c.ellipse(kx,rb+.9,.5,.3,0,0,TAU);c.fill();}
   // the painting slice for this panel
-  const im=FSM_img(),S2=FSM.S;c.drawImage(im,p*FSM.PW*S2,0,FSM.PW*S2,FSM.PH*S2,X,top,T,bot-top);
+  const im=FSM_img(),S2=FSM.S,nh=T*FSM.PH/FSM.PW,kk=Math.max(1,Math.round((bot-top)/nh));if(kk<=1)c.drawImage(im,p*FSM.PW*S2,0,FSM.PW*S2,FSM.PH*S2,X,top,T,bot-top);else{const pp=((x-x0)%(4*kk)+4*kk)%(4*kk),sw=FSM.PW/kk*4*(T/T),u=FSM.PW*4/(4*kk),sh=FSM.PH,sy=Math.max(0,sh-u*(bot-top)/T);c.drawImage(im,pp*u*S2,sy*S2,u*S2,(sh-sy)*S2,X,top,T,bot-top);}
   // frames: thin black lacquer, a hint of gilt edge, round recessed pulls in the middle pair
   c.fillStyle='#1c120c';c.fillRect(X,top,.75,bot-top);c.fillRect(X+T-.75,top,.75,bot-top);c.fillRect(X,top,W1,.6);c.fillRect(X,bot-.9,W1,.9);
   c.fillStyle='rgba(255,215,140,.35)';c.fillRect(X+.75,top+.6,.2,bot-top-1.5);
@@ -20245,7 +20245,7 @@ OFT.photoboard={n:'選挙ボード',w:4,h:1,draw:(X,Y,L,t)=>{g.save();const B=PB
   g.fillStyle='#9a9690';g.fillRect(bx+.9,by+1,B.w,B.h);g.fillStyle=SZ.lg(0,by,0,by+B.h,[[0,'#ffffff'],[1,'#eeeeea']]);g.fillRect(bx,by,B.w,B.h);
   for(let i=0;i<9;i++){const c=PB_cell(i),cx=X+c.x,cy=Y+c.y,im=PB_img(i),pad=.9;
     if(im){const px=cx+pad,py=cy+pad,pw=c.w-pad*2,ph=c.h-pad*2;g.save();g.beginPath();g.rect(px,py,pw,ph);g.clip();g.fillStyle='#ffffff';g.fillRect(px,py,pw,ph);
-      const s=ph/im.height,dw=im.width*s;g.drawImage(im,px+(pw-dw)/2,py,dw,ph);g.restore();
+      const s=ph/im.height,dw=im.width*s;g.imageSmoothingEnabled=true;try{g.imageSmoothingQuality='high';}catch(_){}g.drawImage(im,px+(pw-dw)/2,py,dw,ph);g.restore();
       g.fillStyle='rgba(255,255,255,.14)';g.beginPath();g.moveTo(px,py);g.lineTo(px+pw*.42,py);g.lineTo(px,py+ph*.5);g.closePath();g.fill();}
     else{g.fillStyle=BL;g.font=`bold ${(c.w*.42).toFixed(1)}px sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText(String(PB_no(i)),cx+c.w/2,cy+c.h/2+.5);}
     // the small cell number printed at the top edge, like the real board
@@ -20259,7 +20259,7 @@ function PB_hot(wx,wy){try{if(C.scene!=='out'||!S.yard||!S.yard.photoboard||S.ya
 {const TT=tapTarget;tapTarget=function(wx,wy){if(PB_hot(wx,wy))return{t:'yard',k:'photoboard'};return TT.apply(this,arguments);};}
 {const HC=hitChar;hitChar=function(e){try{const w=tapWorld(e);if(PB_hot(w.x,w.y))return false;}catch(_){}return HC.apply(this,arguments);};}
 // shrink a chosen picture to a small JPEG (cover-crop 4:3)
-function PB_shrink(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const W2=144,H2=144,c=document.createElement('canvas');c.width=W2;c.height=H2;const x=c.getContext('2d');x.fillStyle='#ffffff';x.fillRect(0,0,W2,H2);const s=H2/im.height,dw=im.width*s;x.drawImage(im,(W2-dw)/2,0,dw,H2);cb(c.toDataURL('image/jpeg',.72));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
+function PB_shrink(file,cb){try{const rd=new FileReader();rd.onload=()=>{const im=new Image();im.onload=()=>{try{const W2=384,H2=384,c=document.createElement('canvas');c.width=W2;c.height=H2;const x=c.getContext('2d');x.fillStyle='#ffffff';x.fillRect(0,0,W2,H2);const s=H2/im.height,dw=im.width*s;x.drawImage(im,(W2-dw)/2,0,dw,H2);cb(c.toDataURL('image/jpeg',.72));}catch(e){cb(null);}};im.onerror=()=>cb(null);im.src=rd.result;};rd.onerror=()=>cb(null);rd.readAsDataURL(file);}catch(e){cb(null);}}
 function PB_pick(i){let inp=document.getElementById('pbFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pbFile';inp.hidden=true;document.body.appendChild(inp);}
   inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;PB_shrink(f,url=>{if(!url){say('その写真は読み込めなかったみたい');return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
     queueSay(pick([`${PB_no(i)}番に写真を貼ったよ`,'いい写真！選挙ボードが華やかになった','この写真、すてきだね']));PB_ui(true);});};inp.click();}
@@ -20715,9 +20715,9 @@ function RUP_adjust(k,mode,src){const ov=document.getElementById('rupOv');if(!ov
   const crop=(w,h)=>{const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');const v=view();x.fillStyle='#fff';x.fillRect(0,0,w,h);ADJ_blit(x,src,v,w,h);return c;};
   const draw=()=>{const r=fr.getBoundingClientRect(),d=Math.min(3,window.devicePixelRatio||1),w=Math.max(1,Math.round(r.width*d)),h=Math.max(1,Math.round(r.width/ar*d));if(cv2.width!==w||cv2.height!==h){cv2.width=w;cv2.height=h;}
     const x=cv2.getContext('2d'),v=view();x.fillStyle='#fff';x.fillRect(0,0,w,h);ADJ_blit(x,src,v,w,h);};
-  let tpT=0;let tpUp=()=>{if(!tp)return;clearTimeout(tpT);tpT=setTimeout(()=>{try{tp.style.backgroundImage=`url(${crop(96,96).toDataURL('image/jpeg',.8)})`;}catch(_){}},60);};
+  let tpT=0;let tpUp=()=>{if(!tp)return;clearTimeout(tpT);tpT=setTimeout(()=>{try{tp.style.backgroundImage=`url(${crop(192,192).toDataURL('image/jpeg',.86)})`;}catch(_){}},60);};
   const old=L.uimg&&L.uimg.m===mode?L.uimg.fr:undefined;let frSel=old!==undefined?old:(mode==='tile'?'auto':RUF_COLS[0][0]);const pp=ov.querySelector('.rufp');let ppT=0;
-  const ppUp=()=>{if(!pp)return;clearTimeout(ppT);ppT=setTimeout(()=>{try{const c=frSel==='none'?null:frSel;pp.style.backgroundImage=`url(${crop(Math.round(124*ar),124).toDataURL('image/jpeg',.8)})`;pp.style.backgroundColor=c||'transparent';pp.style.backgroundSize=c?'calc(100% - 12px) calc(100% - 12px)':'100% 100%';}catch(_){}},60);};
+  const ppUp=()=>{if(!pp)return;clearTimeout(ppT);ppT=setTimeout(()=>{try{const c=frSel==='none'?null:frSel;pp.style.backgroundImage=`url(${crop(Math.round(372*ar),372).toDataURL('image/jpeg',.86)})`;pp.style.backgroundColor=c||'transparent';pp.style.backgroundSize=c?'calc(100% - 12px) calc(100% - 12px)':'100% 100%';}catch(_){}},60);};
   RUF_row(ov.querySelector('.rufw'),mode,()=>frSel,v=>{frSel=v;tpUp();});
   const tpUp0=tpUp;tpUp=()=>{tpUp0();ppUp();if(tp)tp.style.boxShadow=frSel==='none'?'none':`inset 0 0 0 3px ${frSel==='auto'?'rgba(120,60,60,.8)':frSel}`;};
   draw();tpUp();requestAnimationFrame(()=>{draw();});
@@ -20744,10 +20744,10 @@ function ADJ_ui(ov,o){const OW=o.OW,OH=o.OH,ar=OW/OH,src=o.src;
   fr.addEventListener('pointermove',e=>{if(!drag)return;const r=fr.getBoundingClientRect(),v=view(),px=v.vw/r.width;st.cx=drag.cx-(e.clientX-drag.x)*px/src.width;st.cy=drag.cy-(e.clientY-drag.y)*px/src.height;draw();});
   const up=()=>{drag=null;};fr.addEventListener('pointerup',up);fr.addEventListener('pointercancel',up);zs.oninput=()=>{st.z=(+zs.value)/100;draw();};
   ov.querySelector('.rpc').onclick=()=>{try{o.onCancel&&o.onCancel();}catch(_){}};
-  ov.querySelector('.rpok').onclick=()=>{let url=null;try{const c=document.createElement('canvas');c.width=OW;c.height=OH;const x=c.getContext('2d'),v=view();x.fillStyle='#fff';x.fillRect(0,0,OW,OH);ADJ_blit(x,src,v,OW,OH);url=c.toDataURL('image/jpeg',.75);}catch(e){}o.onOk(url);};}
+  ov.querySelector('.rpok').onclick=()=>{let url=null;try{const c=document.createElement('canvas');c.width=OW;c.height=OH;const x=c.getContext('2d'),v=view();x.fillStyle='#fff';x.fillRect(0,0,OW,OH);ADJ_blit(x,src,v,OW,OH);url=c.toDataURL('image/jpeg',.86);}catch(e){}o.onOk(url);};}
 PB_pick=function(i){let inp=document.getElementById('pbFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pbFile';inp.hidden=true;document.body.appendChild(inp);}
   inp.onchange=()=>{const f=inp.files&&inp.files[0];inp.value='';if(!f)return;RUP_load(f,src=>{if(!src){say('その写真は読み込めなかったみたい');return;}const ov=document.getElementById('pbOv');if(!ov){return;}
-    ADJ_ui(ov,{title:`📷 ${PB_no(i)}番に貼る部分`,OW:144,OH:144,src,onCancel:()=>{PB_ui(true);},onOk:url=>{if(!url){say('その写真は読み込めなかったみたい');PB_ui(true);return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
+    ADJ_ui(ov,{title:`📷 ${PB_no(i)}番に貼る部分`,OW:384,OH:384,src,onCancel:()=>{PB_ui(true);},onOk:url=>{if(!url){say('その写真は読み込めなかったみたい');PB_ui(true);return;}PB_list()[i]=url;PB_IMG[i]=null;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの写真を外してみて');}
       queueSay(pick([`${PB_no(i)}番に写真を貼ったよ`,'いい写真！選挙ボードが華やかになった','この写真、すてきだね']));ov._sel=null;PB_ui(true);}});});};inp.click();};
 /* ---- v381: the house light switch has four settings — 全灯 / 半灯 / 消灯 / ムーディー ---- */
 const LSW_M=[['full','全灯','今までの明るさ'],['black','ブラックライト','暗い部屋に紫の光が浮かぶ'],['off','消灯','寝るときと同じ暗さ'],['mood','ムーディー','薄暗く、ときどき色が移り変わる']];
@@ -21933,7 +21933,8 @@ function MO_restore(){try{if(!M||!S.mOutfitJ)return;if(S.mOutfitDay!==now().toDa
 setTimeout(()=>{try{MO_restore();}catch(e){}},1200);
 /* ---- v420: picture placement can zoom out as well (the rest is filled with the base colour / white) ---- */
 function ADJ_cl(c,half){const a=half,b=1-half;return Math.min(Math.max(a,b),Math.max(Math.min(a,b),c));}
-function ADJ_blit(x,src,v,w,h){const sx=w/v.vw,sy=h/v.vh;x.drawImage(src,0,0,src.width,src.height,-v.sx*sx,-v.sy*sy,src.width*sx,src.height*sy);}
+function ADJ_pyr(src){if(src._pyr)return src._pyr;const L=[src];let c=src;while(c.width>64&&c.height>64&&L.length<6){const n=document.createElement('canvas');n.width=Math.max(1,Math.round(c.width/2));n.height=Math.max(1,Math.round(c.height/2));const x=n.getContext('2d');x.imageSmoothingEnabled=true;try{x.imageSmoothingQuality='high';}catch(_){}x.drawImage(c,0,0,n.width,n.height);L.push(n);c=n;}try{src._pyr=L;}catch(_){}return L;}
+function ADJ_blit(x,src,v,w,h){const sx=w/v.vw,sy=h/v.vh;let im=src,f=1;try{const L=ADJ_pyr(src);while(f<L.length&&Math.min(sx,sy)*Math.pow(2,f)<=1){f++;}im=L[f-1];}catch(_){im=src;}const kx=src.width/im.width,ky=src.height/im.height;x.imageSmoothingEnabled=true;try{x.imageSmoothingQuality='high';}catch(_){}x.drawImage(im,0,0,im.width,im.height,-v.sx*sx,-v.sy*sy,im.width*kx*sx,im.height*ky*sy);}
 /* ---- v421: set menu 「豪華フルーツ盛り」 — a great platter of cut fruit (pineapple boat, melon, mango, grapes, strawberries, kiwi, orange, cherries, berries) with sparkling flutes ---- */
 const FR_r=i=>{const x=Math.sin(i*91.37+7.1)*43758.5453;return x-Math.floor(x);};
 function FR_straw(x,y,s,a){g.save();g.translate(x,y);g.rotate(a||0);g.scale(s,s);
@@ -23301,7 +23302,7 @@ function PF_menu(k){let ov=$('pfMenu');if(!ov){ov=document.createElement('div');
   const rs=ov.querySelector('#pfReset');if(rs)rs.onclick=()=>{delete L.pimg;save();ov.hidden=true;say('はじめの写真に戻したよ');};
   ov.querySelector('#pfPick').onclick=()=>{let inp=$('pfFile');if(!inp){inp=document.createElement('input');inp.type='file';inp.accept='image/*';inp.id='pfFile';inp.hidden=true;document.body.appendChild(inp);}
     inp.onchange=()=>{const fl=inp.files&&inp.files[0];inp.value='';if(!fl)return;RUP_load(fl,src=>{if(!src){say('その画像は読み込めなかったみたい');return;}
-      ADJ_ui(ov,{title:'🖼 フレームに入れる部分',OW:330,OH:440,src,onCancel:()=>{PF_menu(k);},onOk:url=>{if(!url){say('その画像は読み込めなかったみたい');PF_menu(k);return;}
+      ADJ_ui(ov,{title:'🖼 フレームに入れる部分',OW:480,OH:640,src,onCancel:()=>{PF_menu(k);},onOk:url=>{if(!url){say('その画像は読み込めなかったみたい');PF_menu(k);return;}
         L.pimg=url;try{save();}catch(e){say('保存できる量がいっぱいかも…ほかの画像を外してみて');}ov.hidden=true;queueSay(pick(['お気に入りの写真、飾れた！','いい写真だなあ','部屋がぱっと明るくなった']));}});});};inp.click();};
   ov.hidden=false;}
 let PF_skip=false;
@@ -26844,6 +26845,125 @@ try{TMAP.ikesu='fish';}catch(e){}
 {const G0=glowIn;glowIn=function(t){G0.apply(this,arguments);try{if(daylight()<.5&&has('ikesu')){const c=itemCenter('ikesu');g.globalCompositeOperation='lighter';const r=52,gr=g.createRadialGradient(c.x,c.y-10,0,c.x,c.y-10,r);gr.addColorStop(0,'rgba(110,180,255,.14)');gr.addColorStop(1,'rgba(110,180,255,0)');g.fillStyle=gr;g.fillRect(c.x-r,c.y-10-r,r*2,r*2);g.globalCompositeOperation='source-over';}}catch(e){}};}
 // the いけす is big: when no wall stretch is free, it may stand out in the room (like the stereo)
 {const PF=placeFor;placeFor=function(k,opt){const r=PF.apply(this,arguments);if(r||k!=='ikesu')return r;try{const o={...(opt||{}),free:true};let q=PF.call(this,k,o);if(!q&&typeof KEEP_relaxed==='function')q=KEEP_relaxed(()=>PF.call(this,k,o));return q||null;}catch(e){return null;}};}
+
+/* ===== v569: heavy-metal wallpapers (black brick with chains, studded leather, gothic skulls & spikes) and floors (black×red checker, black studded leather) ===== */
+/* v568 proposal: heavy-metal room — wallpapers (p:'hm', k:0..3) and floors */
+const HM_h=(a,b,s)=>{const x=Math.sin(a*127.1+b*311.7+s*74.7)*43758.5453;return x-Math.floor(x);};
+// a pyramid stud (chrome)
+function HM_stud(c,x,y,r){c.fillStyle='rgba(0,0,0,.6)';c.beginPath();c.moveTo(x-r+.3,y+.4);c.lineTo(x+.3,y-r+.4);c.lineTo(x+r+.3,y+.4);c.lineTo(x+.3,y+r+.4);c.fill();
+  const f=[['#f2f4f8',x,y-r,x-r,y],['#8a9098',x-r,y,x,y+r],['#4a4e56',x,y+r,x+r,y],['#c4c8d0',x+r,y,x,y-r]];for(const[col,ax,ay,bx,by]of f){c.fillStyle=col;c.beginPath();c.moveTo(x,y);c.lineTo(ax,ay);c.lineTo(bx,by);c.fill();}}
+// an eerie skull: cranium with a crack, deep sockets with a faint red glint, a jaw of jagged teeth, blood drips
+function HM_skull(c,x,y,s,col,seed){c.save();c.translate(x,y);c.scale(s,s);seed=seed||0;
+  // dark aura
+  const au=c.createRadialGradient(0,0,.5,0,0,4.2);au.addColorStop(0,'rgba(120,0,10,.35)');au.addColorStop(1,'rgba(120,0,10,0)');c.fillStyle=au;c.fillRect(-4.5,-4.5,9,9);
+  // cranium + cheekbones + jaw
+  const bone=c.createLinearGradient(0,-3,0,3);bone.addColorStop(0,'#e4dccb');bone.addColorStop(.6,'#b8ae98');bone.addColorStop(1,'#6e6656');c.fillStyle=bone;
+  c.beginPath();c.moveTo(-2.3,-.2);c.bezierCurveTo(-2.6,-3.4,2.6,-3.4,2.3,-.2);c.lineTo(2,1);c.lineTo(1.3,1.5);c.lineTo(1.2,2.6);c.lineTo(-1.2,2.6);c.lineTo(-1.3,1.5);c.lineTo(-2,1);c.closePath();c.fill();
+  c.strokeStyle='rgba(30,20,15,.7)';c.lineWidth=.14;c.stroke();
+  // temple shadows
+  c.fillStyle='rgba(40,30,25,.35)';c.beginPath();c.ellipse(-2,-.6,.5,1,.2,0,Math.PI*2);c.ellipse(2,-.6,.5,1,-.2,0,Math.PI*2);c.fill();
+  // crack
+  c.strokeStyle='rgba(20,10,8,.85)';c.lineWidth=.13;c.beginPath();const cx0=(seed%2?-.6:.5);c.moveTo(cx0,-2.7);c.lineTo(cx0+.3,-2);c.lineTo(cx0-.1,-1.6);c.lineTo(cx0+.35,-1.1);c.stroke();
+  // deep, slanted eye sockets with a red glint
+  c.fillStyle='#0a0606';for(const d of[-1,1]){c.beginPath();c.moveTo(d*.25,-.95);c.quadraticCurveTo(d*1.6,-1.6,d*1.75,-.6);c.quadraticCurveTo(d*1.5,.35,d*.6,.25);c.quadraticCurveTo(d*.2,-.2,d*.25,-.95);c.fill();
+    const gl=c.createRadialGradient(d*1,-.45,0,d*1,-.45,.7);gl.addColorStop(0,'rgba(255,40,30,.95)');gl.addColorStop(1,'rgba(255,40,30,0)');c.fillStyle=gl;c.fillRect(d*1-.7,-1.15,1.4,1.4);c.fillStyle='#0a0606';}
+  // nose cavity
+  c.beginPath();c.moveTo(0,.25);c.lineTo(-.42,1.05);c.lineTo(0,.9);c.lineTo(.42,1.05);c.closePath();c.fill();
+  // jagged teeth + gap
+  c.fillStyle='#14100c';c.fillRect(-1.15,1.55,2.3,.85);c.fillStyle='#e8e0cc';for(let i=0;i<6;i++){const tx=-1.05+i*.4,ln=.45+((i*7+seed)%3)*.12;if(i===(seed%5)+1)continue;c.beginPath();c.moveTo(tx,1.55);c.lineTo(tx+.32,1.55);c.lineTo(tx+.2,1.55+ln);c.lineTo(tx+.08,1.55+ln*.8);c.closePath();c.fill();}
+  // blood drips from one socket
+  c.fillStyle='rgba(150,10,15,.9)';const dx=seed%2?-1.1:1.1;c.beginPath();c.moveTo(dx-.15,.2);c.lineTo(dx+.15,.2);c.lineTo(dx+.1,1.4+(seed%3)*.4);c.quadraticCurveTo(dx,1.8+(seed%3)*.4,dx-.1,1.4+(seed%3)*.4);c.closePath();c.fill();
+  c.restore();}
+function HM_flames(c,x0,w,yb,h,ph,alpha){// hot-rod flame licks: curved tongues with hooked tips, red -> orange -> yellow core
+  const cols=['rgba(190,30,10,A)','rgba(250,110,20,A)','rgba(255,214,80,A)'];
+  for(let pass=0;pass<3;pass++){const sc=[1,.7,.4][pass];c.fillStyle=cols[pass].replace('A',alpha);
+    for(let x=Math.floor(x0/14)*14-14;x<x0+w+14;x+=14){const hh=h*sc*(.6+HM_h(x,0,ph)*.5),bw=(9+HM_h(x,1,ph)*4)*(pass?1-.18*pass:1),dir=HM_h(x,2,ph)>.5?1:-1,cx=x+7;
+      c.beginPath();c.moveTo(cx-bw,yb);
+      c.bezierCurveTo(cx-bw*.9,yb-hh*.45,cx+dir*bw*.6,yb-hh*.55,cx+dir*bw*.2,yb-hh*.82);
+      c.quadraticCurveTo(cx+dir*bw*.05,yb-hh*.98,cx+dir*bw*.9,yb-hh);// hooked tip
+      c.bezierCurveTo(cx+dir*bw*.3,yb-hh*.8,cx+dir*bw*1.1,yb-hh*.45,cx+bw,yb);c.closePath();c.fill();}}
+  // glossy pin-stripe outline on the outer flames
+  c.strokeStyle='rgba(255,240,200,.18)';c.lineWidth=.3;}
+function HMW_paint(c,d,x0,y0,w,y1){const h=y1-y0,k=d.k||0;c.save();c.beginPath();c.rect(x0,y0,w,h);c.clip();
+  if(k===0){// black bricks, hanging chains, red glow from below
+    c.fillStyle='#121113';c.fillRect(x0,y0,w,h);const bw=10,bh=4.2;
+    for(let r=0;r*bh<h;r++){const off=r%2?bw/2:0;for(let x=Math.floor(x0/bw)*bw-bw+off;x<x0+w;x+=bw){const v=HM_h(x,r,1);c.fillStyle=`rgb(${30+v*14|0},${27+v*10|0},${29+v*10|0})`;c.fillRect(x+.45,y0+r*bh+.45,bw-.9,bh-.9);c.fillStyle='rgba(255,255,255,.05)';c.fillRect(x+.45,y0+r*bh+.45,bw-.9,.3);}}
+    const q=c.createLinearGradient(0,y1,0,y0);q.addColorStop(0,'rgba(220,20,20,.45)');q.addColorStop(.5,'rgba(160,10,10,.08)');q.addColorStop(1,'rgba(0,0,0,0)');c.fillStyle=q;c.fillRect(x0,y0,w,h);
+    for(let x=Math.floor(x0/46)*46+14;x<x0+w;x+=46){// a swag chain
+      const n=14;for(let i=0;i<=n;i++){const t=i/n,cx=x+t*26,cy=y0+3+Math.sin(t*Math.PI)*8;c.strokeStyle=i%2?'#8a9098':'#c4c8d0';c.lineWidth=.45;c.beginPath();if(i%2)c.ellipse(cx,cy,.55,1,0,0,Math.PI*2);else c.ellipse(cx,cy,1,.6,0,0,Math.PI*2);c.stroke();}
+      c.fillStyle='#5a5e66';c.fillRect(x-.6,y0+1.6,1.2,1.6);c.fillRect(x+25.4,y0+1.6,1.2,1.6);}}
+  else if(k===1){// black with hot-rod flames rising from the skirting
+    const q=c.createLinearGradient(0,y0,0,y1);q.addColorStop(0,'#0c0b0c');q.addColorStop(1,'#1a0f0c');c.fillStyle=q;c.fillRect(x0,y0,w,h);
+    for(let i=0;i<40;i++){const x=x0+HM_h(i,2,3)*w,y=y0+HM_h(i,5,3)*h*.7;c.fillStyle=`rgba(255,${120+HM_h(i,1,1)*100|0},40,${.25+HM_h(i,9,1)*.4})`;c.fillRect(x,y,.45,.45);}// embers
+    HM_flames(c,x0,w,y1+1,Math.min(h*.62,27),7,.95);
+    c.strokeStyle='rgba(255,240,180,.35)';c.lineWidth=.25;c.beginPath();c.moveTo(x0,y1-.5);c.lineTo(x0+w,y1-.5);c.stroke();}
+  else if(k===2){// tufted black leather with chrome pyramid studs
+    c.fillStyle='#141315';c.fillRect(x0,y0,w,h);const s=8;
+    for(let r=0;r*s<h+s;r++)for(let x=Math.floor(x0/s)*s-s;x<x0+w+s;x+=s){const cx=x+(r%2?s/2:0),cy=y0+r*s;
+      const gr=c.createRadialGradient(cx-1,cy-1,.5,cx,cy,s*.7);gr.addColorStop(0,'#3a373c');gr.addColorStop(1,'#141315');c.fillStyle=gr;c.beginPath();c.moveTo(cx,cy-s/2);c.lineTo(cx+s/2,cy);c.lineTo(cx,cy+s/2);c.lineTo(cx-s/2,cy);c.fill();
+      c.strokeStyle='rgba(0,0,0,.6)';c.lineWidth=.35;c.stroke();HM_stud(c,cx,cy-s/2,.75);}
+    // a band of studs along the top
+    c.fillStyle='#0a0a0b';c.fillRect(x0,y0,w,3);for(let x=Math.floor(x0/3)*3+1.5;x<x0+w;x+=3)HM_stud(c,x,y0+1.5,1);}
+  else{// dark stone with a faint skull pattern and red-lit cross-hatching (dungeon / gothic)
+    const q=c.createLinearGradient(0,y0,0,y1);q.addColorStop(0,'#1c1b1f');q.addColorStop(1,'#26232a');c.fillStyle=q;c.fillRect(x0,y0,w,h);
+    for(let i=0;i<60;i++){const x=x0+HM_h(i,3,4)*w,y=y0+HM_h(i,6,4)*h;c.fillStyle=`rgba(255,255,255,${.02+HM_h(i,1,4)*.03})`;c.fillRect(x,y,1.4,.4);}
+    const sx=54,sy=40;for(let r=0;r*sy<h+sy;r++)for(let x=Math.floor(x0/sx)*sx;x<x0+w+sx;x+=sx){const cx=x+(r%2?sx/2:0),cy=y0+17+r*sy;
+      const by=cy+3;c.strokeStyle='rgba(165,155,135,.7)';c.lineWidth=1;c.lineCap='round';c.beginPath();c.moveTo(cx-6,by+4.6);c.lineTo(cx+6,by-2.2);c.moveTo(cx+6,by+4.6);c.lineTo(cx-6,by-2.2);c.stroke();
+      for(const[ex,ey]of[[cx-6,by+4.6],[cx+6,by-2.2],[cx+6,by+4.6],[cx-6,by-2.2]]){c.fillStyle='rgba(190,180,160,.75)';c.beginPath();c.arc(ex-.5,ey,.65,0,7);c.arc(ex+.5,ey,.65,0,7);c.fill();}
+      HM_skull(c,cx,cy,1.55,null,Math.abs((x*7+r*13)|0));}
+    // blood running down from the spike trim
+    for(let x=Math.floor(x0/4)*4;x<x0+w;x+=4){const v=HM_h(x,9,9);if(v<.55)continue;const L=3+v*14;const q2=c.createLinearGradient(0,y0+5,0,y0+5+L);q2.addColorStop(0,'rgba(120,0,8,.95)');q2.addColorStop(1,'rgba(90,0,6,.6)');c.fillStyle=q2;c.fillRect(x+1.7,y0+5,.6,L);c.beginPath();c.ellipse(x+2,y0+5+L,.5,.7,0,0,7);c.fill();}
+    // gothic iron trim with spikes at the top
+    c.fillStyle='#08080a';c.fillRect(x0,y0,w,2.4);for(let x=Math.floor(x0/4)*4;x<x0+w;x+=4){c.beginPath();c.moveTo(x,y0+2.4);c.lineTo(x+2,y0+5.6);c.lineTo(x+4,y0+2.4);c.fill();}
+    const g2=c.createLinearGradient(0,y1,0,y0);g2.addColorStop(0,'rgba(150,20,40,.35)');g2.addColorStop(.6,'rgba(150,20,40,0)');c.fillStyle=g2;c.fillRect(x0,y0,w,h);}
+  c.restore();}
+// ---- floors (24x24 tile at X,Y) ----
+function HMF_check(c,X,Y){// glossy black & red checker, 2 per tile
+  for(let j=0;j<2;j++)for(let i=0;i<2;i++){const tx=Math.round(X/12)+i,ty=Math.round(Y/12)+j,red=(tx+ty)%2;const x=X+i*12,y=Y+j*12;
+    c.fillStyle=red?IND_lg(c,x,y,x+12,y+12,[[0,'#b0181e'],[1,'#7a0c12']]):IND_lg(c,x,y,x+12,y+12,[[0,'#26252a'],[1,'#0c0c0e']]);c.fillRect(x,y,12,12);
+    c.fillStyle='rgba(255,255,255,.08)';c.beginPath();c.moveTo(x+1,y+1);c.lineTo(x+7,y+1);c.lineTo(x+1,y+7);c.fill();}
+  c.fillStyle='rgba(0,0,0,.5)';c.fillRect(X,Y,T,.35);c.fillRect(X,Y,.35,T);c.fillRect(X+12,Y,.3,T);c.fillRect(X,Y+12,T,.3);}
+function HMF_scorch(c,X,Y){// charred black planks with ember cracks
+  const tx=Math.round(X/T),ty=Math.round(Y/T);for(let r=0;r<4;r++){const y=Y+r*6,off=HM_h(ty*4+r,0,2)*24,v=HM_h(ty*4+r,tx,3);
+    c.fillStyle=IND_lg(c,X,y,X,y+6,[[0,`rgb(${34+v*10|0},${28+v*8|0},${26+v*6|0})`],[1,`rgb(${18+v*6|0},${15+v*5|0},${14+v*4|0})`]]);c.fillRect(X,y,T,6);
+    // alligator char texture
+    c.strokeStyle='rgba(0,0,0,.55)';c.lineWidth=.3;for(let i=0;i<5;i++){const xx=X+HM_h(tx,r,i)*24;c.beginPath();c.moveTo(xx,y+.5);c.lineTo(xx+.6,y+5.5);c.stroke();}
+    if(HM_h(tx,ty*4+r,8)>.7){const xx=X+HM_h(tx,r,11)*18+2;c.strokeStyle='rgba(255,90,20,.7)';c.lineWidth=.35;c.beginPath();c.moveTo(xx,y+3);c.lineTo(xx+2,y+2.5);c.lineTo(xx+3.5,y+3.4);c.stroke();c.strokeStyle='rgba(255,200,80,.5)';c.lineWidth=.12;c.stroke();}
+    c.fillStyle='#050505';c.fillRect(X,y,T,.4);const sx=X+((off|0)%24);c.fillRect(sx,y,.4,6);}}
+function HMF_leather(c,X,Y){// black leather tiles with a chrome stud at each corner
+  c.fillStyle=IND_lg(c,X,Y,X+T,Y+T,[[0,'#2a282c'],[.5,'#1a191c'],[1,'#0f0e10']]);c.fillRect(X,Y,T,T);
+  c.strokeStyle='rgba(120,120,130,.35)';c.lineWidth=.25;c.setLineDash([.8,.6]);c.strokeRect(X+1.6,Y+1.6,T-3.2,T-3.2);c.setLineDash([]);
+  c.fillStyle='rgba(255,255,255,.05)';c.beginPath();c.moveTo(X+2,Y+2);c.lineTo(X+12,Y+2);c.lineTo(X+2,Y+12);c.fill();
+  c.fillStyle='#060607';c.fillRect(X,Y,T,.5);c.fillRect(X,Y,.5,T);HM_stud(c,X+.3,Y+.3,1.3);HM_stud(c,X+12,Y+12,1);}
+function HMF_marble(c,X,Y){// black marble with blood-red veins
+  const tx=Math.round(X/T),ty=Math.round(Y/T);c.fillStyle=IND_lg(c,X,Y,X+T,Y+T,[[0,'#1d1b1f'],[1,'#0b0a0c']]);c.fillRect(X,Y,T,T);
+  for(let i=0;i<3;i++){let x=X+HM_h(tx,ty,i)*24,y=Y;c.strokeStyle=i?'rgba(170,20,30,.55)':'rgba(220,60,60,.65)';c.lineWidth=i?.3:.45;c.beginPath();c.moveTo(x,y);
+    for(let s=1;s<=6;s++){x+=(HM_h(tx+s,ty,i+5)-.5)*7;y+=4;c.lineTo(x,y);}c.stroke();}
+  c.fillStyle='rgba(255,255,255,.06)';c.beginPath();c.moveTo(X,Y);c.lineTo(X+10,Y);c.lineTo(X,Y+10);c.fill();c.fillStyle='rgba(0,0,0,.6)';c.fillRect(X,Y,T,.35);c.fillRect(X,Y,.35,T);}
+const HM_WP=[{n:'ブラックレンガ（チェーン）',c:'#121113',p:'hm',k:0,wc:'#0e0d0f',ws:'panel',cu:'#5a0c10'},
+ {n:'ファイヤーパターン',c:'#0c0b0c',p:'hm',k:1,wc:'#0b0a0a',ws:'panel',cu:'#2a0c08'},
+ {n:'スタッド付きレザー',c:'#141315',p:'hm',k:2,wc:'#0a0a0b',ws:'panel',cu:'#1c1b1e'},
+ {n:'ゴシック（ドクロとスパイク）',c:'#1c1b1f',p:'hm',k:3,wc:'#0a090b',ws:'panel',cu:'#4a0c18'}];
+const HM_FL=[{n:'黒×赤チェッカー',f:HMF_check},{n:'焦げた黒板（残り火）',f:HMF_scorch},{n:'黒レザー（スタッド）',f:HMF_leather},{n:'黒大理石（赤い筋）',f:HMF_marble}];
+WP.push(HM_WP[0],HM_WP[2],HM_WP[3]);
+FL_LB.push(HM_FL[0],HM_FL[2]);FL_K.push(HM_FL[0],HM_FL[2]);
+{const WPP=WP_paint;WP_paint=function(c,d,x0,y0,w,y1){if(d&&d.p==='hm'){HMW_paint(c,d,x0,y0,w,y1);return;}return WPP.apply(this,arguments);};}
+
+/* v569: a wall picture above furniture no longer covers that furniture — the furniture standing in front is drawn again over the picture's lower edge
+   (not when someone sits or lies on it, so people are never painted over) */
+function WALL_coverKs(L){const out=[];try{for(const k2 of S.owned){const f2=FT[k2],L2=S.layout[k2];if(!f2||!L2||L2.carry||L2.wall||L2.on||f2.k==='floor'||f2.k==='wall')continue;const w=L2.ped?1:f2.w,h=L2.ped?1:f2.h;
+  if(L.x>=L2.x&&L.x<L2.x+w&&L.y+1>=L2.y&&L.y+1<L2.y+h)out.push(k2);}}catch(e){}return out;}
+function WALL_occupied(k2){try{const L2=S.layout[k2],f2=FT[k2],w=L2.ped?1:f2.w,h=L2.ped?1:f2.h,x0=L2.x*T,y0=L2.y*T,x1=x0+w*T,y1=y0+h*T,inR=(px,py)=>px>=x0-2&&px<=x1+2&&py>=y0-2&&py<=y1+2;
+  if(C.scene==='in'&&(C.snapK===k2||inR(C.px+12,C.py+12)))return true;if(typeof M!=='undefined'&&M&&M.scene==='in'&&M.px!=null&&inR(M.px+12,M.py+12))return true;
+  if(typeof PET!=='undefined'&&PET&&PET.px!=null&&PET.scene!=='out'&&inR(PET.px,PET.py))return true;}catch(e){return true;}return false;}
+{const DW=drawWallItem;drawWallItem=function(k,L,t){const r=DW.apply(this,arguments);try{if(L&&L.wall&&!L.side&&C.scene==='in'&&S.layout[k]===L){for(const k2 of WALL_coverKs(L)){if(WALL_occupied(k2))continue;drawFurnK(k2,t);const f2=FT[k2],L2=S.layout[k2];if(f2.parts&&!L2.ped)for(const p of f2.parts(L2))p.f();}}}catch(e){}return r;};}
+
+/* v569: wide pictures (photo frame, island painting, garland, wall shelf) shrink a little when another picture hangs or leans right next to them, so neighbours never overlap */
+const WW_W={pframe:33.3,islandart:27,garland:28.8,wshelf:25};
+function WW_nb(k,L,wall){try{for(const k2 of S.owned){if(k2===k)continue;const f2=FT[k2],L2=S.layout[k2];if(!f2||f2.k!=='wall'||!L2||L2.carry||L2.side)continue;if(!!L2.wall!==wall)continue;if(L2.y===L.y&&Math.abs(L2.x-L.x)===1)return true;}}catch(e){}return false;}
+function WW_s(k){const w=WW_W[MC_base(k)];return w?Math.min(1,23/w):1;}
+{const DW=drawWallItem;drawWallItem=function(k,L,t){const s=WW_s(k);if(s>=1||!L||!L.wall||L.side||S.layout[k]!==L||!WW_nb(k,L,true))return DW.apply(this,arguments);const c=wallCenter(L);g.save();g.translate(c.x,c.y);g.scale(s,s);g.translate(-c.x,-c.y);try{return DW.apply(this,arguments);}finally{g.restore();}};}
+{const DL=drawLean;drawLean=function(k,L,t){const s=WW_s(k);if(s>=1||!L||S.layout[k]!==L||!WW_nb(k,L,false))return DL.apply(this,arguments);const px=L.x*T+12,py=L.y*T+15;g.save();g.translate(px,py);g.scale(s,s);g.translate(-px,-py);try{return DL.apply(this,arguments);}finally{g.restore();}};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
