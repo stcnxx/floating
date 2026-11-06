@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 585（2026/11/06）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 587（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 585（2026/11/06）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 587（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -27584,6 +27584,75 @@ function SKX_draw(x,P,Wc,hy,kk,sk,t){SKX.hits=[];
     let best=null,bd=1e9;for(const h of SKX.hits){const dd=Math.hypot(px-h.x,py-h.y);if(dd<h.r&&dd<bd){bd=dd;best=h;}}if(best){SKX_card(best);SKYV.ptr=null;e.stopImmediatePropagation();}},true);
   return ov;};}
 {const SC=skyvClose;skyvClose=function(){const r=SC.apply(this,arguments);try{const ov=document.getElementById('skyv');if(ov){ov.classList.remove('pfull');const cd=ov.querySelector('#svCard');if(cd)cd.hidden=true;}if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen();}catch(e){}return r;};}
+
+/* v586: no "屋外を見ています / 家を長押しで屋内へ" sign over the island view */
+VW_ban=function(){const el=document.getElementById('vwBan');if(el)el.hidden=true;};
+
+/* ===== v587: cushions are drawn in depth order with the furniture (in front of things in the row behind, behind people) instead of under everything ===== */
+const CUSH_is=k=>{try{return MC_base(k)==='cushion';}catch(e){return k==='cushion';}};
+{const DF=drawFloorItems;drawFloorItems=function(t){const hid=[];try{for(const k of S.owned){if(!CUSH_is(k))continue;const L=S.layout[k];if(L&&!L.carry){L.carry=1;hid.push(L);}}}catch(e){}
+  try{return DF.apply(this,arguments);}finally{for(const L of hid)delete L.carry;}};}
+{const DW=drawWallItems;drawWallItems=function(t,items){const r=DW.apply(this,arguments);try{if(C.scene==='in')for(const k of S.owned){if(!CUSH_is(k))continue;const f=FT[k],L=S.layout[k];if(!f||!L||L.carry||L.wall||L.on)continue;
+  items.push({k:L.y*T+.5,f:()=>f.draw(L.x*T,L.y*T,f.w*T,f.h*T,L,t)});}}catch(e){}return r;};}
+
+/* ===== v587: meteor showers — the year's main showers: talk before the peak, a note in the sky view, meteors streaming from the radiant on the nights around the peak,
+   and on a clear peak night the hero climbs the lookout tower with the housemate ===== */
+const MTR_LIST=[
+ {k:'qua',n:'しぶんぎ座流星群',m:1,d:4,zhr:80,w:.7,ra:230,dec:49,col:'235,245,255',sp:1},
+ {k:'lyr',n:'こと座流星群',m:4,d:22,zhr:18,w:1.2,ra:271,dec:34,col:'240,248,255',sp:1.1},
+ {k:'eta',n:'みずがめ座η流星群',m:5,d:6,zhr:50,w:2.5,ra:338,dec:-1,col:'225,255,235',sp:1.4},
+ {k:'per',n:'ペルセウス座流星群',m:8,d:13,zhr:100,w:2,ra:48,dec:58,col:'240,255,240',sp:1.4},
+ {k:'ori',n:'オリオン座流星群',m:10,d:21,zhr:20,w:2,ra:95,dec:16,col:'240,250,255',sp:1.5},
+ {k:'leo',n:'しし座流星群',m:11,d:17,zhr:15,w:1,ra:152,dec:22,col:'235,245,255',sp:1.6},
+ {k:'gem',n:'ふたご座流星群',m:12,d:14,zhr:150,w:1.2,ra:112,dec:33,col:'255,250,235',sp:.85}];
+// the shower nearest to this moment: dd = days from the peak (peak taken as the night of that date, ~23:00)
+function MTR_now(){const n=now();let best=null;for(const s of MTR_LIST){for(const y of[n.getFullYear()-1,n.getFullYear(),n.getFullYear()+1]){const pk=new Date(y,s.m-1,s.d,23,0,0),dd=(n-pk)/864e5;if(!best||Math.abs(dd)<Math.abs(best.dd))best={s,dd,pk};}}return best;}
+function MTR_active(){const b=MTR_now();return b&&b.dd>-3.5&&b.dd<2.5?b:null;}
+// meteors per hour you would count from the island (dark sky at 2,000 m), now
+function MTR_rate(sk,clear){const b=MTR_active();if(!b)return 0;const s=b.s,h=eqToHor(s.ra,s.dec,sk.jd,sk.lat,sk.lon);if(h.alt<=0||sk.sun.alt>-8)return 0;
+  const act=Math.exp(-Math.abs(b.dd)/s.w),moon=sk.moon.alt>0?1-.6*sk.frac:1,wx=clear?1:0;return s.zhr*act*Math.sin(h.alt*D2R)*.45*moon*wx;}
+const MTR={list:[],next:0};
+function MTR_draw(x,P,Wc,hy,kk,sk,t){const b=MTR_active();if(!b)return;const s=b.s,k=SKYV.clear?'clear':wKind(),clear=k==='clear'||(k==='cloudy'&&Math.random()<.4);
+  const h=eqToHor(s.ra,s.dec,sk.jd,sk.lat,sk.lon),rp=P(h.az,h.alt),rate=MTR_rate(sk,k==='clear'||k==='cloudy')*(k==='cloudy'?.4:1);
+  if(h.alt>0&&rate>0&&Math.abs(rp.d)<SKYV.fov/2+5){x.save();x.strokeStyle='rgba(255,220,150,.5)';x.setLineDash([2,3]);x.lineWidth=1;x.beginPath();x.arc(rp.x,rp.y,10,0,TAU);x.stroke();x.setLineDash([]);
+    x.font='600 10px "Zen Maru Gothic",sans-serif';x.textAlign='center';x.fillStyle='rgba(255,225,165,.85)';x.fillText('放射点',rp.x,rp.y+22);x.restore();}
+  // spawn: shown about 4x denser than the real count so that a few minutes of looking is rewarded
+  const tn=t;if(!MTR.next)MTR.next=tn+1;
+  if(rate>0&&tn>=MTR.next){const per=3600/(rate*4);MTR.next=tn+(-Math.log(1-Math.random()))*per;
+    const ang=Math.random()*TAU,d0=(10+Math.random()*55)*kk,len=(8+Math.random()*18)*kk,bright=Math.random();
+    MTR.list.push({sx:rp.x+Math.cos(ang)*d0,sy:rp.y+Math.sin(ang)*d0,ang,len,t0:tn,dur:(.45+Math.random()*.5)/s.sp,br:bright,col:s.col,train:bright>.85});
+    if(MTR.list.length>12)MTR.list.shift();
+    if(bright>.8&&Math.random()<.5){SKYV.msg=pick(['あ、流れ星！','見た？いま大きいのが流れた！','わあ、また流れた！',`${s.n}だね！`,'願いごと、言えなかった…']);SKYV.msgAt=performance.now();}}
+  x.save();x.lineCap='round';
+  for(const m of MTR.list){const u=(tn-m.t0)/m.dur;if(u<0||u>1.6)continue;const head=Math.min(1,u),tail=Math.max(0,u-.45),fade=u>1?1-(u-1)/.6:1;
+    const hx=m.sx+Math.cos(m.ang)*m.len*head,hy2=m.sy+Math.sin(m.ang)*m.len*head,tx=m.sx+Math.cos(m.ang)*m.len*tail,ty=m.sy+Math.sin(m.ang)*m.len*tail;
+    if(hy2>hy-2)continue;
+    if(m.train&&u>.6){x.strokeStyle=`rgba(160,255,200,${.3*fade})`;x.lineWidth=3.5;x.beginPath();x.moveTo(tx,ty);x.lineTo(hx,hy2);x.stroke();}
+    if(u<=1){const g2=x.createLinearGradient(tx,ty,hx,hy2);g2.addColorStop(0,`rgba(${m.col},0)`);g2.addColorStop(.7,`rgba(${m.col},${.5+m.br*.3})`);g2.addColorStop(1,`rgba(${m.col},1)`);
+      x.strokeStyle=g2;x.lineWidth=1.1+m.br*1.5;x.beginPath();x.moveTo(tx,ty);x.lineTo(hx,hy2);x.stroke();
+      const r=3+m.br*6,rg=x.createRadialGradient(hx,hy2,0,hx,hy2,r);rg.addColorStop(0,'rgba(255,255,255,1)');rg.addColorStop(.35,`rgba(${m.col},.7)`);rg.addColorStop(1,`rgba(${m.col},0)`);x.fillStyle=rg;x.fillRect(hx-r,hy2-r,r*2,r*2);}}
+  x.restore();MTR.list=MTR.list.filter(m=>(tn-m.t0)/m.dur<1.6);}
+function MTR_stat(sk){const b=MTR_active();if(!b)return'';const s=b.s,k=SKYV.clear?'clear':wKind(),day=Math.round(b.dd);
+  const when=b.dd<-.5?`極大まであと${Math.max(1,Math.round(-b.dd))}日`:b.dd<=.6?'今夜が極大':'極大を過ぎたところ';
+  const h=eqToHor(s.ra,s.dec,sk.jd,sk.lat,sk.lon);let rest;
+  if(sk.sun.alt>-8)rest='暗くなると見えます';else if(h.alt<=0)rest='放射点がのぼると見えはじめます';else if(!(k==='clear'||k==='cloudy'))rest='雲で見えません';
+  else{const r=Math.round(MTR_rate(sk,true)*(k==='cloudy'?.4:1));rest=r>=1?`1時間に約${r}個`:'ほとんど流れません';}
+  return`${s.n} ${when}・${rest}`;}
+{const SD0=SKX_draw;SKX_draw=function(x,P,Wc,hy,kk,sk,t){try{MTR_draw(x,P,Wc,hy,kk,sk,t);}catch(e){}return SD0.apply(this,arguments);};}
+{const ST=SKX_status;SKX_status=function(sk){const a=ST.apply(this,arguments);let m='';try{m=MTR_stat(sk);}catch(e){}return[m,a].filter(Boolean).join('　');};}
+// what the hero says up on the tower
+{const SL=skyLines;skyLines=function(who){const L=SL.apply(this,arguments);try{const b=MTR_active();if(b&&skyNow().sun.alt<-8){const n=b.s.n;L.push(`${n}、いくつ流れるかな`,'流れ星、見つけたら教えてね','放射点のあたりをぼんやり眺めるのがコツなんだって',`今夜は${n}だよ`);}}catch(e){}return L;};}
+// talk in the days before the peak
+{const TL=talkLine;talkLine=function(){try{const b=MTR_now();if(b&&b.dd>-5&&b.dd<.8&&Math.random()<.06){const n=b.s.n,dd=Math.round(-b.dd);
+  return dd>=1?pick([`あと${dd}日で${n}だって。晴れるといいな`,`もうすぐ${n}の季節だね`,`${n}、今年はよく見えるかな`]):pick([`今夜は${n}の極大だって！`,`${n}、夜になったら物見櫓で見よう`,`流れ星に願いごと、なににしよう`]);}}catch(e){}return TL.apply(this,arguments);};}
+// a clear peak night: climb the tower together (once a night)
+{const CA=chooseActivity;chooseActivity=function(){try{const b=MTR_active(),h=hourNow(),key=now().toDateString();
+  if(b&&Math.abs(b.dd)<1.1&&S&&S.yard&&S.yard.yagura&&!S.yard.yagura.carry&&!C.sleeping&&!S.delivery&&(h>=19.5||h<1)&&S.mtrNight!==key&&(wKind()==='clear')&&skyNow().sun.alt<-8&&MTR_rate(skyNow(),true)>=2&&Math.random()<.35){
+    S.mtrNight=key;const n=b.s.n,st=A.yagura(false);st.unshift(SAY(pick([`今夜は${n}！物見櫓で見よう`,`${n}、そろそろ流れてるかな。上に行ってみよう`])));
+    st.splice(st.length-3,0,SAY(()=>pick(['あ、流れた！','見えた見えた！','いまの、すごく長かった！'])),W8(rnd(8,12)),SAY(()=>pick(['願いごと、三回言えた？','また来年も見ようね','いっぱい見られたね'])),W8(4));
+    C.act='yardplay';C.steps=st;C.idleT=rnd(2,4);
+    try{if(M&&S.mate&&!M.sleeping&&!M.busy&&!(M.sit&&M.sit.yagura)){const ms=mateYaguraSteps(true);if(ms){M.steps=ms;M.busy=true;}}}catch(e){}
+    save();return;}}catch(e){}return CA.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
