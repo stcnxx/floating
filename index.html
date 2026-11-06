@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 587（2026/11/07）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 588（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 587（2026/11/07）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 588（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -27653,6 +27653,30 @@ function MTR_stat(sk){const b=MTR_active();if(!b)return'';const s=b.s,k=SKYV.cle
     C.act='yardplay';C.steps=st;C.idleT=rnd(2,4);
     try{if(M&&S.mate&&!M.sleeping&&!M.busy&&!(M.sit&&M.sit.yagura)){const ms=mateYaguraSteps(true);if(ms){M.steps=ms;M.busy=true;}}}catch(e){}
     save();return;}}catch(e){}return CA.apply(this,arguments);};}
+
+/* ===== v588: typhoon talk only while a typhoon is actually around — not on and on ===== */
+// a typhoon "matters" when the 気象庁 list has one within about 1000 km (or with no known position yet)
+function TY_near(){try{const L=ENV.typhoons||[];return L.some(c=>c&&(c.km==null||c.km<1000));}catch(e){return false;}}
+function TY_any(){try{return!!(ENV.typhoons&&ENV.typhoons.length);}catch(e){return false;}}
+function SPK_tyOK(tx){try{if(!tx.includes('台風'))return true;
+    // memories of a past typhoon (思い出話) are fine
+    if(/台風の日|思った|だったね|あったね|あったよね/.test(tx))return true;
+    const t=Date.now(),last=S&&S.tySaid||0;
+    // the first notice of a new typhoon (発生) may be said once even if it is far away
+    if(/発生|だって。進路/.test(tx))return TY_any()&&t-last>12*36e5;
+    if(!TY_near())return false;
+    // close by: still not every few minutes
+    const urgent=/すぐ近く|かなり近い|近づいて|来そう/.test(tx);return urgent||t-last>3*36e5;}catch(e){return true;}}
+{const OK0=SPK_ok;SPK_ok=function(tx){if(typeof tx!=='string')return true;if(!OK0(tx))return false;if(!SPK_tyOK(tx))return false;return true;};}
+// remember when a typhoon line was actually said
+{const S1=say;say=function(text){const r=S1.apply(this,arguments);try{if(typeof text==='string'&&text.includes('台風')&&SPK_tyOK(text)&&S)S.tySaid=Date.now();}catch(e){}return r;};}
+{const M1=msay;msay=function(text){const r=M1.apply(this,arguments);try{if(typeof text==='string'&&text.includes('台風')&&SPK_tyOK(text)&&S)S.tySaid=Date.now();}catch(e){}return r;};}
+// a typhoon that drops out of one poll (a failed fetch) is not "new" when it comes back: forget it only after two days away;
+// and the typhoon headlines the game added itself leave the news once no typhoon is near
+{const TP=tcPoll;tcPoll=async function(){const keep=S&&S.tcSeen?{...S.tcSeen}:{};const r=await TP.apply(this,arguments);
+  try{if(!S)return r;S.tcGone=S.tcGone||{};const L=ENV.typhoons||[],t=Date.now();S.tcSeen=S.tcSeen||{};
+    for(const id in keep){if(L.some(c=>c.id===id)){delete S.tcGone[id];continue;}if(!S.tcGone[id])S.tcGone[id]=t;if(t-S.tcGone[id]<2*864e5)S.tcSeen[id]=keep[id];else delete S.tcGone[id];}
+    if(!TY_near()&&Array.isArray(ENV.news))ENV.news=ENV.news.filter(n=>!(n&&!n.link&&/^台風/.test(n.title||'')));}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
