@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 583（2026/11/06）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 584（2026/11/06）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 583（2026/11/06）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 584（2026/11/06）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -20087,10 +20087,10 @@ function HK_dogParts(){return HK_C.dog||(HK_C.dog=(()=>{const P=(pts,tn)=>{const
   o.rpaw=P([[3.4,-1.4],[5.6,-1.9],[8.4,-1.5],[9.1,-.4],[7.4,.45],[4.2,.4],[3.1,-.3]]);
   o.chest=P([[-5.7,-11],[-6.1,-15.6],[-4.9,-20],[-1,-21.8],[3.1,-20.8],[4.8,-17],[4.6,-12.5],[2.9,-10.4],[-.8,-9.6],[-4,-9.9]]);
   o.neck=P([[-4.5,-18.2],[-4.4,-23],[-1.1,-25.2],[2.7,-23.6],[3.8,-18.6],[-.4,-17.2]]);
-  o.legL=P([[-5.3,-12.6],[-5.1,-8],[-4.75,-2.4],[-4.95,-.9],[-2.45,-.9],[-2.45,-2.4],[-2.25,-8],[-1.9,-12.8]],.7);
-  o.legR=P([[-.2,-12.8],[.3,-8],[.45,-2.4],[.25,-.9],[2.75,-.9],[2.65,-2.4],[2.9,-8],[3.6,-12.6]],.7);
-  o.pawL=P([[-5.6,-.2],[-5.3,-1.5],[-3.8,-1.9],[-2.2,-1.5],[-1.9,-.2],[-3.8,.35]]);
-  o.pawR=P([[-.4,-.2],[-.1,-1.5],[1.5,-1.9],[3,-1.5],[3.3,-.2],[1.4,.35]]);
+  o.legL=P([[-5.9,-12.2],[-5.7,-8.4],[-5.25,-3.4],[-5.4,-1],[-1.95,-1],[-2.05,-3.4],[-1.75,-8.4],[-1.35,-11.8]],.7);
+  o.legR=P([[-.55,-11.8],[-.15,-8.4],[.15,-3.4],[0,-1],[3.45,-1],[3.3,-3.4],[3.75,-8.4],[4.15,-12.2]],.7);
+  o.pawL=P([[-6.1,-.15],[-5.85,-1.45],[-3.7,-2.05],[-1.75,-1.45],[-1.5,-.15],[-3.7,.45]]);
+  o.pawR=P([[-.25,-.15],[0,-1.45],[1.75,-2.05],[3.65,-1.45],[3.9,-.15],[1.75,.45]]);
   o.head=P([[-5.1,-24.6],[-4.6,-27],[-2.4,-28.2],[.8,-28.1],[3.1,-26.6],[3.6,-24],[2.5,-21.6],[-.4,-20.6],[-3.9,-21.3]]);
   o.muzzle=P([[-5.9,-22.8],[-5.1,-24.1],[-2.9,-24.6],[-.5,-23.7],[.3,-21.8],[-1.2,-20.4],[-4.1,-20.6],[-5.7,-21.6]]);
   o.earL=new Path2D();o.earL.moveTo(-5,-25.8);o.earL.quadraticCurveTo(-5.6,-28.2,-5.3,-30);o.earL.quadraticCurveTo(-3.6,-29.1,-2.2,-27.8);o.earL.closePath();
@@ -20116,7 +20116,7 @@ function HK_dogParts(){return HK_C.dog||(HK_C.dog=(()=>{const P=(pts,tn)=>{const
   // patina patches (green-brown oxidation in hollows)
   const pt=new Path2D(),pt2=new Path2D();for(let i=0;i<60;i++){const x=-7+r()*17,y=-29+r()*29,w=.25+r()*.6;HK_el((i%3?pt:pt2),x,y,w,w*(.5+r()*.5),r()*3);}o.pat=pt;o.pat2=pt2;
   // toes
-  o.toes=new Path2D();for(const cx of[-3.75,1.45]){for(const d of[-.6,.6]){o.toes.moveTo(cx+d,-.9);o.toes.lineTo(cx+d*1.15,.15);}}o.toes.moveTo(5.4,-.9);o.toes.lineTo(5.3,.2);o.toes.moveTo(6.6,-.95);o.toes.lineTo(6.6,.25);
+  o.toes=new Path2D();for(const cx of[-3.7,1.8]){for(const d of[-.75,0,.75]){o.toes.moveTo(cx+d,-.95);o.toes.lineTo(cx+d*1.1,.25);}}o.toes.moveTo(5.4,-.9);o.toes.lineTo(5.3,.2);o.toes.moveTo(6.6,-.95);o.toes.lineTo(6.6,.25);
   // tail curl groove
   o.curl=new Path2D();o.curl.moveTo(7.2,-12.2);o.curl.bezierCurveTo(7.4,-15.6,10.6,-16.6,10.4,-14);o.curl.bezierCurveTo(10.2,-12.4,8.4,-12.6,8.6,-14);
   return o;})());}
@@ -20134,17 +20134,16 @@ function HK_dog(t){const D=HK_dogParts();
   HK_bz(D.body,HK_rg(1,-17,1,13,[[0,'#7a5a3a'],[.6,'#4a382a'],[1,'#2a2019']]),HI,LO);
   HK_bz(D.haunch,HK_rg(4.4,-11.4,.4,9,BZ),HI,LO,1.5);
   HK_bz(D.rpaw,HK_lg(3,-2,9,0,[[0,'#8e6a44'],[1,'#3a2c20']]),HI,LO,.8);
+  {const LG=(x)=>HK_lg(x-2,0,x+2,0,[[0,'#5a4430'],[.35,'#6e5236'],[.65,'#4a382a'],[1,'#2c2119']]);HK_bz(D.legL,LG(-3.7),'rgba(220,175,115,.3)',LO,1);HK_bz(D.legR,LG(1.7),'rgba(220,175,115,.25)',LO,1);}
   HK_bz(D.neck,HK_rg(-2.6,-22,.5,7,BZ),HI,LO);
-  HK_bz(D.chest,HK_rg(-2.6,-18.4,.6,10.5,[[0,'#9c7448'],[.3,'#6e5236'],[.75,'#4a382a'],[1,'#2c2119']]),HI,LO,1.5);
+  {const cg=HK_rg(-2.6,-18.4,.6,10.5,[[0,'#9c7448'],[.3,'#6e5236'],[.75,'#4a382a'],[1,'#2c2119']]);g.fillStyle=cg;g.fill(D.chest);g.save();g.clip(D.chest);g.beginPath();g.rect(-12,-40,24,27.6);g.clip();g.lineWidth=1.5;g.translate(.55,.6);g.strokeStyle=HI;g.stroke(D.chest);g.translate(-1.25,-1.15);g.strokeStyle=LO;g.lineWidth=2.1;g.stroke(D.chest);g.restore();
+    g.save();g.clip(D.chest);const fg=HK_lg(0,-13.5,0,-9.5,[[0,'rgba(74,56,42,0)'],[1,'rgba(74,56,42,.95)']]);g.fillStyle=fg;g.fillRect(-12,-13.5,24,4.2);g.restore();}
   // front legs: polished by visitors' hands -> warmer, brighter copper
-  const LG=(x)=>HK_lg(x-1.6,0,x+1.6,0,[[0,'#7e5634'],[.3,'#c48a56'],[.55,'#9a6a40'],[1,'#4a3020']]);
-  HK_bz(D.legL,LG(-3.7),'rgba(250,206,150,.55)',LO,.9);HK_bz(D.legR,LG(1.3),'rgba(250,206,150,.5)',LO,.9);
-  HK_bz(D.pawL,HK_lg(-5.6,-1.9,-1.9,.4,[[0,'#d29a64'],[.5,'#a06e42'],[1,'#4e3424']]),'rgba(255,215,160,.6)',LO,.8);
-  HK_bz(D.pawR,HK_lg(-.4,-1.9,3.3,.4,[[0,'#cc9460'],[.5,'#9a6a40'],[1,'#4a3222']]),'rgba(255,215,160,.55)',LO,.8);
+  // (front legs are drawn before the chest)
+  HK_bz(D.pawL,HK_lg(-6,-2,-1.6,.4,[[0,'#8a6644'],[.5,'#6a4e36'],[1,'#3a2a1e']]),'rgba(220,175,115,.35)',LO,.8);
+  HK_bz(D.pawR,HK_lg(-.2,-2,3.9,.4,[[0,'#866242'],[.5,'#664a34'],[1,'#382a1e']]),'rgba(220,175,115,.3)',LO,.8);
   // harness
-  g.fillStyle=HK_lg(-6,0,5,0,[[0,'#6e5236'],[.4,'#4e3a28'],[1,'#2a1f17']]);g.fill(D.strap);g.fill(D.band);
-  g.strokeStyle='rgba(225,180,120,.5)';g.lineWidth=.22;g.beginPath();g.moveTo(-5.8,-13.8);g.quadraticCurveTo(-.9,-11.5,4.5,-14.1);g.stroke();
-  g.strokeStyle='rgba(15,10,6,.55)';g.lineWidth=.25;g.beginPath();g.moveTo(-5.7,-12.4);g.quadraticCurveTo(-.9,-10,4.6,-12.75);g.stroke();
+  // (no harness)
   // head
   HK_bz(D.head,HK_rg(-2.2,-26.4,.4,6.6,[[0,'#a47a4e'],[.35,'#715438'],[.8,'#4a382a'],[1,'#2c2119']]),HI,LO,1.2);
   HK_bz(D.earR,HK_lg(.7,-30,3.6,-27,[[0,'#6e5236'],[1,'#2e231a']]),HI,LO,.7);
@@ -20162,19 +20161,19 @@ function HK_dog(t){const D=HK_dogParts();
   // separations / detail lines
   g.strokeStyle='rgba(18,12,8,.6)';g.lineWidth=.28;g.lineCap='round';
   g.stroke(D.toes);g.stroke(D.curl);
-  g.beginPath();g.moveTo(-1.9,-12.6);g.quadraticCurveTo(-1.1,-6,-1.4,-1.2);g.moveTo(-.2,-12.6);g.quadraticCurveTo(-.9,-6,-.4,-1.2);g.stroke(); // gap between legs
-  g.fillStyle='rgba(20,14,9,.55)';g.beginPath();g.moveTo(-1.9,-11.2);g.quadraticCurveTo(-1,-7,-1.6,-1.3);g.lineTo(-.2,-1.3);g.quadraticCurveTo(-.9,-7,-.2,-11.2);g.closePath();g.fill();
+  g.beginPath();g.moveTo(-1.45,-10.4);g.quadraticCurveTo(-1.95,-6,-1.95,-1.2);g.moveTo(-.5,-10.4);g.quadraticCurveTo(-.05,-6,0,-1.2);g.stroke(); // gap between legs
+  g.fillStyle='rgba(20,14,9,.5)';g.beginPath();g.moveTo(-1.45,-10.2);g.quadraticCurveTo(-1.9,-6,-1.9,-1.3);g.lineTo(-.05,-1.3);g.quadraticCurveTo(-.1,-6,-.5,-10.2);g.closePath();g.fill();
   // face
   fillE(g,'#140e09',-4.9,-23.5,.85,.6,-.2);fillE(g,'rgba(240,200,150,.6)',-5.15,-23.75,.32,.15); // nose
   g.strokeStyle='rgba(20,13,8,.7)';g.lineWidth=.24;g.beginPath();g.moveTo(-4.8,-22.9);g.lineTo(-4.6,-21.9);g.moveTo(-5.4,-21.7);g.quadraticCurveTo(-3.6,-21,-1.8,-21.6);g.stroke();
-  g.fillStyle='#120c08';g.beginPath();g.moveTo(-4.3,-25.1);g.quadraticCurveTo(-3.6,-25.8,-2.9,-25.4);g.quadraticCurveTo(-3.6,-24.9,-4.3,-25.1);g.fill();
+  g.fillStyle='#120c08';g.beginPath();g.moveTo(-3.75,-25.75);g.quadraticCurveTo(-3.05,-26.4,-2.3,-26.05);g.quadraticCurveTo(-3.05,-25.55,-3.75,-25.75);g.fill();
   g.beginPath();g.moveTo(-.9,-25.8);g.quadraticCurveTo(-.1,-26.4,.6,-25.9);g.quadraticCurveTo(-.2,-25.4,-.9,-25.8);g.fill();
-  g.strokeStyle='rgba(230,185,125,.45)';g.lineWidth=.16;g.beginPath();g.moveTo(-4.3,-25.45);g.quadraticCurveTo(-3.6,-26.1,-2.8,-25.75);g.moveTo(-.9,-26.15);g.quadraticCurveTo(-.1,-26.7,.6,-26.25);g.stroke();
+  g.strokeStyle='rgba(230,185,125,.45)';g.lineWidth=.16;g.beginPath();g.moveTo(-3.75,-26.1);g.quadraticCurveTo(-3.05,-26.75,-2.25,-26.4);g.moveTo(-.9,-26.15);g.quadraticCurveTo(-.1,-26.7,.6,-26.25);g.stroke();
   // specular glints on bronze (head, chest, polished paws)
-  fillE(g,'rgba(255,226,170,.42)',-2.4,-27.1,1.2,.45,-.25);fillE(g,'rgba(255,226,170,.3)',-3.4,-18.6,.8,1.6,.3);
-  fillE(g,'rgba(255,232,190,.55)',-4.2,-1.25,.6,.25);fillE(g,'rgba(255,232,190,.5)',.9,-1.25,.6,.25);
-  fillR(g,'rgba(255,225,170,.35)',-4.3,-10.5,.45,7.5,.2);fillR(g,'rgba(255,225,170,.3)',.75,-10.5,.45,7.5,.2);
-  const tw=Math.max(0,Math.sin(t*.9)*Math.sin(t*.37+1));if(tw>.35)SZ.glint(-2.2,-27.3,1.2,(tw-.35)*1.2);
+  fillE(g,'rgba(255,226,170,.3)',-3.4,-18.6,.8,1.6,.3);
+  fillE(g,'rgba(240,205,150,.25)',-4.4,-1.4,.7,.28);fillE(g,'rgba(240,205,150,.22)',1.2,-1.4,.7,.28);
+  fillR(g,'rgba(230,190,135,.12)',-4.75,-8,.5,5.5,.25);fillR(g,'rgba(230,190,135,.1)',.75,-8,.5,5.5,.25);
+  
 }
 
 function HK_shadow(){
@@ -27392,6 +27391,13 @@ PN_drawC=function(c,ox,oy,seed,snow){
 PN_draw=function(c,ox,oy,seed,snow){PN_drawC(c,ox,oy,seed,snow);try{const cv=c.canvas,m=c.getTransform(),px=Math.round(m.e+ox*m.a);c.save();c.setTransform(1,0,0,1,0,0);
   c.clearRect(px,0,cv.width-px,cv.height);c.translate(px*2,0);c.scale(-1,1);c.drawImage(cv,0,0,px,cv.height,0,0,px,cv.height);c.restore();}catch(e){}};
 for(const k in treeC)delete treeC[k];
+
+/* v584: whenever the info panel sits at the bottom (by setting, or stepping aside for the TV), it stays above the disaster / news tickers */
+{const HA=hudAvoid;hudAvoid=function(){const r=HA.apply(this,arguments);try{const hud=$('hud');if(!hud||!S)return r;
+  if(!/bottom/.test(hud.className)){if(hud.dataset.tk){hud.style.bottom='';delete hud.dataset.tk;}return r;}
+  const pr=(hud.offsetParent||document.body).getBoundingClientRect();let b=/left/.test(hud.className)?76:46;
+  for(const id of['bosaiBar','quake']){const q=$(id);if(!q||q.hidden)continue;const cs=getComputedStyle(q);if(cs.display==='none'||cs.visibility==='hidden')continue;const qr=q.getBoundingClientRect();if(qr.height>0&&qr.top<pr.bottom)b=Math.max(b,Math.round(pr.bottom-qr.top)+6);}
+  const v=b+'px';if(hud.style.bottom!==v)hud.style.bottom=v;hud.dataset.tk='1';}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
