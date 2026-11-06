@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 584（2026/11/06）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 585（2026/11/06）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 584（2026/11/06）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 585（2026/11/06）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -14238,6 +14238,7 @@ function skyvDraw(t){const ov=skyvEl(),c=ov.querySelector('#skyc');if(!S||C.scen
   if(k==='rain'||k==='thunder'){x.strokeStyle='rgba(210,225,245,.5)';x.lineWidth=1;x.beginPath();for(let i=0;i<140;i++){const y=((hash(i,1,5)*Hc+t*520*(.8+hash(i,3,5)*.4))%(Hc+30))-15,xx=((hash(i,2,5)*Wc*1.2-y*.18)%Wc+Wc)%Wc;x.moveTo(xx,y);x.lineTo(xx-2.2,y+12);}x.stroke();}
   if(k==='snow'){x.fillStyle='rgba(255,255,255,.92)';for(let i=0;i<110;i++){const s2=.5+hash(i,3,6),y=((hash(i,1,6)*Hc+t*30*s2)%(Hc+10))-5,xx=(hash(i,2,6)*Wc+Math.sin(t*.8+i)*12+Wc)%Wc;x.beginPath();x.arc(xx,y,.8+s2*1.1,0,TAU);x.fill();}}
   if(k==='fog'){const fg=x.createLinearGradient(0,0,0,Hc);fg.addColorStop(0,'rgba(220,226,232,.25)');fg.addColorStop(.6,'rgba(225,230,236,.55)');fg.addColorStop(1,'rgba(225,230,236,.3)');x.fillStyle=fg;x.fillRect(0,0,Wc,Hc);}
+  try{SKX_draw(x,P,Wc,hy,kk,sk,t);}catch(e){}
   // the people on the deck (seen from behind), with their name tags
   const onM=M&&S.mate&&M.sit&&M.sit.yagura,hx=onM?Wc*.36:Wc*.5,mx2=Wc*.64,by=Hc*.975,SC=3.8;
   {const fy=Hc*.93;x.fillStyle=GD_lg(x,0,fy,0,Hc,[[0,'#8a6038'],[1,'#4a301c']]);x.fillRect(0,fy,Wc,Hc-fy);x.fillStyle='rgba(255,230,190,.25)';x.fillRect(0,fy,Wc,1.2);
@@ -27398,6 +27399,191 @@ for(const k in treeC)delete treeC[k];
   const pr=(hud.offsetParent||document.body).getBoundingClientRect();let b=/left/.test(hud.className)?76:46;
   for(const id of['bosaiBar','quake']){const q=$(id);if(!q||q.hidden)continue;const cs=getComputedStyle(q);if(cs.display==='none'||cs.visibility==='hidden')continue;const qr=q.getBoundingClientRect();if(qr.height>0&&qr.top<pr.bottom)b=Math.max(b,Math.round(pr.bottom-qr.top)+6);}
   const v=b+'px';if(hud.style.bottom!==v)hud.style.bottom=v;hud.dataset.tk='1';}catch(e){}return r;};}
+
+/* ===== v585: the lookout-tower sky gets aircraft and satellites (same as the 便利情報表示ツール), seen from the island at 2,000 m;
+   buttons: おりる・同居人を呼ぶ・夜・月・星座・人工衛星・飛行機・全画面 ===== */
+const SKX={plane:false,sat:false,night:false,hits:[],ac:[],acAt:0,acBusy:false,acErr:'',trails:{},routes:{},routeSt:{},tle:null,tleBusy:false,tleErr:'',passC:{at:0,v:null},stat:'',down:null};
+const SKX_H=2000,SKX_R=6371000;
+const SKX_WK='https://myspot-proxy.tomot8086.workers.dev/?url=';
+const SKX_WKH=['api.adsb.lol','api.airplanes.live','opensky-network.org','celestrak.org','api.adsbdb.com'];
+const SKX_wk=u=>{try{return SKX_WKH.includes(new URL(u).hostname)?SKX_WK+encodeURIComponent(u):null;}catch(e){return null;}};
+async function SKX_get(u,ms,text){const tries=[SKX_wk(u),u,'https://corsproxy.io/?url='+encodeURIComponent(u)].filter(Boolean);let err;
+  for(const t of tries){try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms||9000);try{const r=await fetch(t,{signal:c.signal,cache:'no-store'});if(r.status===404)return text?'':{_none:1};if(!r.ok)throw new Error('HTTP '+r.status);return text?await r.text():await r.json();}finally{clearTimeout(tm);}}catch(e){err=e;}}throw err||new Error('fetch');}
+try{SKX.plane=localStorage.getItem('fy-skyPlane')==='1';SKX.sat=localStorage.getItem('fy-skySat')==='1';}catch(e){}
+const SKX_save=()=>{try{localStorage.setItem('fy-skyPlane',SKX.plane?'1':'0');localStorage.setItem('fy-skySat',SKX.sat?'1':'0');}catch(e){}};
+function SKX_obs(){const l=astroLoc();return{lat:l.lat,lon:l.lon};}
+function SKX_look(la,lo,altm){const o=SKX_obs(),cl=Math.cos(o.lat*D2R),dN=(la-o.lat)*111320,dE=(lo-o.lon)*111320*cl,dist=Math.hypot(dN,dE);
+  const hrel=altm-SKX_H-dist*dist/(2*SKX_R);return{az:(Math.atan2(dE,dN)*R2D+360)%360,alt:Math.atan2(hrel,dist)*R2D,dist};}
+const SKX_AZ=a=>['北','北北東','北東','東北東','東','東南東','南東','南南東','南','南南西','南西','西南西','西','西北西','北西','北北西'][Math.round(((a%360)+360)%360/22.5)%16];
+
+/* ---------- aircraft ---------- */
+const SKX_AL={JAL:['JL','#c8102e','日本航空'],JJP:['GK','#f39800','ジェットスター・ジャパン'],ANA:['NH','#13448f','全日空'],ADO:['HD','#0a7bc1','エア・ドゥ'],SNJ:['6J','#7ab929','ソラシドエア'],SFJ:['7G','#1f1f1f','スターフライヤー'],
+ SKY:['BC','#00a0e9','スカイマーク'],APJ:['MM','#d6006f','ピーチ'],JTA:['NU','#d71920','日本トランスオーシャン航空'],IBX:['FW','#e0007a','アイベックス'],FDA:['JH','#c9006b','フジドリームエアラインズ'],ORC:['OC','#00a2d9','オリエンタルエアブリッジ'],
+ JAC:['JC','#c8102e','日本エアコミューター'],TZP:['ZG','#1d2b4f','ジップエア'],SJO:['IJ','#ffd400','スプリング・ジャパン'],AMX:['AM','#0b2343','アエロメヒコ'],
+ SIA:['SQ','#f6b300','シンガポール航空'],CPA:['CX','#006564','キャセイパシフィック'],KAL:['KE','#00a3e0','大韓航空'],AAR:['OZ','#bb1e3a','アシアナ航空'],EVA:['BR','#00703c','エバー航空'],CAL:['CI','#c9a0a4','チャイナエアライン'],
+ CES:['MU','#1b3f8b','中国東方航空'],CCA:['CA','#e60012','中国国際航空'],CSN:['CZ','#00a0e9','中国南方航空'],UAL:['UA','#1a4caf','ユナイテッド航空'],DAL:['DL','#c01933','デルタ航空'],AAL:['AA','#0078d2','アメリカン航空'],
+ QFA:['QF','#e0001b','カンタス航空'],THA:['TG','#4d2177','タイ国際航空'],HVN:['VN','#00627a','ベトナム航空'],PAL:['PR','#0038a8','フィリピン航空'],MAS:['MH','#00205b','マレーシア航空'],GIA:['GA','#00699d','ガルーダ・インドネシア航空'],
+ UAE:['EK','#d71921','エミレーツ航空'],QTR:['QR','#5c0632','カタール航空'],DLH:['LH','#05164d','ルフトハンザ'],AFR:['AF','#002157','エールフランス'],BAW:['BA','#075aaa','ブリティッシュ・エアウェイズ'],FIN:['AY','#0b1560','フィンエアー'],
+ KLM:['KL','#00a1de','KLMオランダ航空'],TWB:['TW','#e30613','ティーウェイ航空'],JNA:['LJ','#ff6f00','ジンエアー'],JJA:['7C','#ff5000','チェジュ航空'],TGW:['TR','#ffcc00','スクート'],ACA:['AC','#d22630','エア・カナダ'],
+ HAL:['HA','#6a2c91','ハワイアン航空'],FDX:['FX','#4d148c','フェデックス'],UPS:['5X','#351c15','UPS'],CKS:['K4','#00447c','カリッタ航空'],NCA:['KZ','#1d3f8f','日本貨物航空'],AIQ:['FD','#e30613','タイ・エアアジア'],
+ VJC:['VJ','#e2001a','ベトジェット'],CEB:['5J','#ffd500','セブパシフィック'],HKE:['UO','#7b2d8b','香港エクスプレス'],CRK:['HX','#e0001b','香港航空'],AIC:['AI','#d71920','エア・インディア'],ETH:['ET','#078930','エチオピア航空']};
+const SKX_airline=cs=>{const m=/^([A-Z]{3})\d/.exec(cs||'');return m&&SKX_AL[m[1]]?{code:SKX_AL[m[1]][0],col:SKX_AL[m[1]][1],name:SKX_AL[m[1]][2]}:null;};
+function SKX_norm(list){const out=[];for(const a of list||[]){const altFt=typeof a.alt_geom==='number'?a.alt_geom:typeof a.alt_baro==='number'?a.alt_baro:null;
+  if(a.lat==null||a.lon==null||altFt==null)continue;out.push({id:a.hex,cs:(a.flight||'').trim(),reg:a.r||'',type:a.t||'',lat:a.lat,lon:a.lon,alt:altFt*.3048,gs:(a.gs||0)*.514444,trk:a.track||0,t0:Date.now()-(a.seen_pos||0)*1000});}return out;}
+async function SKX_fetchAc(){if(SKX.acBusy)return;SKX.acBusy=true;const o=SKX_obs(),nm=27;
+  try{let list=null;
+    for(const u of[`https://api.adsb.lol/v2/point/${o.lat.toFixed(4)}/${o.lon.toFixed(4)}/${nm}`,`https://api.airplanes.live/v2/point/${o.lat.toFixed(4)}/${o.lon.toFixed(4)}/${nm}`]){
+      try{const j=await SKX_get(u,9000);if(j&&Array.isArray(j.ac)){list=SKX_norm(j.ac);break;}}catch(e){}}
+    if(!list){const d=.5,u=`https://opensky-network.org/api/states/all?lamin=${(o.lat-d).toFixed(3)}&lomin=${(o.lon-d).toFixed(3)}&lamax=${(o.lat+d).toFixed(3)}&lomax=${(o.lon+d).toFixed(3)}`;
+      const j=await SKX_get(u,10000);list=[];for(const s of(j&&j.states)||[]){const alt=s[13]!=null?s[13]:s[7];if(s[6]==null||s[5]==null||alt==null||s[8])continue;list.push({id:s[0],cs:(s[1]||'').trim(),reg:'',type:'',lat:s[6],lon:s[5],alt,gs:s[9]||0,trk:s[10]||0,t0:(s[3]?s[3]*1000:Date.now())});}}
+    SKX.ac=list;SKX.acAt=Date.now();SKX.acErr='';
+    for(const a of list){const tr=SKX.trails[a.id]||(SKX.trails[a.id]=[]);const l=tr[tr.length-1];if(!l||l.lat!==a.lat||l.lon!==a.lon)tr.push({lat:a.lat,lon:a.lon,alt:a.alt});if(tr.length>16)tr.shift();}
+    for(const id in SKX.trails)if(!list.some(a=>a.id===id))delete SKX.trails[id];
+    SKX_routes(list);}
+  catch(e){SKX.acErr='飛行機の位置を取得できませんでした';}finally{SKX.acBusy=false;}}
+const SKX_okCs=cs=>cs&&/^[A-Z]{3}\d/.test(cs);
+async function SKX_routes(list){const ask=list.filter(a=>SKX_okCs(a.cs)&&!(a.cs in SKX.routes)&&SKX.routeSt[a.cs]!=='ask').slice(0,40);
+  if(ask.length){ask.forEach(a=>{SKX.routeSt[a.cs]='ask';});let ok=false;
+    const body=JSON.stringify({planes:ask.map(a=>({callsign:a.cs,lat:a.lat,lng:a.lon}))}),u='https://api.adsb.lol/api/0/routeset';
+    for(const t of[SKX_wk(u),u]){if(ok||!t)continue;try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),10000);try{const r=await fetch(t,{method:'POST',headers:{'Content-Type':'application/json'},body,signal:c.signal});if(!r.ok)throw 0;const j=await r.json();ok=true;
+      for(const x of Array.isArray(j)?j:[]){const cs=(x.callsign||'').trim(),ap=x._airport_codes_iata||'';if(cs&&/^[A-Z0-9]{3}(-[A-Z0-9]{3})+$/.test(ap)){SKX.routes[cs]=ap.split('-');SKX.routeSt[cs]='ok';}}}finally{clearTimeout(tm);}}catch(e){}}
+    ask.forEach(a=>{if(!SKX.routes[a.cs]){SKX.routes[a.cs]=null;SKX.routeSt[a.cs]=ok?'none':'err';}});}
+  // the nearest unknown flights: ask a second database one by one
+  const o=SKX_obs(),cl=Math.cos(o.lat*D2R),dd=a=>(a.lat-o.lat)**2+((a.lon-o.lon)*cl)**2;
+  const rest=list.filter(a=>SKX_okCs(a.cs)&&!SKX.routes[a.cs]&&!SKX.routeSt['db:'+a.cs]).sort((a,b)=>dd(a)-dd(b)).slice(0,10);
+  for(const a of rest){SKX.routeSt['db:'+a.cs]=1;try{const j=await SKX_get('https://api.adsbdb.com/v0/callsign/'+encodeURIComponent(a.cs),9000),fr=j&&j.response&&j.response.flightroute,c=v=>v&&(v.iata_code||v.icao_code);
+    if(fr&&c(fr.origin)&&c(fr.destination)){SKX.routes[a.cs]=[c(fr.origin),c(fr.destination)];SKX.routeSt[a.cs]='ok';}}catch(e){}}}
+function SKX_acNow(a,ms){const dt=Math.max(0,Math.min(90,(ms-a.t0)/1000)),d=a.gs*dt,cl=Math.cos(a.lat*D2R)||1;return[a.lat+d*Math.cos(a.trk*D2R)/111320,a.lon+d*Math.sin(a.trk*D2R)/(111320*cl)];}
+function SKX_planeShape(x,px,py,ang,s,col){x.save();x.translate(px,py);x.rotate(ang);x.scale(s,s);x.fillStyle=col;x.beginPath();
+  x.moveTo(7,0);x.quadraticCurveTo(6,-.9,4,-1);x.lineTo(1,-1);x.lineTo(-2,-6.2);x.lineTo(-3.4,-6.2);x.lineTo(-1.6,-1);x.lineTo(-5,-1);x.lineTo(-6.4,-3);x.lineTo(-7.4,-3);x.lineTo(-6.6,0);
+  x.lineTo(-7.4,3);x.lineTo(-6.4,3);x.lineTo(-5,1);x.lineTo(-1.6,1);x.lineTo(-3.4,6.2);x.lineTo(-2,6.2);x.lineTo(1,1);x.lineTo(4,1);x.quadraticCurveTo(6,.9,7,0);x.closePath();x.fill();x.restore();}
+function SKX_drawPlanes(x,P,Wc,hy,kk,t){const ms=Date.now(),half=SKYV.fov/2+10,cand=[];
+  for(const a of SKX.ac){const[la,lo]=SKX_acNow(a,ms),L=SKX_look(la,lo,a.alt);if(L.dist<=40e3&&L.alt>=5)cand.push({a,la,lo,L});}
+  cand.sort((p,q)=>p.L.dist-q.L.dist);cand.length=Math.min(cand.length,30);SKX.nearN=cand.length;let inView=0;
+  const labels=[],boxes=[];
+  cand.forEach((c,rank)=>{const p=P(c.L.az,c.L.alt);if(Math.abs(p.d)>half)return;inView++;const a=c.a,near=rank<10,sz=near?1.05:.72;
+    const[la2,lo2]=SKX_acNow(a,ms+4000),L2=SKX_look(la2,lo2,a.alt),p2=P(L2.az,L2.alt),ang=Math.atan2(p2.y-p.y,p2.x-p.x);
+    x.globalAlpha=near?1:.55;
+    if(near){const tr=SKX.trails[a.id];if(tr&&tr.length>1){x.setLineDash([2,3]);x.strokeStyle='rgba(255,255,255,.45)';x.lineWidth=1;x.beginPath();let st=false;
+      for(const q of tr.concat([{lat:c.la,lon:c.lo,alt:a.alt}])){const L3=SKX_look(q.lat,q.lon,q.alt);if(L3.alt<-1){st=false;continue;}const p3=P(L3.az,L3.alt);if(Math.abs(p3.d)>half+20){st=false;continue;}if(!st){x.moveTo(p3.x,p3.y);st=true;}else x.lineTo(p3.x,p3.y);}x.stroke();x.setLineDash([]);}}
+    SKX_planeShape(x,p.x+.6,p.y+.8,ang,sz,'rgba(0,0,0,.45)');SKX_planeShape(x,p.x,p.y,ang,sz,'#eef2f8');
+    const bl=Math.sin(t*6+rank)>.6;if(bl){const rg=x.createRadialGradient(p.x,p.y,0,p.x,p.y,6);rg.addColorStop(0,'rgba(255,60,60,.95)');rg.addColorStop(1,'rgba(255,60,60,0)');x.fillStyle=rg;x.fillRect(p.x-6,p.y-6,12,12);}
+    x.globalAlpha=1;SKX.hits.push({x:p.x,y:p.y,r:14,kind:'plane',o:a,L:c.L});
+    if(near&&p.x>-10&&p.x<Wc+10)labels.push({a,p,L:c.L});});
+  // labels: nearest first, skip when they would overlap
+  x.font='700 9.5px "Zen Maru Gothic",sans-serif';x.textAlign='left';x.textBaseline='middle';
+  for(const it of labels){const a=it.a,al=SKX_airline(a.cs),rt=SKX.routes[a.cs],l1=al?al.code:'',l2=rt?`${rt[0]}→${rt[rt.length-1]}`:(a.cs||a.reg||'?'),l3=Math.round(a.alt/100)*100+'m';
+    const w1=l1?x.measureText(l1).width+8:0;x.font='600 9px "Zen Maru Gothic",sans-serif';const w2=Math.max(x.measureText(l2).width,x.measureText(l3).width);
+    const bw=w1+w2+(l1?4:0),bh=22;let bx=it.p.x+9,by=it.p.y-bh-4;if(bx+bw>Wc-2)bx=it.p.x-9-bw;if(by<34)by=it.p.y+8;
+    if(boxes.some(b=>bx<b.x+b.w+2&&bx+bw+2>b.x&&by<b.y+b.h+2&&by+bh+2>b.y)){x.font='700 9.5px "Zen Maru Gothic",sans-serif';continue;}boxes.push({x:bx,y:by,w:bw,h:bh});
+    x.fillStyle='rgba(10,14,30,.55)';x.beginPath();x.roundRect?x.roundRect(bx-2,by-1,bw+4,bh+2,4):x.rect(bx-2,by-1,bw+4,bh+2);x.fill();
+    if(l1){x.fillStyle=al.col;x.beginPath();x.roundRect?x.roundRect(bx,by+3,w1,bh-6,3):x.rect(bx,by+3,w1,bh-6);x.fill();x.fillStyle='#fff';x.font='700 9.5px "Zen Maru Gothic",sans-serif';x.fillText(l1,bx+4,by+bh/2+.5);}
+    x.font='600 9px "Zen Maru Gothic",sans-serif';x.fillStyle='#fff';x.fillText(l2,bx+w1+(l1?4:0),by+6);x.fillStyle='rgba(220,230,255,.8)';x.fillText(l3,bx+w1+(l1?4:0),by+16);
+    x.font='700 9.5px "Zen Maru Gothic",sans-serif';SKX.hits.push({x:bx+bw/2,y:by+bh/2,r:Math.max(bw,bh)/2+4,kind:'plane',o:a,L:it.L});}
+  x.textBaseline='alphabetic';SKX.inView=inView;}
+
+/* ---------- satellites: TLE mean elements + J2 secular drift + drag (simple, < 1° for fresh data) ---------- */
+const SKX_SATS=[{id:25544,name:'ISS',label:'ISS 国際宇宙ステーション',col:'#ffd25a',ticks:true},{id:48274,name:'天宮',label:'天宮（中国の宇宙ステーション）',col:'#7fe3c4'},{id:20580,name:'ハッブル',label:'ハッブル宇宙望遠鏡',col:'#c9b6ff'}];
+const SKX_RE=6378.135,SKX_KE=.0743669161,SKX_J2=1.082616e-3;
+function SKX_parse(l1,l2){const yy=+l1.slice(18,20),doy=+l1.slice(20,32),Y=yy<57?2000+yy:1900+yy,jdE=Date.UTC(Y,0,1)/864e5+2440587.5+doy-1,nd2=+l1.slice(33,43)||0;
+  const i=+l2.slice(8,16)*D2R,O=+l2.slice(17,25)*D2R,e=+('.'+l2.slice(26,33).trim()),w=+l2.slice(34,42)*D2R,M=+l2.slice(43,51)*D2R,n0=+l2.slice(52,63)*Math.PI*2/1440;
+  if(!(n0>0))return null;const a=Math.pow(SKX_KE/n0,2/3),p=a*(1-e*e),k=1.5*SKX_J2*n0/(p*p);return{jdE,nd2,i,O,e,w,M,n0,a,dO:-k*Math.cos(i),dw:k*(2-2.5*Math.sin(i)**2)};}
+function SKX_eci(r,jd){const dt=(jd-r.jdE)*1440,M=r.M+r.n0*dt+r.nd2*2*Math.PI/(1440*1440)*dt*dt,O=r.O+r.dO*dt,w=r.w+r.dw*dt,e=r.e;
+  const nNow=r.n0+2*r.nd2*2*Math.PI/(1440*1440)*dt,a=Math.pow(SKX_KE/nNow,2/3);
+  let E=M;for(let k=0;k<8;k++)E-=(E-e*Math.sin(E)-M)/(1-e*Math.cos(E));const xp=a*(Math.cos(E)-e),yp=a*Math.sqrt(1-e*e)*Math.sin(E);
+  const cO=Math.cos(O),sO=Math.sin(O),cw=Math.cos(w),sw=Math.sin(w),ci=Math.cos(r.i),si=Math.sin(r.i);
+  const X=(cO*cw-sO*sw*ci)*xp+(-cO*sw-sO*cw*ci)*yp,Y=(sO*cw+cO*sw*ci)*xp+(-sO*sw+cO*cw*ci)*yp,Z=(sw*si)*xp+(cw*si)*yp;return[X*SKX_RE,Y*SKX_RE,Z*SKX_RE];}
+function SKX_sun(jd){const n=jd-2451545,L=(280.46+.9856474*n)*D2R,g=(357.528+.9856003*n)*D2R,lam=L+(1.915*Math.sin(g)+.02*Math.sin(2*g))*D2R,ep=(23.439-4e-7*n)*D2R;
+  return{v:[Math.cos(lam),Math.cos(ep)*Math.sin(lam),Math.sin(ep)*Math.sin(lam)],ra:(Math.atan2(Math.cos(ep)*Math.sin(lam),Math.cos(lam))*R2D+360)%360,dec:Math.asin(Math.sin(ep)*Math.sin(lam))*R2D};}
+function SKX_satLook(r,jd){const o=SKX_obs(),s=SKX_eci(r,jd),th=gmstDeg(jd)*D2R,f=o.lat*D2R,lmb=o.lon*D2R+th;
+  const a=6378.137,e2=.00669438,N=a/Math.sqrt(1-e2*Math.sin(f)**2),h=SKX_H/1000;const ox=(N+h)*Math.cos(f)*Math.cos(lmb),oy=(N+h)*Math.cos(f)*Math.sin(lmb),oz=(N*(1-e2)+h)*Math.sin(f);
+  const dx=s[0]-ox,dy=s[1]-oy,dz=s[2]-oz,E=-Math.sin(lmb)*dx+Math.cos(lmb)*dy,Nn=-Math.sin(f)*Math.cos(lmb)*dx-Math.sin(f)*Math.sin(lmb)*dy+Math.cos(f)*dz,U=Math.cos(f)*Math.cos(lmb)*dx+Math.cos(f)*Math.sin(lmb)*dy+Math.sin(f)*dz,rg=Math.hypot(dx,dy,dz);
+  const su=SKX_sun(jd),dot=s[0]*su.v[0]+s[1]*su.v[1]+s[2]*su.v[2],perp=Math.hypot(s[0]-dot*su.v[0],s[1]-dot*su.v[1],s[2]-dot*su.v[2]),shadow=dot<0&&perp<SKX_RE;
+  const sunAlt=eqToHor(su.ra,su.dec,jd,o.lat,o.lon).alt;
+  return{az:(Math.atan2(E,Nn)*R2D+360)%360,alt:Math.asin(U/rg)*R2D,range:rg,shadow,sunAlt};}
+function SKX_loadTle(){if(SKX.tle||SKX.tleBusy)return;
+  try{const c=JSON.parse(localStorage.getItem('fy-tle')||'null');if(c&&Date.now()-c.at<12*3600e3){SKX.tle=c.recs;return;}}catch(e){}
+  SKX.tleBusy=true;(async()=>{const recs={};for(const s of SKX_SATS){try{const t=await SKX_get(`https://celestrak.org/NORAD/elements/gp.php?CATNR=${s.id}&FORMAT=TLE`,12000,true);const L=(t||'').split(/\r?\n/).map(q=>q.trim()).filter(Boolean),i=L.findIndex(q=>q.startsWith('1 '));if(i>=0&&L[i+1])recs[s.id]=[L[i],L[i+1]];}catch(e){}}
+    if(Object.keys(recs).length){SKX.tle=recs;SKX.tleErr='';try{localStorage.setItem('fy-tle',JSON.stringify({at:Date.now(),recs}));}catch(e){}}
+    else{try{const c=JSON.parse(localStorage.getItem('fy-tle')||'null');if(c)SKX.tle=c.recs;}catch(e){}if(!SKX.tle)SKX.tleErr='衛星データを取得できませんでした';}
+    SKX.tleBusy=false;})();}
+function SKX_rec(id){const T=SKX.tle&&SKX.tle[id];if(!T)return null;const c=SKX_rec.c||(SKX_rec.c={});if(c[id]&&c[id].k===T[0])return c[id].r;const r=SKX_parse(T[0],T[1]);c[id]={k:T[0],r};return r;}
+const SKX_hm=jd=>{const d=new Date((jd-2440587.5)*864e5+TZS());return pad(d.getHours())+':'+pad(d.getMinutes());};
+function SKX_drawSats(x,P,Wc,hy,kk,sk){const jd=sk.jd,half=SKYV.fov/2+10;
+  for(const s of SKX_SATS){const r=SKX_rec(s.id);if(!r)continue;
+    // path: 3 minutes back (solid), 6 minutes ahead (dotted)
+    const seg=(m0,m1,dash)=>{x.setLineDash(dash);x.beginPath();let st=false;for(let m=m0;m<=m1;m+=.25){const L=SKX_satLook(r,jd+m/1440);if(L.alt<0){st=false;continue;}const p=P(L.az,L.alt);if(Math.abs(p.d)>half+30){st=false;continue;}if(!st){x.moveTo(p.x,p.y);st=true;}else x.lineTo(p.x,p.y);}x.stroke();x.setLineDash([]);};
+    x.strokeStyle=s.col;x.globalAlpha=.75;x.lineWidth=s.ticks?1.4:1;seg(-3,0,[]);x.globalAlpha=.6;seg(0,6,[4,4]);x.globalAlpha=1;
+    if(s.ticks){x.font='600 9px "Zen Maru Gothic",sans-serif';x.textAlign='left';x.fillStyle=s.col;const m0=Math.ceil((jd*1440)%1*1)===0?0:0;
+      const base=Math.floor(jd*1440)/1440;for(let k=-3;k<=6;k++){const j2=base+k/1440;if(j2<jd-3/1440||j2>jd+6/1440)continue;const L=SKX_satLook(r,j2);if(L.alt<0)continue;const p=P(L.az,L.alt);if(Math.abs(p.d)>half)continue;x.fillRect(p.x-1.2,p.y-1.2,2.4,2.4);if(k%2===0)x.fillText(SKX_hm(j2),p.x+4,p.y+10);}}
+    const L=SKX_satLook(r,jd);if(L.alt<0)continue;const p=P(L.az,L.alt);if(Math.abs(p.d)>half)continue;
+    const dark=L.sunAlt<-6,vis=!L.shadow&&dark;x.globalAlpha=vis?1:.45;
+    const rg=x.createRadialGradient(p.x,p.y,0,p.x,p.y,7);rg.addColorStop(0,'rgba(255,255,255,.95)');rg.addColorStop(.4,s.col);rg.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=rg;x.fillRect(p.x-7,p.y-7,14,14);
+    x.fillStyle='#fff';x.fillRect(p.x-5,p.y-.5,10,1);x.beginPath();x.arc(p.x,p.y,1.8,0,TAU);x.fill();
+    x.font='700 10px "Zen Maru Gothic",sans-serif';x.textAlign='left';x.fillStyle=s.col;x.strokeStyle='rgba(0,0,0,.55)';x.lineWidth=3;const nm=s.name+(L.shadow?'（地球の影）':!dark?'（空が明るい）':'');x.strokeText(nm,p.x+8,p.y-6);x.fillText(nm,p.x+8,p.y-6);x.globalAlpha=1;
+    SKX.hits.push({x:p.x,y:p.y,r:16,kind:'sat',o:s,L});}}
+function SKX_issPass(jd){if(Date.now()-SKX.passC.at<60000&&SKX.passC.v!==undefined&&SKX.passC.jd&&Math.abs(SKX.passC.jd-jd)<.01)return SKX.passC.v;
+  const r=SKX_rec(25544);let v=null;if(r){let inP=null;for(let m=0;m<=24*60;m+=.5){const j=jd+m/1440,L=SKX_satLook(r,j),ok=L.alt>=10&&!L.shadow&&L.sunAlt<-6;
+    if(ok){if(!inP)inP={s:j,az0:L.az,max:L.alt,e:j,az1:L.az};else{inP.e=j;inP.az1=L.az;if(L.alt>inP.max)inP.max=L.alt;}}else if(inP){v=inP;break;}}if(!v&&inP)v=inP;}
+  SKX.passC={at:Date.now(),v,jd};return v;}
+
+/* ---------- status line, card, hook into the drawing ---------- */
+function SKX_status(sk){const parts=[];
+  if(SKX.plane){if(SKX.acErr&&!SKX.ac.length)parts.push(SKX.acErr);else if(!SKX.acAt)parts.push('飛行機を探しています…');else parts.push(`飛行機：40km以内${SKX.nearN||0}機・この向きに${SKX.inView||0}機`);}
+  if(SKX.sat){if(!SKX.tle)parts.push(SKX.tleErr||'衛星データを読み込み中…');else{const r=SKX_rec(25544);if(r){const L=SKX_satLook(r,sk.jd);
+    if(L.alt>0&&!L.shadow&&L.sunAlt<-6){const pv=SKX_issPass(sk.jd);parts.push(`ISS 見える！${pv?` 〜${SKX_hm(pv.e)} ${SKX_AZ(pv.az0)}→${SKX_AZ(pv.az1)} 最大高度${Math.round(pv.max)}°`:''}`);}
+    else{const pv=SKX_issPass(sk.jd);if(pv){const d=new Date((pv.s-2440587.5)*864e5+TZS());parts.push(`次に見えるISS：${d.getMonth()+1}/${d.getDate()} ${SKX_hm(pv.s)}〜${SKX_hm(pv.e)} ${SKX_AZ(pv.az0)}→${SKX_AZ(pv.az1)} 最大${Math.round(pv.max)}°`);}else parts.push('ISS：24時間以内に見える通過なし');}}}}
+  return parts.join('　');}
+function SKX_card(h){const ov=document.getElementById('skyv');if(!ov)return;let c=ov.querySelector('#svCard');if(!c){c=document.createElement('div');c.id='svCard';ov.appendChild(c);}
+  const row=(k,v)=>`<div><span>${k}</span><b>${v}</b></div>`,esc=v=>String(v).replace(/[<>&]/g,'');let h2='';
+  if(h.kind==='plane'){const a=h.o,al=SKX_airline(a.cs),rt=SKX.routes[a.cs],st=SKX.routeSt[a.cs];
+    h2=`<h4>✈ ${esc(a.cs||a.reg||'機体')}</h4>`+(al?row('航空会社',esc(al.name)):'')+row('路線',rt?esc(rt.join(' → ')):st==='ask'?'確認中…':'不明')+row('高度',`${Math.round(a.alt).toLocaleString()} m（島より${Math.round(a.alt-SKX_H).toLocaleString()} m 上）`)+row('速度',`${Math.round(a.gs*3.6)} km/h`)+row('距離',`${(h.L.dist/1000).toFixed(1)} km・${SKX_AZ(h.L.az)}の空 ${Math.round(h.L.alt)}°`)+(a.type?row('機種',esc(a.type)):'')+(a.reg?row('登録記号',esc(a.reg)):'');}
+  else{const s=h.o,L=h.L;h2=`<h4>🛰 ${esc(s.label)}</h4>`+row('位置',`${SKX_AZ(L.az)}の空 高さ${Math.round(L.alt)}°`)+row('距離',`${Math.round(L.range).toLocaleString()} km`)+row('見え方',L.shadow?'地球の影に入っていて見えません':L.sunAlt>=-6?'空が明るくて見えません':'太陽の光を受けて光っています');}
+  c.innerHTML=h2+'<button type="button" class="svx">とじる</button>';c.hidden=false;c.querySelector('.svx').onclick=e=>{e.stopPropagation();c.hidden=true;};}
+function SKX_draw(x,P,Wc,hy,kk,sk,t){SKX.hits=[];
+  if(SKX.sat){SKX_loadTle();if(SKX.tle)SKX_drawSats(x,P,Wc,hy,kk,sk);}
+  if(SKX.plane){if(Date.now()-SKX.acAt>15000&&!SKX.acBusy&&Date.now()-(SKX.acTry||0)>15000){SKX.acTry=Date.now();SKX_fetchAc();}SKX_drawPlanes(x,P,Wc,hy,kk,t);}
+  const el=document.getElementById('svStat');if(el){const tn=performance.now();if(!SKX.statAt||tn-SKX.statAt>1000){SKX.statAt=tn;const v=SKX_status(sk);if(el.textContent!==v)el.textContent=v;}}}
+/* the night button: draw the sky as if the sun had set (and without clouds) */
+{const SD=skyvDraw;skyvDraw=function(t){if(!SKX.night)return SD.apply(this,arguments);const S0=skyNow,c0=SKYV.clear;skyNow=function(){const v=S0.apply(this,arguments);return{...v,sun:{...v.sun,alt:-40}};};SKYV.clear=true;
+  try{return SD.apply(this,arguments);}finally{skyNow=S0;SKYV.clear=c0;}};}
+/* buttons, status line, taps */
+{const SE=skyvEl;skyvEl=function(){const had=!!document.getElementById('skyv'),ov=SE.apply(this,arguments);if(had||ov._skx)return ov;ov._skx=1;
+  const st=document.createElement('style');st.textContent=`#skyv .sv-bar{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px!important;bottom:10px!important}
+#skyv .sv-bar button{height:32px;border-radius:8px!important;padding:2px 3px!important;font-size:clamp(9px,2.9vw,12px)!important;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;background:rgba(24,22,44,.62)!important}
+#skyv .sv-bar button.tg[aria-pressed=true]{background:rgba(70,130,235,.78)!important;border-color:rgba(170,205,255,.9)!important}
+#skyv #svCall span{-webkit-line-clamp:1!important}
+#skyv .sv-hint{bottom:94px!important}
+#skyv #svStat{position:absolute;left:8px;right:8px;top:26px;text-align:center;color:#fff;font-size:11px;font-weight:600;text-shadow:0 1px 3px #000,0 0 6px rgba(0,0,0,.6);pointer-events:none;line-height:1.35}
+#skyv .sv-msg{top:58px!important}
+#skyv #svCard{position:absolute;left:50%;top:60px;transform:translateX(-50%);width:min(300px,86%);background:rgba(16,18,40,.9);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:12px;padding:10px 12px;font-size:12px;z-index:3;box-shadow:0 4px 16px rgba(0,0,0,.4)}
+#skyv #svCard h4{margin:0 0 6px;font-size:14px}#skyv #svCard div{display:flex;justify-content:space-between;gap:10px;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.1)}#skyv #svCard div span{opacity:.75;white-space:nowrap}#skyv #svCard div b{text-align:right;font-weight:600}
+#skyv #svCard .svx{margin-top:8px;width:100%;padding:6px;border-radius:8px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.12);color:#fff;font-size:12px}
+#skyv:fullscreen,#skyv.pfull{position:fixed!important;left:0!important;top:0!important;width:100%!important;height:100%!important;z-index:9999!important}#skyv:-webkit-full-screen{position:fixed!important;left:0!important;top:0!important;width:100%!important;height:100%!important}`;
+  try{document.head.appendChild(st);}catch(_){}
+  const bar=ov.querySelector('.sv-bar'),down=ov.querySelector('#svDown'),call=ov.querySelector('#svCall'),lines=ov.querySelector('#svLines'),clr=ov.querySelector('#svClr');
+  const mk=(id,txt,tg)=>{const b=document.createElement('button');b.type='button';b.id=id;b.textContent=txt;if(tg){b.className='tg';b.setAttribute('aria-pressed','false');}return b;};
+  const night=mk('svNight','夜',1),moon=mk('svMoon','月'),sat=mk('svSat','人工衛星',1),pl=mk('svPlane','飛行機',1),full=mk('svFull','全画面',1);
+  lines.textContent='星座';lines.classList.add('tg');if(clr)clr.hidden=true;
+  bar.innerHTML='';for(const b of[down,call,night,moon,lines,sat,pl,full])bar.appendChild(b);if(clr){clr.style.display='none';bar.appendChild(clr);}
+  const set=(b,v)=>b.setAttribute('aria-pressed',v?'true':'false');set(sat,SKX.sat);set(pl,SKX.plane);set(night,SKX.night);
+  night.onclick=e=>{e.stopPropagation();SKX.night=!SKX.night;set(night,SKX.night);if(SKX.night){SKYV.msg=pick(['太陽がしずんだ空にしてみたよ','いまこの時刻の星空だって','昼でも星座が見える！']);SKYV.msgAt=performance.now();}};
+  moon.onclick=e=>{e.stopPropagation();const sk=skyNow();SKYV.A0=sk.moon.az;SKYV.msg=sk.moon.alt>0?`月は${SKX_AZ(sk.moon.az)}の空、高さ${Math.round(sk.moon.alt)}°`:`月はいま地平線の下（${SKX_AZ(sk.moon.az)}の方）`;SKYV.msgAt=performance.now();};
+  sat.onclick=e=>{e.stopPropagation();SKX.sat=!SKX.sat;set(sat,SKX.sat);SKX_save();if(SKX.sat)SKX_loadTle();};
+  pl.onclick=e=>{e.stopPropagation();SKX.plane=!SKX.plane;set(pl,SKX.plane);SKX_save();if(SKX.plane){SKX.acTry=0;SKX.acAt=0;}};
+  const isFull=()=>document.fullscreenElement===ov||document.webkitFullscreenElement===ov||ov.classList.contains('pfull');
+  full.onclick=e=>{e.stopPropagation();const d=document;if(isFull()){if(ov.classList.contains('pfull'))ov.classList.remove('pfull');else (d.exitFullscreen||d.webkitExitFullscreen).call(d);}
+    else{const rq=ov.requestFullscreen||ov.webkitRequestFullscreen;if(rq){try{const p=rq.call(ov);if(p&&p.catch)p.catch(()=>ov.classList.add('pfull'));}catch(_){ov.classList.add('pfull');}}else ov.classList.add('pfull');}setTimeout(()=>set(full,isFull()),300);};
+  for(const ev of['fullscreenchange','webkitfullscreenchange'])document.addEventListener(ev,()=>set(full,isFull()));
+  const stat=document.createElement('div');stat.id='svStat';ov.appendChild(stat);
+  const hint=ov.querySelector('#svHint');if(hint)hint.textContent='左右にドラッグで見回す・月や飛行機・人工衛星をタップ';
+  // taps on aircraft / satellites (and their labels) open an info card; anything else falls through to the moon zoom
+  const c=ov.querySelector('#skyc');
+  c.addEventListener('pointerdown',e=>{SKX.down={x:e.clientX,y:e.clientY};},true);
+  c.addEventListener('pointerup',e=>{const d=SKX.down;SKX.down=null;if(!d||Math.hypot(e.clientX-d.x,e.clientY-d.y)>8||SKYV.zoom)return;const r=c.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
+    let best=null,bd=1e9;for(const h of SKX.hits){const dd=Math.hypot(px-h.x,py-h.y);if(dd<h.r&&dd<bd){bd=dd;best=h;}}if(best){SKX_card(best);SKYV.ptr=null;e.stopImmediatePropagation();}},true);
+  return ov;};}
+{const SC=skyvClose;skyvClose=function(){const r=SC.apply(this,arguments);try{const ov=document.getElementById('skyv');if(ov){ov.classList.remove('pfull');const cd=ov.querySelector('#svCard');if(cd)cd.hidden=true;}if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen();}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
