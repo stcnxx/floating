@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 603（2026/11/07）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 605（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 603（2026/11/07）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 605（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -14224,15 +14224,8 @@ function skyvDraw(t){const ov=skyvEl(),c=ov.querySelector('#skyc');if(!S||C.scen
   for(let i=0;i<nC;i++){const sp=cloudTinted(i%6,ct),az0=hash(i,71,3)*360+t*(.15+wind*.06)*(.6+hash(i,72,3)*.8),alt=(clr?18:5)+Math.pow(hash(i,73,3),1.3)*(wet?50:38),p=P(az0,alt);
     const w=(wet?2.1:1.35)*sp.width*(.45+alt/70)*(.7+hash(i,74,3)*.6)*(Wc/400),h=w*sp.height/sp.width*(.75+alt/120);if(p.x+w/2<0||p.x-w/2>Wc)continue;x.globalAlpha=(clr?.75:.92);x.drawImage(sp,p.x-w/2,p.y-h*.6,w,h);}
   x.globalAlpha=1;
-    // below the horizon: the land seen from the island (toggle 地形), or the sea of clouds
-  if(SKX.terr){try{TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk);}catch(e){x.fillStyle='#0c1018';x.fillRect(0,hy,Wc,Hc-hy);}}else{
-// horizon: sea of clouds
-  const seaC=mixRgb(ct,sc2.hor,.35),s1=seaStrip(seaC,1),s2=seaStrip(mixRgb(seaC,[255,255,255],sa>0?.15:.05),2);
-  x.fillStyle=GD_lg(x,0,hy-6,0,Hc,[[0,rgbS(mixRgb(sc2.hor,seaC,.6))],[.35,rgbS(seaC)],[1,rgbS(seaC.map(v=>v*.7))]]);x.fillRect(0,hy-4,Wc,Hc-hy+4);
-  const drawStrip=(img,y,h,par)=>{const w=img.width*(h/img.height);const off=SKYV.A0/360*w*par+t*1.5*par;let sx=-(((off%w)+w)%w);for(;sx<Wc;sx+=w)x.drawImage(img,sx,y,w+.5,h);};
-  const s3=seaStrip(mixRgb(seaC,[255,255,255],sa>0?.25:.08),3);drawStrip(s1,hy-12,26,1);drawStrip(s2,hy+2,48,1.5);drawStrip(s3,hy+30,80,2.3);
-  if(sk.moon.alt>0&&sa<-4&&!wet){const p=P(sk.moon.az,sk.moon.alt);if(Math.abs(p.d)<SKYV.fov){const rg=x.createRadialGradient(p.x,hy+20,0,p.x,hy+20,120);rg.addColorStop(0,`rgba(255,250,220,${.25*sk.frac})`);rg.addColorStop(1,'rgba(255,250,220,0)');x.fillStyle=rg;x.fillRect(p.x-120,hy-10,240,140);}}
-    }
+    // below the horizon: the land seen from the island (地形 on: relief and names; off: plain ground)
+  try{TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk);}catch(e){x.fillStyle='#0c1018';x.fillRect(0,hy,Wc,Hc-hy);}
 // compass on the horizon
   x.font='600 11px "Zen Maru Gothic",sans-serif';x.textAlign='center';for(let a=0;a<360;a+=45){const p=P(a,0);if(p.x<-20||p.x>Wc+20)continue;x.fillStyle=a===0?'rgba(255,140,120,.95)':'rgba(255,255,255,.85)';x.strokeStyle='rgba(0,0,0,.35)';x.lineWidth=3;x.strokeText(AZ_JP[a/22.5],p.x,hy-14);x.fillText(AZ_JP[a/22.5],p.x,hy-14);x.fillRect(p.x-.5,hy-9,1,5);}
   {const cb=ov.querySelector('#svCall'),can=!!(M&&S.mate);cb.hidden=!can;if(can){const on=M.sit&&M.sit.yagura,coming=SKYV.called&&!on;cb.disabled=on||coming;svFit(cb,on?`${S.mate.name}も一緒`:coming?'向かってるよ…':`${S.mate.name}を呼ぶ`);}}
@@ -14247,7 +14240,7 @@ function skyvDraw(t){const ov=skyvEl(),c=ov.querySelector('#skyc');if(!S||C.scen
   {const fy=Hc*.93;x.fillStyle=GD_lg(x,0,fy,0,Hc,[[0,'#8a6038'],[1,'#4a301c']]);x.fillRect(0,fy,Wc,Hc-fy);x.fillStyle='rgba(255,230,190,.25)';x.fillRect(0,fy,Wc,1.2);
     x.strokeStyle='rgba(30,15,5,.45)';x.lineWidth=.8;for(let i=0;i<=10;i++){const xx=Wc*i/10;x.beginPath();x.moveTo(xx,fy);x.lineTo(Wc/2+(xx-Wc/2)*1.5,Hc);x.stroke();}}
   x.save();try{const o=charOpts();drawChar(x,hx,by,{...o,dir:'up',pose:'stand',moving:false,scale:SC});if(onM)drawChar(x,mx2,by,{sun:ACC_mateSun(),fun:M.fun||null,noOuter:false,level:1,sp:S.mate.sp,look:S.mate.look,outfit:M.outfit,dir:'up',moving:false,ph:0,frame:0,pose:'stand',scale:SC,seed:M.seed});}catch(e){}x.restore();
-  const dl=Math.max(0,Math.min(1,(sa+8)/16));if(dl<1){x.fillStyle=`rgba(10,16,48,${(1-dl)*.45})`;x.fillRect(0,Hc*.72,Wc,Hc*.28);}
+  const dl=Math.max(0,Math.min(1,(sa+8)/16));if(dl<1){const ng=x.createLinearGradient(0,Hc*.76,0,Hc*.9);ng.addColorStop(0,'rgba(10,16,48,0)');ng.addColorStop(1,`rgba(10,16,48,${(1-dl)*.45})`);x.fillStyle=ng;x.fillRect(0,Hc*.76,Wc,Hc*.24);}
   {const ts=typeof tagStyle==='function'?tagStyle():'white';if(ts!=='none'){x.save();x.font='700 13px "Zen Maru Gothic",sans-serif';x.textAlign='center';x.lineJoin='round';x.lineWidth=3.5;
     const tag=(n,cx)=>{const y=by-SC*37;x.strokeStyle=ts==='black'?'rgba(255,255,255,.9)':'rgba(20,16,40,.75)';x.fillStyle=ts==='black'?'#2a2340':'#fff';x.strokeText(n,cx,y);x.fillText(n,cx,y);};
     tag(S.name||'わたし',hx);if(onM)tag(S.mate.name||'同居人',mx2);x.restore();}}
@@ -27413,7 +27406,7 @@ const SKX_wk=u=>{try{return SKX_WKH.includes(new URL(u).hostname)?SKX_WK+encodeU
 async function SKX_get(u,ms,text){const tries=[SKX_wk(u),u,'https://corsproxy.io/?url='+encodeURIComponent(u)].filter(Boolean);let err;
   for(const t of tries){try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms||9000);try{const r=await fetch(t,{signal:c.signal,cache:'no-store'});if(r.status===404)return text?'':{_none:1};if(!r.ok)throw new Error('HTTP '+r.status);return text?await r.text():await r.json();}finally{clearTimeout(tm);}}catch(e){err=e;}}throw err||new Error('fetch');}
 try{SKX.plane=localStorage.getItem('fy-skyPlane')==='1';SKX.sat=localStorage.getItem('fy-skySat')==='1';}catch(e){}
-SKX.terr=true;   // v603: the land is always shown (the sea of clouds is gone)   // v599: terrain below the horizon on/off (off = the sea of clouds)
+SKX.terr=true;try{SKX.terr=localStorage.getItem('fy-skyTerr')!=='0';}catch(e){}   // v604: 地形 on = relief and names; off = plain ground (the sea of clouds is gone for good)   // v599: terrain below the horizon on/off (off = the sea of clouds)
 const SKX_save=()=>{try{localStorage.setItem('fy-skyPlane',SKX.plane?'1':'0');localStorage.setItem('fy-skySat',SKX.sat?'1':'0');}catch(e){}};
 function SKX_obs(){const l=astroLoc();return{lat:l.lat,lon:l.lon};}
 function SKX_look(la,lo,altm){const o=SKX_obs(),cl=Math.cos(o.lat*D2R),dN=(la-o.lat)*111320,dE=(lo-o.lon)*111320*cl,dist=Math.hypot(dN,dE);
@@ -27572,7 +27565,7 @@ function SKX_draw(x,P,Wc,hy,kk,sk,t){SKX.hits=[];
   lines.textContent='星座';lines.classList.add('tg');
   // v596: the cloud button is back — top row of five (おりる・夜・月・雲を消す・全画面), bottom row of four
   const terr=mk('svTerr','地形',1);terr.setAttribute('aria-pressed',SKX.terr?'true':'false');terr.onclick=e=>{e.stopPropagation();SKX.terr=!SKX.terr;terr.setAttribute('aria-pressed',SKX.terr?'true':'false');try{localStorage.setItem('fy-skyTerr',SKX.terr?'1':'0');}catch(_){}};
-  bar.innerHTML='';for(const b of(clr?[down,call,night,clr,moon,lines,pl,sat,full]:[down,call,night,moon,lines,pl,sat,full]))bar.appendChild(b);if(clr){clr.hidden=false;clr.style.display='';clr.classList.add('tg');clr.textContent='雲';clr.addEventListener('click',()=>{clr.textContent='雲';});}bar.classList.add('sv10');   // v600: one row of ten
+  bar.innerHTML='';for(const b of(clr?[down,call,night,clr,moon,lines,terr,pl,sat,full]:[down,call,night,moon,lines,terr,pl,sat,full]))bar.appendChild(b);if(clr){clr.hidden=false;clr.style.display='';clr.classList.add('tg');clr.textContent='雲';clr.addEventListener('click',()=>{clr.textContent='雲';});}bar.classList.add('sv10');   // v600: one row of ten
   const set=(b,v)=>b.setAttribute('aria-pressed',v?'true':'false');set(sat,SKX.sat);set(pl,SKX.plane);set(night,SKX.night);
   night.onclick=e=>{e.stopPropagation();SKX.night=!SKX.night;set(night,SKX.night);if(SKX.night){SKYV.msg=pick(['太陽がしずんだ空にしてみたよ','いまこの時刻の星空だって','昼でも星座が見える！']);SKYV.msgAt=performance.now();}};
   moon.onclick=e=>{e.stopPropagation();const sk=skyNow();SKYV.A0=sk.moon.az;SKYV.msg=sk.moon.alt>0?`月は${SKX_AZ(sk.moon.az)}の空、高さ${Math.round(sk.moon.alt)}°`:`月はいま地平線の下（${SKX_AZ(sk.moon.az)}の方）`;SKYV.msgAt=performance.now();};
@@ -27824,21 +27817,24 @@ async function TRN_compute(lat,lon){const z=10,R=100000,n=2**z,Re=6371000;
   for(let az=0;az<360;az++){const sx=Math.sin(az*D2R),sy=-Math.cos(az*D2R);let best=dip;
     for(let d=200;d<=R;d+=Math.max(60,d*.012)){const e=elevAt(cx+sx*d/mpp,cy+sy*d/mpp);if(e==null)continue;const ang=Math.atan2(e-d*d/(2*Re)*.87-eye,d)*R2D;if(ang>best)best=ang;}
     prof[az]=+best.toFixed(3);}
-  // place names (cities, towns, villages, mountains) — where they sit on the view and whether a ridge hides them
-  let places=null;try{const raw=await TRN_placesP;if(raw){places=[];}const cosl=Math.cos(lat*D2R);
-    for(const q of(raw||[])){const dy=(q.lat-lat)*111320,dx=(q.lon-lon)*111320*cosl,d=Math.hypot(dx,dy);if(d<250||d>R)continue;
+  // place names (cities, towns, villages, mountains) — worked out once the name lookup arrives; the land is shown right away without waiting for it (v604)
+  const placesP=TRN_placesP.then(raw=>{if(!raw)return{places:null,pp:true};const places=[],cosl=Math.cos(lat*D2R);
+    for(const q of raw){const dy=(q.lat-lat)*111320,dx=(q.lon-lon)*111320*cosl,d=Math.hypot(dx,dy);if(d<250||d>R)continue;
       const az=(Math.atan2(dx,dy)*R2D+360)%360,px=cx+dx/mpp,py=cy-dy/mpp,ge=q.mt&&q.h!=null?q.h:(elevAt(px,py)??0);
       const alt=Math.atan2(ge-d*d/(2*Re)*.87-eye,d)*R2D;if(rayMax(az,d)>alt+.05)continue;   // hidden behind nearer ground
-      places.push({n:q.n,mt:q.mt,h:q.mt?Math.round(ge):null,pop:q.pop||0,az:+az.toFixed(2),alt:+alt.toFixed(3),d:Math.round(d)});}}catch(e){}
-  let raw0=null;try{raw0=await TRN_placesP;}catch(e){}
-  return{prof,elev:h0,dip,places,pp:!raw0||!!raw0.partial};}
+      places.push({n:q.n,mt:q.mt,h:q.mt?Math.round(ge):null,pop:q.pop||0,az:+az.toFixed(2),alt:+alt.toFixed(3),d:Math.round(d)});}
+    return{places,pp:!!raw.partial};}).catch(()=>({places:null,pp:true}));
+  return{prof,elev:h0,dip,placesP};}
 function TRN_load(){const L=astroLoc(),key=L.lat.toFixed(2)+','+L.lon.toFixed(2);if(TRN.key===key&&(TRN.prof||TRN.busy))return;
-  if(TRN.key!==key){TRN.key=key;TRN.prof=null;TRN.fail=0;
-    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===6&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];return;}}catch(e){}}
+  if(TRN.key!==key){TRN.key=key;TRN.prof=null;TRN.places=null;TRN.fail=0;
+    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===7&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];return;}}catch(e){}}
   if(TRN.fail&&Date.now()-TRN.fail<120000)return;
-  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;TRN.places=r.places;try{localStorage.setItem('fy-terr',JSON.stringify({key,v:6,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:r.places,pp:r.pp}));}catch(e){}})
+  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;
+    const sv=(pl,pp)=>{try{localStorage.setItem('fy-terr',JSON.stringify({key,v:7,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:pl,pp}));}catch(e){}};
+    sv(null,true);r.placesP.then(q=>{if(TRN.key!==key)return;TRN.places=q.places;sv(q.places,q.pp);});})
     .catch(()=>{TRN.fail=Date.now();}).finally(()=>{TRN.busy=false;});}
-function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,day=Math.max(0,Math.min(1,(sa+6)/12));
+function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,   // v605: the relief is always drawn; 地形 only switches the place / mountain names
+  day=Math.max(0,Math.min(1,(sa+6)/12));
   const dip=TRN.dip!=null?TRN.dip:-1.43;
   const altAt=az=>{if(!pr)return dip;az=((az%360)+360)%360;const i=Math.floor(az),f=az-i;return pr[i%360]*(1-f)+pr[(i+1)%360]*f;};
   // haze band along the true horizon (the land far below fades into the air)
@@ -27846,7 +27842,7 @@ function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,day=Math
   const top=mixRgb(mixRgb(sc2.hor,[10,14,24],.72),[70,88,72],day*.55),bot=mixRgb(top,[0,0,0],.55);
   x.fillStyle=GD_lg(x,0,hy-10,0,Hc,[[0,rgbS(mixRgb(top,sc2.hor,.35))],[.12,rgbS(top)],[1,rgbS(bot)]]);x.fill();
   x.strokeStyle=rgbS(mixRgb(sc2.hor,[255,255,255],.15),.35);x.lineWidth=1;x.stroke();
-  try{TRN_labels(x,Wc,Hc,hy,kk,sa);}catch(e){}
+  if(SKX.terr)try{TRN_labels(x,Wc,Hc,hy,kk,sa);}catch(e){}
 }
 
 /* ===== v598: names on the land below — cities / towns / villages and mountains, from Wikidata (one query each, cached with the terrain) ===== */
@@ -27893,7 +27889,7 @@ function TRN_labels(x,Wc,Hc,hy,kk,sa){const L=TRN.places;if(!L||!L.length)return
 
 /* ===== v600: sky-view buttons in one row of ten with short captions (同居人・雲) ===== */
 (function(){const st=document.createElement('style');
-  st.textContent='#skyv .sv-bar.sv10{grid-template-columns:repeat(9,minmax(0,1fr))!important;gap:3px!important;left:5px!important;right:5px!important}'+
+  st.textContent='#skyv .sv-bar.sv10{grid-template-columns:repeat(10,minmax(0,1fr))!important;gap:3px!important;left:5px!important;right:5px!important}'+
     '#skyv .sv-bar.sv10 button{grid-column:auto!important;height:30px;padding:0 1px!important;font-size:clamp(8px,2.35vw,10.5px)!important;letter-spacing:-.02em;border-radius:7px!important}'+
     '#skyv .sv-bar.sv10 button span{font-size:inherit!important}'+
     '#skyv .sv-bar.sv10 #svCall{padding:0 1px!important;white-space:nowrap!important}#skyv .sv-bar.sv10 #svCall span{display:inline!important;word-break:keep-all!important;overflow:visible!important}';
