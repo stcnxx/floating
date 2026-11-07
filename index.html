@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 605（2026/11/07）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 606（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 605（2026/11/07）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 606（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -27534,7 +27534,7 @@ function SKX_status(sk){const parts=[];
 function SKX_card(h){const ov=document.getElementById('skyv');if(!ov)return;let c=ov.querySelector('#svCard');if(!c){c=document.createElement('div');c.id='svCard';ov.appendChild(c);}
   const row=(k,v)=>`<div><span>${k}</span><b>${v}</b></div>`,esc=v=>String(v).replace(/[<>&]/g,'');let h2='';
   if(h.kind==='plane'){const a=h.o,al=SKX_airline(a.cs),rt=SKX.routes[a.cs],st=SKX.routeSt[a.cs];
-    h2=`<h4>✈ ${esc(a.cs||a.reg||'機体')}</h4>`+(al?row('航空会社',esc(al.name)):'')+row('路線',rt?esc(rt.join(' → ')):st==='ask'?'確認中…':'不明')+row('高度',`${Math.round(a.alt).toLocaleString()} m（島より${Math.round(a.alt-SKX_H).toLocaleString()} m 上）`)+row('速度',`${Math.round(a.gs*3.6)} km/h`)+row('距離',`${(h.L.dist/1000).toFixed(1)} km・${SKX_AZ(h.L.az)}の空 ${Math.round(h.L.alt)}°`)+(a.type?row('機種',esc(a.type)):'')+(a.reg?row('登録記号',esc(a.reg)):'');}
+    h2=`<h4>✈ ${esc(a.cs||a.reg||'機体')}</h4>`+(al?row('航空会社',esc(al.name)):'')+row('路線',rt?esc(rt.map(SKX_apJa).join(' → ')):st==='ask'?'確認中…':'不明')+row('高度',`${Math.round(a.alt).toLocaleString()} m（島より${Math.round(a.alt-SKX_H).toLocaleString()} m 上）`)+row('速度',`${Math.round(a.gs*3.6)} km/h`)+row('距離',`${(h.L.dist/1000).toFixed(1)} km・${SKX_AZ(h.L.az)}の空 ${Math.round(h.L.alt)}°`)+(a.type?row('機種',esc(a.type)):'')+(a.reg?row('登録記号',esc(a.reg)):'');}
   else{const s=h.o,L=h.L;h2=`<h4>🛰 ${esc(s.label)}</h4>`+row('位置',`${SKX_AZ(L.az)}の空 高さ${Math.round(L.alt)}°`)+row('距離',`${Math.round(L.range).toLocaleString()} km`)+row('見え方',L.shadow?'地球の影に入っていて見えません':L.sunAlt>=-6?'空が明るくて見えません':'太陽の光を受けて光っています');}
   c.innerHTML=h2+'<button type="button" class="svx">とじる</button>';c.hidden=false;c.querySelector('.svx').onclick=e=>{e.stopPropagation();c.hidden=true;};}
 function SKX_draw(x,P,Wc,hy,kk,sk,t){SKX.hits=[];
@@ -27934,6 +27934,19 @@ function TRN_labels(x,Wc,Hc,hy,kk,sa){const L=TRN.places;if(!L||!L.length)return
       if(document.getElementById('olcQ').value.trim()!==q)return;cands=rs;if(!rs.length){list.innerHTML='<li class="h">見つかりませんでした。駅名や市区町村名で試してください</li>';return;}draw();},350);});
   {const RO=renderOv;renderOv=function(){const r=RO.apply(this,arguments);try{render();}catch(e){}return r;};}
 })();
+
+/* ===== v606: airport names in Japanese on the plane info card (HND → 羽田) ===== */
+const SKX_AP={HND:'羽田',NRT:'成田',KIX:'関西',ITM:'伊丹',UKB:'神戸',NGO:'中部',NKM:'名古屋小牧',CTS:'新千歳',OKD:'丘珠',HKD:'函館',AKJ:'旭川',OBO:'帯広',KUH:'釧路',MMB:'女満別',WKJ:'稚内',SHB:'中標津',MBE:'紋別',RIS:'利尻',OKA:'那覇',ISG:'石垣',MMY:'宮古',SHI:'下地島',UEO:'久米島',OGN:'与那国',KTD:'北大東',MMD:'南大東',
+ FUK:'福岡',KKJ:'北九州',HSG:'佐賀',NGS:'長崎',KMJ:'熊本',OIT:'大分',KMI:'宮崎',KOJ:'鹿児島',TSJ:'対馬',IKI:'壱岐',FUJ:'五島福江',ASJ:'奄美',TKN:'徳之島',OKE:'沖永良部',RNJ:'与論',KKX:'喜界',TNE:'種子島',KUM:'屋久島',
+ HIJ:'広島',IWK:'岩国',UBJ:'山口宇部',OKJ:'岡山',TTJ:'鳥取',YGJ:'米子',IZO:'出雲',IWJ:'石見',OKI:'隠岐',TAK:'高松',MYJ:'松山',KCZ:'高知',TKS:'徳島',
+ SDJ:'仙台',AOJ:'青森',MSJ:'三沢',HNA:'花巻',AXT:'秋田',ONJ:'大館能代',GAJ:'山形',SYO:'庄内',FKS:'福島',KIJ:'新潟',TOY:'富山',KMQ:'小松',NTQ:'能登',FSZ:'静岡',MMJ:'松本',IBR:'茨城',HAC:'八丈島',OIM:'大島',MYE:'三宅島',SHM:'南紀白浜',
+ ICN:'ソウル仁川',GMP:'ソウル金浦',PUS:'釜山',CJU:'済州',TPE:'台北桃園',TSA:'台北松山',KHH:'高雄',RMQ:'台中',HKG:'香港',MFM:'マカオ',PEK:'北京首都',PKX:'北京大興',PVG:'上海浦東',SHA:'上海虹橋',CAN:'広州',SZX:'深圳',TAO:'青島',DLC:'大連',CTU:'成都',XIY:'西安',
+ BKK:'バンコク',DMK:'バンコク・ドンムアン',SIN:'シンガポール',KUL:'クアラルンプール',CGK:'ジャカルタ',DPS:'バリ',MNL:'マニラ',CEB:'セブ',SGN:'ホーチミン',HAN:'ハノイ',DAD:'ダナン',PNH:'プノンペン',RGN:'ヤンゴン',DEL:'デリー',BOM:'ムンバイ',BLR:'ベンガルール',
+ GUM:'グアム',SPN:'サイパン',HNL:'ホノルル',KOA:'コナ',SYD:'シドニー',MEL:'メルボルン',BNE:'ブリスベン',CNS:'ケアンズ',PER:'パース',AKL:'オークランド',NOU:'ヌーメア',PPT:'タヒチ',
+ LAX:'ロサンゼルス',SFO:'サンフランシスコ',SEA:'シアトル',SJC:'サンノゼ',SAN:'サンディエゴ',LAS:'ラスベガス',JFK:'ニューヨークJFK',EWR:'ニューアーク',ORD:'シカゴ',DFW:'ダラス',IAH:'ヒューストン',ATL:'アトランタ',BOS:'ボストン',IAD:'ワシントン',DTW:'デトロイト',MSP:'ミネアポリス',DEN:'デンバー',ANC:'アンカレッジ',YVR:'バンクーバー',YYZ:'トロント',MEX:'メキシコシティ',
+ LHR:'ロンドン',CDG:'パリ',FRA:'フランクフルト',MUC:'ミュンヘン',AMS:'アムステルダム',HEL:'ヘルシンキ',CPH:'コペンハーゲン',ARN:'ストックホルム',ZRH:'チューリッヒ',VIE:'ウィーン',FCO:'ローマ',MXP:'ミラノ',MAD:'マドリード',BCN:'バルセロナ',IST:'イスタンブール',WAW:'ワルシャワ',
+ DXB:'ドバイ',AUH:'アブダビ',DOH:'ドーハ',SVO:'モスクワ',VVO:'ウラジオストク',ULN:'ウランバートル',TAS:'タシケント'};
+function SKX_apJa(c){const k=String(c||'').toUpperCase();return SKX_AP[k]||k;}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
