@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 600（2026/11/07）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 602（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 600（2026/11/07）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 602（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -27830,12 +27830,13 @@ async function TRN_compute(lat,lon){const z=10,R=100000,n=2**z,Re=6371000;
       const az=(Math.atan2(dx,dy)*R2D+360)%360,px=cx+dx/mpp,py=cy-dy/mpp,ge=q.mt&&q.h!=null?q.h:(elevAt(px,py)??0);
       const alt=Math.atan2(ge-d*d/(2*Re)*.87-eye,d)*R2D;if(rayMax(az,d)>alt+.05)continue;   // hidden behind nearer ground
       places.push({n:q.n,mt:q.mt,h:q.mt?Math.round(ge):null,pop:q.pop||0,az:+az.toFixed(2),alt:+alt.toFixed(3),d:Math.round(d)});}}catch(e){}
-  return{prof,elev:h0,dip,places};}
+  let raw0=null;try{raw0=await TRN_placesP;}catch(e){}
+  return{prof,elev:h0,dip,places,pp:!raw0||!!raw0.partial};}
 function TRN_load(){const L=astroLoc(),key=L.lat.toFixed(2)+','+L.lon.toFixed(2);if(TRN.key===key&&(TRN.prof||TRN.busy))return;
   if(TRN.key!==key){TRN.key=key;TRN.prof=null;TRN.fail=0;
-    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===3&&Date.now()-c.t<30*864e5&&(c.places||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];return;}}catch(e){}}
+    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===5&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];return;}}catch(e){}}
   if(TRN.fail&&Date.now()-TRN.fail<120000)return;
-  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;TRN.places=r.places;try{localStorage.setItem('fy-terr',JSON.stringify({key,v:3,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:r.places}));}catch(e){}})
+  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;TRN.places=r.places;try{localStorage.setItem('fy-terr',JSON.stringify({key,v:5,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:r.places,pp:r.pp}));}catch(e){}})
     .catch(()=>{TRN.fail=Date.now();}).finally(()=>{TRN.busy=false;});}
 function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,day=Math.max(0,Math.min(1,(sa+6)/12));
   const dip=TRN.dip!=null?TRN.dip:-1.43;
@@ -27850,25 +27851,30 @@ function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,day=Math
 
 /* ===== v598: names on the land below — cities / towns / villages and mountains, from Wikidata (one query each, cached with the terrain) ===== */
 async function TRN_sparql(q){const u='https://query.wikidata.org/sparql?format=json&query='+encodeURIComponent(q);
-  const c=new AbortController(),tm=setTimeout(()=>c.abort(),20000);try{const r=await fetch(u,{signal:c.signal,headers:{Accept:'application/sparql-results+json'}});if(!r.ok)throw new Error('HTTP '+r.status);return(await r.json()).results.bindings;}finally{clearTimeout(tm);}}
+  const c=new AbortController(),tm=setTimeout(()=>c.abort(),45000);try{const r=await fetch(u,{signal:c.signal,headers:{Accept:'application/sparql-results+json'}});if(!r.ok)throw new Error('HTTP '+r.status);return(await r.json()).results.bindings;}finally{clearTimeout(tm);}}
 async function TRN_places(lat,lon,km){const ctr=`"Point(${lon.toFixed(4)} ${lat.toFixed(4)})"^^geo:wktLiteral`;
-  const around=`SERVICE wikibase:around{?it wdt:P625 ?loc. bd:serviceParam wikibase:center ${ctr}; wikibase:radius "${km}"; wikibase:distance ?dist.}`;
+  const around=r=>`SERVICE wikibase:around{?it wdt:P625 ?loc. bd:serviceParam wikibase:center ${ctr}; wikibase:radius "${r}"; wikibase:distance ?dist.}`;
   const lab=`?it rdfs:label ?n. FILTER(lang(?n)="ja")`;
-  const qc=`SELECT DISTINCT ?n ?loc ?pop WHERE{${around} VALUES ?c{wd:Q494721 wd:Q1059478 wd:Q4174776 wd:Q5327704 wd:Q1122846 wd:Q15700834 wd:Q52350616} ?it wdt:P31 ?c. ${lab} OPTIONAL{?it wdt:P1082 ?pop}}`;
-  const qm=`SELECT DISTINCT ?n ?loc ?h WHERE{${around} VALUES ?c{wd:Q8502 wd:Q8072 wd:Q169358 wd:Q1595289 wd:Q54050} ?it wdt:P31 ?c; wdt:P2044 ?h. FILTER(?h>=300||?dist<12) ${lab}}`;
+  // v601: towns within 50 km (a lighter query — the 100 km one could time out around Tokyo); hills nearby are included even without a recorded height
+  // v602: towns are looked up from the list of Japan's municipalities (about 2,000 items) and filtered by distance — much lighter than a map search around a big city
+  const qc=`SELECT DISTINCT ?n ?loc ?pop WHERE{VALUES ?c{wd:Q494721 wd:Q1059478 wd:Q4174776 wd:Q5327704 wd:Q1122846 wd:Q15700834 wd:Q52350616 wd:Q1137833} ?it wdt:P31 ?c; wdt:P625 ?loc. FILTER(geof:distance(?loc,${ctr})<60) FILTER NOT EXISTS{?it wdt:P576 ?e} ${lab} OPTIONAL{?it wdt:P1082 ?pop}}`;
+  const qm=`SELECT DISTINCT ?n ?loc ?h WHERE{${around(km)} VALUES ?c{wd:Q8502 wd:Q8072 wd:Q169358 wd:Q1595289 wd:Q54050 wd:Q207326} ?it wdt:P31 ?c. OPTIONAL{?it wdt:P2044 ?h} FILTER(?dist<12||(BOUND(?h)&&?h>=300)) ${lab}}`;
   const pt=s=>{const m=/Point\(([-\d.]+) ([-\d.]+)\)/.exec(s||'');return m?{lon:+m[1],lat:+m[2]}:null;};
-  let bad=0;const [cs,ms]=await Promise.all([TRN_sparql(qc).catch(()=>{bad++;return[];}),TRN_sparql(qm).catch(()=>{bad++;return[];})]);if(bad===2)return null;const out=[],seen=new Set();
-  for(const b of cs){const p=pt(b.loc&&b.loc.value),n=b.n&&b.n.value;if(!p||!n||seen.has(n))continue;seen.add(n);out.push({n,lat:p.lat,lon:p.lon,pop:b.pop?+b.pop.value:0,mt:0});}
-  for(const b of ms){const p=pt(b.loc&&b.loc.value),n=b.n&&b.n.value;if(!p||!n||seen.has(n))continue;seen.add(n);out.push({n,lat:p.lat,lon:p.lon,h:+b.h.value,mt:1});}
-  return out;}
+  let okC=true,okM=true;const [cs,ms]=await Promise.all([TRN_sparql(qc).catch(()=>{okC=false;return[];}),TRN_sparql(qm).catch(()=>{okM=false;return[];})]);
+  if(!okC&&!okM)return null;const out=[],seen=new Set();
+  // the same name can belong to different places (愛宕山 in Tokyo and in Chiba) — tell them apart by position
+  const key=(n,p)=>n+'@'+p.lat.toFixed(2)+','+p.lon.toFixed(2);
+  for(const b of cs){const p=pt(b.loc&&b.loc.value),n=b.n&&b.n.value;if(!p||!n||seen.has(key(n,p)))continue;seen.add(key(n,p));out.push({n,lat:p.lat,lon:p.lon,pop:b.pop?+b.pop.value:0,mt:0});}
+  for(const b of ms){const p=pt(b.loc&&b.loc.value),n=b.n&&b.n.value;if(!p||!n||seen.has(key(n,p)))continue;seen.add(key(n,p));out.push({n,lat:p.lat,lon:p.lon,h:b.h?+b.h.value:null,mt:1});}
+  out.partial=!(okC&&okM);return out;}
 function TRN_labels(x,Wc,Hc,hy,kk,sa){const L=TRN.places;if(!L||!L.length)return;const day=sa>-4,half=SKYV.fov/2+4,boxes=[];
   const hit=b=>boxes.some(q=>b.x<q.x+q.w&&q.x<b.x+b.w&&b.y<q.y+q.h&&q.y<b.y+b.h);
   // mountains first (highest first), then towns by population, nearer ones winning ties
-  const ms=L.filter(p=>p.mt).sort((a,b)=>b.h-a.h),cs=L.filter(p=>!p.mt).sort((a,b)=>(b.pop-a.pop)||(a.d-b.d));
+  const ms=L.filter(p=>p.mt).sort((a,b)=>((a.d<12000)-(b.d<12000))*-1||b.h-a.h),cs=L.filter(p=>!p.mt).sort((a,b)=>(b.pop-a.pop)||(a.d-b.d));
   // keep clear of the compass marks on the horizon
   for(let a=0;a<360;a+=45){const d=((a-SKYV.A0+540)%360)-180;if(Math.abs(d)>half+10)continue;const px=Wc/2+d*kk;boxes.push({x:px-16,y:hy-27,w:32,h:24});}
   x.save();x.textAlign='center';x.lineJoin='round';let nM=0,nC=0;
-  for(const p of ms){if(nM>=10)break;const d=((p.az-SKYV.A0+540)%360)-180;if(Math.abs(d)>half)continue;const px=Wc/2+d*kk,py=hy-p.alt*kk;
+  for(const p of ms){if(nM>=10&&p.d>=12000)break;const d=((p.az-SKYV.A0+540)%360)-180;if(Math.abs(d)>half)continue;const px=Wc/2+d*kk,py=hy-p.alt*kk;
     const tx=`${p.n} ${p.h}m`;x.font='700 10px "Zen Maru Gothic",sans-serif';const w=x.measureText(tx).width+6,b={x:px-w/2,y:py+2,w,h:15};if(hit(b))continue;boxes.push(b);nM++;
     x.fillStyle=day?'rgba(255,255,255,.9)':'rgba(255,225,190,.85)';x.beginPath();x.moveTo(px,py-6);x.lineTo(px-3.5,py);x.lineTo(px+3.5,py);x.closePath();x.fill();
     x.lineWidth=2.6;x.strokeStyle='rgba(0,0,0,.6)';x.strokeText(tx,px,py+13);x.fillStyle=day?'#fff2dc':'#ffe2c0';x.fillText(tx,px,py+13);}
