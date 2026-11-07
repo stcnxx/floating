@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 598（2026/11/07）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 600（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 598（2026/11/07）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 600（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -14224,8 +14224,15 @@ function skyvDraw(t){const ov=skyvEl(),c=ov.querySelector('#skyc');if(!S||C.scen
   for(let i=0;i<nC;i++){const sp=cloudTinted(i%6,ct),az0=hash(i,71,3)*360+t*(.15+wind*.06)*(.6+hash(i,72,3)*.8),alt=(clr?18:5)+Math.pow(hash(i,73,3),1.3)*(wet?50:38),p=P(az0,alt);
     const w=(wet?2.1:1.35)*sp.width*(.45+alt/70)*(.7+hash(i,74,3)*.6)*(Wc/400),h=w*sp.height/sp.width*(.75+alt/120);if(p.x+w/2<0||p.x-w/2>Wc)continue;x.globalAlpha=(clr?.75:.92);x.drawImage(sp,p.x-w/2,p.y-h*.6,w,h);}
   x.globalAlpha=1;
-    // below the horizon: the land seen from the island
-  try{TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk);}catch(e){x.fillStyle='#0c1018';x.fillRect(0,hy,Wc,Hc-hy);}
+    // below the horizon: the land seen from the island (toggle 地形), or the sea of clouds
+  if(SKX.terr){try{TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk);}catch(e){x.fillStyle='#0c1018';x.fillRect(0,hy,Wc,Hc-hy);}}else{
+// horizon: sea of clouds
+  const seaC=mixRgb(ct,sc2.hor,.35),s1=seaStrip(seaC,1),s2=seaStrip(mixRgb(seaC,[255,255,255],sa>0?.15:.05),2);
+  x.fillStyle=GD_lg(x,0,hy-6,0,Hc,[[0,rgbS(mixRgb(sc2.hor,seaC,.6))],[.35,rgbS(seaC)],[1,rgbS(seaC.map(v=>v*.7))]]);x.fillRect(0,hy-4,Wc,Hc-hy+4);
+  const drawStrip=(img,y,h,par)=>{const w=img.width*(h/img.height);const off=SKYV.A0/360*w*par+t*1.5*par;let sx=-(((off%w)+w)%w);for(;sx<Wc;sx+=w)x.drawImage(img,sx,y,w+.5,h);};
+  const s3=seaStrip(mixRgb(seaC,[255,255,255],sa>0?.25:.08),3);drawStrip(s1,hy-12,26,1);drawStrip(s2,hy+2,48,1.5);drawStrip(s3,hy+30,80,2.3);
+  if(sk.moon.alt>0&&sa<-4&&!wet){const p=P(sk.moon.az,sk.moon.alt);if(Math.abs(p.d)<SKYV.fov){const rg=x.createRadialGradient(p.x,hy+20,0,p.x,hy+20,120);rg.addColorStop(0,`rgba(255,250,220,${.25*sk.frac})`);rg.addColorStop(1,'rgba(255,250,220,0)');x.fillStyle=rg;x.fillRect(p.x-120,hy-10,240,140);}}
+    }
 // compass on the horizon
   x.font='600 11px "Zen Maru Gothic",sans-serif';x.textAlign='center';for(let a=0;a<360;a+=45){const p=P(a,0);if(p.x<-20||p.x>Wc+20)continue;x.fillStyle=a===0?'rgba(255,140,120,.95)':'rgba(255,255,255,.85)';x.strokeStyle='rgba(0,0,0,.35)';x.lineWidth=3;x.strokeText(AZ_JP[a/22.5],p.x,hy-14);x.fillText(AZ_JP[a/22.5],p.x,hy-14);x.fillRect(p.x-.5,hy-9,1,5);}
   {const cb=ov.querySelector('#svCall'),can=!!(M&&S.mate);cb.hidden=!can;if(can){const on=M.sit&&M.sit.yagura,coming=SKYV.called&&!on;cb.disabled=on||coming;svFit(cb,on?`${S.mate.name}も一緒`:coming?'向かってるよ…':`${S.mate.name}を呼ぶ`);}}
@@ -27406,6 +27413,7 @@ const SKX_wk=u=>{try{return SKX_WKH.includes(new URL(u).hostname)?SKX_WK+encodeU
 async function SKX_get(u,ms,text){const tries=[SKX_wk(u),u,'https://corsproxy.io/?url='+encodeURIComponent(u)].filter(Boolean);let err;
   for(const t of tries){try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms||9000);try{const r=await fetch(t,{signal:c.signal,cache:'no-store'});if(r.status===404)return text?'':{_none:1};if(!r.ok)throw new Error('HTTP '+r.status);return text?await r.text():await r.json();}finally{clearTimeout(tm);}}catch(e){err=e;}}throw err||new Error('fetch');}
 try{SKX.plane=localStorage.getItem('fy-skyPlane')==='1';SKX.sat=localStorage.getItem('fy-skySat')==='1';}catch(e){}
+SKX.terr=true;try{SKX.terr=localStorage.getItem('fy-skyTerr')!=='0';}catch(e){}   // v599: terrain below the horizon on/off (off = the sea of clouds)
 const SKX_save=()=>{try{localStorage.setItem('fy-skyPlane',SKX.plane?'1':'0');localStorage.setItem('fy-skySat',SKX.sat?'1':'0');}catch(e){}};
 function SKX_obs(){const l=astroLoc();return{lat:l.lat,lon:l.lon};}
 function SKX_look(la,lo,altm){const o=SKX_obs(),cl=Math.cos(o.lat*D2R),dN=(la-o.lat)*111320,dE=(lo-o.lon)*111320*cl,dist=Math.hypot(dN,dE);
@@ -27547,7 +27555,7 @@ function SKX_draw(x,P,Wc,hy,kk,sk,t){SKX.hits=[];
 {const SE=skyvEl;skyvEl=function(){const had=!!document.getElementById('skyv'),ov=SE.apply(this,arguments);if(had||ov._skx)return ov;ov._skx=1;
   const st=document.createElement('style');st.textContent=`#skyv .sv-bar{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px!important;bottom:10px!important}
 #skyv .sv-bar button{height:32px;border-radius:8px!important;padding:2px 3px!important;font-size:clamp(9px,2.9vw,12px)!important;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:hidden;background:rgba(24,22,44,.62)!important}
-#skyv .sv-bar.sv5{grid-template-columns:repeat(20,minmax(0,1fr))}#skyv .sv-bar.sv5 button{grid-column:span 4}#skyv .sv-bar.sv5 button:nth-child(n+6){grid-column:span 5}
+#skyv .sv-bar.sv5{grid-template-columns:repeat(60,minmax(0,1fr))}#skyv .sv-bar.sv5 button{grid-column:span 12}#skyv .sv-bar.sv5 button:nth-child(n+6){grid-column:span 11}#skyv .sv-bar.sv5 #svCall{grid-column:span 16}
 #skyv .sv-bar button.tg[aria-pressed=true]{background:rgba(70,130,235,.78)!important;border-color:rgba(170,205,255,.9)!important}
 #skyv #svCall span{-webkit-line-clamp:1!important}
 #skyv .sv-hint{bottom:94px!important}
@@ -27563,7 +27571,8 @@ function SKX_draw(x,P,Wc,hy,kk,sk,t){SKX.hits=[];
   const night=mk('svNight','夜',1),moon=mk('svMoon','月'),sat=mk('svSat','人工衛星',1),pl=mk('svPlane','飛行機',1),full=mk('svFull','全画面',1);
   lines.textContent='星座';lines.classList.add('tg');
   // v596: the cloud button is back — top row of five (おりる・夜・月・雲を消す・全画面), bottom row of four
-  bar.innerHTML='';for(const b of(clr?[down,night,moon,clr,full,call,lines,sat,pl]:[down,call,night,moon,lines,sat,pl,full]))bar.appendChild(b);if(clr){clr.hidden=false;clr.style.display='';clr.classList.add('tg');bar.classList.add('sv5');}
+  const terr=mk('svTerr','地形',1);terr.setAttribute('aria-pressed',SKX.terr?'true':'false');terr.onclick=e=>{e.stopPropagation();SKX.terr=!SKX.terr;terr.setAttribute('aria-pressed',SKX.terr?'true':'false');try{localStorage.setItem('fy-skyTerr',SKX.terr?'1':'0');}catch(_){}};
+  bar.innerHTML='';for(const b of(clr?[down,call,night,clr,moon,lines,terr,pl,sat,full]:[down,call,night,moon,lines,terr,pl,sat,full]))bar.appendChild(b);if(clr){clr.hidden=false;clr.style.display='';clr.classList.add('tg');clr.textContent='雲';clr.addEventListener('click',()=>{clr.textContent='雲';});}bar.classList.add('sv10');   // v600: one row of ten
   const set=(b,v)=>b.setAttribute('aria-pressed',v?'true':'false');set(sat,SKX.sat);set(pl,SKX.plane);set(night,SKX.night);
   night.onclick=e=>{e.stopPropagation();SKX.night=!SKX.night;set(night,SKX.night);if(SKX.night){SKYV.msg=pick(['太陽がしずんだ空にしてみたよ','いまこの時刻の星空だって','昼でも星座が見える！']);SKYV.msgAt=performance.now();}};
   moon.onclick=e=>{e.stopPropagation();const sk=skyNow();SKYV.A0=sk.moon.az;SKYV.msg=sk.moon.alt>0?`月は${SKX_AZ(sk.moon.az)}の空、高さ${Math.round(sk.moon.alt)}°`:`月はいま地平線の下（${SKX_AZ(sk.moon.az)}の方）`;SKYV.msgAt=performance.now();};
@@ -27817,7 +27826,7 @@ async function TRN_compute(lat,lon){const z=10,R=100000,n=2**z,Re=6371000;
     prof[az]=+best.toFixed(3);}
   // place names (cities, towns, villages, mountains) — where they sit on the view and whether a ridge hides them
   let places=null;try{const raw=await TRN_placesP;if(raw){places=[];}const cosl=Math.cos(lat*D2R);
-    for(const q of(raw||[])){const dy=(q.lat-lat)*111320,dx=(q.lon-lon)*111320*cosl,d=Math.hypot(dx,dy);if(d<800||d>R)continue;
+    for(const q of(raw||[])){const dy=(q.lat-lat)*111320,dx=(q.lon-lon)*111320*cosl,d=Math.hypot(dx,dy);if(d<250||d>R)continue;
       const az=(Math.atan2(dx,dy)*R2D+360)%360,px=cx+dx/mpp,py=cy-dy/mpp,ge=q.mt&&q.h!=null?q.h:(elevAt(px,py)??0);
       const alt=Math.atan2(ge-d*d/(2*Re)*.87-eye,d)*R2D;if(rayMax(az,d)>alt+.05)continue;   // hidden behind nearer ground
       places.push({n:q.n,mt:q.mt,h:q.mt?Math.round(ge):null,pop:q.pop||0,az:+az.toFixed(2),alt:+alt.toFixed(3),d:Math.round(d)});}}catch(e){}
@@ -27843,10 +27852,10 @@ function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,day=Math
 async function TRN_sparql(q){const u='https://query.wikidata.org/sparql?format=json&query='+encodeURIComponent(q);
   const c=new AbortController(),tm=setTimeout(()=>c.abort(),20000);try{const r=await fetch(u,{signal:c.signal,headers:{Accept:'application/sparql-results+json'}});if(!r.ok)throw new Error('HTTP '+r.status);return(await r.json()).results.bindings;}finally{clearTimeout(tm);}}
 async function TRN_places(lat,lon,km){const ctr=`"Point(${lon.toFixed(4)} ${lat.toFixed(4)})"^^geo:wktLiteral`;
-  const around=`SERVICE wikibase:around{?it wdt:P625 ?loc. bd:serviceParam wikibase:center ${ctr}; wikibase:radius "${km}".}`;
+  const around=`SERVICE wikibase:around{?it wdt:P625 ?loc. bd:serviceParam wikibase:center ${ctr}; wikibase:radius "${km}"; wikibase:distance ?dist.}`;
   const lab=`?it rdfs:label ?n. FILTER(lang(?n)="ja")`;
   const qc=`SELECT DISTINCT ?n ?loc ?pop WHERE{${around} VALUES ?c{wd:Q494721 wd:Q1059478 wd:Q4174776 wd:Q5327704 wd:Q1122846 wd:Q15700834 wd:Q52350616} ?it wdt:P31 ?c. ${lab} OPTIONAL{?it wdt:P1082 ?pop}}`;
-  const qm=`SELECT DISTINCT ?n ?loc ?h WHERE{${around} VALUES ?c{wd:Q8502 wd:Q8072 wd:Q169358 wd:Q1595289} ?it wdt:P31 ?c; wdt:P2044 ?h. FILTER(?h>=300) ${lab}}`;
+  const qm=`SELECT DISTINCT ?n ?loc ?h WHERE{${around} VALUES ?c{wd:Q8502 wd:Q8072 wd:Q169358 wd:Q1595289 wd:Q54050} ?it wdt:P31 ?c; wdt:P2044 ?h. FILTER(?h>=300||?dist<12) ${lab}}`;
   const pt=s=>{const m=/Point\(([-\d.]+) ([-\d.]+)\)/.exec(s||'');return m?{lon:+m[1],lat:+m[2]}:null;};
   let bad=0;const [cs,ms]=await Promise.all([TRN_sparql(qc).catch(()=>{bad++;return[];}),TRN_sparql(qm).catch(()=>{bad++;return[];})]);if(bad===2)return null;const out=[],seen=new Set();
   for(const b of cs){const p=pt(b.loc&&b.loc.value),n=b.n&&b.n.value;if(!p||!n||seen.has(n))continue;seen.add(n);out.push({n,lat:p.lat,lon:p.lon,pop:b.pop?+b.pop.value:0,mt:0});}
@@ -27863,13 +27872,23 @@ function TRN_labels(x,Wc,Hc,hy,kk,sa){const L=TRN.places;if(!L||!L.length)return
     const tx=`${p.n} ${p.h}m`;x.font='700 10px "Zen Maru Gothic",sans-serif';const w=x.measureText(tx).width+6,b={x:px-w/2,y:py+2,w,h:15};if(hit(b))continue;boxes.push(b);nM++;
     x.fillStyle=day?'rgba(255,255,255,.9)':'rgba(255,225,190,.85)';x.beginPath();x.moveTo(px,py-6);x.lineTo(px-3.5,py);x.lineTo(px+3.5,py);x.closePath();x.fill();
     x.lineWidth=2.6;x.strokeStyle='rgba(0,0,0,.6)';x.strokeText(tx,px,py+13);x.fillStyle=day?'#fff2dc':'#ffe2c0';x.fillText(tx,px,py+13);}
-  for(const p of cs){if(nC>=24)break;const d=((p.az-SKYV.A0+540)%360)-180;if(Math.abs(d)>half)continue;const px=Wc/2+d*kk,py=hy-p.alt*kk;if(py>Hc-70)continue;
+  for(const p of cs){if(nC>=24)break;const d=((p.az-SKYV.A0+540)%360)-180;if(Math.abs(d)>half)continue;const px=Wc/2+d*kk,py=hy-p.alt*kk;if(py>Hc-30)continue;
     const near=p.d<15000,fs=near?10:p.d<40000?9:8;x.font=`600 ${fs}px "Zen Maru Gothic",sans-serif`;const w=x.measureText(p.n).width+6;let ty=py-4,b={x:px-w/2,y:py-fs-4,w,h:fs+6};if(b.x<2||b.x+b.w>Wc-2)continue;
     if(hit(b)){b={x:px-w/2,y:py+2,w,h:fs+6};ty=py+fs+3;if(hit(b))continue;}   // name above the dot, or below it when that spot is taken
     boxes.push(b);nC++;
     x.globalAlpha=near?.95:p.d<40000?.8:.62;x.fillStyle=day?'rgba(255,255,255,.9)':'rgba(255,214,140,.95)';x.beginPath();x.arc(px,py,1.6,0,TAU);x.fill();
     x.lineWidth=2.4;x.strokeStyle='rgba(0,0,0,.55)';x.strokeText(p.n,px,ty);x.fillStyle=day?'#fff':'#f3e6c8';x.fillText(p.n,px,ty);x.globalAlpha=1;}
   x.restore();}
+
+/* ===== v600: sky-view buttons in one row of ten with short captions (同居人・雲) ===== */
+(function(){const st=document.createElement('style');
+  st.textContent='#skyv .sv-bar.sv10{grid-template-columns:repeat(10,minmax(0,1fr))!important;gap:3px!important;left:5px!important;right:5px!important}'+
+    '#skyv .sv-bar.sv10 button{grid-column:auto!important;height:30px;padding:0 1px!important;font-size:clamp(8px,2.35vw,10.5px)!important;letter-spacing:-.02em;border-radius:7px!important}'+
+    '#skyv .sv-bar.sv10 button span{font-size:inherit!important}'+
+    '#skyv .sv-bar.sv10 #svCall{padding:0 1px!important;white-space:nowrap!important}#skyv .sv-bar.sv10 #svCall span{display:inline!important;word-break:keep-all!important;overflow:visible!important}';
+  try{document.head.appendChild(st);}catch(e){}})();
+{const SF=svFit;svFit=function(btn,text){if(btn&&btn.id==='svCall'){const sp=btn.querySelector('span')||btn;sp.style.fontSize='';if(sp.textContent!=='同居人')sp.textContent='同居人';btn.title=text;return;}return SF.apply(this,arguments);};}
+{const SC=skyvClose;skyvClose=function(){const r=SC.apply(this,arguments);try{const b=document.getElementById('svClr');if(b)b.textContent='雲';}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
