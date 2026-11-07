@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 602（2026/11/07）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 603（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 602（2026/11/07）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 603（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -27413,7 +27413,7 @@ const SKX_wk=u=>{try{return SKX_WKH.includes(new URL(u).hostname)?SKX_WK+encodeU
 async function SKX_get(u,ms,text){const tries=[SKX_wk(u),u,'https://corsproxy.io/?url='+encodeURIComponent(u)].filter(Boolean);let err;
   for(const t of tries){try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),ms||9000);try{const r=await fetch(t,{signal:c.signal,cache:'no-store'});if(r.status===404)return text?'':{_none:1};if(!r.ok)throw new Error('HTTP '+r.status);return text?await r.text():await r.json();}finally{clearTimeout(tm);}}catch(e){err=e;}}throw err||new Error('fetch');}
 try{SKX.plane=localStorage.getItem('fy-skyPlane')==='1';SKX.sat=localStorage.getItem('fy-skySat')==='1';}catch(e){}
-SKX.terr=true;try{SKX.terr=localStorage.getItem('fy-skyTerr')!=='0';}catch(e){}   // v599: terrain below the horizon on/off (off = the sea of clouds)
+SKX.terr=true;   // v603: the land is always shown (the sea of clouds is gone)   // v599: terrain below the horizon on/off (off = the sea of clouds)
 const SKX_save=()=>{try{localStorage.setItem('fy-skyPlane',SKX.plane?'1':'0');localStorage.setItem('fy-skySat',SKX.sat?'1':'0');}catch(e){}};
 function SKX_obs(){const l=astroLoc();return{lat:l.lat,lon:l.lon};}
 function SKX_look(la,lo,altm){const o=SKX_obs(),cl=Math.cos(o.lat*D2R),dN=(la-o.lat)*111320,dE=(lo-o.lon)*111320*cl,dist=Math.hypot(dN,dE);
@@ -27572,7 +27572,7 @@ function SKX_draw(x,P,Wc,hy,kk,sk,t){SKX.hits=[];
   lines.textContent='星座';lines.classList.add('tg');
   // v596: the cloud button is back — top row of five (おりる・夜・月・雲を消す・全画面), bottom row of four
   const terr=mk('svTerr','地形',1);terr.setAttribute('aria-pressed',SKX.terr?'true':'false');terr.onclick=e=>{e.stopPropagation();SKX.terr=!SKX.terr;terr.setAttribute('aria-pressed',SKX.terr?'true':'false');try{localStorage.setItem('fy-skyTerr',SKX.terr?'1':'0');}catch(_){}};
-  bar.innerHTML='';for(const b of(clr?[down,call,night,clr,moon,lines,terr,pl,sat,full]:[down,call,night,moon,lines,terr,pl,sat,full]))bar.appendChild(b);if(clr){clr.hidden=false;clr.style.display='';clr.classList.add('tg');clr.textContent='雲';clr.addEventListener('click',()=>{clr.textContent='雲';});}bar.classList.add('sv10');   // v600: one row of ten
+  bar.innerHTML='';for(const b of(clr?[down,call,night,clr,moon,lines,pl,sat,full]:[down,call,night,moon,lines,pl,sat,full]))bar.appendChild(b);if(clr){clr.hidden=false;clr.style.display='';clr.classList.add('tg');clr.textContent='雲';clr.addEventListener('click',()=>{clr.textContent='雲';});}bar.classList.add('sv10');   // v600: one row of ten
   const set=(b,v)=>b.setAttribute('aria-pressed',v?'true':'false');set(sat,SKX.sat);set(pl,SKX.plane);set(night,SKX.night);
   night.onclick=e=>{e.stopPropagation();SKX.night=!SKX.night;set(night,SKX.night);if(SKX.night){SKYV.msg=pick(['太陽がしずんだ空にしてみたよ','いまこの時刻の星空だって','昼でも星座が見える！']);SKYV.msgAt=performance.now();}};
   moon.onclick=e=>{e.stopPropagation();const sk=skyNow();SKYV.A0=sk.moon.az;SKYV.msg=sk.moon.alt>0?`月は${SKX_AZ(sk.moon.az)}の空、高さ${Math.round(sk.moon.alt)}°`:`月はいま地平線の下（${SKX_AZ(sk.moon.az)}の方）`;SKYV.msgAt=performance.now();};
@@ -27834,9 +27834,9 @@ async function TRN_compute(lat,lon){const z=10,R=100000,n=2**z,Re=6371000;
   return{prof,elev:h0,dip,places,pp:!raw0||!!raw0.partial};}
 function TRN_load(){const L=astroLoc(),key=L.lat.toFixed(2)+','+L.lon.toFixed(2);if(TRN.key===key&&(TRN.prof||TRN.busy))return;
   if(TRN.key!==key){TRN.key=key;TRN.prof=null;TRN.fail=0;
-    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===5&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];return;}}catch(e){}}
+    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===6&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];return;}}catch(e){}}
   if(TRN.fail&&Date.now()-TRN.fail<120000)return;
-  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;TRN.places=r.places;try{localStorage.setItem('fy-terr',JSON.stringify({key,v:5,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:r.places,pp:r.pp}));}catch(e){}})
+  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;TRN.places=r.places;try{localStorage.setItem('fy-terr',JSON.stringify({key,v:6,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:r.places,pp:r.pp}));}catch(e){}})
     .catch(()=>{TRN.fail=Date.now();}).finally(()=>{TRN.busy=false;});}
 function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,day=Math.max(0,Math.min(1,(sa+6)/12));
   const dip=TRN.dip!=null?TRN.dip:-1.43;
@@ -27858,9 +27858,14 @@ async function TRN_places(lat,lon,km){const ctr=`"Point(${lon.toFixed(4)} ${lat.
   // v601: towns within 50 km (a lighter query — the 100 km one could time out around Tokyo); hills nearby are included even without a recorded height
   // v602: towns are looked up from the list of Japan's municipalities (about 2,000 items) and filtered by distance — much lighter than a map search around a big city
   const qc=`SELECT DISTINCT ?n ?loc ?pop WHERE{VALUES ?c{wd:Q494721 wd:Q1059478 wd:Q4174776 wd:Q5327704 wd:Q1122846 wd:Q15700834 wd:Q52350616 wd:Q1137833} ?it wdt:P31 ?c; wdt:P625 ?loc. FILTER(geof:distance(?loc,${ctr})<60) FILTER NOT EXISTS{?it wdt:P576 ?e} ${lab} OPTIONAL{?it wdt:P1082 ?pop}}`;
-  const qm=`SELECT DISTINCT ?n ?loc ?h WHERE{${around(km)} VALUES ?c{wd:Q8502 wd:Q8072 wd:Q169358 wd:Q1595289 wd:Q54050 wd:Q207326} ?it wdt:P31 ?c. OPTIONAL{?it wdt:P2044 ?h} FILTER(?dist<12||(BOUND(?h)&&?h>=300)) ${lab}}`;
+  // v603: mountains — nearby hills by a small map search (12 km), far mountains from the list of Japan's mountains filtered by distance (a 100 km map search timed out)
+  const MC='VALUES ?c{wd:Q8502 wd:Q8072 wd:Q169358 wd:Q1595289 wd:Q54050}';
+  const jp=lat>20&&lat<46.5&&lon>122&&lon<154;
+  const qmN=`SELECT DISTINCT ?n ?loc ?h WHERE{${around(12)} ${MC} ?it wdt:P31 ?c. OPTIONAL{?it wdt:P2044 ?h} ${lab}}`;
+  const qmF=jp?`SELECT DISTINCT ?n ?loc ?h WHERE{${MC} ?it wdt:P31 ?c; wdt:P17 wd:Q17; wdt:P2044 ?h; wdt:P625 ?loc. FILTER(?h>=400) FILTER(geof:distance(?loc,${ctr})<${km}) ${lab}}`
+    :`SELECT DISTINCT ?n ?loc ?h WHERE{${around(km)} ${MC} ?it wdt:P31 ?c; wdt:P2044 ?h. FILTER(?h>=400) ${lab}}`;
   const pt=s=>{const m=/Point\(([-\d.]+) ([-\d.]+)\)/.exec(s||'');return m?{lon:+m[1],lat:+m[2]}:null;};
-  let okC=true,okM=true;const [cs,ms]=await Promise.all([TRN_sparql(qc).catch(()=>{okC=false;return[];}),TRN_sparql(qm).catch(()=>{okM=false;return[];})]);
+  let okC=true,okM=true;const [cs,mN,mF]=await Promise.all([TRN_sparql(qc).catch(()=>{okC=false;return[];}),TRN_sparql(qmN).catch(()=>{okM=false;return[];}),TRN_sparql(qmF).catch(()=>{okM=false;return[];})]);const ms=mN.concat(mF);
   if(!okC&&!okM)return null;const out=[],seen=new Set();
   // the same name can belong to different places (愛宕山 in Tokyo and in Chiba) — tell them apart by position
   const key=(n,p)=>n+'@'+p.lat.toFixed(2)+','+p.lon.toFixed(2);
@@ -27888,13 +27893,51 @@ function TRN_labels(x,Wc,Hc,hy,kk,sa){const L=TRN.places;if(!L||!L.length)return
 
 /* ===== v600: sky-view buttons in one row of ten with short captions (同居人・雲) ===== */
 (function(){const st=document.createElement('style');
-  st.textContent='#skyv .sv-bar.sv10{grid-template-columns:repeat(10,minmax(0,1fr))!important;gap:3px!important;left:5px!important;right:5px!important}'+
+  st.textContent='#skyv .sv-bar.sv10{grid-template-columns:repeat(9,minmax(0,1fr))!important;gap:3px!important;left:5px!important;right:5px!important}'+
     '#skyv .sv-bar.sv10 button{grid-column:auto!important;height:30px;padding:0 1px!important;font-size:clamp(8px,2.35vw,10.5px)!important;letter-spacing:-.02em;border-radius:7px!important}'+
     '#skyv .sv-bar.sv10 button span{font-size:inherit!important}'+
     '#skyv .sv-bar.sv10 #svCall{padding:0 1px!important;white-space:nowrap!important}#skyv .sv-bar.sv10 #svCall span{display:inline!important;word-break:keep-all!important;overflow:visible!important}';
   try{document.head.appendChild(st);}catch(e){}})();
 {const SF=svFit;svFit=function(btn,text){if(btn&&btn.id==='svCall'){const sp=btn.querySelector('span')||btn;sp.style.fontSize='';if(sp.textContent!=='同居人')sp.textContent='同居人';btn.title=text;return;}return SF.apply(this,arguments);};}
 {const SC=skyvClose;skyvClose=function(){const r=SC.apply(this,arguments);try{const b=document.getElementById('svClr');if(b)b.textContent='雲';}catch(e){}return r;};}
+
+/* ===== v603: 手動設定 › 場所 — choose where the island floats, the same way as My Spot: search by place name (Japan or abroad), recent places, or back to automatic (GPS / network) ===== */
+(function(){const host=document.querySelector('#sheet section[data-p="try"] .prefs.ovrows');if(!host)return;
+  const lab=document.createElement('span');lab.textContent='場所';
+  const seg=document.createElement('div');seg.className='seg';seg.id='ovLocSeg';seg.innerHTML='<button type="button" data-lm="a">自動</button><button type="button" data-lm="m">手動</button>';
+  const sub=document.createElement('div');sub.className='ovsub';sub.id='ovSubL';sub.hidden=true;
+  sub.innerHTML='<div class="olc-now" id="olcNow"></div><input type="search" id="olcQ" placeholder="地名で検索（例：赤坂、札幌、Paris）" autocomplete="off"><ul class="olc-list" id="olcList"></ul>';
+  try{const hp=host.parentNode.querySelector('p.hint');if(hp)hp.textContent='ふだんは実際の場所・日付・時刻・天気で動きます。「手動」にすると、自分で決めた場所・日付・時刻・天気でようすを見られます。';}catch(e){}
+  const first=host.querySelector('span');host.insertBefore(sub,first);host.insertBefore(seg,sub);host.insertBefore(lab,seg);
+  const st=document.createElement('style');st.textContent='#ovSubL input{width:100%;box-sizing:border-box;margin:4px 0}#ovSubL .olc-now{font-size:12px;opacity:.85;margin:2px 0}'+
+    '#ovSubL .olc-list{list-style:none;margin:0;padding:0;max-height:220px;overflow:auto;border-radius:8px}#ovSubL .olc-list li{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 6px;border-bottom:1px solid rgba(127,127,127,.25);cursor:pointer;font-size:13px}'+
+    '#ovSubL .olc-list li.h{font-size:11px;opacity:.7;cursor:default;padding:6px 6px 2px;border-bottom:none}#ovSubL .olc-list li .tm{font-size:11px;padding:1px 6px;border-radius:6px;background:rgba(80,140,230,.25);white-space:nowrap}';
+  document.head.appendChild(st);
+  const recent=()=>{try{return JSON.parse(localStorage.getItem('fy-recentLocs')||'[]');}catch(e){return[];}};
+  const same=(a,b)=>a&&b&&Math.abs(a.lat-b.lat)<1e-3&&Math.abs(a.lon-b.lon)<1e-3;
+  const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+  let cands=[],T=0;
+  function item(r){return `<li data-i="${r._i}"><span>${esc(r.label)}</span>${same(LOC.manual,r)?'<span class="tm">表示中</span>':''}</li>`;}
+  function draw(){const rec=recent(),list=document.getElementById('olcList');let h='';let i=0;
+    if(cands.length){h+='<li class="h">検索結果</li>';for(const r of cands){r._i=i++;h+=item(r);}}
+    else if(rec.length){h+='<li class="h">最近選んだ場所</li>';for(const r of rec){r._i=i++;h+=item(r);}}
+    list.innerHTML=h;list._rows=cands.length?cands:rec;
+    document.getElementById('olcNow').textContent=LOC.manual?('いまの場所：'+(LOC.manual.label||ENV.placeShort||'手動で設定')):'いまは自動（位置情報・ネット回線から推定）です。地名を検索して選んでください';}
+  function choose(r){LOC.manual={lat:r.lat,lon:r.lon,parts:r.parts,label:r.label};try{localStorage.setItem('fuyuchi-loc',JSON.stringify(LOC.manual));}catch(e){}
+    ENV.lat=r.lat;ENV.lon=r.lon;setPlace(r.parts,'manual');ENV.locNote='手動で設定した場所を使っています';
+    const rec=recent().filter(q=>!same(q,r));rec.unshift({lat:r.lat,lon:r.lon,parts:r.parts,label:r.label});try{localStorage.setItem('fy-recentLocs',JSON.stringify(rec.slice(0,6)));}catch(e){}
+    cands=[];document.getElementById('olcQ').value='';afterPlace();try{SKY_C=null;}catch(e){}draw();render();
+    if(S)queueSay(`この島、${ENV.placeShort}の上に移動したよ！`);}
+  function render(){const man=!!LOC.manual||sub.dataset.open==='1';[...seg.children].forEach(b=>b.setAttribute('aria-pressed',(b.dataset.lm==='m')===man));sub.hidden=!man;if(man)draw();}
+  seg.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+    if(b.dataset.lm==='m'){sub.dataset.open='1';render();setTimeout(()=>{try{document.getElementById('olcQ').focus();}catch(_){}},50);}
+    else{sub.dataset.open='';if(LOC.manual){const a=document.getElementById('locAuto');if(a)a.click();}render();}});
+  document.getElementById('olcList').addEventListener('click',e=>{const li=e.target.closest('li[data-i]');if(!li)return;const rows=e.currentTarget._rows||[];const r=rows[+li.dataset.i];if(r)choose(r);});
+  document.getElementById('olcQ').addEventListener('input',e=>{clearTimeout(T);const q=e.target.value.trim();if(!q){cands=[];draw();return;}
+    T=setTimeout(async()=>{const list=document.getElementById('olcList');list.innerHTML='<li class="h">さがしています…</li>';let rs=[];try{rs=await searchPlace(q);}catch(_){}
+      if(document.getElementById('olcQ').value.trim()!==q)return;cands=rs;if(!rs.length){list.innerHTML='<li class="h">見つかりませんでした。駅名や市区町村名で試してください</li>';return;}draw();},350);});
+  {const RO=renderOv;renderOv=function(){const r=RO.apply(this,arguments);try{render();}catch(e){}return r;};}
+})();
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
