@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 606（2026/11/07）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 607（2026/11/07）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 606（2026/11/07）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 607（2026/11/07）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -27802,46 +27802,101 @@ function TRN_tile(z,X,Y,src){return new Promise((res,rej)=>{const img=new Image(
   img.onerror=()=>rej(new Error('tile'));
   img.src=src==='terrarium'?`https://s3.amazonaws.com/elevation-tiles-prod/terrarium/${z}/${X}/${Y}.png`:`https://cyberjapandata.gsi.go.jp/xyz/dem_png/${z}/${X}/${Y}.png`;});}
 let TRN_placesP=null;
-async function TRN_compute(lat,lon){const z=10,R=100000,n=2**z,Re=6371000;
-  TRN_placesP=TRN_places(lat,lon,100).catch(()=>null);
-  const tx=(lon+180)/360*n,ty=(1-Math.log(Math.tan(lat*D2R)+1/Math.cos(lat*D2R))/Math.PI)/2*n;
-  const mPerTile=40075016.686*Math.cos(lat*D2R)/n,mpp=mPerTile/256,span=Math.ceil(R/mPerTile);const tiles=new Map();
-  const fetchAll=async src=>{tiles.clear();const jobs=[];for(let dx=-span;dx<=span;dx++)for(let dy=-span;dy<=span;dy++){const X=Math.floor(tx)+dx,Y=Math.floor(ty)+dy,k=X+'/'+Y;jobs.push(TRN_tile(z,X,Y,src).then(a=>tiles.set(k,a),()=>tiles.set(k,null)));}
-    await Promise.all(jobs);return[...tiles.values()].filter(Boolean).length;};
-  const jp=lat>20&&lat<46.5&&lon>122&&lon<154;let got=jp?await fetchAll('gsi'):0;if(!got)got=await fetchAll('terrarium');if(!got)throw new Error('no tiles');
-  const cx=tx*256,cy=ty*256;
-  const elevAt=(px,py)=>{const X=Math.floor(px/256),Y=Math.floor(py/256),a=tiles.get(X+'/'+Y);if(!a)return null;const v=a[Math.min(255,Math.floor(py-Y*256))*256+Math.min(255,Math.floor(px-X*256))];return Number.isNaN(v)?null:v;};
+/* v607: the land below is drawn from the elevation tiles as a picture — sea (no-data in 国土地理院 dem / ≤0 m abroad), coastline, lowland, forest, rock and snow,
+   lit by the sun, fading into the haze with distance, with town lights at night. Finer tiles (z12) are used within about 12 km. */
+const TRN_PC={COLS:1440,TOP:2,STEP:.2,ROWS:410};
+async function TRN_fetch(z,lat,lon,R,src){const n=2**z,tx=(lon+180)/360*n,ty=(1-Math.log(Math.tan(lat*D2R)+1/Math.cos(lat*D2R))/Math.PI)/2*n;
+  const mPerTile=40075016.686*Math.cos(lat*D2R)/n,span=Math.ceil(R/mPerTile),tiles=new Map(),jobs=[];
+  for(let dx=-span;dx<=span;dx++)for(let dy=-span;dy<=span;dy++){const X=Math.floor(tx)+dx,Y=Math.floor(ty)+dy,k=X+'/'+Y;jobs.push(TRN_tile(z,X,Y,src).then(a=>tiles.set(k,a),()=>tiles.set(k,null)));}
+  await Promise.all(jobs);return{z,tiles,got:[...tiles.values()].filter(Boolean).length,cx:tx*256,cy:ty*256,mpp:mPerTile/256};}
+async function TRN_compute(lat,lon,opt){opt=opt||{};const R=100000,Re=6371000;
+  if(!opt.panoOnly)TRN_placesP=TRN_places(lat,lon,100).catch(()=>null);
+  const jp=lat>20&&lat<46.5&&lon>122&&lon<154;let src=jp?'gsi':'terrarium';
+  let [T10,T12]=await Promise.all([TRN_fetch(10,lat,lon,R,src),TRN_fetch(12,lat,lon,12000,src).catch(()=>null)]);
+  if(!T10.got&&src==='gsi'){src='terrarium';[T10,T12]=await Promise.all([TRN_fetch(10,lat,lon,R,src),TRN_fetch(12,lat,lon,12000,src).catch(()=>null)]);}
+  if(!T10.got)throw new Error('no tiles');
+  const terr=src==='terrarium',cx=T10.cx,cy=T10.cy,mpp=T10.mpp;
+  // raw value at a point given in z10 pixel coords: a number, NaN for sea, undefined where there is no tile
+  const look=(T,px,py)=>{const X=Math.floor(px/256),Y=Math.floor(py/256),a=T.tiles.get(X+'/'+Y);if(!a)return undefined;const v=a[Math.min(255,Math.floor(py-Y*256))*256+Math.min(255,Math.floor(px-X*256))];return terr&&v<=0?NaN:v;};
+  const raw=(px,py)=>{if(T12&&T12.got){const v=look(T12,px*4,py*4);if(v!==undefined)return v;}return look(T10,px,py);};
+  const elevAt=(px,py)=>{const v=raw(px,py);return v===undefined?null:Number.isNaN(v)?0:v;};
   const h0=Math.max(0,elevAt(cx,cy)??0),eye=h0+TRN.eye,dip=-Math.sqrt(2*eye/Re)*R2D;
-  const prof=new Array(360);
   const rayMax=(az,dEnd)=>{const sx=Math.sin(az*D2R),sy=-Math.cos(az*D2R);let m=-90;for(let d=200;d<dEnd-150;d+=Math.max(60,d*.012)){const e=elevAt(cx+sx*d/mpp,cy+sy*d/mpp);if(e==null)continue;const a=Math.atan2(e-d*d/(2*Re)*.87-eye,d)*R2D;if(a>m)m=a;}return m;};
-  for(let az=0;az<360;az++){const sx=Math.sin(az*D2R),sy=-Math.cos(az*D2R);let best=dip;
-    for(let d=200;d<=R;d+=Math.max(60,d*.012)){const e=elevAt(cx+sx*d/mpp,cy+sy*d/mpp);if(e==null)continue;const ang=Math.atan2(e-d*d/(2*Re)*.87-eye,d)*R2D;if(ang>best)best=ang;}
-    prof[az]=+best.toFixed(3);}
-  // place names (cities, towns, villages, mountains) — worked out once the name lookup arrives; the land is shown right away without waiting for it (v604)
-  const placesP=TRN_placesP.then(raw=>{if(!raw)return{places:null,pp:true};const places=[],cosl=Math.cos(lat*D2R);
-    for(const q of raw){const dy=(q.lat-lat)*111320,dx=(q.lon-lon)*111320*cosl,d=Math.hypot(dx,dy);if(d<250||d>R)continue;
+  let prof=null;
+  if(!opt.panoOnly){prof=new Array(360);
+    for(let az=0;az<360;az++){const sx=Math.sin(az*D2R),sy=-Math.cos(az*D2R);let best=dip;
+      for(let d=200;d<=R;d+=Math.max(60,d*.012)){const e=elevAt(cx+sx*d/mpp,cy+sy*d/mpp);if(e==null)continue;const ang=Math.atan2(e-d*d/(2*Re)*.87-eye,d)*R2D;if(ang>best)best=ang;}
+      prof[az]=+best.toFixed(3);}}
+  // the picture of the land: for each direction, walk outwards and fill the rows each piece of ground covers (nearer ground first, like looking down from the deck)
+  const {COLS,TOP,STEP,ROWS}=TRN_PC,N=COLS*ROWS,type=new Uint8Array(N),dist=new Uint16Array(N),elev=new Int16Array(N),gx=new Int8Array(N),gy=new Int8Array(N);
+  for(let c=0;c<COLS;c++){const az=(c+.5)*360/COLS,sx=Math.sin(az*D2R),sy=-Math.cos(az*D2R);let yPrev=ROWS,prevSea=null;
+    for(let d=40;d<=R&&yPrev>0;d+=d<2000?20:d*.01){const px=cx+sx*d/mpp,py=cy+sy*d/mpp,v=raw(px,py);if(v===undefined)continue;const sea=Number.isNaN(v),e=sea?0:v;
+      const a=Math.atan2(e-d*d/(2*Re)*.87-eye,d)*R2D;let r=Math.floor((TOP-a)/STEP);if(r<0)r=0;
+      const shore=prevSea!==null&&prevSea!==sea;prevSea=sea;
+      if(r<yPrev){let g1=0,g2=0;if(!sea){const st=d<12000?.25:1,m2=mpp*st*2,ex=raw(px+st,py),ew=raw(px-st,py),en=raw(px,py-st),es=raw(px,py+st);
+          if(ex>=0&&ew>=0)g1=(ex-ew)/m2;if(en>=0&&es>=0)g2=(en-es)/m2;}
+        const t=shore?3:sea?2:1,G1=Math.max(-127,Math.min(127,Math.round(g1*60))),G2=Math.max(-127,Math.min(127,Math.round(g2*60))),dd=Math.min(65535,Math.round(d/10)),ee=Math.round(e);
+        for(let y=r;y<yPrev&&y<ROWS;y++){const i=y*COLS+c;type[i]=t;dist[i]=dd;elev[i]=ee;gx[i]=G1;gy[i]=G2;}yPrev=r;}}}
+  const pano={type,dist,elev,gx,gy,key:''};
+  let placesP=null;
+  if(!opt.panoOnly)placesP=TRN_placesP.then(raw0=>{if(!raw0)return{places:null,pp:true};const places=[],cosl=Math.cos(lat*D2R);
+    for(const q of raw0){const dy=(q.lat-lat)*111320,dx=(q.lon-lon)*111320*cosl,d=Math.hypot(dx,dy);if(d<250||d>R)continue;
       const az=(Math.atan2(dx,dy)*R2D+360)%360,px=cx+dx/mpp,py=cy-dy/mpp,ge=q.mt&&q.h!=null?q.h:(elevAt(px,py)??0);
       const alt=Math.atan2(ge-d*d/(2*Re)*.87-eye,d)*R2D;if(rayMax(az,d)>alt+.05)continue;   // hidden behind nearer ground
       places.push({n:q.n,mt:q.mt,h:q.mt?Math.round(ge):null,pop:q.pop||0,az:+az.toFixed(2),alt:+alt.toFixed(3),d:Math.round(d)});}
-    return{places,pp:!!raw.partial};}).catch(()=>({places:null,pp:true}));
-  return{prof,elev:h0,dip,placesP};}
+    return{places,pp:!!raw0.partial};}).catch(()=>({places:null,pp:true}));
+  return{prof,elev:h0,dip,placesP,pano};}
+// colour the picture for the current light (redone only when the sun / sky colour has moved noticeably)
+function TRN_paint(sa,sunAz,hor){const P=TRN.pano;if(!P)return null;const {COLS,ROWS}=TRN_PC,N=COLS*ROWS;
+  if(!P.cv){P.cv=document.createElement('canvas');P.cv.width=COLS;P.cv.height=ROWS;}
+  const g=P.cv.getContext('2d'),img=g.createImageData(COLS,ROWS),o=img.data,day=Math.max(0,Math.min(1,(sa+6)/12)),mo=now().getMonth()+1;
+  const snowLine=mo===11?2900:mo===12||mo<=3?1900:mo===4?2300:mo===5?2800:99999;
+  const L=[Math.sin(sunAz*D2R)*Math.cos(Math.max(sa,8)*D2R),Math.cos(sunAz*D2R)*Math.cos(Math.max(sa,8)*D2R),Math.sin(Math.max(sa,8)*D2R)];
+  const nightLand=[15,17,26],nightSea=[7,12,28],H=hor;
+  for(let i=0;i<N;i++){const t=P.type[i];const j=i*4;if(!t){o[j+3]=0;continue;}
+    const d=P.dist[i]*10,e=P.elev[i];let r,gg,b;
+    if(t===2){r=40;gg=82;b=118;r=r+(H[0]-r)*.3;gg=gg+(H[1]-gg)*.3;b=b+(H[2]-b)*.3;
+      r=r*day+nightSea[0]*(1-day);gg=gg*day+nightSea[1]*(1-day);b=b*day+nightSea[2]*(1-day);}
+    else if(t===3){r=196*day+nightLand[0]*(1-day);gg=190*day+nightLand[1]*(1-day);b=168*day+nightLand[2]*(1-day);}
+    else{let c=e<60?[112,120,104]:e<300?[96,114,86]:e<900?[74,100,66]:e<1900?[68,90,64]:e<2600?[96,98,88]:[116,110,102];
+      if(e>=snowLine)c=[236,239,245];
+      const nx=-P.gx[i]/60,ny=-P.gy[i]/60,nl=Math.hypot(nx,ny,1),dot=(nx*L[0]+ny*L[1]+L[2])/nl,lum=Math.max(.4,Math.min(1.3,.35+.8*dot));
+      // a little patchiness so the ground does not look like a flat sheet (fields, woods, rooftops)
+      {const x0=i%COLS,y0=(i/COLS)|0,nz=1+(hash(x0,y0,301)-.5)*.07;var lum2=lum*nz;}
+      r=c[0]*lum2*day+nightLand[0]*(1-day);gg=c[1]*lum2*day+nightLand[1]*(1-day);b=c[2]*lum2*day+nightLand[2]*(1-day);
+      // town lights far below at night
+      if(day<.6&&e<300){const x=i%COLS,y=(i/COLS)|0,h=hash(x,y,177),cl=hash(x>>3,y>>2,176),p=(.004+Math.min(.13,d/80000*.13))*(cl<.35?.25:cl<.7?1:1.8)*(1-day/.6);if(h<p){const w=.5+hash(x,y,178)*.5;r=255*w+r*(1-w);gg=(205+hash(x,y,179)*40)*w+gg*(1-w);b=130*w+b*(1-w);}}}
+    // aerial haze: the farther, the more it melts into the colour of the sky at the horizon
+    const f=(1-Math.exp(-d/38000))*(.55+.35*day);r+=(H[0]-r)*f;gg+=(H[1]-gg)*f;b+=(H[2]-b)*f;
+    o[j]=r;o[j+1]=gg;o[j+2]=b;o[j+3]=255;}
+  g.putImageData(img,0,0);return P.cv;}
 function TRN_load(){const L=astroLoc(),key=L.lat.toFixed(2)+','+L.lon.toFixed(2);if(TRN.key===key&&(TRN.prof||TRN.busy))return;
-  if(TRN.key!==key){TRN.key=key;TRN.prof=null;TRN.places=null;TRN.fail=0;
-    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===7&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];return;}}catch(e){}}
+  if(TRN.key!==key){TRN.key=key;TRN.prof=null;TRN.places=null;TRN.pano=null;TRN.fail=0;
+    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===7&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];
+      // the outline and names come from the saved copy; the picture of the land is rebuilt from the tiles in the background
+      TRN_compute(L.lat,L.lon,{panoOnly:true}).then(r=>{if(TRN.key===key)TRN.pano=r.pano;}).catch(()=>{});return;}}catch(e){}}
   if(TRN.fail&&Date.now()-TRN.fail<120000)return;
-  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;
+  TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;TRN.pano=r.pano;
     const sv=(pl,pp)=>{try{localStorage.setItem('fy-terr',JSON.stringify({key,v:7,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:pl,pp}));}catch(e){}};
     sv(null,true);r.placesP.then(q=>{if(TRN.key!==key)return;TRN.places=q.places;sv(q.places,q.pp);});})
     .catch(()=>{TRN.fail=Date.now();}).finally(()=>{TRN.busy=false;});}
-function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,   // v605: the relief is always drawn; 地形 only switches the place / mountain names
+function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,   // the relief is always drawn; 地形 only switches the place / mountain names
   day=Math.max(0,Math.min(1,(sa+6)/12));
   const dip=TRN.dip!=null?TRN.dip:-1.43;
   const altAt=az=>{if(!pr)return dip;az=((az%360)+360)%360;const i=Math.floor(az),f=az-i;return pr[i%360]*(1-f)+pr[(i+1)%360]*f;};
-  // haze band along the true horizon (the land far below fades into the air)
-  x.beginPath();x.moveTo(0,Hc);for(let px=0;px<=Wc+2;px+=2)x.lineTo(px,hy-altAt(SKYV.A0+(px-Wc/2)/kk)*kk);x.lineTo(Wc,Hc);x.closePath();
-  const top=mixRgb(mixRgb(sc2.hor,[10,14,24],.72),[70,88,72],day*.55),bot=mixRgb(top,[0,0,0],.55);
+  const sil=()=>{x.beginPath();x.moveTo(0,Hc);for(let px=0;px<=Wc+2;px+=2)x.lineTo(px,hy-altAt(SKYV.A0+(px-Wc/2)/kk)*kk);x.lineTo(Wc,Hc);x.closePath();};
+  // base: the land as one tone (shown until the picture is ready, and beyond its reach)
+  sil();const top=mixRgb(mixRgb(sc2.hor,[10,14,24],.72),[70,88,72],day*.55),bot=mixRgb(top,[0,0,0],.55);
   x.fillStyle=GD_lg(x,0,hy-10,0,Hc,[[0,rgbS(mixRgb(top,sc2.hor,.35))],[.12,rgbS(top)],[1,rgbS(bot)]]);x.fill();
-  x.strokeStyle=rgbS(mixRgb(sc2.hor,[255,255,255],.15),.35);x.lineWidth=1;x.stroke();
+  // the picture of the land
+  try{const P=TRN.pano;if(P){const hk=sc2.hor.map(v=>Math.round(v/6)).join(','),pk=Math.round(sa)+'|'+Math.round(sk.sun.az/8)+'|'+hk+'|'+(now().getMonth()+1);
+      if(P.key!==pk||!P.cv){TRN_paint(sa,sk.sun.az,sc2.hor);P.key=pk;}
+      const {COLS,TOP,STEP,ROWS}=TRN_PC,cpd=COLS/360,a0=SKYV.A0-(Wc/2)/kk,sw=Wc/kk*cpd,dy=hy-TOP*kk,dh=ROWS*STEP*kk;let sx=((a0%360)+360)%360*cpd;
+      x.save();x.imageSmoothingEnabled=true;
+      if(sx+sw<=COLS)x.drawImage(P.cv,sx,0,sw,ROWS,0,dy,Wc,dh);
+      else{const w1=COLS-sx,dw1=w1/cpd*kk;x.drawImage(P.cv,sx,0,w1,ROWS,0,dy,dw1,dh);x.drawImage(P.cv,0,0,sw-w1,ROWS,dw1,dy,Wc-dw1,dh);}
+      x.restore();}}catch(e){}
+  sil();x.strokeStyle=rgbS(mixRgb(sc2.hor,[255,255,255],.15),.35);x.lineWidth=1;x.stroke();
   if(SKX.terr)try{TRN_labels(x,Wc,Hc,hy,kk,sa);}catch(e){}
 }
 
