@@ -28822,7 +28822,8 @@ async function NET_on(m){
   if(m.t==='mealEnd'){NET_mealEnd(true);return;}
   if(m.t==='fx'&&m.k==='mealPick'){NET_mealPick(m.kind,m.n,true);return;}
   if(m.t==='fx'&&m.k==='poof'){NET_poof(m.sc,m.x,m.y);return;}
-  if(m.t==='fx'&&m.k==='tv'){NET.tv=!!m.on;return;}}
+  if(m.t==='fx'&&m.k==='tv'){NET.tv=!!m.on;return;}
+  if(m.t==='fx'&&m.k==='omk'){try{setTimeout(()=>{OMK.spin=performance.now()+2600;},4000);}catch(e){}return;}}
 
 /* ---------- island data: pictures and songs live on the server as blobs ---------- */
 async function NET_hash(str){const d=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return[...new Uint8Array(d)].slice(0,16).map(x=>x.toString(16).padStart(2,'0')).join('');}
@@ -28924,7 +28925,9 @@ function NET_tvToggle(){NET.tv=!NET.tv;NET_send({t:'fx',k:'tv',on:NET.tv});try{c
 function NET_tap(e,tg,dbl){if(!tg)return false;
   if(tg.t==='f'&&(tg.k==='tv'||/^tv/.test(tg.k)&&FT[tg.k]&&/テレビ/.test(FT[tg.k].n)&&tg.k!=='bigtv')){if(dbl){NET_tvToggle();return true;}return false;}
   if(tg.t==='yard'&&tg.k==='photoboard'){if(NET.role==='owner'){try{PB_ui(true);}catch(_){}return true;}return false;}
-  if(tg.t==='yard'&&tg.k!=='yagura'&&OFT[tg.k]&&OFT[tg.k].act&&S.yard[tg.k]){const f=OFT[tg.k];if(f.need&&!f.need())return false;let st=null;try{st=A.yardplay(tg.k);}catch(_){}
+  if(tg.t==='f'&&tg.k==='omikuji'&&has('omikuji')){if(!dbl)return false;let st=null;try{st=A.omikuji();}catch(_){}if(!st||!st.length)return false;
+    NET.sw=1;try{if(C.snap)unsnap();switchTo('omikuji',st);}finally{NET.sw=0;}NET_send({t:'fx',k:'omk'});return true;}
+  if(tg.t==='yard'&&tg.k!=='yagura'&&OFT[tg.k]&&OFT[tg.k].act&&S.yard[tg.k]){if(!dbl)return false;const f=OFT[tg.k];if(f.need&&!f.need())return false;let st=null;try{st=A.yardplay(tg.k);}catch(_){}
     if(!st||!st.length)return false;NET.sw=1;try{if(C.snap)unsnap();switchTo('yardplay',st);}finally{NET.sw=0;}return true;}
   return false;}
 /* ---------- smoke when something is set out ---------- */
@@ -29058,6 +29061,7 @@ function NET_help(){let ov=document.getElementById('netHelpOv');if(!ov){ov=docum
   <dt>歩く</dt><dd>行きたい場所をタップ。押したままにすると、その方向へ歩きつづけます。フリックでも進みます。玄関や家をタップすると屋内と屋外を行き来します。</dd>
   <dt>話す</dt><dd>下の入力欄に打ち込んで「話す」。相手の画面にも吹き出しが出ます。</dd>
   <dt>図鑑</dt><dd>自分のキャラをタップすると開きます。${o?'家具や庭のものをえらぶと、煙とともに空いているところに置かれます。':''}料理・飲みもの・お酒をえらぶと食卓で食べられます。ふたりいると、いっしょに食卓につきます。「食事を終える」で片付きます。</dd>
+  <dt>テレビ・遊具・おみくじ</dt><dd>ダブルタップで、テレビをつける・消す、庭の遊具で遊ぶ、おみくじを引く。</dd>
   <dt>櫓</dt><dd>櫓をタップすると上って星空を見られます。ふたりで上ると、いっしょに見られます。</dd>
   ${o?'<dt>模様替え・写真・BGM</dt><dd>図鑑の「模様替え」「BGM」から。写真立てやラグに入れた写真、流している曲はゲストにも届きます。</dd>':'<dt>オーナーがいないとき</dt><dd>オーナーのキャラはひとりで暮らしています（0時〜5時は寝ています）。</dd>'}
   <dt>島から帰る</dt><dd>画面下のボタンで、はじめの画面にもどります。</dd></dl><button type="button" class="nh-x nd-main">とじる</button></div>`;ov.hidden=false;}
