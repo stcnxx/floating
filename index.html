@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 622（2026/11/09）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 623（2026/11/09）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 622（2026/11/09）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 623（2026/11/09）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -28352,8 +28352,8 @@ function CTRL_ui(){const sg=document.getElementById('modeSeg');if(sg){const m=CT
 {const SH=shopTick;shopTick=function(){if(CTRL.on)return;return SH.apply(this,arguments);};}
 {const SP=setPause;setPause=function(){const r=SP.apply(this,arguments);try{const b=$('pauseB'),pi=b&&b.querySelector('.pi');if(pi)pi.textContent=PAUSED?'▶':'■';if(b)b.setAttribute('aria-label',PAUSED?'再開':'一時停止');}catch(e){}return r;};}
 (function(){try{const bar=$('bot4');if(!bar||document.getElementById('modeSeg'))return;
-  const sg=document.createElement('div');sg.id='modeSeg';sg.className='glass';sg.setAttribute('role','group');sg.setAttribute('aria-label','視点と操作');
-  sg.innerHTML='<button type="button" data-m="a">自動</button><button type="button" data-m="m">手動</button><button type="button" data-m="c">操作</button>';bar.append(sg);
+  const sg=document.createElement('div');sg.id='modeSeg';sg.className='glass';sg.setAttribute('role','group');sg.setAttribute('aria-label','視点');
+  sg.innerHTML='<button type="button" data-m="a">自動</button><button type="button" data-m="m">手動</button>';bar.append(sg);
   for(const b of sg.children){b.addEventListener('pointerdown',e=>e.stopPropagation());b.onclick=e=>{e.stopPropagation();if(!S)return;CTRL_set(b.dataset.m);};}
   const bx=document.createElement('form');bx.id='ctlSay';bx.hidden=true;bx.autocomplete='off';
   bx.innerHTML='<input id="ctlSayI" type="text" maxlength="80" enterkeyhint="send" placeholder="主人公のセリフを入力"><button type="submit">話す</button>';document.body.append(bx);
@@ -28366,7 +28366,7 @@ function CTRL_ui(){const sg=document.getElementById('modeSeg');if(sg){const m=CT
     '#ctlSay{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(52px + env(safe-area-inset-bottom,0px));z-index:6;display:flex;gap:6px;width:min(400px,calc(100% - 56px));box-sizing:border-box}'+
     '#ctlSay[hidden]{display:none!important}#ctlSay input{flex:1;min-width:0;height:36px;border-radius:18px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.92);color:#223;padding:0 14px;font-size:16px;box-sizing:border-box}'+
     '#ctlSay button{flex:0 0 auto;height:36px;border-radius:18px;border:0;background:#2f5e9e;color:#fff;font-weight:700;padding:0 16px;font-size:14px}';document.head.append(st);
-  try{const hs=[...document.querySelectorAll('#help h3')].find(h=>h.textContent==='画面のボタン');const dl=hs&&hs.nextElementSibling;if(dl&&dl.tagName==='DL'){const dt=document.createElement('dt');dt.textContent='自動・手動・操作';const dd=document.createElement('dd');dd.textContent='自動：画面がキャラクターを追いかけます。手動：画面をドラッグして自由に見て回れます。操作：主人公を自分で動かせます（タップした場所へ歩く・押したままの方向へ歩く・フリック）。下の入力欄に打ち込むと、主人公がそのセリフを話します。';dl.append(dt,dd);}}catch(e){}
+  try{const hs=[...document.querySelectorAll('#help h3')].find(h=>h.textContent==='画面のボタン');const dl=hs&&hs.nextElementSibling;if(dl&&dl.tagName==='DL'){const dt=document.createElement('dt');dt.textContent='自動・手動';const dd=document.createElement('dd');dd.textContent='自動：画面がキャラクターを追いかけます。手動：画面をドラッグして自由に見て回れます。';dl.append(dt,dd);}}catch(e){}
   try{setPause(PAUSED);}catch(e){}CTRL_ui();setInterval(()=>{try{CTRL_ui();}catch(e){}},500);}catch(e){}})();
 
 function NET_tv(){return!!(NET.on&&NET.tv);}
