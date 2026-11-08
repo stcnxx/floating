@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 608（2026/11/08）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 611（2026/11/08）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 608（2026/11/08）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 611（2026/11/08）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -16293,7 +16293,7 @@ function TR_pt(sd){ // arc length → top-down point + heading
 function TR_path(off){const a=TR_HW-TR_R+0,b=TR_HD-TR_R,R=TR_R+off,cx=0;g.beginPath();
   for(let k=0;k<=96;k++){const p=TR_pt(k/96*TR_L),n=[Math.cos(p.h+Math.PI/2),Math.sin(p.h+Math.PI/2)];const x=p.x+n[0]*off,y=(p.y+n[1]*off)*TR_SQ;k?g.lineTo(x,y):g.moveTo(x,y);}g.closePath();}
 function TR_draw(X,Y,t){g.save();const cx=X+23,cy=Y+6;
-  shadowR(X+2,Y+13,44,6);g.translate(cx,cy);
+  g.translate(cx,cy);
   // light-blue plastic track (like the photo): wide flat bed, raised outer lips, two wheel grooves
   g.lineJoin='round';
   g.lineWidth=4.4;g.strokeStyle='#2f78bf';TR_path(0);g.stroke();               // side wall
@@ -16316,12 +16316,12 @@ function TR_draw(X,Y,t){g.save();const cx=X+23,cy=Y+6;
     for(let w=0;w<3;w++)fillR(g,'#2a3a5a',-L/2+.5+w*1.05,-H/2+.35,.7,.55,.15);
     if(k===0){fillE(g,'#2a2a30',L/2-.15,-.1,.45,.75);fillE(g,'#fff2a0',L/2,.45,.28,.22);}
     for(const wx of[-L/2+.8,L/2-.8])fillE(g,'#2a2a30',wx,H/2+.05,.4,.32);g.restore();};
-  const inT=c=>c.p.x>TR_HW-1.5&&Math.abs(c.p.y)<TR_HD-TR_R-1; // hidden inside the tunnel
+  const TMX=TR_HW-TR_R+Math.sqrt(TR_R*TR_R-Math.pow(3.4/TR_SQ-(TR_HD-TR_R),2)),inT=c=>c.p.x>TMX-4.6&&c.p.y*TR_SQ<3.1&&c.p.y*TR_SQ>-7; // hidden inside the tunnel
   const back=cars.filter(c=>c.p.y<=0&&!inT(c)),front=cars.filter(c=>c.p.y>0&&!inT(c));
   back.sort((p,q)=>p.p.y-q.p.y).forEach(drawCar);
   // tunnel over the right straight
-  const tx=TR_HW,ty=0;g.fillStyle=SZ.lg(0,ty-7,0,ty+3,[[0,'#7fbf5c'],[1,'#4f8a3a']]);g.beginPath();g.ellipse(tx,ty-1,4.4,6,0,Math.PI,0);g.lineTo(tx+4.4,ty+3.4);g.lineTo(tx-4.4,ty+3.4);g.closePath();g.fill();
-  fillE(g,'#3a6a2a',tx-1.6,ty-4.6,1.6,.9);fillE(g,'#9ad070',tx+1.2,ty-5.4,1.3,.7);g.fillStyle='#2a2420';g.beginPath();g.ellipse(tx,ty+3.4,1.9,3,0,Math.PI,0);g.fill();
+  const tx=TMX,ty=0;g.fillStyle=SZ.lg(0,ty-7,0,ty+3,[[0,'#7fbf5c'],[1,'#4f8a3a']]);g.beginPath();g.ellipse(tx,ty-1,4.4,6,0,Math.PI,0);g.lineTo(tx+4.4,ty+3.4);g.lineTo(tx-4.4,ty+3.4);g.closePath();g.fill();
+  fillE(g,'#3a6a2a',tx-1.6,ty-4.6,1.6,.9);fillE(g,'#9ad070',tx+1.2,ty-5.4,1.3,.7);g.fillStyle='#2a2420';g.beginPath();g.ellipse(tx,ty+3.4,2.5,3.1,0,Math.PI,0);g.fill();g.fillStyle='rgba(0,0,0,.25)';g.beginPath();g.ellipse(tx,ty+3.4,2.9,3.4,0,Math.PI,0);g.ellipse(tx,ty+3.4,2.5,3.1,0,0,Math.PI,true);g.fill();
   front.sort((p,q)=>p.p.y-q.p.y).forEach(drawCar);
   // station on the front straight
   fillR(g,'#d8d0c0',-6,TR_HD*TR_SQ+2,12,2.2,.4);fillR(g,'#b8ae9a',-6,TR_HD*TR_SQ+3.6,12,.7,.3);
@@ -27426,13 +27426,13 @@ const SKX_AL={JAL:['JL','#c8102e','日本航空'],JJP:['GK','#f39800','ジェッ
  VJC:['VJ','#e2001a','ベトジェット'],CEB:['5J','#ffd500','セブパシフィック'],HKE:['UO','#7b2d8b','香港エクスプレス'],CRK:['HX','#e0001b','香港航空'],AIC:['AI','#d71920','エア・インディア'],ETH:['ET','#078930','エチオピア航空']};
 const SKX_airline=cs=>{const m=/^([A-Z]{3})\d/.exec(cs||'');return m&&SKX_AL[m[1]]?{code:SKX_AL[m[1]][0],col:SKX_AL[m[1]][1],name:SKX_AL[m[1]][2]}:null;};
 function SKX_norm(list){const out=[];for(const a of list||[]){const altFt=typeof a.alt_geom==='number'?a.alt_geom:typeof a.alt_baro==='number'?a.alt_baro:null;
-  if(a.lat==null||a.lon==null||altFt==null)continue;out.push({id:a.hex,cs:(a.flight||'').trim(),reg:a.r||'',type:a.t||'',lat:a.lat,lon:a.lon,alt:altFt*.3048,gs:(a.gs||0)*.514444,trk:a.track||0,t0:Date.now()-(a.seen_pos||0)*1000});}return out;}
+  if(a.lat==null||a.lon==null||altFt==null)continue;out.push({id:a.hex,cs:(a.flight||'').trim(),reg:a.r||'',type:a.t||'',lat:a.lat,lon:a.lon,alt:altFt*.3048,gs:(a.gs||0)*.514444,trk:a.track||0,vr:(typeof a.geom_rate==='number'?a.geom_rate:typeof a.baro_rate==='number'?a.baro_rate:0)*.00508,t0:Date.now()-(a.seen_pos||0)*1000});}return out;}
 async function SKX_fetchAc(){if(SKX.acBusy)return;SKX.acBusy=true;const o=SKX_obs(),nm=27;
   try{let list=null;
     for(const u of[`https://api.adsb.lol/v2/point/${o.lat.toFixed(4)}/${o.lon.toFixed(4)}/${nm}`,`https://api.airplanes.live/v2/point/${o.lat.toFixed(4)}/${o.lon.toFixed(4)}/${nm}`]){
       try{const j=await SKX_get(u,9000);if(j&&Array.isArray(j.ac)){list=SKX_norm(j.ac);break;}}catch(e){}}
     if(!list){const d=.5,u=`https://opensky-network.org/api/states/all?lamin=${(o.lat-d).toFixed(3)}&lomin=${(o.lon-d).toFixed(3)}&lamax=${(o.lat+d).toFixed(3)}&lomax=${(o.lon+d).toFixed(3)}`;
-      const j=await SKX_get(u,10000);list=[];for(const s of(j&&j.states)||[]){const alt=s[13]!=null?s[13]:s[7];if(s[6]==null||s[5]==null||alt==null||s[8])continue;list.push({id:s[0],cs:(s[1]||'').trim(),reg:'',type:'',lat:s[6],lon:s[5],alt,gs:s[9]||0,trk:s[10]||0,t0:(s[3]?s[3]*1000:Date.now())});}}
+      const j=await SKX_get(u,10000);list=[];for(const s of(j&&j.states)||[]){const alt=s[13]!=null?s[13]:s[7];if(s[6]==null||s[5]==null||alt==null||s[8])continue;list.push({id:s[0],cs:(s[1]||'').trim(),reg:'',type:'',lat:s[6],lon:s[5],alt,gs:s[9]||0,trk:s[10]||0,vr:s[11]||0,t0:(s[3]?s[3]*1000:Date.now())});}}
     SKX.ac=list;SKX.acAt=Date.now();SKX.acErr='';
     for(const a of list){const tr=SKX.trails[a.id]||(SKX.trails[a.id]=[]);const l=tr[tr.length-1];if(!l||l.lat!==a.lat||l.lon!==a.lon)tr.push({lat:a.lat,lon:a.lon,alt:a.alt});if(tr.length>16)tr.shift();}
     for(const id in SKX.trails)if(!list.some(a=>a.id===id))delete SKX.trails[id];
@@ -27450,6 +27450,7 @@ async function SKX_routes(list){const ask=list.filter(a=>SKX_okCs(a.cs)&&!(a.cs 
   const rest=list.filter(a=>SKX_okCs(a.cs)&&!SKX.routes[a.cs]&&!SKX.routeSt['db:'+a.cs]).sort((a,b)=>dd(a)-dd(b)).slice(0,10);
   for(const a of rest){SKX.routeSt['db:'+a.cs]=1;try{const j=await SKX_get('https://api.adsbdb.com/v0/callsign/'+encodeURIComponent(a.cs),9000),fr=j&&j.response&&j.response.flightroute,c=v=>v&&(v.iata_code||v.icao_code);
     if(fr&&c(fr.origin)&&c(fr.destination)){SKX.routes[a.cs]=[c(fr.origin),c(fr.destination)];SKX.routeSt[a.cs]='ok';}}catch(e){}}}
+function SKX_altNow(a,ms){const dt=Math.max(0,Math.min(90,(ms-a.t0)/1000));return Math.max(0,a.alt+(a.vr||0)*dt);}
 function SKX_acNow(a,ms){const dt=Math.max(0,Math.min(90,(ms-a.t0)/1000)),d=a.gs*dt,cl=Math.cos(a.lat*D2R)||1;return[a.lat+d*Math.cos(a.trk*D2R)/111320,a.lon+d*Math.sin(a.trk*D2R)/(111320*cl)];}
 function SKX_planeShape(x,px,py,ang,s,col){x.save();x.translate(px,py);x.rotate(ang);x.scale(s,s);x.fillStyle=col;x.beginPath();
   x.moveTo(7,0);x.quadraticCurveTo(6,-.9,4,-1);x.lineTo(1,-1);x.lineTo(-2,-6.2);x.lineTo(-3.4,-6.2);x.lineTo(-1.6,-1);x.lineTo(-5,-1);x.lineTo(-6.4,-3);x.lineTo(-7.4,-3);x.lineTo(-6.6,0);
@@ -27701,33 +27702,42 @@ function CUSH_fix(){try{if(!S||!S.owned)return;let moved=false;for(const k of S.
   try{if(items&&C.scene==='in')for(let i=n0;i<items.length;i++){const it=items[i];if(!it.cushK)continue;const h=CUSH_hit(it.cushK);if(h)it.k=(h.L.y+(h.f.h||1))*T+.05;}}catch(e){}return r;};}
 
 /* ===== v591: planes in the tower's sky view look exactly like My Spot's; no data / status line for planes and satellites ===== */
-function SKX_msShape(x,px,py,ang,sz,night,ms){x.save();x.translate(px,py);x.rotate(ang+Math.PI/2);x.scale(sz,sz);
-  x.fillStyle='#eef4ff';x.strokeStyle='rgba(0,0,0,.55)';x.lineWidth=.7;
+function SKX_msShape(x,px,py,ang,sz,night,ms,rad){rad=rad||0;const fs=Math.max(.32,Math.sqrt(1-rad*rad));   // nose-on / tail-on planes look shorter
+  x.save();x.translate(px,py);x.rotate(ang+Math.PI/2);x.scale(sz,sz*fs);
+  x.fillStyle=night?'#9aa3b2':'#eef4ff';x.strokeStyle='rgba(0,0,0,.55)';x.lineWidth=.7;
   x.beginPath();x.moveTo(-1.3,-4.2);x.quadraticCurveTo(-1.3,-7.2,0,-7.2);x.quadraticCurveTo(1.3,-7.2,1.3,-4.2);x.lineTo(1.3,-2);x.lineTo(7,1.5);x.lineTo(7,3);x.lineTo(1.3,1.2);x.lineTo(1,5.2);x.lineTo(2.8,6.6);x.lineTo(2.8,7.6);x.lineTo(0,6.8);x.lineTo(-2.8,7.6);x.lineTo(-2.8,6.6);x.lineTo(-1,5.2);x.lineTo(-1.3,1.2);x.lineTo(-7,3);x.lineTo(-7,1.5);x.lineTo(-1.3,-2);x.closePath();x.fill();x.stroke();
   // red anti-collision beacon on the middle of the fuselage, blinking, at night only
   if(night&&(ms/600|0)%2){x.fillStyle='#ff4d4d';x.beginPath();x.arc(0,1,1.7,0,TAU);x.fill();}
-  x.restore();}
+  x.restore();
+  // a plane coming towards us shows its landing light at the nose (bright at night, faint by day)
+  if(rad<-.35){const k=(-rad-.35)/.65,nx=Math.cos(ang)*7.2*sz*fs,ny=Math.sin(ang)*7.2*sz*fs,rr=(night?7:4.5)*sz;
+    const gr=x.createRadialGradient(px+nx,py+ny,0,px+nx,py+ny,rr);gr.addColorStop(0,`rgba(255,255,240,${(night?.95:.6)*(.5+.5*k)})`);gr.addColorStop(1,'rgba(255,255,240,0)');
+    x.fillStyle=gr;x.beginPath();x.arc(px+nx,py+ny,rr,0,TAU);x.fill();}}
 SKX_drawPlanes=function(x,P,Wc,hy,kk,t){const ms=Date.now(),half=SKYV.fov/2+10,cand=[];
   let night=false;try{const sk=skyNow();night=SKYV.night||sk.sun.alt<-4;}catch(e){}
-  for(const a of SKX.ac){const[la,lo]=SKX_acNow(a,ms),L=SKX_look(la,lo,a.alt);if(L.dist<=40e3&&L.alt>=5)cand.push({a,la,lo,L});}
+  for(const a of SKX.ac){const[la,lo]=SKX_acNow(a,ms),L=SKX_look(la,lo,SKX_altNow(a,ms));if(L.dist<=40e3&&L.alt>=5)cand.push({a,la,lo,L});}
   cand.sort((p,q)=>p.L.dist-q.L.dist);cand.length=Math.min(cand.length,30);SKX.nearN=cand.length;
   const items=[];cand.forEach((c,rank)=>{const p=P(c.L.az,c.L.alt);if(Math.abs(p.d)>half)return;const a=c.a;
-    const[la2,lo2]=SKX_acNow(a,ms+4000),L2=SKX_look(la2,lo2,a.alt),p2=P(L2.az,L2.alt);items.push({c,a,p,rank,ang:Math.atan2(p2.y-p.y,p2.x-p.x)});});
+    // direction on screen from where it will be a few seconds later, climbing / descending included (v609)
+    const[la2,lo2]=SKX_acNow(a,ms+4000),L2=SKX_look(la2,lo2,SKX_altNow(a,ms+4000)),p2=P(L2.az,L2.alt);
+    // depth: + moving away from us, - coming towards us (along the line of sight)
+    const rad=Math.max(-1,Math.min(1,Math.cos((a.trk-c.L.az)*D2R)*Math.cos(c.L.alt*D2R)));
+    items.push({c,a,p,rank,rad,ang:Math.atan2(p2.y-p.y,p2.x-p.x)});});
   SKX.inView=items.length;
   items.sort((u,v)=>v.c.L.dist-u.c.L.dist);   // far ones first, near ones on top
   x.save();const LB=[];
-  for(const it of items){const{a,p,c}=it,near=it.rank<10,sz=near?1:.7;x.globalAlpha=near?1:.55;
+  for(const it of items){const{a,p,c}=it,near=it.rank<10,sz=Math.max(.55,Math.min(1.3,1.35-c.L.dist/40e3*.8))*(near?1:.85);x.globalAlpha=near?1:.55;
     // the way it came (dotted), near planes only
     const tr=near?SKX.trails[a.id]:null;
     if(tr&&tr.length>1){x.strokeStyle='rgba(190,212,255,.55)';x.lineWidth=1;x.setLineDash([2,3]);x.beginPath();let pen=false;
       for(const q of tr){const L3=SKX_look(q.lat,q.lon,q.alt),pp=P(L3.az,L3.alt);if(L3.alt<0||Math.abs(pp.x-p.x)>Wc*.5){pen=false;continue;}pen?x.lineTo(pp.x,pp.y):x.moveTo(pp.x,pp.y);pen=true;}
       if(pen)x.lineTo(p.x,p.y);x.stroke();x.setLineDash([]);}
-    SKX_msShape(x,p.x,p.y,it.ang,sz,night,ms);x.globalAlpha=1;
+    SKX_msShape(x,p.x,p.y,it.ang,sz,night,ms,it.rad);x.globalAlpha=1;
     SKX.hits.push({x:p.x,y:p.y,r:14,kind:'plane',o:a,L:c.L});
     if(p.x<0||p.x>Wc)continue;   // v597: every plane gets its tag
     // tag: airline code + route (or flight number), altitude on the second line
     const al=SKX_airline(a.cs),rt=SKX.routes[a.cs],code=al&&al.code?al.code:'',col=al?al.col:'#4b5563';
-    const l1=rt?`${rt[0]}→${rt[rt.length-1]}`:(a.cs||a.reg||''),m=Math.round(a.alt/100)*100,l2=`高度 ${m>=1000?m.toLocaleString():Math.round(a.alt/10)*10}m`;
+    const l1=rt?`${rt[0]}→${rt[rt.length-1]}`:(a.cs||a.reg||''),m=Math.round(a.alt/100)*100,l2=`高度 ${m>=1000?m.toLocaleString():Math.round(a.alt/10)*10}m`;   // v610: no 近づく/遠ざかる words on the tag
     const lx=p.x+12,ly=p.y+5;x.font='700 10px "Zen Maru Gothic",sans-serif';const w1=x.measureText(l1).width,bw=code?20:0,tw=bw+(code?4:0)+w1;
     // try right, left, below, above; if all are taken, the nearer plane's tag was placed first and this one goes to the right anyway
     const hit=b=>LB.some(q=>b.x<q.x+q.w+2&&q.x<b.x+b.w+2&&b.y<q.y+q.h+2&&q.y<b.y+b.h+2),clampX=v=>Math.max(4,Math.min(Wc-4-tw,v));
@@ -27872,12 +27882,12 @@ function TRN_paint(sa,sunAz,hor){const P=TRN.pano;if(!P)return null;const {COLS,
   g.putImageData(img,0,0);return P.cv;}
 function TRN_load(){const L=astroLoc(),key=L.lat.toFixed(2)+','+L.lon.toFixed(2);if(TRN.key===key&&(TRN.prof||TRN.busy))return;
   if(TRN.key!==key){TRN.key=key;TRN.prof=null;TRN.places=null;TRN.pano=null;TRN.fail=0;
-    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===7&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];
+    try{const c=JSON.parse(localStorage.getItem('fy-terr')||'null');if(c&&c.key===key&&c.v===8&&Date.now()-c.t<30*864e5&&(!c.pp||Date.now()-c.t<6e5)){TRN.prof=c.prof;TRN.elev=c.elev;TRN.dip=c.dip;TRN.places=c.places||[];
       // the outline and names come from the saved copy; the picture of the land is rebuilt from the tiles in the background
       TRN_compute(L.lat,L.lon,{panoOnly:true}).then(r=>{if(TRN.key===key)TRN.pano=r.pano;}).catch(()=>{});return;}}catch(e){}}
   if(TRN.fail&&Date.now()-TRN.fail<120000)return;
   TRN.busy=true;TRN_compute(L.lat,L.lon).then(r=>{if(TRN.key!==key)return;TRN.prof=r.prof;TRN.elev=r.elev;TRN.dip=r.dip;TRN.pano=r.pano;
-    const sv=(pl,pp)=>{try{localStorage.setItem('fy-terr',JSON.stringify({key,v:7,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:pl,pp}));}catch(e){}};
+    const sv=(pl,pp)=>{try{localStorage.setItem('fy-terr',JSON.stringify({key,v:8,t:Date.now(),prof:r.prof,elev:r.elev,dip:r.dip,places:pl,pp}));}catch(e){}};
     sv(null,true);r.placesP.then(q=>{if(TRN.key!==key)return;TRN.places=q.places;sv(q.places,q.pp);});})
     .catch(()=>{TRN.fail=Date.now();}).finally(()=>{TRN.busy=false;});}
 function TRN_draw(x,Wc,Hc,hy,kk,sc2,sa,sk){TRN_load();const pr=TRN.prof,   // the relief is always drawn; 地形 only switches the place / mountain names
@@ -27916,7 +27926,15 @@ async function TRN_places(lat,lon,km){const ctr=`"Point(${lon.toFixed(4)} ${lat.
   const qmF=jp?`SELECT DISTINCT ?n ?loc ?h WHERE{${MC} ?it wdt:P31 ?c; wdt:P17 wd:Q17; wdt:P2044 ?h; wdt:P625 ?loc. FILTER(?h>=400) FILTER(geof:distance(?loc,${ctr})<${km}) ${lab}}`
     :`SELECT DISTINCT ?n ?loc ?h WHERE{${around(km)} ${MC} ?it wdt:P31 ?c; wdt:P2044 ?h. FILTER(?h>=400) ${lab}}`;
   const pt=s=>{const m=/Point\(([-\d.]+) ([-\d.]+)\)/.exec(s||'');return m?{lon:+m[1],lat:+m[2]}:null;};
-  let okC=true,okM=true;const [cs,mN,mF]=await Promise.all([TRN_sparql(qc).catch(()=>{okC=false;return[];}),TRN_sparql(qmN).catch(()=>{okM=false;return[];}),TRN_sparql(qmF).catch(()=>{okM=false;return[];})]);const ms=mN.concat(mF);
+  // v609: mountains come from OpenStreetMap peaks (Overpass) like My Spot — Wikidata only if that fails
+  const peaks=async()=>{const q=`[out:json][timeout:25];(node["natural"="peak"]["name"]["ele"](around:${km*1000},${lat.toFixed(4)},${lon.toFixed(4)})(if:number(t["ele"])>=400);node["natural"~"^(peak|hill)$"]["name"](around:12000,${lat.toFixed(4)},${lon.toFixed(4)}););out body;`;
+    for(const ep of['https://overpass-api.de/api/interpreter','https://overpass.kumi.systems/api/interpreter']){
+      try{const c=new AbortController(),tm=setTimeout(()=>c.abort(),30000);let j;try{const r=await fetch(ep+'?data='+encodeURIComponent(q),{signal:c.signal});if(!r.ok)throw new Error('HTTP '+r.status);j=await r.json();}finally{clearTimeout(tm);}
+        const out=[],seen=new Set();for(const e of j.elements||[]){const t=e.tags||{},nm=(jp?t['name:ja']||t.name:t['name:ja']||t['name:en']||t.name)||'',h=parseFloat(String(t.ele||'').replace(',','.'));
+          const kk=nm+'|'+Math.round(e.lat*100);if(!nm||seen.has(kk))continue;seen.add(kk);out.push({n:{value:nm},loc:{value:`Point(${e.lon} ${e.lat})`},h:Number.isFinite(h)?{value:String(Math.round(h))}:undefined});}
+        return out;}catch(e){}}
+    const [a,b]=await Promise.all([TRN_sparql(qmN),TRN_sparql(qmF)]);return a.concat(b);};
+  let okC=true,okM=true;const [cs,ms]=await Promise.all([TRN_sparql(qc).catch(()=>{okC=false;return[];}),peaks().catch(()=>{okM=false;return[];})]);
   if(!okC&&!okM)return null;const out=[],seen=new Set();
   // the same name can belong to different places (愛宕山 in Tokyo and in Chiba) — tell them apart by position
   const key=(n,p)=>n+'@'+p.lat.toFixed(2)+','+p.lon.toFixed(2);
@@ -28002,6 +28020,165 @@ const SKX_AP={HND:'羽田',NRT:'成田',KIX:'関西',ITM:'伊丹',UKB:'神戸',N
  LHR:'ロンドン',CDG:'パリ',FRA:'フランクフルト',MUC:'ミュンヘン',AMS:'アムステルダム',HEL:'ヘルシンキ',CPH:'コペンハーゲン',ARN:'ストックホルム',ZRH:'チューリッヒ',VIE:'ウィーン',FCO:'ローマ',MXP:'ミラノ',MAD:'マドリード',BCN:'バルセロナ',IST:'イスタンブール',WAW:'ワルシャワ',
  DXB:'ドバイ',AUH:'アブダビ',DOH:'ドーハ',SVO:'モスクワ',VVO:'ウラジオストク',ULN:'ウランバートル',TAS:'タシケント'};
 function SKX_apJa(c){const k=String(c||'').toUpperCase();return SKX_AP[k]||k;}
+
+/* ===== v611: board game (人生ゲーム風すごろく) / playing cards / hanafuda with the housemate — at the kotatsu, a low table, or on the floor.
+   Low tables are now 2×2 (the same size as the kotatsu). The hero sits in front, the housemate at the back. ===== */
+function GM_card(x,y,w,h,face,rot){g.save();g.translate(x,y);g.rotate(rot||0);fillR(g,'rgba(0,0,0,.18)',-w/2+.4,-h/2+.5,w,h,.6);
+  if(face==='back'){fillR(g,'#2b4fa8',-w/2,-h/2,w,h,.6);g.strokeStyle='rgba(255,255,255,.8)';g.lineWidth=.25;g.strokeRect(-w/2+.5,-h/2+.5,w-1,h-1);
+    g.strokeStyle='rgba(255,255,255,.35)';g.lineWidth=.15;for(let i=-3;i<=3;i++){g.beginPath();g.moveTo(-w/2+.6,i*.9);g.lineTo(w/2-.6,i*.9+1.2);g.stroke();}}
+  else{fillR(g,'#fbfaf6',-w/2,-h/2,w,h,.6);g.strokeStyle='rgba(0,0,0,.25)';g.lineWidth=.15;rr(g,-w/2,-h/2,w,h,.6);g.stroke();
+    const red=face[1]==='h'||face[1]==='d';g.fillStyle=red?'#d4322a':'#1d1d22';g.font='bold 1.9px sans-serif';g.textAlign='left';g.fillText(face[0],-w/2+.35,-h/2+1.9);
+    const sym={h:'♥',d:'♦',s:'♠',c:'♣'}[face[1]];g.font='3px sans-serif';g.textAlign='center';g.fillText(sym,0,1.2);}
+  g.restore();}
+
+const GM_HANA=[['#1f6a3a','#d63a2a','松'],['#f2b8c8','#c0306a','桜'],['#6a3a8a','#f2e6c0','月'],['#c9302a','#2f6a2a','紅葉'],['#e8a3b6','#3d6a2a','梅'],['#3e4fb8','#e8d23a','菖蒲'],['#cf3a2a','#f3d76a','牡丹'],['#7a5a2a','#f3f1e8','柳']];
+function GM_hana(x,y,i,rot,back){const w=3.6,h=5.6;g.save();g.translate(x,y);g.rotate(rot||0);fillR(g,'rgba(0,0,0,.2)',-w/2+.4,-h/2+.5,w,h,.4);
+  if(back){fillR(g,'#2a1b14',-w/2,-h/2,w,h,.4);fillR(g,'#4a2e20',-w/2+.4,-h/2+.4,w-.8,h-.8,.3);g.restore();return;}
+  fillR(g,'#2a1b14',-w/2,-h/2,w,h,.4);const [bg,fg]=GM_HANA[i%GM_HANA.length];fillR(g,'#f4eedc',-w/2+.35,-h/2+.35,w-.7,h-.7,.25);
+  // simple motifs
+  if(i===0){fillE(g,'#d63a2a',0,-1.2,1.1,1.1);fillR(g,'#1f6a3a',-1.2,.2,2.4,1.6,.6);fillR(g,'#2a5a2a',-.2,.6,.4,1.6,.1);}
+  else if(i===1){for(let k=0;k<5;k++)fillE(g,'#f2a8c0',Math.cos(k*1.26)*1,-1+Math.sin(k*1.26)*1,.6,.6);fillR(g,'#c0306a',-1.3,.6,2.6,.9,.2);}
+  else if(i===2){fillR(g,'#c84030',-1.4,-2.4,2.8,2.6,.2);fillE(g,'#f6f0e0',0,-1.1,1,1);fillR(g,'#4a3a2a',-1.4,.6,2.8,1.6,.2);}
+  else if(i===3){for(let k=0;k<4;k++)fillE(g,k%2?'#e0562a':'#c9302a',-.8+k*.55,-1+((k*7)%3)*.6,.6,.45);fillR(g,'#3d6a9a',-1.2,1,2.4,.7,.2);}
+  else if(i===4){fillR(g,'#e85a7a',-1.4,-2.4,2.8,2.4,.2);for(let k=0;k<3;k++)fillE(g,'#f6f0f0',-.8+k*.8,.6,.45,.45);}
+  else if(i===5){fillR(g,'#3e4fb8',-.2,-2,.4,3,.1);fillE(g,'#6a5ad0',0,-1.6,.7,.6);fillR(g,'#c8a03a',-1.4,1.2,2.8,.5,.1);}
+  else if(i===6){fillE(g,'#cf3a2a',0,-.6,1.2,1);fillE(g,'#e86a5a',-.3,-.9,.5,.4);fillR(g,'#2f6a2a',-1.2,.8,2.4,.8,.3);}
+  else{g.strokeStyle='#5a7a2a';g.lineWidth=.25;for(let k=0;k<4;k++){g.beginPath();g.moveTo(-1+k*.6,-2.4);g.quadraticCurveTo(-1.2+k*.6,0,-.6+k*.6,2.2);g.stroke();}}
+  g.restore();}
+
+function GM_life(cx,cy,W,H,t,pg){pg=pg||0; // board game like 人生ゲーム: a winding path of coloured squares over little hills, a spinner, cars, money
+  g.save();g.translate(cx,cy);
+  fillR(g,'rgba(0,0,0,.18)',-W/2+.6,-H/2+.8,W,H,1);fillR(g,'#8fd06a',-W/2,-H/2,W,H,1);
+  fillE(g,'#a9de7a',-W*.22,-H*.18,W*.22,H*.2);fillE(g,'#79c0e8',W*.25,H*.2,W*.16,H*.13);fillE(g,'#e8d79a',W*.28,-H*.24,W*.14,H*.1);
+  const pts=[];for(let i=0;i<=26;i++){const u=i/26;pts.push([-W*.4+u*W*.8,Math.sin(u*Math.PI*3)*H*.28+(u-.5)*H*.1]);}
+  const cols=['#f2c230','#e8402a','#3a7ad8','#f6f2ea','#f28a2a','#8a5ad8'];
+  for(let i=0;i<pts.length;i++){const[x,y]=pts[i];fillR(g,'rgba(0,0,0,.15)',x-1.1,y-.7,2.3,1.6,.4);fillR(g,cols[i%cols.length],x-1.2,y-.9,2.3,1.6,.4);}
+  // tiny houses / buildings
+  const house=(x,y,w,h,wall,roof)=>{fillR(g,'rgba(0,0,0,.18)',x+.3,y+.3,w,h,.2);fillR(g,wall,x,y,w,h,.2);g.fillStyle=roof;g.beginPath();g.moveTo(x-.3,y+.2);g.lineTo(x+w/2,y-h*.7);g.lineTo(x+w+.3,y+.2);g.closePath();g.fill();fillR(g,'#6a8ab8',x+w*.3,y+h*.35,w*.4,h*.35,.1);};
+  house(-W*.38,-H*.36,2.6,1.8,'#f6f0e2','#d84a3a');house(W*.08,-H*.38,2.2,1.6,'#f2e6c8','#3a7ad8');fillR(g,'#c8d2e0',W*.2,-H*.46,1.6,3,.2);fillR(g,'#8aa0c0',W*.24,-H*.42,.4,.4,.05);fillR(g,'#8aa0c0',W*.24,-H*.3,.4,.4,.05);
+  house(W*.24,H*.3,2.4,1.6,'#f6f0e2','#3fae4a');
+  // the spinner (roulette)
+  const sx=W*.36,sy=-H*.05,sr=3.2;fillE(g,'rgba(0,0,0,.2)',sx+.4,sy+.6,sr+.3,sr*.8);
+  for(let k=0;k<10;k++){g.fillStyle=['#e8402a','#f2c230','#3a7ad8','#3fae4a','#f28a2a'][k%5];g.beginPath();g.moveTo(sx,sy);g.ellipse(sx,sy,sr,sr*.75,0,k*Math.PI/5,(k+1)*Math.PI/5);g.closePath();g.fill();}
+  fillE(g,'#f6f2ea',sx,sy,1,.75);const a=(t%7)<1.4?t*9:Math.floor(t/7)*2.4;g.strokeStyle='#1d1d22';g.lineWidth=.35;g.beginPath();g.moveTo(sx,sy);g.lineTo(sx+Math.cos(a)*sr*.9,sy+Math.sin(a)*sr*.68);g.stroke();
+  // cars with peg people
+  for(const[i,c]of[[Math.min(26,2+Math.floor(pg*24)),'#3a7ad8'],[Math.min(26,1+Math.floor(pg*22+1)),'#e85a8a']]){const[x,y]=pts[i];fillR(g,c,x-1,y-1.6,2,1.3,.4);fillE(g,'#f3d9b8',x-.4,y-1.9,.35,.35);fillE(g,'#f3d9b8',x+.4,y-1.9,.35,.35);}
+  // paper money
+  for(let k=0;k<3;k++)fillR(g,['#f2e6a8','#d8ecd0','#f2d0c8'][k],-W/2-3.8+k*.4,H*.1+k*.5,4.2,2.2,.2);
+  for(let k=0;k<2;k++)fillR(g,['#f2e6a8','#d8ecd0'][k],W/2-.4+k*.4,-H*.32+k*.5,4.2,2.2,.2);
+  g.restore();}
+
+function GM_cardsFB(cx,cy,W,H,t,pg){pg=pg||0;g.save();g.translate(cx,cy);const n=Math.max(1,5-Math.floor(pg*4.5));
+  for(let k=0;k<5;k++)GM_card(-3.2+k*.12,-.2-k*.12,4,5.6,'back',0);
+  GM_card(2.4,0,4,5.6,'Ah',.12);GM_card(4.4,.6,4,5.6,'Ks',-.18);
+  for(let k=0;k<n;k++)GM_card(-(n-1)*1.3+k*2.6,-H/2+3,3.2,4.4,'back',(k-(n-1)/2)*.08);
+  for(let k=0;k<n;k++)GM_card(-(n-1)*1.3+k*2.6,H/2-3,3.4,4.8,['7h','8h','9d','Qc','Jd'][k],(k-(n-1)/2)*.06);
+  g.restore();}
+
+function GM_hanaFB(cx,cy,W,H,t,pg){pg=pg||0;g.save();g.translate(cx,cy);const nc=1+Math.floor(pg*4),nf=Math.max(4,8-Math.floor(pg*3));
+  for(let k=0;k<6;k++)GM_hana(-W/2+3.6+k*.08,-k*.08,0,0,true);
+  for(let r=0;r<2;r++)for(let k=0;k<4;k++){if(r*4+k>=nf)continue;GM_hana(-3.4+k*4.1,-2.9+r*5.8,r*4+k,((r*4+k)%3-1)*.05);}
+  for(let k=0;k<nc;k++){GM_hana(W/2-7.5+k*1.6,-H/2+3.4,(k*3)%8,.1*k);GM_hana(-W/2+5.5+k*1.6,H/2-3.4,(k*5+1)%8,-.1*k);}
+  g.restore();}
+
+// ---- low tables: 2×2 ----
+const LT_KEYS=['lowtable','glasslow','walnutlow','marblelow'];
+const LT_STY={lowtable:{top:'#c99464',side:'#9a6a40',l1:'#a06c40',l2:'#5e3c22',gr:.06},walnutlow:{top:'#7e5434',side:'#4e3220',l1:'#6a4428',l2:'#3a2416',gr:.09},
+  marblelow:{top:'#eeeae3',side:'#c9c2b8',l1:'#e2ddd4',l2:'#a8a196',marble:1},glasslow:{glass:1}};
+function LT_draw(k,X,Y,Wd,Dp,L,t){const s=LT_STY[k]||LT_STY.lowtable;g.save();A_shadow(X+5,Y+Dp-10,Wd-10,6,s.glass?.7:1);
+  if(s.glass){// chrome legs under a clear glass top
+    for(const lx of[X+8,X+Wd-10])for(const ly of[Y+12,Y+Dp-16]){g.fillStyle=A_lg(lx,0,lx+2,0,[[0,'#f2f4f6'],[.5,'#9aa2aa'],[1,'#e2e6ea']]);g.fillRect(lx,ly,2,8);}
+    g.fillStyle='rgba(190,225,235,.28)';rr(g,X+4,Y+3,Wd-8,Dp-14,4);g.fill();g.strokeStyle='rgba(120,170,185,.65)';g.lineWidth=.8;rr(g,X+4,Y+3,Wd-8,Dp-14,4);g.stroke();
+    g.fillStyle='rgba(120,170,185,.35)';g.fillRect(X+5,Y+Dp-11.5,Wd-10,1.4);g.fillStyle='rgba(255,255,255,.55)';g.beginPath();g.moveTo(X+8,Y+6);g.lineTo(X+15,Y+6);g.lineTo(X+9,Y+14);g.closePath();g.fill();}
+  else{for(const lx of[X+7,X+Wd-10]){g.fillStyle=A_lg(lx,0,lx+3,0,[[0,s.l1],[1,s.l2]]);g.beginPath();g.moveTo(lx,Y+Dp-15);g.lineTo(lx+3,Y+Dp-15);g.lineTo(lx+2.6,Y+Dp-7);g.lineTo(lx+.4,Y+Dp-7);g.closePath();g.fill();}
+    prism(X+4,Y+8,Wd-8,Dp-17,5,s.side,{top:s.top,r:3});
+    if(s.marble){g.strokeStyle='rgba(150,140,130,.35)';g.lineWidth=.35;g.beginPath();g.moveTo(X+8,Y+8);g.bezierCurveTo(X+18,Y+14,X+24,Y+6,X+38,Y+20);g.moveTo(X+12,Y+26);g.bezierCurveTo(X+20,Y+20,X+30,Y+30,X+42,Y+24);g.stroke();}
+    else grain(X+4,Y+3,Wd-8,Dp-17,s.gr||.06);}
+  g.restore();
+  if(GM_on(k,L))GM_drawOn(X+Wd/2,Y+Dp/2-3,Wd-12,Dp-20,t);}
+for(const k of LT_KEYS){const f=FT[k];if(!f)continue;f.h=2;f.slots=[[13,14],[35,14]];f.draw=function(X,Y,Wd,Dp,L,t){LT_draw(k,X,Y,Wd,Dp,L,t);};}
+// a low table placed when it was 2×1 may not have room for its new second row — move it up a tile, or to a free spot
+function LT_fix(){try{if(!S||!S.owned)return;let moved=false;
+  for(const k of LT_KEYS){if(!S.owned.includes(k)||!FT[k])continue;const L=S.layout[k];if(!L||L.carry||L.wall||L.on)continue;const occ=occSet(new Set([k])),f=FT[k];
+    const fits=(x,y)=>{const r=roomAt(x,y);if(!r||!f.rooms.includes(r))return false;for(let yy=y;yy<y+f.h;yy++)for(let xx=x;xx<x+f.w;xx++){const kk=xx+','+yy;if(roomAt(xx,yy)!==r||KEEP.has(kk)||DOORCELL.has(kk)||occ.has(kk)||(typeof WH_hid==='function'&&WH_hid(xx,yy)))return false;}return true;};
+    if(fits(L.x,L.y))continue;
+    if(fits(L.x,L.y-1)){L.y-=1;moved=true;continue;}
+    const p=placeFor(k,{occ});if(p){S.layout[k]={...p,v:L.v||0};moved=true;}}
+  if(moved){refreshOcc();try{save();}catch(e){}}}catch(e){}}
+setTimeout(LT_fix,1500);
+{const CG=contGame;contGame=function(){const r=CG.apply(this,arguments);try{setTimeout(LT_fix,300);}catch(e){}return r;};}
+
+// ---- the game itself ----
+const GM={on:false,k:null,mat:null,kind:'life',t0:0,dur:120,mate:false};
+function GM_on(k,L){return GM.on&&C.act==='boardgame'&&GM.k===k&&(!L||L===S.layout[k]);}
+function GM_p(){return Math.max(0,Math.min(1,(performance.now()-GM.t0)/1000/GM.dur));}
+function GM_drawOn(cx,cy,W,H,t){try{const p=GM_p();if(GM.kind==='life')GM_life(cx,cy,W*.82,H*.86,t||0,p);else if(GM.kind==='cards')GM_cardsFB(cx,cy,W,H,t||0,p);else GM_hanaFB(cx,cy,W,H,t||0,p);}catch(e){}}
+// the kotatsu: tidy the mikan away while playing, and draw the game on the top
+{const MB=A_mikanBowl;A_mikanBowl=function(){if(GM.on&&C.act==='boardgame'&&GM.k==='kotatsu')return;return MB.apply(this,arguments);};}
+for(const k of Object.getOwnPropertyNames(FT)){if(MC_base(k)!=='kotatsu'||!FT[k])continue;const KD=FT[k].draw;FT[k].draw=function(X,Y,Wd,Dp,L,t){let r;const hide=GM_on('kotatsu',L),FE=fillE;
+  // (without the quilt the bowl of mikan is drawn inline — skip those few ovals too)
+  if(hide)fillE=function(c){if(c==='#c49a6c'||c==='#f39a3a')return;return FE.apply(this,arguments);};try{r=KD.apply(this,arguments);}finally{fillE=FE;}if(GM_on('kotatsu',L))GM_drawOn(X+Wd/2,Y+Dp/2-3,Wd-12,Dp-20,t);return r;};}
+// on the floor: two floor cushions and a felt mat
+{const DF=drawFloorItems;drawFloorItems=function(t){const r=DF.apply(this,arguments);try{if(GM.on&&C.act==='boardgame'&&GM.k==='floor'&&GM.mat&&C.scene==='in'){const X=GM.mat.x*T,Y=GM.mat.y*T,W=2*T,H=2*T;
+  for(const[zx,zy]of[[X+W/2-10,Y-12],[X+W/2-10,Y+H+1]]){fillR(g,'rgba(0,0,0,.14)',zx+1,zy+2,20,16,4);fillR(g,'#6a4a8a',zx,zy,20,16,4);fillR(g,'#7d5ca0',zx,zy,20,3,3);fillE(g,'#e8c46a',zx+10,zy+8,1.1,1.1);}
+  fillR(g,'rgba(0,0,0,.15)',X+3,Y+6,W-4,H-8,3);fillR(g,'#8a1f2a',X+2,Y+4,W-4,H-8,3);g.strokeStyle='rgba(255,220,160,.45)';g.lineWidth=.6;rr(g,X+4,Y+6,W-8,H-12,2);g.stroke();
+  GM_drawOn(X+W/2,Y+H/2,W-12,H-18,t);}}catch(e){}return r;};}
+// where to play: kotatsu (in the cold season), a low table, or a free patch of floor in the living room
+function GM_spot(){const opts=[],cold=season()==='winter'||tempNow()<15;
+  const tbl=(k,w)=>{if(!has(k)||!FT[k])return;const L=S.layout[k];if(!L||L.carry||L.wall||L.on)return;if(FT[k].w!==2||FT[k].h!==2)return;
+    const fx=[L.x,L.x+1].find(x=>walkIn(x,L.y+2)),bx=[L.x,L.x+1].find(x=>walkIn(x,L.y-1));if(fx==null||bx==null)return;
+    opts.push({k,w,L,hero:{x:fx,y:L.y+2,d:'up'},heroSit:{px:(L.x+1)*T,py:(L.y+2)*T+19-(k==='kotatsu'?0:0),pose:'sit',d:'up'},mate:{x:bx,y:L.y-1},mateSit:{px:(L.x+1)*T,py:L.y*T+6,pose:'sit',d:'down',over:false}});};
+  tbl('kotatsu',cold?3:1.2);for(const k of LT_KEYS)tbl(k,2);
+  // floor: a 2×2 mat with a free row above and below
+  const fl=[];for(let y=3;y<=20;y++)for(let x=1;x<=HW-3;x++){if(roomAt(x,y)!=='liv')continue;let ok=true;
+    for(let yy=y-1;yy<=y+2&&ok;yy++)for(let xx=x;xx<=x+1;xx++){const kk=xx+','+yy;if(!walkIn(xx,yy)||roomAt(xx,yy)!=='liv'||KEEP.has(kk)||DOORCELL.has(kk)){ok=false;break;}}
+    if(ok)fl.push({x,y});}
+  if(fl.length){const m=pick(fl);opts.push({k:'floor',w:1.2,mat:m,hero:{x:m.x,y:m.y+2,d:'up'},heroSit:{px:(m.x+1)*T,py:(m.y+2)*T+19,pose:'sit',d:'up',floor:true},mate:{x:m.x,y:m.y-1},mateSit:{px:(m.x+1)*T,py:m.y*T+2,pose:'sit',d:'down',over:false,floor:true}});}
+  if(!opts.length)return null;let tot=opts.reduce((a,o)=>a+o.w,0),r=Math.random()*tot;for(const o of opts){r-=o.w;if(r<=0)return o;}return opts[0];}
+const GM_NAME={life:'人生ゲーム',cards:'トランプ',hana:'花札'};
+const GM_TALK={
+ life:[[['me','ルーレット回すよ…えいっ！'],['m','8！けっこう進んだね'],['me','「宝くじに当たる」だって！'],['m','ずるい〜']],
+   [['m','次、わたしの番ね。…3か'],['me','「家を建てる」マスだ'],['m','やった、赤い屋根にしよ']],
+   [['me','結婚マスに止まった！'],['m','ピンのお嫁さんさしてあげる'],['me','車がぎゅうぎゅうになってきた']],
+   [['m','あっ、「ふりだしに戻る」…'],['me','あはは、ドンマイ'],['m','笑ったな〜']],
+   [['me','給料日マスだ！'],['m','お札、多めにあげとくね'],['me','銀行役、ありがとう']]],
+ cards:[[['me','ババ抜きね。…はい、引いて'],['m','うーん、こっち！'],['me','（にやり）'],['m','あっ、ババ引いちゃった…']],
+   [['m','七並べにしよう'],['me','あ、ハートの6止めてるの誰？'],['m','さあね〜']],
+   [['me','神経衰弱！ここと…ここ！'],['m','おしい、ちがう〜'],['me','さっきの場所、覚えてたのに']],
+   [['m','大富豪やろう'],['me','革命！'],['m','えーっ！せっかく強いのそろえたのに']],
+   [['me','スピード、いくよ。せーの！'],['m','はやいはやい！'],['me','手がからまる〜']]],
+ hana:[[['me','こいこいね。…猪鹿蝶！'],['m','えっ、もうそろったの？'],['me','こいこいする？'],['m','欲張ると痛い目見るよ〜']],
+   [['m','花見で一杯！'],['me','桜と盃かぁ、いいなあ'],['m','風流でしょ']],
+   [['me','月見で一杯、できた'],['m','ススキの月、きれいな札だよね'],['me','この絵、好きなんだ']],
+   [['m','赤短そろった！'],['me','あの「あかよろし」の札ね'],['m','ふふ、読めるようになったよ']],
+   [['me','松に鶴、取った！'],['m','光札、もう二枚目？'],['me','五光、狙っちゃおうかな']]]};
+const GM_END={win:['やった、勝った！','ふふ、今日はついてる','もう一回やる？'],lose:['負けた〜！くやしい','次は負けないからね','強いなあ…'],mwin:['わたしの勝ち〜','やった！','ふふん'],mlose:['あ〜、負けちゃった','くやしい〜','次こそ！']};
+function GM_steps(){if(!mateFree()||C.scene!=='in'||!M||M.scene!=='in')return null;const sp=GM_spot();if(!sp)return null;
+  const mo=now().getMonth()+1,kinds=[['life',1],['cards',1.1],['hana',mo===1||mo===12?1.8:.9]];let tot=kinds.reduce((a,k)=>a+k[1],0),r=Math.random()*tot,kind='cards';for(const[k,w]of kinds){r-=w;if(r<=0){kind=k;break;}}
+  const nm=GM_NAME[kind],mateInv=Math.random()<.4;let t0=0;
+  const inv=mateInv?[FN(()=>{try{msay(pick([`ねえ、${nm}しない？`,`${nm}やろうよ`,`ひさしぶりに${nm}しようよ`]));}catch(e){}}),W8(2.2),SAY(pick(['いいね、やろう！','よし、受けて立つ','やるやる！']))]
+    :[SAY(pick([`${mName()}、${nm}しない？`,`${nm}やろうよ`,`ねえ、${nm}で勝負しよう`])),W8(2),FN(()=>{try{msay(pick(['いいね！やろうやろう','負けないよ〜','うん、やろう']));}catch(e){}})];
+  const st=[FN(()=>{if(!M)return;mEngage();GM.mate=true;mGo('in',sp.mate.x,sp.mate.y);}),...inv,
+    {t:'go',sc:'in',x:sp.hero.x,y:sp.hero.y},{t:'snap',k:sp.k==='floor'?'floor':sp.k,dyn:()=>({...sp.heroSit})},FN(()=>{t0=performance.now();}),
+    {t:'until',cond:()=>!M||!M.busy||mArrived()||performance.now()-t0>25000},
+    FN(()=>{if(!M||!M.busy)return;if(!mArrived())mPlace('in',sp.mate.x,sp.mate.y);M.goal=null;M.moving=false;M.sit={...sp.mateSit};
+      GM.on=true;GM.k=sp.k;GM.mat=sp.mat||null;GM.kind=kind;GM.t0=performance.now();GM.dur=rnd(110,160);try{msay(pick(['じゃあ、はじめよう','準備できた！','よーし']));}catch(e){}}),
+    W8(rnd(6,10))];
+  const pool=shuffle(GM_TALK[kind].slice());for(let i=0;i<3;i++){const L=pool[i%pool.length];st.push(...talkMate(()=>L),W8(rnd(14,24)));}
+  st.push(FN(()=>{GM.t0=performance.now()-GM.dur*1000;}),W8(1.2),FN(()=>{const heroWin=Math.random()<.5;GM.heroWin=heroWin;
+      if(heroWin){say(pick(GM_END.win));setTimeout(()=>{try{msay(pick(GM_END.mlose));}catch(e){}},1800);}else{try{msay(pick(GM_END.mwin));}catch(e){}setTimeout(()=>{try{say(pick(GM_END.lose));}catch(e){}},1800);}}),
+    W8(5),FN(()=>{GM.on=false;GM.mat=null;if(M&&M.busy)mRelease();GM.mate=false;S.gmAt=Date.now();emote('♪',1.5);}),SAY(pick(['楽しかったね','また遊ぼう','いい勝負だった'])));
+  return st;}
+A.boardgame=function(){return GM_steps();};
+// now and then, instead of wandering about, play a game together (at most once every 3 hours, 9:00–23:00)
+{const CA=chooseActivity;chooseActivity=function(){const r=CA.apply(this,arguments);try{const h=hourNow();
+  if(C.scene==='in'&&(C.act==='wander'||C.act==='chat')&&h>=9&&h<23&&mateFree()&&Date.now()-(S.gmAt||0)>3*36e5&&Math.random()<.18){const st=GM_steps();if(st){C.act='boardgame';C.steps=st;}}}catch(e){}return r;};}
+// if the game is cut short (the player takes over, etc.), tidy up and let the housemate go
+setInterval(()=>{try{if(GM.on&&C.act!=='boardgame'){GM.on=false;GM.mat=null;}if(GM.mate&&C.act!=='boardgame'){GM.mate=false;if(M&&M.busy)mRelease();}}catch(e){}},1500);
+// a drone delivery waits until the game is over
+{const ST=shopTick;shopTick=function(dt){if(C&&C.act==='boardgame'&&!S.delivery)return;return ST.apply(this,arguments);};}
+// a parcel that arrives mid-game is unpacked after the game (the drone still drops it off)
+{const SW=switchTo;switchTo=function(act){if(C&&C.act==='boardgame'&&C.steps&&C.steps.length&&(act==='setup'||act==='yardsetup'))return;return SW.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
