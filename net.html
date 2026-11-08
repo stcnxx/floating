@@ -28999,12 +28999,12 @@ async function NET_playMusic(mu){NET.music=mu||null;if(NET.role!=='guest'||!S)re
 function NET_selfTap(){}
 /* the menu is the stand-alone menu sheet: the owner gets 主人公 / 家具 / 庭 / 食事 / BGM / 模様替え, a guest only 主人公
    (name, look and clothes). Our own tabs are added to it and drawn with the picture book's look. */
-const NET_TABS={nc:'服',nf:'家具',ny:'庭',nm:'食事'};
+const NET_TABS={};
 function NET_sheetSetup(){const tabs=$('tabs');if(!tabs||document.getElementById('nfBody'))return;const card=tabs.parentNode,closer=card.querySelector('.closer');
   for(const t in NET_TABS){const b=document.createElement('button');b.setAttribute('role','tab');b.dataset.t=t;b.dataset.net='1';b.textContent=NET_TABS[t];b.onclick=()=>{selTab(t);NET_fill(t);};tabs.append(b);
     const sc=document.createElement('section');sc.className='tp';sc.dataset.p=t;sc.hidden=true;sc.innerHTML=`<div id="${t}Body"></div>`;card.insertBefore(sc,closer);}}
 function NET_dex(tab){if(!S)return;NET_sheetSetup();const own=NET.role==='owner';document.documentElement.classList.toggle('netguest',!own);
-  try{openSheet();}catch(e){}NET.sheetAt=performance.now();for(const b of $('tabs').children){const t=b.dataset.t,ok=t==='st'||t==='nc'||(own&&(b.dataset.net||t==='bgm'));b.hidden=!ok;}
+  try{openSheet();}catch(e){}NET.sheetAt=performance.now();for(const b of $('tabs').children){const t=b.dataset.t,ok=t==='st'||t==='dex'||(own&&t==='bgm');b.hidden=!ok;}NET_dexHook();
   const t=tab&&tab!=='me'?tab:'st';selTab(t);if(NET_TABS[t])NET_fill(t);}
 function NET_fill(tab){const body=document.getElementById(tab+'Body');if(!body)return;body.innerHTML='';const close=()=>{try{$('bClose').onclick();}catch(e){$('sheet').hidden=true;}};
   const ghost=()=>performance.now()-(NET.sheetAt||0)<450;
@@ -29163,8 +29163,10 @@ addEventListener('hashchange',()=>{if(!NET.ready)NET_startScreen('');});
     const bx=document.getElementById('ctlSay');if(!bx)return;if(!typing()){bx.style.bottom='';return;}
     let kbTop=innerHeight;try{const vk=navigator.virtualKeyboard;if(vk&&vk.boundingRect&&vk.boundingRect.height>0)kbTop=innerHeight-vk.boundingRect.height;else if(window.visualViewport)kbTop=visualViewport.offsetTop+visualViewport.height;}catch(e){}
     const gap=innerHeight-kbTop;bx.style.bottom=gap>60?(gap+8)+'px':'';};
-  document.addEventListener('focusin',e=>{if(!typing())return;const h=Math.round(Math.max(innerHeight,document.documentElement.clientHeight));document.documentElement.style.setProperty('--kbH',h+'px');try{const sg=document.querySelector('.stage');if(sg)document.documentElement.style.setProperty('--kbS',Math.round(sg.getBoundingClientRect().height)+'px');}catch(_){}document.documentElement.classList.add('kbfix');place();setTimeout(place,120);setTimeout(place,400);});
-  document.addEventListener('focusout',()=>setTimeout(()=>{if(typing())return;document.documentElement.classList.remove('kbfix');const bx=document.getElementById('ctlSay');if(bx)bx.style.bottom='';try{dispatchEvent(new Event('resize'));}catch(e){}},250));
+  document.addEventListener('focusin',e=>{if(!typing())return;NET.vv0=window.visualViewport?visualViewport.height:innerHeight;const h=Math.round(Math.max(innerHeight,document.documentElement.clientHeight));document.documentElement.style.setProperty('--kbH',h+'px');try{const sg=document.querySelector('.stage');if(sg)document.documentElement.style.setProperty('--kbS',Math.round(sg.getBoundingClientRect().height)+'px');}catch(_){}document.documentElement.classList.add('kbfix');place();setTimeout(place,120);setTimeout(place,400);});
+  // the size lock is released only once the keyboard has fully gone (so the picture never jumps while it slides away)
+  document.addEventListener('focusout',()=>{const bx=document.getElementById('ctlSay');let n=0;const iv=setInterval(()=>{if(typing()){clearInterval(iv);return;}n++;
+    const vh=window.visualViewport?visualViewport.height:innerHeight;if(vh>=(NET.vv0||0)-2||n>30){clearInterval(iv);setTimeout(()=>{if(typing())return;document.documentElement.classList.remove('kbfix');if(bx)bx.style.bottom='';},200);}},100);});
   if(window.visualViewport){visualViewport.addEventListener('resize',place);visualViewport.addEventListener('scroll',place);}
   try{if(navigator.virtualKeyboard)navigator.virtualKeyboard.addEventListener('geometrychange',place);}catch(e){}addEventListener('scroll',place,{passive:true});
   // 話す: one tap sends (the press itself sends, so the keyboard closing can't swallow it) and the keyboard stays open for the next line
@@ -29178,6 +29180,37 @@ addEventListener('hashchange',()=>{if(!NET.ready)NET_startScreen('');});
   const sv={act:C.act,pose:C.pose,scene:C.scene,tvNow:C.tvNow,gameNow:C.gameNow};C.act='tv';C.pose='sit';C.scene='in';C.gameNow=null;try{return TD.apply(this,arguments);}finally{Object.assign(C,sv);}};try{dTV=FT.tv.draw;}catch(e){}}
 // the game's own size check is skipped while a line is being typed (the keyboard must not change the picture)
 {const FH=fitH;fitH=function(){if(NET.on&&document.documentElement.classList.contains('kbfix'))return false;return FH.apply(this,arguments);};}
+
+// the game re-measures its screen only when the size really changed, after it has settled, and never while typing:
+// re-measuring clears the picture, which looked like the whole screen being redrawn (after typing, after the fortune slip …)
+(function(){try{removeEventListener('resize',resize);if(window.visualViewport)visualViewport.removeEventListener('resize',resize);}catch(e){}
+  const key=()=>{try{const r=cv.getBoundingClientRect(),vh=window.visualViewport?visualViewport.height:innerHeight;return[Math.round(r.width),Math.round(vh),Math.min(3,devicePixelRatio||1)].join('x');}catch(e){return'';}};
+  let last=key(),tm=0;const go=()=>{clearTimeout(tm);tm=setTimeout(()=>{if(document.documentElement.classList.contains('kbfix'))return;const k=key();if(k===last)return;last=k;try{resize();}catch(e){}},250);};
+  addEventListener('resize',go);if(window.visualViewport)visualViewport.addEventListener('resize',go);
+  document.addEventListener('fullscreenchange',()=>{last='';go();});})();
+
+/* ---- the menu's 図鑑 is the stand-alone one; in the online edition it also lets you act:
+   furniture / garden things → 頼む (owner), clothes → 着る, food & drinks → これを食べる / これを飲む (owner; the guest eats the same) ---- */
+const NET_FURN_CATS=['リビングの家具','寝室の家具','キッチンの家具・用品','水まわりの家具','名画・美術品','壁の飾り','小物','庭のもの'];
+function NET_emojiIcon(ch){const c=document.createElement('canvas'),dpr=Math.min(3,devicePixelRatio||1),z=(typeof DEXZ!=='undefined'?DEXZ:56);c.width=z*dpr;c.height=z*dpr;const x=c.getContext('2d');x.scale(dpr,dpr);x.font=Math.round(z*.62)+'px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(ch,z/2,z/2+2);return c;}
+function NET_foodIcon(kind,nm){try{const it=NET_mealItems(kind,nm).foods[0];const c=dexIcon(x=>withG(x,()=>{x.save();x.translate(28,32);x.scale(5.6,5.6);drawDish(0,0,it,false);x.restore();}));return c;}catch(e){return NET_emojiIcon(kind==='drink'?'☕':'🍽');}}
+function NET_dexHook(){const el=$('dexBody');if(!el||el._net)return;el._net=1;
+  el.addEventListener('click',e=>{if(!NET.on)return;const sp=e.target.closest('.dexs span');if(!sp||!el.contains(sp))return;let top=sp;while(top&&top.parentNode!==el)top=top.parentNode;let p=top;while(p&&!(p.classList&&p.classList.contains('dexh')))p=p.previousElementSibling;
+    const head=p?p.querySelector('h3').textContent:'',det=sp.closest('details'),sub=det?det.querySelector('summary b').textContent:'';const kind=/飲み物/.test(head)?'drink':/料理|おやつ/.test(head)?'food':null;if(!kind)return;
+    e.stopPropagation();const nm=sp.textContent;dexZoom(()=>NET_foodIcon(kind,nm),nm,(kind==='drink'?'飲み物':'料理・おやつ')+(sub?'：'+sub:''),'nfood:'+kind);},true);}
+// clothes go on at once (the stand-alone hero would first walk to the wardrobe)
+{const DW=DEX_wear;DEX_wear=function(key){if(!NET.on)return DW.apply(this,arguments);const[p,id]=key.split(':');if(!['top','bottom','shoes','hat','cos'].includes(p))return DW.apply(this,arguments);
+  const info=((S.dex&&S.dex.c)||{})[key]||{};NET.wearC=info.c||NET.wearC||'紺';NET_wear(key);};}
+{const DZ=dexZoom;dexZoom=function(mk,nm,cat,key){const r=DZ.apply(this,arguments);try{if(!NET.on)return r;const card=document.querySelector('#dexZoom .dzcard');if(!card)return r;
+  const own=NET.role==='owner';let label=null,act=null,dis=false;
+  if(own&&key&&NET_FURN_CATS.includes(cat)){const yard=cat==='庭のもの';const placed=yard?!!(S.yard&&S.yard[key]):has(key);label=placed?'置いてあります':'頼む';dis=placed;act=()=>NET_order(key,yard);}
+  else if(own&&typeof key==='string'&&key.startsWith('nfood:')){const kind=key.slice(6);label=kind==='drink'?'これを飲む':'これを食べる';act=()=>{if(NET.meal)NET_mealPick(kind,nm,false);else NET_mealStart(kind,nm,false);};}
+  else if(own&&!key&&DRINKS.some(d=>d.n===nm)){label='これを飲む';act=()=>{if(NET.meal)NET_mealPick('alc',nm,false);else NET_mealStart('alc',nm,false);};}
+  if(!label)return r;card.querySelectorAll('.dzbtns').forEach(x=>x.remove());// the stand-alone 再発注 (delivery by drone) does not apply here
+  const row=document.createElement('div');row.className='dzbtns';const b=document.createElement('button');b.type='button';b.className='primary dzwear';b.textContent=label;b.disabled=dis;
+  b.onclick=e=>{e.stopPropagation();if(dis)return;$('dexZoom').hidden=true;try{$('bClose').onclick();}catch(_){$('sheet').hidden=true;}act();};
+  const x=document.createElement('button');x.type='button';x.className='dzclose';x.textContent='やめる';x.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};
+  row.append(b,x);const h=card.querySelector('.dzhint');if(h)h.hidden=true;card.append(row);}catch(e){}return r;};}
 
 boot();
 
