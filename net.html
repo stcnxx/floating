@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 616（2026/11/08）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 617（2026/11/08）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 616（2026/11/08）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 617（2026/11/08）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -3417,7 +3417,7 @@ function dTV(X,Y,Wd,Dp,L,t){
   prism(X+3,Y+9,Wd-6,12,12,'#5a4e62',{top:'#6d607a'});g.fillStyle='rgba(0,0,0,.22)';g.fillRect(X+Wd/2-.4,Y+11,.8,8);knob(X+Wd/2-6,Y+15,'#cbb89a');knob(X+Wd/2+6,Y+15,'#cbb89a');
   const sw=66,sh=41,sx=X+Wd/2-sw/2,sy=Y-40;
   fillR(g,'#26232c',X+Wd/2-6,Y-1,12,3,1);fillR(g,'#26232c',X+Wd/2-1.4,Y-3,2.8,3);fillR(g,'#1b1a20',sx,sy,sw,sh,2.5);fillR(g,'rgba(255,255,255,.08)',sx+.6,sy+.4,sw-1.2,.8,.4);
-  const on=(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
+  const on=NET_tv()||(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
   if(on)drawTVContent(sx,sy,sw,sh,t);
   else{fillR(g,'#2b3242',sx+1.6,sy+1.6,sw-3.2,sh-3.2,1);g.fillStyle='rgba(255,255,255,.08)';g.beginPath();g.moveTo(sx+4,sy+2);g.lineTo(sx+14,sy+2);g.lineTo(sx+7,sy+sh-2);g.lineTo(sx+2,sy+sh-2);g.closePath();g.fill();}
   fillE(g,on?'#7fe07f':'#d9483b',sx+sw-3,sy+sh-1.1,.7,.7);}
@@ -7138,7 +7138,7 @@ FT.tv.draw=function(X,Y,Wd,Dp,L,t){g.save();const wn='#6b4329';
   fillR(g,'rgba(0,0,0,.25)',sx+.8,sy+1,sw,sh,2);
   fillR(g,A_lg(sx,sy,sx+sw,sy+sh,[[0,'#3a3d45'],[.5,'#17181c'],[1,'#26282e']]),sx-.3,sy-.3,sw+.6,sh+.6,2.2);
   fillR(g,'#0d0e11',sx+1,sy+1,sw-2,sh-2,1.2);
-  const on=(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
+  const on=NET_tv()||(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
   if(on)drawTVContent(sx,sy,sw,sh,t);
   else{fillR(g,A_lg(sx,sy,sx+sw*.7,sy+sh,[[0,'#2c3444'],[.6,'#1a1f2a'],[1,'#141821']]),sx+1.6,sy+1.6,sw-3.2,sh-3.2,.6);
     g.fillStyle='rgba(255,255,255,.07)';g.beginPath();g.moveTo(sx+6,sy+1.6);g.lineTo(sx+17,sy+1.6);g.lineTo(sx+9,sy+sh-1.6);g.lineTo(sx+2,sy+sh-1.6);g.closePath();g.fill();
@@ -28257,7 +28257,9 @@ for(const nm of['save','shopTick','sendDrone','handleAway','spawnVisitor','place
   addEventListener('pointerup',e=>{if(!st||e.pointerId!==st.id)return;last={...st,ux:e.clientX,uy:e.clientY,ut:performance.now()};st=null;},true);
   addEventListener('pointercancel',e=>{if(st&&e.pointerId===st.id)st=null;},true);
   cv.addEventListener('pointerup',e=>{if(!CTL())return;e.stopImmediatePropagation();const s=last;last=null;if(!s||s.hold||s.id!==e.pointerId||!S||fadeT>0||DRAG)return;
-    if(Math.hypot(s.ux-s.x,s.uy-s.y)>14||s.ut-s.t>600)return;if(hitChar(e)){if(NET.on)try{NET_selfTap();}catch(_){}return;}tapGo(e);try{showTip(e);}catch(_){}},true);
+    if(Math.hypot(s.ux-s.x,s.uy-s.y)>14||s.ut-s.t>600)return;if(hitChar(e)){if(NET.on)try{NET_selfTap();}catch(_){}return;}
+    if(NET.on){let tg=null;try{const w=tapWorld(e);tg=tapTarget(w.x,w.y);}catch(_){}const tn=performance.now(),lt=NET._lt,dbl=!!(lt&&tn-lt.t<400&&Math.hypot(e.clientX-lt.x,e.clientY-lt.y)<34);NET._lt=dbl?null:{t:tn,x:e.clientX,y:e.clientY};try{if(NET_tap(e,tg,dbl))return;}catch(_){}}
+    tapGo(e);try{showTip(e);}catch(_){}},true);
   function hold(){if(!CTL()||!st||!S||PAUSED||fadeT>0||DRAG)return;const tn=performance.now();
     if(!st.hold){if(tn-st.t<230)return;if(Math.hypot(st.cx-st.x,st.cy-st.y)>28&&tn-st.t<450)return;st.hold=true;}
     if(C.path&&C.path.length)return;if(C.steps.length&&C.act!=='tapwalk'&&C.act!=='vidle')return;
@@ -28364,6 +28366,8 @@ function CTRL_ui(){const sg=document.getElementById('modeSeg');if(sg){const m=CT
     '#ctlSay button{flex:0 0 auto;height:36px;border-radius:18px;border:0;background:#2f5e9e;color:#fff;font-weight:700;padding:0 16px;font-size:14px}';document.head.append(st);
   try{const hs=[...document.querySelectorAll('#help h3')].find(h=>h.textContent==='画面のボタン');const dl=hs&&hs.nextElementSibling;if(dl&&dl.tagName==='DL'){const dt=document.createElement('dt');dt.textContent='自動・手動・操作';const dd=document.createElement('dd');dd.textContent='自動：画面がキャラクターを追いかけます。手動：画面をドラッグして自由に見て回れます。操作：主人公を自分で動かせます（タップした場所へ歩く・押したままの方向へ歩く・フリック）。下の入力欄に打ち込むと、主人公がそのセリフを話します。';dl.append(dt,dd);}}catch(e){}
   try{setPause(PAUSED);}catch(e){}CTRL_ui();setInterval(()=>{try{CTRL_ui();}catch(e){}},500);}catch(e){}})();
+
+function NET_tv(){return!!(NET.on&&NET.tv);}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -28762,7 +28766,7 @@ addEventListener('pagehide',save);
    =================================================================================================== */
 NET.on=true;
 const NET_DEF_SERVER='https://fuyu-online.tomot8086.workers.dev';
-const NET_SYNC_KEYS=['layout','owned','yard','wallp','floorp','stWall','veg','xbeds','pet','lampOn','light','isle3','isle4','hw','vh','bushV','noDeco','bed2Cov','trainPos','tv3','rugV2','rugV3','pb4','name','look','outfit','species'];
+const NET_SYNC_KEYS=['photos','layout','owned','yard','wallp','floorp','stWall','veg','xbeds','pet','lampOn','light','isle3','isle4','hw','vh','bushV','noDeco','bed2Cov','trainPos','tv3','rugV2','rugV3','pb4','name','look','outfit','species'];
 const NET_BGM_MAX=60*1024*1024;
 Object.assign(NET,{ws:null,id:null,key:null,ready:false,leaving:false,fatal:false,peer:null,host:null,lastSig:'',pushing:0,upl:new Set(),songs:{},blobs:{},mode:null,pend:null,retry:0,lastPos:'',posAt:0,music:null,musSig:''});
 function NETS(){try{return JSON.parse(localStorage.getItem('fuyu-net')||'{}')||{};}catch(e){return{};}}
@@ -28780,7 +28784,8 @@ function NET_myProf(){const o=NETS();if(o.prof&&o.prof.look)return o.prof;const 
   let look=null;try{look=randomLook();}catch(e){look=firstLook('f');}return{name:'',species:'human',look,outfit:simpleOutfit(),oc:[]};}
 
 /* ---------- the stand-alone life is switched off ---------- */
-for(const nm of['save','shopTick','sendDrone','handleAway','spawnVisitor','placeBed2','placeWardrobe2','BV_enter','rvAsk','placeCheck','rvGive','bgmDefaultInstall','skyvCallMate']){try{const f=eval(nm);if(typeof f!=='function')continue;eval(nm+'=function(){if(NET.on)return;return f.apply(this,arguments);}');}catch(e){}}
+for(const nm of['save','shopTick','sendDrone','handleAway','spawnVisitor','placeBed2','placeWardrobe2','BV_enter','rvAsk','placeCheck','rvGive','skyvCallMate']){try{const f=eval(nm);if(typeof f!=='function')continue;eval(nm+'=function(){if(NET.on)return;return f.apply(this,arguments);}');}catch(e){}}
+{const BD=bgmDefaultInstall;bgmDefaultInstall=function(){if(NET.on&&NET.role!=='owner')return;return BD.apply(this,arguments);};}
 {const SP=setPause;setPause=function(on){if(NET.on&&on)return;return SP.apply(this,arguments);};}
 {const IG=idbGet;idbGet=async function(id){if(NET.on&&NET.songs[id])return NET.songs[id];return IG.apply(this,arguments);};}
 {const TF=tipFor;tipFor=function(e){const t=TF.apply(this,arguments);try{if(NET.on&&t&&t.n&&S.mate&&t.n===`${S.mate.name}（同居人）`)t.n=`${S.mate.name}（${NET.role==='owner'?'ゲスト':'オーナー'}）`;}catch(_){}return t;};}
@@ -28816,7 +28821,8 @@ async function NET_on(m){
   if(m.t==='meal'){NET_mealStart(m.kind,m.n,true);return;}
   if(m.t==='mealEnd'){NET_mealEnd(true);return;}
   if(m.t==='fx'&&m.k==='mealPick'){NET_mealPick(m.kind,m.n,true);return;}
-  if(m.t==='fx'&&m.k==='poof'){NET_poof(m.sc,m.x,m.y);return;}}
+  if(m.t==='fx'&&m.k==='poof'){NET_poof(m.sc,m.x,m.y);return;}
+  if(m.t==='fx'&&m.k==='tv'){NET.tv=!!m.on;return;}}
 
 /* ---------- island data: pictures and songs live on the server as blobs ---------- */
 async function NET_hash(str){const d=await crypto.subtle.digest('SHA-256',new TextEncoder().encode(str));return[...new Uint8Array(d)].slice(0,16).map(x=>x.toString(16).padStart(2,'0')).join('');}
@@ -28825,7 +28831,7 @@ async function NET_put(bid,bytes,type,prog){const P=1000000,n=Math.max(1,Math.ce
     const r=await fetch(u,{method:'PUT',body:bytes.slice(i*P,(i+1)*P)});if(!r.ok)throw new Error('upload '+r.status);if(prog)prog((i+1)/n);}}
 async function NET_has(bid){if(NET.upl.has(bid))return true;try{const r=await fetch(`${NET_srv()}/has?i=${NET.id}&b=${bid}`);const j=await r.json();if(j.has)NET.upl.add(bid);return!!j.has;}catch(e){return false;}}
 function NET_strip(src){const o=JSON.parse(JSON.stringify(src));for(const k of VIS_DROP)delete o[k];for(const k of Object.keys(o))if(/^(dex|rtRec_|movRec|cosRec|mOutfit|mDress|mCos|mPj)/.test(k))delete o[k];
-  o.oc=NET_ocFor(src,src.outfit);delete o.mate;delete o._visit;return o;}
+  o.oc=NET_ocFor(src,src.outfit);if(Array.isArray(src.photos))o.photos=JSON.parse(JSON.stringify(src.photos));delete o.mate;delete o._visit;return o;}
 async function NET_blobify(o){const jobs=[];const walk=(v,set)=>{if(typeof v==='string'){if(v.startsWith('data:')&&v.length>3000)jobs.push({v,set});return;}if(Array.isArray(v))v.forEach((x,i)=>walk(x,y=>{v[i]=y;}));else if(v&&typeof v==='object')for(const k in v)walk(v[k],y=>{v[k]=y;});};walk(o,null);
   for(const j of jobs){const h=await NET_hash(j.v);if(!(await NET_has(h))){await NET_put(h,new TextEncoder().encode(j.v),'text/plain');NET.upl.add(h);}NET.blobs[h]=j.v;j.set('nb:'+h);}
   return JSON.stringify(o);}
@@ -28843,7 +28849,7 @@ async function NET_begin(m){NET.role=m.role;let s;
   if(m.role==='owner'){
     if(!m.isle){if(!NET.pend){NET_startScreen('島のデータがまだありません。「島をつくる」からやり直してください。');NET.fatal=true;return;}s=JSON.parse(JSON.stringify(NET.pend));}
     else s=await NET_resolve(m.isle);
-    const sv=NET_standalone();s.music=sv&&sv.music&&sv.music.ids&&sv.music.ids.length?{...sv.music}:null;if(s.music)s.music.on=false;
+    const sv=NET_standalone();s.music=sv&&sv.music&&sv.music.ids&&sv.music.ids.length?{...sv.music}:null;s.bgmDefOff=sv&&sv.bgmDefOff||0;
     s.sched=Array.isArray(s.sched)&&s.sched.length?s.sched:[{bed:23,wake:7},{bed:0,wake:5}];
     NET.host={name:s.name,species:s.species,look:s.look,outfit:s.outfit,oc:NET_ocFor(s,s.outfit)};
   }else{
@@ -28871,7 +28877,7 @@ async function NET_applyIsle(str){if(!S)return;let o;try{o=await NET_resolve(str
   for(const k of NET_SYNC_KEYS)if(k in o)S[k]=o[k];else delete S[k];Object.assign(S,keep);
   for(const e of(o.oc||[]))if(!S.oc.some(q=>q.id===e.id))S.oc.push(e);
   if(hostOut.look){NET.host={...NET.host,...hostOut};if(M&&S.mate&&(NET.ai||NET.peer)){S.mate.look=hostOut.look;S.mate.name=hostOut.name;VIS.outJ=JSON.stringify(hostOut.outfit||simpleOutfit());}}
-  try{refreshOcc();refreshOut();updateRoom();}catch(e){}
+  try{PB_IMG.length=0;}catch(e){}try{refreshOcc();refreshOut();updateRoom();}catch(e){}
   for(const k of S.owned||[])if(!had.has(k)&&S.layout[k]&&FT[k]){try{const c=posCenter(k,S.layout[k]);NET_poof('in',c.x,c.y,true);}catch(e){}}
   for(const k in S.yard||{})if(!hadY.has(k)&&OFT[k]){const p=S.yard[k];NET_poof('out',(p.x+OFT[k].w/2)*T,p.y*T+8,true);}}
 
@@ -28882,7 +28888,7 @@ function NET_mSet(prof){const sp=prof.species||'human';S.mate={name:prof.name||(
 function NET_peerOn(prof,pos,first){if(NET.peer&&M&&!NET.ai&&!first){NET.peer=prof||{};NET_mSet(NET.peer);NET_title();return;}NET.peer=prof||{};NET.ai=false;NET_mSet(NET.peer);M.busy=true;M.sleeping=false;M.steps=[];M.sit=null;M.goal=null;
   if(pos)NET_applyPos(pos,true);else if(!first)mPlace('in',IN_ENTRY.x,IN_ENTRY.y-1);
   if(!first)NET_toast(NET.role==='owner'?`${S.mate.name}さんが遊びに来ました`:`${S.mate.name}さんが戻ってきました`);
-  NET_title();if(NET.meal){NET_mealOther();if(!first)NET_send({t:'meal',kind:NET.meal.kind,n:NET.meal.n});}}
+  NET_title();if(!first&&NET.tv)NET_send({t:'fx',k:'tv',on:true});if(NET.meal){NET_mealOther();if(!first)NET_send({t:'meal',kind:NET.meal.kind,n:NET.meal.n});}}
 function NET_peerOff(first){const was=!!NET.peer;NET.peer=null;
   if(NET.role==='owner'){M=null;delete S.mate;NET.ai=false;if(was&&!first)NET_toast('ゲストが帰りました');}
   else{NET.ai=true;NET_mSet(NET.host);M.busy=false;M.sit=null;M.goal=null;M.steps=[];M.drink=null;M.holding=null;M.idle=1;S.sched[1]={bed:0,wake:5};
@@ -28913,6 +28919,14 @@ return;}
 // on the tower deck the owner sits in the middle and the guest right beside them (the same on both screens)
 function NET_ygGuest(){if(NET.role!=='guest'||!S||C.snapK!=='y:yagura'||!C.snap||C.snap.climb||!S.yard||!S.yard.yagura)return;const c=YG_spot('c'),m=YG_spot('m');
   if(Math.abs(C.snap.py-c.py)<3&&Math.abs(C.snap.px-c.px)<3){C.snap.px=m.px;C.snap.py=m.py;}}
+function NET_tvToggle(){NET.tv=!NET.tv;NET_send({t:'fx',k:'tv',on:NET.tv});try{const c=itemCenter('tv');particles.push({sc:'in',x:c.x,y:c.y-10,vx:0,vy:0,life:.6,max:.6,type:'ring'});}catch(e){}}
+// a tap in the online edition: TV (double tap) switches on/off, playground things are played with, the owner fills the photo board
+function NET_tap(e,tg,dbl){if(!tg)return false;
+  if(tg.t==='f'&&(tg.k==='tv'||/^tv/.test(tg.k)&&FT[tg.k]&&/テレビ/.test(FT[tg.k].n)&&tg.k!=='bigtv')){if(dbl){NET_tvToggle();return true;}return false;}
+  if(tg.t==='yard'&&tg.k==='photoboard'){if(NET.role==='owner'){try{PB_ui(true);}catch(_){}return true;}return false;}
+  if(tg.t==='yard'&&tg.k!=='yagura'&&OFT[tg.k]&&OFT[tg.k].act&&S.yard[tg.k]){const f=OFT[tg.k];if(f.need&&!f.need())return false;let st=null;try{st=A.yardplay(tg.k);}catch(_){}
+    if(!st||!st.length)return false;NET.sw=1;try{if(C.snap)unsnap();switchTo('yardplay',st);}finally{NET.sw=0;}return true;}
+  return false;}
 /* ---------- smoke when something is set out ---------- */
 function NET_poof(sc,x,y,quiet){for(let i=0;i<22;i++)particles.push({sc,x:x+rnd(-16,16),y:y+rnd(-14,6),vx:rnd(-18,18),vy:rnd(-36,-6),life:1.3,max:1.3,type:'puff'});
   try{if(sc==='in')sparkleAt({x,y});else sparkOut(x,y);}catch(e){}if(!quiet&&NET.role==='owner')NET_send({t:'fx',k:'poof',sc,x,y});}
@@ -28937,11 +28951,11 @@ function NET_mealTs(){const m=NET.meal,se=NET.mealSeats;if(!m||!se)return null;c
   const ts=it.drink?{k:'table',drink:it.drink,snack:1,sc:snackCol(snackFor(it.drink)),inHand:0}:{k:'table',foods:it.foods,phase:'full'};
   if(other){ts.foods2=NET_asPlates(oth.kind,oth.n);ts.mt=se.other.tile;}return ts;}
 // I picked what I eat: show it here and on the other screen
-function NET_mealPick(kind,n,remote){if(!NET.meal)return;if(remote)NET.meal.other={kind,n};else{NET.meal.mine={kind,n};NET_send({t:'fx',k:'mealPick',kind,n});}if(C.tableSet&&C.snapK==='table')C.tableSet=NET_mealTs();}
+function NET_mealPick(kind,n,remote){if(!NET.meal)return;Object.assign(NET.meal,{kind,n,mine:{kind,n},other:{kind,n}});if(!remote)NET_send({t:'fx',k:'mealPick',kind,n});if(C.tableSet&&C.snapK==='table')C.tableSet=NET_mealTs();NET_mealBar();}
 function NET_mealStart(kind,n,remote){if(!S)return;const se0=NET_seats();if(!se0){if(!remote)NET_toast('食卓（ダイニングテーブル）がないので、食べられません');return;}
   const owner=NET.role==='owner',mine=owner?se0.hero:se0.mate,other=owner?se0.mate:se0.hero;if(!mine){if(!remote)NET_toast('食卓に座れる場所がありません');return;}
   NET.meal={kind,n,mine:{kind,n},other:{kind,n}};NET.mealSeats={mine,other};if(!remote)NET_send({t:'meal',kind,n});
-  else setTimeout(()=>{if(NET.meal)NET_dex('nm');},400);
+
   try{if(SKYV.open)skyvClose();}catch(e){}if(C.snap)unsnap();C.tableSet=null;C.holding=null;C.sleeping=false;
   C.act='netmeal';C.steps=[{t:'go',sc:'in',x:mine.tile.x,y:mine.tile.y},{t:'fn',f:()=>{C.snap={px:mine.sit.px,py:mine.sit.py,over:mine.sit.over};C.pose='sit';C.dir=mine.sit.d||'up';C.snapK='table';C.tableSet=NET_mealTs();}},
     {t:'until',cond:()=>!NET.meal},{t:'fn',f:()=>{unsnap();C.tableSet=null;C.holding=null;C.act='vidle';}}];C.idleT=3;
@@ -28950,9 +28964,14 @@ function NET_mealStart(kind,n,remote){if(!S)return;const se0=NET_seats();if(!se0
 function NET_mealOther(){if(!NET.meal)return;const se=NET.mealSeats;
   if(NET.ai&&M&&!M.sleeping&&se&&se.other){const o=se.other;M.busy=false;M.sit=null;M.goal=null;
     M.steps=[{t:'go',sc:'in',x:o.tile.x,y:o.tile.y},{t:'fn',f:()=>{M.sit={...o.sit,pose:'sit'};M.dir=o.sit.d||'up';}},{t:'until',cond:()=>!NET.meal},{t:'fn',f:()=>{M.sit=null;M.drink=null;M.holding=null;}}];}
-  if(C.tableSet&&C.snapK==='table')C.tableSet=NET_mealTs();}
+  if(C.tableSet&&C.snapK==='table')C.tableSet=NET_mealTs();NET_mealBar();}
+// keep the meal label clear of the speech bubbles: if one comes down over it, the label moves up above the bubbles' band
+setInterval(()=>{try{const l=document.getElementById('netMealNow');if(!l||l.hidden)return;l.style.bottom='';const lr=l.getBoundingClientRect();
+  for(const id of['bubble','bubble3']){const b=document.getElementById(id);if(!b||b.hidden)continue;const r=b.getBoundingClientRect();if(r.bottom>lr.top-4&&r.top<lr.bottom+4&&r.right>lr.left&&r.left<lr.right){l.style.bottom=(innerHeight-r.top+8)+'px';break;}}}catch(e){}},200);
 function NET_mealEnd(remote){if(!NET.meal)return;NET.meal=null;if(!remote)NET_send({t:'mealEnd'});if(M){M.drink=null;}NET_mealBar();}
-function NET_mealBar(){let b=document.getElementById('netMeal');if(!b){b=document.createElement('a');b.id='netMeal';b.href='#';b.textContent='食事を終える';b.onclick=e=>{e.preventDefault();NET_mealEnd(false);};document.body.append(b);}b.hidden=!NET.meal;}
+function NET_mealBar(){let b=document.getElementById('netMeal');if(!b){b=document.createElement('a');b.id='netMeal';b.href='#';b.textContent='食事を終える';b.onclick=e=>{e.preventDefault();NET_mealEnd(false);};document.body.append(b);}b.hidden=!NET.meal;
+  let l=document.getElementById('netMealNow');if(!l){l=document.createElement('div');l.id='netMealNow';l.setAttribute('role','status');document.body.append(l);}
+  if(NET.meal){const m=NET.meal,two=NET_otherAtTable()&&NET.mealSeats&&NET.mealSeats.other;l.textContent=(m.kind==='alc'?'🍶 ':m.kind==='drink'?'☕ ':'🍽 ')+m.n+(m.kind==='food'?' を食べています':' を飲んでいます')+(two?'（ふたりで）':'');}l.hidden=!NET.meal;}
 
 /* ---------- the owner's BGM reaches the guest ---------- */
 async function NET_musicTick(force){if(NET.role!=='owner'||!NET.ready||!S)return;const m=S.music,id=m&&m.ids&&m.ids[m.idx],on=!!(m&&m.on&&MUS.playing&&id);
@@ -28968,7 +28987,8 @@ setInterval(()=>{try{NET_musicTick(false);}catch(e){}},2500);
 async function NET_playMusic(mu){NET.music=mu||null;if(NET.role!=='guest'||!S)return;
   if(!mu||!mu.on){try{musStop(true);}catch(e){}S.music=null;return;}
   let id=mu.id,name=mu.name||'';
-  if(mu.id!==BGM_ID){if(!mu.b)return;id=mu.b;if(!NET.songs[id]){try{const r=await fetch(`${NET_srv()}/blob?i=${NET.id}&b=${mu.b}`);if(!r.ok)return;const bl=await r.blob();NET.songs[id]={id,name,type:bl.type,blob:bl};}catch(e){return;}}}
+  if(mu.id===BGM_ID){if(!NET.songs[BGM_ID])try{NET.songs[BGM_ID]={id:BGM_ID,name:BGM_NAME,type:'audio/mp4',blob:bgmBlob()};}catch(e){return;}}
+  else{if(!mu.b)return;id=mu.b;if(!NET.songs[id]){try{const r=await fetch(`${NET_srv()}/blob?i=${NET.id}&b=${mu.b}`);if(!r.ok)return;const bl=await r.blob();NET.songs[id]={id,name,type:bl.type,blob:bl};}catch(e){return;}}}
   if(NET.music!==mu)return;const pos=Math.max(0,(mu.pos||0)+(Date.now()-(mu.at||Date.now()))/1000);
   S.music={ids:[id],names:[name],idx:0,pos,on:true,mode:'one'};try{await musLoad(0,pos);}catch(e){}}
 
@@ -28976,12 +28996,12 @@ async function NET_playMusic(mu){NET.music=mu||null;if(NET.role!=='guest'||!S)re
 function NET_selfTap(){}
 /* the menu is the stand-alone menu sheet: the owner gets 主人公 / 家具 / 庭 / 食事 / BGM / 模様替え, a guest only 主人公
    (name, look and clothes). Our own tabs are added to it and drawn with the picture book's look. */
-const NET_TABS={nc:'服',nf:'家具',ny:'庭',nm:'食事',ne:'模様替え'};
+const NET_TABS={nc:'服',nf:'家具',ny:'庭',nm:'食事'};
 function NET_sheetSetup(){const tabs=$('tabs');if(!tabs||document.getElementById('nfBody'))return;const card=tabs.parentNode,closer=card.querySelector('.closer');
   for(const t in NET_TABS){const b=document.createElement('button');b.setAttribute('role','tab');b.dataset.t=t;b.dataset.net='1';b.textContent=NET_TABS[t];b.onclick=()=>{selTab(t);NET_fill(t);};tabs.append(b);
     const sc=document.createElement('section');sc.className='tp';sc.dataset.p=t;sc.hidden=true;sc.innerHTML=`<div id="${t}Body"></div>`;card.insertBefore(sc,closer);}}
 function NET_dex(tab){if(!S)return;NET_sheetSetup();const own=NET.role==='owner';document.documentElement.classList.toggle('netguest',!own);
-  try{openSheet();}catch(e){}NET.sheetAt=performance.now();for(const b of $('tabs').children){const t=b.dataset.t,ok=t==='st'||t==='nc'||(own&&(b.dataset.net||t==='bgm'))||(!own&&t==='nm'&&NET.meal);b.hidden=!ok;}
+  try{openSheet();}catch(e){}NET.sheetAt=performance.now();for(const b of $('tabs').children){const t=b.dataset.t,ok=t==='st'||t==='nc'||(own&&(b.dataset.net||t==='bgm'));b.hidden=!ok;}
   const t=tab&&tab!=='me'?tab:'st';selTab(t);if(NET_TABS[t])NET_fill(t);}
 function NET_fill(tab){const body=document.getElementById(tab+'Body');if(!body)return;body.innerHTML='';const close=()=>{try{$('bClose').onclick();}catch(e){$('sheet').hidden=true;}};
   const ghost=()=>performance.now()-(NET.sheetAt||0)<450;
@@ -29001,7 +29021,7 @@ function NET_fill(tab){const body=document.getElementById(tab+'Body');if(!body)r
   else if(tab==='nf'){hint('タップすると、煙とともに部屋の空いているところに置かれます。');const fk=Object.keys(FT).filter(k=>k!=='ksink'&&!/_\d+$/.test(k)&&!['bed2','wardrobe2'].includes(k));
     grid(fk,furnIcon,k=>FT[k].n.replace('（ミニチュア）',''),k=>has(k),k=>{close();NET_order(k,false);});}
   else if(tab==='ny'){hint('タップすると、煙とともに庭の空いているところに置かれます。');grid(Object.keys(OFT),yardIcon,k=>OFT[k].n,k=>!!(S.yard&&S.yard[k]),k=>{close();NET_order(k,true);});}
-  else if(tab==='nm'){let A2={f:[],d:[]};try{A2=DEX_allFoods();}catch(e){}hint(NET.meal?'食卓につきました。食べるもの・飲むものをえらんでください。':NET.peer||NET.ai?'えらぶと食卓につきます。いっしょにいる人も食卓につき、それぞれ食べるものをえらべます。':'えらぶと食卓につきます。');
+  else if(tab==='nm'){let A2={f:[],d:[]};try{A2=DEX_allFoods();}catch(e){}hint(NET.meal?'えらぶと、ふたりとも食べるものが変わります。':NET.peer||NET.ai?'えらぶと食卓につきます。いっしょにいる人も食卓につき、同じものを食べます。':'えらぶと食卓につきます。');
     const q=document.createElement('input');q.type='search';q.placeholder='さがす';q.className='netq';body.append(q);const box=document.createElement('div');body.append(box);
     const draw=()=>{const t=q.value.trim(),f=a=>a.filter(x=>!t||x.includes(t)).slice(0,300);const keep=body;box.innerHTML='';const b0=body;
       const sub=document.createElement('div');box.append(sub);const save=body;// draw the three lists into the box
@@ -29021,7 +29041,7 @@ function NET_wear(key){const[p,id]=key.split(':'),c=NET.wearC||'紺',o=S.outfit=
 function NET_meChanged(){try{updateHUD();}catch(e){}NET_send({t:'prof',prof:NET_profOut()});
   if(NET.role==='guest'){NETS_set(o=>{o.prof={name:S.name,species:S.species,look:S.look,outfit:S.outfit,oc:NET_ocFor(S,S.outfit)};});}else NET.host={...NET.host,name:S.name,look:S.look};NET_title();}
 function NET_edit(on){NET.edit=!!on;if(on){CTRL.on=false;try{camSet(true);}catch(e){}}else{try{camSet(false);}catch(e){}CTRL.on=true;C.act='vidle';C.steps=[];}
-  let b=document.getElementById('netEdit');if(!b){b=document.createElement('a');b.id='netEdit';b.href='#';b.textContent='模様替えを終える';b.onclick=e=>{e.preventDefault();NET_edit(false);};document.body.append(b);}b.hidden=!on;try{CTRL_ui();}catch(e){}}
+  let b=document.getElementById('netEdit');if(!b){b=document.createElement('a');b.id='netEdit';b.href='#';b.textContent='模様替えを終える';b.onclick=e=>{e.preventDefault();NET_edit(false);};document.body.append(b);}b.hidden=true;const eb=document.getElementById('netEditB');if(eb){eb.textContent=on?'終える':'模様替え';eb.classList.toggle('on',!!on);}try{CTRL_ui();}catch(e){}}
 {const CM=camManual;camManual=function(){if(NET.on&&!NET.edit)return false;return CM.apply(this,arguments);};}
 
 /* ---------- on-screen pieces ---------- */
@@ -29030,6 +29050,7 @@ function NET_title(){if(!S)return;const o=NET.role==='owner';const host=o?S.name
   let el=document.getElementById('netTitle');if(!el){el=document.createElement('div');el.id='netTitle';document.body.append(el);}el.textContent=t;try{document.title=`${host}の島 — 浮遊島ぐらし ネット版`;}catch(e){}}
 function NET_ui(){document.documentElement.classList.add('netmode');if(document.getElementById('netBar'))return;
   const bar=document.createElement('div');bar.id='netBar';bar.innerHTML='<button type="button" id="netHelp" aria-label="遊びかた">？</button><button type="button" id="netMenu">MENU</button><button type="button" id="netBack">島から帰る</button>';document.body.append(bar);
+  if(NET.role==='owner'){const eb=document.createElement('button');eb.type='button';eb.id='netEditB';eb.textContent='模様替え';bar.insertBefore(eb,document.getElementById('netBack'));bar.classList.add('own');eb.onclick=()=>NET_edit(!NET.edit);}
   bar.addEventListener('pointerdown',e=>e.stopPropagation());
   document.getElementById('netHelp').onclick=()=>{NET_help();};document.getElementById('netMenu').onclick=()=>{NET_dex();};document.getElementById('netBack').onclick=()=>NET_leave();}
 function NET_help(){let ov=document.getElementById('netHelpOv');if(!ov){ov=document.createElement('div');ov.id='netHelpOv';ov.className='netov';document.body.append(ov);ov.addEventListener('pointerdown',e=>e.stopPropagation());ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('.nh-x'))ov.hidden=true;});}
@@ -29043,12 +29064,13 @@ function NET_help(){let ov=document.getElementById('netHelpOv');if(!ov){ov=docum
 (function(){const st=document.createElement('style');st.textContent=`
 html.netmode #bot4,html.netmode #menuB,html.netmode #pauseB,html.netmode #camB,html.netmode #helpB,html.netmode #modeSeg{display:none!important}
 #netBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:7;display:grid;grid-template-columns:40px 1fr 1.3fr;gap:8px;width:min(400px,calc(100% - 56px))}
-#netBar button{position:static;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1;box-sizing:border-box;height:36px;border-radius:18px;border:1px solid rgba(255,255,255,.25);font:inherit;font-weight:700;font-size:14px;color:#fff;pointer-events:auto;background:rgba(13,18,42,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:0 1px 3px rgba(0,0,0,.5)}
+#netBar button.on{background:rgba(255,211,107,.9);color:#2a2a3a;text-shadow:none}#netBar.own{grid-template-columns:40px 1fr 1fr 1.15fr}#netBar button{position:static;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1;box-sizing:border-box;height:36px;border-radius:18px;border:1px solid rgba(255,255,255,.25);font:inherit;font-weight:700;font-size:14px;color:#fff;pointer-events:auto;background:rgba(13,18,42,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:0 1px 3px rgba(0,0,0,.5)}
 #netTitle{position:fixed;left:50%;transform:translateX(-50%);top:calc(6px + env(safe-area-inset-top,0px));z-index:7;font-size:11px;color:#fff;background:rgba(20,30,50,.55);padding:2px 12px;border-radius:10px;white-space:nowrap;max-width:calc(100% - 40px);overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 #netSt{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:40;background:rgba(20,24,40,.86);color:#ffe08a;padding:10px 16px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
 #netToast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:rgba(20,24,40,.88);color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
 #netMeal,#netEdit{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:8;font-size:14px;font-weight:700;color:#24456e;background:rgba(255,255,255,.92);padding:7px 18px;border-radius:18px;text-decoration:underline;text-underline-offset:3px;box-shadow:0 2px 8px rgba(0,0,0,.18);white-space:nowrap}
 #netEdit{bottom:calc(54px + env(safe-area-inset-bottom,0px))}
+#netMealNow{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(140px + env(safe-area-inset-bottom,0px));z-index:8;font-size:13px;font-weight:700;color:#fff;background:rgba(20,30,50,.72);padding:6px 14px;border-radius:14px;max-width:calc(100% - 48px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}#netMealNow[hidden]{display:none!important}
 html.netmode #ctlSay{bottom:calc(54px + env(safe-area-inset-bottom,0px))}
 html.netmode #svCall{display:none!important}
 html.netguest section.tp[data-p="st"]>*:not(.field):not(.hpick):not(#hWear):not(.row2){display:none!important}
@@ -29132,6 +29154,9 @@ addEventListener('hashchange',()=>{if(!NET.ready)NET_startScreen('');});
   if(window.visualViewport){visualViewport.addEventListener('resize',fix);visualViewport.addEventListener('scroll',fix);}
   addEventListener('scroll',fix,{passive:true});document.addEventListener('focusin',()=>{fix();setTimeout(fix,120);setTimeout(fix,400);});document.addEventListener('focusout',()=>setTimeout(fix,60));
   const st=document.createElement('style');st.textContent='html.netmode,html.netmode body{overflow:hidden!important;overscroll-behavior:none;height:100%}';document.head.append(st);})();
+// a TV switched on in the online edition shows a programme like when someone watches it
+{const TD=FT.tv.draw;FT.tv.draw=function(){if(!NET.on||!NET.tv)return TD.apply(this,arguments);const heroOn=['tv','tvshow','nap','game'].includes(C.act)&&C.pose==='sit'&&C.scene==='in';if(heroOn)return TD.apply(this,arguments);
+  const sv={act:C.act,pose:C.pose,scene:C.scene,tvNow:C.tvNow,gameNow:C.gameNow};C.act='tv';C.pose='sit';C.scene='in';C.gameNow=null;try{return TD.apply(this,arguments);}finally{Object.assign(C,sv);}};try{dTV=FT.tv.draw;}catch(e){}}
 
 boot();
 

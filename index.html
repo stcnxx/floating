@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 613（2026/11/08）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 617（2026/11/08）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 613（2026/11/08）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 617（2026/11/08）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -3417,7 +3417,7 @@ function dTV(X,Y,Wd,Dp,L,t){
   prism(X+3,Y+9,Wd-6,12,12,'#5a4e62',{top:'#6d607a'});g.fillStyle='rgba(0,0,0,.22)';g.fillRect(X+Wd/2-.4,Y+11,.8,8);knob(X+Wd/2-6,Y+15,'#cbb89a');knob(X+Wd/2+6,Y+15,'#cbb89a');
   const sw=66,sh=41,sx=X+Wd/2-sw/2,sy=Y-40;
   fillR(g,'#26232c',X+Wd/2-6,Y-1,12,3,1);fillR(g,'#26232c',X+Wd/2-1.4,Y-3,2.8,3);fillR(g,'#1b1a20',sx,sy,sw,sh,2.5);fillR(g,'rgba(255,255,255,.08)',sx+.6,sy+.4,sw-1.2,.8,.4);
-  const on=(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
+  const on=NET_tv()||(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
   if(on)drawTVContent(sx,sy,sw,sh,t);
   else{fillR(g,'#2b3242',sx+1.6,sy+1.6,sw-3.2,sh-3.2,1);g.fillStyle='rgba(255,255,255,.08)';g.beginPath();g.moveTo(sx+4,sy+2);g.lineTo(sx+14,sy+2);g.lineTo(sx+7,sy+sh-2);g.lineTo(sx+2,sy+sh-2);g.closePath();g.fill();}
   fillE(g,on?'#7fe07f':'#d9483b',sx+sw-3,sy+sh-1.1,.7,.7);}
@@ -7138,7 +7138,7 @@ FT.tv.draw=function(X,Y,Wd,Dp,L,t){g.save();const wn='#6b4329';
   fillR(g,'rgba(0,0,0,.25)',sx+.8,sy+1,sw,sh,2);
   fillR(g,A_lg(sx,sy,sx+sw,sy+sh,[[0,'#3a3d45'],[.5,'#17181c'],[1,'#26282e']]),sx-.3,sy-.3,sw+.6,sh+.6,2.2);
   fillR(g,'#0d0e11',sx+1,sy+1,sw-2,sh-2,1.2);
-  const on=(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
+  const on=NET_tv()||(C.act==='tv'||C.act==='tvshow'||C.act==='nap'||C.act==='game')&&C.pose==='sit'&&C.scene==='in';
   if(on)drawTVContent(sx,sy,sw,sh,t);
   else{fillR(g,A_lg(sx,sy,sx+sw*.7,sy+sh,[[0,'#2c3444'],[.6,'#1a1f2a'],[1,'#141821']]),sx+1.6,sy+1.6,sw-3.2,sh-3.2,.6);
     g.fillStyle='rgba(255,255,255,.07)';g.beginPath();g.moveTo(sx+6,sy+1.6);g.lineTo(sx+17,sy+1.6);g.lineTo(sx+9,sy+sh-1.6);g.lineTo(sx+2,sy+sh-1.6);g.closePath();g.fill();
@@ -28182,7 +28182,9 @@ setInterval(()=>{try{if(GM.on&&C.act!=='boardgame'){GM.on=false;GM.mat=null;}if(
 /* ===== v612: 見学（ほかの人の島を見て回る）— the island is packed into a URL (#visit=…); opening it shows that island with
    your own place and weather, you walk about by tap / flick only, the island's hero lives there and talks to themself, no housemate,
    nothing can be moved, nothing is saved. "見て回るのをやめる" at the bottom goes back to your own island. ===== */
-const VIS={on:/[#&]visit=/.test(location.hash||''),host:null,mono:0,outJ:''};VIS.was=VIS.on; // v613: a page that opened as a visit never saves, even while leaving
+const VIS={on:/[#&]visit=/.test(location.hash||''),host:null,mono:0,outJ:''};const CTRL={on:false,say:0};const CTL=()=>VIS.on||CTRL.on;
+// v616: the online edition (net.js) sets NET.on; NOAI = the hero never acts alone; MAI = the housemate slot is the island's own hero living alone
+const NET={on:false,role:null,ai:false,allowM:0,sw:0,meal:null};const NOAI=()=>VIS.on||CTRL.on||NET.on;const MAI=()=>VIS.on||(NET.on&&NET.ai);VIS.was=VIS.on; // v613: a page that opened as a visit never saves, even while leaving
 const VIS_DROP=['lastPlace','trNear','wsCity','wsKey','trKey','diary','notes','awayLog','giftLog','giftSeen','mselfRecent','mselfLong','talkW','ate','drank','quakeSeen','wxRec','tcSeen','warnSet','tday','mSaid','photos','tsuSeen','holi','mtNearLog','userPlaced','recycled','wish','orderQ','yardOrderQ','noRoom','stored','ystored','unstoreQ','music','friends','trend','mate','mOutfitJ','mOutfitAt','mOutfitDay','oc','reading','pos','delivery','yardDel','carry','tipsyUntil','cosKey','cosStart','cosLen','mCosKey','hudOpt','tvPlan','orderPri','musicBy'];
 function VIS_strip(src){const o=JSON.parse(JSON.stringify(src));for(const k of VIS_DROP)delete o[k];for(const k of Object.keys(o))if(/^(dex|rtRec_|movRec|cosRec)/.test(k))delete o[k];
   const walk=v=>{if(Array.isArray(v)){for(let i=0;i<v.length;i++){if(typeof v[i]==='string'&&v[i].startsWith('data:'))v[i]=null;else if(v[i]&&typeof v[i]==='object')walk(v[i]);}}else if(v&&typeof v==='object'){for(const k in v){if(typeof v[k]==='string'&&v[k].startsWith('data:'))v[k]=null;else if(v[k]&&typeof v[k]==='object')walk(v[k]);}}};walk(o);
@@ -28224,35 +28226,50 @@ function VIS_sleepSteps(){const L=S.layout.bed,u=U('bed');
   const r=randomTile('in',pick(['liv','bed']));if(!r)return[{t:'wait',s:30}];
   return[{t:'go',sc:'in',x:r.x,y:r.y},{t:'fn',f:()=>{M.sit={px:(r.x+.5)*T,py:r.y*T+12,pose:'lie',d:'down',over:true,floor:true};M.sleeping=true;}},...wake];}
 // the visitor (C) does nothing on their own and says nothing
-{const CA=chooseActivity;chooseActivity=function(){if(!VIS.on)return CA.apply(this,arguments);C.act='vidle';C.steps=[];C.idleT=3;C.sleeping=false;};}
-{const SW=switchTo;switchTo=function(act){if(VIS.on&&act!=='tapwalk'&&act!=='elevator')return;return SW.apply(this,arguments);};}
-{const SY=say;say=function(){if(VIS.on)return;return SY.apply(this,arguments);};}
-{const QS=queueSay;queueSay=function(){if(VIS.on)return;return QS.apply(this,arguments);};}
+{const CA=chooseActivity;chooseActivity=function(){if(!NOAI())return CA.apply(this,arguments);C.act='vidle';C.steps=[];C.idleT=3;C.sleeping=false;};}
+{const SW=switchTo;switchTo=function(act){if(NET.on&&C.act==='netmeal'&&!NET.sw)return;if(NOAI()&&act!=='tapwalk'&&act!=='elevator'&&!NET.sw)return;return SW.apply(this,arguments);};}
+{const SY=say;say=function(){if(VIS.on||((CTRL.on||NET.on)&&!CTRL.say))return;return SY.apply(this,arguments);};}
+{const QS=queueSay;queueSay=function(){if(NOAI())return;return QS.apply(this,arguments);};}
 {const CS=convoSay;convoSay=function(){if(VIS.on)return;return CS.apply(this,arguments);};}
 {const TM=talkMate;talkMate=function(){if(VIS.on)return[];return TM.apply(this,arguments);};}
 // the island's hero (shown as M) only talks to themself
-{const MS=msay;msay=function(){if(VIS.on&&!VIS.mono)return;return MS.apply(this,arguments);};}
-{const CM=chooseMateAct;chooseMateAct=function(){if(!VIS.on)return CM.apply(this,arguments);let st=null;
+{const MS=msay;msay=function(){if((VIS.on||NET.on)&&!VIS.mono&&!NET.allowM)return;return MS.apply(this,arguments);};}
+{const CM=chooseMateAct;chooseMateAct=function(){if(NET.on&&!NET.ai)return[{t:'wait',s:1}];if(!MAI())return CM.apply(this,arguments);let st=null;
   if(sleepTime(1))st=VIS_sleepSteps();else{st=CM.apply(this,arguments)||[];if(st.some(x=>x&&x.t==='go'&&x.dyn&&String(x.dyn).includes('wardrobe2')))st=[];}
   return st.map(x=>x&&x.t==='say'?(Math.random()<.5?{t:'fn',f:VIS_mono}:null):x).filter(Boolean);};}
 // nothing is saved, bought, delivered or moved; no friends drop by; no menus
 for(const nm of['save','shopTick','sendDrone','handleAway','spawnVisitor','placeBed2','placeWardrobe2','openSheet','patOpen','dragStart','rvAsk','BV_enter']){try{const f=eval(nm);if(typeof f!=='function')continue;eval(nm+'=function(){if(VIS.on||VIS.was)return;return f.apply(this,arguments);}');}catch(e){}}
-{const DT=dragTarget;dragTarget=function(){if(VIS.on)return null;return DT.apply(this,arguments);};}
-{const CMn=camManual;camManual=function(){if(VIS.on)return false;return CMn.apply(this,arguments);};}
+{const DT=dragTarget;dragTarget=function(){if(CTL())return null;return DT.apply(this,arguments);};}
+{const CMn=camManual;camManual=function(){if(CTL())return false;return CMn.apply(this,arguments);};}
 {const TF=tipFor;tipFor=function(e){const t=TF.apply(this,arguments);try{if(VIS.on&&t&&t.n&&S.mate&&t.n===`${S.mate.name}（同居人）`)t.n=`${S.mate.name}（この島の主人公）`;}catch(_){}return t;};}
 // tap = walk there (doors lead in and out); nothing else happens
-{const TG=tapGo;tapGo=function(e){if(!VIS.on)return TG.apply(this,arguments);if(PAUSED||!S)return;const w=tapWorld(e);let tg=null;try{tg=tapTarget(w.x,w.y);}catch(_){}
+{const TG=tapGo;tapGo=function(e){if(!CTL())return TG.apply(this,arguments);if(PAUSED||!S)return;if(NET.on&&C.act==='netmeal')return;const w=tapWorld(e);let tg=null;try{tg=tapTarget(w.x,w.y);}catch(_){}
   let s=null;const sc=C.scene;
+  if(NET.on&&tg&&tg.t==='yard'&&tg.k==='yagura'&&S.yard&&S.yard.yagura){NET.sw=1;try{const pl=tapPlan(tg);if(pl)switchTo(pl.n,pl.s);}catch(_){}finally{NET.sw=0;}return;}
   if(tg&&tg.t==='door')s=[{t:'go',sc:'out',x:OUT.entry.x,y:OUT.entry.y+1}];
   else if(tg&&tg.t==='house')s=[{t:'go',sc:'in',x:IN_ENTRY.x,y:IN_ENTRY.y-1}];
   else{const tx=Math.floor(w.x/T),ty=Math.floor(w.y/T);let best=null,bd=1e9;for(let dy=-3;dy<=3;dy++)for(let dx=-3;dx<=3;dx++){const x=tx+dx,y=ty+dy;if(!walkable(sc,x,y))continue;const d=dx*dx+dy*dy*1.2;if(d<bd){bd=d;best={x,y};}}if(best)s=[{t:'go',sc,x:best.x,y:best.y}];}
   if(!s)return;particles.push({sc,x:w.x,y:w.y,vx:0,vy:0,life:.6,max:.6,type:'ring'});if(C.snap)unsnap();switchTo('tapwalk',s);C.idleT=3;};}
-(function(){let st=null;
-  cv.addEventListener('pointerdown',e=>{if(!VIS.on)return;st={x:e.clientX,y:e.clientY,t:performance.now(),id:e.pointerId};},true);
-  cv.addEventListener('pointerup',e=>{if(!VIS.on)return;const s=st;st=null;e.stopImmediatePropagation();if(!s||s.id!==e.pointerId||!S||fadeT>0||DRAG)return;
-    if(Math.hypot(e.clientX-s.x,e.clientY-s.y)>14||performance.now()-s.t>600)return;if(hitChar(e))return;tapGo(e);try{showTip(e);}catch(_){}},true);})();
+// tap = walk there; press and hold = keep walking toward the finger; flick = dash that way (the flick handler does that)
+(function(){let st=null,last=null;
+  cv.addEventListener('pointerdown',e=>{if(!CTL()||e.isPrimary===false)return;e.stopImmediatePropagation();st={x:e.clientX,y:e.clientY,cx:e.clientX,cy:e.clientY,t:performance.now(),id:e.pointerId,hold:false};try{cv.setPointerCapture(e.pointerId);}catch(_){}},true);
+  addEventListener('pointermove',e=>{if(st&&e.pointerId===st.id){st.cx=e.clientX;st.cy=e.clientY;}},true);
+  addEventListener('pointerup',e=>{if(!st||e.pointerId!==st.id)return;last={...st,ux:e.clientX,uy:e.clientY,ut:performance.now()};st=null;},true);
+  addEventListener('pointercancel',e=>{if(st&&e.pointerId===st.id)st=null;},true);
+  cv.addEventListener('pointerup',e=>{if(!CTL())return;e.stopImmediatePropagation();const s=last;last=null;if(!s||s.hold||s.id!==e.pointerId||!S||fadeT>0||DRAG)return;
+    if(Math.hypot(s.ux-s.x,s.uy-s.y)>14||s.ut-s.t>600)return;if(hitChar(e)){if(NET.on)try{NET_selfTap();}catch(_){}return;}
+    if(NET.on){let tg=null;try{const w=tapWorld(e);tg=tapTarget(w.x,w.y);}catch(_){}const tn=performance.now(),lt=NET._lt,dbl=!!(lt&&tn-lt.t<400&&Math.hypot(e.clientX-lt.x,e.clientY-lt.y)<34);NET._lt=dbl?null:{t:tn,x:e.clientX,y:e.clientY};try{if(NET_tap(e,tg,dbl))return;}catch(_){}}
+    tapGo(e);try{showTip(e);}catch(_){}},true);
+  function hold(){if(!CTL()||!st||!S||PAUSED||fadeT>0||DRAG)return;const tn=performance.now();
+    if(!st.hold){if(tn-st.t<230)return;if(Math.hypot(st.cx-st.x,st.cy-st.y)>28&&tn-st.t<450)return;st.hold=true;}
+    if(C.path&&C.path.length)return;if(C.steps.length&&C.act!=='tapwalk'&&C.act!=='vidle')return;
+    const pw=tapWorld({clientX:st.cx,clientY:st.cy}),cp=charPos(),dx=pw.x-cp.cx,dy=pw.y-(cp.by-T*.45),ax=Math.abs(dx),ay=Math.abs(dy);if(Math.max(ax,ay)<T*.6)return;
+    const sc=C.scene,c1=ax>=ay?[Math.sign(dx),0]:[0,Math.sign(dy)],c2=ax>=ay?[0,Math.sign(dy)]:[Math.sign(dx),0],cand=[c1];if(Math.min(ax,ay)>T*.35)cand.push(c2);
+    for(const[sx,sy]of cand){if(!sx&&!sy)continue;const nx=C.tx+sx,ny=C.ty+sy;if(walkable(sc,nx,ny)){if(C.snap)unsnap();C.act='tapwalk';C.steps=[{t:'go',sc,x:nx,y:ny}];C.idleT=3;return;}}
+    C.dir=c1[0]>0?'right':c1[0]<0?'left':c1[1]>0?'down':'up';}
+  {const U=update;update=function(dt){const r=U.apply(this,arguments);try{hold();}catch(e){}return r;};}})();
 // keep the host's own clothes on (the housemate's daily outfit picker would change them)
-setInterval(()=>{try{if(VIS.on&&M&&VIS.outJ&&!M.sleeping&&JSON.stringify(M.outfit)!==VIS.outJ)M.outfit=JSON.parse(VIS.outJ);}catch(e){}},1500);
+setInterval(()=>{try{if((VIS.on||NET.on)&&M&&VIS.outJ&&!M.sleeping&&JSON.stringify(M.outfit)!==VIS.outJ)M.outfit=JSON.parse(VIS.outJ);}catch(e){}},1500);
 function VIS_bar(name){let b=document.getElementById('visBar');if(!b){b=document.createElement('div');b.id='visBar';document.body.append(b);
   const st=document.createElement('style');st.textContent='html.visitmode #bot4,html.visitmode #menuB,html.visitmode #pauseB,html.visitmode #camB,html.visitmode #helpB{display:none!important}'+
    '#visBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:30;display:flex;flex-direction:column;align-items:center;gap:3px;pointer-events:none;font-family:inherit;max-width:calc(100% - 32px)}'+
@@ -28275,7 +28292,7 @@ function VIS_start(h){const me=(()=>{try{return load();}catch(e){return null;}})
   const m=/[#&]visit=([^&]+)/.exec(location.hash||'');VIS_dec(m?m[1]:'').then(h=>{try{VIS_start(h);}catch(e){__errs&&__errs.push('visit: '+e.message);VIS_fail();}}).catch(()=>VIS_fail());};}
 // leaving with the browser's back button / editing the hash also ends the visit without touching anything
 addEventListener('hashchange',()=>{const v=/[#&]visit=/.test(location.hash||'');if(VIS.was&&!v){location.reload();}else if(!VIS.was&&v){try{save();}catch(e){}location.reload();}});
-function VIS_hbed(){return!!(VIS.on&&typeof M!=='undefined'&&M&&M.sit&&M.sit.hbed&&M.scene==='in');}
+function VIS_hbed(){return!!(MAI()&&typeof M!=='undefined'&&M&&M.sit&&M.sit.hbed&&M.scene==='in');}
 {const MK=mateKey;mateKey=function(){try{if(VIS_hbed()&&S.layout.bed)return(S.layout.bed.y+3)*T+1;}catch(e){}return MK.apply(this,arguments);};}
 
 /* ===== v613: repair a save that was overwritten when leaving a visit (v612 bug). The damaged save carries _visit.
@@ -28304,6 +28321,53 @@ function VIS_repairUI(){if(VIS.was||!S||!S._visit||document.getElementById('visR
     try{const r=VIS_repair(S,o);localStorage.setItem(KEY,JSON.stringify(r));try{localStorage.setItem(KEY+'-bak',JSON.stringify(r));}catch(_){}ov.remove();V=null;try{abort();}catch(_){}contGame(r);setTimeout(()=>{try{say('データが元に戻ったよ！');}catch(_){}},800);}
     catch(e){ov.querySelector('#visRepM').textContent='戻せませんでした（'+e.message+'）';}};rd.readAsText(f);};}
 {const CG=contGame;contGame=function(){const r=CG.apply(this,arguments);try{if(!VIS.was&&S&&S._visit)setTimeout(VIS_repairUI,1500);}catch(e){}return r;};}
+/* ===== v614: during a face-to-face game the hero sits in front of the board, so their name tag and speech bubble go to the side ===== */
+function GM_side(){try{return!!(S&&C&&C.scene==='in'&&C.act==='boardgame'&&GM.on&&C.snap&&C.dir==='up');}catch(e){return false;}}
+{const DT=drawMainTag;drawMainTag=function(){if(!GM_side())return DT.apply(this,arguments);const st=tagStyle();if(st==='none')return;const p=charPos();
+  g.save();drawNameTag(g,p.cx-24*CH_SC,p.by-26*CH_SC,S.name,st);g.restore();};}
+{const PB=posBubble;posBubble=function(bb,cx,by,hd){if(!(bb&&bb.id==='bubble'&&GM_side()))return PB.apply(this,arguments);
+  const k=cv.clientWidth/W,sx=((cx-cam.x)*Z+W/2)*k,sy=((by-22*CH_SC-cam.y)*Z+H/2)*k,bw=bb.offsetWidth,bh=bb.offsetHeight,sw=cv.clientWidth,sh=cv.clientHeight,gap=17*CH_SC*Z*k;
+  let left=sx+gap,side='r';if(left+bw>sw-8){left=sx-gap-bw;side='l';}if(left<8)left=8;
+  let top=sy-bh/2;top=clamp(top,6,Math.max(6,sh-bh-56));
+  bb.classList.remove('below');bb.classList.toggle('sideL',side==='l');bb.classList.toggle('sideR',side==='r');bb.style.transform=`translate(${Math.round(left)}px,${Math.round(top)}px)`;
+  bb.style.setProperty('--tx',(side==='r'?16:bw-16)+'px');bb._pos={left,top,bw,bh,sx};};}
+// clear the side classes when the bubble goes back above the head
+{const PB2=posBubble;posBubble=function(bb){const r=PB2.apply(this,arguments);try{if(bb&&bb.id==='bubble'&&!GM_side())bb.classList.remove('sideL','sideR');}catch(e){}return r;};}
+(function(){const st=document.createElement('style');st.textContent='#bubble.sideR .tail,#bubble.sideL .tail{bottom:auto;top:50%;margin:-7px 0 0 0;border:7px solid transparent}#bubble.sideR .tail{left:-7px;border-left:0;border-right-color:rgba(255,250,240,.58)}#bubble.sideL .tail{left:auto;right:-7px;border-right:0;border-left-color:rgba(255,250,240,.58)}';document.head.append(st);})();
+
+/* ===== v615: bottom bar ？ / MENU / ▶■ / 自動・手動・操作. 操作: the hero stops living on their own and walks where you
+   point (tap, press-and-hold, flick); type a line in the box and the hero says it. The housemate goes on as usual. ===== */
+function CTRL_set(m){if(m==='c'){try{if(BV.on)BV_exit();}catch(e){}if(camManual())camSet(false);if(PAUSED)setPause(false);
+    if(!CTRL.on){try{abort();}catch(e){}try{if(C.snap)unsnap();}catch(e){}C.sleeping=false;C.napping=false;CTRL.on=true;C.act='vidle';C.steps=[];C.idleT=3;}}
+  else{if(CTRL.on){CTRL.on=false;C.steps=[];C.idleT=1;}camSet(m==='m');}
+  CTRL_ui();}
+function CTRL_mode(){return CTRL.on?'c':camManual()?'m':'a';}
+function CTRL_ui(){const sg=document.getElementById('modeSeg');if(sg){const m=CTRL_mode();for(const b of sg.children)b.setAttribute('aria-pressed',b.dataset.m===m?'true':'false');}
+  const bx=document.getElementById('ctlSay');if(bx)bx.hidden=!(CTRL.on&&S&&!VIS.on);
+  try{const pi=document.querySelector('#pauseB .pi'),ic=PAUSED?'▶':'■';if(pi&&pi.textContent!==ic)pi.textContent=ic;}catch(e){}}
+{const BE=BV_enter;BV_enter=function(){if(CTRL.on)return;return BE.apply(this,arguments);};}
+{const SV=spawnVisitor;spawnVisitor=function(){if(CTRL.on)return;return SV.apply(this,arguments);};}
+{const SH=shopTick;shopTick=function(){if(CTRL.on)return;return SH.apply(this,arguments);};}
+{const SP=setPause;setPause=function(){const r=SP.apply(this,arguments);try{const b=$('pauseB'),pi=b&&b.querySelector('.pi');if(pi)pi.textContent=PAUSED?'▶':'■';if(b)b.setAttribute('aria-label',PAUSED?'再開':'一時停止');}catch(e){}return r;};}
+(function(){try{const bar=$('bot4');if(!bar||document.getElementById('modeSeg'))return;
+  const sg=document.createElement('div');sg.id='modeSeg';sg.className='glass';sg.setAttribute('role','group');sg.setAttribute('aria-label','視点と操作');
+  sg.innerHTML='<button type="button" data-m="a">自動</button><button type="button" data-m="m">手動</button><button type="button" data-m="c">操作</button>';bar.append(sg);
+  for(const b of sg.children){b.addEventListener('pointerdown',e=>e.stopPropagation());b.onclick=e=>{e.stopPropagation();if(!S)return;CTRL_set(b.dataset.m);};}
+  const bx=document.createElement('form');bx.id='ctlSay';bx.hidden=true;bx.autocomplete='off';
+  bx.innerHTML='<input id="ctlSayI" type="text" maxlength="80" enterkeyhint="send" placeholder="主人公のセリフを入力"><button type="submit">話す</button>';document.body.append(bx);
+  bx.addEventListener('pointerdown',e=>e.stopPropagation());
+  bx.onsubmit=e=>{e.preventDefault();const i=document.getElementById('ctlSayI'),t=(i.value||'').trim().slice(0,80);if(!t||!S||!CTRL.on)return;CTRL.say=1;try{say(t);}catch(_){}CTRL.say=0;i.value='';try{i.blur();}catch(_){}};
+  const st=document.createElement('style');st.textContent='#bot4{grid-template-columns:34px 1fr 40px 2.2fr!important}#bot4 #camB{display:none!important}#bot4 #pauseB .pl{display:none!important}#bot4 #pauseB .pi{font-size:13px}'+
+    '#modeSeg{grid-column:4;grid-row:1;width:100%;pointer-events:auto;display:flex;align-items:stretch;height:34px;border-radius:17px!important;padding:3px;gap:2px;box-sizing:border-box;overflow:hidden}'+
+    '#modeSeg button{flex:1;min-width:0;border:0;background:transparent;color:inherit;font:inherit;font-size:clamp(10px,3.1vw,12.5px);font-weight:600;border-radius:14px;padding:0;letter-spacing:.04em;opacity:.75}'+
+    '#modeSeg button[aria-pressed="true"]{background:rgba(255,255,255,.9);color:#23324a;opacity:1;box-shadow:0 1px 3px rgba(0,0,0,.15)}'+
+    '#ctlSay{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(52px + env(safe-area-inset-bottom,0px));z-index:6;display:flex;gap:6px;width:min(400px,calc(100% - 56px));box-sizing:border-box}'+
+    '#ctlSay[hidden]{display:none!important}#ctlSay input{flex:1;min-width:0;height:36px;border-radius:18px;border:1px solid rgba(255,255,255,.6);background:rgba(255,255,255,.92);color:#223;padding:0 14px;font-size:16px;box-sizing:border-box}'+
+    '#ctlSay button{flex:0 0 auto;height:36px;border-radius:18px;border:0;background:#2f5e9e;color:#fff;font-weight:700;padding:0 16px;font-size:14px}';document.head.append(st);
+  try{const hs=[...document.querySelectorAll('#help h3')].find(h=>h.textContent==='画面のボタン');const dl=hs&&hs.nextElementSibling;if(dl&&dl.tagName==='DL'){const dt=document.createElement('dt');dt.textContent='自動・手動・操作';const dd=document.createElement('dd');dd.textContent='自動：画面がキャラクターを追いかけます。手動：画面をドラッグして自由に見て回れます。操作：主人公を自分で動かせます（タップした場所へ歩く・押したままの方向へ歩く・フリック）。下の入力欄に打ち込むと、主人公がそのセリフを話します。';dl.append(dt,dd);}}catch(e){}
+  try{setPause(PAUSED);}catch(e){}CTRL_ui();setInterval(()=>{try{CTRL_ui();}catch(e){}},500);}catch(e){}})();
+
+function NET_tv(){return!!(NET.on&&NET.tv);}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
