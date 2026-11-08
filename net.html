@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 620（2026/11/08）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 621（2026/11/08）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 620（2026/11/08）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 621（2026/11/08）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -28197,7 +28197,9 @@ setInterval(()=>{try{if(GM.on&&C.act!=='boardgame'){GM.on=false;GM.mat=null;}if(
 /* ===== v612: 見学（ほかの人の島を見て回る）— the island is packed into a URL (#visit=…); opening it shows that island with
    your own place and weather, you walk about by tap / flick only, the island's hero lives there and talks to themself, no housemate,
    nothing can be moved, nothing is saved. "見て回るのをやめる" at the bottom goes back to your own island. ===== */
-const VIS={on:/[#&]visit=/.test(location.hash||''),host:null,mono:0,outJ:''};const CTRL={on:false,say:0};const CTL=()=>VIS.on||CTRL.on;
+// v621: the 見学URL feature is gone; an old #visit= link just opens your own island
+try{if(/[#&]visit=/.test(location.hash||''))history.replaceState(null,'',location.pathname+location.search);}catch(e){}
+const VIS={on:false,host:null,mono:0,outJ:''};const CTRL={on:false,say:0};const CTL=()=>VIS.on||CTRL.on;
 // v616: the online edition (net.js) sets NET.on; NOAI = the hero never acts alone; MAI = the housemate slot is the island's own hero living alone
 const NET={on:false,role:null,ai:false,allowM:0,sw:0,meal:null};const NOAI=()=>VIS.on||CTRL.on||NET.on;const MAI=()=>VIS.on||(NET.on&&NET.ai);VIS.was=VIS.on; // v613: a page that opened as a visit never saves, even while leaving
 const VIS_DROP=['lastPlace','trNear','wsCity','wsKey','trKey','diary','notes','awayLog','giftLog','giftSeen','mselfRecent','mselfLong','talkW','ate','drank','quakeSeen','wxRec','tcSeen','warnSet','tday','mSaid','photos','tsuSeen','holi','mtNearLog','userPlaced','recycled','wish','orderQ','yardOrderQ','noRoom','stored','ystored','unstoreQ','music','friends','trend','mate','mOutfitJ','mOutfitAt','mOutfitDay','oc','reading','pos','delivery','yardDel','carry','tipsyUntil','cosKey','cosStart','cosLen','mCosKey','hudOpt','tvPlan','orderPri','musicBy'];
@@ -28215,7 +28217,7 @@ async function VIS_dec(str){const i=str.indexOf('.');if(i<0)throw new Error('bad
 function VIS_base(){return location.href.split('#')[0];}
 async function VIS_url(){try{save();}catch(e){}return VIS_base()+'#visit='+(await VIS_enc(VIS_strip(S)));}
 // ---- menu › データ: 島に招待（見学用URL）
-(function(){try{const sec=document.querySelector('#sheet section.tp[data-p="data"]');if(!sec||document.getElementById('visMake'))return;
+(function(){return;try{const sec=document.querySelector('#sheet section.tp[data-p="data"]');if(!sec||document.getElementById('visMake'))return;
   const h=[...sec.querySelectorAll('h3')].find(x=>/データの書き出し/.test(x.textContent));const box=document.createElement('div');box.id='visBox';
   box.innerHTML='<h3>島に招待する（見学用のURL）</h3><p class="hint">このURLを開いた人は、あなたの島を見て回れます。見る人の場所・天気で表示され、ものは動かせません。場所の情報・日記・写真・メモなどは含まれません。</p>'+
     '<div class="row2"><button id="visMake" type="button">見学用のURLをつくる</button></div><textarea id="visUrl" rows="3" readonly hidden style="width:100%;box-sizing:border-box;font-size:11px;margin:6px 0;word-break:break-all"></textarea>'+
@@ -28306,7 +28308,7 @@ function VIS_start(h){const me=(()=>{try{return load();}catch(e){return null;}})
 {const STt=showTitle;showTitle=function(){if(!VIS.on)return STt.apply(this,arguments);document.documentElement.classList.add('visitmode');try{$('title').hidden=true;}catch(e){}VIS_bar('');
   const m=/[#&]visit=([^&]+)/.exec(location.hash||'');VIS_dec(m?m[1]:'').then(h=>{try{VIS_start(h);}catch(e){__errs&&__errs.push('visit: '+e.message);VIS_fail();}}).catch(()=>VIS_fail());};}
 // leaving with the browser's back button / editing the hash also ends the visit without touching anything
-addEventListener('hashchange',()=>{const v=/[#&]visit=/.test(location.hash||'');if(VIS.was&&!v){location.reload();}else if(!VIS.was&&v){try{save();}catch(e){}location.reload();}});
+addEventListener('hashchange',()=>{const v=/[#&]visit=/.test(location.hash||'');if(VIS.was&&!v){location.reload();}else if(!VIS.was&&v){try{history.replaceState(null,'',location.pathname+location.search);}catch(e){}}});
 function VIS_hbed(){return!!(MAI()&&typeof M!=='undefined'&&M&&M.sit&&M.sit.hbed&&M.scene==='in');}
 {const MK=mateKey;mateKey=function(){try{if(VIS_hbed()&&S.layout.bed)return(S.layout.bed.y+3)*T+1;}catch(e){}return MK.apply(this,arguments);};}
 
@@ -28426,8 +28428,6 @@ function NETREP_ui(manual){if((typeof NET!=='undefined'&&NET.on)||document.getEl
     if(!o||!o.species||o._visit||NETREP_looks(o)){MSG('このファイルは使えませんでした。壊れる前に「ファイルに保存」で書き出したデータを選んでください');return;}
     try{const cur=NETREP_cur();if(!cur){MSG('データが見つかりませんでした');return;}NETREP_write(NETREP_fix(cur,o));}catch(e){MSG('直せませんでした（'+e.message+'）');}};rd.readAsText(f);};}
 {const CG=contGame;contGame=function(){const r=CG.apply(this,arguments);try{if(sessionStorage.getItem('netrepDone')){sessionStorage.removeItem('netrepDone');setTimeout(()=>{try{say('データを直したよ！');}catch(_){}},1200);}}catch(e){}return r;};}
-// a way in from the data tab as well
-(function(){try{const b=$('dCopy');if(!b)return;const row=document.createElement('div');row.className='row2';row.innerHTML='<button id="dNetRep" type="button">ネット版で上書きされたデータを直す</button>';b.parentElement.after(row);row.querySelector('button').onclick=()=>NETREP_ui(true);}catch(e){}})();
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
