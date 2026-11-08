@@ -28859,7 +28859,7 @@ async function NET_begin(m){NET.role=m.role;let s;
   if(m.peer&&m.peer.prof)NET_peerOn(m.peer.prof,m.peer.pos,true);else NET_peerOff(true);
   if(m.role==='guest')NET_playMusic(m.music);
   NET_title();try{CTRL_ui();}catch(e){}
-  setTimeout(()=>{if(!NETS().tipSelf){NET_toast('自分のキャラをタップすると、図鑑が開きます',4200);NETS_set(o=>{o.tipSelf=1;});}},1800);}
+  }
 function NET_profOut(){return{name:S.name,species:S.species,look:S.look,outfit:S.outfit,oc:NET_ocFor(S,S.outfit)};}
 function NET_rehello(m){NET_send({t:'prof',prof:NET_profOut()});NET.lastPos='';
   if(NET.role==='owner'){NET.lastSig='';NET.musSig='';}else{if(m.isle)NET_applyIsle(m.isle);NET_playMusic(m.music);}
@@ -28878,7 +28878,7 @@ async function NET_applyIsle(str){if(!S)return;let o;try{o=await NET_resolve(str
 function NET_mSet(prof){const sp=prof.species||'human';S.mate={name:prof.name||(NET.role==='owner'?'ゲスト':'オーナー'),sp,look:prof.look||randomLook(),since:Date.now(),near:'mid',out:'mid'};
   for(const e of(prof.oc||[]))if(!S.oc.some(q=>q.id===e.id))S.oc.push(e);VIS.outJ=JSON.stringify(prof.outfit||simpleOutfit());
   if(!M)spawnMate(true);try{M.outfit=JSON.parse(VIS.outJ);M.seed=(S.mate.name.length*3)%7;}catch(e){}}
-function NET_peerOn(prof,pos,first){NET.peer=prof||{};NET.ai=false;NET_mSet(NET.peer);M.busy=true;M.sleeping=false;M.steps=[];M.sit=null;M.goal=null;
+function NET_peerOn(prof,pos,first){if(NET.peer&&M&&!NET.ai&&!first){NET.peer=prof||{};NET_mSet(NET.peer);NET_title();return;}NET.peer=prof||{};NET.ai=false;NET_mSet(NET.peer);M.busy=true;M.sleeping=false;M.steps=[];M.sit=null;M.goal=null;
   if(pos)NET_applyPos(pos,true);else if(!first)mPlace('in',IN_ENTRY.x,IN_ENTRY.y-1);
   if(!first)NET_toast(NET.role==='owner'?`${S.mate.name}さんが遊びに来ました`:`${S.mate.name}さんが戻ってきました`);
   NET_title();if(NET.meal){NET_mealOther();if(!first)NET_send({t:'meal',kind:NET.meal.kind,n:NET.meal.n});}}
@@ -28966,20 +28966,27 @@ async function NET_playMusic(mu){NET.music=mu||null;if(NET.role!=='guest'||!S)re
   S.music={ids:[id],names:[name],idx:0,pos,on:true,mode:'one'};try{await musLoad(0,pos);}catch(e){}}
 
 /* ---------- my own picture book (tap your character) ---------- */
-function NET_selfTap(){NET_dex();}
-function NET_dex(tab){let ov=document.getElementById('netDex');if(!ov){ov=document.createElement('div');ov.id='netDex';ov.innerHTML='<div class="nd-card" role="dialog" aria-modal="true" aria-labelledby="ndH"><div class="nd-top"><h2 id="ndH">図鑑</h2><button type="button" class="nd-x" aria-label="とじる">×</button></div><div class="nd-tabs" role="tablist"></div><div class="nd-body"></div></div>';document.body.append(ov);
+function NET_selfTap(){}
+function NET_dex(tab){let ov=document.getElementById('netDex');if(!ov){ov=document.createElement('div');ov.id='netDex';ov.innerHTML='<div class="nd-card" role="dialog" aria-modal="true" aria-labelledby="ndH"><div class="nd-top"><h2 id="ndH">メニュー</h2><button type="button" class="nd-x" aria-label="とじる">×</button></div><div class="nd-tabs" role="tablist"></div><div class="nd-body"></div></div>';document.body.append(ov);
     ov.addEventListener('pointerdown',e=>e.stopPropagation());ov.querySelector('.nd-x').onclick=()=>{ov.hidden=true;};ov.addEventListener('click',e=>{if(e.target===ov)ov.hidden=true;});}
-  const own=NET.role==='owner',tabs=own?[['f','家具'],['y','庭'],['food','料理'],['drink','飲みもの'],['alc','お酒'],['bgm','BGM'],['edit','模様替え']]:[['food','料理'],['drink','飲みもの'],['alc','お酒']];
-  tab=tab||NET._dexTab||(own?'f':'food');if(!tabs.some(t=>t[0]===tab))tab=tabs[0][0];NET._dexTab=tab;
+  const own=NET.role==='owner',tabs=own?[['me','自分'],['f','家具'],['y','庭'],['food','料理'],['drink','飲みもの'],['alc','お酒'],['bgm','BGM'],['edit','模様替え']]:[['me','自分'],['food','料理'],['drink','飲みもの'],['alc','お酒']];
+  tab=tab||NET._dexTab||'me';if(!tabs.some(t=>t[0]===tab))tab=tabs[0][0];NET._dexTab=tab;
   const tb=ov.querySelector('.nd-tabs');tb.innerHTML='';for(const[k,n]of tabs){const b=document.createElement('button');b.type='button';b.setAttribute('role','tab');b.textContent=n;b.setAttribute('aria-selected',k===tab?'true':'false');b.onclick=()=>NET_dex(k);tb.append(b);}
-  const body=ov.querySelector('.nd-body');body.innerHTML='';body.scrollTop=0;ov.hidden=false;const close=()=>{ov.hidden=true;};
+  const body=ov.querySelector('.nd-body');body.innerHTML='';body.scrollTop=0;if(ov.hidden)ov._at=performance.now();ov.hidden=false;const close=()=>{ov.hidden=true;};
+  const ghost=()=>performance.now()-(ov._at||0)<450;
   const hint=t=>{const p=document.createElement('p');p.className='nd-hint';p.textContent=t;body.append(p);};
   const grid=(keys,icon,name,isOn,act)=>{const g2=document.createElement('div');g2.className='nd-grid';body.append(g2);let i=0;
-    const more=()=>{const end=Math.min(keys.length,i+36);for(;i<end;i++){const k=keys[i],d=document.createElement('button');d.type='button';d.className='nd-it'+(isOn(k)?' on':'');try{d.append(icon(k));}catch(e){}const s2=document.createElement('span');s2.textContent=name(k);d.append(s2);if(isOn(k)){const b2=document.createElement('em');b2.textContent='置いてある';d.append(b2);}d.onclick=()=>act(k,d);g2.append(d);}
+    const more=()=>{const end=Math.min(keys.length,i+36);for(;i<end;i++){const k=keys[i],d=document.createElement('button');d.type='button';d.className='nd-it'+(isOn(k)?' on':'');try{d.append(icon(k));}catch(e){}const s2=document.createElement('span');s2.textContent=name(k);d.append(s2);if(isOn(k)){const b2=document.createElement('em');b2.textContent='置いてある';d.append(b2);}d.onclick=()=>{if(!ghost())act(k,d);};g2.append(d);}
       if(i<keys.length)requestAnimationFrame(more);};more();};
   const chips=(list,kind)=>{const q=document.createElement('input');q.type='search';q.placeholder='さがす';q.className='nd-q';body.append(q);const w=document.createElement('div');w.className='nd-chips';body.append(w);
-    const draw=()=>{w.innerHTML='';const t=q.value.trim();let n=0;for(const x of list){if(t&&!x.includes(t))continue;if(++n>400)break;const b=document.createElement('button');b.type='button';b.textContent=x;b.onclick=()=>{close();NET_mealStart(kind,x,false);};w.append(b);}if(!n){const p=document.createElement('p');p.className='nd-hint';p.textContent='見つかりませんでした';w.append(p);}};q.oninput=draw;draw();};
-  if(tab==='f'){hint('タップすると、煙とともに部屋の空いているところに置かれます。');const fk=Object.keys(FT).filter(k=>k!=='ksink'&&!/_\d+$/.test(k)&&!['bed2','wardrobe2'].includes(k));
+    const draw=()=>{w.innerHTML='';const t=q.value.trim();let n=0;for(const x of list){if(t&&!x.includes(t))continue;if(++n>400)break;const b=document.createElement('button');b.type='button';b.textContent=x;b.onclick=()=>{if(ghost())return;close();NET_mealStart(kind,x,false);};w.append(b);}if(!n){const p=document.createElement('p');p.className='nd-hint';p.textContent='見つかりませんでした';w.append(p);}};q.oninput=draw;draw();};
+  if(tab==='me'){const box=document.createElement('div');box.className='nd-me';body.append(box);const cv2=document.createElement('canvas');cv2.width=120;cv2.height=150;cv2.className='nd-pv';box.append(cv2);
+    const drawPv=()=>{try{humPrev(cv2,S.species,S.look||defaultLook(),S.outfit);}catch(e){}};drawPv();
+    const f=document.createElement('div');f.className='nd-mef';f.innerHTML='<label for="ndName">名前</label><input id="ndName" maxlength="10"><button type="button" class="nd-main" id="ndLook">見た目を変える</button>';box.append(f);
+    const ni=f.querySelector('#ndName');ni.value=S.name||'';ni.onchange=()=>{const v=ni.value.trim().slice(0,10);if(!v){ni.value=S.name;return;}S.name=v;NET_meChanged();};
+    f.querySelector('#ndLook').onclick=()=>{if(ghost())return;close();try{openLook(S.look,lk=>{S.look=lk;NET_meChanged();NET_dex('me');});}catch(e){}};
+    hint(own?'名前と見た目は、ゲストの画面にも出ます。':'名前と見た目は、オーナーの画面にも出ます。次に遊びに行くときも、この名前と見た目になります。');}
+  else if(tab==='f'){hint('タップすると、煙とともに部屋の空いているところに置かれます。');const fk=Object.keys(FT).filter(k=>k!=='ksink'&&!/_\d+$/.test(k)&&!['bed2','wardrobe2'].includes(k));
     grid(fk,furnIcon,k=>FT[k].n.replace('（ミニチュア）',''),k=>has(k),k=>{close();NET_order(k,false);});}
   else if(tab==='y'){hint('タップすると、煙とともに庭の空いているところに置かれます。');grid(Object.keys(OFT),yardIcon,k=>OFT[k].n,k=>!!(S.yard&&S.yard[k]),k=>{close();NET_order(k,true);});}
   else if(tab==='food'||tab==='drink'){let A2={f:[],d:[]};try{A2=DEX_allFoods();}catch(e){}hint(NET.peer||NET.ai?'えらぶと食卓につきます。いっしょにいる人も食卓につきます。':'えらぶと食卓につきます。');chips((tab==='food'?A2.f:A2.d).sort((a,b)=>a.localeCompare(b,'ja')),tab);}
@@ -28990,6 +28997,9 @@ function NET_dex(tab){let ov=document.getElementById('netDex');if(!ov){ov=docume
     m.ids.forEach((id,i)=>{const b=document.createElement('button');b.type='button';b.textContent=(m.idx===i&&MUS.playing?'♪ ':'')+(id===BGM_ID?'デフォルトBGM':songTitle((m.names||[])[i]));b.onclick=async()=>{close();S.music.on=true;S.music.mode='one';try{await musLoad(i,0);}catch(e){}};ul.append(b);});}
   else if(tab==='edit'){hint('画面をドラッグして見て回れます。家具は長押しで動かせます。写真立てやラグは長押しで写真を入れられます。ゲストにも見えます。');
     const b=document.createElement('button');b.type='button';b.className='nd-main';b.textContent='模様替えをはじめる';b.onclick=()=>{close();NET_edit(true);};body.append(b);}}
+// my name or look changed: show it everywhere and remember it
+function NET_meChanged(){try{updateHUD();}catch(e){}NET_send({t:'prof',prof:NET_profOut()});
+  if(NET.role==='guest'){NETS_set(o=>{o.prof={name:S.name,species:S.species,look:S.look,outfit:S.outfit,oc:NET_ocFor(S,S.outfit)};});}else NET.host={...NET.host,name:S.name,look:S.look};NET_title();}
 function NET_edit(on){NET.edit=!!on;if(on){CTRL.on=false;try{camSet(true);}catch(e){}}else{try{camSet(false);}catch(e){}CTRL.on=true;C.act='vidle';C.steps=[];}
   let b=document.getElementById('netEdit');if(!b){b=document.createElement('a');b.id='netEdit';b.href='#';b.textContent='模様替えを終える';b.onclick=e=>{e.preventDefault();NET_edit(false);};document.body.append(b);}b.hidden=!on;try{CTRL_ui();}catch(e){}}
 {const CM=camManual;camManual=function(){if(NET.on&&!NET.edit)return false;return CM.apply(this,arguments);};}
@@ -28999,9 +29009,9 @@ function NET_title(){if(!S)return;const o=NET.role==='owner';const host=o?S.name
   let t=`${host}の島`;if(o)t+=NET.peer?`　ゲスト：${S.mate?S.mate.name:''}`:'　ゲストはいません';else t+=NET.ai?'　オーナーはお出かけ中':'　オーナーもいます';
   let el=document.getElementById('netTitle');if(!el){el=document.createElement('div');el.id='netTitle';document.body.append(el);}el.textContent=t;try{document.title=`${host}の島 — 浮遊島ぐらし ネット版`;}catch(e){}}
 function NET_ui(){document.documentElement.classList.add('netmode');if(document.getElementById('netBar'))return;
-  const bar=document.createElement('div');bar.id='netBar';bar.innerHTML='<button type="button" id="netHelp" aria-label="遊びかた">？</button><button type="button" id="netBack">島から帰る</button>';document.body.append(bar);
+  const bar=document.createElement('div');bar.id='netBar';bar.innerHTML='<button type="button" id="netHelp" aria-label="遊びかた">？</button><button type="button" id="netMenu">MENU</button><button type="button" id="netBack">島から帰る</button>';document.body.append(bar);
   bar.addEventListener('pointerdown',e=>e.stopPropagation());
-  document.getElementById('netHelp').onclick=()=>{NET_help();};document.getElementById('netBack').onclick=()=>NET_leave();}
+  document.getElementById('netHelp').onclick=()=>{NET_help();};document.getElementById('netMenu').onclick=()=>{NET_dex();};document.getElementById('netBack').onclick=()=>NET_leave();}
 function NET_help(){let ov=document.getElementById('netHelpOv');if(!ov){ov=document.createElement('div');ov.id='netHelpOv';ov.className='netov';document.body.append(ov);ov.addEventListener('pointerdown',e=>e.stopPropagation());ov.addEventListener('click',e=>{if(e.target===ov||e.target.closest('.nh-x'))ov.hidden=true;});}
   const o=NET.role==='owner';ov.innerHTML=`<div class="netcard" role="dialog" aria-modal="true" aria-labelledby="nhH"><h2 id="nhH">ネット版の遊びかた</h2><dl>
   <dt>歩く</dt><dd>行きたい場所をタップ。押したままにすると、その方向へ歩きつづけます。フリックでも進みます。玄関や家をタップすると屋内と屋外を行き来します。</dd>
@@ -29012,8 +29022,8 @@ function NET_help(){let ov=document.getElementById('netHelpOv');if(!ov){ov=docum
   <dt>島から帰る</dt><dd>画面下のボタンで、はじめの画面にもどります。</dd></dl><button type="button" class="nh-x nd-main">とじる</button></div>`;ov.hidden=false;}
 (function(){const st=document.createElement('style');st.textContent=`
 html.netmode #bot4,html.netmode #menuB,html.netmode #pauseB,html.netmode #camB,html.netmode #helpB,html.netmode #modeSeg{display:none!important}
-#netBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:7;display:grid;grid-template-columns:40px 1fr;gap:8px;width:min(400px,calc(100% - 56px))}
-#netBar button{position:static;height:36px;border-radius:18px;border:1px solid rgba(255,255,255,.25);font:inherit;font-weight:700;font-size:14px;color:#fff;pointer-events:auto;background:rgba(13,18,42,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:0 1px 3px rgba(0,0,0,.5)}
+#netBar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(10px + env(safe-area-inset-bottom,0px));z-index:7;display:grid;grid-template-columns:40px 1fr 1.3fr;gap:8px;width:min(400px,calc(100% - 56px))}
+#netBar button{position:static;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1;box-sizing:border-box;height:36px;border-radius:18px;border:1px solid rgba(255,255,255,.25);font:inherit;font-weight:700;font-size:14px;color:#fff;pointer-events:auto;background:rgba(13,18,42,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:0 1px 3px rgba(0,0,0,.5)}
 #netTitle{position:fixed;left:50%;transform:translateX(-50%);top:calc(6px + env(safe-area-inset-top,0px));z-index:7;font-size:11px;color:#fff;background:rgba(20,30,50,.55);padding:2px 12px;border-radius:10px;white-space:nowrap;max-width:calc(100% - 40px);overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 #netSt{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:40;background:rgba(20,24,40,.86);color:#ffe08a;padding:10px 16px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
 #netToast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:rgba(20,24,40,.88);color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
@@ -29027,7 +29037,7 @@ html.netsky #ctlSay{z-index:20;bottom:calc(62px + env(safe-area-inset-bottom,0px
 .nd-card,.netcard{background:#fbf8f2;color:#223;width:min(520px,100%);max-height:82vh;border-radius:16px 16px 0 0;display:flex;flex-direction:column;box-shadow:0 -4px 24px rgba(0,0,0,.25);font-size:14px}
 .netov{align-items:center;padding:16px}.netcard{border-radius:16px;padding:16px;overflow:auto;max-width:440px}
 .netcard h2,.nd-top h2{font-size:17px;margin:0 0 8px}.netcard dt{font-weight:700;margin-top:8px}.netcard dd{margin:2px 0 0;line-height:1.6}
-.nd-top{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 4px}.nd-x{border:0;background:none;font-size:22px;line-height:1;color:#556;padding:4px 8px}
+.nd-top,.nd-tabs{flex-shrink:0}.nd-top{display:flex;align-items:center;justify-content:space-between;padding:12px 14px 4px}.nd-x{border:0;background:none;font-size:22px;line-height:1;color:#556;padding:4px 8px}
 .nd-tabs{display:flex;gap:4px;padding:4px 10px 8px;overflow-x:auto;scrollbar-width:none}.nd-tabs button{flex:0 0 auto;height:30px;line-height:1;white-space:nowrap;border:1px solid #d8d2c4;background:#fff;color:#445;border-radius:15px;padding:0 12px;font:inherit;font-size:13px;min-width:0;width:auto}
 .nd-tabs button[aria-selected=true]{background:#2f5e9e;border-color:#2f5e9e;color:#fff}
 .nd-body{overflow:auto;padding:0 12px 16px;-webkit-overflow-scrolling:touch}.nd-hint{font-size:12px;color:#667;margin:2px 2px 8px;line-height:1.5}
@@ -29036,6 +29046,7 @@ html.netsky #ctlSay{z-index:20;bottom:calc(62px + env(safe-area-inset-bottom,0px
 .nd-it canvas{width:56px;height:56px}.nd-it span{display:block;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;padding:0 2px}.nd-it.on{opacity:.55}.nd-it em{font-style:normal;font-size:10px;color:#2f5e9e}
 .nd-q{width:100%;box-sizing:border-box;height:36px;border-radius:18px;border:1px solid #d8d2c4;padding:0 14px;font-size:16px;margin-bottom:8px}
 .nd-chips{display:flex;flex-wrap:wrap;gap:6px}.nd-chips button{border:1px solid #e0d8c6;background:#fff;color:#334;border-radius:14px;padding:6px 10px;font:inherit;font-size:13px}
+.nd-me{margin:4px 0 10px}.nd-pv{display:block;width:180px;height:96px;margin:0 auto 10px;background:#efe9dc;border-radius:12px}.nd-mef{min-width:0}.nd-mef label{display:block;font-size:12px;color:#556;margin:0 0 4px}.nd-mef input{width:100%;box-sizing:border-box;height:38px;border-radius:10px;border:1px solid #d8d2c4;padding:0 12px;font-size:16px;background:#fff;color:#223}
 .nd-main{display:block;width:100%;margin-top:12px;height:40px;border:0;border-radius:20px;background:#2f5e9e;color:#fff;font:inherit;font-weight:700;font-size:15px}
 #netStart{position:fixed;inset:0;z-index:60;display:flex;align-items:center;justify-content:center;padding:16px;background:radial-gradient(120% 90% at 50% 0%,#3a5d93 0%,#1b2a4a 55%,#0f1729 100%);overflow:auto}
 #netStart .netcard{width:100%;max-width:420px;max-height:none}
