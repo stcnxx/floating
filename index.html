@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 636（2026/11/10）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 637（2026/11/10）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 636（2026/11/10）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 637（2026/11/10）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -28760,6 +28760,57 @@ function VB_hit(wx,wy){if(!S||C.scene!=='in')return null;let best=null,bz=-1e9;
 // once recycled, the resident does not order the robot vacuum again by themselves (the picture book still can)
 {const NC=nextComfort;nextComfort=function(){const r=NC.apply(this,arguments);try{if(r&&MC_base(r)==='robovac'&&RV_off())return null;}catch(e){}return r;};}
 {const WT=want;want=function(k){try{if(MC_base(k)==='robovac'&&RV_off()&&!has(k))return;}catch(e){}return WT.apply(this,arguments);};}
+
+/* ===== v637: one pet, on one floor at a time; BGM set per floor (the songs are shared by both floors) ===== */
+// --- the pet stays on its floor; it rides along only when it is close by, and comes down/up by itself after a while ---
+let PET_FL=null,PET_KEEP=null,PET_AWAY=0,PET_WAIT=0;
+function PET_netGuest(){try{return typeof NET!=='undefined'&&NET.on&&NET.role==='guest';}catch(e){return false;}}
+function PET_floorNow(){try{if(PET_netGuest()){if(NET.peer&&NET.petFl!=null)return NET.petFl;return(M&&M.fl)||0;}}catch(e){}return PET_FL==null?BFL:PET_FL;}
+{const PO=PET_on;PET_on=function(){const r=PO.apply(this,arguments);if(!r)return r;try{if(typeof BFL!=='undefined'&&PET_floorNow()!==BFL)return false;}catch(e){}return r;};}
+{const BS=BF_switch;BF_switch=function(to){const from=BFL;if(!S||from===to||PET_netGuest())return BS.apply(this,arguments);
+  let come=false;try{if(PET&&S.pet&&S.pet.on&&PET_floorNow()===from){const d=Math.abs(PET.tx-C.tx)+Math.abs(PET.ty-C.ty);come=PET.scene!=='out'&&d<=6;if(!come){PET_KEEP={fl:from,p:PET};PET_FL=from;}}}catch(e){}
+  const r=BS.apply(this,arguments);
+  try{if(come){PET_FL=to;PET=null;PET_KEEP=null;}
+    else if(PET_FL===to){if(PET_KEEP&&PET_KEEP.fl===to&&S.pet&&PET_KEEP.p.kind===S.pet.kind)PET=PET_KEEP.p;else PET=null;PET_KEEP=null;}
+    else PET=null;
+    PET_AWAY=0;PET_WAIT=rnd(180,420);}catch(e){}return r;};}
+// after a while on another floor, the pet comes looking for the owner by the elevator
+setInterval(()=>{try{if(!S||PET_netGuest()||PET_FL==null||PET_FL===BFL||!S.pet||!S.pet.on)return;if(C.sleeping||C.scene!=='in'||C.act==='elevator')return;PET_AWAY+=1;if(PET_AWAY<PET_WAIT)return;
+  PET_FL=BFL;PET_KEEP=null;PET=null;const p=PET_sync();if(!p)return;let q=null;for(const[x,y]of[[ELX+1,3],[ELX,3],[ELX+2,3],[ELX+1,4],[ELX,4]])if(walkIn(x,y)){q={x,y};break;}
+  if(q){p.tx=q.x;p.ty=q.y;p.px=q.x*T;p.py=q.y*T;p.path=[];}try{PET_chirp(PET_sp().dog?'わん！':'にゃ〜');}catch(e){}
+  try{if(!msgBusy())queueSay(pick([`${PET_name()}、エレベーターで追いかけてきたの？`,`あ、${PET_name()}が来た！`,`${PET_name()}もこっちに来たんだね`]));}catch(e){}}catch(e){}},1000);
+// --- BGM: each floor keeps its own setting; the very first time, the basement starts from what the ground floor plays ---
+function MUSF_netGuest(){return PET_netGuest();}
+function MUSF_swap(){if(!S||MUSF_netGuest())return;const B=S.bf||(S.bf={owned:[],layout:{}});const cp=v=>v==null?null:JSON.parse(JSON.stringify(v));
+  if(!B.musF)B.musF={music:cp(S.music),musicBy:cp(S.musicBy),musDev:S.musDev||null};
+  const mine={music:S.music==null?null:S.music,musicBy:S.musicBy==null?null:S.musicBy,musDev:S.musDev||null},n=B.musF;
+  S.music=n.music||null;if(n.musicBy)S.musicBy=n.musicBy;else delete S.musicBy;if(n.musDev)S.musDev=n.musDev;else delete S.musDev;B.musF=mine;}
+{const SW=BF_swapData;BF_swapData=function(){const r=SW.apply(this,arguments);try{MUSF_swap();}catch(e){}return r;};}
+function MUSF_id(){try{const m=S.music;return m&&m.on&&m.ids&&m.ids.length?m.ids[m.idx||0]:null;}catch(e){return null;}}
+{const BS=BF_switch;BF_switch=function(to){if(!S||BFL===to||MUSF_netGuest())return BS.apply(this,arguments);
+  const was=MUS.playing?MUSF_id():null;let pos=0;try{if(MUS.audio&&was)pos=MUS.audio.currentTime||0;}catch(e){}
+  const r=BS.apply(this,arguments);
+  try{const now=MUSF_id();if(was&&now===was){if(S.music)S.music.pos=pos;}// same song on both floors: it simply keeps playing
+    else{try{musPause();}catch(e){}try{if(MUS.audio){MUS.audio.removeAttribute('src');MUS.audio.load();}}catch(e){}if(MUS.url){try{URL.revokeObjectURL(MUS.url);}catch(e){}MUS.url=null;}MUS.playing=false;MUS.title='';MUS.pend=false;
+      if(S.music&&S.music.on&&S.music.ids&&S.music.ids.length)musLoad(S.music.idx||0,S.music.pos||0);}
+    try{if(!$('sheet').hidden)renderBGM();}catch(e){}}catch(e){}return r;};}
+// the songs are shared: a song still used by the other floor (or the other player) is never deleted from the browser
+function MUSF_lists(){const L=[];const add=m=>{if(m&&Array.isArray(m.ids))L.push(m);};try{add(S.music);for(const k in S.musicBy||{})add(S.musicBy[k]);const F=S.bf&&S.bf.musF;if(F){add(F.music);for(const k in F.musicBy||{})add(F.musicBy[k]);}}catch(e){}return L;}
+function MUSF_lib(){const seen=new Set(),out=[];for(const m of MUSF_lists())m.ids.forEach((id,i)=>{if(seen.has(id)||id===BGM_ID)return;seen.add(id);out.push({id,name:(m.names&&m.names[i])||'曲'});});return out;}
+function MUSF_used(id){return MUSF_lists().some(m=>m.ids.includes(id));}
+{const ID=idbDel;idbDel=async function(id){if(S&&MUSF_used(id))return;return ID.apply(this,arguments);};}
+{const MS=musStop;musStop=function(silent){const before=MUSF_lists().flatMap(m=>m.ids.slice());const IC=idbClear;idbClear=async()=>{};let r;try{r=MS.apply(this,arguments);}finally{idbClear=IC;}
+  Promise.resolve(r).then(async()=>{for(const id of new Set(before)){if(!MUSF_used(id))try{await idbDel(id);}catch(e){}}}).catch(()=>{});return r;};}
+// the BGM sheet: which floor this is, and the songs the other floor has (add them here with one tap)
+{const RB=renderBGM;renderBGM=function(){const r=RB.apply(this,arguments);try{const el=$('bgmBody');if(!el||!S||MUSF_netGuest())return r;
+  const fl=typeof BFL!=='undefined'&&BFL===1?'地下室':'1階';const m=S.music,have=new Set(m&&m.ids||[]);const lib=MUSF_lib().filter(s=>!have.has(s.id));
+  const hd=document.createElement('p');hd.className='note musfHd';hd.style.cssText='text-align:left;margin:0 0 8px;font-weight:700';hd.textContent=`🏠 ${fl}のBGM（1階と地下室で別々に設定できます。曲は両方で共通です）`;el.prepend(hd);
+  if(lib.length){const box=document.createElement('div');box.className='musfLib';box.innerHTML=`<h3>保存してある曲から追加</h3><ul class="bgmlist">${lib.map(s=>`<li><span style="flex:1;text-align:left">${esc(typeof songTitle==='function'?songTitle(s.name):s.name)}</span><span class="bgmops"><button type="button" data-musf="${esc(s.id)}">追加</button></span></li>`).join('')}</ul>`;
+    const st=el.querySelector('.row2:last-of-type');el.append(box);
+    box.querySelectorAll('[data-musf]').forEach(b=>b.onclick=e=>{e.stopPropagation();const s=lib.find(x=>x.id===b.dataset.musf);if(!s)return;
+      if(!S.music||!S.music.ids||!S.music.ids.length||S.music.ids.includes(BGM_ID)&&S.music.ids.length===1){S.music={ids:[s.id],names:[s.name],idx:0,pos:0,on:true,mode:(S.music&&S.music.mode)||'all'};try{musPause();}catch(_){}musLoad(0,0);}
+      else{S.music.ids.push(s.id);(S.music.names=S.music.names||S.music.ids.map((_,i)=>'曲'+(i+1))).push(s.name);}save();setTimeout(renderBGM,250);});}
+  for(const h of el.querySelectorAll('.hint'))if(/全部やめて削除/.test(h.textContent))h.textContent='「全部やめて削除」を選ぶと、この階の曲の設定がなくなります。もう一方の階で使っていない曲は、ブラウザからも消えて容量が空きます。';}catch(e){}return r;};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
