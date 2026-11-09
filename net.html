@@ -29422,6 +29422,31 @@ function NET_fetchIsle(own){return new Promise((ok,ng)=>{let done=false;const u=
   ws.onerror=()=>{if(!done){done=true;clearTimeout(t);ng(new Error('ws'));}};});}
 NET_islesFix();
 
+/* ---- the start screen: scrolls all the way, and wears the same colors as the game's menu ---- */
+(function(){const st=document.createElement('style');st.id='nsTheme';st.textContent=`
+#netStart[hidden]{display:none!important}
+#netStart{display:block!important;overflow-y:auto!important;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;padding:max(16px,env(safe-area-inset-top)) 16px max(24px,env(safe-area-inset-bottom));background:radial-gradient(120% 80% at 50% 0%,#2a3a78 0%,#121a36 60%,#0b1026 100%)!important;font-family:var(--f-ui)}
+#netStart .netcard{margin:8px auto 24px;max-width:440px;max-height:none!important;overflow:visible!important;background:var(--panel)!important;color:var(--ink)!important;border:1px solid var(--rule);border-radius:18px!important;padding:18px 16px 20px!important;box-shadow:0 10px 40px rgba(0,0,0,.45)}
+#netStart h1{color:var(--ink)!important;font-size:20px;letter-spacing:.04em;margin:0 0 4px}
+#netStart .sub,#netStart .ex{color:var(--muted)!important}#netStart .ex b{color:var(--ink)}
+#netStart label{color:var(--muted)!important;font-weight:600}
+#netStart input,#netStart select{background:rgba(0,0,0,.28)!important;color:var(--ink)!important;border:1px solid var(--rule)!important;border-radius:10px!important;height:40px}
+#netStart input::placeholder{color:rgba(170,179,214,.6)}#netStart select option{background:var(--panel);color:var(--ink)}
+#netStart .nd-main{background:var(--lantern)!important;color:#2a200b!important;border-radius:12px!important;height:44px;font-size:15px;letter-spacing:.03em;box-shadow:0 2px 0 rgba(0,0,0,.25)}
+#netStart .sm{background:var(--panel-2)!important;color:var(--ink)!important;border:1px solid var(--rule)!important;border-radius:12px!important;height:38px;font-weight:700;font-size:13px}
+#netStart .sm:active,#netStart .nd-main:active{transform:translateY(1px)}
+#netStart .sm[disabled]{opacity:.45}
+#netStart *{box-sizing:border-box}#netStart .nd-own,#netStart .nd-sec{width:100%;background:rgba(0,0,0,.18);border:1px solid var(--rule)!important;border-radius:14px;padding:12px 12px 14px!important;margin-top:12px!important}
+#netStart .nd-own{background:rgba(255,209,102,.06);border-color:rgba(255,209,102,.28)!important}
+#netStart .nd-sec>b,#netStart .nd-own>label:first-child{display:block;color:var(--ink)!important;font-size:14px!important;font-weight:700;margin:0 0 4px}
+#netStart .nd-sec>b::before{content:'';display:inline-block;width:4px;height:13px;border-radius:2px;background:var(--lantern);margin-right:7px;vertical-align:-1px}
+#netStart .exbox{background:rgba(0,0,0,.2)!important;border:1px solid var(--rule)}#netStart .exbox>b{color:var(--ink)!important}
+#netStart .ns-msg{color:var(--warn)!important}#netStart .ns-msg.ok,#netStart .ok{color:var(--leaf)!important}#netStart .ns-msg:empty{display:none}
+#netStart .lnk{color:var(--lantern)!important;opacity:.9}
+#netStart #nsForget{color:var(--warn)!important;border-color:rgba(240,138,107,.45)!important}
+#nsFg .fgcard{color-scheme:dark!important;background:var(--panel)!important;color:var(--ink);border:1px solid var(--rule)}#nsFg .fgck{color:var(--ink)!important}#nsFg .fgcard b[style]{color:var(--warn)!important}
+`;document.head.append(st);})();
+
 boot();
 
 })();
