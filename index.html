@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 623（2026/11/09）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 624（2026/11/09）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 623（2026/11/09）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 624（2026/11/09）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -28413,6 +28413,32 @@ function NETREP_ui(manual){if((typeof NET!=='undefined'&&NET.on)||document.getEl
     if(!o||!o.species||o._visit||NETREP_looks(o)){MSG('このファイルは使えませんでした。壊れる前に「ファイルに保存」で書き出したデータを選んでください');return;}
     try{const cur=NETREP_cur();if(!cur){MSG('データが見つかりませんでした');return;}NETREP_write(NETREP_fix(cur,o));}catch(e){MSG('直せませんでした（'+e.message+'）');}};rd.readAsText(f);};}
 {const CG=contGame;contGame=function(){const r=CG.apply(this,arguments);try{if(sessionStorage.getItem('netrepDone')){sessionStorage.removeItem('netrepDone');setTimeout(()=>{try{say('データを直したよ！');}catch(_){}},1200);}}catch(e){}return r;};}
+
+/* ===== v624 ===== */
+// the menu: 位置情報 is now part of 手動設定, so its own tab goes
+(function(){try{const b=document.querySelector('#tabs button[data-t="loc"]');if(b)b.remove();}catch(e){}})();
+{const ST0=selTab;selTab=function(t){return ST0.call(this,t==='loc'?'try':t);};}
+// one thing stands on one floor only: the other floor's copy of a key counts too
+function BF_other(k){const B=S&&S.bf;return!!(B&&(B.owned||[]).includes(k)&&B.layout&&B.layout[k]);}
+// in the basement the household essentials (bed, bath, toilet, wash basin, ...) may be taken out — after a broken save they can be
+// left down there. The big wall TV stays the basement's own (it can be ordered again from the picture book instead).
+setTimeout(()=>{const EH=ESSENTIAL.has.bind(ESSENTIAL);ESSENTIAL.has=function(k){if(typeof BFL!=='undefined'&&BFL===1&&k!=='bigtv'&&S&&S.layout&&S.layout[k])return false;return EH(k);};},0);
+{
+  // a basement copy of something the first floor also has: recycle only (putting it away or carrying it up would make two of one thing)
+}
+(function(){const ov=document.getElementById('recy');if(!ov)return;new MutationObserver(()=>{try{if(ov.hidden||!recyK||recyK.sc!=='in'||BFL!==1||!BF_other(recyK.k))return;
+  $('recySt').hidden=true;const row=$('recyB1Row');if(row)row.hidden=true;const t=$('recyT'),m=`「${FT[recyK.k].n}」は一階にもあります。地下のものはリサイクルに出せます（一階のものはそのままです）。`;if(t&&t.textContent!==m)t.textContent=m;}catch(e){}}).observe(ov,{attributes:true,attributeFilter:['hidden']});})();
+{const SD=storeDo;storeDo=function(k){if(typeof BFL!=='undefined'&&BFL===1&&BF_other(k)){say(`${FT[k].n}は一階にもあるから、しまわずにリサイクルにしよう`);return;}return SD.apply(this,arguments);};}
+{const MU=BF_moveUp;BF_moveUp=function(k){if(BFL===1&&BF_other(k)){say(`${FT[k].n}は一階にもうあるよ`);emote('?',1.2);return;}return MU.apply(this,arguments);};}
+{const MD=BF_moveDown;BF_moveDown=function(k){if(BFL===0&&BF_other(k)){say(`${FT[k].n}は地下にもうあるよ`);emote('?',1.2);return;}return MD.apply(this,arguments);};}
+// the big wall TV can be ordered again from the picture book; it arrives in the basement
+function BTV_somewhere(){return!!S&&((S.owned.includes('bigtv')&&S.layout.bigtv)||BF_other('bigtv'));}
+{const RS=RO_state;RO_state=function(k,yard){if(!yard&&k==='bigtv'&&S){if(BTV_somewhere())return{kind:'msg',msg:'地下室に置いてあります'};
+    if(S.btvOrd)return{kind:'msg',msg:'発注済みです。ドローンで地下室に届きます'};return{kind:'order',k:'bigtv'};}return RS.apply(this,arguments);};}
+{const RO=RO_order;RO_order=function(st,yard){if(!yard&&st&&st.k==='bigtv'){if(!S||BTV_somewhere())return;S.btvOrd=Date.now();save();queueSay(pick(['超大型壁テレビを発注したよ！地下室に届くって','超大型壁テレビ、また地下室に置こう']));return;}return RO.apply(this,arguments);};}
+setInterval(()=>{try{if(!S||!S.btvOrd)return;if(BTV_somewhere()){if(S.bigtvGiven&&Date.now()-S.btvOrd>15e3){delete S.btvOrd;queueSay('超大型壁テレビが届いたよ。地下室に置いておいたね');save();}return;}
+  // after a short wait the basement setup puts it in (the same as the first time)
+  if(Date.now()-S.btvOrd>15e3&&S.bigtvGiven)S.bigtvGiven=0;}catch(e){}},2000);
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
