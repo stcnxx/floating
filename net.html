@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 635（2026/11/10）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 636（2026/11/10）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 635（2026/11/10）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 636（2026/11/10）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -28735,6 +28735,46 @@ function DEXN_apply(){try{const o=S&&S.outfit,N=S&&S.dexNow;if(!o||!N)return;con
 // for a while after a pick, bedtime does not swap it for pajamas (it was chosen on purpose)
 {const WP=wearPajama;wearPajama=function(){try{const N=S.dexNow;if(N&&N.at&&Date.now()-N.at<40*60e3&&N.top)return;delete S.dexNow;}catch(e){}return WP.apply(this,arguments);};}
 {const WD=wearDay;wearDay=function(){try{if(H_TAPCHG)delete S.dexNow;}catch(e){}return WD.apply(this,arguments);};}
+
+/* ===== v636: the robot vacuum can be recycled; every piece of furniture can be had again (the candlesticks too); long-press hits what you see ===== */
+setTimeout(()=>{try{ESSENTIAL.delete('robovac');}catch(e){}},0);
+function RV_off(){try{if(!S)return false;if(S.rvOff)return true;if((S.recycled||[]).some(r=>r&&MC_base(r.k)==='robovac')){S.rvOff=1;return true;}}catch(e){}return false;}
+{const RG=rvGive;rvGive=function(){if(RV_off())return;try{if(typeof BF_other==='function'&&BF_other('robovac'))return;}catch(e){}return RG.apply(this,arguments);};}
+setInterval(()=>{try{RV_off();}catch(e){}},5000);
+// families for the furniture added after the picture book learnt "one more"
+(function(){try{const inFam=new Set([].concat(...RO_FAM));
+  for(const base of Object.keys(FT)){const f=FT[base];if(!f||f.fix||MC_INIT.has(base)||inFam.has(base)||base==='bigtv')continue;const fam=[base];for(let i=2;i<=MC_MAX;i++){const key=base+'_'+i;MC_clone(base,key);fam.push(key);}RO_FAM.push(fam);RO_FAMN[base]=f.n;}
+  setTimeout(()=>{try{for(const fam of RO_FAM){const b=fam[0];if(TMAP[b]!=null)for(const k of fam)if(TMAP[k]==null)TMAP[k]=TMAP[b];}}catch(e){}},0);}catch(e){}})();
+// candlestick copies: same flame (all candlesticks of one kind are lit together), same glow, same double tap
+const SHK_BASE={shokudai:'shokuOn',shokuj:'shokuJOn'};
+function SHK_keys(b){try{return S.owned.filter(k=>MC_base(k)===b&&S.layout[k]&&!S.layout[k].carry);}catch(e){return[];}}
+for(const b of['shokudai','shokuj']){const A0=A[b];A[b]=function(k){if(!k||k===b)return A0.apply(this,arguments);const r=A0.apply(this,arguments);if(r&&r[0]&&r[0].t==='go')r[0]=goF(k)[0];return r;};}
+{const TP=tapPlan;tapPlan=function(tg){try{if(tg&&tg.t==='f'&&typeof tg.k==='string'&&tg.k!==MC_base(tg.k)&&SHK_BASE[MC_base(tg.k)]&&S.layout[tg.k]){const b=MC_base(tg.k),st=A[b](tg.k);if(st)return{n:b,s:st};}}catch(e){}return TP.apply(this,arguments);};}
+{const GI=glowIn;glowIn=function(t){const r=GI.apply(this,arguments);try{if(C.scene!=='in')return r;const dl=daylight(),dark=1-dl*.8;
+  for(const[b,on,hy,ph]of[['shokudai',SHK_on(),18,0],['shokuj',SHKJ_on(),21,1.7]]){if(!on)continue;for(const k of SHK_keys(b)){if(k===b)continue;const c=itemCenter(k),f=SHK_flick(t,ph+k.length),x=c.x+Math.sin(t*3.1+ph)*.8,y=c.y-hy;
+    g.save();g.globalCompositeOperation='lighter';
+    let gr=g.createRadialGradient(x,y,0,x,y,96*f);gr.addColorStop(0,`rgba(255,176,86,${.34*dark*f})`);gr.addColorStop(.5,`rgba(255,150,60,${.12*dark*f})`);gr.addColorStop(1,'rgba(255,150,60,0)');g.fillStyle=gr;g.fillRect(x-110,y-110,220,220);
+    gr=g.createRadialGradient(x,y,0,x,y,26);gr.addColorStop(0,`rgba(255,230,170,${.35*f})`);gr.addColorStop(1,'rgba(255,230,170,0)');g.fillStyle=gr;g.fillRect(x-28,y-28,56,56);g.restore();}}}catch(e){}return r;};}
+// long-press: if the finger is on the drawn picture of a standing thing (not only its floor square), that thing is picked up
+const VB_C=new Map();let VB_at=0;
+function VB_box(k,L){const now=performance.now();if(now-VB_at>4000){VB_C.clear();VB_at=now;}const f=FT[k];if(!f)return null;
+  const key=k+'|'+(typeof BFL!=='undefined'?BFL:0)+'|'+JSON.stringify(L);if(VB_C.has(key))return VB_C.get(key);
+  let box=null;const w=(L.ped?1:(L.rw||f.w)),h=(L.ped?1:(L.rh||f.h)),PX=24,PT=80,cw=w*T+PX*2,ch=h*T+PT+PX;
+  try{const c=document.createElement('canvas');c.width=cw;c.height=ch;const x=c.getContext('2d'),old=g;g=x;
+    try{x.translate(PX-L.x*T,PT-L.y*T);drawFurnK(k,performance.now()/1000);}catch(e){}finally{g=old;}
+    const d=x.getImageData(0,0,cw,ch).data;let x0=1e9,y0=1e9,x1=-1,y1=-1;
+    for(let yy=0;yy<ch;yy++)for(let xx=0;xx<cw;xx++)if(d[(yy*cw+xx)*4+3]>110){if(xx<x0)x0=xx;if(xx>x1)x1=xx;if(yy<y0)y0=yy;if(yy>y1)y1=yy;}
+    if(x1>=0)box={x0:x0-PX+L.x*T-2,y0:y0-PT+L.y*T-2,x1:x1-PX+L.x*T+3,y1:y1-PT+L.y*T+3};}catch(e){}
+  VB_C.set(key,box);return box;}
+function VB_hit(wx,wy){if(!S||C.scene!=='in')return null;let best=null,bz=-1e9;
+  for(const k of S.owned){const f=FT[k],L=S.layout[k];if(!f||!L||L.carry||L.wall||L.on||f.k==='floor'||f.k==='wall')continue;try{if(L._alias)continue;}catch(e){}
+    {const w=L.ped?1:(L.rw||f.w),h=L.ped?1:(L.rh||f.h);if(wx<(L.x-1)*T||wx>(L.x+w+1)*T||wy>(L.y+h)*T+6||wy<(L.y-4)*T)continue;}
+    const b=VB_box(k,L);if(!b||wx<b.x0||wx>b.x1||wy<b.y0||wy>b.y1)continue;const z=(L.y+(L.ped?1:(L.rh||f.h)))*T;if(z>bz){bz=z;best=k;}}
+  return best;}
+{const DT=dragTarget;dragTarget=function(e){const r=DT.apply(this,arguments);try{if((!r||(r.sc==='in'&&FT[r.k]&&FT[r.k].k==='floor'))&&S&&C.scene==='in'&&!(BV&&BV.on&&BFL===0)&&!CTL()){const w=tapWorld(e),k=VB_hit(w.x,w.y);if(k)return{k,sc:'in',w};}}catch(_){}return r;};}
+// once recycled, the resident does not order the robot vacuum again by themselves (the picture book still can)
+{const NC=nextComfort;nextComfort=function(){const r=NC.apply(this,arguments);try{if(r&&MC_base(r)==='robovac'&&RV_off())return null;}catch(e){}return r;};}
+{const WT=want;want=function(k){try{if(MC_base(k)==='robovac'&&RV_off()&&!has(k))return;}catch(e){}return WT.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -29328,7 +29368,7 @@ function NET_tap(e,tg,dbl){if(!tg)return false;
 function NET_poof(sc,x,y,quiet){for(let i=0;i<22;i++)particles.push({sc,x:x+rnd(-16,16),y:y+rnd(-14,6),vx:rnd(-18,18),vy:rnd(-36,-6),life:1.3,max:1.3,type:'puff'});
   try{if(sc==='in')sparkleAt({x,y});else sparkOut(x,y);}catch(e){}if(!quiet&&NET.role==='owner')NET_send({t:'fx',k:'poof',sc,x,y});}
 function NET_order(k,yard){if(NET.role!=='owner'||!S)return;
-  if(!yard){const f=FT[k];if(!f)return;if(has(k)||BF_other(k)){NET_toast(`${f.n}はもう置いてあります${has(k)?'':'（'+(BFL===1?'一階':'地下')+'）'}`);return;}
+  if(!yard){const f=FT[k];if(!f)return;if(has(k)||BF_other(k)){const nx=NET_nextCopy(k);if(!nx){NET_toast(`${f.n}はもう置いてあります${has(k)?'':'（'+(BFL===1?'一階':'地下')+'）'}`);return;}k=nx;}
     // the big wall TV belongs to the basement: ordered upstairs, it appears down there
     if(k==='bigtv'&&BFL===0){const B=S.bf||(S.bf={owned:[],layout:{}});B.owned=B.owned||[];B.layout=B.layout||{};let q=null;for(const x of[6,4,8,2,10,12]){const t=BF_findSpot('bigtv',{x,y:2});if(t&&t.y===2&&t.x===x){q=t;break;}}if(!q)q=BF_findSpot('bigtv',{x:6,y:2});
       if(!q){NET_toast(`${f.n}を置ける場所が地下にありません`);return;}delete q.ped;B.owned.push('bigtv');B.layout.bigtv={x:q.x,y:q.y,v:0};S.bigtvGiven=1;NET_toast(`${f.n}を地下室に置きました`);NET.pushing=1;NET_pushIsle().catch(()=>{}).finally(()=>{NET.pushing=0;});return;}
@@ -29668,7 +29708,7 @@ function NET_dexHook(){const el=$('dexBody');if(!el||el._net)return;el._net=1;
   if(pal.length>1){CL_ui(key,go);return;}go(pal[0]||null);};}
 {const DZ=dexZoom;dexZoom=function(mk,nm,cat,key){const r=DZ.apply(this,arguments);try{if(!NET.on)return r;const card=document.querySelector('#dexZoom .dzcard');if(!card)return r;
   const own=NET.role==='owner';let label=null,act=null,dis=false;
-  if(own&&key&&NET_FURN_CATS.includes(cat)){const yard=cat==='庭のもの';const placed=yard?!!(S.yard&&S.yard[key]):(has(key)||BF_other(key));label=placed?'置いてあります':'頼む';dis=placed;act=()=>NET_order(key,yard);}
+  if(own&&key&&NET_FURN_CATS.includes(cat)){const yard=cat==='庭のもの';const placed=yard?!!(S.yard&&S.yard[key]):(has(key)||BF_other(key)),more=placed&&!yard&&!!NET_nextCopy(key);label=more?'もう1つ頼む':placed?'置いてあります':'頼む';dis=placed&&!more;act=()=>NET_order(key,yard);}
   else if(own&&typeof key==='string'&&key.startsWith('nfood:')){const kind=key.slice(6);label=kind==='drink'?'これを飲む':'これを食べる';act=()=>{if(NET.meal)NET_mealPick(kind,nm,false);else NET_mealStart(kind,nm,false);};}
   else if(own&&!key&&DRINKS.some(d=>d.n===nm)){label='これを飲む';act=()=>{if(NET.meal)NET_mealPick('alc',nm,false);else NET_mealStart('alc',nm,false);};}
   if(!label)return r;card.querySelectorAll('.dzbtns,.dzro').forEach(x=>x.remove());// the stand-alone 再発注 (delivery by drone) does not apply here
@@ -29769,11 +29809,14 @@ function NET_editTap(e){if(PAUSED&&false)return;const w=tapWorld(e),tg=(typeof T
   if(tg.t==='lsw'){try{LSW_ui(true);}catch(_){}return;}
   if(tg.t==='f'&&FT[tg.k]&&has(tg.k)){const k=tg.k;
     if(k==='tv'||(/^tv/.test(k)&&/テレビ/.test(FT[k].n)&&k!=='bigtv')){NET_tvToggle();return;}
-    const tog={lamp:'lampOn',heater:'heatOn',fan:'fanOn',bfan:'fanOn',shokudai:'shokuOn',shokuj:'shokuJOn'}[k];
+    const tog={lamp:'lampOn',heater:'heatOn',fan:'fanOn',bfan:'fanOn',shokudai:'shokuOn',shokuj:'shokuJOn'}[k]||{shokudai:'shokuOn',shokuj:'shokuJOn'}[MC_base(k)];
     if(tog){S[tog]=!S[tog];try{save();}catch(_){}try{const c=itemCenter(k);particles.push({sc:'in',x:c.x,y:c.y-10,vx:0,vy:0,life:.6,max:.6,type:'ring'});}catch(_){}return;}
     if(k==='mirrorball'){S.mbUntil=S.mbUntil&&S.mbUntil>Date.now()?0:Date.now()+30e3;return;}}
   try{showTip(e);}catch(_){}}
 {const TG=tapGo;tapGo=function(e){try{if(NET.on&&NET.edit){NET_editTap(e);return;}}catch(_){}return TG.apply(this,arguments);};}
+
+// the next free copy of a thing (any number can be had, as in the stand-alone edition)
+function NET_nextCopy(k){try{const fam=RO_famOf(k);if(!fam)return null;return fam.find(x=>FT[x]&&!has(x)&&!BF_other(x)&&!(S.stored||[]).some(e=>e.k===x))||null;}catch(e){return null;}}
 
 boot();
 
