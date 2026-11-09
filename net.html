@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 633（2026/11/09）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 635（2026/11/10）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 633（2026/11/09）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 635（2026/11/10）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -15158,9 +15158,9 @@ function patApply(k,i){patSet(k,i);const t=patType(k);if(t==='cloth')S.clothAt=D
 function patOpen(k){const t=patType(k),list=patList(k),cur=patCur(k);let sel=cur;let ov=$('patOv');
   if(!ov){ov=document.createElement('div');ov.id='patOv';ov.className='overlay center';ov.innerHTML='<div class="card" role="dialog" aria-labelledby="patH" style="max-width:380px;max-height:88vh;display:flex;flex-direction:column"><h2 id="patH" style="font-size:18px;margin:0 0 4px"></h2><p class="hint" id="patNow" style="margin:0 0 8px"></p><div id="patGrid" style="overflow:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:2px"></div><div class="row2" style="margin-top:10px"><button id="patOk" class="primary" type="button">決定</button><button id="patX" type="button">キャンセル</button></div></div>';
     document.body.append(ov);const st=document.createElement('style');st.textContent='#patGrid{flex:1 1 auto;min-height:0;grid-auto-rows:max-content;align-content:start}#patGrid button{position:relative;display:flex;height:auto;flex-direction:column;align-items:center;gap:3px;padding:4px;border-radius:10px;border:2px solid transparent;background:rgba(255,255,255,.08);font-size:10.5px;line-height:1.25;color:inherit;cursor:pointer;min-height:0}#patGrid button[aria-pressed=true]{border-color:#ffd36b;background:rgba(255,211,107,.18)}#patGrid button.cur::after{content:"いま";position:absolute;left:4px;top:4px;background:#3f8a5a;color:#fff;font-size:9.5px;font-weight:700;padding:1px 5px;border-radius:6px;box-shadow:0 1px 2px rgba(0,0,0,.3)}#patGrid canvas{width:100%;height:auto;border-radius:6px;display:block}';document.head.append(st);}
-  const H={cloth:'テーブルクロスを選ぶ',rug:'ラグの柄を選ぶ',sofa:'ソファの張り地を選ぶ',bed:'ベッドカバーを選ぶ',wall:(k==='wall:bed'?'寝室':'リビング')+'の壁紙を選ぶ'};
+  const H={cloth:'テーブルクロスを選ぶ',rug:'ラグの柄を選ぶ',sofa:'ソファの張り地を選ぶ',bed:'ベッドカバーを選ぶ',wall:k==='wall:kit'?'キッチンの壁を選ぶ':(k==='wall:bed'?'寝室':'リビング')+'の壁紙を選ぶ'};
   ov.querySelector('#patH').textContent=H[t];const now=ov.querySelector('#patNow');
-  const setNow=()=>{now.textContent=(sel===cur?'いま：':'いま：'+patName(k,cur)+'　→　えらんだもの：')+patName(k,sel)+(t==='wall'?'（腰壁とカーテンも合わせて変わります）':'');};setNow();
+  const setNow=()=>{now.textContent=(sel===cur?'いま：':'いま：'+patName(k,cur)+'　→　えらんだもの：')+patName(k,sel)+(t==='wall'&&k!=='wall:kit'?'（腰壁とカーテンも合わせて変わります）':'');};setNow();
   const grid=ov.querySelector('#patGrid');grid.innerHTML='';const cw=t==='sofa'?110:t==='bed'?96:104,ch=t==='sofa'?(k==='sofaL'?78:54):t==='bed'?150:t==='wall'?60:70;
   const close=commit=>{ov.hidden=true;grid.innerHTML='';if(commit){if(sel!==cur){patApply(k,sel);}}else if(sel!==cur){patSet(k,cur);save();}};
   ov.querySelector('#patOk').onclick=()=>close(true);ov.querySelector('#patX').onclick=()=>close(false);ov.onclick=e=>{if(e.target===ov)close(false);};
@@ -15272,7 +15272,7 @@ A.bedswap=function(){if(S&&S.noDeco)return null;if(!has('bed')||!S.layout.bed||S
 /* long-press on a living-room or bedroom wall → wallpaper picker */
 (function(){let lp=null;
   const wallAt=e=>{if(!S||C.scene!=='in'||(typeof MANOUT==='function'&&MANOUT()))return null;const w=tapWorld(e),tx=Math.floor(w.x/T);
-    for(const ty of[Math.floor(w.y/T),Math.floor(w.y/T)+1,Math.floor(w.y/T)+2]){if(!isWall(tx,ty)||DOORCELL.has(tx+','+(ty+1)))continue;const r=roomAt(tx,ty+1)||(DOORCELL.has(tx+','+(ty+1))?IN_faceRoom(tx,ty):null);if(r!=='liv'&&r!=='bed')continue;if(w.y>=ty*T-(BFL===1?BWX:WEXT)+6&&w.y<=ty*T+24)return r;}return null;};
+    for(const ty of[Math.floor(w.y/T),Math.floor(w.y/T)+1,Math.floor(w.y/T)+2]){if(!isWall(tx,ty)||DOORCELL.has(tx+','+(ty+1)))continue;const r=roomAt(tx,ty+1)||(DOORCELL.has(tx+','+(ty+1))?IN_faceRoom(tx,ty):null);if(r!=='liv'&&r!=='bed'&&r!=='kit')continue;if(w.y>=ty*T-(BFL===1?BWX:WEXT)+6&&w.y<=ty*T+24)return r;}return null;};
   cv.addEventListener('pointerdown',e=>{if(lp){clearTimeout(lp.id);lp=null;}if(!S||fadeT>0||DRAG)return;try{if(dragTarget(e)||hitChar(e))return;}catch(_){return;}const r=wallAt(e);if(!r)return;
     const o={x:e.clientX,y:e.clientY,r};o.id=setTimeout(()=>{if(lp!==o)return;lp=null;if(DRAG)return;try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}clearTimeout(tapTimer);tapTimer=null;tapT=0;patOpen('wall:'+r);},520);lp=o;});
   cv.addEventListener('pointermove',e=>{if(lp&&Math.hypot(e.clientX-lp.x,e.clientY-lp.y)>10){clearTimeout(lp.id);lp=null;}});
@@ -23378,7 +23378,7 @@ let TAP_FORCE=null,TAP_PZ=false;
 (function(){let lp=null;const cancel=()=>{if(lp){clearTimeout(lp.id);lp=null;}};const host=cv.parentNode||document;
   host.addEventListener('pointerdown',e=>{cancel();if(e.target!==cv||!S||fadeT>0||DRAG||typeof MANOUT!=='function'||!MANOUT()||CAM_VIEW!=='in'||BFL!==0)return;
     const sc=C.scene;C.scene='in';let kind=null;try{const w=tapWorld(e),tx=Math.floor(w.x/T),ty=Math.floor(w.y/T);
-      if(dragTarget(e)){kind=null;}else{for(const yy of[ty,ty+1,ty+2]){if(isWall(tx,yy)&&!DOORCELL.has(tx+','+(yy+1))){const r=roomAt(tx,yy+1);if((r==='liv'||r==='bed')&&w.y>=yy*T-WEXT+6&&w.y<=yy*T+24){kind='wall:'+r;break;}}}
+      if(dragTarget(e)){kind=null;}else{for(const yy of[ty,ty+1,ty+2]){if(isWall(tx,yy)&&!DOORCELL.has(tx+','+(yy+1))){const r=roomAt(tx,yy+1);if((r==='liv'||r==='bed'||r==='kit')&&w.y>=yy*T-WEXT+6&&w.y<=yy*T+24){kind='wall:'+r;break;}}}
         if(!kind){const r=roomAt(tx,ty);if((r==='liv'||r==='bed'||r==='kit')&&!OCC.has(tx+','+ty))kind='floor:'+r;}}}finally{C.scene=sc;}
     if(!kind)return;const o={x:e.clientX,y:e.clientY};o.id=setTimeout(()=>{if(lp!==o)return;lp=null;try{CPAN=null;}catch(_){}try{navigator.vibrate&&navigator.vibrate(18);}catch(_){}patOpen(kind);},kind.startsWith('floor')?3000:520);lp=o;},true);
   host.addEventListener('pointermove',e=>{if(lp&&Math.hypot(e.clientX-lp.x,e.clientY-lp.y)>10)cancel();},true);
@@ -23954,7 +23954,7 @@ function CL_ui(key,done){let ov=$('clOv');if(!ov){ov=document.createElement('div
     const go=col=>{S.dex=S.dex||{};S.dex.c=S.dex.c||{};S.dex.c[key]={...(S.dex.c[key]||{}),c:col||(S.dex.c[key]||{}).c};
       if(pt){SLP_wear(S.outfit=S.outfit||{},pt,col);S.outfit.userPick=Date.now();try{gearFor(C.scene);}catch(e){}try{puffAt({x:charPos().cx,y:charPos().by-16},C.scene);}catch(e){}say(pick([`${KN.top[id]}に着がえたよ`,`${KN.top[id]}、どうかな？`]));save();return;}
       if(p==='top'&&CW_OUTER.has(id)){const o=S.outfit=S.outfit||{};delete o.costume;o.outerPick={k:id,c:col,until:Date.now()+8*3600e3};o.outer={k:id,c:col,c2:id==='stadium'?'アイボリー':undefined};o.userPick=Date.now();try{gearFor(C.scene);}catch(e){}try{puffAt({x:charPos().cx,y:charPos().by-16},C.scene);}catch(e){}
-        say(pick([`${KN.top[id]}、出かけるときに着ていくね`,`${col}の${KN.top[id]}、外に出るときに着よう`]));save();return;}
+        say(pick([`${col}の${KN.top[id]}、さっそく着てみた！`,`${KN.top[id]}、どうかな？`]));save();return;}
       DW.call(this,key);};
     if(pal.length>1){CL_ui(key,go);return;}go(pal[0]||null);return;}}catch(e){}return DW.apply(this,arguments);};}
 // --- straw hat: a proper crown with the band only round the front, no floating ring ---
@@ -28648,6 +28648,93 @@ BED_COV.push({n:'アパベッド',c:'#f7f5f0',p:'apa',g:'s',wd:'#2a2624',lin:'#c
 function BC_apaRun(x,y,w,h){const by=y+h*.56,bh=h*.3;g.save();g.fillStyle=A_lg(x,y,x+w*.6,y+h,[[0,'#ffffff'],[.6,'#f6f4ef'],[1,'#e9e6df']]);g.fillRect(x-1,y-1,w+2,h+2);fillR(g,'rgba(0,0,0,.05)',x,y+h-1.2,w,1.2);g.fillStyle=A_lg(0,by,0,by+bh,[[0,'#202124'],[.5,'#141518'],[1,'#0c0d0f']]);g.fillRect(x,by,w,bh);
   g.strokeStyle='rgba(212,180,110,.22)';g.lineWidth=.12;for(let i=0;i<4;i++){const yy=by+bh*(.2+i*.2);g.beginPath();for(let xx=x;xx<=x+w+.5;xx+=.8)g.lineTo(xx,yy+Math.sin(xx*.55+i*1.9)*.7);g.stroke();}
   g.fillStyle='rgba(255,255,255,.06)';g.fillRect(x,by,w,.3);g.fillStyle='rgba(0,0,0,.3)';g.fillRect(x,by+bh-.3,w,.3);g.restore();}
+/* ===== v634: kitchen wall — long-press it like the other walls; 30 kitchen-only designs (S.wallp.kit: 0 = the original) ===== */
+const KWP=[{n:'はじめの壁（白いサブウェイタイル）',def:1},
+ {n:'白のサブウェイタイル',t:'subway',a:'#f7f6f1',gr:'#cfc9bd',up:'#f5f2ea'},{n:'グレーのサブウェイタイル',t:'subway',a:'#c7cbd0',gr:'#eeeeea',up:'#eef0f1'},
+ {n:'ネイビーのサブウェイタイル',t:'subway',a:'#2f3f60',gr:'#e6e1d6',up:'#f1eee6'},{n:'セージグリーンのサブウェイタイル',t:'subway',a:'#93b59c',gr:'#eef0e8',up:'#f2f3ec'},
+ {n:'縦張りのサブウェイタイル',t:'vsub',a:'#f1efe7',gr:'#cfc8ba',up:'#f4f1e9'},{n:'ヘリンボーンタイル（白）',t:'herring',a:'#f3f1eb',gr:'#cdc6b8',up:'#f4f1ea'},
+ {n:'ヘリンボーンタイル（テラコッタ）',t:'herring',a:'#c97750',gr:'#e9dccb',up:'#f3ebe0'},{n:'六角タイル（白）',t:'hex',a:'#f5f4f0',gr:'#c8c3b8',up:'#f3f1ec'},
+ {n:'六角タイル（ミント）',t:'hex',a:'#a9d6c9',gr:'#eef3ef',up:'#eef5f1'},{n:'ペニータイル',t:'penny',a:'#eef0ee',gr:'#b9bdb9',up:'#f2f3f0'},
+ {n:'モザイクタイル（ブルー）',t:'mosaic',cs:['#7fb3c4','#a6d0dc','#5f9db2','#c4e2ea'],gr:'#f4f6f6',up:'#eef4f6'},{n:'モザイクタイル（カラフル）',t:'mosaic',cs:['#e9a14f','#e3725e','#f2d16a','#7fb08a','#6f9ccf'],gr:'#f6f2ea',up:'#f7f3ea'},
+ {n:'フィッシュスケール',t:'fish',a:'#cfe5e0',gr:'#f4f7f5',up:'#eef5f3'},{n:'モロッカンタイル',t:'moroc',a:'#2a6f8f',b:'#f3efe4',gr:'#d8d2c4',up:'#f3efe6'},
+ {n:'市松タイル（白黒）',t:'check',a:'#f2f0ea',b:'#2a2a2e',gr:'#9a968e',up:'#f3f1ec'},{n:'市松タイル（ブルー）',t:'check',a:'#f2f0ea',b:'#5f86b8',gr:'#c9cfd8',up:'#f1f3f6'},
+ {n:'テラコッタタイル',t:'terra',a:'#c8734b',gr:'#e2d3bf',up:'#f4ece0'},{n:'大理石（白）',t:'marble',a:'#f3f1ec',v:'rgba(120,120,130,.35)',up:'#f6f4ef'},
+ {n:'大理石（黒）',t:'marble',a:'#202024',v:'rgba(214,180,110,.55)',up:'#e9e6df'},{n:'ステンレス',t:'steel',a:'#c3c7cc',up:'#eef0f2'},
+ {n:'レンガ（赤）',t:'brick',a:'#a85a3c',gr:'#d8cfc0',up:'#f2ebe0'},{n:'レンガ（白）',t:'brick',a:'#ece7dc',gr:'#cbc3b4',up:'#f4f1ea'},
+ {n:'木目パネル',t:'wood',a:'#b98a5a',up:'#f3ece0'},{n:'黒板',t:'chalk',a:'#2f3a33',up:'#ece7dc'},
+ {n:'ゼリージュ（グリーン）',t:'zellige',a:'#3f7f6a',gr:'#e8e4da',up:'#f1efe8'},{n:'ゼリージュ（ピンク）',t:'zellige',a:'#e2a79e',gr:'#f2ece4',up:'#f7f1ec'},
+ {n:'ダイヤ柄タイル',t:'diamond',a:'#f3f1ec',b:'#6d8fc0',gr:'#cfd3d8',up:'#f2f3f5'},{n:'ギンガムチェック',t:'gingham',a:'#ffffff',b:'#d9483b',up:'#fbf4f1'},
+ {n:'イエローのスクエアタイル',t:'square',a:'#f2cf5a',gr:'#f6f1e0',up:'#f8f3e3'},{n:'レモン柄タイル',t:'lemon',a:'#fbfaf5',gr:'#d9d5c8',up:'#f7f5ec'}];
+function KWP_tiles(c,d,x0,y0,w,h){const X1=x0+w,Y1=y0+h,gr=d.gr||'#d8d2c4',a=d.a,b=d.b,gl=(x,y,tw,th)=>{c.fillStyle='rgba(255,255,255,.55)';c.fillRect(x+.3,y+.3,Math.min(tw*.4,2.2),.35);c.fillStyle='rgba(0,0,0,.08)';c.fillRect(x,y+th-.35,tw,.35);};
+  const tone=(col,i,j,k)=>shade(col,(hash(i,j,k)-.5)*.07);c.fillStyle=gr;c.fillRect(x0,y0,w,h);
+  const rect=(PW,PH,off,vert,colf)=>{for(let j=Math.floor(y0/PH)-1;j*PH<Y1;j++){const o=(j&1)?off:0;for(let i=Math.floor((x0-o)/PW)-1;i*PW+o<X1;i++){const tx=i*PW+o+.25,ty=j*PH+.25,tw=PW-.5,th=PH-.5;c.fillStyle=IN_lg(c,0,ty,0,ty+th,[[0,shade(colf(i,j),.05)],[1,shade(colf(i,j),-.05)]]);c.fillRect(tx,ty,tw,th);gl(tx,ty,tw,th);}}};
+  const t=d.t;
+  if(t==='subway')rect(6,3.2,3,0,(i,j)=>tone(a,i,j,51));
+  else if(t==='vsub')rect(3.2,6,1.6,0,(i,j)=>tone(a,i,j,52));
+  else if(t==='square')rect(4,4,0,0,(i,j)=>tone(a,i,j,53));
+  else if(t==='terra')rect(6,6,0,0,(i,j)=>shade(a,(hash(i,j,54)-.5)*.18));
+  else if(t==='zellige')rect(3.4,3.4,0,0,(i,j)=>shade(a,(hash(i,j,55)-.5)*.3));
+  else if(t==='check')rect(3.4,3.4,0,0,(i,j)=>((i+j)&1)?b:a);
+  else if(t==='mosaic')rect(1.6,1.6,0,0,(i,j)=>d.cs[(hash(i,j,56)*d.cs.length)|0]);
+  else if(t==='brick'){rect(6.4,2.6,3.2,0,(i,j)=>shade(a,(hash(i,j,57)-.5)*.16));c.fillStyle='rgba(0,0,0,.06)';for(let k=0;k<w*h/3;k++)c.fillRect(x0+hash(k,1,58)*w,y0+hash(k,2,58)*h,.3,.3);}
+  else if(t==='herring'){const cwid=3.4,sp=1.7;for(let col=Math.floor(x0/cwid)-1;col*cwid<X1;col++){const cx0=col*cwid,dir=(col&1)?-1:1;c.save();c.beginPath();c.rect(cx0+.15,y0,cwid-.3,h);c.clip();
+      for(let k=Math.floor((y0-cwid)/sp)-2;k*sp<Y1+cwid;k++){const yy=k*sp;c.fillStyle=tone(a,col,k,59);c.beginPath();if(dir>0){c.moveTo(cx0,yy);c.lineTo(cx0+cwid,yy+cwid);c.lineTo(cx0+cwid,yy+cwid+sp-.35);c.lineTo(cx0,yy+sp-.35);}else{c.moveTo(cx0,yy+cwid);c.lineTo(cx0+cwid,yy);c.lineTo(cx0+cwid,yy+sp-.35);c.lineTo(cx0,yy+cwid+sp-.35);}c.closePath();c.fill();}c.restore();}}
+  else if(t==='hex'){const r=1.9,hw=r*Math.sqrt(3);for(let j=Math.floor(y0/(r*1.5))-1;j*r*1.5<Y1+r;j++)for(let i=Math.floor(x0/hw)-1;i*hw<X1+hw;i++){const cx=i*hw+((j&1)?hw/2:0),cy=j*r*1.5;c.fillStyle=tone(a,i,j,61);c.beginPath();for(let k=0;k<6;k++){const an=Math.PI/6+k*Math.PI/3;c.lineTo(cx+Math.cos(an)*(r-.25),cy+Math.sin(an)*(r-.25));}c.closePath();c.fill();}}
+  else if(t==='penny'){for(let j=Math.floor(y0/1.5)-1;j*1.5<Y1+1;j++)for(let i=Math.floor(x0/1.7)-1;i*1.7<X1+1;i++){fillE(c,tone(a,i,j,62),i*1.7+((j&1)?.85:0),j*1.5,.7,.7);}}
+  else if(t==='fish'){const R=2.2;for(let j=Math.floor(y0/(R*.8))-2;j*R*.8<Y1+R;j++)for(let i=Math.floor(x0/(R*2))-1;i*R*2<X1+R*2;i++){const cx=i*R*2+((j&1)?R:0),cy=j*R*.8;c.fillStyle=tone(a,i,j,63);c.beginPath();c.arc(cx,cy,R-.2,0,Math.PI);c.closePath();c.fill();c.strokeStyle='rgba(255,255,255,.5)';c.lineWidth=.2;c.beginPath();c.arc(cx,cy,R-.6,.3,Math.PI-.3);c.stroke();}}
+  else if(t==='moroc'){rect(4,4,0,0,()=>b);for(let j=Math.floor(y0/4)-1;j*4<Y1;j++)for(let i=Math.floor(x0/4)-1;i*4<X1;i++){const cx=i*4+2,cy=j*4+2;c.fillStyle=a;for(const[dx,dy]of[[0,-1],[1,0],[0,1],[-1,0]])fillE(c,a,cx+dx*.9,cy+dy*.9,.85,.85);fillE(c,b,cx,cy,.5,.5);c.fillRect(i*4+.25,j*4+.25,.6,.6);c.fillRect(i*4+3.15,j*4+.25,.6,.6);c.fillRect(i*4+.25,j*4+3.15,.6,.6);c.fillRect(i*4+3.15,j*4+3.15,.6,.6);}}
+  else if(t==='diamond'){rect(4,4,0,0,()=>a);for(let j=Math.floor(y0/4)-1;j*4<Y1;j++)for(let i=Math.floor(x0/4)-1;i*4<X1;i++){const cx=i*4+2,cy=j*4+2;c.fillStyle=b;c.beginPath();c.moveTo(cx,cy-1.4);c.lineTo(cx+1.4,cy);c.lineTo(cx,cy+1.4);c.lineTo(cx-1.4,cy);c.closePath();c.fill();}}
+  else if(t==='lemon'){rect(4,4,0,0,(i,j)=>tone(a,i,j,64));for(let j=Math.floor(y0/4)-1;j*4<Y1;j++)for(let i=Math.floor(x0/4)-1;i*4<X1;i++){if((i+j)&1)continue;const cx=i*4+2,cy=j*4+2;fillE(c,'#f2d23e',cx,cy,1.05,.75);fillE(c,'rgba(255,255,255,.6)',cx-.35,cy-.25,.3,.18);c.fillStyle='#6fa45a';c.beginPath();c.ellipse(cx+.9,cy-.7,.55,.25,-.6,0,Math.PI*2);c.fill();}}
+  else if(t==='marble'){c.fillStyle=IN_lg(c,x0,y0,x0+w,Y1,[[0,shade(a,.04)],[1,shade(a,-.04)]]);c.fillRect(x0,y0,w,h);c.strokeStyle=d.v;for(let k=-2;k<5;k++){const sx=Math.floor(x0/24)*24+k*9;c.lineWidth=.18+hash(k,Math.floor(x0/24),65)*.25;c.beginPath();c.moveTo(sx,y0);for(let yy=y0;yy<=Y1;yy+=1)c.lineTo(sx+(yy-y0)*.7+Math.sin(yy*.6+k)*1.2,yy);c.stroke();}c.fillStyle='rgba(255,255,255,.12)';c.fillRect(x0,y0,w,.4);}
+  else if(t==='steel'){c.fillStyle=IN_lg(c,x0,0,x0+w,0,[[0,'#b4b9bf'],[.5,'#dfe2e6'],[1,'#b9bec4']]);c.fillRect(x0,y0,w,h);c.fillStyle='rgba(255,255,255,.35)';for(let yy=Math.floor(y0/.8)*.8;yy<Y1;yy+=.8)c.fillRect(x0,yy,w,.1);c.fillStyle='rgba(80,86,92,.4)';for(let xx=Math.floor(x0/12)*12;xx<X1;xx+=12)c.fillRect(xx,y0,.25,h);}
+  else if(t==='wood'){for(let j=Math.floor(y0/3)-1;j*3<Y1;j++){const col=shade(a,(hash(j,1,66)-.5)*.2);c.fillStyle=IN_lg(c,0,j*3,0,j*3+3,[[0,shade(col,.06)],[1,shade(col,-.06)]]);c.fillRect(x0,j*3,w,3);c.fillStyle='rgba(60,35,15,.35)';c.fillRect(x0,j*3+2.75,w,.25);c.fillStyle='rgba(90,55,25,.18)';for(let k=0;k<3;k++)c.fillRect(x0,j*3+.6+k*.7,w,.12);const jx=Math.floor(x0/24)*24+hash(j,2,67)*24;c.fillStyle='rgba(60,35,15,.35)';c.fillRect(jx,j*3,.25,3);}}
+  else if(t==='chalk'){c.fillStyle=IN_lg(c,x0,y0,x0+w,Y1,[[0,'#34413a'],[1,'#28332d']]);c.fillRect(x0,y0,w,h);c.strokeStyle='rgba(240,240,230,.55)';c.lineWidth=.2;const base=Math.floor(x0/24);
+    for(let k=0;k<2;k++){const hx=x0+3+hash(base,k,68)*(w-8),hy=y0+2+hash(base,k,69)*(h-5);const s=hash(base,k,70);c.beginPath();if(s<.33){c.arc(hx,hy,1.4,0,Math.PI*2);c.moveTo(hx+1,hy-1);c.lineTo(hx+1.8,hy-2);}else if(s<.66){c.moveTo(hx-1.5,hy);c.lineTo(hx+1.5,hy);c.moveTo(hx,hy-1.5);c.lineTo(hx,hy+1.5);c.moveTo(hx-1,hy-1);c.lineTo(hx+1,hy+1);c.moveTo(hx+1,hy-1);c.lineTo(hx-1,hy+1);}else{c.moveTo(hx-2,hy+1);c.quadraticCurveTo(hx-1,hy-1.5,hx,hy+1);c.quadraticCurveTo(hx+1,hy-1.5,hx+2,hy+1);}c.stroke();}}
+  else if(t==='gingham'){c.fillStyle=a;c.fillRect(x0,y0,w,h);c.fillStyle=b;c.globalAlpha=.42;for(let xx=Math.floor(x0/3)*3;xx<X1;xx+=3)c.fillRect(xx,y0,1.5,h);for(let yy=Math.floor(y0/3)*3;yy<Y1;yy+=3)c.fillRect(x0,yy,w,1.5);c.globalAlpha=1;}
+}
+{const F0=IN_face;IN_face=function(c,x,y,r,ft,noCrown){const res=F0.apply(this,arguments);if(r!=='kit')return res;let i=S&&S.wallp&&S.wallp.kit;if(!i)return res;const d=KWP[((i%KWP.length)+KWP.length)%KWP.length];if(!d||d.def)return res;
+  const X=x*T,Y=y*T,W1=T+.6,tt=Y+.4,top=ft+(noCrown?0:2.8);c.save();c.beginPath();c.rect(X,ft,W1,Y+21-ft);c.clip();
+  // the whole kitchen wall wears the design (most of the lower part hides behind the counters)
+  c.save();c.beginPath();c.rect(X,top,W1,Y+21-top);c.clip();KWP_tiles(c,d,X,top,W1,Y+21-top);c.restore();
+  if(!noCrown){c.fillStyle=IN_lg(c,0,ft+2.6,0,ft+8,[[0,'rgba(40,25,10,.18)'],[1,'rgba(40,25,10,0)']]);c.fillRect(X,ft+2.6,W1,5.4);}
+c.fillStyle=IN_lg(c,0,Y+15,0,Y+21,[[0,'rgba(40,25,10,0)'],[1,'rgba(40,25,10,.08)']]);c.fillRect(X,Y+15,W1,6);c.restore();return res;};}
+// the picker: the same long-press menu as the other walls, with the kitchen's own list
+{const PL=patList;patList=function(k){if(k==='wall:kit')return KWP.map((c,i)=>({i,n:c.n}));return PL.apply(this,arguments);};}
+{const PN=patName;patName=function(k,i){if(k==='wall:kit')return(KWP[i]||KWP[0]).n;return PN.apply(this,arguments);};}
+{const PT=patThumb;patThumb=function(k,i,cw,ch){if(k!=='wall:kit')return PT.apply(this,arguments);const c2=document.createElement('canvas'),sc=2;c2.width=cw*sc;c2.height=ch*sc;const cx=c2.getContext('2d');cx.scale(sc,sc);
+  const m=S.wallp;S.wallp=Object.assign({},m||{},{kit:i});try{cx.fillStyle='#e9e1d2';cx.fillRect(0,0,cw,ch);const s=cw/(3*T);cx.save();cx.scale(s,s);cx.translate(0,-(T-WEXT0+6));for(let x=0;x<3;x++)IN_face(cx,x,1,'kit',T-WEXT0+6);cx.restore();}catch(e){console.warn(e);}finally{S.wallp=m;}return c2;};}
+
+/* ===== v634: picture frames answer a tap / long-press wherever they can be seen — the picture itself, on the wall or standing on the floor (frames come first) ===== */
+function PF_rect(k,L){const b=MC_base(k),wide=b==='pframe2',X=L.x*T,Y=L.y*T,Wd=wide?2*T:T;
+  if(L.wall){if(L.side)return null;const c=wallCenter(L);return{x0:c.x-T/2,x1:c.x-T/2+Wd,y0:c.y-8-(wide?15:17),y1:c.y-8+(wide?15:17)};}
+  const lean=isWall(L.x,L.y-1),top=lean?Y+18-31.5+(wide?-1.5:-3.5):Y+12-31.5+(wide?-1.5:-3.5);return{x0:X,x1:X+Wd,y0:top,y1:Y+T};}
+{const TT=tapTarget;tapTarget=function(wx,wy){try{if(S&&C.scene==='in'&&!TAP_FORCE){let best=null,by=-1e9;for(const k of S.owned){const b=MC_base(k);if(b!=='pframe'&&b!=='pframe2')continue;const L=S.layout[k];if(!L||L.carry||L.on)continue;const r=PF_rect(k,L);if(!r)continue;
+      if(wx>=r.x0&&wx<r.x1&&wy>=r.y0&&wy<r.y1){const z=L.wall?-1:L.y;if(z>by){by=z;best=k;}}}if(best)return{t:'f',k:best};}}catch(e){}return TT.apply(this,arguments);};}
+
+/* ===== v635: what is picked in the picture book goes on right there and then — hats, shoes and outerwear too, indoors and at night ===== */
+function DEXN_rec(key){try{const[p,id]=key.split(':'),o=S.outfit;if(!o)return;const N=S.dexNow=S.dexNow||{};const until=Date.now()+12*3600e3;
+  if(p==='hat'||p==='shoes'){if(o[p]&&o[p].k===id)N[p]={...o[p],until};}
+  else if(p==='top'&&typeof CW_OUTER!=='undefined'&&CW_OUTER.has(id)){if(o.outer&&o.outer.k===id){o.outer.now=1;N.outer={...o.outer,now:1,until};}}
+  else if(p==='top'||p==='cos'||p==='bottom'){if(p!=='bottom'){delete N.outer;if(o.outer)o.outer=null;}N.top=1;}
+  DEXN_apply();try{houseC.key='';}catch(e){}try{save();}catch(e){}}catch(e){}}
+function DEXN_apply(){try{const o=S&&S.outfit,N=S&&S.dexNow;if(!o||!N)return;const now=Date.now();
+  for(const p of['hat','shoes','outer']){const v=N[p];if(!v)continue;if(now>v.until){delete N[p];continue;}if(p==='outer'&&o.costume)continue;const c={...v};delete c.until;o[p]=c;}}catch(e){}}
+{const GF=gearFor;gearFor=function(){const r=GF.apply(this,arguments);DEXN_apply();return r;};}
+{const DC=drawChar;drawChar=function(x,cx,cy,opt){try{if(opt&&opt.noOuter&&opt.outfit&&opt.outfit.outer&&opt.outfit.outer.now)opt={...opt,noOuter:false};}catch(e){}return DC.call(this,x,cx,cy,opt);};}
+{const CO=charOpts;charOpts=function(){const r=CO.apply(this,arguments);try{if(S.outfit&&S.outfit.outer&&S.outfit.outer.now)r.noOuter=false;}catch(e){}return r;};}
+{const DW=DEX_wear;DEX_wear=function(key){const[p]=String(key).split(':');const wear=['top','bottom','shoes','hat','cos'].includes(p);
+  // asleep or not, it goes on now
+  // asleep: wake up and change right away
+  if(wear&&C.sleeping){try{abort();}catch(e){}C.sleeping=false;C.napping=false;try{unsnap();}catch(e){}}
+  const sl=false;let r;try{
+    if(wear){const CU=CL_ui;CL_ui=function(k,done){return CU.call(this,k,col=>{const rr=done(col);if(S.dexNow)S.dexNow.at=Date.now();else S.dexNow={at:Date.now()};DEXN_rec(k);return rr;});};
+      try{r=DW.apply(this,arguments);}finally{CL_ui=CU;}
+      const ov=$('clOv');if(!ov||ov.hidden){S.dexNow=S.dexNow||{};S.dexNow.at=Date.now();DEXN_rec(key);}}
+    else r=DW.apply(this,arguments);}finally{if(wear&&sl)C.sleeping=sl;}return r;};}
+// a fresh outfit from the wardrobe (double tap) or bedtime ends the picture-book picks
+// for a while after a pick, bedtime does not swap it for pajamas (it was chosen on purpose)
+{const WP=wearPajama;wearPajama=function(){try{const N=S.dexNow;if(N&&N.at&&Date.now()-N.at<40*60e3&&N.top)return;delete S.dexNow;}catch(e){}return WP.apply(this,arguments);};}
+{const WD=wearDay;wearDay=function(){try{if(H_TAPCHG)delete S.dexNow;}catch(e){}return WD.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
@@ -29245,8 +29332,8 @@ function NET_order(k,yard){if(NET.role!=='owner'||!S)return;
     // the big wall TV belongs to the basement: ordered upstairs, it appears down there
     if(k==='bigtv'&&BFL===0){const B=S.bf||(S.bf={owned:[],layout:{}});B.owned=B.owned||[];B.layout=B.layout||{};let q=null;for(const x of[6,4,8,2,10,12]){const t=BF_findSpot('bigtv',{x,y:2});if(t&&t.y===2&&t.x===x){q=t;break;}}if(!q)q=BF_findSpot('bigtv',{x:6,y:2});
       if(!q){NET_toast(`${f.n}を置ける場所が地下にありません`);return;}delete q.ped;B.owned.push('bigtv');B.layout.bigtv={x:q.x,y:q.y,v:0};S.bigtvGiven=1;NET_toast(`${f.n}を地下室に置きました`);NET.pushing=1;NET_pushIsle().catch(()=>{}).finally(()=>{NET.pushing=0;});return;}
-    const p=placeFor(k);if(!p){NET_toast(`${f.n}を置ける場所がありません`);return;}
-    S.layout[k]={...p};if(!S.owned.includes(k))S.owned.push(k);S.stored=(S.stored||[]).filter(e=>e.k!==k);refreshOcc();const c=posCenter(k,p);NET_poof('in',c.x,c.y);NET_toast(`${f.n}を置きました${C.scene==='in'?'':'（家の中）'}`);}
+    const q=NET_deliver(k);if(!q){NET_toast(`${f.n}を置ける場所がありません`);return;}
+    S.stored=(S.stored||[]).filter(e=>e.k!==k);if(q.fl===BFL){const c=posCenter(k,S.layout[k]);NET_poof('in',c.x,c.y);}NET_toast(`${f.n}を${q.where}`,5200);}
   else{const f=OFT[k];if(!f)return;if(S.yard[k]){NET_toast(`${f.n}はもう置いてあります`);return;}const p=placeOut(f.w,f.h);if(!p){NET_toast(`${f.n}を置ける場所がありません`);return;}
     S.yard[k]={x:p.x,y:p.y};refreshOut();NET_poof('out',(p.x+f.w/2)*T,p.y*T+8);NET_toast(`${f.n}を置きました${C.scene==='out'?'':'（庭）'}`);}
   NET.pushing=1;NET_pushIsle().catch(()=>{}).finally(()=>{NET.pushing=0;});}
@@ -29279,9 +29366,22 @@ function NET_mealOther(){if(!NET.meal)return;const se=NET.mealSeats;
   if(NET.ai&&M&&!M.sleeping&&se&&se.other){const o=se.other;M.busy=false;M.sit=null;M.goal=null;
     M.steps=[{t:'go',sc:'in',x:o.tile.x,y:o.tile.y},{t:'fn',f:()=>{M.sit={...o.sit,pose:'sit'};M.dir=o.sit.d||'up';}},{t:'until',cond:()=>!NET.meal},{t:'fn',f:()=>{M.sit=null;M.drink=null;M.holding=null;}}];}
   if(C.tableSet&&C.snapK==='table')C.tableSet=NET_mealTs();NET_mealBar();}
-// keep the meal label clear of the speech bubbles: if one comes down over it, the label moves up above the bubbles' band
-setInterval(()=>{try{const l=document.getElementById('netMealNow');if(!l||l.hidden)return;l.style.bottom='';const lr=l.getBoundingClientRect();
-  for(const id of['bubble','bubble3']){const b=document.getElementById(id);if(!b||b.hidden)continue;const r=b.getBoundingClientRect();if(r.bottom>lr.top-4&&r.top<lr.bottom+4&&r.right>lr.left&&r.left<lr.right){l.style.bottom=(innerHeight-r.top+8)+'px';break;}}}catch(e){}},200);
+// the dish / drink name floats above each diner's head; it stays a little apart from the speech bubbles (above them when they show)
+function NET_mealTxt(o){if(!o)return'';return(o.kind==='alc'?'🍶 ':o.kind==='drink'?'☕ ':'🍽 ')+o.n;}
+function NET_mealHd(){try{const m=NET.meal,bb=document.getElementById('bubble'),par=bb&&bb.parentNode;if(!par)return;
+  const rows=[['netMealHd',m&&(m.mine||m),()=>{const p=charPos();return{cx:p.cx,by:p.by,h:(C.pose==='sit'?56:62)*CH_SC};}],
+    ['netMealHd2',m&&NET_otherAtTable()&&NET.mealSeats&&NET.mealSeats.other&&M&&(m.other||m),()=>{const p=mPos();return{cx:p.cx,by:p.by,h:(M.sit?56:62)*CH_SC};}]];
+  const k=cv.clientWidth/W,sw=cv.clientWidth,avoid=[];
+  for(const el of par.querySelectorAll('.bubble,#convo')){if(el.hidden||el.offsetParent===null)continue;const p=el._pos;if(p)avoid.push({l:p.left,t:p.top,w:p.bw,h:p.bh});}
+  for(const[id,o,pos]of rows){let l=document.getElementById(id);if(!l){l=document.createElement('div');l.id=id;l.className='netMealHd';l.setAttribute('aria-hidden','true');par.append(l);}
+    const on=!!(o&&o.n&&(C.scene==='in'));if(l.hidden===on)l.hidden=!on;if(!on){l._t=null;continue;}const tx=NET_mealTxt(o);if(l.textContent!==tx)l.textContent=tx;
+    const q=pos(),sx=((q.cx-cam.x)*Z+W/2)*k,hy=((q.by-q.h-cam.y)*Z+H/2)*k,lw=l.offsetWidth,lh=l.offsetHeight;
+    const left=clamp(sx-lw/2,6,Math.max(6,sw-lw-6));let top=hy-lh-4;
+    for(let i=0;i<4;i++){let hit=false;for(const r of avoid){if(left<r.l+r.w+6&&left+lw>r.l-6&&top<r.t+r.h+10&&top+lh>r.t-10){top=r.t-lh-12;hit=true;}}if(!hit)break;}
+    if(top<4)top=4;avoid.push({l:left,t:top,w:lw,h:lh});
+    const pt=l._t==null||Math.abs(l._t-top)>120?top:l._t+(top-l._t)*.35;l._t=pt;l.style.transform=`translate(${Math.round(left)}px,${Math.round(pt)}px)`;}
+  }catch(e){}}
+(function NET_mealHdLoop(){try{if(NET.meal||document.querySelector('.netMealHd:not([hidden])'))NET_mealHd();}catch(e){}requestAnimationFrame(NET_mealHdLoop);})();
 function NET_mealEnd(remote){if(!NET.meal)return;NET.meal=null;if(!remote)NET_send({t:'mealEnd'});if(M){M.drink=null;}NET_mealBar();}
 function NET_mealBar(){let b=document.getElementById('netMeal');if(!b){b=document.createElement('a');b.id='netMeal';b.href='#';b.textContent='食事を終える';b.onclick=e=>{e.preventDefault();NET_mealEnd(false);};document.body.append(b);}b.hidden=!NET.meal;
   let l=document.getElementById('netMealNow');if(!l){l=document.createElement('div');l.id='netMealNow';l.setAttribute('role','status');document.body.append(l);}
@@ -29348,7 +29448,10 @@ function NET_fill(tab){const body=document.getElementById(tab+'Body');if(!body)r
     const r=document.createElement('div');r.className='row2';const b=document.createElement('button');b.type='button';b.className='primary';b.textContent='模様替えをはじめる';b.onclick=()=>{if(ghost())return;close();NET_edit(true);};r.append(b);body.append(r);}}
 // after the menu's 決定, my new name / look / clothes go to the other screen
 {const SC=sheetClosed;sheetClosed=function(){const r=SC.apply(this,arguments);try{if(NET.on&&NET.ready)NET_meChanged();}catch(e){}return r;};}
-function NET_wear(key){const[p,id]=key.split(':'),c=NET.wearC||'紺',o=S.outfit=S.outfit||{};const D=S.dex=S.dex||{f:{},y:{},c:{}};D.c=D.c||{};D.c[key]={c,p:'plain',at:Date.now()};
+function NET_wear(key){try{return NET_wear0(key);}finally{try{const[p]=key.split(':');if(p==='hat'||p==='shoes'||p==='top'||p==='cos'){S.dexNow=S.dexNow||{};S.dexNow.at=Date.now();DEXN_rec(key);NET_meChanged();}}catch(e){}}}
+function NET_wear0(key){const[p,id]=key.split(':'),c=NET.wearC||'紺',o=S.outfit=S.outfit||{};
+  if(p==='top'&&/^pj_/.test(id)){try{SLP_wear(o,id.slice(3),c);delete o.costume;o.userPick=Date.now();const D=S.dex=S.dex||{f:{},y:{},c:{}};D.c=D.c||{};D.c[key]={c,p:'plain',at:Date.now()};NET_meChanged();}catch(e){}return;}
+  if(p==='top'&&typeof CW_OUTER!=='undefined'&&CW_OUTER.has(id)){delete o.costume;o.outer={k:id,c,c2:id==='stadium'?'アイボリー':undefined};o.outerPick={k:id,c,until:Date.now()+8*3600e3};o.userPick=Date.now();const D=S.dex=S.dex||{f:{},y:{},c:{}};D.c=D.c||{};D.c[key]={c,p:'plain',at:Date.now()};S.dexNow=S.dexNow||{};S.dexNow.at=Date.now();DEXN_rec(key);NET_meChanged();return;}const D=S.dex=S.dex||{f:{},y:{},c:{}};D.c=D.c||{};D.c[key]={c,p:'plain',at:Date.now()};
   if(p==='cos')o.costume=id;else{delete o.costume;o[p]={k:id,c,p:'plain'};if(p==='bottom'&&id==='pjpants')o.top={k:'pajama',c,p:'stripe'};if(p==='top'&&o.outer)delete o.outer;}
   o.userPick=Date.now();try{normOutfit(o);}catch(e){}try{const cp=charPos();for(let i=0;i<14;i++)particles.push({sc:C.scene,x:cp.cx+rnd(-12,12),y:cp.by-16+rnd(-12,8),vx:rnd(-14,14),vy:rnd(-30,-6),life:.9,max:.9,type:'puff'});}catch(e){}NET_meChanged();}
 // my name or look changed: show it everywhere and remember it
@@ -29385,7 +29488,7 @@ html.netmode #bot4,html.netmode #menuB,html.netmode #pauseB,html.netmode #camB,h
 #netToast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:rgba(20,24,40,.88);color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
 #netMeal,#netEdit{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:8;font-size:14px;font-weight:700;color:#24456e;background:rgba(255,255,255,.92);padding:7px 18px;border-radius:18px;text-decoration:underline;text-underline-offset:3px;box-shadow:0 2px 8px rgba(0,0,0,.18);white-space:nowrap}
 #netEdit{bottom:calc(54px + env(safe-area-inset-bottom,0px))}
-#netMealNow{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(140px + env(safe-area-inset-bottom,0px));z-index:8;font-size:13px;font-weight:700;color:#fff;background:rgba(20,30,50,.72);padding:6px 14px;border-radius:14px;max-width:calc(100% - 48px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none}#netMealNow[hidden]{display:none!important}
+#netMealNow{position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden}.netMealHd{position:absolute;left:0;top:0;z-index:4;font-size:13px;font-weight:800;color:#fff;background:rgba(150,70,20,.9);border:1.5px solid rgba(255,225,170,.95);padding:4px 11px;border-radius:12px;white-space:nowrap;max-width:70%;overflow:hidden;text-overflow:ellipsis;pointer-events:none;box-shadow:0 3px 10px rgba(0,0,0,.35);text-shadow:0 1px 2px rgba(0,0,0,.4);will-change:transform}.netMealHd[hidden]{display:none!important}body.manPZ .netMealHd{display:none!important}#netMealNow[hidden]{display:none!important}
 html.netmode #ctlSay{bottom:calc(54px + env(safe-area-inset-bottom,0px))}
 html.netmode #svCall{display:none!important}
 html.netguest section.tp[data-p="st"]>*:not(.field):not(.hpick):not(#hWear):not(.row2){display:none!important}
@@ -29559,13 +29662,16 @@ function NET_dexHook(){const el=$('dexBody');if(!el||el._net)return;el._net=1;
     e.stopPropagation();const nm=sp.textContent;dexZoom(()=>NET_foodIcon(kind,nm),nm,(kind==='drink'?'飲み物':'料理・おやつ')+(sub?'：'+sub:''),'nfood:'+kind);},true);}
 // clothes go on at once (the stand-alone hero would first walk to the wardrobe)
 {const DW=DEX_wear;DEX_wear=function(key){if(!NET.on)return DW.apply(this,arguments);const[p,id]=key.split(':');if(!['top','bottom','shoes','hat','cos'].includes(p))return DW.apply(this,arguments);
-  const info=((S.dex&&S.dex.c)||{})[key]||{};NET.wearC=info.c||NET.wearC||'紺';NET_wear(key);};}
+  // a colour to choose first (the same picker as the stand-alone edition), then it goes on at once
+  let pal=[];try{pal=p==='cos'?[]:CL_pal(p,id);}catch(e){}
+  const go=col=>{if(col)NET.wearC=col;NET_wear(key);};
+  if(pal.length>1){CL_ui(key,go);return;}go(pal[0]||null);};}
 {const DZ=dexZoom;dexZoom=function(mk,nm,cat,key){const r=DZ.apply(this,arguments);try{if(!NET.on)return r;const card=document.querySelector('#dexZoom .dzcard');if(!card)return r;
   const own=NET.role==='owner';let label=null,act=null,dis=false;
   if(own&&key&&NET_FURN_CATS.includes(cat)){const yard=cat==='庭のもの';const placed=yard?!!(S.yard&&S.yard[key]):(has(key)||BF_other(key));label=placed?'置いてあります':'頼む';dis=placed;act=()=>NET_order(key,yard);}
   else if(own&&typeof key==='string'&&key.startsWith('nfood:')){const kind=key.slice(6);label=kind==='drink'?'これを飲む':'これを食べる';act=()=>{if(NET.meal)NET_mealPick(kind,nm,false);else NET_mealStart(kind,nm,false);};}
   else if(own&&!key&&DRINKS.some(d=>d.n===nm)){label='これを飲む';act=()=>{if(NET.meal)NET_mealPick('alc',nm,false);else NET_mealStart('alc',nm,false);};}
-  if(!label)return r;card.querySelectorAll('.dzbtns').forEach(x=>x.remove());// the stand-alone 再発注 (delivery by drone) does not apply here
+  if(!label)return r;card.querySelectorAll('.dzbtns,.dzro').forEach(x=>x.remove());// the stand-alone 再発注 (delivery by drone) does not apply here
   const row=document.createElement('div');row.className='dzbtns';const b=document.createElement('button');b.type='button';b.className='primary dzwear';b.textContent=label;b.disabled=dis;
   b.onclick=e=>{e.stopPropagation();if(dis)return;$('dexZoom').hidden=true;try{$('bClose').onclick();}catch(_){$('sheet').hidden=true;}act();};
   const x=document.createElement('button');x.type='button';x.className='dzclose';x.textContent='やめる';x.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};
@@ -29640,6 +29746,34 @@ NET_islesFix();
 #netStart #nsForget{color:var(--warn)!important;border-color:rgba(240,138,107,.45)!important}
 #nsFg .fgcard{color-scheme:dark!important;background:var(--panel)!important;color:var(--ink);border:1px solid var(--rule)}#nsFg .fgck{color:var(--ink)!important}#nsFg .fgcard b[style]{color:var(--warn)!important}
 `;document.head.append(st);})();
+
+/* ---- v636: where an order goes. First the room the owner is in, then the other rooms on the same floor, then the other floor ---- */
+function NET_onFloor(fl,fn){if(typeof BFL==='undefined'||BFL===fl)return fn();const b=BFL;try{BTV_alias(false);}catch(e){}BF_swapData();BFL=fl;BF_geo();BF_rooms();try{refreshOcc();}catch(e){}
+  try{return fn();}finally{try{BTV_alias(false);}catch(e){}BF_swapData();BFL=b;BF_geo();BF_rooms();try{refreshOcc();}catch(e){}try{BTV_alias(true);}catch(e){}}}
+function NET_roomOf(p){try{if(p.wall){const sp=WALLSPOTS.find(z=>z.x===p.x&&z.y===p.y&&(z.side||'')===(p.side||''));if(sp&&sp.r)return sp.r;return roomAt(p.x,p.y+1);}
+  if(p.on){const H=S.layout[p.on];return H?roomAt(H.x,H.y):null;}return roomAt(p.x,p.y);}catch(e){return null;}}
+function NET_where(k,p,fl){const f=FT[k],r=NET_roomOf(p),rn=fl===1?'地下室':(ROOM_NAME[r]||'家の中');
+  if(p.wall)return`${rn}の壁に掛けました`;if(p.on){const hn=FT[p.on]&&FT[p.on].n;return hn?`${rn}の${hn}の上に置きました`:`${rn}に置きました`;}return`${rn}の床に置きました`;}
+function NET_placeIn(k,room){const f=FT[k];if(!room||!f.rooms.includes(room))return null;const R=f.rooms;f.rooms=[room];try{return placeFor(k);}finally{f.rooms=R;}}
+function NET_deliver(k){const cur=typeof BFL==='undefined'?0:BFL;const r0=C.scene==='in'?roomAt(C.tx,C.ty):null;
+  const tryFloor=(fl,pref)=>NET_onFloor(fl,()=>{let p=pref?NET_placeIn(k,pref):null;if(!p)p=placeFor(k);if(!p)return null;
+    S.layout[k]={...p};if(!S.owned.includes(k))S.owned.push(k);try{refreshOcc();}catch(e){}return{fl,where:NET_where(k,p,fl)};});
+  // the big wall TV stays a basement thing
+  if(k==='bigtv')return tryFloor(1,null);
+  let q=tryFloor(cur,r0);if(q)return q;if(typeof BF_switch!=='function')return null;return tryFloor(cur===1?0:1,null);}
+/* ---- v636: in 模様替え mode a double tap works the thing at once; the hero does not walk anywhere ---- */
+function NET_editTap(e){if(PAUSED&&false)return;const w=tapWorld(e),tg=(typeof TAP_FORCE!=='undefined'&&TAP_FORCE)||tapTarget(w.x,w.y);if(!tg)return;
+  try{particles.push({sc:C.scene==='in'||BFL===1?'in':C.scene,x:w.x,y:w.y,vx:0,vy:0,life:.6,max:.6,type:'ring'});}catch(_){}
+  if(tg.t==='elv'){const m=ELV_busyMsg();if(m){NET_toast(m);return;}const to=BFL===1?0:1;try{abort();}catch(_){}if(C.snap)unsnap();C.steps=[];C.path=[];C.act='vidle';C.sleeping=false;
+    C.scene='in';BF_switch(to);place(ELX,3);C.dir='down';C.moving=false;try{ELV.inside=false;ELV.tg=0;ELV.o=0;}catch(_){}try{camSet(true);}catch(_){}try{updateRoom();}catch(_){}NET_toast(to===1?'地下室に移動しました':'1階に移動しました');return;}
+  if(tg.t==='lsw'){try{LSW_ui(true);}catch(_){}return;}
+  if(tg.t==='f'&&FT[tg.k]&&has(tg.k)){const k=tg.k;
+    if(k==='tv'||(/^tv/.test(k)&&/テレビ/.test(FT[k].n)&&k!=='bigtv')){NET_tvToggle();return;}
+    const tog={lamp:'lampOn',heater:'heatOn',fan:'fanOn',bfan:'fanOn',shokudai:'shokuOn',shokuj:'shokuJOn'}[k];
+    if(tog){S[tog]=!S[tog];try{save();}catch(_){}try{const c=itemCenter(k);particles.push({sc:'in',x:c.x,y:c.y-10,vx:0,vy:0,life:.6,max:.6,type:'ring'});}catch(_){}return;}
+    if(k==='mirrorball'){S.mbUntil=S.mbUntil&&S.mbUntil>Date.now()?0:Date.now()+30e3;return;}}
+  try{showTip(e);}catch(_){}}
+{const TG=tapGo;tapGo=function(e){try{if(NET.on&&NET.edit){NET_editTap(e);return;}}catch(_){}return TG.apply(this,arguments);};}
 
 boot();
 
