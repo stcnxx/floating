@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 630（2026/11/09）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 633（2026/11/09）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 630（2026/11/09）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 633（2026/11/09）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -7511,6 +7511,7 @@ function BC_pat(cv,x,y,w,h){const a=cv.a,b=cv.b,p=cv.p;g.save();
   else if(p==='flower')grid(7,7,(cx,cy,r)=>{for(let k=0;k<5;k++){const an=k*1.2566;fillE(g,a,cx+Math.cos(an)*1.1,cy+Math.sin(an)*1.1,.9,.9);}fillE(g,'#f6d14a',cx,cy,.6,.6);C2_.leaf(cx+2.2,cy+1.6,1.4,.5,.6,b);});
   else if(p==='leaf')grid(9,9,(cx,cy,r)=>{const lc=r%2?a:shade(a,.25);g.strokeStyle=shade(a,-.15);g.lineWidth=.45;g.beginPath();g.moveTo(cx-3,cy+3.2);g.quadraticCurveTo(cx,cy,cx+2.6,cy-3.2);g.stroke();for(let k=0;k<3;k++){C2_.leaf(cx-1.8+k*1.5,cy+1.6-k*1.8,2.2,.9,-.7,lc);C2_.leaf(cx-.6+k*1.5,cy+2.4-k*1.8,2,.85,2.2,shade(lc,.12));}});
   else if(p==='nordic'){grid(8,7,(cx,cy,r)=>{g.fillStyle=r%2?a:b;g.beginPath();g.moveTo(cx,cy-2.4);g.lineTo(cx+2.4,cy);g.lineTo(cx,cy+2.4);g.lineTo(cx-2.4,cy);g.closePath();g.fill();fillE(g,'#f2efe8',cx,cy,.7,.7);});g.fillStyle=a;for(let yy=y+3;yy<y+h;yy+=14)for(let xx=x;xx<x+w;xx+=2.4){g.beginPath();g.moveTo(xx,yy);g.lineTo(xx+1.2,yy-1.2);g.lineTo(xx+2.4,yy);g.fill();}}
+  else if(p==='apa'){}
   else if(p==='patch'){const P=['#e8a0a0','#a8c8e8','#f2d36a','#a8d0a0','#d8b8e8','#f2c8a0'];for(let yy=y,j=0;yy<y+h;yy+=7,j++)for(let xx=x,i=0;xx<x+w;xx+=7,i++){g.fillStyle=P[(i*3+j*5)%P.length];g.fillRect(xx,yy,7,7);
       const k=(i+j*2)%3;g.fillStyle='rgba(255,255,255,.55)';if(k===0)for(let q=0;q<3;q++)fillE(g,'rgba(255,255,255,.6)',xx+1.6+q*1.9,yy+1.6+q*1.9,.5,.5);else if(k===1){g.fillRect(xx,yy+2.8,7,.6);g.fillRect(xx+2.8,yy,.6,7);}
       g.strokeStyle='rgba(90,60,40,.35)';g.setLineDash([.5,.4]);g.lineWidth=.2;g.strokeRect(xx+.4,yy+.4,6.2,6.2);g.setLineDash([]);}}
@@ -7544,7 +7545,7 @@ function BC_pat(cv,x,y,w,h){const a=cv.a,b=cv.b,p=cv.p;g.save();
       g.setLineDash([.9,.6]);g.strokeStyle=a;g.lineWidth=.35;for(let yy=y+6;yy<y+h;yy+=12){g.beginPath();g.moveTo(x,yy);g.lineTo(x+w,yy);g.stroke();}g.beginPath();g.moveTo(x+w/2,y);g.lineTo(x+w/2,y+h);g.stroke();g.setLineDash([]);
       fillR(g,'#c9a24f',x+w/2+2,y+3,1.4,1.4,.7);}
   g.restore();}
-FT.bed.draw=function(X,Y,Wd,Dp,L,t,m2){g.save();const BCV=bedCov(L),bc=BCV.c,wd='#a97c55',lin='#e6dccb';
+FT.bed.draw=function(X,Y,Wd,Dp,L,t,m2){g.save();const BCV=bedCov(L),bc=BCV.c,wd=BCV.wd||'#a97c55',lin=BCV.lin||'#e6dccb';
   A_shadow(X+2,Y+Dp-9,Wd-4,8);
   // headboard: wooden frame with upholstered tufted panel
   A_fill(A_lg(0,Y-17,0,Y+9,[[0,shade(wd,.02)],[1,shade(wd,-.22)]]),X+2,Y-17.6,Wd-4,26.6,2);
@@ -7559,10 +7560,11 @@ FT.bed.draw=function(X,Y,Wd,Dp,L,t,m2){g.save();const BCV=bedCov(L),bc=BCV.c,wd=
   A_fill(A_lg(0,Y+Dp-15,0,Y+Dp-4,[[0,'#f2efe8'],[1,'#c9c4ba']]),X+3,Y+Dp-15,Wd-6,11,3);g.fillStyle='rgba(150,140,120,.35)';g.fillRect(X+4,Y+Dp-9.6,Wd-8,.4);
   A_fill(A_lg(X,Y-2,X+Wd,Y+Dp,[[0,'#ffffff'],[1,'#ece8df']]),X+3,Y-2,Wd-6,Dp-13,4);
   // pillow
+  for(const[ox,sx]of(BCV.p==='apa'?(q=>[[(Wd/2-(Wd-6.4)*q)/Wd,q],[(Wd/2-6.4*q)/Wd,q]])(.6):[[0,1]])){g.save();g.translate(X+ox*Wd,0);g.scale(sx,1);g.translate(-X,0);
   const pp=new Path2D();pp.moveTo(X+8.6,Y+.4);pp.quadraticCurveTo(X+Wd/2,Y-1,X+Wd-8.6,Y+.4);pp.quadraticCurveTo(X+Wd-6.4,Y+5,X+Wd-8.6,Y+10.4);pp.quadraticCurveTo(X+Wd/2,Y+11.6,X+8.6,Y+10.4);pp.quadraticCurveTo(X+6.4,Y+5,X+8.6,Y+.4);pp.closePath();
   fillR(g,'rgba(80,70,60,.12)',X+9,Y+2,Wd-17,10.4,4);g.fillStyle=A_rg(X+Wd/2-6,Y+2.6,1,Wd*.45,[[0,'#ffffff'],[.7,'#f4f2ee'],[1,'#d9d6cf']]);g.fill(pp);
   g.strokeStyle='rgba(120,130,160,.35)';g.lineWidth=.4;g.stroke(pp);g.strokeStyle='rgba(140,150,180,.3)';g.lineWidth=.3;g.beginPath();g.moveTo(X+12,Y+5.6);g.quadraticCurveTo(X+Wd/2,Y+7.6,X+Wd-12,Y+5.6);g.stroke();
-  fillE(g,'rgba(255,255,255,.9)',X+Wd/2-7,Y+3,5,1.2);
+  fillE(g,'rgba(255,255,255,.9)',X+Wd/2-7,Y+3,5,1.2);g.restore();}
   const lying=m2?!!(M&&M.sit&&M.sit.bed&&M.scene==='in'):(VIS_hbed()||C.scene==='in'&&C.pose==='lie'&&C.snapK==='bed');
   if(!lying){
     // duvet
@@ -7572,7 +7574,7 @@ FT.bed.draw=function(X,Y,Wd,Dp,L,t,m2){g.save();const BCV=bedCov(L),bc=BCV.c,wd=
     for(let yy=dy+7.4,k=0;yy<dy+dh;yy+=7,k++){g.fillStyle=A_lg(0,yy,0,yy+7,[[0,'rgba(255,255,255,.16)'],[.45,'rgba(255,255,255,0)'],[.85,'rgba(0,0,0,.06)'],[1,'rgba(0,0,0,.16)']]);g.fillRect(X+2,yy,Wd-4,7);
       g.strokeStyle=shade(bc,-.25);g.lineWidth=.35;g.setLineDash([.8,.6]);g.beginPath();g.moveTo(X+3,yy+7);g.quadraticCurveTo(X+Wd/2,yy+7.8,X+Wd-3,yy+7);g.stroke();g.setLineDash([]);
       g.fillStyle='rgba(255,255,255,.28)';for(let q=0;q<3;q++){const fx=X+9+q*15+(k%2)*7,fy=yy+3.6;if(fx>X+Wd-5)continue;for(let a=0;a<4;a++)fillE(g,'rgba(255,255,255,.25)',fx+Math.cos(a*1.57)*.8,fy+Math.sin(a*1.57)*.8,.55,.55);}}
-    fillE(g,'rgba(255,255,255,.14)',X+14,dy+16,8,3,-.2);g.restore();
+    if(BCV.p==='apa')BC_apaRun(X+2.4,dy,Wd-4.8,dh);fillE(g,'rgba(255,255,255,.14)',X+14,dy+16,8,3,-.2);g.restore();
     // turned-down fold with sheet
     fillR(g,'rgba(0,0,0,.12)',X+2.4,dy+7.4,Wd-4.8,1.4);
     A_fill(A_lg(0,dy,0,dy+7.4,[[0,'#ffffff'],[1,'#e6e2da']]),X+2.4,dy,Wd-4.8,4,[4,4,0,0]);
@@ -28638,6 +28640,14 @@ function PF2_floorOK(k,p){const r=roomAt(p.x,p.y),x=p.x+1,y=p.y,kk=x+','+y;if(!r
   const cs=[];for(let y=1;y<=26;y++)for(let x=0;x<HW;x++){const q={x,y,v:0};if(FT[k].rooms.includes(roomAt(x,y))&&leanOK(x,y)&&PF2_floorOK(k,q)&&validIn(k,q))cs.push(q);}return cs.length?pick(cs):null;}catch(e){return r;}};}
 
 try{delete WW_W.pframe;}catch(e){}// the frame is now exactly one space: no shrinking on the wall or on the floor
+
+/* ===== v631: アパベッド — white sheets with a black runner at the foot, black wooden frame, gold fabric headboard ===== */
+BED_COV.push({n:'アパベッド',c:'#f7f5f0',p:'apa',g:'s',wd:'#2a2624',lin:'#c8a560'});
+
+/* v632: the アパベッド runner — plain black, with a few very thin, faint gold wavy lines */
+function BC_apaRun(x,y,w,h){const by=y+h*.56,bh=h*.3;g.save();g.fillStyle=A_lg(x,y,x+w*.6,y+h,[[0,'#ffffff'],[.6,'#f6f4ef'],[1,'#e9e6df']]);g.fillRect(x-1,y-1,w+2,h+2);fillR(g,'rgba(0,0,0,.05)',x,y+h-1.2,w,1.2);g.fillStyle=A_lg(0,by,0,by+bh,[[0,'#202124'],[.5,'#141518'],[1,'#0c0d0f']]);g.fillRect(x,by,w,bh);
+  g.strokeStyle='rgba(212,180,110,.22)';g.lineWidth=.12;for(let i=0;i<4;i++){const yy=by+bh*(.2+i*.2);g.beginPath();for(let xx=x;xx<=x+w+.5;xx+=.8)g.lineTo(xx,yy+Math.sin(xx*.55+i*1.9)*.7);g.stroke();}
+  g.fillStyle='rgba(255,255,255,.06)';g.fillRect(x,by,w,.3);g.fillStyle='rgba(0,0,0,.3)';g.fillRect(x,by+bh-.3,w,.3);g.restore();}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
