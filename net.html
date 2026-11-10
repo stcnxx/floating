@@ -29293,7 +29293,8 @@ async function NET_leave(){if(NET.leaving)return;NET.leaving=true;const own=NET.
   NET_toast(ok?'💾 セーブしました。またね！':'セーブできなかった部分があります（この端末の保存は済んでいます）',2400);
   await new Promise(r=>setTimeout(r,1100));
   try{NET.ws&&NET.ws.close(1000,'bye');}catch(e){}
-  try{location.replace(NET_base());}catch(e){location.href=NET_base();}setTimeout(()=>location.reload(),200);}
+  // a guest goes back to the invitation screen of that island (a guest does not make islands)
+  const to=NET.role==='guest'&&NET.id?NET_inviteURL(NET.id):NET_base();try{location.replace(to);}catch(e){location.href=to;}setTimeout(()=>location.reload(),200);}
 
 async function NET_on(m){
   if(m.t==='busy'){NET.fatal=true;try{NET.ws.close();}catch(e){}NET_startScreen('',true);return;}
@@ -29493,17 +29494,26 @@ function NET_mealBar(){let b=document.getElementById('netMeal');if(!b){b=documen
   if(NET.meal){const m=NET.meal,two=NET_otherAtTable()&&NET.mealSeats&&NET.mealSeats.other;l.textContent=(m.kind==='alc'?'🍶 ':m.kind==='drink'?'☕ ':'🍽 ')+m.n+(m.kind==='food'?' を食べています':' を飲んでいます')+(two?'（ふたりで）':'');}l.hidden=!NET.meal;}
 
 /* ---------- the owner's BGM reaches the guest ---------- */
-async function NET_musicTick(force){if(NET.role!=='owner'||!NET.ready||!S)return;const m=S.music,id=m&&m.ids&&m.ids[m.idx],on=!!(m&&m.on&&MUS.playing&&id);
-  const sig=on?id:'off';if(!force&&sig===NET.musSig)return;NET.musSig=sig;
-  if(!on){NET_send({t:'music',music:{on:false}});return;}
-  const name=(m.names&&m.names[m.idx])||'';
-  if(id===BGM_ID){NET_send({t:'music',music:{on:true,id,name,pos:m.pos||0,at:Date.now()}});return;}
-  const bid='m'+String(id).replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40);
-  try{if(!(await NET_has(bid))){const rec=await idbGet(id);if(!rec||!rec.blob)return;if(rec.blob.size>NET_BGM_MAX){NET_toast('この曲は大きすぎてゲストに届けられません（60MBまで）',5000);return;}
-      NET_toast('BGMをゲストに届けています…',4000);await NET_put(bid,new Uint8Array(await rec.blob.arrayBuffer()),rec.type||rec.blob.type||'audio/mpeg');NET.upl.add(bid);}
-    if(NET.musSig!==sig)return;NET_send({t:'music',music:{on:true,id,b:bid,name,type:'',pos:(S.music&&S.music.pos)||0,at:Date.now()}});}catch(e){NET_toast('BGMを届けられませんでした');}}
+// the owner tells the guest what each floor plays: the floor the owner is on (in step with the owner) and the other floor (its own setting)
+async function NET_songBid(id){if(id===BGM_ID)return null;const bid='m'+String(id).replace(/[^a-zA-Z0-9_-]/g,'').slice(0,40);
+  if(!(await NET_has(bid))){const rec=await idbGet(id);if(!rec||!rec.blob)return false;if(rec.blob.size>NET_BGM_MAX){NET_toast('この曲は大きすぎてゲストに届けられません（60MBまで）',5000);return false;}
+    NET_toast('BGMをゲストに届けています…',4000);await NET_put(bid,new Uint8Array(await rec.blob.arrayBuffer()),rec.type||rec.blob.type||'audio/mpeg');NET.upl.add(bid);}return bid;}
+function NET_floorMus(){const cur=typeof BFL!=='undefined'?BFL:0,oth=cur===1?0:1,m=S.music;
+  const ent=(mm,playing)=>{const id=mm&&mm.ids&&mm.ids[mm.idx||0];return mm&&id&&(playing?mm.on&&MUS.playing:mm.on)?{id,name:(mm.names&&mm.names[mm.idx||0])||'',pos:mm.pos||0}:null;};
+  const F=S.bf&&S.bf.musF;const o=F?ent(F.music,false):ent(m,true);// the basement not set yet: it plays what the ground floor plays
+  return{cur,oth,a:ent(m,true),b:o};}
+async function NET_musicTick(force){if(NET.role!=='owner'||!NET.ready||!S)return;const f=NET_floorMus();
+  const sig=JSON.stringify([f.cur,f.a&&f.a.id,f.b&&f.b.id]);if(!force&&sig===NET.musSig)return;NET.musSig=sig;
+  try{const mk=async e=>{if(!e)return{on:false};if(e.id===BGM_ID)return{on:true,id:e.id,name:e.name,pos:e.pos,at:Date.now()};const bid=await NET_songBid(e.id);if(!bid)return{on:false};return{on:true,id:e.id,b:bid,name:e.name,type:'',pos:e.pos,at:Date.now()};};
+    const A=await mk(f.a),B=(f.b&&f.a&&f.b.id===f.a.id)?{...A}:await mk(f.b);if(NET.musSig!==sig)return;
+    const floors={};floors[f.cur]=A;floors[f.oth]=B;NET_send({t:'music',music:{...A,fl:f.cur,floors}});}catch(e){NET_toast('BGMを届けられませんでした');}}
 setInterval(()=>{try{NET_musicTick(false);}catch(e){}},2500);
-async function NET_playMusic(mu){NET.music=mu||null;if(NET.role!=='guest'||!S)return;
+// the guest hears the music of the floor the guest is on
+async function NET_playMusic(mu){NET.musAll=mu||null;if(NET.role!=='guest'||!S)return;try{if(mu&&mu.floors){const fl=typeof BFL!=='undefined'?BFL:0;mu=mu.floors[fl]||{on:false};}}catch(e){}
+  try{const cur=NET.music;if(mu&&mu.on&&cur&&cur.on&&cur.id===mu.id&&S.music&&MUS.playing)
+    {NET.music=mu;return;}}catch(e){}
+  return NET_playMusic0(mu);}
+async function NET_playMusic0(mu){NET.music=mu||null;if(NET.role!=='guest'||!S)return;
   if(!mu||!mu.on){try{musStop(true);}catch(e){}S.music=null;return;}
   let id=mu.id,name=mu.name||'';
   if(mu.id===BGM_ID){if(!NET.songs[BGM_ID])try{NET.songs[BGM_ID]={id:BGM_ID,name:BGM_NAME,type:'audio/mp4',blob:bgmBlob()};}catch(e){return;}}
@@ -29649,6 +29659,7 @@ function NET_startScreen(msg,busy){try{NET.ws&&NET.ws.close();}catch(e){}NET.ws=
 <button type="button" class="nd-main" id="nsMine" style="margin-top:8px">「${NET_esc(NET_islName(own.id))}」に入る</button><div class="row" style="margin-top:8px"><button type="button" class="sm" id="nsInv">招待用URLをコピー</button><button type="button" class="sm" id="nsOwn">オーナー用URLをコピー</button></div><p class="sub" style="margin:6px 0 0">招待用URLとオーナー用URLは島ごとに別々です。招待用URLを友だちに送ると、その島に遊びに来られます。オーナー用URLは、ほかの端末で自分の島に入るためのもの（人には教えないでください）。</p></div>`+
   `<div class="nd-sec"><b style="font-size:14px">「${NET_esc(NET_islName(own.id))}」をつくり直す</b><p class="sub" style="margin:4px 0 6px">この島の中身を上書きします。招待用URLはそのままです。</p><button type="button" class="sm" id="nsReN" style="width:100%">まったく新しい島でつくり直す</button><button type="button" class="sm" id="nsRe" style="width:100%;margin-top:6px">この端末のスタンドアロン版の島でつくり直す</button><button type="button" class="sm" id="nsReF" style="width:100%;margin-top:6px">保存ファイル（.json）からつくり直す</button><input type="file" id="nsReI" accept=".json,application/json,text/plain" hidden><p class="ns-msg" id="nsReM"></p></div>`+
   `<div class="nd-sec"><b style="font-size:14px">島をふやす</b><p class="sub" style="margin:4px 0 6px">いまの島はそのまま残して、別の島をつくります。新しい島には、別の招待用URLができます。</p><label for="nsAddName">新しい島の名前</label><input id="nsAddName" maxlength="20" placeholder="例：海辺の島" value="島${isles.length+1}"><button type="button" class="sm" id="nsAddCopy" style="width:100%;margin-top:8px">「${NET_esc(NET_islName(own.id))}」をコピーしてつくる</button><button type="button" class="sm" id="nsAddNew" style="width:100%;margin-top:6px">まったく新しい島をつくる</button><button type="button" class="sm" id="nsAddSA" style="width:100%;margin-top:6px">スタンドアロン版の島をコピーしてつくる</button><p class="ns-msg" id="nsAddM"></p></div>`;
+  else if(o.lastGuest)h+=`<p class="sub" style="margin:0 2px 4px">ゲストとして遊びに行く端末です。下の「遊びに行く」で、また島に行けます。</p>`;
   else h+=`<button type="button" class="nd-main" id="nsNew1"${sv?'':' hidden'}>スタンドアロン版の島をコピーしてつくる</button>${sv?'<p class="sub" style="margin:6px 2px 0">この端末のスタンドアロン版の島（家具・庭・写真・BGM）をコピーします。ネット版のデータはスタンドアロン版とは別に保存されるので、コピーしたあとはどちらを変えても、もう一方には影響しません。もとの島はそのまま残ります。</p>':''}<button type="button" class="nd-main" id="nsNew2" style="${sv?'background:#fff;color:#2f5e9e;border:1px solid #c8d2e2':''}">新しい島をつくる</button>`;
   h+=`<div class="nd-sec"><b style="font-size:14px">ほかの島に遊びに行く</b><label for="nsIsle">招待用URL</label><input id="nsIsle" placeholder="https://…#isle=…">${nameRow}<button type="button" class="nd-main" id="nsGo">遊びに行く</button></div>`;
   h+=`<p class="ns-msg" id="nsMsg">${NET_esc(msg||'')}</p><div class="nd-sec"><button type="button" class="lnk" id="nsSet">サーバーの設定（ふだんは触らなくて大丈夫です）</button><div id="nsSetBox" hidden>
@@ -29682,7 +29693,8 @@ ${own?`<div class="exbox"><b>この端末から自分の島の鍵を消す</b><p
     ov.querySelector('#nsAddSA').onclick=async()=>{if(!sv){AM('この端末のこのページからは、スタンドアロン版のデータが見つかりませんでした');return;}AM('スタンドアロン版の島をコピーしています…',1);NET.newName=nm();await NET_importSA(sv);NET_create(NET_strip(sv),AM);};
     ov.querySelector('#nsAddCopy').onclick=async()=>{const b=ov.querySelector('#nsAddCopy');b.disabled=true;AM('「'+NET_islName(own.id)+'」を読み込んでいます…',1);
       try{const src=await NET_fetchIsle(own);if(!src)throw new Error('empty');NET.newName=nm();NET_create(src,AM);}catch(e){b.disabled=false;AM(e&&e.message==='empty'?'この島はまだ一度も開かれていないので、コピーするものがありません':'読み込めませんでした。少ししてからもう一度ためしてください');}};}
-  else{const b1=ov.querySelector('#nsNew1');if(b1)b1.onclick=async()=>{M2('スタンドアロン版の島をコピーしています…');await NET_importSA(sv);NET_create(NET_strip(sv),M2);};ov.querySelector('#nsNew2').onclick=()=>{NET.mode='create';ov.hidden=true;try{openSetup();}catch(e){M2('つくれませんでした');}};}
+  else if(ov.querySelector('#nsNew2')){const b1=ov.querySelector('#nsNew1');if(b1)b1.onclick=async()=>{M2('スタンドアロン版の島をコピーしています…');await NET_importSA(sv);NET_create(NET_strip(sv),M2);};ov.querySelector('#nsNew2').onclick=()=>{NET.mode='create';ov.hidden=true;try{openSetup();}catch(e){M2('つくれませんでした');}};}
+  try{if(!own&&o.lastGuest){const i=ov.querySelector('#nsIsle');if(i&&!i.value)i.value=NET_inviteURL(o.lastGuest);}}catch(e){}
   ov.querySelector('#nsGo').onclick=()=>{const id=NET_parseIsle(ov.querySelector('#nsIsle').value);if(!id){M2('招待用URLを貼りつけてください');return;}NET_goGuest(id);};
   ov.querySelector('#nsSet').onclick=()=>{const b=ov.querySelector('#nsSetBox');b.hidden=!b.hidden;};
   const SM=(t,ok)=>{const e=ov.querySelector('#nsSrvM');e.className='ns-msg'+(ok?' ok':'');e.textContent=t;};
@@ -29704,7 +29716,7 @@ function NET_bindName(ov){const n=ov.querySelector('#nsName');if(n)n.onchange=()
   const c=ov.querySelector('#nsChar');if(c)c.onclick=()=>{NET.mode='prof';ov.hidden=true;try{openSetup();}catch(e){}};}
 function NET_hideStart(){const ov=document.getElementById('netStart');if(ov)ov.hidden=true;}
 function NET_goGuest(id){const ov=document.getElementById('netStart'),n=ov&&ov.querySelector('#nsName');const p=NET_myProf();if(n)p.name=n.value.trim().slice(0,10);if(!p.name){const e=ov.querySelector('#nsMsg');if(e){e.className='ns-msg';e.textContent='名前を入れてください';}return;}
-  NETS_set(o=>{o.prof=p;});if(location.hash!=='#isle='+id)history.replaceState(null,'','#isle='+id);NET.id=id;NET.key=null;NET.role='guest';NET.retry=0;NET.fatal=false;NET_hideStart();NET_status('島に向かっています…');NET_open();}
+  NETS_set(o=>{o.prof=p;if(!o.own)o.lastGuest=id;});if(location.hash!=='#isle='+id)history.replaceState(null,'','#isle='+id);NET.id=id;NET.key=null;NET.role='guest';NET.retry=0;NET.fatal=false;NET_hideStart();NET_status('島に向かっています…');NET_open();}
 function NET_goOwner(own){NET.id=own.id;NET.key=own.key;NET.role='owner';NET.retry=0;NET.fatal=false;NET_hideStart();NET_status('島に向かっています…');NET_open();}
 async function NET_create(isle,msgf){const say2=msgf||(t=>NET_status(t));say2('島をつくっています…');
   try{const r=await fetch(NET_srv()+'/create',{method:'POST'});if(!r.ok)throw new Error(r.status);const j=await r.json();if(!j.id||!j.key)throw new Error('bad');
@@ -29895,6 +29907,11 @@ setInterval(()=>{try{if(!NET.ready||NET.role!=='owner'||!S)return;const pf=S.pet
 function NET_tabsFix(){const own=NET.role==='owner';for(const b of $('tabs').children){const t=b.dataset.t,ok=t==='st'||t==='dex'||(own&&t==='bgm');b.hidden=!ok;}}
 {const OS=openSheet;openSheet=function(){const r=OS.apply(this,arguments);try{if(NET.on){NET_sheetSetup();document.documentElement.classList.toggle('netguest',NET.role!=='owner');NET_tabsFix();NET_dexHook();}}catch(e){}return r;};}
 {const ST=selTab;selTab=function(t){let red=false;try{if(NET.on){const b=[...$('tabs').children].find(x=>x.dataset.t===t);if(b&&b.hidden){t='st';arguments[0]='st';red=true;}}}catch(e){}const r=ST.apply(this,arguments);try{if(red&&NET_TABS[t])NET_fill(t);}catch(e){}return r;};}
+
+// when the guest takes the elevator, the music changes to that floor's
+{const BS=BF_switch;BF_switch=function(to){const fr=BFL;const r=BS.apply(this,arguments);try{if(NET.on&&NET.role==='guest'&&fr!==BFL&&NET.musAll)NET_playMusic(NET.musAll);}catch(e){}return r;};}
+// the guest's music comes from the owner only: the boombox / stereo playlists are not switched on the guest's side
+{const MW=MUS_switch;MUS_switch=function(){if(NET.on&&NET.role==='guest')return;return MW.apply(this,arguments);};}
 
 boot();
 
