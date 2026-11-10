@@ -29969,46 +29969,12 @@ function NET_tabsFix(){const own=NET.role==='owner';for(const b of $('tabs').chi
   requestAnimationFrame(tick);
   window.NET_qLower=lower;})();
 
-/* ---- v641: special meals online (楽しい食事・高級料理・季節のごちそう・アフタヌーンティー): one set on the table for both ---- */
-function NET_isSp(o){return!!o&&(o.kind==='sm'&&SM_SETS[o.n]||o.kind==='at'&&AT2_SETS[o.n]);}
-function NET_spName(o){if(!o)return'';if(o.kind==='sm')return SM_SETS[o.n]?SM_SETS[o.n].n:'';if(o.kind==='at'){const s=AT2_SETS[o.n];return s?'アフタヌーンティー（'+s.n.replace(/（.*?）/,'')+'）':'';}return'';}
-const NET_SP_MIN=4;// minutes until everything is eaten
-function NET_spTot(o){return o.kind==='sm'?12:(()=>{try{return AT2_count(o.n);}catch(e){return 12;}})();}
-{const MI=NET_mealItems;NET_mealItems=function(kind,n){if(kind==='sm'||kind==='at')return{foods:[]};return MI.apply(this,arguments);};}
-{const AP=NET_asPlates;NET_asPlates=function(kind,n){if(kind==='sm'||kind==='at')return[];return AP.apply(this,arguments);};}
-{const MT=NET_mealTs;NET_mealTs=function(){const m=NET.meal;if(m&&NET_isSp(m.mine||m)){const o=m.mine||m,tot=NET_spTot(o),el=(Date.now()-(m.at||Date.now()))/60000;
-    const eat=Math.min(tot,Math.floor(el/NET_SP_MIN*tot));return o.kind==='sm'?{k:'table',at:'sm',sm:o.n,eat,tot}:{k:'table',at:o.n,eat,tot,n3:false};}return MT.apply(this,arguments);};}
-{const TX=NET_mealTxt;NET_mealTxt=function(o){if(NET_isSp(o))return(o.kind==='at'?'🫖 ':'🎉 ')+NET_spName(o);return TX.apply(this,arguments);};}
-function NET_spSay(o){try{const nm=NET_spName(o),other=NET_otherAtTable()&&M?(M.name||(S.mate&&S.mate.name)||''):'';
-  say(pick(o.kind==='at'?[`${nm}にしよう！`,`今日は${nm}だよ`,'3段のスタンド、どこから食べようかな']:[`今日は${nm}！`,`${nm}だ〜！`,other?`${other}、${nm}にしよう！`:`${nm}、いただきます！`]));}catch(e){}}
-function NET_spRec(o){if(NET.role!=='owner'||!S)return;try{if(o.kind==='sm'){S.dexSM=S.dexSM||{};S.dexSM[o.n]=(S.dexSM[o.n]||0)+1;}
-  const who=NET_otherAtTable()&&M?(M.name||''):'';diaryAdd(who?`${who}と${NET_spName(o)}`:NET_spName(o));save();}catch(e){}}
-{const MS=NET_mealStart;NET_mealStart=function(kind,n,remote){const r=MS.apply(this,arguments);try{if(NET.meal){NET.meal.at=Date.now();const o={kind,n};if(NET_isSp(o)){if(!remote)NET_spSay(o);NET_spRec(o);}}}catch(e){}return r;};}
-{const MP=NET_mealPick;NET_mealPick=function(kind,n,remote){const was=NET.meal&&NET.meal.mine;const r=MP.apply(this,arguments);try{const o={kind,n};if(NET.meal&&!(was&&was.kind===kind&&was.n===n)){NET.meal.at=Date.now();if(NET_isSp(o)){if(!remote)NET_spSay(o);NET_spRec(o);}
-    if(C.tableSet&&C.snapK==='table')C.tableSet=NET_mealTs();}}catch(e){}return r;};}
-// the set is slowly eaten up
-setInterval(()=>{try{const m=NET.meal;if(!m||!NET_isSp(m.mine||m)||!C.tableSet||C.snapK!=='table')return;const ts=NET_mealTs();if(ts&&C.tableSet.eat!==ts.eat){C.tableSet.eat=ts.eat;
-  if(ts.eat>=ts.tot&&!m._done){m._done=1;say(pick(['ごちそうさまでした！','おなかいっぱい、しあわせ〜','ぜんぶおいしかった！']));}}}catch(e){}},2000);
-// the picture book (図鑑): "特別な食事" at the top — tap one, then 「これにする」
-function NET_spIcon(kind,k){return dexIcon(x=>{try{x.save();x.translate(28,30);x.scale(1.12,1.12);x.translate(-24,-21);const og=g;g=x;const ts0=C.tableSet;
-  try{C.tableSet=kind==='sm'?{k:'table',at:'sm',sm:k,eat:0,tot:12}:{k:'table',at:k,eat:0,tot:12};FT.table.draw(0,0,48,48,{x:0,y:0,v:0},1.3);}finally{C.tableSet=ts0;g=og;}x.restore();return true;}catch(e){try{x.restore();}catch(_){}return false;}});}
-{const RD=renderDex;renderDex=function(){const r=RD.apply(this,arguments);try{if(!NET.on||!S)return r;const el=$('dexBody');if(!el)return r;const mo=GD_month();
-  const wrap=document.createElement('div');wrap.className='netsp';const h=document.createElement('div');h.className='dexh';h.innerHTML='<h3>特別な食事</h3>';wrap.append(h);
-  const p0=document.createElement('p');p0.className='hint';p0.style.margin='2px 0 6px';p0.textContent=NET.role==='owner'?'えらんで「これにする」を押すと、ふたり分のセットが食卓に並びます（季節のものは、その時期だけ）。':'オーナーがえらぶと、食卓に並びます。';wrap.append(p0);
-  const grp=(cat,items,kind)=>{if(!items.length)return;const det=document.createElement('details');det.className='dexdk';const sm=document.createElement('summary');sm.innerHTML=`<span class="dexdk-a">▶</span><b>${NET_esc(cat)}</b><small>${items.length}種類</small>`;det.append(sm);
-    const gr=document.createElement('div');gr.className='dexg';det.append(gr);wrap.append(det);
-    det.addEventListener('toggle',()=>{sm.querySelector('.dexdk-a').textContent=det.open?'▼':'▶';if(!det.open||gr.childElementCount)return;
-      for(const[k,label]of items){const it=document.createElement('div');it.className='dexi';it.setAttribute('role','button');it.append(NET_spIcon(kind,k));const sp=document.createElement('span');sp.textContent=label;it.append(sp);
-        it.onclick=()=>dexZoom(()=>NET_spIcon(kind,k),label,kind==='at'?'アフタヌーンティー':'特別な食事：'+cat,'nsp:'+kind+':'+k);gr.append(it);}});};
-  for(const cat of['楽しい食事','高級料理','季節のごちそう'])grp(cat,Object.keys(SM_SETS).filter(k=>SM_SETS[k].cat===cat&&SM_ok(k)).map(k=>[k,SM_SETS[k].n]),'sm');
-  grp('アフタヌーンティー',Object.keys(AT2_SETS).filter(k=>{const i=AT2_INFO[k];return!i||!i.mo||i.mo.includes(mo);}).map(k=>[k,AT2_SETS[k].n.replace(/（.*?）/,'')]),'at');
-  el.prepend(wrap);}catch(e){}return r;};}
-{const DZ=dexZoom;dexZoom=function(mk,nm,cat,key){const r=DZ.apply(this,arguments);try{if(!NET.on||typeof key!=='string'||!key.startsWith('nsp:'))return r;const card=document.querySelector('#dexZoom .dzcard');if(!card)return r;
-  const[,kind,k]=key.split(':');card.querySelectorAll('.dzbtns,.dzro').forEach(x=>x.remove());if(NET.role!=='owner')return r;
-  const cur=NET.meal&&(NET.meal.mine||NET.meal),same=cur&&cur.kind===kind&&cur.n===k;
-  const row=document.createElement('div');row.className='dzbtns';const b=document.createElement('button');b.type='button';b.className='primary dzwear';b.textContent=same?'いま食べています':'これにする';b.disabled=!!same;
-  b.onclick=e=>{e.stopPropagation();if(same)return;$('dexZoom').hidden=true;try{$('bClose').onclick();}catch(_){$('sheet').hidden=true;}if(NET.meal)NET_mealPick(kind,k,false);else NET_mealStart(kind,k,false);};
-  const c2=document.createElement('button');c2.type='button';c2.textContent='やめる';c2.onclick=e=>{e.stopPropagation();$('dexZoom').hidden=true;};row.append(b,c2);card.append(row);}catch(e){}return r;};}
+// the online edition has no set menus (楽しい食事・高級料理・季節のごちそう・アフタヌーンティー): they are left out of the picture book here
+{const RD=renderDex;renderDex=function(){const r=RD.apply(this,arguments);try{if(!NET.on)return r;const el=$('dexBody');if(!el)return r;
+  const h=[...el.querySelectorAll('.dexh h3')].find(x=>x.textContent.trim()==='セットメニュー');if(!h)return r;let top=h.closest('.dexh');while(top&&top.parentNode!==el)top=top.parentNode;
+  let n=top;while(n){const nx=n.nextElementSibling;n.remove();n=nx;if(n&&(n.classList.contains('dexh')||n.querySelector&&n.querySelector(':scope > .dexh')))break;}}catch(e){}return r;};}
+// …and they never start by themselves online either
+for(const k of['setmenu','afternoon']){const f=A[k];if(typeof f==='function')A[k]=function(){if(NET.on)return null;return f.apply(this,arguments);};}
 
 boot();
 
