@@ -29290,7 +29290,7 @@ async function NET_leave(){if(NET.leaving)return;NET.leaving=true;const own=NET.
   if(own){try{save();}catch(e){ok=false;}try{NET_musSave(true);}catch(e){ok=false;}
     try{await Promise.race([NET_pushIsle(),new Promise(r=>setTimeout(r,3000))]);}catch(e){ok=false;}await new Promise(r=>setTimeout(r,400));}
   else{try{save();}catch(e){}}
-  NET_toast(ok?'💾 セーブしました。またね！':'セーブできなかった部分があります（この端末の保存は済んでいます）',2400);
+  NET_toast(ok?'💾 セーブしました\nまた遊びにきてね！':'セーブできなかった部分があります（この端末の保存は済んでいます）',2400);
   await new Promise(r=>setTimeout(r,1100));
   try{NET.ws&&NET.ws.close(1000,'bye');}catch(e){}
   // a guest goes back to the invitation screen of that island (a guest does not make islands)
@@ -29501,15 +29501,17 @@ async function NET_songBid(id){if(id===BGM_ID)return null;const bid='m'+String(i
 function NET_floorMus(){const cur=typeof BFL!=='undefined'?BFL:0,oth=cur===1?0:1,m=S.music;
   const ent=(mm,playing)=>{const id=mm&&mm.ids&&mm.ids[mm.idx||0];return mm&&id&&(playing?mm.on&&MUS.playing:mm.on)?{id,name:(mm.names&&mm.names[mm.idx||0])||'',pos:mm.pos||0}:null;};
   const F=S.bf&&S.bf.musF;const o=F?ent(F.music,false):ent(m,true);// the basement not set yet: it plays what the ground floor plays
-  return{cur,oth,a:ent(m,true),b:o};}
+  const a=ent(m,true),b=o;if(a)a.dev=MUS_dev();if(b)b.dev=F?(F.musDev||'boombox'):MUS_dev();return{cur,oth,a,b};}
 async function NET_musicTick(force){if(NET.role!=='owner'||!NET.ready||!S)return;const f=NET_floorMus();
   const sig=JSON.stringify([f.cur,f.a&&f.a.id,f.b&&f.b.id]);if(!force&&sig===NET.musSig)return;NET.musSig=sig;
-  try{const mk=async e=>{if(!e)return{on:false};if(e.id===BGM_ID)return{on:true,id:e.id,name:e.name,pos:e.pos,at:Date.now()};const bid=await NET_songBid(e.id);if(!bid)return{on:false};return{on:true,id:e.id,b:bid,name:e.name,type:'',pos:e.pos,at:Date.now()};};
+  try{const mk=async e=>{if(!e)return{on:false};if(e.id===BGM_ID)return{on:true,id:e.id,name:e.name,pos:e.pos,at:Date.now(),dev:e.dev};const bid=await NET_songBid(e.id);if(!bid)return{on:false};return{on:true,id:e.id,b:bid,name:e.name,type:'',pos:e.pos,at:Date.now(),dev:e.dev};};
     const A=await mk(f.a),B=(f.b&&f.a&&f.b.id===f.a.id)?{...A}:await mk(f.b);if(NET.musSig!==sig)return;
     const floors={};floors[f.cur]=A;floors[f.oth]=B;NET_send({t:'music',music:{...A,fl:f.cur,floors}});}catch(e){NET_toast('BGMを届けられませんでした');}}
 setInterval(()=>{try{NET_musicTick(false);}catch(e){}},2500);
 // the guest hears the music of the floor the guest is on
 async function NET_playMusic(mu){NET.musAll=mu||null;if(NET.role!=='guest'||!S)return;try{if(mu&&mu.floors){const fl=typeof BFL!=='undefined'?BFL:0;mu=mu.floors[fl]||{on:false};}}catch(e){}
+  // the song name shows on the device that plays on this floor (stereo or boombox)
+  try{if(mu&&mu.on){const hasDev=d=>d==='stereo'?S.owned.some(q=>MC_base(q)==='stereo'&&S.layout[q]&&!S.layout[q].carry):has('boombox');let d=mu.dev&&hasDev(mu.dev)?mu.dev:(MUS_floorDev()||(hasDev('stereo')?'stereo':'boombox'));S.musDev=d;}}catch(e){}
   try{const cur=NET.music;if(mu&&mu.on&&cur&&cur.on&&cur.id===mu.id&&S.music&&MUS.playing)
     {NET.music=mu;return;}}catch(e){}
   return NET_playMusic0(mu);}
@@ -29600,7 +29602,7 @@ html.netmode #bot4,html.netmode #menuB,html.netmode #pauseB,html.netmode #camB,h
 #netBar button.on{background:rgba(255,211,107,.9);color:#2a2a3a;text-shadow:none}#netBar.own{grid-template-columns:40px 1fr 1fr 1.15fr}#netBar button{position:static;display:flex;align-items:center;justify-content:center;padding:0;margin:0;line-height:1;box-sizing:border-box;height:36px;border-radius:18px;border:1px solid rgba(255,255,255,.25);font:inherit;font-weight:700;font-size:14px;color:#fff;pointer-events:auto;background:rgba(13,18,42,.5);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);text-shadow:0 1px 3px rgba(0,0,0,.5)}
 #netTitle{position:fixed;left:50%;transform:translateX(-50%);top:calc(6px + env(safe-area-inset-top,0px));z-index:7;font-size:11px;color:#fff;background:rgba(20,30,50,.55);padding:2px 12px;border-radius:10px;white-space:nowrap;max-width:calc(100% - 40px);overflow:hidden;text-overflow:ellipsis;pointer-events:none}
 #netSt{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:40;background:rgba(20,24,40,.86);color:#ffe08a;padding:10px 16px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
-#netToast{position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:rgba(20,24,40,.88);color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
+#netToast{white-space:pre-line;position:fixed;left:50%;bottom:calc(104px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:40;background:rgba(20,24,40,.88);color:#fff;padding:8px 14px;border-radius:12px;font-size:13px;pointer-events:none;max-width:calc(100% - 48px);text-align:center}
 #netMeal,#netEdit{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(98px + env(safe-area-inset-bottom,0px));z-index:8;font-size:14px;font-weight:700;color:#24456e;background:rgba(255,255,255,.92);padding:7px 18px;border-radius:18px;text-decoration:underline;text-underline-offset:3px;box-shadow:0 2px 8px rgba(0,0,0,.18);white-space:nowrap}
 #netEdit{bottom:calc(54px + env(safe-area-inset-bottom,0px))}
 #netMealNow{position:fixed;left:-9999px;top:0;width:1px;height:1px;overflow:hidden}.netMealHd{position:absolute;left:0;top:0;z-index:4;font-size:13px;font-weight:800;color:#fff;background:rgba(150,70,20,.9);border:1.5px solid rgba(255,225,170,.95);padding:4px 11px;border-radius:12px;white-space:nowrap;max-width:70%;overflow:hidden;text-overflow:ellipsis;pointer-events:none;box-shadow:0 3px 10px rgba(0,0,0,.35);text-shadow:0 1px 2px rgba(0,0,0,.4);will-change:transform}.netMealHd[hidden]{display:none!important}body.manPZ .netMealHd{display:none!important}#netMealNow[hidden]{display:none!important}
