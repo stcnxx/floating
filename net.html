@@ -29975,6 +29975,10 @@ function NET_tabsFix(){const own=NET.role==='owner';for(const b of $('tabs').chi
   let n=top;while(n){const nx=n.nextElementSibling;n.remove();n=nx;if(n&&(n.classList.contains('dexh')||n.querySelector&&n.querySelector(':scope > .dexh')))break;}}catch(e){}return r;};}
 // …and they never start by themselves online either
 for(const k of['setmenu','afternoon']){const f=A[k];if(typeof f==='function')A[k]=function(){if(NET.on)return null;return f.apply(this,arguments);};}
+// no "島に来た鳥" in the online picture book
+{const RD=renderDex;renderDex=function(){const r=RD.apply(this,arguments);try{if(!NET.on)return r;const el=$('dexBody');if(!el)return r;
+  for(const h of[...el.querySelectorAll('h3')].filter(x=>x.textContent.trim().startsWith('島に来た鳥'))){let top=h.closest('.dexh')||h;while(top&&top.parentNode!==el)top=top.parentNode;if(!top)continue;
+    let n=top;while(n){const nx=n.nextElementSibling;n.remove();n=nx;if(n&&(n.classList.contains('dexh')||(n.querySelector&&n.querySelector(':scope > .dexh'))))break;}}}catch(e){}return r;};}
 
 boot();
 
