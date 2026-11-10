@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 638（2026/11/10）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 641（2026/11/10）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 638（2026/11/10）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 641（2026/11/10）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -4794,7 +4794,7 @@ function render0(){
   if(C.scene==='out')for(const d of DRONES)drawDrone(d,t);
   musTickEQ();drawDrag();drawParticles();drawMateTag();drawMainTag();drawVisitorTag();drawMusicTag();g.restore();
   if(C.scene==='out'){weatherOut(t);lightingOut(t);starsOut(t);}
-  else{g.save();g.beginPath();g.rect(0,0,W,H);g.rect((0-cam.x)*Z+W/2,(T-WEXT-2-cam.y)*Z+H/2,IN.w*T*Z,(23*T+16+WEXT)*Z);g.clip('evenodd');weatherOut(t);lightingOut(t);g.restore();lightingIn(t);}
+  else{g.save();g.beginPath();g.rect(0,0,W,H);g.rect((0-cam.x)*Z+W/2,(T-WEXT+.4-cam.y)*Z+H/2,IN.w*T*Z,(23*T+13.6+WEXT)*Z);g.clip('evenodd');weatherOut(t);lightingOut(t);g.restore();lightingIn(t);}
   worldBegin();if(C.scene==='out')glowOut();else glowIn(t);
   drawMateZ();drawEmote(cp.cx,cp.by-(C.pose==='lie'?14:C.pose==='bath'?24:C.pose==='sit'?36:40)*CH_SC);g.restore();
   if(wKind()==='thunder'&&flashT>0){g.fillStyle=`rgba(255,255,255,${flashT*(C.scene==='out'?3:1.5)})`;g.fillRect(0,0,W,H);}
@@ -28814,6 +28814,76 @@ function MUSF_used(id){return MUSF_lists().some(m=>m.ids.includes(id));}
 // choosing new songs ("曲をえらぶ") no longer wipes every saved song: only the ones nothing uses any more go
 {const MP=musPick;musPick=function(files){const before=MUSF_lists().flatMap(m=>m.ids.slice());const IC=idbClear;idbClear=async()=>{};let r;try{r=MP.apply(this,arguments);}finally{idbClear=IC;}
   Promise.resolve(r).then(async()=>{for(const id of new Set(before)){if(!MUSF_used(id))try{await idbDel(id);}catch(e){}}}).catch(()=>{});return r;};}
+
+/* ===== v639: hair seen from the side / back made physically right (buzz cut, skinhead, afro) ===== */
+try{const a=HSTY.m.find(h=>h[0]==='アフロ');if(a)a[2]='none';}catch(e){}   // an afro has no fringe over the eyes
+{const HF=humanHairFront;humanHairFront=function(c,L,d,t){try{const H=hairDesc(L),P=hPal(L),ex=H.ex;
+  // buzz cut (坊主・ソフトモヒカン・クルーカット): the stubble only where hair grows (never on the face)
+  if(H.cap==='buzz'){const hp=()=>{c.beginPath();
+      if(d==='right'){c.moveTo(HR+2,HCY-HR-2);c.lineTo(HR+2,HCY-HR*.74);c.quadraticCurveTo(HR*.62,HCY-HR*.66,2.6,HCY-3.4);c.quadraticCurveTo(1.2,HCY-1.6,1.3,HCY+1.6);
+        c.quadraticCurveTo(.2,HCY+2.6,-1.4,HCY+3.6);c.quadraticCurveTo(-HR*.62,HCY+HR*.62,-HR-1,HCY+HR*.7);c.lineTo(-HR-2,HCY-HR-2);c.closePath();}
+      else if(d==='up')c.rect(-HR-1,HCY-HR-1,2*HR+2,HR*1.6);
+      else c.ellipse(0,HCY-3.4,HR+.6,HR*.66,0,Math.PI*1.02,Math.PI*1.98);};
+    c.save();c.beginPath();c.ellipse(0,HCY,HR+.15,HR+.35,0,0,TAU);c.clip();
+    c.fillStyle=P.col;c.globalAlpha=.72;hp();c.fill();
+    c.save();hp();c.clip();c.globalAlpha=.35;c.fillStyle=P.dd;for(let i=0;i<46;i++)c.fillRect(-HR+hash(i,1,4)*2*HR,HCY-HR+hash(i,2,4)*HR*1.7,.35,.35);c.restore();
+    if(ex==='block'&&d==='right')E(c,'rgba(0,0,0,.14)',-2.4,HCY+.6,3.4,2.6);
+    c.globalAlpha=1;c.restore();
+    // the mohawk is a ridge that runs from the forehead to the back of the head:
+    // seen from the front (or back) it is a narrow crest in the middle, seen from the side it is long
+    if(ex==='mohawk'){if(d==='right'){const n=6;for(let i=0;i<n;i++){const u=i/(n-1),a=Math.PI*(1.74-u*.5),x0=Math.cos(a)*(HR-.5),y0=HCY+Math.sin(a)*(HR-.2)+.4,h=3.2+Math.sin(u*Math.PI)*1.2;
+          const x1=x0+Math.cos(a)*h*.35-1.1,y1=y0+Math.sin(a)*h;hLock(c,x0,y0,x1,y1,2.2,.3,i%2?P.dk:P.col);}}
+      else{for(let i=-1;i<=1;i++){const y0=HCY-HR+1.4;hLock(c,i*.45,y0+2,i*.7,y0-4.6+Math.abs(i)*1.1,2.2,i*.2,i?P.dk:P.col);}if(d!=='up')E(c,P.lt,-.2,HCY-HR-1.6,.45,1.4,-.1);}}
+    return;}
+  // the afro seen from behind: the whole big round mass
+  if(ex==='afro'&&d==='up'){const r=HR+.9+H.vol;for(let i=0;i<16;i++){const a=i/16*TAU;E(c,P.dk,Math.cos(a)*(r+1),HCY-1.5+Math.sin(a)*(r+.6),3.3,3.3);}
+    E(c,P.dk,0,HCY-1.5,r+1.6,r+1.2);E(c,P.col,0,HCY-1.9,r+.8,r+.5);
+    for(let i=0;i<12;i++){const a=i/12*TAU,rr=(i%2?.45:.75)*r;hBall(c,Math.cos(a)*rr,HCY-1.8+Math.sin(a)*rr*.9,2.3,P);}hBall(c,0,HCY-2,2.4,P);
+    for(let i=0;i<9;i++){const a=Math.PI*1.05+i/8*Math.PI*.9;hBall(c,Math.cos(a)*(r+.6),HCY-1.2+Math.sin(a)*(r+.3),2.5,P);}return;}
+  }catch(e){}return HF.apply(this,arguments);};}
+// the ear of a shaved head sits a little behind the middle of the head (seen from the side)
+{const HH=humanHead;humanHead=function(c,o){const L=o.look||defaultLook(),d=o.dir||(o.back?'up':'down');let H=null;try{H=hairDesc(L);}catch(e){}
+  if(d!=='right'||!H||(H.cap!=='bald'&&H.cap!=='buzz'))return HH.apply(this,arguments);
+  // draw as usual, but the ear is drawn by us one step further back
+  const sk=SKINS[L.skin%SKINS.length];const EE=E;let n=0;
+  E=function(cc,col,x,y,rx,ry,rot){if(cc===c&&(x===-1.1||x===-1.25)&&(y===HCY+1.1||y===HCY+1)){n++;return EE(cc,col,x-.9,y-.3,rx,ry,rot);}return EE.apply(this,arguments);};
+  const AR=c.arc;c.arc=function(x,y,r,a0,a1){if(x===-1.1&&y===HCY+1.1&&r===.8)return AR.call(this,x-.9,y-.3,r,a0,a1);return AR.apply(this,arguments);};
+  try{return HH.apply(this,arguments);}finally{E=EE;c.arc=AR;}};}
+
+// アフロ・ドレッド are no longer offered (men and women). Nothing in a save changes: a character that already had one is drawn with a close ordinary style
+const HAIR_GONE={m:{17:15,26:24,32:21},f:{36:1}};
+function HAIR_sub(L){try{const g=L.g==='f'?'f':'m',i=((L.hair|0)%40+40)%40,to=HAIR_GONE[g][i];return to==null?L:{...L,hair:to};}catch(e){return L;}}
+{const HD=hairDesc;hairDesc=function(L){return HD.call(this,L?HAIR_sub(L):L);};}
+{const RL=randomLook;randomLook=function(){let L=RL.apply(this,arguments);for(let k=0;k<20&&HAIR_GONE[L.g==='f'?'f':'m'][L.hair%40]!=null;k++)L.hair=Math.floor(Math.random()*40);return L;};}
+{const RK=renderLook;renderLook=function(){try{const D=lookDraft,G=HAIR_GONE[D.g==='f'?'f':'m'];if(G[D.hair]!=null)D.hair=G[D.hair];}catch(e){}// a style that is gone: the one it is drawn with now
+  const r=RK.apply(this,arguments);try{const D=lookDraft,G=HAIR_GONE[D.g==='f'?'f':'m'];[...$('leHair').children].forEach((b,i)=>{if(G[i]!=null)b.hidden=true;});}catch(e){}return r;};}
+
+/* ===== v641 ===== */
+/* ===== side view of long hair: the long part covers the whole side and back of the head and falls down the back ===== */
+let HDESC_OV=null;
+{const HD=hairDesc;hairDesc=function(L){const h=HD.apply(this,arguments);return HDESC_OV?{...h,...HDESC_OV}:h;};}
+const SL_TIED=new Set(['pony','hipony','lowpony','sidepony','bun','buns','manbun','braid1','braid2','lowtwin']);
+function SL_long(H){return H.cap==='full'&&H.ex!=='dreads'&&!SL_TIED.has(H.ex)&&(H.back>3||H.side>4);}
+function SL_strands(c,path,x0,x1,y0,y1,P,n){c.save();path();c.clip();c.strokeStyle='rgba(0,0,0,.16)';c.lineWidth=.5;c.lineCap='round';
+  for(let i=0;i<n;i++){const x=x0+(x1-x0)*(i+.5)/n;c.beginPath();c.moveTo(x,y0);c.quadraticCurveTo(x-.4,(y0+y1)/2,x-.2+Math.sin(i*1.7)*.4,y1);c.stroke();}
+  c.strokeStyle=P.lt;c.globalAlpha=.35;c.lineWidth=.45;for(let i=0;i<Math.max(2,n>>1);i++){const x=x0+(x1-x0)*(i+.7)/(n>>1||1);c.beginPath();c.moveTo(x,y0+1);c.lineTo(x-.3,y0+(y1-y0)*.55);c.stroke();}c.restore();}
+// behind the body: the length that falls down the back
+function SL_back(c,L){const H=hairDesc(L),P=hPal(L),r=HR+.9+H.vol,len=H.back+2,bot=HCY+len,w=H.vol*.7,wav=(H.bang==='curly'||H.ex==='curls'||H.ex==='sauvage')?1:0,wv=t=>wav?Math.sin(t*Math.PI*(H.ex==='sauvage'?6:4))*(H.ex==='sauvage'?1.3:.8):0;
+  const path=()=>{c.beginPath();c.moveTo(1.4,HCY-1);c.quadraticCurveTo(1.6,HCY+len*.5,.6,bot);// the front edge (it is behind the shoulder, mostly hidden by the body)
+    const n=6;for(let i=0;i<=n;i++){const x=.6-(i/n)*(r+1.4+w);c.lineTo(x,bot-(i%2?1.6:0)+(wav?Math.sin(i*2)*.6:0));}
+    for(let i=12;i>=0;i--){const t=i/12;c.lineTo(-r-.6-w*Math.min(1,t*1.5)+wv(t),HCY+t*len);}c.quadraticCurveTo(-r-.6,HCY-r*.7,-1,HCY-r);c.closePath();};
+  c.fillStyle=P.dk;path();c.fill();c.save();c.translate(.5,-.3);c.fillStyle=P.col;path();c.fill();c.restore();SL_strands(c,path,-r-w,1,HCY,bot,P,6);}
+// in front of the head: the side of the hair covers the ear and hangs to the shoulder (or chin for a bob)
+function SL_side(c,L){const H=hairDesc(L),P=hPal(L),r=HR+.9+H.vol,sl=Math.min(9.5,Math.max(H.side,H.back)+1),bot=HCY+sl,w=H.vol*.5,wav=(H.bang==='curly'||H.ex==='curls'||H.ex==='sauvage');
+  const path=()=>{c.beginPath();c.moveTo(2.9,HCY-3.4);// the temple, just behind the face line
+    c.quadraticCurveTo(1.9,HCY-.6,1.9+(wav?.6:0),HCY+2.4);c.quadraticCurveTo(2.0,HCY+sl*.7,1.5,bot);// in front of the ear, straight down
+    const n=5;for(let i=0;i<=n;i++){const x=1.5-(i/n)*(r+1.6+w);c.lineTo(x,bot-(i%2?1.4:0)+(wav?Math.sin(i*2.3)*.6:0));}
+    c.quadraticCurveTo(-r-.9-w,HCY+sl*.4,-r-.5,HCY-1);c.quadraticCurveTo(-r-.4,HCY-r*.85,-1.5,HCY-r-.6);c.quadraticCurveTo(1.6,HCY-r*.6,2.9,HCY-3.4);c.closePath();};
+  c.fillStyle=P.dk;c.save();c.translate(-.4,.5);path();c.fill();c.restore();c.fillStyle=P.col;path();c.fill();SL_strands(c,path,-r,2.4,HCY-3,bot,P,5);
+  // a soft shine
+  c.save();path();c.clip();E(c,'rgba(255,255,255,.12)',-1.5,HCY-2,3.6,1.2,-.5);c.restore();}
+{const HB=humanHairBack;humanHairBack=function(c,L,d){try{if(d==='right'){const H=hairDesc(L);if(SL_long(H)&&H.back>3){SL_back(c,L);HDESC_OV={back:0};try{return HB.apply(this,arguments);}finally{HDESC_OV=null;}}}}catch(e){HDESC_OV=null;}return HB.apply(this,arguments);};}
+{const HF=humanHairFront;humanHairFront=function(c,L,d,t){try{if(d==='right'){const H=hairDesc(L);if(SL_long(H)){HDESC_OV={side:0};let r;try{r=HF.apply(this,arguments);}finally{HDESC_OV=null;}SL_side(c,L);return r;}}}catch(e){HDESC_OV=null;}return HF.apply(this,arguments);};}
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
