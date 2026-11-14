@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 655（2026/11/14）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 656（2026/11/14）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 655（2026/11/14）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 656（2026/11/14）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -4785,7 +4785,7 @@ function render0(){
   if(C.scene==='in')for(const b of LB)items.push({k:b.dockT>.5&&S.layout[b.k]?(S.layout[b.k].y+1)*T+.5:b.py+T-3,f:()=>drawLBot(b)});
   if(typeof PET_items==='function')PET_items(items);
   if(C.scene==='in'&&has('robovac')&&RV.ph!=='dock')items.push({k:RV.y+T-6,f:()=>drawRobo(RV.x+T/2,RV.y+T-6,true)});
-  items.push({k:C.scene==='in'&&C.snap&&C.snap.zk!=null&&C.pose==='lie'?C.snap.zk:C.scene==='out'&&C.snapK==='y:yagura'&&S.yard&&S.yard.yagura?YG_KEY()+(C.snap&&C.snap.climb?.9:.4):C.scene==='in'&&C.pose==='lie'&&C.snapK==='bed'&&S.layout.bed?(S.layout.bed.y+3)*T+1:C.scene==='in'&&C.pose==='sit'&&C.snap&&C.snapK!=='sofa'&&SOFA_keyAt(C.snap.px,C.snap.py)!=null?SOFA_keyAt(C.snap.px,C.snap.py):C.scene==='in'&&C.snapK==='sofa'&&C.snap&&S.layout.sofa?SOFA_K():SIDE_K(cp.by+(C.snap&&C.snap.over?40:0),SIDE_D(),cp.cx,cp.by),f:()=>drawChar(g,cp.cx,cp.by,charOpts())});
+  items.push({k:C.scene==='in'&&C.snap&&C.snap.zk!=null&&C.pose==='lie'?C.snap.zk:C.scene==='out'&&C.snapK==='y:yagura'&&S.yard&&S.yard.yagura?YG_KEY()+(C.snap&&C.snap.climb?.9:.4):C.scene==='in'&&C.pose==='lie'&&C.snapK==='bed'&&S.layout.bed?(S.layout.bed.y+3)*T+1:(typeof SOFA_heroK==='function'&&SOFA_heroK()!=null)?SOFA_heroK():C.scene==='in'&&C.pose==='sit'&&C.snap&&C.snapK!=='sofa'&&SOFA_keyAt(C.snap.px,C.snap.py)!=null?SOFA_keyAt(C.snap.px,C.snap.py):C.scene==='in'&&C.snapK==='sofa'&&C.snap&&S.layout.sofa?SOFA_K():SIDE_K(cp.by+(C.snap&&C.snap.over?40:0),SIDE_D(),cp.cx,cp.by),f:()=>drawChar(g,cp.cx,cp.by,charOpts())});
   if(C.scene==='out'){
     drawIsland(t);
     OUT.trees.forEach(tr=>items.push({k:tr.y*T+21,f:()=>drawTree(tr,t)}));
@@ -29244,6 +29244,31 @@ MB_hot=function(wx,wy){try{if(MB_SINGLE||C.scene!=='in'||!has('mirrorball'))retu
 // 手動操作: a tap only walks (see the manual tapGo); a double tap on the ball switches it on, as in the automatic mode
 {const TG=tapGo;tapGo=function(e){try{if(CTL()&&!MB_SINGLE&&!PAUSED&&S&&C.scene==='in'&&!(typeof NET!=='undefined'&&NET.on&&NET.edit)){const w=tapWorld(e);if(MB_hot(w.x,w.y)){S.mbUntil=Date.now()+30e3;
   try{particles.push({sc:'in',x:w.x,y:w.y,vx:0,vy:0,life:.6,max:.6,type:'ring'});}catch(_){}return;}}}catch(_){}return TG.apply(this,arguments);};}
+
+/* ===== v656: sofas — a double tap anywhere on a sofa (back included) sits there, at the spot tapped; people sitting on any sofa
+   (also the mirrored L-shaped sofas and the basement's) are drawn on the seat: over the cushions, under the backrest in front ===== */
+const SOFA_FAM=new Set(['sofa','sofa2','sofaL','sofaLR','bsofaL']);
+const SOFA_isK=k=>typeof k==='string'&&SOFA_FAM.has(MC_base(k));
+function SOFA_list(){const out=[];try{for(const k of S.owned){if(!SOFA_isK(k))continue;const L=S.layout[k],f=FT[k];if(!L||L.carry||!f)continue;out.push({k,L,f,b:MC_base(k)});}}catch(e){}return out;}
+// the sofa a point of the room belongs to: its cells plus the backrest / cushions drawn above them
+function SOFA_at(wx,wy){for(const s of SOFA_list()){const{L,f}=s;if(wx>=L.x*T-1&&wx<=(L.x+f.w)*T+1&&wy>=L.y*T-14&&wy<=(L.y+f.h)*T+6)return s;}return null;}
+// draw key for someone sitting at (px,py): just after the sofa's body, before its front backrest part
+function SOFA_keyAt2(px,py){for(const s of SOFA_list()){const{L,f}=s;if(px>=L.x*T-2&&px<=(L.x+f.w)*T+2&&py>=L.y*T-8&&py<=(L.y+f.h)*T+12)return(L.y+f.h)*T+3;}return null;}
+function SOFA_heroK(){try{if(C.scene!=='in'||!C.snap||(C.snap.pose||C.pose)!=='sit')return null;return SOFA_keyAt2(C.snap.px,C.snap.py);}catch(e){return null;}}
+{const MK=mateKey;mateKey=function(){try{if(M&&M.sit&&M.sit.pose==='sit'&&M.scene==='in'){const k=SOFA_keyAt2(M.sit.px,M.sit.py);if(k!=null)return k+.5;}}catch(e){}return MK.apply(this,arguments);};}
+// where to sit for a tap at (wx,wy): along the seat; on an L-shaped sofa also up and down the chaise (left, or right when mirrored)
+function SOFA_seat(s,wx,wy){const{L,f,b}=s,cl=(v,a,c)=>Math.max(a,Math.min(c,v));
+  if(b==='sofaL'||b==='sofaLR'||b==='bsofaL'){const mir=b==='sofaLR',chX=mir?(L.x+3)*T:L.x*T;
+    if(wx>=chX&&wx<=chX+T&&wy<(L.y+1)*T)return{px:chX+T/2+(mir?-5:5),py:cl(wy+8,L.y*T+12,(L.y+1)*T+6)};
+    return{px:cl(wx,(L.x+(mir?.55:1.45))*T,(L.x+(mir?2.55:3.45))*T),py:(L.y+1)*T+6};}
+  return{px:cl(wx,(L.x+.55)*T,(L.x+f.w-.55)*T),py:L.y*T+6};}
+function SOFA_tile(s,px,py){const{L,f}=s,out=[];for(let y=L.y-1;y<=L.y+f.h;y++)for(let x=L.x-1;x<=L.x+f.w;x++){if(x>=L.x&&x<L.x+f.w&&y>=L.y&&y<L.y+f.h)continue;try{if(walkIn(x,y))out.push({x,y,d:Math.hypot((x+.5)*T-px,(y+.5)*T-py)+(y<L.y?T*2:0)});}catch(e){}}out.sort((a,b)=>a.d-b.d);return out[0]||null;}
+{const TT=tapTarget;tapTarget=function(wx,wy){const r=TT.apply(this,arguments);try{if(C.scene==='in'&&!(typeof TAP_FORCE!=='undefined'&&TAP_FORCE)){
+    if(r&&r.t==='f'&&SOFA_isK(r.k))return{...r,wx,wy};
+    if(!r||r.t==='floor'){const s=SOFA_at(wx,wy);if(s)return{t:'f',k:s.k,wx,wy};}}}catch(e){}return r;};}
+{const TP=tapPlan;tapPlan=function(tg){try{if(tg&&tg.t==='f'&&SOFA_isK(tg.k)&&tg.wx!=null&&has(tg.k)&&!C.sleeping){const s=SOFA_list().find(q=>q.k===tg.k);if(s){
+    const seat=SOFA_seat(s,tg.wx,tg.wy),tile=SOFA_tile(s,seat.px,seat.py);if(tile){const nm=s.b==='sofa'||s.b==='sofa2'?'ソファ':'L字ソファ';
+      return{n:'hobby',s:[{t:'go',sc:'in',x:tile.x,y:tile.y},{t:'snap',k:tg.k,dyn:()=>({px:seat.px,py:seat.py,pose:'sit',d:'up'})},SAY(pick(['ふかふか','ちょっと座ろう','ひと休み',`${nm}、落ち着く〜`])),W8(rnd(6,10),need('fun',2))]};}}}}catch(e){}return TP.apply(this,arguments);};}
 
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
