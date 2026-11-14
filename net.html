@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 657（2026/11/14）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 659（2026/11/14）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 657（2026/11/14）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 659（2026/11/14）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -1411,7 +1411,7 @@ function outfitDiff(){const o=S.outfit,d=dayClothes();if(o.top.k==='pajama')retu
 function wearDay(fx){const d=dayClothes();S.outfit.top=d.top;S.outfit.bottom=d.bottom;S.outfit.costume=d.costume||null;gearFor(C.scene);if(fx!==false)doron();}
 function wearPajama(fx){S.outfit.top={k:'pajama',c:'水色',p:'stripe'};S.outfit.bottom={k:'pjpants',c:'水色'};S.outfit.costume=null;gearFor('in');if(fx!==false)doron();}
 const PATJ={stripe:'ストライプ',dot:'ドット',check:'チェック',print:'プリント',camo:'迷彩',floral:'花柄',border:'ボーダー',gingham:'ギンガムチェック',argyle:'アーガイル',tiedye:'タイダイ'};
-const descTop=o=>o.costume&&COS[o.costume]?`${COS[o.costume].n}の衣装`:OCN(o.top)?OCN(o.top):`${o.top.c}の${o.top.p&&PATJ[o.top.p]&&o.top.k!=='pajama'?PATJ[o.top.p]:''}${KN.top[o.top.k]}`;
+let descTop=o=>o.costume&&COS[o.costume]?`${COS[o.costume].n}の衣装`:OCN(o.top)?OCN(o.top):`${o.top.c}の${o.top.p&&PATJ[o.top.p]&&o.top.k!=='pajama'?PATJ[o.top.p]:''}${KN.top[o.top.k]}`;
 /* ========== messages ========== */
 let typing={full:'',shown:0,t:0,link:null},lastSayAt=0,pending=null,pendQ=[];
 // first person: men say ぼく, women say わたし (human characters only)
@@ -29131,7 +29131,7 @@ function CLG_clothOf(o){const O=o&&o.outfit;if(!O||!O.top||typeof O.top!=='objec
   if(d&&typeof d==='object'){const pal=(Array.isArray(d.pal)?d.pal:[]).slice(0,CL_PX.length-1).map(c=>CLG_col(c)||(typeof c==='string'&&/^skin([+-][1-9])?$/.test(c)?c:'#888888')),nd={pal};let any=false;
     for(const[k,w,h0]of[['f',20,15],['b',20,15],['r',5,10],['l',5,10],['sr',15,15],['sl',15,15]]){const h=(k==='r'||k==='l')&&d[k]&&d[k].h===16?16:h0,g=CLG_grid(d[k],w,h);if(g){nd[k]=g;any=true;}}if(any)ncx.d=nd;}
   if(Object.keys(ncx).length)top.cx=ncx;
-  const part=(x,KK,def)=>x&&KK&&KK[x.k]?{k:x.k,c:CLG_near(CLG_col(x.c))||def.c}:def;
+  const part=(x,KK,def)=>x&&KK&&KK[x.k]?{k:x.k,c:CLG_col(x.c)||def.c}:def;
   return{name:String(o.name||'').trim().slice(0,16),top,bottom:part(O.bottom,KN.bottom,{k:'pants',c:'紺'}),shoes:part(O.shoes,KN.shoes,{k:'sneakers',c:'白'})};}
 // ---- the paste dialog ----
 const CLG_nofile=()=>{try{return!!(window.claude&&typeof window.claude.use==='function');}catch(e){return false;}};
@@ -29234,6 +29234,13 @@ function CLG_clRender(){const box=document.getElementById('clgCloth');if(!box)re
     b.addEventListener('pointerdown',st);b.addEventListener('pointerup',en);b.addEventListener('pointerleave',en);b.addEventListener('pointercancel',en);b.addEventListener('contextmenu',ev=>ev.preventDefault());
     b.onclick=()=>{if(long){long=false;return;}CLG_pendWear=CLG_pendWear===e.id?null:e.id;CLG_clRender();};gr.append(b);}}
 
+/* v659: lab bottoms and shoes keep the exact colour chosen in the lab (a hex, drawn as is); whenever the game talks about
+   clothes it names a hex colour by the nearest colour name, so nobody says "#c03030のジーンズ" */
+function CLG_named(o){try{if(!o||typeof o!=='object')return o;let n=null;for(const p of['top','bottom','shoes','hat','outer','over']){const it=o[p];if(it&&typeof it==='object'&&typeof it.c==='string'&&it.c[0]==='#'){n=n||{...o};n[p]={...it,c:CLG_near(it.c)};}}return n||o;}catch(e){return o;}}
+{const DT=descTop;descTop=function(o){return DT.call(this,CLG_named(o));};}
+{const FW=ftWear;ftWear=function(of,out){return FW.call(this,CLG_named(of),out);};}
+if(typeof FSH_line==='function'){const FL=FSH_line;FSH_line=function(){let keep=null;try{if(S&&S.outfit){const n=CLG_named(S.outfit);if(n!==S.outfit){keep=S.outfit;S.outfit=n;}}}catch(e){}try{return FL.apply(this,arguments);}finally{if(keep)S.outfit=keep;}};}
+
 /* ===== v646: 卓上ミラーボール — only the ball itself answers a tap, and in 手動操作 only a double tap switches it on ===== */
 let MB_SINGLE=false,MB_LT2=null;
 // the ball: centre (x*T+12, y*T-3), radius 7.2 (the pole, the base and the floor around it no longer count)
@@ -29259,7 +29266,7 @@ function SOFA_heroK(){try{if(C.scene!=='in'||!C.snap||(C.snap.pose||C.pose)!=='s
 // where to sit for a tap at (wx,wy): along the seat; on an L-shaped sofa also up and down the chaise (left, or right when mirrored)
 function SOFA_seat(s,wx,wy){const{L,f,b}=s,cl=(v,a,c)=>Math.max(a,Math.min(c,v));
   if(b==='sofaL'||b==='sofaLR'||b==='bsofaL'){const mir=b==='sofaLR',chX=mir?(L.x+3)*T:L.x*T;
-    if(wx>=chX&&wx<=chX+T&&wy<(L.y+1)*T)return{px:chX+T/2+(mir?-5:5),py:cl(wy+8,L.y*T+12,(L.y+1)*T+6)};
+    if(wx>=chX&&wx<=chX+T&&wy<(L.y+1)*T)return{px:chX+T/2+(mir?-3:3),py:cl(wy+8,L.y*T+12,(L.y+1)*T+4),d:mir?'left':'right'};
     return{px:cl(wx,(L.x+(mir?.55:1.45))*T,(L.x+(mir?2.55:3.45))*T),py:(L.y+1)*T+6};}
   return{px:cl(wx,(L.x+.55)*T,(L.x+f.w-.55)*T),py:L.y*T+6};}
 // getting on and off a sofa: from the front (the seats face north, toward the TV) or over an end's armrest — never through the backrest
@@ -29269,7 +29276,10 @@ function SOFA_access(k,L,px,py){const b=MC_base(k),f=FT[k],w=f.w,h=f.h,out=[],se
   for(let x=L.x;x<L.x+w;x++)for(let y=row-1;y>=L.y-1;y--)add(x,y,'down',Math.abs(x+.5-px/T)+(row-1-y)*.8);
   const ends=b==='sofaL'||b==='bsofaL'?[[L.x+w,L.y+h-1,'left'],[L.x+w,L.y,'left']]:b==='sofaLR'?[[L.x-1,L.y+h-1,'right'],[L.x-1,L.y,'right']]:[[L.x-1,L.y,'right'],[L.x+w,L.y,'left']];
   for(const[x,y,d]of ends)add(x,y,d,6+Math.abs(x+.5-px/T)*.3);return out.sort((a,c)=>a.s-c.s);}
-function SOFA_tile(s,px,py){return SOFA_access(s.k,s.L,px,py)[0]||null;}
+function SOFA_tile(s,px,py,d){const A=SOFA_access(s.k,s.L,px,py);
+  // sitting sideways on the chaise: step on from the open side in front of it when that is free floor
+  if(d==='right'||d==='left'){const x=d==='right'?s.L.x+1:s.L.x+s.f.w-2,y=s.L.y;let ok=false;try{ok=walkIn(x,y);}catch(e){}if(ok)return{x,y,d:d==='right'?'left':'right'};}
+  return A[0]||null;}
 // every other way of sitting / lying on a sofa uses the same rule
 {const UT=useTileFor;useTileFor=function(k,p,occ){try{if(SOFA_isK(k)&&p&&!p.carry&&!p.wall){const f=FT[k];let sp=null;try{sp=f.snap(p);}catch(_){}const L0=SOFA_access(k,p,sp?sp.px:(p.x+f.w/2)*T,sp?sp.py:null);
     const o=occ||OCC,q=L0.find(t=>!o||!o.has(t.x+','+t.y));return q?{x:q.x,y:q.y,d:q.d}:null;}}catch(e){}return UT.apply(this,arguments);};}
@@ -29278,8 +29288,8 @@ SEAT_tiles=function(L,k,px,py){return SOFA_access(k,L,px,py).map(t=>({x:t.x,y:t.
     if(r&&r.t==='f'&&SOFA_isK(r.k))return{...r,wx,wy};
     if(!r||r.t==='floor'){const s=SOFA_at(wx,wy);if(s)return{t:'f',k:s.k,wx,wy};}}}catch(e){}return r;};}
 {const TP=tapPlan;tapPlan=function(tg){try{if(tg&&tg.t==='f'&&SOFA_isK(tg.k)&&tg.wx!=null&&has(tg.k)&&!C.sleeping){const s=SOFA_list().find(q=>q.k===tg.k);if(s){
-    const seat=SOFA_seat(s,tg.wx,tg.wy),tile=SOFA_tile(s,seat.px,seat.py);if(tile){const nm=s.b==='sofa'||s.b==='sofa2'?'ソファ':'L字ソファ';
-      return{n:'hobby',s:[{t:'go',sc:'in',x:tile.x,y:tile.y},{t:'snap',k:tg.k,dyn:()=>({px:seat.px,py:seat.py,pose:'sit',d:'up'})},SAY(pick(['ふかふか','ちょっと座ろう','ひと休み',`${nm}、落ち着く〜`])),W8(rnd(6,10),need('fun',2))]};}}}}catch(e){}return TP.apply(this,arguments);};}
+    const seat=SOFA_seat(s,tg.wx,tg.wy),tile=SOFA_tile(s,seat.px,seat.py,seat.d);if(tile){const nm=s.b==='sofa'||s.b==='sofa2'?'ソファ':'L字ソファ';
+      return{n:'hobby',s:[{t:'go',sc:'in',x:tile.x,y:tile.y},{t:'snap',k:tg.k,dyn:()=>({px:seat.px,py:seat.py,pose:'sit',d:seat.d||'up'})},SAY(pick(['ふかふか','ちょっと座ろう','ひと休み',`${nm}、落ち着く〜`])),W8(rnd(6,10),need('fun',2))]};}}}}catch(e){}return TP.apply(this,arguments);};}
 
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
