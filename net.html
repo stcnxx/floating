@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 661（2026/11/14）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 662（2026/11/14）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 661（2026/11/14）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 662（2026/11/14）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -29731,7 +29731,7 @@ for(const nm of['save','shopTick','sendDrone','handleAway','spawnVisitor','place
 {const IG=idbGet;idbGet=async function(id){if(NET.on&&NET.songs[id])return NET.songs[id];return IG.apply(this,arguments);};}
 {const TF=tipFor;tipFor=function(e){const t=TF.apply(this,arguments);try{if(NET.on&&t&&t.n&&S.mate&&t.n===`${S.mate.name}（同居人）`)t.n=`${S.mate.name}（${NET.role==='owner'?'ゲスト':'オーナー'}）`;}catch(_){}return t;};}
 // my lines go to the other screen too
-{const SY=say;say=function(text){const r=SY.apply(this,arguments);try{if(NET.on&&CTRL.say&&typeof text==='string'){NET_send({t:'say',text});NET_skyMsg(S.name,text);}}catch(e){}return r;};}
+{const SY=say;say=function(text){const r=SY.apply(this,arguments);try{if(NET.on&&CTRL.say&&!NET.imgSay&&typeof text==='string'){NET_send({t:'say',text});NET_skyMsg(S.name,text);}}catch(e){}return r;};}
 setInterval(()=>{try{document.documentElement.classList.toggle('netsky',!!(NET.on&&SKYV.open));}catch(e){}},300);
 
 /* ---------- connection ---------- */
@@ -30399,6 +30399,43 @@ for(const k of['setmenu','afternoon']){const f=A[k];if(typeof f==='function')A[k
 {const RD=renderDex;renderDex=function(){const r=RD.apply(this,arguments);try{if(!NET.on)return r;const el=$('dexBody');if(!el)return r;
   for(const h of[...el.querySelectorAll('h3')].filter(x=>x.textContent.trim().startsWith('島に来た鳥'))){let top=h.closest('.dexh')||h;while(top&&top.parentNode!==el)top=top.parentNode;if(!top)continue;
     let n=top;while(n){const nx=n.nextElementSibling;n.remove();n=nx;if(n&&(n.classList.contains('dexh')||(n.querySelector&&n.querySelector(':scope > .dexh'))))break;}}}catch(e){}return r;};}
+// v662: a picture can go with a line (or alone). It is shrunk before sending, passed through as an fx message (never stored, never saved)
+// and shown inside the speech bubble: at most as wide as a line can be, at most 1/4 of the game screen tall, shape kept.
+const NIMG={max:600,lim:380000,re:/^data:image\/(png|jpeg|webp);base64,[A-Za-z0-9+/=]+$/};
+function NIMG_ok(d){return typeof d==='string'&&d.length<=NIMG.lim+1000&&NIMG.re.test(d);}
+async function NIMG_shrink(file){const url=URL.createObjectURL(file);try{const im=new Image();im.decoding='async';im.src=url;await im.decode();
+  let w=im.naturalWidth,h=im.naturalHeight;if(!w||!h)throw new Error('size');let k=Math.min(1,NIMG.max/Math.max(w,h));
+  for(let tries=0;tries<6;tries++){const cw=Math.max(1,Math.round(w*k)),ch=Math.max(1,Math.round(h*k)),c=document.createElement('canvas');c.width=cw;c.height=ch;const x=c.getContext('2d');x.drawImage(im,0,0,cw,ch);
+    let d=c.toDataURL('image/webp',.82);if(!/^data:image\/webp/.test(d)){d=c.toDataURL('image/png');if(d.length>NIMG.lim*.6){x.globalCompositeOperation='destination-over';x.fillStyle='#fff';x.fillRect(0,0,cw,ch);d=c.toDataURL('image/jpeg',.82);}}
+    if(d.length<=NIMG.lim)return d;k*=.75;}
+  throw new Error('big');}finally{URL.revokeObjectURL(url);}}
+// the picture element of a bubble; its size is worked out from the bubble's widest line and the game screen's height
+function NIMG_el(id){const bb=$(id);if(!bb)return null;let im=bb.querySelector('img.bimg');if(!im){im=document.createElement('img');im.className='bimg';im.alt='';im.hidden=true;im.onload=()=>NIMG_fit(im);const t=bb.querySelector('.btext');t?t.after(im):bb.prepend(im);}return im;}
+function NIMG_fit(im){try{if(!im||im.hidden||!im.naturalWidth)return;const bb=im.parentNode,box=bb.offsetParent||bb.parentNode,cs=getComputedStyle(bb);
+  const pad=parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight)+parseFloat(cs.borderLeftWidth)+parseFloat(cs.borderRightWidth);
+  const maxW=Math.max(20,Math.min(box.clientWidth*.8,300)-pad),maxH=Math.max(20,(cv.clientHeight||innerHeight)/4);
+  const s=Math.min(maxW/im.naturalWidth,maxH/im.naturalHeight,1);const w=Math.max(1,Math.round(im.naturalWidth*s)),h=Math.max(1,Math.round(im.naturalHeight*s));
+  const key=w+'x'+h;if(im._k!==key){im._k=key;im.style.width=w+'px';im.style.height=h+'px';}}catch(e){}}
+function NIMG_sync(id,tp){const im=NIMG_el(id);if(!im)return;const d=tp&&tp.full&&tp.img||'';if(!d){if(!im.hidden){im.hidden=true;im.removeAttribute('src');im._k='';}}else{if(im.getAttribute('src')!==d){im._k='';im.src=d;}im.hidden=false;NIMG_fit(im);}
+  const bb=$(id),t=bb&&bb.querySelector('.btext');if(t){const blank=!!(d&&tp.full&&!tp.full.trim());if(t.hidden!==blank)t.hidden=blank;}}
+(function(){const st=document.createElement('style');st.textContent='.bubble img.bimg{display:block;margin:4px auto 0;border-radius:8px;object-fit:contain;max-width:none}.bubble .btext[hidden]+img.bimg{margin-top:0}.bubble .btext[hidden]{display:none}#ctlSay .nimgB{flex:0 0 auto;width:36px;height:36px;border-radius:18px;background:rgba(255,255,255,.92);border:1px solid rgba(255,255,255,.6);display:flex;align-items:center;justify-content:center;font-size:18px;cursor:pointer;box-sizing:border-box}#ctlSay .nimgB.busy{opacity:.5}#ctlSay .nimgB input{display:none}';document.head.appendChild(st);})();
+{const BT=bubbleTick;bubbleTick=function(){const r=BT.apply(this,arguments);try{if(NET.on)NIMG_sync('bubble',typing);}catch(e){}return r;};}
+{const MT=mBubbleTick;mBubbleTick=function(){const r=MT.apply(this,arguments);try{if(NET.on)NIMG_sync('bubble3',mTyping);}catch(e){}return r;};}
+// a picture keeps its bubble up 3 seconds longer than the words alone would
+const NIMG_EXTRA=3000;
+function NIMG_mine(text,d){NET_send({t:'fx',k:'img',text,d});const t=text||'　';const cs=CTRL.say;NET.imgSay=1;CTRL.say=1;try{say(t);}finally{NET.imgSay=0;CTRL.say=cs;}try{if(typing&&typing.full){typing.img=d;lastSayAt+=NIMG_EXTRA;}}catch(e){}NET_skyMsg(S.name,(text?text+' ':'')+'［画像］');}
+// any later line without a picture clears the old one
+{const SY=say;say=function(){const r=SY.apply(this,arguments);try{if(!NET.imgSay&&typing)typing.img=null;}catch(e){}return r;};}
+{const ON=NET_on;NET_on=async function(m){if(m&&m.t==='fx'&&m.k==='img'){try{if(!NIMG_ok(m.d))return;const text=typeof m.text==='string'?m.text.slice(0,80):'';NET_mBubble(text||'　');if(mTyping&&mTyping.full){mTyping.img=m.d;mTyping.at+=NIMG_EXTRA;}NET_skyMsg(S.mate?S.mate.name:'',(text?text+' ':'')+'［画像］');}catch(e){}return;}
+  if(m&&m.t==='say'){const r=await ON.apply(this,arguments);try{if(mTyping)mTyping.img=null;}catch(e){}return r;}return ON.apply(this,arguments);};}
+async function NIMG_send(file){const f=document.getElementById('ctlSay'),b=f&&f.querySelector('.nimgB');if(!file||!/^image\//.test(file.type||'')||!S||!CTRL.on)return;if(b){if(b.classList.contains('busy'))return;b.classList.add('busy');}
+  try{const d=await NIMG_shrink(file);const i=document.getElementById('ctlSayI'),t=i?(i.value||'').trim().slice(0,80):'';NIMG_mine(t,d);if(i)i.value='';}catch(e){try{NET_status('この画像は送れませんでした');setTimeout(()=>{const el=document.getElementById('netSt');if(el&&el.textContent==='この画像は送れませんでした')NET_status('');},2500);}catch(_){}}finally{if(b)b.classList.remove('busy');}}
+(function(){const hook=()=>{const f=document.getElementById('ctlSay');if(!f)return false;if(f._nimg)return true;f._nimg=1;
+  const lb=document.createElement('label');lb.className='nimgB';lb.title='画像を送る';lb.setAttribute('aria-label','画像を送る');lb.innerHTML='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2f5e9e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2.5"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-9 9"/></svg><input type="file" accept="image/*">';
+  const inp=lb.querySelector('input');inp.addEventListener('change',()=>{const fl=inp.files&&inp.files[0];inp.value='';if(fl)NIMG_send(fl);});
+  const sb=f.querySelector('button[type=submit]')||f.querySelector('button');sb?f.insertBefore(lb,sb):f.appendChild(lb);
+  const i=document.getElementById('ctlSayI');if(i)i.addEventListener('paste',e=>{try{const it=[...(e.clipboardData&&e.clipboardData.items||[])].find(x=>x.kind==='file'&&/^image\//.test(x.type));if(!it)return;const fl=it.getAsFile();if(!fl)return;e.preventDefault();NIMG_send(fl);}catch(_){}});
+  return true;};if(!hook()){const iv=setInterval(()=>{if(hook())clearInterval(iv);},500);}})();
 
 boot();
 
