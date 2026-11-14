@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 641（2026/11/10）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 652（2026/11/14）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 641（2026/11/10）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 652（2026/11/14）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -10751,7 +10751,7 @@ try{torso=BX_patch(torso,"const arm=(x,y,ang,far)=>{","c.restore();};",`const ar
   if(slLo){c.fillStyle=scl;lim(bw1,bw1*.92,Math.min(slLo,LO));c.fill();}
   if(sleeve>0&&sleeve<UP+LO-.2&&!lightS){const cy=sleeve<=UP?sleeve-UP:sleeve-UP;if(sleeve>UP)fillR(c,'rgba(0,0,0,.08)',-bw1,Math.min(slLo,LO)-.5,bw1*2,.5,.25);}
   if((k==='jersey'||(k==='costume'&&o&&o.cos&&o.cos.sleeveStripe))&&sleeve)fillR(c,'rgba(255,255,255,.75)',.6,-UP,.6,sleeve-.4);if(CW_CUFF.has(k)&&slLo){const cfc=k==='stadium'||k==='ma1'?shade(col,k==='ma1'?-.3:-.08):shade(scl,-.2);CW_rib(c,-bw1,Math.min(slLo,LO)-1.3,bw1*2,1.2,cfc,k==='stadium'?scl:null);}if(sleeve>=7&&!lightS){c.fillStyle='rgba(255,255,255,.1)';c.fillRect(-bw0+.3,-UP+.4+UP,.5,UP-.6);}
-  const hc=far?shade(hand,-.15):hand;fillE(c,hc,0,LO+.35,1.62,1.82);fillE(c,shade(hc,-.1),.55,LO+.95,.85,.7);fillE(c,'rgba(255,255,255,.35)',-.5,LO-.1,.55,.45);c.restore();};`);}catch(e){console.warn('arm patch',e);}
+  const hc0=k==='glovelong'?slc:hand,hc=far?shade(hc0,-.15):hc0;fillE(c,hc,0,LO+.35,1.62,1.82);fillE(c,shade(hc,-.1),.55,LO+.95,.85,.7);fillE(c,'rgba(255,255,255,.35)',-.5,LO-.1,.55,.45);if(k==='glovelong'&&typeof CL_sleeve==='function'){try{CL_sleeve(c,()=>{c.beginPath();c.ellipse(0,LO+.35,1.62,1.82,0,0,Math.PI*2);c.ellipse(.55,LO+.95,.85,.7,0,0,Math.PI*2);},2,LO,UP);if(far){c.fillStyle='rgba(0,0,0,.15)';c.beginPath();c.ellipse(0,LO+.35,1.62,1.82,0,0,Math.PI*2);c.fill();}}catch(_){}}c.restore();};`);}catch(e){console.warn('arm patch',e);}
 try{legs=BX_patch(legs,"const leg=(x,lift,ang,far)=>{c.save();c.translate(x+2,-7);if(ang)c.rotate(ang);const Lh=6-lift;","if(ang){c.save();c.translate(0,Lh+1);c.rotate(-ang*.6);shoe(c,-2,0,of.shoes,sp);c.restore();}else shoe(c,-2,Lh+1,of.shoes,sp);",
  `const leg=(x,lift,ang,far)=>{c.save();c.translate(x+2+(x<0?.35:x>0?-.35:0),-7.4);if(o&&o.cos&&o.cos.legK){if(o.cos.legSp&&d!=='right')c.translate(x<0?-o.cos.legSp:o.cos.legSp,0);c.scale(o.cos.legK,1);}const lc=far?shade(legC,-.14):legC,kb=lift>.05?lift*.3:0;if(ang)c.rotate(ang);
     const TH=3.5,SH=3.3-lift*.4;const seg=(w0,w1,len)=>{c.beginPath();c.moveTo(-w0,0);c.quadraticCurveTo(-w0-.1,len*.6,-w1,len);c.lineTo(w1,len);c.quadraticCurveTo(w0+.1,len*.6,w0,0);c.closePath();};
@@ -16415,7 +16415,7 @@ function MB_room(){const L=S.layout.mirrorball;if(!L||L.carry)return null;const 
   g.globalCompositeOperation='source-over';g.restore();}catch(e){}};}
 // at night, with music or drinks, the ball sometimes comes on by itself
 setInterval(()=>{try{if(!S||!has('mirrorball')||MB_on()||C.sleeping||C.scene!=='in')return;const dl=daylight();if(dl>.5)return;
-  const party=['drink','music','record','jukebox','boombox','radio'].includes(C.act)||(typeof MUS!=='undefined'&&MUS&&MUS.on);if(Math.random()<(party?.18:.03)){S.mbUntil=Date.now()+rnd(5,9)*60e3;if(!msgBusy())say(pick(['ミラーボール、つけちゃおう','パーティーの始まり〜','光の粒が回ってる…きれい']));}}catch(e){}},60000);
+  const party=['drink','music','record','jukebox','boombox','radio'].includes(C.act)||(typeof MUS!=='undefined'&&MUS&&MUS.on);if(Math.random()<(party?.04:.003)){S.mbUntil=Date.now()+rnd(5,9)*60e3;if(!msgBusy())say(pick(['ミラーボール、つけちゃおう','パーティーの始まり〜','光の粒が回ってる…きれい']));}}catch(e){}},60000);
 /* ---- v303: LoveBots keep clear of the dining table and chairs; glass / low tables that look good on a rug ---- */
 function LB_avoidCells(){const out=[];const add=(x,y)=>out.push(x+','+y);
   if(has('table')){const L=S.layout.table;if(L&&!L.carry){for(let r=-1;r<2;r++){add(L.x-1,L.y+r);add(L.x+2,L.y+r);}add(L.x,L.y-1);add(L.x+1,L.y-1);}}
@@ -23612,7 +23612,7 @@ humanFace=function(c,L,d,o){const P=FP_get(L),ink='#2a2026',sk=SKINS[L.skin%SKIN
 setInterval(()=>{try{if(!S)return;let ch=false;for(const L of[S.look,S.mate&&S.mate.look])if(L&&L.eye==null){FP_mig(L);ch=true;}if(ch)save();}catch(e){}},1500);
 // ---- look editor: parts tabs, and a large face in the fixed header ----
 let FP_TAB='eye';
-const FP_TABS=()=>[['eye','目',30,i=>FP_EYES[i][0]],['nose','鼻',20,i=>FP_NOSES[i]],['mouth','口',20,i=>FP_MOUTHS[i][0]],['mk1',FP_MK1N(lookDraft&&lookDraft.g),30,i=>(lookDraft&&lookDraft.g==='f'?FP_COS:FP_BEARD)[i][0]],['mk2',FP_MK2N,30,i=>FP_PAINT[i]]];
+const FP_TABS=()=>[['eye','目',FP_EYES.length,i=>FP_EYES[i][0]],['nose','鼻',20,i=>FP_NOSES[i]],['mouth','口',FP_MOUTHS.length,i=>FP_MOUTHS[i][0]],['mk1',FP_MK1N(lookDraft&&lookDraft.g),30,i=>(lookDraft&&lookDraft.g==='f'?FP_COS:FP_BEARD)[i][0]],['mk2',FP_MK2N,30,i=>FP_PAINT[i]]];
 function FP_faceThumb(c,L,sc,cx,cy){c.save();c.translate(cx,cy);c.scale(sc,sc);c.translate(0,-(HCY+2.4));humanHairBack(c,L,'down');humanHead(c,{look:L,dir:'down'});c.restore();}
 (function(){if(!document.getElementById('fpSt')){const st=document.createElement('style');st.id='fpSt';st.textContent='#fpTabs{display:flex;gap:4px;margin:0 0 6px;flex-wrap:wrap}#fpTabs button{flex:1 1 auto;min-width:0;padding:7px 4px;font-size:12px;border-radius:10px;white-space:nowrap}#fpTabs button[aria-pressed=true]{background:rgba(255,211,107,.9);color:#2a2240;border-color:#ffd36b}#fpGrid button span{display:block;max-width:56px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}#fpCur{font-size:12px;color:var(--muted)}#lePrev{aspect-ratio:300/170!important}';document.head.append(st);}
   const fh=$('leFaceN')&&$('leFaceN').closest('h3'),fg=$('leFace');if(!fh||!fg||$('fpBox'))return;fh.hidden=true;fg.hidden=true;fh.style.display='none';fg.style.display='none';
@@ -27240,7 +27240,7 @@ function LBE_draw(c,x,y,o,sc){sc=sc||1;if(o.blink){c.fillStyle=o.rest?'rgba(150,
   else{S.mLock=1;S.mLockTop=JSON.parse(JSON.stringify(M.outfit.top||OC_top(e)));M.outfit={...M.outfit,outer:null,over:null};S.mDressAt=Date.now();S.mDressGap=6*3600e3;}save();}}}catch(e){}return r;};}
 {const MO=mateOutfit;mateOutfit=function(){const o=MO.apply(this,arguments);try{if(typeof M!=='undefined'&&M&&!M.sleeping){
   if(S.mOcPend){const e=OC_get(S.mOcPend);delete S.mOcPend;if(e){S.mLock=1;S.mLockTop=OC_top(e);}}
-  if(S.mLock&&S.mLockTop&&S.mLockTop.p==='oc'&&OC_get(S.mLockTop.oc)){o.top=JSON.parse(JSON.stringify(S.mLockTop));o.costume=null;o.outer=null;o.over=null;}}}catch(e){}return o;};}
+  if(S.mLock&&S.mLockTop&&(S.mLockTop.p==='oc'||S.mLockTop.lab)&&OC_get(S.mLockTop.oc)){o.top=JSON.parse(JSON.stringify(S.mLockTop));o.costume=null;o.outer=null;o.over=null;}}}catch(e){}return o;};}
 setInterval(()=>{try{if(S&&!S.mLock&&S.mLockTop)delete S.mLockTop;}catch(e){}},1500);
 /* v577: a bib bottom (サロペット) would hide the original top — swap it for jeans while an original top is worn (hero and housemate) */
 const OC_noBib=o=>{try{if(o&&o.bottom&&o.bottom.k==='overalls')o.bottom={k:'jeans',c:o.bottom.c||'紺',p:'plain'};}catch(e){}return o;};
@@ -28278,7 +28278,7 @@ for(const nm of['save','shopTick','sendDrone','handleAway','spawnVisitor','place
   cv.addEventListener('pointerup',e=>{if(!CTL())return;e.stopImmediatePropagation();const s=last;last=null;if(!s||s.hold||s.id!==e.pointerId||!S||fadeT>0||DRAG)return;
     if(Math.hypot(s.ux-s.x,s.uy-s.y)>14||s.ut-s.t>600)return;if(hitChar(e)){if(NET.on)try{NET_selfTap();}catch(_){}return;}
     if(NET.on){let tg=null;try{const w=tapWorld(e);tg=tapTarget(w.x,w.y);}catch(_){}const tn=performance.now(),lt=NET._lt,dbl=!!(lt&&tn-lt.t<400&&Math.hypot(e.clientX-lt.x,e.clientY-lt.y)<34);NET._lt=dbl?null:{t:tn,x:e.clientX,y:e.clientY};try{if(NET_tap(e,tg,dbl))return;}catch(_){}}
-    tapGo(e);try{showTip(e);}catch(_){}},true);
+    {const tn3=performance.now(),q=MB_LT2,dd=!!(q&&tn3-q.t<400&&Math.hypot(e.clientX-q.x,e.clientY-q.y)<34);MB_LT2=dd?null:{t:tn3,x:e.clientX,y:e.clientY};MB_SINGLE=!dd;try{tapGo(e);}finally{MB_SINGLE=false;}}try{showTip(e);}catch(_){}},true);/* v646: a single tap in 手動操作 never switches the mirror ball on */
   function hold(){if(!CTL()||!st||!S||PAUSED||fadeT>0||DRAG)return;const tn=performance.now();
     if(!st.hold){if(tn-st.t<230)return;if(Math.hypot(st.cx-st.x,st.cy-st.y)>28&&tn-st.t<450)return;st.hold=true;}
     if(C.path&&C.path.length)return;if(C.steps.length&&C.act!=='tapwalk'&&C.act!=='vidle')return;
@@ -28899,6 +28899,322 @@ function SL_side(c,L){const H=hairDesc(L),P=hPal(L),r=HR+.9+H.vol,sl=Math.min(9.
   c.save();path();c.clip();E(c,'rgba(255,255,255,.12)',-1.5,HCY-2,3.6,1.2,-.5);c.restore();}
 {const HB=humanHairBack;humanHairBack=function(c,L,d){try{if(d==='right'){const H=hairDesc(L);if(SL_long(H)&&H.back>3){SL_back(c,L);HDESC_OV={back:0};try{return HB.apply(this,arguments);}finally{HDESC_OV=null;}}}}catch(e){HDESC_OV=null;}return HB.apply(this,arguments);};}
 {const HF=humanHairFront;humanHairFront=function(c,L,d,t){try{if(d==='right'){const H=hairDesc(L);if(SL_long(H)){HDESC_OV={side:0};let r;try{r=HF.apply(this,arguments);}finally{HDESC_OV=null;}SL_side(c,L);return r;}}}catch(e){HDESC_OV=null;}return HF.apply(this,arguments);};}
+
+/* ===== 毛束ヘア（hair made of locks）: shared by the hair editor and, later, the game =====
+   look.hl = {v:1, locks:[{az,el,len,w,pitch,yaw,bend,tone}]}  — the base style (look.hair) is drawn as usual and the locks are added on top.
+   Each lock sits on the head as a point on a ball, so the same data gives the front, side and back views (and every pose). */
+const HL_R=HR+.9;// the hair surface (a little outside the skull)
+function HL_has(L){return!!(L&&L.hl&&Array.isArray(L.hl.locks)&&L.hl.locks.length);}
+const HL_rad=d=>d*Math.PI/180;
+// model space: x = the character's left (viewer's right seen from the front), y = down (0 = head centre), z = forward (the way the face looks)
+// v2 locks (x set): made flat on one face (fc) — x/y = the root on that face (y up), a = the direction on that face (0 up, 90 right),
+// len = the length seen on that face, cv = a bend with the root and the tip staying put. The depth follows the head.
+function HL_toFace(v,f){return f==='left'?HL_view(v,'right',true).map((q,i)=>i?q:-q):HL_view(v,f,false);}
+function HL_fromFace(s,f){return f==='left'?HL_unview([-s[0],s[1],s[2]],'right',true):HL_unview(s,f,false);}
+const HL_zs=(x,y,r)=>{const q=r*r-x*x-y*y;return q>0?Math.sqrt(q):0;};
+function HL_geo2(k){const f=k.fc||'down',R=HL_R,x=+k.x||0,y=-(+k.y||0),a=HL_rad(+k.a||0),L=k.len==null?6:+k.len,dx=Math.sin(a),dy=-Math.cos(a);
+  const rz=HL_zs(x,y,R),tx=x+dx*L,ty=y+dy*L,tz=Math.max(HL_zs(tx,ty,R*1.06),rz*.5);
+  // the middle keeps the straight line's depth; a bend changes it the way the head's surface does there (bent outward = it goes round toward the back)
+  const off=(+k.cv||0)*L*.35,mx=(x+tx)/2,my=(y+ty)/2,cx=mx-dy*off,cy=my+dx*off,av=(rz+tz)/2,cz=av+Math.max(-av*.6,HL_zs(cx,cy,R*1.06)-HL_zs(mx,my,R*1.06));
+  return{p:HL_fromFace([x,y,rz],f),tip:HL_fromFace([tx,ty,tz],f),mid:HL_fromFace([2*cx-(x+tx)/2,2*cy-(y+ty)/2,2*cz-(rz+tz)/2],f),v2:1};}
+function HL_geo(k){if(k&&k.x!=null)return HL_geo2(k);const az=HL_rad(k.az||0),el=HL_rad(k.el||0),ce=Math.cos(el),se=Math.sin(el);
+  const n=[Math.sin(az)*ce,-se,Math.cos(az)*ce],p=[n[0]*HL_R,n[1]*HL_R,n[2]*HL_R];
+  // tangents: "up" along the head toward the crown, "side" around the head
+  let tu=[-Math.sin(az)*se,-ce,-Math.cos(az)*se];const ts=[Math.cos(az),0,-Math.sin(az)];
+  if(Math.abs(se)>.999)tu=[0,0,se>0?-1:1];
+  const pi=HL_rad(k.pitch==null?40:k.pitch),ya=HL_rad(k.yaw||0),s=Math.sin(pi),c=Math.cos(pi);
+  const t=[tu[0]*Math.cos(ya)+ts[0]*Math.sin(ya),tu[1]*Math.cos(ya)+ts[1]*Math.sin(ya),tu[2]*Math.cos(ya)+ts[2]*Math.sin(ya)];
+  const dir=[n[0]*c+t[0]*s,n[1]*c+t[1]*s,n[2]*c+t[2]*s],L=k.len==null?6:k.len;
+  let tip=[p[0]+dir[0]*L,p[1]+dir[1]*L,p[2]+dir[2]*L];
+  const b=(k.bend||0)*L*.45;let mid=[(p[0]+tip[0])/2,(p[1]+tip[1])/2+b,(p[2]+tip[2])/2];
+  // 曲がり (cv): the lock curves sideways, more and more toward its tip (0 = straight; + to the right as seen from the front of the lock)
+  const w=[n[1]*t[2]-n[2]*t[1],n[2]*t[0]-n[0]*t[2],n[0]*t[1]-n[1]*t[0]],cv=k.cv||0,co=[w[0]*cv*L*.7,w[1]*cv*L*.7,w[2]*cv*L*.7];
+  if(cv){tip=[tip[0]+co[0],tip[1]+co[1],tip[2]+co[2]];mid=[mid[0]+co[0]*.22,mid[1]+co[1]*.22,mid[2]+co[2]*.22];}
+  // a lock laid along the head follows its round shape instead of sticking out straight
+  const hug=Math.max(0,Math.min(1,(HL_rad(k.pitch==null?40:k.pitch)-HL_rad(45))/HL_rad(45)));
+  const onBall=(v,f)=>{const m=Math.hypot(v[0],v[1],v[2])||1,R=HL_R*f;return m>R?v:[v[0]/m*R,v[1]/m*R,v[2]/m*R];};
+  const pull=(v,a,f)=>{const m=Math.hypot(v[0],v[1],v[2])||1,t=[v[0]/m*HL_R*f,v[1]/m*HL_R*f,v[2]/m*HL_R*f];return[v[0]+(t[0]-v[0])*a,v[1]+(t[1]-v[1])*a,v[2]+(t[2]-v[2])*a];};
+  const fl=k.sh==='flat';let tp=tip;if(hug>0){tp=pull(tip,hug*(fl?.95:.85),fl?.99:1.04);mid=pull(mid,hug*(fl?.95:.9),fl?1.01:1.06);}
+  mid=onBall(mid,1.0);tp=onBall(tp,.98);
+  return{n,p,tip:tp,mid,tu,ts,dir,co};}
+// view: 'down' (front), 'right' (side; mir = facing left), 'up' (back). Returns [screen x, screen y (from head centre), depth toward the viewer]
+// all are turns of the head (no mirror): facing right on screen shows the character's right side (x<0), facing left its left side (x>0);
+// with mir the canvas itself is flipped, so screen x here is before that flip
+function HL_view(v,d,mir){const[x,y,z]=v;if(d==='up')return[-x,y,-z];if(d==='right')return mir?[z,y,x]:[z,y,-x];return[x,y,z];}
+function HL_unview(s,d,mir){const[a,y,b]=s;if(d==='up')return[-a,y,-b];if(d==='right')return mir?[b,y,a]:[-b,y,a];return[a,y,b];}
+function HL_pal(L,tone){const P=hPal(L);return tone===1?{f:P.dk,o:P.dd||P.dk,h:P.col}:tone===2?{f:P.lt,o:P.col,h:'rgba(255,255,255,.55)'}:{f:P.col,o:P.dk,h:P.lt};}
+function HL_lockPath(c,B,M,Tp,w){const dx=Tp[0]-B[0],dy=Tp[1]-B[1],l=Math.hypot(dx,dy)||1,nx=-dy/l*w/2,ny=dx/l*w/2;
+  c.beginPath();c.moveTo(B[0]+nx,B[1]+ny);c.quadraticCurveTo(M[0]+nx*.6,M[1]+ny*.6,Tp[0],Tp[1]);c.quadraticCurveTo(M[0]-nx*.6,M[1]-ny*.6,B[0]-nx,B[1]-ny);
+  // a rounded root so the lock grows out of the hair
+  c.quadraticCurveTo(B[0]-dx/l*w*.45,B[1]-dy/l*w*.45,B[0]+nx,B[1]+ny);c.closePath();}
+// lock shapes: spike (pointed), flat (a straight strand with a squared tip), ball (round: a bun or a puff), curl (a row of little rolls)
+const HL_SHAPES=[['spike','とがった'],['flat','ストレート'],['ball','まるい'],['curl','くるくる']];
+function HL_curvePts(b,m,tp,n){const o=[];for(let i=0;i<=n;i++){const t=i/n,a=(1-t)*(1-t),c=2*(1-t)*t,e=t*t;o.push([a*b[0]+c*m[0]+e*tp[0],a*b[1]+c*m[1]+e*tp[1]]);}return o;}
+function HL_ribbon(c,pts,w0,w1){const L=[],Rr=[],n=pts.length-1;for(let i=0;i<=n;i++){const a=pts[Math.max(0,i-1)],b2=pts[Math.min(n,i+1)],dx=b2[0]-a[0],dy=b2[1]-a[1],l=Math.hypot(dx,dy)||1,w=(w0+(w1-w0)*(i/n))/2;
+    L.push([pts[i][0]-dy/l*w,pts[i][1]+dx/l*w]);Rr.push([pts[i][0]+dy/l*w,pts[i][1]-dx/l*w]);}
+  c.beginPath();c.moveTo(L[0][0],L[0][1]);for(const q of L)c.lineTo(q[0],q[1]);const e=pts[n],f=pts[n-1],dx=e[0]-f[0],dy=e[1]-f[1],l=Math.hypot(dx,dy)||1;
+  c.quadraticCurveTo(e[0]+dx/l*w1*.45,e[1]+dy/l*w1*.45,Rr[n][0],Rr[n][1]);for(let i=n;i>=0;i--)c.lineTo(Rr[i][0],Rr[i][1]);c.closePath();}
+function HL_ball(c,x,y,r,P,shine){c.fillStyle=P.o;c.beginPath();c.arc(x+.25,y+.3,r,0,TAU);c.fill();c.fillStyle=P.f;c.beginPath();c.arc(x,y,r,0,TAU);c.fill();
+  if(shine){c.strokeStyle=P.h;c.globalAlpha=.55;c.lineWidth=Math.max(.3,r*.18);c.beginPath();c.arc(x,y,r*.62,Math.PI*1.1,Math.PI*1.6);c.stroke();c.globalAlpha=1;}}
+function HL_drawLock(c,L,k,d,mir,sel){const G=HL_geo(k),B=HL_view(G.p,d,mir),M=HL_view(G.mid,d,mir),Tp=HL_view(G.tip,d,mir),w=k.w==null?3:k.w,P=HL_pal(L,k.tone|0),sh=k.sh||'spike';
+  const by=HCY,b=[B[0],B[1]+by],m=[M[0],M[1]+by],tp=[Tp[0],Tp[1]+by];
+  if(sh==='ball'){const r=Math.max(.8,(k.len==null?6:k.len)*.5),x=(b[0]+tp[0])/2,y=(b[1]+tp[1])/2;HL_ball(c,x,y,r,P,true);
+    // a few strands wound round it
+    c.strokeStyle=P.o;c.globalAlpha=.35;c.lineWidth=Math.max(.25,r*.08);for(let i=0;i<3;i++){c.beginPath();c.arc(x,y,r*(.45+i*.17),Math.PI*(.15+i*.3),Math.PI*(.95+i*.3));c.stroke();}c.globalAlpha=1;
+    if(sel){c.save();c.strokeStyle='#ffd36b';c.lineWidth=.55;c.setLineDash([1,.8]);c.beginPath();c.arc(x,y,r+.3,0,TAU);c.stroke();c.restore();}return;}
+  if(sh==='curl'){const len=k.len==null?6:k.len,r=Math.max(.6,w*.55),n=Math.max(2,Math.round(len/(r*1.3))),pts=HL_curvePts(b,m,tp,n);
+    for(let i=0;i<=n;i++){const q=pts[i],rr=r*(1-.25*i/n);HL_ball(c,q[0],q[1],rr,P,true);}
+    if(sel){c.save();c.strokeStyle='#ffd36b';c.lineWidth=.55;c.setLineDash([1,.8]);c.beginPath();for(const q of pts)c.moveTo(q[0]+r,q[1]),c.arc(q[0],q[1],r,0,TAU);c.stroke();c.restore();}return;}
+  if(sh==='flat'){const pts=HL_curvePts(b,m,tp,12);
+    c.fillStyle=P.o;c.save();c.translate(.25,.3);HL_ribbon(c,pts,w,w*.8);c.fill();c.restore();c.fillStyle=P.f;HL_ribbon(c,pts,w,w*.8);c.fill();
+    // straight hair: a few fine strands and a shine
+    c.save();HL_ribbon(c,pts,w,w*.8);c.clip();c.strokeStyle=P.o;c.globalAlpha=.3;c.lineWidth=.22;
+    for(const f of[-.3,0,.3]){c.beginPath();pts.forEach((q,i)=>{const a=pts[Math.max(0,i-1)],b2=pts[Math.min(12,i+1)],dx=b2[0]-a[0],dy=b2[1]-a[1],l=Math.hypot(dx,dy)||1;const x=q[0]-dy/l*w*f,y=q[1]+dx/l*w*f;i?c.lineTo(x,y):c.moveTo(x,y);});c.stroke();}
+    c.strokeStyle=P.h;c.globalAlpha=.45;c.lineWidth=Math.max(.3,w*.16);c.beginPath();const s0=pts[2],s1=pts[6];c.moveTo(s0[0],s0[1]);c.lineTo(s1[0],s1[1]);c.stroke();c.restore();c.globalAlpha=1;
+    if(sel){c.save();c.strokeStyle='#ffd36b';c.lineWidth=.55;c.setLineDash([1,.8]);HL_ribbon(c,pts,w,w*.8);c.stroke();c.restore();}return;}
+  c.fillStyle=P.o;c.save();c.translate(.28,.32);HL_lockPath(c,b,m,tp,w);c.fill();c.restore();
+  c.fillStyle=P.f;HL_lockPath(c,b,m,tp,w);c.fill();
+  c.strokeStyle=P.h;c.globalAlpha=.5;c.lineWidth=Math.max(.3,w*.13);c.lineCap='round';c.beginPath();
+  const q=(a,b2,t)=>a+(b2-a)*t;c.moveTo(q(b[0],m[0],.25),q(b[1],m[1],.25));c.quadraticCurveTo(m[0],m[1],q(m[0],tp[0],.6),q(m[1],tp[1],.6));c.stroke();c.globalAlpha=1;
+  if(sel){c.save();c.strokeStyle='#ffd36b';c.lineWidth=.55;c.setLineDash([1,.8]);HL_lockPath(c,b,m,tp,w);c.stroke();c.restore();}}
+// which locks go behind the head in this view (far side), which in front
+// fr: brought to the front in the editor, stays in front of the head unless clearly behind it
+// the side a lock was added from (fc); older locks: the side their root faces
+function HL_face(k){if(k&&k.fc)return k.fc;const a=((((k&&k.az)||0)%360)+540)%360-180;return Math.abs(a)<=45?'down':Math.abs(a)>=135?'up':a>0?'left':'right';}
+function HL_split(L,d,mir){const vf=d==='right'&&mir?'left':d;const far=[],near=[];(L.hl.locks||[]).forEach((k,i)=>{if(L.__face&&HL_face(k)!==L.__face)return;// the editor's main view shows only the locks made on that face
+  const G=HL_geo(k),a=HL_view(G.p,d,mir)[2],m=HL_view(G.mid,d,mir)[2];const z=a*.6+m*.4;(z<-HL_R*(k.fr&&a>-HL_R*.3&&HL_face(k)===vf?.6:.18)?far:near).push({k,i,z});});
+  far.sort((a,b)=>a.z-b.z);near.sort((a,b)=>((a.k.ly||0)-(b.k.ly||0))||(a.z-b.z));return{far,near};}
+function HL_mir(c){try{return c.getTransform().a<0;}catch(e){return false;}}
+let HL_SEL=-1;// the editor marks the chosen lock
+{const HB=humanHairBack;humanHairBack=function(c,L,d){if(HL_has(L)&&d!=='up'){const mir=HL_mir(c),s=HL_split(L,d,mir);for(const o of s.far)HL_drawLock(c,L,o.k,d,mir,o.i===HL_SEL&&L.__ed);}return HB.apply(this,arguments);};}
+// from behind there is no back layer: the locks on the face side are drawn before the head, so only their ends show around it
+let HL_DEFER=null;
+{const HH=humanHead;humanHead=function(c,o){const L=o&&o.look,d=o&&(o.dir||(o.back?'up':'down'));try{if(HL_has(L)&&d==='up'){const s=HL_split(L,'up',false);for(const q of s.far)HL_drawLock(c,L,q.k,'up',false,q.i===HL_SEL&&L.__ed);}}catch(e){}
+  if(!(HL_has(L)&&d==='right'))return HH.apply(this,arguments);const prev=HL_DEFER,list=HL_DEFER=[];let r;
+  try{r=HH.apply(this,arguments);}finally{HL_DEFER=prev;}for(const f of list)try{f();}catch(e){}return r;};}
+{const HF=humanHairFront;humanHairFront=function(c,L,d,t){if(!HL_has(L))return HF.apply(this,arguments);const mir=d==='right'&&HL_mir(c),s=HL_split(L,d,mir);
+  const r=HF.apply(this,arguments);const go=()=>{for(const o of s.near)HL_drawLock(c,L,o.k,d,mir,o.i===HL_SEL&&L.__ed);};if(HL_DEFER)HL_DEFER.push(go);else go();return r;};}
+try{window.HLx={HL_geo,HL_view,HL_unview,HL_split,HL_face,HL_toFace,HL_fromFace};}catch(e){}
+
+/* ===== キャララボ: drawing of designed faces and clothes (shared by the lab and, later, the game) =====
+   look.fx  = {es:eye size, ed:eye spacing, eh:eye height, et:eye tilt(deg), ic:iris colour, bh:brow height, bw:brow thickness, ba:brow angle(deg), bc:brow colour, ms:mouth size, mh:mouth height}
+   outfit.top.cx = {pc:pattern colour, art:{n,pal,px}, as:art cell size, ay:art height} */
+// 切れ長 (almond) in thinner versions: the same eye, flattened (and a little lifted at the outer corner)
+const CL_EYE_X={almond2:[.68,0],almond3:[.48,0],almond4:[.56,7]};
+try{if(!FP_EYES.some(e=>e[1]==='almond2'))FP_EYES.push(['切れ長（細め）','almond2'],['切れ長（とても細い）','almond3'],['切れ長（つり）','almond4']);}catch(e){}
+{const FG=FP_get;FP_get=function(L){const r=FG.apply(this,arguments);try{if(L&&(L.eye|0)>29&&(L.eye|0)<FP_EYES.length)r.eye=L.eye|0;if(L&&(L.mouth|0)>19&&(L.mouth|0)<FP_MOUTHS.length)r.mouth=L.mouth|0;}catch(e){}return r;};}
+// 切れ長: no lash flick at the outer corner (the game draws it as moveTo(x±1.3,ey-.4) → lineTo(x±2,ey-1) → stroke)
+{const FEa=FP_eye;FP_eye=function(c,x,ey,eye){if(eye!=='almond')return FEa.apply(this,arguments);const mv=c.moveTo,st=c.stroke;let skip=false;
+  c.moveTo=function(a,b){if(Math.abs(Math.abs(a-x)-1.3)<1e-6&&Math.abs(b-(ey-.4))<1e-6)skip=true;return mv.apply(this,arguments);};
+  c.stroke=function(){if(skip){skip=false;return;}return st.apply(this,arguments);};
+  try{return FEa.apply(this,arguments);}finally{c.moveTo=mv;c.stroke=st;}};}
+{const FE1=FP_eye;FP_eye=function(c,x,ey,eye){if(eye!=='tsuri'&&eye!=='tare')return FE1.apply(this,arguments);
+  // つり目: the outer corner goes up / たれ目: the outer corner goes down (on both eyes)
+  const mv=c.moveTo,ln=c.lineTo,flip=a=>2*x-a,near=(b,v)=>Math.abs(b-v)<1e-6;
+  const fixT=(a,b)=>eye==='tsuri'&&(near(b,ey-.8)||near(b,ey-1.8))?flip(a):(eye==='tare'&&x>0&&(near(b,ey-1.3)||near(b,ey-1.6))?flip(a):a);
+  c.moveTo=function(a,b){return mv.call(this,fixT(a,b),b);};c.lineTo=function(a,b){return ln.call(this,fixT(a,b),b);};
+  try{return FE1.apply(this,arguments);}finally{c.moveTo=mv;c.lineTo=ln;}};}
+{const FE0=FP_eye;FP_eye=function(c,x,ey,eye){const t=CL_EYE_X[eye];if(!t)return FE0.apply(this,arguments);const a=[].slice.call(arguments);a[3]='almond';const s=x<0?-1:1;
+  c.save();c.translate(x,ey);c.rotate(-s*t[1]*Math.PI/180);c.scale(1.04,t[0]);c.translate(-x,-ey);try{return FE0.apply(this,a);}finally{c.restore();}};}
+// 凛々しい: a narrow eye under a heavy upper lid that ends in a sharp tail, the iris tucked under the lid, two small highlights
+try{if(!FP_EYES.some(e=>e[1]==='rin'))FP_EYES.push(['凛々しい','rin']);}catch(e){}
+{const FR=FP_eye;FP_eye=function(c,x,ey,eye,icol,sk,ink,sleep,blink){if(eye!=='rin'||sleep||blink)return FR.apply(this,arguments);
+  const s=x<0?-1:1,u=d=>x+s*d,c1=icol?shade(icol,-.6):'#141012',c2=icol?shade(icol,-.25):'#3a3234';c.save();c.lineCap='round';c.lineJoin='round';
+  // a long, narrow eye with an almost straight lower edge
+  const lid=()=>{c.beginPath();c.moveTo(u(-1.35),ey+.12);c.quadraticCurveTo(u(.1),ey-.7,u(1.6),ey-.3);c.quadraticCurveTo(u(.3),ey+.45,u(-1.35),ey+.12);c.closePath();};
+  lid();c.fillStyle='#f4e8e8';c.fill();c.save();lid();c.clip();
+  // a large dark iris cut off by the lids, two small highlights side by side
+  E(c,c1,u(-.1),ey-.08,.66,.66);E(c,c2,u(-.1),ey+.26,.46,.24);
+  E(c,'#ffffff',u(-.3),ey-.2,.14,.14);E(c,'#ffffff',u(.06),ey-.22,.14,.14);
+  c.fillStyle='rgba(70,40,45,.22)';c.fillRect(x-3,ey-1.2,6,.92);c.restore();
+  // fold: a soft grey line parallel to the lid, running out past the corner
+  c.strokeStyle='#5a4a4e';c.globalAlpha=.75;c.lineWidth=.2;c.beginPath();c.moveTo(u(-1.05),ey-.78);c.quadraticCurveTo(u(.45),ey-1.55,u(2.2),ey-1.08);c.stroke();c.globalAlpha=1;
+  // heavy upper lid: thick band with a long tail past the outer corner
+  c.fillStyle=ink;c.beginPath();c.moveTo(u(-1.5),ey+.28);c.lineTo(u(-1.48),ey+.02);c.quadraticCurveTo(u(.3),ey-1.3,u(1.85),ey-.82);c.lineTo(u(2.95),ey-.5);
+  c.quadraticCurveTo(u(2.1),ey-.3,u(1.6),ey-.27);c.quadraticCurveTo(u(.1),ey-.62,u(-1.32),ey+.1);c.closePath();c.fill();
+  // thin lower lid, stronger toward the outer corner
+  c.strokeStyle=ink;c.globalAlpha=.45;c.lineWidth=.16;c.beginPath();c.moveTo(u(-1.3),ey+.14);c.quadraticCurveTo(u(.3),ey+.45,u(1.6),ey-.28);c.stroke();
+  c.globalAlpha=.6;c.lineWidth=.2;c.beginPath();c.moveTo(u(1.62),ey-.28);c.quadraticCurveTo(u(1.2),ey+.08,u(.6),ey+.2);c.stroke();c.restore();};}
+// gentler smiles: the same width as にこっ with a shallower curve
+try{if(!FP_MOUTHS.some(m=>m[1]==='smile2'))FP_MOUTHS.push(['ほほえみ','smile2'],['うっすら笑み','smile3']);}catch(e){}
+{const FM0=FP_mouth;FP_mouth=function(c,mouth,mx,my,sleep,lip){const dep={smile2:.8,smile3:.45}[mouth];if(dep==null||sleep)return FM0.apply(this,arguments);
+  c.save();if(lip){c.globalAlpha=.75;E(c,lip,mx,my-.25,1.3,.52);c.globalAlpha=1;}c.lineCap='round';c.strokeStyle=lip?shade(lip,-.15):'#7a3a3a';c.lineWidth=.6;
+  c.beginPath();c.moveTo(mx-1.4,my-.45);c.quadraticCurveTo(mx,my-.45+dep*2,mx+1.4,my-.45);c.stroke();c.restore();};}
+const CL_BROW=(c,k,col,lw)=>{c.strokeStyle=col;c.lineWidth=lw;c.lineCap='round';c.beginPath();
+  if(k==='maro'){c.fillStyle=col;c.beginPath();c.ellipse(-.2,-3.2,.75,.5,0,0,TAU);c.fill();return;}
+  if(k==='straight'){c.moveTo(-1.4,-3);c.lineTo(1.4,-3);}else if(k==='arch'){c.moveTo(-1.5,-2.7);c.quadraticCurveTo(0,-4.3,1.5,-2.7);}
+  else if(k==='angry'){c.moveTo(-1.4,-3.4);c.lineTo(1.2,-2.4);}else if(k==='worried'){c.moveTo(-1.4,-2.4);c.lineTo(1.2,-3.3);}
+  else{c.moveTo(-1.4,-2.9);c.quadraticCurveTo(0,-3.6,1.4,-2.9);}c.stroke();};
+{const HFc=humanFace;humanFace=function(c,L,d,o){const fx=L&&L.fx;if(!fx)return HFc.apply(this,arguments);
+  const side=d==='right',es=fx.es==null?1:fx.es,ed=fx.ed==null?1:fx.ed,eh=fx.eh||0,et=(fx.et||0)*Math.PI/180,ms=fx.ms==null?1:fx.ms,mh=fx.mh||0;
+  const FE=FP_eye,FM=FP_mouth,brow=FP_get(L).brow;
+  FP_eye=function(c2,x,ey,eye,icol){const a=[].slice.call(arguments);a[4]=fx.ic||icol;const s=x<0?-1:1;c2.save();c2.translate(side?x:x*ed,ey+eh);c2.rotate(-s*et);c2.scale(es,es);c2.translate(-x,-ey);try{return FE.apply(this,a);}finally{c2.restore();}};
+  FP_mouth=function(c2,mo,mx,my){c2.save();c2.translate(mx,my+mh);c2.scale(ms,ms);c2.translate(-mx,-my);try{return FM.apply(this,arguments);}finally{c2.restore();}};
+  let r;try{r=HFc.call(this,c,{...L,brow:'none'},d,o);}finally{FP_eye=FE;FP_mouth=FM;}
+  if(brow!=='none'&&!(o&&o.sleep)){const col=fx.bc||shade(HAIRS[L.hc%HAIRS.length],-.25),lw=(brow==='thick'?.9:.5)*(fx.bw==null?1:fx.bw),ba=(fx.ba||0)*Math.PI/180,ey=HCY+.6;
+    for(const x of(side?[4.2]:[-3.1,3.1])){const si=side?-1:(x<0?1:-1);c.save();c.translate(side?x:x*ed,ey+eh-(fx.bh||0));c.scale(si,1);c.rotate(ba);CL_BROW(c,brow,col,lw);c.restore();}}
+  return r;};}
+const CL_PATS=['stripe','border','dot','check','gingham'];
+function CL_art(c,a,cx,cy,cell){if(!a||!a.px)return;const n=a.n||12;for(let j=0;j<n;j++)for(let i=0;i<n;i++){const ch=a.px[j*n+i];if(!ch||ch==='0')continue;const col=a.pal[parseInt(ch,36)-1];if(!col)continue;c.fillStyle=col;c.fillRect(cx+(i-n/2)*cell,cy+(j-n/2)*cell,cell+.03,cell+.03);}}
+{const PF=patternFill;patternFill=function(c,of,x,y,w,h,d){const t=of&&of.top,cx=t&&t.cx;if(!cx)return PF.apply(this,arguments);
+  const p=t.p;let r;
+  if(cx.pc&&CL_PATS.includes(p)){c.save();rr(c,x,y,w,h,3);c.clip();c.fillStyle=cx.pc;
+    if(p==='stripe')for(let yy=y+1.5;yy<y+h;yy+=3)c.fillRect(x,yy,w,1.2);
+    else if(p==='border')for(let yy=y+1;yy<y+h;yy+=3.6)c.fillRect(x,yy,w,1.8);
+    else if(p==='dot'){for(let yy=y+1.5;yy<y+h;yy+=3.2)for(let xx=x+1+((yy|0)%2);xx<x+w;xx+=3.5){c.beginPath();c.arc(xx+.6,yy+.6,.65,0,TAU);c.fill();}}
+    else if(p==='check'){c.globalAlpha=.55;for(let xx=x+1;xx<x+w;xx+=4)c.fillRect(xx,y,1.6,h);for(let yy=y+1;yy<y+h;yy+=4)c.fillRect(x,yy,w,1.6);}
+    else if(p==='gingham'){c.globalAlpha=.45;for(let xx=x;xx<x+w;xx+=3)c.fillRect(xx,y,1.5,h);for(let yy=y;yy<y+h;yy+=3)c.fillRect(x,yy,w,1.5);}
+    c.restore();}
+  else r=PF.apply(this,arguments);
+  // the picture on the chest (seen from the front only)
+  if(cx.art&&d==='down'){c.save();rr(c,x,y,w,h,3);c.clip();CL_art(c,cx.art,x+w/2,y+h*.42+(cx.ay||0),cx.as||.42);c.restore();}
+  return r;};}
+
+// sleeves: 16 rows = 3 for the shoulder (above the arm's pivot), 10 for the arm, 3 for the hand (手袋つきロングT); older sleeves had the 10 arm rows only
+const CL_AREA={f:[20,15],b:[20,15],r:[5,16],l:[5,16]},CL_SLT=3;
+try{if(KN&&KN.top&&!KN.top.glovelong)KN.top.glovelong='手袋つきロングT';}catch(e){}
+// dot colours: one character per dot — '0' = none, then 1.. (0-9 a-z as before, then A-Z and signs: up to 89 colours)
+const CL_PX='0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!#$%&()*+,-./:;<=>?@[]^_{|}~';
+// 'skin', 'skin+2', 'skin-1'…: the wearer's own skin, lighter (+) or darker (-)
+function CL_skinCol(tok,base){const n=tok==='skin'?0:+tok.slice(4)||0;return n?shade(base,n>0?n*.16:n*.13):base;}
+function CL_col(pal,k){const i=CL_PX.indexOf(k);const col=i>0?pal[i-1]:null;if(!col)return null;if(col.startsWith('skin')){let b='#f3c8a4';try{const L=CL_DRAW&&CL_DRAW.L;if(L)b=SKINS[(L.skin|0)%SKINS.length];}catch(e){}return CL_skinCol(col,b);}return col;}
+function CL_grid(c,a,pal,x,y,cw,ch,rows){if(!a||!a.px)return;const w=a.w,h=a.h,R=rows==null?h:Math.min(h,rows);for(let j=0;j<R;j++)for(let i=0;i<w;i++){const k=a.px[j*w+i];if(!k||k==='0')continue;const col=CL_col(pal,k);if(!col)continue;c.fillStyle=col;c.fillRect(x+i*cw-.03,y+j*ch-.03,cw+.06,ch+.06);}}
+function CL_hasD(t){const D=t&&t.cx&&t.cx.d;return!!(D&&['f','b','r','l'].some(k=>D[k]&&/[^0]/.test(D[k].px)));}
+{const PF2=patternFill;patternFill=function(c,of,x,y,w,h,d){const r=PF2.apply(this,arguments);try{const t=of&&of.top,D=t&&t.cx&&t.cx.d;if(D&&(d==='down'||d==='up')){const a=D[d==='down'?'f':'b'];if(a){c.save();rr(c,x,y,w,h,3);c.clip();CL_grid(c,a,D.pal,x,y,w/a.w,h/a.h);c.restore();}}}catch(e){}return r;};}
+let CL_DRAW=null;
+{const DC=drawChar;drawChar=function(c,x,y,o){const t=o&&o.outfit&&o.outfit.top;if(!CL_hasD(t))return DC.apply(this,arguments);const prev=CL_DRAW;CL_DRAW={D:t.cx.d,d:o.dir||'down',n:0,L:o.look||null};try{return DC.apply(this,arguments);}finally{CL_DRAW=prev;}};}
+{const FR=fillR;fillR=function(c,col,x,y,w,h,r){const res=FR.apply(this,arguments);const S=CL_DRAW;
+  if(S&&r===1.2&&y===-.8&&((x===-1.8&&w===3.6)||(x===-2.2&&w===4.4))&&h>0){try{const m=c.getTransform(),mir=(m.a*m.d-m.b*m.c)<0,i=S.n++;let side;
+    if(S.d==='up')side=i===0?'l':'r';else if(S.d==='right'||S.d==='left')side=(i===0)!==mir?'r':'l';else side=i===0?'r':'l';
+    const a=S.D[side];if(a){c.save();rr(c,x,y,w,h,1.2);c.clip();CL_grid(c,a,S.D.pal,x,y,w/a.w,.7,Math.ceil(h/.7));c.restore();}}catch(e){}}
+  return res;};}
+// sleeves of the bendable arms: paint the sleeve grid inside the sleeve shape (upper arm, then forearm)
+const CL_SLR=.72;
+function CL_sleeve(c,path,part,len,UP){const S=CL_DRAW;if(!S)return;try{let i;if(part===0){i=S.cur=S.n++;}else i=S.cur;
+  const m=c.getTransform(),mir=(m.a*m.d-m.b*m.c)<0;let side;
+  if(S.d==='up')side=i===0?'l':'r';else if(S.d==='right'||S.d==='left')side=(i===0)!==mir?'r':'l';else side=i===0?'r':'l';
+  const a=S.D[side];if(!a||!/[^0]/.test(a.px))return;const T=a.h>=16?CL_SLT*CL_SLR:0;
+  // part 0: upper sleeve from the shoulder top; 1: forearm, from the top of its rounded elbow cap; 2: the gloved hand (len = the forearm length)
+  const base=part===0?0:UP,ys=part===0?-T:part===1?UP-2.3:UP+len-1.5,ye=part===2?UP+len+2.3:base+len,r0=Math.max(0,Math.floor((ys+T)/CL_SLR)),r1=Math.min(a.h,Math.ceil((ye+T)/CL_SLR)),w=2.4,cw=2*w/a.w;
+  c.save();path();c.clip();
+  for(let j=r0;j<r1;j++)for(let k=0;k<a.w;k++){const ch=a.px[j*a.w+k];if(!ch||ch==='0')continue;const col=CL_col(S.D.pal,ch);if(!col)continue;c.fillStyle=col;c.fillRect(-w+k*cw-.04,j*CL_SLR-T-base-.04,cw+.08,CL_SLR+.08);}
+  c.restore();}catch(e){}}
+// the game's arms already call OC_slv(c, sleevePath, far, part, len, up) after filling each sleeve part
+{const OS=OC_slv;OC_slv=function(c,path,far,part,len,up){const r=OS.apply(this,arguments);if(CL_DRAW&&len>0)CL_sleeve(c,path,part,len,part?up:0);return r;};}
+
+/* ===== v642: キャララボの髪型・服を本編に取り込む =====
+   髪型: 「見た目を決める」の「キャララボの髪型」→ 取り込む（look.hl に毛束、髪型・髪の色も合わせる）
+   服:   メニューの「オリジナル服」→「キャララボから取り込む」（S.oc に {cl:{top,bottom,shoes}} の服として入る） */
+const CLG_dec=s=>{s=String(s||'').trim();if(s.startsWith('{'))return JSON.parse(s);const m=s.match(/FUYU(?:CHARA|HAIR|FACE|CLOTH)1:([A-Za-z0-9+/=\s]+)/);if(!m)throw new Error('code');return JSON.parse(decodeURIComponent(escape(atob(m[1].replace(/\s+/g,'')))));};
+const CLG_num=(v,a,b,d)=>{v=+v;return isFinite(v)?Math.max(a,Math.min(b,v)):d;};
+const CLG_clone=o=>JSON.parse(JSON.stringify(o));
+function CLG_locks(A){if(!Array.isArray(A))return null;const out=[];for(const k of A.slice(0,240)){if(!k||typeof k!=='object')continue;
+  const n=k.x!=null?{x:CLG_num(k.x,-20,20,0),y:CLG_num(k.y,-20,20,0),a:CLG_num(k.a,-360,360,0),len:CLG_num(k.len,0,40,6),w:CLG_num(k.w,.1,20,3)}:{az:CLG_num(k.az,-720,720,0),el:CLG_num(k.el,-90,90,0),len:CLG_num(k.len,0,40,6),w:CLG_num(k.w,.1,20,3),pitch:CLG_num(k.pitch,-180,180,40),yaw:CLG_num(k.yaw,-360,360,0)};
+  if(k.bend)n.bend=CLG_num(k.bend,-3,3,0);if(k.cv)n.cv=CLG_num(k.cv,-1,1,0);if(k.tone)n.tone=CLG_num(k.tone,0,2,0)|0;if(HL_SHAPES.some(s=>s[0]===k.sh))n.sh=k.sh;
+  if(k.ly!=null)n.ly=CLG_num(k.ly,-1e6,1e6,0);if(k.fr)n.fr=1;if(['down','right','up','left'].includes(k.fc))n.fc=k.fc;else if(n.x!=null)n.fc='down';out.push(n);}return out;}
+// the hair part of a code (a hair code, or a whole-character code)
+function CLG_hairOf(o){if(!o||typeof o!=='object')return null;const L=o.look||{},hl=o.hl||L.hl,locks=CLG_locks(hl&&hl.locks);if(!locks)return null;
+  return{name:String(o.name||'').slice(0,24),g:L.g==='f'||L.g==='m'?L.g:null,hair:L.hair|0,hc:L.hc,hn:typeof o.hn==='string'?o.hn:null,locks};}
+function CLG_applyHair(D,h){let ok=true;if(h.g&&HSTY[D.g]){let i=-1;if(h.g===D.g&&HSTY[D.g][h.hair])i=h.hair;else{const hn=h.hn||(HSTY[h.g]&&HSTY[h.g][h.hair]&&HSTY[h.g][h.hair][0]);if(hn)i=HSTY[D.g].findIndex(x=>x[0]===hn);}
+    if(i>=0)D.hair=i;else ok=false;}
+  if(Number.isInteger(h.hc)&&h.hc>=0&&h.hc<HAIRS.length)D.hc=h.hc;D.hl={v:1,locks:CLG_clone(h.locks)};return ok;}
+// colours: a hex or a colour name; the bottoms and shoes take the nearest named colour (they are spoken about by name)
+const CLG_col=c=>typeof c==='string'&&(/^#[0-9a-f]{3}([0-9a-f]{3})?$/i.test(c)||COLORS[c])?c:null;
+function CLG_near(c){if(!c||COLORS[c])return c;const h=c.length===4?'#'+[...c.slice(1)].map(x=>x+x).join(''):c,n=parseInt(h.slice(1),16),r=n>>16,g=(n>>8)&255,b=n&255;let best=null,bd=1e9;
+  for(const[k,v]of Object.entries(COLORS)){if(typeof v!=='string'||v[0]!=='#'||v.length!==7)continue;const m=parseInt(v.slice(1),16),d=(r-(m>>16))**2+(g-((m>>8)&255))**2+(b-(m&255))**2;if(d<bd){bd=d;best=k;}}return best||'白';}
+function CLG_grid(a,w,h){if(!a||typeof a.px!=='string')return null;let px=[...a.px].map(ch=>CL_PX.includes(ch)?ch:'0').join('');if(px.length!==w*h)px=(px+'0'.repeat(w*h)).slice(0,w*h);return/[^0]/.test(px)?{w,h,px}:null;}
+function CLG_clothOf(o){const O=o&&o.outfit;if(!O||!O.top||typeof O.top!=='object')return null;const t=O.top,KT=KN.top||{};
+  const top={k:KT[t.k]&&!/^(pj_|pajama$)/.test(t.k)?t.k:'tshirt',c:CLG_col(t.c)||'白',p:t.p&&t.p!=='oc'&&PATJ[t.p]!=null?t.p:'plain'};
+  const cx=t.cx||{},d=cx.d,ncx={};if(CLG_col(cx.pc))ncx.pc=cx.pc;
+  if(d&&typeof d==='object'){const pal=(Array.isArray(d.pal)?d.pal:[]).slice(0,CL_PX.length-1).map(c=>CLG_col(c)||(typeof c==='string'&&/^skin([+-][1-9])?$/.test(c)?c:'#888888')),nd={pal};let any=false;
+    for(const[k,w,h0]of[['f',20,15],['b',20,15],['r',5,10],['l',5,10]]){const h=(k==='r'||k==='l')&&d[k]&&d[k].h===16?16:h0,g=CLG_grid(d[k],w,h);if(g){nd[k]=g;any=true;}}if(any)ncx.d=nd;}
+  if(Object.keys(ncx).length)top.cx=ncx;
+  const part=(x,KK,def)=>x&&KK&&KK[x.k]?{k:x.k,c:CLG_near(CLG_col(x.c))||def.c}:def;
+  return{name:String(o.name||'').trim().slice(0,16),top,bottom:part(O.bottom,KN.bottom,{k:'pants',c:'紺'}),shoes:part(O.shoes,KN.shoes,{k:'sneakers',c:'白'})};}
+// ---- the paste dialog ----
+const CLG_nofile=()=>{try{return!!(window.claude&&typeof window.claude.use==='function');}catch(e){return false;}};
+function CLG_dlg(title,hint,use){let ov=document.getElementById('clgOv');if(!ov){ov=document.createElement('div');ov.id='clgOv';ov.className='overlay center';ov.hidden=true;document.body.append(ov);
+    const st=document.createElement('style');st.textContent='#clgOv{z-index:60}#clgOv .card{max-width:380px;padding:14px}#clgOv h2{font-size:17px;margin:2px 0 6px}#clgOv .hint{font-size:12px;opacity:.85;margin:0 0 8px;line-height:1.5}#clgOv textarea{width:100%;box-sizing:border-box;font-size:12px;border-radius:8px;padding:8px;min-height:96px}#clgOv .row{display:flex;gap:8px;margin-top:10px}#clgOv .row button{flex:1}#clgOv .err{color:#ff9a9a;font-size:12.5px;min-height:1em;margin:6px 0 0}#clgOv .fl{display:block;font-size:12.5px;margin-top:8px}';document.head.append(st);}
+  ov.innerHTML=`<div class="card" role="dialog" aria-label="${title}"><h2>${title}</h2><p class="hint">${hint}</p><textarea class="clgIn" placeholder="FUYU…1: で始まるコードをはりつけ"></textarea>${CLG_nofile()?'<p class="hint">公開ページの中ではファイルを選べません。保存したファイルは、メモなどのアプリで開いて中身を全部コピーし、上の欄にはりつけてください。</p>':'<label class="fl">またはファイルから <input type="file" class="clgF" accept=".json,application/json,text/plain"></label>'}<p class="err"></p><div class="row"><button type="button" class="clgX">キャンセル</button><button type="button" class="primary clgOk">取り込む</button></div></div>`;
+  const ta=ov.querySelector('.clgIn'),er=ov.querySelector('.err'),close=()=>{ov.hidden=true;ov.innerHTML='';};
+  const go=t=>{let o;try{o=CLG_dec(t);}catch(e){er.textContent='コードを読めませんでした。全部コピーできているか確かめてください';return;}const m=use(o);if(m)er.textContent=m;else close();};
+  ov.querySelector('.clgX').onclick=close;ov.onclick=e=>{if(e.target===ov)close();};ov.querySelector('.clgOk').onclick=()=>go(ta.value);
+  const fi=ov.querySelector('.clgF');if(fi)fi.onchange=async e=>{const f=e.target.files&&e.target.files[0];if(f)go(await f.text());};ov.hidden=false;setTimeout(()=>{try{ta.focus();}catch(_){}},50);}
+// ---- hair: in 「見た目を決める」 ----
+(function(){const hc=$('leHc');if(!hc||$('clgHair'))return;const box=document.createElement('div');box.id='clgHair';
+  box.innerHTML='<h3>キャララボの髪型 <small id="clgHairN"></small></h3><div class="row2"><button type="button" id="clgHairIn">取り込む</button><button type="button" id="clgHairOff">毛束を外す</button></div>';hc.after(box);
+  $('clgHairIn').onclick=()=>CLG_dlg('キャララボの髪型を取り込む','キャララボの「髪型のコード」をはりつけてください（キャラ全体のコードからは髪型だけを取り込みます）。決定を押すと反映されます。',o=>{
+    const h=CLG_hairOf(o);if(!h)return'このコードには髪型（毛束）が入っていません';const D=lookDraft;if(!D)return'見た目の画面が開いていません';
+    const ok=CLG_applyHair(D,h);renderLook();setTimeout(()=>{try{const n=$('clgHairN');if(n&&!ok)n.textContent+='（もとの髪型は性別がちがうので、いまの髪型の上にのせました）';}catch(_){}},0);return null;});
+  $('clgHairOff').onclick=()=>{const D=lookDraft;if(!D||!HL_has(D))return;delete D.hl;renderLook();};})();
+{const RL=renderLook;renderLook=function(){const r=RL.apply(this,arguments);try{const D=lookDraft,n=$('clgHairN'),off=$('clgHairOff');if(D&&n){const k=HL_has(D)?D.hl.locks.length:0;n.textContent=k?`毛束${k}本`:'なし';if(off)off.disabled=!k;}}catch(e){}return r;};}
+// ---- clothes: オリジナル服 entries made in the lab ----
+{const OT=OC_top;OC_top=function(e){if(e&&e.cl&&e.cl.top)return{...CLG_clone(e.cl.top),oc:e.id,lab:1};return OT.apply(this,arguments);};}
+{const OW=OC_wear;OC_wear=function(who,id){const r=OW.apply(this,arguments);try{const e=OC_get(id);if(e&&e.cl){
+    if((who==='hero'||who==='both')&&!C.sleeping&&S.outfit&&S.outfit.top&&S.outfit.top.oc===id){if(e.cl.bottom)S.outfit.bottom=CLG_clone(e.cl.bottom);if(e.cl.shoes)S.outfit.shoes=CLG_clone(e.cl.shoes);try{gearFor(C.scene);}catch(_){}}
+    if((who==='mate'||who==='both')&&typeof M!=='undefined'&&M&&!M.sleeping&&M.outfit&&M.outfit.top&&M.outfit.top.oc===id){M.outfit={...M.outfit};if(e.cl.bottom)M.outfit.bottom=CLG_clone(e.cl.bottom);if(e.cl.shoes)M.outfit.shoes=CLG_clone(e.cl.shoes);}
+    save();}}catch(e){}return r;};}
+function CLG_thumbLook(){try{if(S&&S.look&&(!S.species||S.species==='human'))return S.look;}catch(e){}return defaultLook();}
+{const TH=OC_thumb;OC_thumb=function(e,sz){if(!e||!e.cl)return TH.apply(this,arguments);const cv2=document.createElement('canvas'),k=2;cv2.width=sz*k;cv2.height=sz*k;const x=cv2.getContext('2d');x.scale(k,k);
+  x.fillStyle='#e9e1d2';x.fillRect(0,0,sz,sz);try{x.save();x.translate(sz/2,sz*.97);drawChar(x,0,0,{sp:'human',look:CLG_thumbLook(),outfit:{...CLG_clone(e.cl),hat:{k:'none',c:'白'},over:null},dir:'down',pose:'stand',seed:1,scale:sz/40});x.restore();}catch(_){}return cv2;};}
+{const MG=OC_manage;OC_manage=function(id){const r=MG.apply(this,arguments);try{const e=OC_get(id);if(e&&e.cl){const b=document.querySelector('#ocOv .ocb');if(b)b.remove();}}catch(_){}return r;};}
+// which lab clothes were taken in on this device (online, the partner's clothes also arrive in S.oc)
+function CLG_dev(){let d=null;try{d=localStorage.getItem('fuyu-clg-dev');if(!d){d='d'+Date.now().toString(36)+Math.floor(Math.random()*1e6).toString(36);localStorage.setItem('fuyu-clg-dev',d);}}catch(e){d=d||'local';}return d;}
+function CLG_clothIn(){CLG_dlg('キャララボの服を取り込む','キャララボの「服のコード」をはりつけてください（キャラ全体のコードからは服だけを取り込みます）。オリジナル服に入るので、タップで着せられます。',o=>{
+  const c=CLG_clothOf(o);if(!c)return'このコードには服が入っていません';if(!S)return'ゲームが始まっていません';S.oc=S.oc||[];
+  const n=c.name||`キャララボの服${S.oc.filter(q=>q&&q.cl).length+1}`,e={id:'oc'+Date.now().toString(36)+Math.floor(Math.random()*1e4),n,sl:'short',c:CLG_near(c.top.c),f:null,b:null,v2:1,by:CLG_dev(),cl:{top:c.top,bottom:c.bottom,shoes:c.shoes}};
+  S.oc.push(e);try{save();}catch(_){}try{renderOC();}catch(_){}try{CLG_stRender();}catch(_){}CLG_guestKeep(e,null);try{queueSay(pick([`キャララボの服「${n}」が届いた！`,`「${n}」、早く着てみたいな`]));}catch(_){}return null;});}
+{const RO=renderOC;renderOC=function(){const r=RO.apply(this,arguments);try{const el=document.getElementById('ocBody'),gr=el&&el.querySelector('.ocg');if(gr&&!gr.querySelector('.clgB')){
+    const b=document.createElement('button');b.type='button';b.className='oci clgB';b.innerHTML='<div class="ocn" style="font-size:26px">🧵</div>キャララボから取り込む';b.onclick=CLG_clothIn;const nb=gr.firstElementChild;if(nb)nb.after(b);else gr.append(b);}}catch(e){}return r;};}
+// outdoors the hero wears the lab outfit's shoes too (indoors everyone is in socks)
+{const GF=gearFor;gearFor=function(scene){const r=GF.apply(this,arguments);try{const o=S&&S.outfit,t=o&&o.top;if(scene==='out'&&t&&t.lab&&!o.costume){const e=OC_get(t.oc);if(e&&e.cl&&e.cl.shoes)o.shoes=CLG_clone(e.cl.shoes);}}catch(e){}return r;};}
+// ネット版: the オリジナル服 tab is not shown there, so the lab clothes sit under 主人公 (tap to wear; the other screen sees them)
+function CLG_netOn(){try{return typeof NET!=='undefined'&&!!NET&&!!NET.on;}catch(e){return false;}}
+function CLG_stRender(){try{const old=document.getElementById('clgSt');if(!CLG_netOn()||!S){if(old)old.remove();return;}const lk=$('rnLook'),hp=lk&&lk.closest('.hpick');if(!hp)return;OC_css();
+  let box=old;if(!box){box=document.createElement('div');box.id='clgSt';hp.after(box);if(!document.getElementById('clgStSt')){const st=document.createElement('style');st.id='clgStSt';st.textContent='html.netguest section.tp[data-p="st"]>div#clgSt#clgSt{display:block!important}';document.head.append(st);}}
+  box.innerHTML='<h3 style="margin:10px 0 2px">キャララボの服</h3><p class="hint" style="margin:0">タップで着がえます。長押しで削除。</p><div class="ocg" style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:6px"></div>';
+  const gr=box.querySelector('.ocg'),cell='background:rgba(255,255,255,.08);border-radius:10px;padding:5px;text-align:center;font-size:11px;line-height:1.3;border:0;color:inherit;height:auto;-webkit-touch-callout:none;user-select:none;-webkit-user-select:none';
+  const nb=document.createElement('button');nb.type='button';nb.className='clgB';nb.style.cssText=cell;nb.innerHTML='<div style="aspect-ratio:1;display:flex;align-items:center;justify-content:center;font-size:24px;background:rgba(255,255,255,.85);border-radius:8px;margin-bottom:3px">🧵</div>取り込む';nb.onclick=CLG_clothIn;gr.append(nb);
+  const me=CLG_dev();for(const e of(S.oc||[]).filter(q=>q&&q.cl&&(!q.by||q.by===me))){const b=document.createElement('button');b.type='button';b.style.cssText=cell;const t=OC_thumb(e,64);t.style.cssText='width:100%;aspect-ratio:1;border-radius:8px;display:block;margin-bottom:3px';b.append(t);const s=document.createElement('span');s.textContent=e.n;b.append(s);
+    let lp=null,long=false;const st=()=>{long=false;clearTimeout(lp);lp=setTimeout(()=>{long=true;if(confirm(`「${e.n}」を削除しますか？`)){S.oc=(S.oc||[]).filter(q=>q.id!==e.id);try{if(S.outfit&&S.outfit.top&&S.outfit.top.oc===e.id)S.outfit.top={k:'tshirt',c:'白',p:'plain'};}catch(_){}save();CLG_stRender();CLG_guestKeep(null,e.id);try{NET_meChanged();}catch(_){}}},600);},en=()=>clearTimeout(lp);
+    b.addEventListener('pointerdown',st);b.addEventListener('pointerup',en);b.addEventListener('pointerleave',en);b.addEventListener('pointercancel',en);b.addEventListener('contextmenu',ev=>ev.preventDefault());
+    b.onclick=()=>{if(long){long=false;return;}OC_wear('hero',e.id);try{NET_meChanged();}catch(_){}try{$('sheet').hidden=true;}catch(_){}};gr.append(b);}}catch(e){}}
+{const RR=renderRename;renderRename=function(){const r=RR.apply(this,arguments);CLG_stRender();return r;};}
+{const RO2=renderOC;renderOC=function(){const r=RO2.apply(this,arguments);CLG_stRender();return r;};}
+// a guest's island state is rebuilt on each visit: the lab clothes a guest took in are kept with the guest's profile
+function CLG_guestKeep(add,del){try{if(!CLG_netOn()||NET.role!=='guest'||typeof NETS_set!=='function')return;NETS_set(o=>{let L=Array.isArray(o.clg)?o.clg:[];if(del)L=L.filter(q=>q&&q.id!==del);if(add)L=L.concat([add]);o.clg=L;});}catch(e){}}
+const CLG_MERGED=new WeakSet();
+setInterval(()=>{try{if(!CLG_netOn()||NET.role!=='guest'||!S||CLG_MERGED.has(S)||typeof NETS!=='function')return;CLG_MERGED.add(S);const L=NETS().clg||[];S.oc=S.oc||[];for(const e of L)if(e&&e.id&&e.cl&&!S.oc.some(q=>q.id===e.id))S.oc.push(e);}catch(e){}},1000);
+
+// ---- face: 目・まゆ・鼻・口・コスメ（ひげ）・ペイント and the lab's size / position / colour adjustments (look.fx) ----
+const CLG_BROWS=['thin','thick','straight','arch','angry','worried','maro','none'];
+const CLG_FXR={es:[.6,1.6],ed:[.7,1.35],eh:[-2,2],et:[-25,25],bh:[-1.5,2],bw:[.4,2.2],ba:[-25,25],ms:[.6,1.7],mh:[-1.5,2]};
+function CLG_faceOf(o){if(!o||typeof o!=='object')return null;const f=o.kind==='fuyu-face'?o.face:o.look;if(!f||typeof f!=='object')return null;
+  const n={},I=(v,len)=>Number.isInteger(v)&&v>=0&&v<len;
+  if(I(f.eye,FP_EYES.length))n.eye=f.eye;if(I(f.nose,FP_NOSES.length))n.nose=f.nose;if(I(f.mouth,FP_MOUTHS.length))n.mouth=f.mouth;if(I(f.mk1,30))n.mk1=f.mk1;if(I(f.mk2,FP_PAINT.length))n.mk2=f.mk2;if(CLG_BROWS.includes(f.brow))n.brow=f.brow;
+  const fx={},F=f.fx&&typeof f.fx==='object'?f.fx:{};for(const[k,[a,b]]of Object.entries(CLG_FXR))if(F[k]!=null&&isFinite(+F[k]))fx[k]=Math.max(a,Math.min(b,+F[k]));
+  for(const k of['ic','bc'])if(typeof F[k]==='string'&&/^#[0-9a-f]{6}$/i.test(F[k]))fx[k]=F[k];
+  if(!Object.keys(n).length&&!Object.keys(fx).length)return null;return{g:o.g||(o.look&&o.look.g)||null,parts:n,fx};}
+function CLG_applyFace(D,h){let skip=false;for(const[k,v]of Object.entries(h.parts)){if(k==='mk1'&&h.g&&h.g!==D.g){skip=true;continue;}D[k]=v;}if(Object.keys(h.fx).length)D.fx=CLG_clone(h.fx);else delete D.fx;return!skip;}
+(function(){const hb=$('clgHair');if(!hb||$('clgFace'))return;const box=document.createElement('div');box.id='clgFace';
+  box.innerHTML='<h3>キャララボの顔 <small id="clgFaceN"></small></h3><div class="row2"><button type="button" id="clgFaceIn">取り込む</button><button type="button" id="clgFaceOff">調整を外す</button></div>';hb.after(box);
+  $('clgFaceIn').onclick=()=>CLG_dlg('キャララボの顔を取り込む','キャララボの「顔のコード」をはりつけてください（キャラ全体のコードからは顔だけを取り込みます）。決定を押すと反映されます。',o=>{
+    const h=CLG_faceOf(o);if(!h)return'このコードには顔が入っていません';const D=lookDraft;if(!D)return'見た目の画面が開いていません';
+    const ok=CLG_applyFace(D,h);renderLook();if(!ok)setTimeout(()=>{try{const n=$('clgFaceN');if(n)n.textContent+='（性別がちがうので、コスメ・ひげはそのままにしました）';}catch(_){}},0);return null;});
+  $('clgFaceOff').onclick=()=>{const D=lookDraft;if(!D||!D.fx)return;delete D.fx;renderLook();};})();
+{const RL2=renderLook;renderLook=function(){const r=RL2.apply(this,arguments);try{const D=lookDraft,n=$('clgFaceN'),off=$('clgFaceOff');if(D&&n){const k=D.fx&&Object.keys(D.fx).length;n.textContent=k?'大きさ・位置・色の調整あり':'調整なし';if(off)off.disabled=!k;}}catch(e){}return r;};}
+
+/* ===== v646: 卓上ミラーボール — only the ball itself answers a tap, and in 手動操作 only a double tap switches it on ===== */
+let MB_SINGLE=false,MB_LT2=null;
+// the ball: centre (x*T+12, y*T-3), radius 7.2 (the pole, the base and the floor around it no longer count)
+MB_hot=function(wx,wy){try{if(MB_SINGLE||C.scene!=='in'||!has('mirrorball'))return false;const L=S.layout.mirrorball;if(!L||L.carry||L.wall)return false;return Math.hypot(wx-(L.x*T+12),wy-(L.y*T-3))<7.6;}catch(e){return false;}};
+// the furniture cell under the ball is just floor now (or nothing when it cannot be walked on)
+{const TT=tapTarget;tapTarget=function(wx,wy){const r=TT.apply(this,arguments);try{if(r&&r.t==='f'&&r.k==='mirrorball'&&!(typeof TAP_FORCE!=='undefined'&&TAP_FORCE)&&C.scene==='in'&&!MB_hot(wx,wy)){
+  const tx=Math.floor(wx/T),ty=Math.floor(wy/T);return roomAt(tx,ty)&&walkIn(tx,ty)?{t:'floor',x:tx,y:ty}:null;}}catch(e){}return r;};}
+// 手動操作: a tap only walks (see the manual tapGo); a double tap on the ball switches it on, as in the automatic mode
+{const TG=tapGo;tapGo=function(e){try{if(CTL()&&!MB_SINGLE&&!PAUSED&&S&&C.scene==='in'&&!(typeof NET!=='undefined'&&NET.on&&NET.edit)){const w=tapWorld(e);if(MB_hot(w.x,w.y)){S.mbUntil=Date.now()+30e3;
+  try{particles.push({sc:'in',x:w.x,y:w.y,vx:0,vy:0,life:.6,max:.6,type:'ring'});}catch(_){}return;}}}catch(_){}return TG.apply(this,arguments);};}
+
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
 let PAUSED=false;
