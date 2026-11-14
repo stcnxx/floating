@@ -318,11 +318,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 659（2026/11/14）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 661（2026/11/14）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 659（2026/11/14）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 661（2026/11/14）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -29087,14 +29087,15 @@ let CL_DRAW=null;
 {const DC=drawChar;drawChar=function(c,x,y,o){const t=o&&o.outfit&&o.outfit.top;if(!CL_hasD(t))return DC.apply(this,arguments);const prev=CL_DRAW;CL_DRAW={D:t.cx.d,d:o.dir||'down',n:0,L:o.look||null};try{return DC.apply(this,arguments);}finally{CL_DRAW=prev;}};}
 {const FR=fillR;fillR=function(c,col,x,y,w,h,r){const res=FR.apply(this,arguments);const S=CL_DRAW;
   if(S&&r===1.2&&y===-.8&&((x===-1.8&&w===3.6)||(x===-2.2&&w===4.4))&&h>0){try{const m=c.getTransform(),mir=(m.a*m.d-m.b*m.c)<0,i=S.n++;let side;
-    if(S.d==='up')side=i===0?'l':'r';else if(S.d==='right'||S.d==='left')side=(i===0)!==mir?'r':'l';else side=i===0?'r':'l';
+    if(S.d==='up')side=i===0?'l':'r';else if(S.d==='right'||S.d==='left')side=(i===0)!==mir?'l':'r';else side=i===0?'r':'l';
     const a=S.D[side];if(a){c.save();rr(c,x,y,w,h,1.2);c.clip();CL_grid(c,a,S.D.pal,x,y,w/a.w,.7,Math.ceil(h/.7));c.restore();}}catch(e){}}
   return res;};}
+// v661: seen from the side the arm drawn first is the far one: facing right (east) the near arm is the wearer's right (r), facing left it is the left (l)
 // sleeves of the bendable arms: paint the sleeve grid inside the sleeve shape (upper arm, then forearm)
 const CL_SLR=.72;
 function CL_sleeve(c,path,part,len,UP){const S=CL_DRAW;if(!S)return;try{let i;if(part===0){i=S.cur=S.n++;}else i=S.cur;
   const m=c.getTransform(),mir=(m.a*m.d-m.b*m.c)<0;let side;
-  if(S.d==='up')side=i===0?'l':'r';else if(S.d==='right'||S.d==='left')side=(i===0)!==mir?'r':'l';else side=i===0?'r':'l';
+  if(S.d==='up')side=i===0?'l':'r';else if(S.d==='right'||S.d==='left')side=(i===0)!==mir?'l':'r';else side=i===0?'r':'l';
   const a=S.D[side];if(!a||!/[^0]/.test(a.px))return;const T=a.h>=16?CL_SLT*CL_SLR:0;
   // part 0: upper sleeve from the shoulder top; 1: forearm, from the top of its rounded elbow cap; 2: the gloved hand (len = the forearm length)
   const base=part===0?0:UP,ys=part===0?-T:part===1?UP-2.3:UP+len-1.5,ye=part===2?UP+len+2.3:base+len,r0=Math.max(0,Math.floor((ys+T)/CL_SLR)),r1=Math.min(a.h,Math.ceil((ye+T)/CL_SLR)),w=2.4,cw=2*w/a.w;
@@ -29170,8 +29171,8 @@ function CLG_addCloth(c){S.oc=S.oc||[];const n=c.name||`キャララボの服${S
   S.oc.push(e);try{save();}catch(_){}try{renderOC();}catch(_){}try{CLG_stRender();}catch(_){}CLG_guestKeep(e,null);return e;}
 {const RO=renderOC;renderOC=function(){const r=RO.apply(this,arguments);try{const el=document.getElementById('ocBody'),gr=el&&el.querySelector('.ocg');if(gr&&!gr.querySelector('.clgB')){
     const b=document.createElement('button');b.type='button';b.className='oci clgB';b.innerHTML='<div class="ocn" style="font-size:26px">🧵</div>キャララボから取り込む';b.onclick=CLG_clothIn;const nb=gr.firstElementChild;if(nb)nb.after(b);else gr.append(b);}}catch(e){}return r;};}
-// outdoors the hero wears the lab outfit's shoes too (indoors everyone is in socks)
-{const GF=gearFor;gearFor=function(scene){const r=GF.apply(this,arguments);try{const o=S&&S.outfit,t=o&&o.top;if(scene==='out'&&t&&t.lab&&!o.costume){const e=OC_get(t.oc);if(e&&e.cl&&e.cl.shoes)o.shoes=CLG_clone(e.cl.shoes);}}catch(e){}return r;};}
+// v660: a lab outfit is a whole look designed down to the shoes: the hero wears its shoes indoors and out
+{const GF=gearFor;gearFor=function(scene){const r=GF.apply(this,arguments);try{const o=S&&S.outfit,t=o&&o.top;if(t&&t.lab&&!o.costume){const e=OC_get(t.oc);if(e&&e.cl&&e.cl.shoes)o.shoes=CLG_clone(e.cl.shoes);}}catch(e){}return r;};}
 // ネット版: the オリジナル服 tab is not shown there, so the lab clothes sit under 主人公 (tap to wear; the other screen sees them)
 function CLG_netOn(){try{return typeof NET!=='undefined'&&!!NET&&!!NET.on;}catch(e){return false;}}
 function CLG_stRender(){try{const old=document.getElementById('clgSt');if(old)old.remove();}catch(e){}try{CLG_clRender();}catch(e){}}
