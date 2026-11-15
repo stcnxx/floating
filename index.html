@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 662（2026/11/14）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 664（2026/11/15）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 662（2026/11/14）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 664（2026/11/15）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -29020,17 +29020,48 @@ try{if(!FP_EYES.some(e=>e[1]==='rin'))FP_EYES.push(['凛々しい','rin']);}catc
   // thin lower lid, stronger toward the outer corner
   c.strokeStyle=ink;c.globalAlpha=.45;c.lineWidth=.16;c.beginPath();c.moveTo(u(-1.3),ey+.14);c.quadraticCurveTo(u(.3),ey+.45,u(1.6),ey-.28);c.stroke();
   c.globalAlpha=.6;c.lineWidth=.2;c.beginPath();c.moveTo(u(1.62),ey-.28);c.quadraticCurveTo(u(1.2),ey+.08,u(.6),ey+.2);c.stroke();c.restore();};}
+// v663 ぱっちりまつげ: a large white eye, a big iris (colour from the part or 瞳の色) with fine rays and a dark rim, a small pupil,
+// one highlight up and to the right (the same side on both eyes), a thick upper lid line with a tail at the outer corner, a soft lower line
+try{if(!FP_EYES.some(e=>e[1]==='doll'))FP_EYES.push(['ぱっちりまつげ','doll','#2f6ee0']);}catch(e){}
+{const FD=FP_eye;FP_eye=function(c,x,ey,eye,icol,sk,ink,sleep,blink){if(eye!=='doll'||sleep||blink)return FD.apply(this,arguments);
+  const side=Math.abs(x)>4,s=side?-1:(x<0?-1:1),u=d=>x+s*d*(side?.78:1),ic=icol||'#2f6ee0';c.save();c.lineCap='round';c.lineJoin='round';
+  // the white: rounder on the inside, a little pointed toward the outer corner
+  const wh=()=>{c.beginPath();c.moveTo(u(-1.5),ey+.15);c.bezierCurveTo(u(-1.35),ey-1.15,u(.9),ey-1.45,u(1.7),ey-.35);c.bezierCurveTo(u(1.35),ey+1.05,u(-.9),ey+1.45,u(-1.5),ey+.15);c.closePath();};
+  wh();c.fillStyle='#fbfaf8';c.fill();c.save();wh();c.clip();
+  E(c,'rgba(150,160,190,.28)',u(.1),ey-.85,1.9,.55);// the lid's shadow on the white
+  // iris: dark rim, the colour, lighter toward the bottom, fine rays, a dark pupil
+  const ix=side?u(.45):u(.02),iy=ey+.02,R=1.04,R2=side?R*.8:R;
+  c.save();c.translate(ix,iy);c.scale(R2/R,1);
+  E(c,shade(ic,-.55),0,0,R,R);E(c,shade(ic,-.18),0,0,R*.86,R*.86);E(c,ic,0,R*.12,R*.74,R*.72);E(c,shade(ic,.28),0,R*.38,R*.5,R*.36);
+  c.strokeStyle=shade(ic,-.4);c.globalAlpha=.35;c.lineWidth=.06;c.beginPath();for(let k=0;k<18;k++){const a=k*TAU/18;c.moveTo(Math.cos(a)*R*.38,Math.sin(a)*R*.38);c.lineTo(Math.cos(a)*R*.82,Math.sin(a)*R*.82);}c.stroke();c.globalAlpha=1;
+  E(c,'#0d1430',0,0,R*.36,R*.36);
+  E(c,'#ffffff',R*.36,-R*.42,R*.27,R*.2);E(c,'rgba(255,255,255,.75)',-R*.38,R*.42,R*.1,R*.1);
+  c.restore();c.restore();
+  // upper lash line: a band along the top of the white, thicker toward the outer corner, ending in a tail (no separate lashes)
+  c.fillStyle=ink;c.beginPath();c.moveTo(u(-1.58),ey+.18);c.bezierCurveTo(u(-1.4),ey-1.17,u(.9),ey-1.47,u(1.72),ey-.36);c.quadraticCurveTo(u(1.98),ey-.46,u(2.18),ey-.7);
+  c.bezierCurveTo(u(1.3),ey-1.55,u(-.7),ey-1.5,u(-1.52),ey-.6);c.quadraticCurveTo(u(-1.62),ey-.4,u(-1.58),ey+.18);c.closePath();c.fill();
+  // lower line: thin and soft, a little darker at the outer end
+  c.strokeStyle=shade(ink,.25);c.globalAlpha=.5;c.lineWidth=.14;c.beginPath();c.moveTo(u(-1.3),ey+.55);c.bezierCurveTo(u(-.6),ey+1.32,u(1.1),ey+1.05,u(1.75),ey-.3);c.stroke();
+  c.globalAlpha=.7;c.lineWidth=.18;c.beginPath();c.moveTo(u(1.75),ey-.3);c.quadraticCurveTo(u(1.55),ey+.35,u(1.15),ey+.7);c.stroke();c.globalAlpha=1;
+  // a soft fold above the lid
+  c.strokeStyle='rgba(120,80,70,.35)';c.lineWidth=.12;c.beginPath();c.moveTo(u(-1.1),ey-1.35);c.quadraticCurveTo(u(.5),ey-1.95,u(1.7),ey-1.15);c.stroke();
+  c.restore();};}
 // gentler smiles: the same width as にこっ with a shallower curve
 try{if(!FP_MOUTHS.some(m=>m[1]==='smile2'))FP_MOUTHS.push(['ほほえみ','smile2'],['うっすら笑み','smile3']);}catch(e){}
 {const FM0=FP_mouth;FP_mouth=function(c,mouth,mx,my,sleep,lip){const dep={smile2:.8,smile3:.45}[mouth];if(dep==null||sleep)return FM0.apply(this,arguments);
   c.save();if(lip){c.globalAlpha=.75;E(c,lip,mx,my-.25,1.3,.52);c.globalAlpha=1;}c.lineCap='round';c.strokeStyle=lip?shade(lip,-.15):'#7a3a3a';c.lineWidth=.6;
   c.beginPath();c.moveTo(mx-1.4,my-.45);c.quadraticCurveTo(mx,my-.45+dep*2,mx+1.4,my-.45);c.stroke();c.restore();};}
+// v664 ほそ一文字: a short, thin, straight mouth
+try{if(!FP_MOUTHS.some(m=>m[1]==='thinline'))FP_MOUTHS.push(['ほそ一文字','thinline']);}catch(e){}
+{const FMt=FP_mouth;FP_mouth=function(c,mouth,mx,my,sleep,lip){if(mouth!=='thinline'||sleep)return FMt.apply(this,arguments);
+  c.save();c.lineCap='round';c.strokeStyle=lip?shade(lip,-.15):'#7a3a3a';c.lineWidth=.3;c.beginPath();c.moveTo(mx-.65,my-.2);c.lineTo(mx+.65,my-.2);c.stroke();c.restore();};}
 const CL_BROW=(c,k,col,lw)=>{c.strokeStyle=col;c.lineWidth=lw;c.lineCap='round';c.beginPath();
   if(k==='maro'){c.fillStyle=col;c.beginPath();c.ellipse(-.2,-3.2,.75,.5,0,0,TAU);c.fill();return;}
+  if(k==='soft'){const w=lw/.5;c.fillStyle=col;c.beginPath();c.moveTo(1.6,-2.72);c.bezierCurveTo(.9,-3.3-.22*w,-.7,-3.8-.2*w,-2.25,-3.0);c.bezierCurveTo(-.7,-3.75+.08*w,.8,-3.3+.12*w,1.6,-2.72);c.closePath();c.fill();return;}
   if(k==='straight'){c.moveTo(-1.4,-3);c.lineTo(1.4,-3);}else if(k==='arch'){c.moveTo(-1.5,-2.7);c.quadraticCurveTo(0,-4.3,1.5,-2.7);}
   else if(k==='angry'){c.moveTo(-1.4,-3.4);c.lineTo(1.2,-2.4);}else if(k==='worried'){c.moveTo(-1.4,-2.4);c.lineTo(1.2,-3.3);}
   else{c.moveTo(-1.4,-2.9);c.quadraticCurveTo(0,-3.6,1.4,-2.9);}c.stroke();};
-{const HFc=humanFace;humanFace=function(c,L,d,o){const fx=L&&L.fx;if(!fx)return HFc.apply(this,arguments);
+{const HFc=humanFace;humanFace=function(c,L,d,o){const fx=L&&(L.fx||(L.brow==='soft'?{}:null));if(!fx)return HFc.apply(this,arguments);
   const side=d==='right',es=fx.es==null?1:fx.es,ed=fx.ed==null?1:fx.ed,eh=fx.eh||0,et=(fx.et||0)*Math.PI/180,ms=fx.ms==null?1:fx.ms,mh=fx.mh||0;
   const FE=FP_eye,FM=FP_mouth,brow=FP_get(L).brow;
   FP_eye=function(c2,x,ey,eye,icol){const a=[].slice.call(arguments);a[4]=fx.ic||icol;const s=x<0?-1:1;c2.save();c2.translate(side?x:x*ed,ey+eh);c2.rotate(-s*et);c2.scale(es,es);c2.translate(-x,-ey);try{return FE.apply(this,a);}finally{c2.restore();}};
@@ -29169,7 +29200,7 @@ const CLG_MERGED=new WeakSet();
 setInterval(()=>{try{if(!CLG_netOn()||NET.role!=='guest'||!S||CLG_MERGED.has(S)||typeof NETS!=='function')return;CLG_MERGED.add(S);const L=NETS().clg||[];S.oc=S.oc||[];for(const e of L)if(e&&e.id&&e.cl&&!S.oc.some(q=>q.id===e.id))S.oc.push(e);}catch(e){}},1000);
 
 // ---- face: 目・まゆ・鼻・口・コスメ（ひげ）・ペイント and the lab's size / position / colour adjustments (look.fx) ----
-const CLG_BROWS=['thin','thick','straight','arch','angry','worried','maro','none'];
+const CLG_BROWS=['thin','thick','straight','arch','angry','worried','maro','soft','none'];
 const CLG_FXR={es:[.6,1.6],ed:[.7,1.35],eh:[-2,2],et:[-25,25],bh:[-1.5,2],bw:[.4,2.2],ba:[-25,25],ms:[.6,1.7],mh:[-1.5,2]};
 function CLG_faceOf(o){if(!o||typeof o!=='object')return null;const f=o.kind==='fuyu-face'?o.face:o.look;if(!f||typeof f!=='object')return null;
   const n={},I=(v,len)=>Number.isInteger(v)&&v>=0&&v<len;
@@ -29226,6 +29257,17 @@ function CLG_named(o){try{if(!o||typeof o!=='object')return o;let n=null;for(con
 {const DT=descTop;descTop=function(o){return DT.call(this,CLG_named(o));};}
 {const FW=ftWear;ftWear=function(of,out){return FW.call(this,CLG_named(of),out);};}
 if(typeof FSH_line==='function'){const FL=FSH_line;FSH_line=function(){let keep=null;try{if(S&&S.outfit){const n=CLG_named(S.outfit);if(n!==S.outfit){keep=S.outfit;S.outfit=n;}}}catch(e){}try{return FL.apply(this,arguments);}finally{if(keep)S.outfit=keep;}};}
+// v663: 瞳の色 in the game's own face editor (目 tab) — the same look.fx.ic the lab sets; "パーツのまま" removes it
+const CLG_IRIS=[['茶','#6a3e24'],['こげ茶','#3e2618'],['黒','#1c1a22'],['青','#2f6ee0'],['水色','#4aa8e8'],['緑','#3a9a50'],['エメラルド','#1fa38a'],['グレー','#7a8490'],['紫','#8a4ac8'],['赤','#c83a3a'],['ピンク','#e0609a'],['琥珀','#c08020'],['金','#d8b030']];
+{const FR=FP_render;FP_render=function(){const r=FR.apply(this,arguments);try{const D=lookDraft,gr=$('fpGrid');if(!D||!gr)return r;let box=$('fpIris');
+  if(FP_TAB!=='eye'){if(box)box.hidden=true;return r;}
+  if(!box){box=document.createElement('div');box.id='fpIris';gr.after(box);const st=document.createElement('style');st.textContent='#fpIris{margin:8px 0 2px}#fpIris .fiH{font-size:12px;color:var(--muted);margin:0 0 4px}#fpIris .fiR{display:flex;flex-wrap:wrap;gap:5px}#fpIris button{width:26px;height:26px;min-width:0;padding:0;border-radius:50%;border:2px solid rgba(255,255,255,.35)}#fpIris button.fiN{width:auto;padding:0 9px;border-radius:13px;font-size:11px}#fpIris button[aria-pressed=true]{border-color:#ffd36b;box-shadow:0 0 0 2px #ffd36b}';document.head.append(st);}
+  box.hidden=false;const cur=D.fx&&D.fx.ic||null;box.innerHTML='<div class="fiH">瞳の色</div><div class="fiR"></div>';const row=box.querySelector('.fiR');
+  const mk=(lab,col)=>{const b=document.createElement('button');b.type='button';b.title=lab;b.setAttribute('aria-label',lab);if(col)b.style.background=col;else{b.className='fiN';b.textContent=lab;}
+    b.setAttribute('aria-pressed',String((col||null)===(cur&&cur.toLowerCase())));
+    b.onclick=()=>{if(col){D.fx=D.fx||{};D.fx.ic=col;}else if(D.fx){delete D.fx.ic;if(!Object.keys(D.fx).length)delete D.fx;}renderLook();};row.append(b);};
+  mk('パーツのまま',null);for(const[n,c]of CLG_IRIS)mk(n,c);
+  if(cur&&!CLG_IRIS.some(x=>x[1]===cur.toLowerCase())){const b=document.createElement('button');b.type='button';b.title='キャララボの色';b.style.background=cur;b.setAttribute('aria-pressed','true');row.append(b);}}catch(e){}return r;};}
 
 /* ===== v646: 卓上ミラーボール — only the ball itself answers a tap, and in 手動操作 only a double tap switches it on ===== */
 let MB_SINGLE=false,MB_LT2=null;
