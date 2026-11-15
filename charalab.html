@@ -29456,7 +29456,7 @@ function drawHead(x,L,d){const mir=d==='left',dd=mir?'right':d;x.save();if(mir)x
 function drawBody(x,d,extra){x.save();x.beginPath();x.rect(-40,HCY+HR+.4,80,60);x.clip();try{drawChar(x,0,0,{sp:'human',look:LOOK(),outfit:OUT(),dir:d,pose:'stand',...(extra||{})});}catch(e){}x.restore();}
 function drawPv(){const t=(performance.now()-T0)/1000;for(const[d]of VIEWS){const c=PV[d],x=c.getContext('2d');x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,240,320);x.save();
   if(tab==='cloth'){x.translate(120,312);x.scale(15.5,15.5);drawBody(x,d,{moving:walk,ph:t*9});}
-  else{x.translate(120,178-HCY*8.2);x.scale(8.2,8.2);drawHead(x,LOOK(),d);}x.restore();c.classList.toggle('on',(tab==='hair'&&d===view)||(tab==='face'&&d===fview)||(tab==='cloth'&&d==={f:'down',b:'up',sr:'right',sl:'left'}[area]));}}
+  else{x.translate(120,178-HCY*8.2);x.scale(8.2,8.2);drawHead(x,tab==='hair'?{...LOOK(),__face:d}:LOOK(),d);}x.restore();c.classList.toggle('on',(tab==='hair'&&d===view)||(tab==='face'&&d===fview)||(tab==='cloth'&&d==={f:'down',b:'up',sr:'right',sl:'left'}[area]));}}
 function loopPv(){if(walk)drawPv();requestAnimationFrame(loopPv);}requestAnimationFrame(loopPv);
 // ---- main canvas ----
 const MC=$('hlMain'),MX=MC.getContext('2d');let ZM=1,PNX=0,PNY=0,SC=23,OX=420,OY=470;const ZMAX=4;
@@ -29470,7 +29470,7 @@ function draw(){const x=MX;x.setTransform(1,0,0,1,0,0);x.clearRect(0,0,840,840);
       x.save();x.lineWidth=3;x.strokeStyle='rgba(255,211,107,.7)';x.setLineDash([6,6]);x.beginPath();x.moveTo(b[0],b[1]);x.lineTo(tp[0],tp[1]);x.stroke();x.setLineDash([]);
       x.globalAlpha=zb<-.5?.45:1;x.fillStyle='#fff';x.strokeStyle='#1a2150';x.beginPath();x.arc(b[0],b[1],16*KS(),0,Math.PI*2);x.fill();x.stroke();x.globalAlpha=1;
       x.fillStyle='#ffd36b';x.beginPath();x.arc(tp[0],tp[1],18*KS(),0,Math.PI*2);x.fill();x.stroke();x.fillStyle='#1a2150';x.font='bold '+Math.round(18*KS())+'px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('先',tp[0],tp[1]+1);x.fillText('根',b[0],b[1]+1);x.restore();}
-    $('hlHint').textContent=sel<0?'大きい絵には、この向きで足した毛束だけが出ます（上の小さい絵と「全身」は全部の毛束）。毛束をタップしてえらぶ・毛束をつかんでドラッグで場所を動かす・頭をダブルタップでそこに毛束を足す・「＋毛束」でも足せます。上の小さい絵をタップすると、編集する向きが変わります。':'毛束をつかんでドラッグで形のまま移動、「根」で生える場所、「先」で向きと長さが変わります。細かい調整は下のスライダーで。右下の＋－か2本指で拡大でき、拡大中は空いている所をドラッグして見る場所を動かせます。';}
+    $('hlHint').textContent=sel<0?'大きい絵にも上の小さい絵にも、その向きで足した毛束だけが出ます（全部の毛束は「全身」で見られます）。毛束をタップしてえらぶ・毛束をつかんでドラッグで場所を動かす・頭をダブルタップでそこに毛束を足す・「＋毛束」でも足せます。上の小さい絵をタップすると、編集する向きが変わります。':'毛束をつかんでドラッグで形のまま移動、「根」で生える場所、「先」で向きと長さが変わります。細かい調整は下のスライダーで。右下の＋－か2本指で拡大でき、拡大中は空いている所をドラッグして見る場所を動かせます。';}
   else if(tab==='face'){const S2=40,oy=440;x.save();x.translate(420,oy-HCY*S2);x.scale(S2,S2);drawHead(x,LOOK(),fview);x.restore();
     $('hlHint').textContent='下のパーツとスライダーで顔をつくります。上の小さい絵の「横」をタップすると横顔も確かめられます。';}
   else{const S2=40;x.save();x.translate(420,800);x.scale(S2,S2);drawBody(x,area==='b'?'up':area==='sr'?'right':area==='sl'?'left':'down');x.restore();
