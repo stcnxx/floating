@@ -319,11 +319,11 @@ button.chip{font-weight:400;min-height:0;color:var(--ink)}button.chip.fav{backgr
     <p class="note">上空に浮かぶ小さな島での生活</p>
     <div class="savebox" id="saveBox" hidden><canvas id="saveCv" width="72" height="72"></canvas><div><b id="saveName"></b><span id="saveInfo"></span></div></div>
     <div class="tbtns"><button class="primary" id="bCont">続きからはじめる</button><button id="bNew">はじめから</button></div>
-    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 664（2026/11/15）</p>
+    <p class="appver" style="margin:12px 0 0;text-align:center;font-size:11px;color:var(--muted,#c9c3e0)">改訂版 666（2026/11/18）</p>
   </div>
 </div>
 
-<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 664（2026/11/15）</p>
+<div class="overlay center" id="help" hidden><div class="card" role="dialog" aria-labelledby="helpT"><h2 id="helpT">ヘルプ（操作のしかた）</h2><p id="helpVer" style="margin:-6px 0 4px;font-size:11px;color:var(--muted,#c9c3e0)">浮遊島ぐらし 改訂版 666（2026/11/18）</p>
 <h3>キャラクター</h3><dl><dt>ダブルタップ・長押し</dt><dd>「メニュー」を開く</dd></dl><h3>画面のボタン</h3><dl><dt>一時停止</dt><dd>キャラの動きを止めます（家具の移動やラジカセの操作はできます）</dd><dt>図鑑</dt><dd>アイテムをタップすると拡大表示</dd></dl>
 <h3>家具・場所</h3><dl><dt>タップ</dt><dd>名前を表示</dd><dt>ダブルタップ</dt><dd>そこへ向かって使う（ソファ→座る、ベッド→寝る、本棚→読書 など）</dd><dt>ラジカセ</dt><dd>長押し（動かさずに離す）でメニューの「BGM」タブが開き、スマホの中の曲をえらんで流せます（曲の追加・入れかえ・削除、リピートやランダム再生も）</dd><dt>テレビ・ラジオ</dt><dd>ダブルタップで視聴か、ゲームを始める</dd><dt>酒の棚・バー</dt><dd>ダブルタップでお酒を飲む（席があれば座って）</dd><dt>床・庭</dt><dd>ダブルタップでその場所へ歩いていく（一時停止中は動きません）</dd><dt>本棚</dt><dd>ダブルタップで本を手に取って読む</dd></dl>
 <h3>模様替え</h3><dl><dt>長押し→動かす</dt><dd>家具を移動（置けない場所は赤く表示され、元に戻ります）</dd><dt>壁掛け</dt><dd>奥の壁・横の壁のどちらにも掛け替えられます。壁ぎわの床なら立てかけ、部屋の真ん中ならイーゼルに立てて置けます。床から壁へ動かすと壁掛けに戻ります（棚・ランプ・吊り鉢は壁専用）</dd><dt>長押し→そのまま離す</dt><dd>「しまう」か「リサイクルに出す」を選べます。しまったものは「住居」タブに入り、気まぐれでまた出してきます（タップで出してもらうことも）。生活必需品と同居人の家具は対象外です</dd><dt>庭のもの</dt><dd>庭でも同じように移動・しまう・リサイクルができます</dd><dt>画面のはし</dt><dd>家具を動かしながら画面のはしに寄せると、画面がスクロールします</dd></dl>
@@ -28981,7 +28981,7 @@ function HL_drawLock(c,L,k,d,mir,sel){const G=HL_geo(k),B=HL_view(G.p,d,mir),M=H
 // fr: brought to the front in the editor, stays in front of the head unless clearly behind it
 // the side a lock was added from (fc); older locks: the side their root faces
 function HL_face(k){if(k&&k.fc)return k.fc;const a=((((k&&k.az)||0)%360)+540)%360-180;return Math.abs(a)<=45?'down':Math.abs(a)>=135?'up':a>0?'left':'right';}
-function HL_split(L,d,mir){const vf=d==='right'&&mir?'left':d;const far=[],near=[];(L.hl.locks||[]).forEach((k,i)=>{if(L.__face&&HL_face(k)!==L.__face)return;// the editor's main view shows only the locks made on that face
+function HL_split(L,d,mir){const vf=d==='right'&&mir?'left':d;const far=[],near=[];(L.hl.locks||[]).forEach((k,i)=>{if(HL_face(k)!==(L.__face||vf))return;// every view shows only the locks made on that face
   const G=HL_geo(k),a=HL_view(G.p,d,mir)[2],m=HL_view(G.mid,d,mir)[2];const z=a*.6+m*.4;(z<-HL_R*(k.fr&&a>-HL_R*.3&&HL_face(k)===vf?.6:.18)?far:near).push({k,i,z});});
   far.sort((a,b)=>a.z-b.z);near.sort((a,b)=>((a.k.ly||0)-(b.k.ly||0))||(a.z-b.z));return{far,near};}
 function HL_mir(c){try{return c.getTransform().a<0;}catch(e){return false;}}
@@ -29333,6 +29333,33 @@ SEAT_tiles=function(L,k,px,py){return SOFA_access(k,L,px,py).map(t=>({x:t.x,y:t.
 {const TP=tapPlan;tapPlan=function(tg){try{if(tg&&tg.t==='f'&&SOFA_isK(tg.k)&&tg.wx!=null&&has(tg.k)&&!C.sleeping){const s=SOFA_list().find(q=>q.k===tg.k);if(s){
     const seat=SOFA_seat(s,tg.wx,tg.wy),tile=SOFA_tile(s,seat.px,seat.py,seat.d);if(tile){const nm=s.b==='sofa'||s.b==='sofa2'?'ソファ':'L字ソファ';
       return{n:'hobby',s:[{t:'go',sc:'in',x:tile.x,y:tile.y},{t:'snap',k:tg.k,dyn:()=>({px:seat.px,py:seat.py,pose:'sit',d:seat.d||'up'})},SAY(pick(['ふかふか','ちょっと座ろう','ひと休み',`${nm}、落ち着く〜`])),W8(rnd(6,10),need('fun',2))]};}}}}catch(e){}return TP.apply(this,arguments);};}
+
+/* ---- v666: 紫うさぎ, the player's own mascot costume: a purple suit with long floppy ears and a white face patch (dot eyes, a little nose, a big smile) ---- */
+COS.purpkig={n:'紫うさぎ',suit:'#9b30ee',belly:null,limb:'#9b30ee',hand:'#9b30ee',feet:'#9b30ee',legs:'#9b30ee',
+  overHead:(c,S6,d)=>{const y=S6.top,w=S6.hw,P='#9b30ee',OL='#5a0fa0',cy=y+10.2,rx=w*1.1,ry=11.2,top=cy-ry;
+    // ears: [root x, control x, control y, tip x, tip y, lobe rx, lobe ry, tilt]
+    const side=d==='right';
+    const ears=side?[[-2.2,-rx*.6,top-7.5,-rx*1.5,top-1.2,4.4,3.1,.3],[0,-rx*.15,top-9,-rx*1.0,top-4.6,4.2,3,.1]]
+      :[-1,1].map(s=>[s*.8,s*rx*.62,top-8,s*rx*1.5,top-1.6,4.6,3.2,s*.25]);
+    const draw=(col,g)=>{c.strokeStyle=col;c.fillStyle=col;c.lineCap='round';
+      for(const[x0,qx,qy,x1,y1,lr,lry,tl]of ears){c.lineWidth=5.6+g*2;c.beginPath();c.moveTo(x0,top+2.6);c.quadraticCurveTo(qx,qy,x1,y1);c.stroke();c.beginPath();c.ellipse(x1,y1+.4,lr+g,lry+g,tl,0,TAU);c.fill();}
+      c.beginPath();c.ellipse(0,cy,rx+g,ry+g,0,0,TAU);c.fill();};
+    c.save();draw(OL,.6);draw(P,0);
+    // a soft shine on the head
+    c.fillStyle='rgba(255,255,255,.12)';c.beginPath();c.ellipse(-rx*.35,cy-ry*.45,rx*.32,ry*.22,-.4,0,TAU);c.fill();
+    if(d==='up'){c.restore();return;}
+    // the face patch, traced from the design (unit = half its width; origin = the nose). Side view: a true profile, the patch reaching the edge of the head,
+    // the nose at the tip and the mouth cut in half by the outline.
+    const u=rx*.62,fy=cy-.6;
+    if(side){c.beginPath();c.ellipse(0,cy,rx,ry,0,0,TAU);c.clip();c.translate(rx-.05,fy);c.scale(u*.55,u);}else{c.translate(0,fy);c.scale(u,u);}
+    c.fillStyle='#ffffff';c.beginPath();c.moveTo(0,-.29);c.bezierCurveTo(.15,-.42,.3,-.47,.5,-.45);c.bezierCurveTo(.8,-.43,1,-.25,1,-.05);c.bezierCurveTo(1,.12,.92,.25,.82,.42);c.bezierCurveTo(.6,.8,.3,.92,0,.92);
+    c.bezierCurveTo(-.3,.92,-.6,.8,-.82,.42);c.bezierCurveTo(-.92,.25,-1,.12,-1,-.05);c.bezierCurveTo(-1,-.25,-.8,-.43,-.5,-.45);c.bezierCurveTo(-.3,-.47,-.15,-.42,0,-.29);c.closePath();c.fill();
+    c.fillStyle='#111';for(const s of[-1,1]){c.beginPath();c.ellipse(s*.55,-.07,.16,.18,0,0,TAU);c.fill();}
+    c.beginPath();c.ellipse(0,0,.22,.09,0,0,TAU);c.fill();
+    c.beginPath();c.moveTo(-.66,.24);c.quadraticCurveTo(0,.42,.66,.24);c.bezierCurveTo(.45,.72,-.45,.72,-.66,.24);c.closePath();c.fill();
+    c.restore();}};
+NOHAIR.add('purpkig');
+if(!COSK.includes('purpkig'))COSK.push('purpkig');
 
 /* ========== loop ========== */
 let last=performance.now(),hudT=0,saveT=0;
